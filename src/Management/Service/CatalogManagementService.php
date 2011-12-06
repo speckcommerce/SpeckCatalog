@@ -12,10 +12,10 @@ class CatalogManagementService
             return $this->session;
         }
 
-        //$mapper = new \SwmBase\Model\Mapper\CatalogManagementSessionMapper($user->getUserId());
-        //$this->session = new \SwmBase\Model\CatalogManagementSession;
-        //$this->session->setEntities($mapper->readSessionEntities());
+        $mapper = new \Management\Model\Mapper\CatalogManagementSessionMapper($user->getUserId());
+        $this->session = new \Management\Model\CatalogManagementSession;
+        $this->session->setEntities($mapper->readSessionEntities());
 
-        //return $this->session;
+        return $this->session;
     }
 }

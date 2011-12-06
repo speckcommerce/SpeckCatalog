@@ -1,5 +1,5 @@
 <?php
-namespace SwmBase\Model;
+namespace Management\Model;
 
 class CatalogManagementSession
 {

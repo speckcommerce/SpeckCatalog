@@ -1,5 +1,5 @@
 <?php
-namespace SwmBase\Model\Mapper;
+namespace Management\Model\Mapper;
 class CatalogManagementSessionMapper
 {
     protected $userId;
@@ -10,16 +10,16 @@ class CatalogManagementSessionMapper
         $this->userId = $userId;
         
         // test entities
-        $shell = new \SwmBase\Entity\Shell('product');
-        $product = new \SwmBase\Entity\Product;
-        $option = new \SwmBase\Entity\Option('radio');
+        $shell = new \Catalog\Entity\Shell('product');
+        $product = new \Catalog\Entity\Product;
+        $option = new \Catalog\Entity\Option('radio');
        
-        $manufacturer = new \SwmBase\Entity\Company;
+        $manufacturer = new \Catalog\Entity\Company;
         $manufacturer->setCompanyId(69); 
         $product->setProductId(10)
                 ->setManufacturer($manufacturer);
         $shell->setProduct($product);
-        $choice = new \SwmBase\Entity\Choice;
+        $choice = new \Catalog\Entity\Choice;
         $choice->setChoiceId(12);
         $option->setOptionId(7)
                ->addChoice($choice)

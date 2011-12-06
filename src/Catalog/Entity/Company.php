@@ -15,7 +15,7 @@ class Company
      * @ORM\Column(name="company_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $companyId;
+    private $companyId;
 
     /**
      * @ORM\Column(type="string", length=32)

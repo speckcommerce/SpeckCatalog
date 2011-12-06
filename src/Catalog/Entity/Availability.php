@@ -15,7 +15,7 @@ class Availability
      * @ORM\Column(name="availability_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $availabilityId;
+    private $availabilityId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Product")

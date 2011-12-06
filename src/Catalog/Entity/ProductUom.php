@@ -15,7 +15,7 @@ class ProductUom
      * @ORM\Column(name="product_uom_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $productUomId;
+    private $productUomId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Product")
@@ -43,10 +43,7 @@ class ProductUom
      */
     protected $availabilities;
 
-    protected $productId;
-    protected $availabilityIds;
 
-    
  
     public function addAvailability(Availability $availability)
     {

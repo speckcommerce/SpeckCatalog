@@ -22,8 +22,7 @@ class Option
     //one to one
     //this is the parent shell for THIS product.
     protected $shell;
-    protected $shellId;
-
+    
     /**
      * @ORM\Column(type="string")
      */   
@@ -40,7 +39,6 @@ class Option
     protected $required = false;
 
     protected $selectedChoice;
-    protected $selectedChoiceId;
     
     /**
      * @ORM\Column(type="string")
@@ -53,7 +51,6 @@ class Option
     protected $builderSegment;
 
     protected $choices;
-    protected $choiceIds;
 
     public function __construct($type = null)
     {
@@ -156,28 +153,6 @@ class Option
         return $this->selectedChoice;
     }
 
-    public function getSelectedChoiceId()
-    {
-        return $this->selectedChoiceId;
-    }
-
-    public function setSelectedChoiceId($selectedChoiceId)
-    {
-        $this->selectedChoiceId = $selectedChoiceId;
-        return $this;
-    }
-
-    public function getChoiceIds()
-    {
-        return $this->choiceIds;
-    }
-
-    public function setChoiceIds($choiceIds)
-    {
-        $this->choiceIds = $choiceIds;
-        return $this;
-    }
-
     public function getShell()
     {
         return $this->shell;
@@ -188,15 +163,5 @@ class Option
         $this->shell = $shell;
         return $this;
     }
- 
-    public function getShellId()
-    {
-        return $this->shellId;
-    }
- 
-    public function setShellId($shellId)
-    {
-        $this->shellId = $shellId;
-        return $this;
-    }
+
 }

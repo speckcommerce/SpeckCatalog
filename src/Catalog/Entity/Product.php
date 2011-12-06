@@ -15,7 +15,7 @@ class Product
      * @ORM\Column(name="product_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $productId;
+    private $productId;
 
     /**
      * @ORM\Column(type="string")
@@ -42,10 +42,6 @@ class Product
      * @ORM\OneToMany(targetEntity="ProductUom", mappedBy="product")
      */
     protected $uoms;
-    
-    
-    protected $uomIds;
-    protected $companyId;
 
     public function addUom(ProductUom $uom)
     {
@@ -116,47 +112,5 @@ class Product
     public function getHcpcs()
     {
         return $this->hcpcs;
-    }
- 
-    /**
-     * Get uomIds.
-     *
-     * @return uomIds
-     */
-    public function getUomIds()
-    {
-        return $this->uomIds;
-    }
- 
-    /**
-     * Set uomIds.
-     *
-     * @param $uomIds the value to be set
-     */
-    public function setUomIds($uomIds)
-    {
-        $this->uomIds = $uomIds;
-        return $this;
-    }
- 
-    /**
-     * Get companyId.
-     *
-     * @return companyId
-     */
-    public function getCompanyId()
-    {
-        return $this->companyId;
-    }
- 
-    /**
-     * Set companyId.
-     *
-     * @param $companyId the value to be set
-     */
-    public function setCompanyId($companyId)
-    {
-        $this->companyId = $companyId;
-        return $this;
     }
 }

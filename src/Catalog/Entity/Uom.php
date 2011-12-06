@@ -14,7 +14,7 @@ class Uom
      * @ORM\Id
      * @ORM\Column(name="uom_code", type="string", length=2)
      */
-    protected $uomCode;
+    private $uomCode;
 
     /**
      * @ORM\Column(type="string", length=32)

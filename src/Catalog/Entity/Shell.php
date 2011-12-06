@@ -40,6 +40,7 @@ class Shell
 
     protected $price = 0;
 
+    protected $parentChoices = array();
 /**
  * only when shell type is 'product' 
  */
@@ -49,10 +50,6 @@ class Shell
      * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id", nullable=true)
      */
     protected $product;
-
-    protected $productId;
-    protected $optionIds;
-
     
     public function __construct($type=null)
     {

@@ -10,16 +10,16 @@ class CatalogManagementSessionMapper
         $this->userId = $userId;
         
         // test entities
-        $shell = new \Catalog\Entity\Shell('product');
-        $product = new \Catalog\Entity\Product;
-        $option = new \Catalog\Entity\Option('radio');
+        $shell = new \Management\Entity\Shell('product');
+        $product = new \Management\Entity\Product;
+        $option = new \Management\Entity\Option('radio');
        
-        $manufacturer = new \Catalog\Entity\Company;
+        $manufacturer = new \Management\Entity\Company;
         $manufacturer->setCompanyId(69); 
         $product->setProductId(10)
                 ->setManufacturer($manufacturer);
         $shell->setProduct($product);
-        $choice = new \Catalog\Entity\Choice;
+        $choice = new \Management\Entity\Choice;
         $choice->setChoiceId(12);
         $option->setOptionId(7)
                ->addChoice($choice)

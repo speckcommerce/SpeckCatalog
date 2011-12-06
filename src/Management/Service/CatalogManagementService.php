@@ -1,5 +1,5 @@
 <?php
-namespace SwmBase\Service;
+namespace Management\Service;
 class CatalogManagementService
 {
     protected $session=null;
@@ -12,10 +12,10 @@ class CatalogManagementService
             return $this->session;
         }
 
-        $mapper = new \SwmBase\Model\Mapper\CatalogManagementSessionMapper($user->getUserId());
-        $this->session = new \SwmBase\Model\CatalogManagementSession;
-        $this->session->setEntities($mapper->readSessionEntities());
+        //$mapper = new \SwmBase\Model\Mapper\CatalogManagementSessionMapper($user->getUserId());
+        //$this->session = new \SwmBase\Model\CatalogManagementSession;
+        //$this->session->setEntities($mapper->readSessionEntities());
 
-        return $this->session;
+        //return $this->session;
     }
 }

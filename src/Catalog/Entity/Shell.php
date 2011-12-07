@@ -154,4 +154,14 @@ class Shell
         return $this->price;
     }
 
+    public function getParentChoices()
+    {
+        return $this->parentChoices;
+    }
+ 
+    public function setParentChoices($parentChoices)
+    {
+        $this->parentChoices = $parentChoices;
+        return $this;
+    }
 }

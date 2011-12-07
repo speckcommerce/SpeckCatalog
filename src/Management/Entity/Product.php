@@ -40,4 +40,29 @@ class Product extends \Catalog\Entity\Product
         $this->parentShellId = $parentShellId;
         return $this;
     }
+    
+    public function deflate()
+    {
+        $shell = static::getParentShell();
+        if($shell){
+            $this->setParentShellId($shell->getShellId());
+        }
+        static::setParentShell(null);
+        
+        $company = static::getManufacturer();
+        if($company){
+            $this->setCompanyId($company->getCompanyId());
+        }
+        static::setManufacturer(null);
+
+        $uomIds = array();
+        if(count(static::getUoms()) > 0){
+            foreach(static::getUoms() as $productUom){
+                $uomIds[] = $productUom->getProductUomId();
+            }
+        }
+        $this->setUomIds($uomIds);
+        static::setUoms(null);
+        return $this;
+    }
 }

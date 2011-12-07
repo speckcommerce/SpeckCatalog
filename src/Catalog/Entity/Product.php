@@ -50,11 +50,13 @@ class Product
         $this->uoms[] = $uom;
         return $this;
     }
-    public function setUoms($uoms)
+    public function setUoms($uoms=null)
     {
         $this->uoms = array();
-        foreach($uoms as $uom){
-            $this->addUom($uom);
+        if(is_array($uoms)){
+            foreach($uoms as $uom){
+                $this->addUom($uom);
+            }
         }
         return $this;
     }

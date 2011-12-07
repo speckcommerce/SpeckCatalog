@@ -40,5 +40,30 @@ class Option extends \Catalog\Entity\Option
     {
         $this->parentShellId = $parentShellId;
         return $this;
-    }
+    }   
+
+    public function deflate()
+    {
+        $shell = static::getParentShell();
+        if($shell){
+            $this->setParentShellId($shell->getShellId());
+        }
+        static::setParentShell(null);
+        
+        $choice = static::getSelectedChoice();
+        if($choice){
+            $this->setSelectedChoiceId($choice);
+        }
+        static::setSelectedChoice(null);
+
+        $choiceIds = array();
+        if(count(static::getChoices()) > 0){
+            foreach(static::getChoices() as $choice){
+                $choiceIds[] = $choice->getChoiceId();
+            }
+        }
+        $this->setChoiceIds($choiceIds);
+        static::setChoices(null);
+        return $this;
+    }   
 }

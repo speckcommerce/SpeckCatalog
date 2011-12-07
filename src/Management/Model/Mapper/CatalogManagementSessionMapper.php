@@ -51,76 +51,14 @@ class CatalogManagementSessionMapper
             $classArr = explode('\\', $class);
             $className = array_pop($classArr);
 
-            //handle each type of class
-            switch($className){
-                case 'Shell' :
-                    $entity = $this->shellDeflate($entity);
-                    break;
-                case 'Product' :
-                    $entity = $this->productDeflate($entity);
-                    break;
-                case 'Option' :
-                    $entity = $this->optionDeflate($entity);
-                    break;
-                default: 
-                    die('didnt find that classname - '.$className);
-                    break;
-            }
+            $entity->deflate();
 
             $return[] = Array(
                 'user_id' => $this->userId,
-                'entity' => serialize($entity),
+                'entity' => serialize($entity->deflate()),
                 'classname' => $className
             );
         }
         return $return;
-    }
-
-
-    private function shellDeflate($shell)
-    {
-        if($shell->getType() === 'product'){
-            $shell->setProductId($shell->getProduct()->getProductId());
-            $shell->setProduct(null);
-        }
-        if(count($shell->getOptions()) > 0){
-            $optionIds = Array();
-            foreach($shell->getOptions() as $option){
-                $optionIds[] = $option->getOptionId();
-            }
-            $shell->setOptionIds($optionIds);
-            $shell->setOptions(null);
-        }
-        return $shell;
-    }
-
-    private function productDeflate($product)
-    {
-        $product->setCompanyId($product->getManufacturer()->getCompanyId());
-        $product->setManufacturer(null);
-        if(count($product->getUoms()) > 0){
-            $uomIds = Array();
-            foreach($product->getUoms() as $uom){
-                $uomIds[] = $product->getUomId();
-            }
-            $product->setUomIds($uomIds);
-            $product->setUoms(null);
-        }
-        return $product;
-    }
-
-    private function optionDeflate($option)
-    {
-        $option->setSelectedChoiceId($option->getSelectedchoice()->getChoiceId());
-        $option->setSelectedChoice(null);
-        if(count($option->getChoices()) > 0){
-            $choiceIds = Array();
-            foreach($option->getChoices() as $choice){
-                $choiceIds[] = $choice->getChoiceId();
-            }
-            $option->setChoiceIds($choiceIds);
-            $option->setChoices(null);
-        }
-        return $option;
     }
 }

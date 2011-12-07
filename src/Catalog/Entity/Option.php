@@ -166,16 +166,15 @@ class Option
     {
         return $this->selectedChoice;
     }
-
-    public function getShell()
+    
+    public function getParentShell()
     {
-        return $this->shell;
+        return $this->parentShell;
     }
  
-    public function setShell(Shell $shell=null)
+    public function setParentShell(Shell $parentShell=null)
     {
-        $this->shell = $shell;
+        $this->parentShell = $parentShell;
         return $this;
     }
-
 }

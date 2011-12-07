@@ -43,26 +43,26 @@ class Product extends \Catalog\Entity\Product
     
     public function deflate()
     {
-        $shell = static::getParentShell();
+        $shell = $this->getParentShell();
         if($shell){
             $this->setParentShellId($shell->getShellId());
         }
-        static::setParentShell(null);
+        $this->setParentShell(null);
         
-        $company = static::getManufacturer();
+        $company = $this->getManufacturer();
         if($company){
             $this->setCompanyId($company->getCompanyId());
         }
-        static::setManufacturer(null);
+        $this->setManufacturer(null);
 
         $uomIds = array();
-        if(count(static::getUoms()) > 0){
-            foreach(static::getUoms() as $productUom){
+        if(count($this->getUoms()) > 0){
+            foreach($this->getUoms() as $productUom){
                 $uomIds[] = $productUom->getProductUomId();
             }
         }
         $this->setUomIds($uomIds);
-        static::setUoms(null);
+        $this->setUoms(null);
         return $this;
     }
 }

@@ -43,29 +43,29 @@ class Shell extends \Catalog\Entity\Shell
 
     public function deflate()
     {
-        $product = static::getProduct();
+        $product = $this->getProduct();
         if($product){
             $this->setProductId($product->getProductId());
         }
-        static::setProduct(null);
+        $this->setProduct(null);
 
         $parentChoiceIds = array();
-        if(count(static::getParentChoices()) > 0){
-            foreach(static::getParentChoices() as $choice){
+        if(count($this->getParentChoices()) > 0){
+            foreach($this->getParentChoices() as $choice){
                 $parentChoiceIds[] = $choice->getChoiceId();
             }
         }
         $this->setParentChoiceIds($parentChoiceIds);
-        static::setParentChoices(null);
+        $this->setParentChoices(null);
         
         $optionIds = array();
-        if(count(static::getOptions()) > 0){
-            foreach(static::getOptions() as $option){
+        if(count($this->getOptions()) > 0){
+            foreach($this->getOptions() as $option){
                 $OptionIds[] = $option->getOptionId();
             }
         }
         $this->setOptionIds($optionIds);
-        static::setOptions(null);
+        $this->setOptions(null);
         return $this;
     }
 }

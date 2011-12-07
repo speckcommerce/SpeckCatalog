@@ -119,18 +119,6 @@ class Shell
         return $this;
     }
 
-    public function setOptionIds($optionIds)
-    {
-        $this->optionIds = $optionIds;
-        return $this;
-    }
-
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-        return $this;
-    }
-
     public function getProduct()
     {
         return $this->product;
@@ -166,15 +154,4 @@ class Shell
         return $this->price;
     }
 
-    public function getOptionIds()
-    {
-        return $this->optionIds;
-    }
-
- 
-    public function getProductId()
-    {
-        return $this->productId;
-    }
- 
 }

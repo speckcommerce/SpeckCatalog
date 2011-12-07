@@ -17,11 +17,13 @@ class ProductUom
      */
     private $productUomId;
 
+    protected $uom;
+
     /**
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id")
      */
-    protected $product;
+    protected $parentProduct;
     
     /**
      * @ORM\Column(type="integer")
@@ -77,12 +79,6 @@ class ProductUom
         return $this;
     }
  
-    public function setProduct(Product $product=null)
-    {
-        $this->product = $product;
-        return $this;
-    }
-
     public function setProductUomId($productUomId)
     {
         $this->productUomId = $productUomId;
@@ -105,29 +101,37 @@ class ProductUom
     {
         return $this->productUomId;
     }
-    public function getProduct()
-    {
-        return $this->product;
-    }
  
-    /**
-     * Get quantity.
-     *
-     * @return quantity
-     */
     public function getQuantity()
     {
         return $this->quantity;
     }
  
-    /**
-     * Set quantity.
-     *
-     * @param $quantity the value to be set
-     */
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+        return $this;
+    }
+ 
+    public function getUom()
+    {
+        return $this->uom;
+    }
+ 
+    public function setUom(Uom $uom)
+    {
+        $this->uom = $uom;
+        return $this;
+    }
+ 
+    public function getParentProduct()
+    {
+        return $this->parentProduct;
+    }
+ 
+    public function setParentProduct(Product $parentProduct=null)
+    {
+        $this->parentProduct = $parentProduct;
         return $this;
     }
 }

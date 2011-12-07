@@ -6,6 +6,7 @@ class Choice extends \Catalog\Entity\Choice
 {
     protected $shellId;
     protected $targetUomId;
+    protected $parentOptionIds;
 
     public function getShellId()
     {
@@ -26,6 +27,17 @@ class Choice extends \Catalog\Entity\Choice
     public function setTargetUomId($targetUomId)
     {
         $this->targetUomId = $targetUomId;
+        return $this;
+    }
+ 
+    public function getParentOptionIds()
+    {
+        return $this->parentOptionIds;
+    }
+ 
+    public function setParentOptionIds($parentOptionIds)
+    {
+        $this->parentOptionIds = $parentOptionIds;
         return $this;
     }
 }

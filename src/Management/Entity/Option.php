@@ -4,20 +4,10 @@ namespace Management\Entity;
 
 class Option extends \Catalog\Entity\Option
 {
-    protected $shellId;
+    protected $parentShellId;
     protected $selectedChoiceId;
     protected $choiceIds;
  
-    public function getShellId()
-    {
-        return $this->shellId;
-    }
- 
-    public function setShellId($shellId)
-    {
-        $this->shellId = $shellId;
-        return $this;
-    }
  
     public function getSelectedChoiceId()
     {
@@ -38,6 +28,17 @@ class Option extends \Catalog\Entity\Option
     public function setChoiceIds($choiceIds)
     {
         $this->choiceIds = $choiceIds;
+        return $this;
+    }
+ 
+    public function getParentShellId()
+    {
+        return $this->parentShellId;
+    }
+ 
+    public function setParentShellId($parentShellId)
+    {
+        $this->parentShellId = $parentShellId;
         return $this;
     }
 }

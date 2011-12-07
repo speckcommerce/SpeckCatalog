@@ -6,6 +6,7 @@ class Product extends \Catalog\Entity\Product
 {
     protected $uomIds;
     protected $companyId;
+    protected $parentShellId;
 
     public function getUomIds()
     {
@@ -26,6 +27,17 @@ class Product extends \Catalog\Entity\Product
     public function setCompanyId($companyId)
     {
         $this->companyId = $companyId;
+        return $this;
+    }
+ 
+    public function getParentShellId()
+    {
+        return $this->parentShellId;
+    }
+ 
+    public function setParentShellId($parentShellId)
+    {
+        $this->parentShellId = $parentShellId;
         return $this;
     }
 }

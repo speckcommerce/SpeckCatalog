@@ -28,6 +28,8 @@ class Product
      */
     protected $manufacturer;
 
+    protected $parentShell;
+
     /**
      * @ORM\Column(name="hcpcs", type="string")
      */
@@ -112,5 +114,16 @@ class Product
     public function getHcpcs()
     {
         return $this->hcpcs;
+    }
+ 
+    public function getParentShell()
+    {
+        return $this->parentShell;
+    }
+
+    public function setParentShell($parentShell)
+    {
+        $this->parentShell = $parentShell;
+        return $this;
     }
 }

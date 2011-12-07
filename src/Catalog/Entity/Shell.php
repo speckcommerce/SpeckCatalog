@@ -41,9 +41,6 @@ class Shell
     protected $price = 0;
 
     protected $parentChoices = array();
-/**
- * only when shell type is 'product' 
- */
 
     /**
      * @ORM\OneToOne(targetEntity="Product")
@@ -122,6 +119,18 @@ class Shell
         return $this;
     }
 
+    public function setOptionIds($optionIds)
+    {
+        $this->optionIds = $optionIds;
+        return $this;
+    }
+
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+        return $this;
+    }
+
     public function getProduct()
     {
         return $this->product;
@@ -162,20 +171,10 @@ class Shell
         return $this->optionIds;
     }
 
-    public function setOptionIds($optionIds)
-    {
-        $this->optionIds = $optionIds;
-        return $this;
-    }
  
     public function getProductId()
     {
         return $this->productId;
     }
  
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-        return $this;
-    }
 }

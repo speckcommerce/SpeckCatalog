@@ -4,16 +4,28 @@ namespace Management\Entity;
 
 class Availability extends \Catalog\Entity\Availability
 {
-    protected $productUomId;
-
-    public function getProductUomId()
+    protected $parentProductUomId;
+    protected $companyId;
+ 
+    public function getParentProductUomId()
     {
-        return $this->productUomId;
+        return $this->parentProductUomId;
     }
  
-    public function setProductUomId($productUomId)
+    public function setParentProductUomId($parentProductUomId)
     {
-        $this->productUomId = $productUomId;
+        $this->parentProductUomId = $parentProductUomId;
+        return $this;
+    }
+ 
+    public function getCompanyId()
+    {
+        return $this->companyId;
+    }
+ 
+    public function setCompanyId($companyId)
+    {
+        $this->companyId = $companyId;
         return $this;
     }
 }

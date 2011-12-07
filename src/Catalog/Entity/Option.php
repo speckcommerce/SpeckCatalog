@@ -19,9 +19,10 @@ class Option
     private $optionId;
 
 
-    //one to one
-    //this is the parent shell for THIS product.
-    protected $shell;
+    //Many to Many
+    //this is the parent shell for THIS option, it may own other options... 
+    //other shells may own THIS option
+    protected $parentShell;
     
     /**
      * @ORM\Column(type="string")
@@ -50,7 +51,7 @@ class Option
      */   
     protected $builderSegment;
 
-    protected $choices;
+    protected $choices=array();
 
     public function __construct($type = null)
     {
@@ -64,6 +65,7 @@ class Option
     }
     public function setChoices($choices)
     {
+        $this->selectedChoice = null; // this must reset the selected choice.
         $this->choices = array();
         if(is_array($choices)){
             foreach($choices as $choice){
@@ -102,6 +104,18 @@ class Option
         if ($this->listType !== 'radio'){ 
             throw new \RuntimeException("invalid type! - '{$this->listType}', must be 'radio'");
         }
+        if($choice){
+            if(count($this->choices) === 0){
+                throw new \RuntimeException('there are no choices');
+            }
+            $choiceIds = array();
+            foreach($this->choices as $currentChoice){
+                $choiceIds[] = $currentChoice->getChoiceId();
+            }
+            if(!in_array($choice->getChoiceId(), $choiceIds)){
+                throw new \RuntimeException('choice not in choices');
+            }
+        } 
         $this->selectedChoice = $choice;
         return $this;
     }

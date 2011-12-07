@@ -29,6 +29,8 @@ class Choice
 
     protected $allUomsDiscount;
 
+    protected $parentOptions = array();
+
     public function getName()
     {
         return $this->name;
@@ -47,6 +49,7 @@ class Choice
  
     public function setShell(Shell $shell)
     {
+        $this->targetUom = null; //keep this, if the shell changes, the targetuom must be reset. 
         $this->shell = $shell;
         return $this;
     }
@@ -55,9 +58,20 @@ class Choice
     {
         return $this->targetUom;
     }
- 
+    
     public function setTargetUom(ProductUom $targetUom)
     {
+        $shell = $this->getShell();
+        if($shell->getType() !== 'product'){
+            throw new \RuntimeException('shell is not product, can not have target uom!');
+        }
+        $productUomIds=array();
+        foreach($shell->getProduct()->getUoms() as $productUom){
+            $productUomIds[] = $productUom->getProductUomId();
+        }
+        if(!in_array($targetUom->getProductUomId(), $productUomIds)){
+            throw new \RuntimeException('shells product does not contain that productUom!');
+        }
         $this->targetUom = $targetUom;
         return $this;
     }

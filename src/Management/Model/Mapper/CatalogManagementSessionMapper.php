@@ -55,7 +55,7 @@ class CatalogManagementSessionMapper
 
             $return[] = Array(
                 'user_id' => $this->userId,
-                'entity' => serialize($entity->deflate()),
+                'entity' => serialize($entity),
                 'classname' => $className
             );
         }

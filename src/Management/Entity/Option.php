@@ -52,7 +52,7 @@ class Option extends \Catalog\Entity\Option
         
         $choice = $this->getSelectedChoice();
         if($choice){
-            $this->setSelectedChoiceId($choice);
+            $this->setSelectedChoiceId($choice->getChoiceId());
         }
         $this->setSelectedChoice(null);
 
@@ -64,6 +64,5 @@ class Option extends \Catalog\Entity\Option
         }
         $this->setChoiceIds($choiceIds);
         $this->setChoices(null);
-        return $this;
     }   
 }

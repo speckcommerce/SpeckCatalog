@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="availability")
+ * @ORM\Table(name="catalog_availability")
  */
 class Availability
 {

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="product_uom")
+ * @ORM\Table(name="catalog_product_uom")
  */
 class ProductUom
 {
@@ -20,8 +20,7 @@ class ProductUom
     protected $uom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="Product")
      */
     protected $parentProduct;
     

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="product")
+ * @ORM\Table(name="catalog_product")
  */
 class Product
 {
@@ -28,6 +28,10 @@ class Product
      */
     protected $manufacturer;
 
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Shell", mappedBy="Shell")  
+     */
     protected $parentShell;
 
     /**
@@ -41,7 +45,8 @@ class Product
     protected $partNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductUom", mappedBy="product")
+     * @ORM\ManyToOne(targetEntity="ProductUom")
+     * @ORM\JoinColumn(name="product_uom_id", referencedColumnName="product_uom_id")
      */
     protected $uoms;
 

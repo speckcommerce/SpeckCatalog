@@ -40,4 +40,29 @@ class Choice extends \Catalog\Entity\Choice
         $this->parentOptionIds = $parentOptionIds;
         return $this;
     }
+
+    public function deflate()
+    {
+        $shell = $this->getShell();
+        if($shell){
+            $this->setShellId($shell->getShellId());
+        }
+        $this->setShell(null);
+        
+        $productUom = $this->getTargetUom();
+        if($productUom){
+            $this->setTargetUomId($productUom->getProductUomId());
+        }
+        $this->setTargetUom(null);
+
+        $parentOptionIds = array();
+        if(count($this->getParentOptions()) > 0){
+            foreach($this->getParentOptions() as $option){
+                $parentOptionIds[] = $option->getOptionId();
+            }
+        }
+        $this->setParentOptionIds($parentOptionIds);
+        $this->setParentOptions(null);
+        
+    }  
 }

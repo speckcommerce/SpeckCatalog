@@ -8,7 +8,6 @@ class Option extends \Catalog\Entity\Option
     protected $selectedChoiceId;
     protected $choiceIds;
  
- 
     public function getSelectedChoiceId()
     {
         return $this->selectedChoiceId;

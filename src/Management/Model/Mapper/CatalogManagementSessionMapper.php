@@ -25,27 +25,27 @@ class CatalogManagementSessionMapper
                ->addChoice($choice)
                ->setSelectedChoice($choice);
         $shell->addOption($option);
-        $this->entities = $this->deflateEntities(array($option, $shell, $product));
+        $this->rows = $this->entitiesToRows(array($option, $shell, $product));
     }
 
 
     public function readSessionEntities()
     {
-        return $this->unserializeEntities($this->entities);
+        return $this->rowsToEntities($this->rows);
     }
 
-    public function unserializeEntities($rows)
+    public function rowsToEntities($rows)
     {
-        $return = array();
+        $entities = array();
         foreach ($rows as $row){
-            $return[] = unserialize($row['entity']);
+            $entities[] = unserialize($row['entity']);
         }
-        return $return;
+        return $entities;
     }
 
-    public function deflateEntities($entities)
+    public function entitiesToRows($entities)
     {
-        $return = array();
+        $rows = array();
         foreach ($entities as $entity){
             $class = get_class($entity);
             $classArr = explode('\\', $class);
@@ -53,12 +53,12 @@ class CatalogManagementSessionMapper
 
             $entity->deflate();
 
-            $return[] = Array(
+            $rows[] = Array(
                 'user_id' => $this->userId,
                 'entity' => serialize($entity),
                 'classname' => $className
             );
         }
-        return $return;
+        return $rows;
     }
 }

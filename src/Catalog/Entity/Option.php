@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="shell_option")
+ * @ORM\Table(name="catalog_option")
  */
 class Option
 {

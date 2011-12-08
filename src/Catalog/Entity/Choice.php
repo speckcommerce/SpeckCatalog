@@ -7,29 +7,52 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="option_choice")
+ * @ORM\Table(name="catalog_choice")
  */
 class Choice
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="option_id", type="integer")
+     * @ORM\Column(name="choice_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */             
     private $choiceId;
 
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $name;
 
-    //this is the child shell.
+    /**
+     *
+     * This is the child shell
+     * @ORM\OneToMany(targetEntity="Shell", mappedBy="Choice")
+     * @ORM\JoinColumn(name="shell_id", referencedColumnName="shell_id")
+     */     
     protected $shell;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProductUom", mappedBy="Choice")
+     * @ORM\JoinColumn(name="target_uom_id", referencedColumnName="product_uom_id")
+     */
     protected $targetUom;
 
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $targetUomDiscount;
 
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $allUomsDiscount;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Option", mappedBy="Option")
+     */     
     protected $parentOptions = array();
+
+    protected $naChoices = array();
 
     public function getName()
     {
@@ -106,6 +129,17 @@ class Choice
     public function setChoiceId($choiceId)
     {
         $this->choiceId = $choiceId;
+        return $this;
+    }
+ 
+    public function getNaChoices()
+    {
+        return $this->naChoices;
+    }
+ 
+    public function setNaChoices(Choice $naChoices)
+    {
+        $this->naChoices = $naChoices;
         return $this;
     }
 }

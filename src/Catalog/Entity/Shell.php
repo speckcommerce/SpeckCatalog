@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="shell")
+ * @ORM\Table(name="catalog_shell")
  */
 class Shell
 {
@@ -16,6 +16,7 @@ class Shell
      * @ORM\GeneratedValue(strategy="AUTO")
      */             
     private $shellId;
+
      /**
      * @ORM\Column(type="string")
      */
@@ -23,9 +24,13 @@ class Shell
 
     /**
      * @ORM\Column(type="string")
-      */
+    */
     protected $description;
     
+    
+    /**
+     * @ORM\Column(type="string", length=16)
+    */
     protected $type = null;  //will be('shell', 'product', 'builder')
     
     
@@ -34,12 +39,18 @@ class Shell
     //protected $attributes;
     
     /**
-     * @ORM\OneToMany(targetEntity="Option", mappedBy="shell")
+     * @ORM\ManyToMany(targetEntity="Option", mappedBy="Shell")
      */
     protected $options;
 
+    /**
+     * @ORM\Column(type="float")
+    */
     protected $price = 0;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Choice", mappedBy="Choice")
+     */
     protected $parentChoices = array();
 
     /**
@@ -64,7 +75,6 @@ class Shell
         $this->type = $type;
         return $this;
     }
-
 
     public function setProduct(Product $product=null)
     {

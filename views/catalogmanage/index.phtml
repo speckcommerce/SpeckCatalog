@@ -1,4 +1,4 @@
-<strong>Module:</strong>        SpeckCatalog &raquo; 
-<strong>Controller:</strong>    IndexController &raquo; 
-<strong>Action:</strong>        index
-<? var_dump($session); ?>
+<? $this->render("catalogmanage/partial/shell.phtml"); ?>
+<? $options = $shell->getOptions(); $this->option = $options[0]; ?>
+<? $this->render("catalogmanage/partial/option.phtml"); ?>
+

@@ -1,0 +1,38 @@
+<div class="product_uom entity">
+    <h1>Product Uom</h1>
+    <div class="entities">
+        <h3>Parent Product:</h3>
+        <? if($productUom->getParentProduct()) :?>
+        <? $this->product = $productUom->getParentProduct(); ?>
+        <ul>
+            <li class="product icon"><?=$this->render('catalogmanage/partial/product-icon.phtml'); ?></li>
+        </ul>
+        <? else : ?>
+            <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? endif; ?>
+
+        <h3>Uom:</h3>
+        <? if($productUom->getUom()) :?>
+        <? $this->uom = $productUom->getUom(); ?>
+        <ul>
+            <li class="uom icon"><?=$this->render('catalogmanage/partial/uom-icon.phtml'); ?></li>
+        </ul>
+        <? else : ?>
+        <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? endif; ?>
+
+        <h3>Availabilities:</h3>
+        <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? if (count($productUom->getAvailabilities()) > 0) : ?>
+            <ul>
+                <? foreach($productUom->getAvailabilities() as $this->availability) : ?>
+                    <li class="availability icon"><?=$this->render('catalogmanage/partial/availability-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+        (none)
+        <? endif; ?>
+    </div>
+    <?=$this->render('catalogmanage/partial/editform.phtml');?>
+    <div class="clear"></div>  
+</div>

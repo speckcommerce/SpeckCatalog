@@ -4,7 +4,7 @@ namespace Management\Entity;
 
 class Option extends \Catalog\Entity\Option
 {
-    protected $parentShellId;
+    protected $parentShellIds;
     protected $selectedChoiceId;
     protected $choiceIds;
  
@@ -30,24 +30,27 @@ class Option extends \Catalog\Entity\Option
         return $this;
     }
  
-    public function getParentShellId()
+    public function getParentShellIds()
     {
-        return $this->parentShellId;
+        return $this->parentShellIds;
     }
  
-    public function setParentShellId($parentShellId)
+    public function setParentShellIds($parentShellIds)
     {
-        $this->parentShellId = $parentShellId;
+        $this->parentShellIds = $parentShellIds;
         return $this;
     }   
 
     public function deflate()
     {
-        $shell = $this->getParentShell();
-        if($shell){
-            $this->setParentShellId($shell->getShellId());
+        $parentShellIds = array();
+        if(count($this->getParentShells()) > 0){
+            foreach($this->getParentShells() as $shell){
+                $parentShellIds[] = $shell->getShellId();
+            }
         }
-        $this->setParentShell(null);
+        $this->setParentShellIds($parentShellIds);
+        $this->setParentShells(null);  
         
         $choice = $this->getSelectedChoice();
         if($choice){

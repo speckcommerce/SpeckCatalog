@@ -33,7 +33,7 @@ class Availability
     /**
      * @ORM\Column(type="decimal")
      */
-    protected $cost;
+    protected $cost = 0;
 
     public function getQuantity()
     {
@@ -53,7 +53,7 @@ class Availability
  
     public function setCost($cost)
     {
-        $this->cost = $cost;
+        $this->cost = (float)$cost;
         return $this;
     }
  
@@ -88,5 +88,9 @@ class Availability
     {
         $this->parentProductUom = $parentProductUom;
         return $this;
+    }
+    public function getName()
+    {
+        return $this->getCost();
     }
 }

@@ -1,5 +1,6 @@
 <?php
 return array(
+    'layout' => 'layouts/catalog-manage.phtml',
     'di' => array(
         'instance' => array(
             'alias' => array(

@@ -1,0 +1,31 @@
+<?php echo $this->doctype() ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <?php echo $this->headTitle() ?>
+
+</head>
+<body>
+<style>
+.clear{clear:both}
+*{margin:0; padding:0}
+div.entity{margin:10px; border:1px solid #999999; padding:10px; width:550px;}
+    div.entities{float:right;}
+        input.add_search{width:150px}
+        .icon{border:1px solid #999999; margin:2px; padding:5px; display:block; width:200px;}
+        .shell{background:#cccccc}
+        .product{background:#bbddff}
+        .option{background:#ffbb99}
+        .choice{background:#ff9999}
+        .product_uom{background:#ffffbb}
+        .availability{background:#bbffbb}
+        .company{background:#ffccff}
+        .uom{background:#ffffff}
+        .add{background:#eeeeee;}
+    div.editform{float:left; width:300px; min-height:200px; background:#eeeeee; border:1px solid #999999; padding:10px;}
+</style>
+
+<?php echo $this->raw('content'); ?>
+</body>
+</html>

@@ -142,4 +142,25 @@ class Choice
         $this->naChoices = $naChoices;
         return $this;
     }
+ 
+    /**
+     * Get parentOptions.
+     *
+     * @return parentOptions
+     */
+    public function getParentOptions()
+    {
+        return $this->parentOptions;
+    }
+ 
+    /**
+     * Set parentOptions.
+     *
+     * @param $parentOptions the value to be set
+     */
+    public function setParentOptions($parentOptions)
+    {
+        $this->parentOptions = $parentOptions;
+        return $this;
+    }
 }

@@ -1,0 +1,29 @@
+<div class="company entity">
+    <h1>Company</h1>
+    <div class="entities">
+        <h3>Products:</h3>
+        <? if (count($company->getProducts()) > 0) : ?>
+            <ul>
+                <? foreach($company->getProducts() as $this->product) : ?>
+                    <li class="product icon"><?=$this->render('catalogmanage/partial/product-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+            <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? endif; ?>
+
+        <h3>Availabilities:</h3>
+        <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? if (count($company->getAvailabilities()) > 0) : ?>
+            <ul>
+                <? foreach($company->getAvailabilities() as $this->availability) : ?>
+                    <li class="availability icon"><?=$this->render('catalogmanage/partial/availability-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+        (none)
+        <? endif; ?> 
+    </div>
+    <?=$this->render('catalogmanage/partial/editform.phtml');?>
+    <div class="clear"></div> 
+</div> 

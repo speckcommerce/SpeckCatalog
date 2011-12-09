@@ -31,7 +31,11 @@ class Company
      * @ORM\Column(type="string")
      */
     protected $email;
- 
+
+    protected $products = array();
+
+    protected $availabilities = array();
+
     public function getName()
     {
         return $this->name;
@@ -71,13 +75,30 @@ class Company
         return $this;
     }
  
-    /**
-     * Get companyId.
-     *
-     * @return companyId
-     */
     public function getCompanyId()
     {
         return $this->companyId;
+    }
+ 
+    public function getProducts()
+    {
+        return $this->products;
+    }
+ 
+    public function setProducts($products)
+    {
+        $this->products = $products;
+        return $this;
+    }
+ 
+    public function getAvailabilities()
+    {
+        return $this->availabilities;
+    }
+ 
+    public function setAvailabilities($availabilities)
+    {
+        $this->availabilities = $availabilities;
+        return $this;
     }
 }

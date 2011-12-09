@@ -22,7 +22,7 @@ class Option
     //Many to Many
     //this is the parent shell for THIS option, it may own other options... 
     //other shells may own THIS option
-    protected $parentShell;
+    protected $parentShells;
     
     /**
      * @ORM\Column(type="string")
@@ -166,15 +166,15 @@ class Option
     {
         return $this->selectedChoice;
     }
-    
-    public function getParentShell()
+
+    public function getParentShells()
     {
-        return $this->parentShell;
+        return $this->parentShells;
     }
- 
-    public function setParentShell(Shell $parentShell=null)
+
+    public function setParentShells($parentShells)
     {
-        $this->parentShell = $parentShell;
+        $this->parentShells = $parentShells;
         return $this;
     }
 }

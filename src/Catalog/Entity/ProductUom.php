@@ -133,4 +133,13 @@ class ProductUom
         $this->parentProduct = $parentProduct;
         return $this;
     }
+    public function getName()
+    {
+        if($this->getUom()){ 
+            return $this->getUom()->getName();
+        }else{
+            return 'n/a';
+        }
+    }
+
 }

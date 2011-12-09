@@ -1,0 +1,39 @@
+<div class="product entity">
+    <h1>Product</h1>
+    <div class="entities">
+        <h3>Parent Shell:</h3>
+        <? if($product->getParentShell()) :?>
+            <? $this->shell = $product->getParentShell(); ?>
+            <ul>
+                <li class="shell icon"><?=$this->render('catalogmanage/partial/shell-icon.phtml'); ?></li>
+            </ul>
+        <? else : ?>
+            <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? endif; ?>
+
+        <h3>Product Uoms:</h3>
+        <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? if (count($product->getUoms()) > 0) : ?>
+            <ul>
+                <? foreach($product->getUoms() as $this->productUom) : ?>
+                    <li class="product_uom icon"><?=$this->render('catalogmanage/partial/product-uom-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+            (none)
+        <? endif; ?>
+
+        <h3>Manufacturer:</h3>
+        <? if($product->getManufacturer()) :?>
+            <? $this->company = $product->getManufacturer(); ?>
+            <ul>
+                <li class="company icon"><?=$this->render('catalogmanage/partial/company-icon.phtml');?></li>
+            </ul>
+        <? else : ?>
+            <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? endif; ?>
+    </div>
+    <?=$this->render('catalogmanage/partial/editform.phtml');?>
+    <div class="clear"></div>   
+</div>
+                                                        

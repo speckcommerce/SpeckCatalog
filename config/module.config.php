@@ -4,9 +4,15 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'catalog' => 'Catalog\Controller\IndexController',
-                'catalogmanage' => 'Management\Controller\IndexController',
+                'catalog'                    => 'Catalog\Controller\IndexController',
+                'catalogmanage'              => 'Management\Controller\IndexController',
                 'catalog_management_service' => 'Management\Service\CatalogManagementService',
+            ),
+            'catalogmanage' => array(
+                'parameters' => array(
+                    'userService'    => 'speckcatalog_user_service',
+                    'catalogService' => 'catalog_management_service',
+                ),
             ),
             'Zend\View\PhpRenderer' => array(
                 'parameters' => array(

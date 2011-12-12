@@ -2,8 +2,8 @@
 
 namespace Catalog\Entity;
 
-use Doctrine\ORM\Mapping AS ORM;
-
+use Doctrine\ORM\Mapping AS ORM,
+    SpiffyAnnotation\Form;
 /**
  * @ORM\Entity
  * @ORM\Table(name="catalog_shell")
@@ -19,6 +19,7 @@ class Shell
 
      /**
      * @ORM\Column(type="string")
+     * @Form\Element(type="string")
      */
     protected $name;
 
@@ -30,7 +31,7 @@ class Shell
     
     /**
      * @ORM\Column(type="string", length=16)
-    */
+     */
     protected $type = null;  //will be('shell', 'product', 'builder')
     
     
@@ -45,6 +46,7 @@ class Shell
 
     /**
      * @ORM\Column(type="float")
+     * @Form\Element(type="float")
     */
     protected $price = 0;
 

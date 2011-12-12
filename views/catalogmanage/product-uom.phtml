@@ -8,6 +8,7 @@
             <li class="product icon"><?=$this->render('catalogmanage/partial/product-icon.phtml'); ?></li>
         </ul>
         <? else : ?>
+            <? $this->class = 'product'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
@@ -18,10 +19,12 @@
             <li class="uom icon"><?=$this->render('catalogmanage/partial/uom-icon.phtml'); ?></li>
         </ul>
         <? else : ?>
+        <? $this->class = 'uom'; ?>
         <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
         <h3>Availabilities:</h3>
+        <? $this->class = 'availability'; ?>
         <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? if (count($productUom->getAvailabilities()) > 0) : ?>
             <ul>

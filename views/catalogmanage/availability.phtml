@@ -8,6 +8,7 @@
                 <li class="product_uom icon"><?=$this->render('catalogmanage/partial/product-uom-icon.phtml');?></li>
             </ul>
         <? else : ?>
+            <? $this->class = 'productUom'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
@@ -18,6 +19,7 @@
                 <li class="company icon"><?=$this->render('catalogmanage/partial/company-icon.phtml');?></li>
             </ul>
         <? else : ?>
+            <? $this->class = 'company'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>  
     </div>

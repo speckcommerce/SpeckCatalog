@@ -2,10 +2,13 @@
 
 namespace Management\Controller;
 
-use Zend\Mvc\Controller\ActionController;
+use Zend\Mvc\Controller\ActionController,
+    \Exception;
 
 class IndexController extends ActionController
 {
+    protected $userService;
+    protected $catalogService;
     protected $shell;
     protected $product;
     protected $option;
@@ -13,116 +16,147 @@ class IndexController extends ActionController
     protected $company;
     protected $productUom;
     protected $uom;
+    protected $availability;
     
     public function __construct()
     {
-        $factory = new \Management\Service\EntityFactoryService;
-        $shell = $factory->shellFactory('product')->setName('ShellName');
-        $this->shell = $shell;
-        
-        
-      //$shell = $factory->shellFactory('product')->setName('ShellName');
-      //$company = new \Management\Entity\Company;
-      //$company->setName('CompanyName');
-      //$availability = $factory->availabilityFactory();
-      //$uom = new \Management\Entity\Uom; $uom->setName('UomName');
-      //$productUom = $factory->productUomFactory($uom);
-      //$productUom->addAvailability($availability);
-      //
-      //$product = $factory->productFactory($company)->setName('ProductName')->addUom($productUom);
-      //$choice = $factory->choiceFactory()->setName('ChoiceName');
-      //$shell->setProduct($product)->setParentChoices(array($choice, $choice, $choice)); 
-      //$option1 = $factory->optionFactory('radio');
-      //$option1->setName('OptionName');
-      //$choice1 = $factory->choiceFactory()->setName('ChoiceName');
-      //$option1->setChoices(array($choice1, $choice1))->setSelectedChoice($choice1);
-      //$shell->setOptions(array($option1, $option1));
-      //
-      //$this->shell = $shell;
-      //$this->company = $company->setProducts(array($product))->setAvailabilities(array($availability, $availability));
-      //$this->productUom = $productUom->setParentProduct($product);
-      //$this->uom = $uom->setParentProductUoms(array($productUom, $productUom));
-      //$this->availability = $availability->setParentProductUom($productUom)->setDistributor($company);
-      //$this->product = $product->setParentShell($shell);
-      //$this->option = $option1->setParentShells(array($shell, $shell));
-      //$this->choice = $choice1->setParentOptions(array($option1, $option1))->setShell($shell);
+        if(!isset($_GET['constructor'])){
+            $_GET['constructor'] = null;
+        }
+        if(!isset($_GET['entityId'])){
+            $_GET['entityId'] = null;
+        }
     }
     
     public function indexAction()
     {
         die('index');
     }
+    
+    private function getEntity($className, $constructor=null, $entityId)
+    {
+        if(isset($entityId)){
+            $entity = $this->session->getEntityById($entityId);
+            if($entity){
+                return $entity;
+            }else{
+                die('couldnt find an entity with that id');
+            }
+        }else{
+            $class = '\management\Entity\\'.$className;
+            try {
+                return new $class($constructor);
+            } catch (Exception $e) {
+                die('heres your error - '.$e);
+            }
+            
+        } 
+    }
 
     public function shellAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
-        return array(
+        $entity = $this->getEntity('Shell', $_GET['constructor'], $_GET['entityId']);
+        $manager = $this->getLocator()
+            ->get('spiffy_form', array('definition' => 'Catalog\Form\Definition\Shell','data' => $entity,))
+            ->build();
+
+        return array(                
             'session' => $this->session,
-            'shell' => $this->shell,
+            'shell' => $entity,
+            'form' => $manager->getForm(),
         ); 
     }
     public function productAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        $entity = $this->getEntity('Product', $_GET['constructor'], $_GET['entityId']);
+        $manager = $this->getLocator()
+            ->get('spiffy_form', array('definition' => 'Catalog\Form\Definition\Product','data' => $entity,))
+            ->build();
+
+        return array(                
+            'session' => $this->session,
+            'product' => $entity,
+            'form' => $manager->getForm(),
+        ); 
+        
+        if(!$this->product)$this->product = new \Management\Entity\Product;
         return array(
             'session' => $this->session,
-            'product' => $this->product,
+            'product' => $this->getEntity('Product', null, $_GET['entityId']),
+            'entity'  => $this->getEntity('Product', null, $_GET['entityId']),
         ); 
     }
     public function optionAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        if(!$this->option)$this->option = new \Management\Entity\Option('radio');
         return array(
             'session' => $this->session,
-            'option' => $this->option,
+            'option'  => $this->getEntity('Option', $_GET['constructor'], $_GET['entityId']),
+            'entity'  => $this->getEntity('Option', $_GET['constructor'], $_GET['entityId']),
         ); 
     }
     public function choiceAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        if(!$this->choice)$this->choice = new \Management\Entity\Choice;
         return array(
             'session' => $this->session,
-            'choice' => $this->choice,
+            'choice' => $this->getEntity('Choice', null, $_GET['entityId']),
+            'entity'  => $this->getEntity('Choice', null, $_GET['entityId']),
         ); 
     }
     public function companyAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        if(!$this->company)$this->company = new \Management\Entity\Company;
         return array(
             'session' => $this->session,
-            'company' => $this->company,
+            'company' => $this->getEntity('Company', null, $_GET['entityId']),
+            'entity'  => $this->getEntity('Company', null, $_GET['entityId']),
         ); 
     }
     public function productUomAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        if(!$this->productUom)$this->productUom = new \Management\Entity\ProductUom;
         return array(
             'session' => $this->session,
-            'productUom' => $this->productUom,
+            'productUom' => $this->getEntity('ProductUom', null, $_GET['entityId']),
+            'entity'  => $this->getEntity('ProductUom', null, $_GET['entityId']),
         ); 
     }
     public function availabilityAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        if(!$this->availability)$this->availability = new \Management\Entity\Availability;
         return array(
             'session' => $this->session,
-            'availability' => $this->availability,
+            'availability' => $this->getEntity('Availability', null, $_GET['entityId']),
+            'entity'  => $this->getEntity('Availability', null, $_GET['entityId']),
         ); 
     }
     public function uomAction()
     {
-        $user = $this->getLocator()->get('speckcatalog_user_service')->getAuthService()->getIdentity();
-        $this->session = $this->getLocator()->get('catalog_management_service')->getSession($user);
+        if(!$this->uom)$this->uom = new \Management\Entity\Uom;
         return array(
             'session' => $this->session,
-            'uom' => $this->uom,
+            'uom' => $this->getEntity('Uom', null, $_GET['entityId']),
         ); 
     } 
+
+    public function setUserService($userService)
+    {
+        $this->userService = $userService;
+        $this->user = $this->userService->getAuthService()->getIdentity();
+    }
+
+    public function setCatalogService($catalogService)
+    {
+        $this->catalogService = $catalogService;
+        $this->session = $this->catalogService->getSession($this->user);
+        $entities= $this->session->getEntities();
+        foreach($entities as $i => $entity){
+            $class = get_class($entity);
+            $classArr = explode('\\', $class);
+            $className = array_pop($classArr);    
+            $entities[$i] = "({$i}){$className}";
+        } 
+        var_dump('session = '.implode(',',$entities));
+    }
 }

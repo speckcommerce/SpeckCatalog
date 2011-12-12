@@ -9,6 +9,7 @@
                 <? endforeach; ?>
             </ul>
         <? else : ?>
+            <? $this->class = 'option'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
@@ -19,6 +20,7 @@
                 <li class="shell icon"><?=$this->render('catalogmanage/partial/shell-icon.phtml');?></li>
             </ul>
         <? else : ?>
+            <? $this->class = 'shell'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
     </div> 

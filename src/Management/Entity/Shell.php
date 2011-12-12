@@ -4,6 +4,13 @@ namespace Management\Entity;
 
 class Shell extends \Catalog\Entity\Shell
 {
+    
+    /*
+     * @Form\Element(type="select")
+     */
+    protected $name;
+    
+    
     protected $productId;
     protected $optionIds = array();
     protected $parentChoiceIds = array();

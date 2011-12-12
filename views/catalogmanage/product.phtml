@@ -8,10 +8,12 @@
                 <li class="shell icon"><?=$this->render('catalogmanage/partial/shell-icon.phtml'); ?></li>
             </ul>
         <? else : ?>
+            <? $this->class = 'shell'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
         <h3>Product Uoms:</h3>
+        <? $this->class = 'productUom'; ?>
         <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? if (count($product->getUoms()) > 0) : ?>
             <ul>
@@ -30,6 +32,7 @@
                 <li class="company icon"><?=$this->render('catalogmanage/partial/company-icon.phtml');?></li>
             </ul>
         <? else : ?>
+            <? $this->class = 'company'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
     </div>

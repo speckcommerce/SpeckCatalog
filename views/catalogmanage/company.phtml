@@ -9,10 +9,12 @@
                 <? endforeach; ?>
             </ul>
         <? else : ?>
+            <? $this->class = 'product'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
         <h3>Availabilities:</h3>
+        <? $this->class = 'availability'; ?>
         <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? if (count($company->getAvailabilities()) > 0) : ?>
             <ul>

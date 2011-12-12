@@ -1,4 +1,27 @@
-<div class="add icon">
-    <a href="">Create New...</a><br/>
-    <input type="text" class="add_search"><button>Search</button>
+<div class="add icon">                                        
+    
+
+    <? // note: need a camelcase to dash function // ?>
+    <? if($this->class === 'productUom'){ $className = 'product-uom'; }else{ $className = $this->class; } ?>
+
+    <? if($className == 'shell') : ?>
+        <? $options=array('shell','product','builder'); ?>
+    <? elseif($className == 'option') : ?>    
+        <? $options=array('radio','checkbox','dropdown'); ?>
+    <? endif; ?>
+
+    <? if(isset($options)) : ?>
+        <select class="newDropdown class-<?=$className;?> <?=$className;?> right">
+            <option>New <?=ucfirst($this->class);?>...</option>
+        <? foreach ($options as $option) : ?>
+            <option class="selection" value="<?=$option;?> <?=$className;?>"><?=$option;?></option>
+        <? endforeach; ?>
+        </select>
+    <? else : ?>      
+
+    <input type="button" onClick="location.href='<?=$className;?>'" class="<?=$this->class;?> right" value="New <?=$this->class;?>"/>
+    <? endif; ?>
+    <input type="text" class="add_search">
+
+
 </div>

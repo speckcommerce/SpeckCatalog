@@ -2,8 +2,9 @@
     <h1>Option</h1>
     <div class="entities">
         <h3>Parent Shells:</h3>
-        <? if (count($option->getParentShells()) > 0) : ?>
+        <? $this->class = 'shell'; ?>
         <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? if (count($option->getParentShells()) > 0) : ?>
             <ul>
                 <? foreach($option->getParentShells() as $this->shell) : ?>
                     <li class="shell icon"><?=$this->render('catalogmanage/partial/shell-icon.phtml');?></li>
@@ -20,12 +21,14 @@
                 <li class="choice icon"><?=$this->render('catalogmanage/partial/choice-icon.phtml');?></li>
             </ul>
         <? else : ?>
+            <? $this->class = 'choice'; ?>
             <?=$this->render('catalogmanage/partial/add.phtml');?>
         <? endif; ?>
 
         <h3>Choices:</h3>
-        <? if (count($option->getChoices()) > 0) : ?>
+        <? $this->class = 'choice'; ?>
         <?=$this->render('catalogmanage/partial/add.phtml');?>
+        <? if (count($option->getChoices()) > 0) : ?>
             <ul>
                 <? foreach($option->getChoices() as $this->choice) : ?>
                     <li class="choice icon"><?=$this->render('catalogmanage/partial/choice-icon.phtml');?></li>

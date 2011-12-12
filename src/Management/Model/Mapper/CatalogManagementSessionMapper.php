@@ -7,27 +7,15 @@ class CatalogManagementSessionMapper
 
     public function __construct($userId)
     {
-        $this->userId = $userId;
-        
         // test entities
-        $shell = new \Management\Entity\Shell('product');
         $product = new \Management\Entity\Product;
+        $product->setName('<font color="red">hi, im a product from a session!</font>');
+        $shell = new \Management\Entity\Shell('product');
+        $shell->setProduct($product)->setName('<font color="red">hi, im a shell from a session!</font>');
         $option = new \Management\Entity\Option('radio');
-       
-        $manufacturer = new \Management\Entity\Company;
-        $manufacturer->setCompanyId(69); 
-        $product->setProductId(10)
-                ->setManufacturer($manufacturer);
-        $shell->setProduct($product);
-        $choice = new \Management\Entity\Choice;
-        $choice->setChoiceId(12);
-        $option->setOptionId(7)
-               ->addChoice($choice)
-               ->setSelectedChoice($choice);
-        $shell->addOption($option);
+        $option->setName('<font color="red">hello! im an option from a session!</font>');
         $this->rows = $this->entitiesToRows(array($option, $shell, $product));
     }
-
 
     public function readSessionEntities()
     {
@@ -61,4 +49,5 @@ class CatalogManagementSessionMapper
         }
         return $rows;
     }
+
 }

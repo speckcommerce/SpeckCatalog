@@ -1,0 +1,45 @@
+<div class="shell entity">
+    <h1>Shell</h1>
+    <div class="entities">
+        <h3>Parent Choices:</h3>
+        <? $this->class = 'choice'; ?>
+        <?=$this->render('catalogmanager/partial/add.phtml');?>
+        <? if (count($shell->getParentChoices()) > 0) : ?>
+            <ul>
+                <? foreach($shell->getParentChoices() as $this->choice) : ?>
+                    <li class="choice icon"><?=$this->render('catalogmanager/partial/choice-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+        (none)
+        <? endif; ?>
+
+        <? if($shell->getType() === 'product') : ?>
+            <h3>Product:</h3>
+            <? if($shell->getProduct()) :?>
+                <? $this->product = $shell->getProduct(); ?>
+                <ul>
+                    <li class="product icon"><?=$this->render('catalogmanager/partial/product-icon.phtml');?></li>
+                </ul>
+            <? else : ?>
+                <? $this->class = 'product'; ?>
+                <?=$this->render('catalogmanager/partial/add.phtml');?>
+            <? endif; ?>  
+        <? endif; ?>
+
+        <h3>Options:</h3>
+        <? $this->class = 'option'; ?>
+        <?=$this->render('catalogmanager/partial/add.phtml');?>
+        <? if (count($shell->getOptions()) > 0) : ?>
+            <ul>
+                <? foreach($shell->getOptions() as $this->option) : ?>
+                    <li class="option icon"><?=$this->render('catalogmanager/partial/option-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+            (none)
+        <? endif; ?>
+    </div>
+    <?=$this->render('catalogmanager/partial/editform.phtml');?>
+    <div class="clear"></div>
+</div>                        

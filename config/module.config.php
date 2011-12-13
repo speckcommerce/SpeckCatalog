@@ -4,14 +4,14 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'catalog'                    => 'Catalog\Controller\IndexController',
-                'catalogmanage'              => 'Management\Controller\IndexController',
-                'catalog_management_service' => 'Management\Service\CatalogManagementService',
+                'catalog'                    => 'SpeckCatalog\Controller\IndexController',
+                'catalogmanager'              => 'SpeckCatalogManager\Controller\IndexController',
+                'catalog_manager_service' => 'SpeckCatalogManager\Service\CatalogManagerService',
             ),
-            'catalogmanage' => array(
+            'catalogmanager' => array(
                 'parameters' => array(
                     'userService'    => 'speckcatalog_user_service',
-                    'catalogService' => 'catalog_management_service',
+                    'catalogManagerService' => 'catalog_manager_service',
                 ),
             ),
             'Zend\View\PhpRenderer' => array(

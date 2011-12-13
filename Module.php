@@ -15,11 +15,16 @@ class Module implements AutoloaderProvider
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                    'Catalog' => __DIR__ . '/src/Catalog',
-                    'Management' => __DIR__ . '/src/Management',
+                    'SpeckCatalog' => __DIR__ . '/src/SpeckCatalog',
+                    'SpeckCatalogManager' => __DIR__ . '/src/SpeckCatalogManager',
                 ),
             ),
         );
+    }
+
+    public function init()
+    {
+        \Zend\View\Helper\PaginationControl::setDefaultViewPartial('catalogmanager/partial/paginator.phtml');
     }
 
     public function getConfig($env = null)

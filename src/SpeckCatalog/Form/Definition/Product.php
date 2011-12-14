@@ -13,12 +13,7 @@ class Product implements Definition
           ->add('name')
           ->add('description')
           ->add('price')
-          ->add('submit', 'submit', array(
-              'label' => 'Save Changes',
-          ))
-          ->add('cancel', 'submit', array(
-              'label' => 'Cancel Changes'
-          ));
+          ->add('type');
     }
 
     public function isValid($params, $form)

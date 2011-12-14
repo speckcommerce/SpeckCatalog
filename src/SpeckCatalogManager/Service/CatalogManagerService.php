@@ -4,7 +4,7 @@ class CatalogManagerService
 {
     protected $session=null;
 
-    public function getSession($user)
+    public function getSession(\EdpUser\Model\User $user)
     {
         //if($user->getPermissions('speckcatalog_catalog_management') !=== true) return false;
         

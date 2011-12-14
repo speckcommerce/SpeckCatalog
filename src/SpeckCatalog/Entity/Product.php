@@ -2,8 +2,8 @@
 
 namespace SpeckCatalog\Entity;
 
-use Doctrine\ORM\Mapping AS ORM;
-
+use Doctrine\ORM\Mapping AS ORM,
+    SpiffyAnnotation\Form;
 /**
  * @ORM\Entity
  * @ORM\Table(name="catalog_product")
@@ -12,55 +12,93 @@ class Product
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="product_id", type="integer")
+     * @ORM\Column(name="shell_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $productId;
+     */             
+    private $shellId;
 
-    /**
+     /**
      * @ORM\Column(type="string")
+     * @Form\Element(type="string")
      */
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Company")
-     * @ORM\JoinColumn(name="manufacutrer_id", referencedColumnName="company_id")
-     */
-    protected $manufacturer;
-
+     * @ORM\Column(type="string")
+    */
+    protected $description;
+    
     
     /**
-     * @ORM\OneToOne(targetEntity="Shell", mappedBy="Shell")  
+     * @ORM\Column(type="string", length=16)
      */
-    protected $parentShell;
-
-    /**
-     * @ORM\Column(name="hcpcs", type="string")
-     */
-    protected $hcpcs;
+    protected $type = null;  //will be('shell', 'product', 'builder')
+    
+    
+    //protected $features;
+    
+    //protected $attributes;
     
     /**
-     * @ORM\Column(name="part_number", type="string")
+     * @ORM\ManyToMany(targetEntity="Option", mappedBy="product")
      */
-    protected $partNumber;
+    protected $options;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductUom")
-     * @ORM\JoinColumn(name="product_uom_id", referencedColumnName="product_uom_id")
-     */
-    protected $uoms;
+     * @ORM\Column(type="float")
+     * @Form\Element(type="float")
+    */
+    protected $price = 0;
 
-    public function addUom(ProductUom $uom)
+    /**
+     * @ORM\ManyToMany(targetEntity="Choice", mappedBy="Choice")
+     */
+    protected $parentChoices = array();
+
+    /**
+     * @ORM\OneToOne(targetEntity="Item")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="item_id", nullable=true)
+     */
+    protected $item;
+    
+    public function __construct($type=null)
     {
-        $this->uoms[] = $uom;
+        $this->setType($type);
+    }
+
+    private function setType($type)
+    {
+        if($type === null) {
+            throw new \RuntimeException("no type specified! '{$this->type}'");  
+        }
+        if($type !== 'shell' && $type !== 'product' && $type !== 'builder'){
+            throw new \InvalidArgumentException("invalid type, must be 'shell', 'product', or 'builder'");
+        }
+        $this->type = $type;
         return $this;
     }
-    public function setUoms($uoms=null)
+
+    public function setItem(Item $item=null)
     {
-        $this->uoms = array();
-        if(is_array($uoms)){
-            foreach($uoms as $uom){
-                $this->addUom($uom);
+        if($this->type !== 'product') {
+            throw new \RuntimeException("expected type: product, type is: {$this->type}");  
+        }
+        $this->item = $item;
+        return $this;
+    }
+
+    public function addOption(Option $option)
+    {
+        $this->options[] = $option;
+        return $this;
+    }
+
+    public function setOptions($options)
+    {
+        $this->options = array();
+        if(is_array($options)){
+            foreach($options as $option){
+                $this->addOption($option);
             }
         }
         return $this;
@@ -71,66 +109,71 @@ class Product
         $this->name = $name;
         return $this;
     }
- 
-    public function setManufacturer(Company $manufacturer=null)
-    {
-        $this->manufacturer = $manufacturer;
-        return $this;
-    }
- 
- 
-    public function setPartNumber($partNumber)
-    {
-        $this->partNumber = $partNumber;
-        return $this;
-    }
- 
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-        return $this;
-    }
- 
-    public function setHcpcs($hcpcs)
-    {
-        $this->hcpcs = $hcpcs;
-        return $this;
-    }
     
-    
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+ 
+    public function setShellId($shellId)
+    {
+        $this->shellId = $shellId;
+        return $this;
+    }
+
+    public function setPrice($price)
+    {
+        if(!is_float($price)){ 
+            throw new \InvalidArgumentException("price must be float - '{$price}'");
+        }
+        $this->price = $price;
+        return $this;
+    }
+
+    public function getItem()
+    {
+        return $this->item;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+ 
     public function getName()
     {
         return $this->name;
     }
-    public function getManufacturer()
+ 
+    public function getDescription()
     {
-        return $this->manufacturer;
-    }
-    public function getUoms()
-    {
-        return $this->uoms;
-    }
-    public function getPartNumber()
-    {
-        return $this->partNumber;
-    }
-    public function getProductId()
-    {
-        return $this->productId;
-    }
-    public function getHcpcs()
-    {
-        return $this->hcpcs;
+        return $this->description;
     }
  
-    public function getParentShell()
+    public function getShellId()
     {
-        return $this->parentShell;
+        return $this->shellId;
+    }
+ 
+    public function getType()
+    {
+        return $this->type;
     }
 
-    public function setParentShell($parentShell)
+    public function getPrice()
     {
-        $this->parentShell = $parentShell;
+        return $this->price;
+    }
+
+    public function getParentChoices()
+    {
+        return $this->parentChoices;
+    }
+ 
+    public function setParentChoices($parentChoices)
+    {
+        $this->parentChoices = $parentChoices;
         return $this;
     }
 }

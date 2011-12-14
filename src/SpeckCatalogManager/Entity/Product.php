@@ -1,68 +1,82 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
-
+use \Speckcatalog as Catalog;
 class Product extends \SpeckCatalog\Entity\Product
 {
-    protected $uomIds;
-    protected $companyId;
-    protected $parentShellId;
-
-    public function getUomIds()
-    {
-        return $this->uomIds;
-    }
-
-    public function setUomIds($uomIds)
-    {
-        $this->uomIds = $uomIds;
-        return $this;
-    }
-
-    public function getCompanyId()
-    {
-        return $this->companyId;
-    }
-
-    public function setCompanyId($companyId)
-    {
-        $this->companyId = $companyId;
-        return $this;
-    }
- 
-    public function getParentShellId()
-    {
-        return $this->parentShellId;
-    }
- 
-    public function setParentShellId($parentShellId)
-    {
-        $this->parentShellId = $parentShellId;
-        return $this;
-    }
     
+    /*
+     * @Form\Element(type="select")
+     */
+    protected $name;
+    
+    
+    protected $itemId;
+    protected $optionIds = array();
+    protected $parentChoiceIds = array();
+ 
+    public function getItemId()
+    {
+        return $this->itemId;
+    }
+ 
+    public function setItemId($itemId)
+    {
+        $this->itemId = $itemId;
+        return $this;
+    }
+ 
+    public function getOptionIds()
+    {
+        return $this->optionIds;
+    }
+ 
+    public function setOptionIds($optionIds)
+    {
+        $this->optionIds = $optionIds;
+        return $this;
+    }
+ 
+    public function getParentChoiceIds()
+    {
+        return $this->parentChoiceIds;
+    }
+ 
+    public function setParentChoiceIds($parentChoiceIds)
+    {
+        $this->parentChoiceIds = $parentChoiceIds;
+        return $this;
+    }
+
     public function deflate()
     {
-        $shell = $this->getParentShell();
-        if($shell){
-            $this->setParentShellId($shell->getShellId());
+        $item = $this->getItem();
+        if($item){
+            $this->setItemId($item->getItemId());
         }
-        $this->setParentShell(null);
-        
-        $company = $this->getManufacturer();
-        if($company){
-            $this->setCompanyId($company->getCompanyId());
-        }
-        $this->setManufacturer(null);
+        $this->setItem(null);
 
-        $uomIds = array();
-        if(count($this->getUoms()) > 0){
-            foreach($this->getUoms() as $productUom){
-                $uomIds[] = $productUom->getProductUomId();
+        $parentChoiceIds = array();
+        if(count($this->getParentChoices()) > 0){
+            foreach($this->getParentChoices() as $choice){
+                $parentChoiceIds[] = $choice->getChoiceId();
             }
         }
-        $this->setUomIds($uomIds);
-        $this->setUoms(null);
+        $this->setParentChoiceIds($parentChoiceIds);
+        $this->setParentChoices(null);
+        
+        $optionIds = array();
+        if(count($this->getOptions()) > 0){
+            foreach($this->getOptions() as $option){
+                $OptionIds[] = $option->getOptionId();
+            }
+        }
+        $this->setOptionIds($optionIds);
+        $this->setOptions(null);
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

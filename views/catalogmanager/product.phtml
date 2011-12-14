@@ -1,42 +1,147 @@
-<div class="product entity">
-    <h1>Product</h1>
-    <div class="entities">
-        <h3>Parent Shell:</h3>
-        <? if($product->getParentShell()) :?>
-            <? $this->shell = $product->getParentShell(); ?>
-            <ul>
-                <li class="shell icon"><?=$this->render('catalogmanager/partial/shell-icon.phtml'); ?></li>
-            </ul>
-        <? else : ?>
-            <? $this->class = 'shell'; ?>
-            <?=$this->render('catalogmanager/partial/add.phtml');?>
-        <? endif; ?>
 
-        <h3>Product Uoms:</h3>
-        <? $this->class = 'productUom'; ?>
+<!-- tabs -->
+<ul class="tabs" data-tabs="tabs">
+    <li class=""><a href="#this-product">This Product</a></li>
+    <li class=""><a href="#parent-choices">Parent Choices</a></li>
+</ul>
+<!-- /tabs -->
+
+<!-- panes -->
+<div id="my-tab-content" class="tab-content">
+    
+    <!--"This Product" Pane -->
+    <div class="row show-grid tab-pane span14 offset1" id="this-product">
+        <div class="span14 offset1">
+
+            <!-- tabs -->
+            <ul class="tabs" data-tabs="tabs">
+                <li class=""><a href="#product">Product</a></li>
+                <li class=""><a href="#options">Options</a></li>
+            </ul> 
+            <!-- /tabs -->
+
+            <!-- panes -->
+            <div id="my-tab-content" class="tab-content">
+
+                <!-- "This Product > Product" Pane -->
+                <div class="row show-grid tab-pane" id="product">
+                    <div class="span14 offset1">
+                        <?=$this->render('catalogmanager/partial/editform.phtml');?>
+                        <? if($product->getType() === 'product') : ?>
+                            <h3>Item:</h3>
+                            <? if($product->getItem()) :?>
+                                <? $item = $product->getItem(); ?>
+
+                                    <h4>Uoms:</h4>
+                                    <? $this->class = 'productUom'; ?>
+                                    <?=$this->render('catalogmanager/partial/add.phtml');?>
+                                    <? if (count($item->getUoms()) > 0) : ?>
+                                        <? $this->paginator = $itemProductUomPaginator;?>
+                                        <?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>
+                                    <? else : ?>
+                                        (none)
+                                    <? endif; ?>
+
+                                    <h4>Manufacturer:</h4>
+                                    <? if($item->getManufacturer()) :?>
+                                        <? $this->paginator = $itemManufacturerPaginator;?>
+                                        <?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>
+                                    <? else : ?>
+                                        <? $this->class = 'company'; ?>
+                                        <?=$this->render('catalogmanager/partial/add.phtml');?>
+                                    <? endif; ?>
+
+
+                            <? else : ?>
+                                something is broken, product should always have item!                                
+                            <? endif; ?>  
+                        <? endif; ?>   
+                    </div>
+                </div>
+                <!-- /"This Product > Product" Pane -->
+
+  
+                <!-- "This Product > Options" Pane -->
+                <div class="row show-grid tab-pane" id="options">
+                    <div class="span14 offset1">
+                        <? $this->class = 'option'; ?>
+                        <?=$this->render('catalogmanager/partial/add.phtml');?>
+                        <? if (count($product->getOptions()) > 0) : ?>
+                            <? $this->paginator = $optionPaginator;?>
+                            <?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>
+                        <? else : ?>
+                            (none)
+                        <? endif; ?>
+                    </div>
+                </div>
+                <!-- "This Product > Options" Pane -->
+
+            </div>
+            <!-- /panes -->
+
+        </div>
+    </div>
+    <!-- /"This Product" Pane -->
+
+    <!-- "Parent Choices" Pane -->
+    <div class="row show-grid tab-pane" id="parent-choices">
+        <div class="span14 offset1">
+            <? if (count($product->getParentChoices()) > 0) : ?>
+                <? $this->paginator = $parentChoicesPaginator;?>
+                <?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>       
+            <? else : ?>
+            (none)
+            <? endif; ?>  
+        </div>
+    </div>
+    <!-- /"Parent Choices" Pane -->
+
+</div>
+<!-- /panes -->
+
+
+
+
+<? /*  
+
+
+
+
+
+        <h3>Options:</h3>
+        <? $this->class = 'option'; ?>
         <?=$this->render('catalogmanager/partial/add.phtml');?>
-        <? if (count($product->getUoms()) > 0) : ?>
+        <? if (count($product->getOptions()) > 0) : ?>
             <ul>
-                <? foreach($product->getUoms() as $this->productUom) : ?>
-                    <li class="product_uom icon"><?=$this->render('catalogmanager/partial/product-uom-icon.phtml');?></li>
+                <? foreach($product->getOptions() as $this->option) : ?>
+                    <li class="option icon"><?=$this->render('catalogmanager/partial/option-icon.phtml');?></li>
                 <? endforeach; ?>
             </ul>
         <? else : ?>
             (none)
         <? endif; ?>
-
-        <h3>Manufacturer:</h3>
-        <? if($product->getManufacturer()) :?>
-            <? $this->company = $product->getManufacturer(); ?>
-            <ul>
-                <li class="company icon"><?=$this->render('catalogmanager/partial/company-icon.phtml');?></li>
-            </ul>
-        <? else : ?>
-            <? $this->class = 'company'; ?>
-            <?=$this->render('catalogmanager/partial/add.phtml');?>
-        <? endif; ?>
     </div>
     <?=$this->render('catalogmanager/partial/editform.phtml');?>
-    <div class="clear"></div>   
+</div>                        
+
+
+<ul class="tabs" data-tabs="tabs">
+    <li class=""><a href="#home">Home</a></li>
+</ul>
+
+<div id="my-tab-content" class="tab-content">
+    <div class="tab-pane" id="home">
+        <p></p>
+    </div>
+    <div class="tab-pane" id="profile">
+        <p></p>
+    </div>
 </div>
-                                                        
+ */
+?>
+ 
+<script>
+  $(function () {
+    $('.tabs').tabs()
+  })
+</script>

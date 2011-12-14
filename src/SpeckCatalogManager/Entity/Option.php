@@ -66,5 +66,8 @@ class Option extends \SpeckCatalog\Entity\Option
         }
         $this->setChoiceIds($choiceIds);
         $this->setChoices(null);
+    }
+    public function __toString(){
+        return $this->getName();
     }   
-}
+}                       

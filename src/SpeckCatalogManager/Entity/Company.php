@@ -1,8 +1,12 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
-
-class Company extends \SpeckCatalog\Entity\Company
+use \SpeckCatalog as Catalog;
+class Company extends Catalog\Entity\Company
 {
+    public function __toString()
+    {
+        return "Company toString";
+    }
 
 }

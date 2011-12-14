@@ -1,16 +1,4 @@
-<h3>Session<small>(these are all of the different pieces you are currently editing)</small></h3>
-<table class='bordered-table'>
-    <thead>
-        <tr><th>Entity Number</th><th>ClassName</th></tr>
-    </thead>
-    <tbody>
-        <? foreach($session->getEntities() as $i => $entity) : ?>
-            <tr><th><?=$i;?></th><th><?=get_class($entity); ?></th></tr>
-        <? endforeach; ?>
-    </tbody>
-</table>
+<h3>Session<small> (these are all of the different pieces you are currently editing)</small></h3>
 
-<? echo($paginator->setView($this)); ?>
-
-
-
+<? $this->paginator = $sessionPaginator;?>
+<?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>  

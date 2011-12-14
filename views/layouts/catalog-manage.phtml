@@ -1,78 +1,108 @@
 <?php echo $this->doctype() ?>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <?php echo $this->headTitle() ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-    <? //<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>// ?>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-popover.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-scrollspy.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"></script> 
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-buttons.js"></script>     
+
 </head>
-<style><? 
-/*
-.clear{clear:both}
-*{margin:0; padding:0}
-div.entity{margin:10px; border:1px solid #999999; padding:10px;}
-    div.entities{float:right;}
-        input.add_search{width:50px;}
-        .icon{border:1px solid #999999; padding:5px; display:block; width:200px;}
-        .shell{background:#cccccc}
-        .product{background:#bbddff}
-        .option{background:#ffbb99}
-        .choice{background:#ff9999}
-        .product_uom{background:#ffffbb}
-        .productUom{background:#ffffbb}
-        .availability{background:#bbffbb}
-        .company{background:#ffccff}
-        .uom{background:#ffffff}
-        .add{background:#f7f7f7;}
-    div.editform{float:left; width:300px; min-height:200px; background:#eeeeee; border:1px solid #999999; padding:10px;}
-    .right{float:right}
- */
-?>
-body{margin-top:80px;}
+
+<style>
+    <? /*
+    .clear{clear:both}
+    *{margin:0; padding:0}
+    div.entity{margin:10px; border:1px solid #999999; padding:10px;}
+        div.entities{float:right;}
+            input.add_search{width:50px;}
+            .icon{border:1px solid #999999; padding:5px; display:block; width:200px;}
+            .shell{background:#cccccc}
+            .product{background:#bbddff}
+            .option{background:#ffbb99}
+            .choice{background:#ff9999}
+            .product_uom{background:#ffffbb}
+            .productUom{background:#ffffbb}
+            .availability{background:#bbffbb}
+            .company{background:#ffccff}
+            .uom{background:#ffffff}
+            .add{background:#f7f7f7;}
+        div.editform{float:left; width:300px; min-height:200px; background:#eeeeee; border:1px solid #999999; padding:10px;}
+        .right{float:right}
+     */ ?>
+
+    body{margin-top:60px;}
 </style>
 
+
+
+
+
 <body>
+
 <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar" data-dropdown="dropdown">
       <div class="topbar-inner">
         <div class="container">
-          <h3><a href="/catalogmanager">Speck Catalog Manager</a></h3>
+          <h3><a href="/catalogmanager">CatalogManager</a></h3>
           <ul class="nav">
             <li class="active"><a href="/catalogmanager">Home</a></li>
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle">New</a>
+              <a href="#" class="dropdown-toggle">New Product</a>
               <ul class="dropdown-menu">
-                <li><a href="#">Product(item)</a></li>
-                <li><a href="#">Meta Product</a></li>
-                <li><a href="#">Builder</a></li>
+                <li><a href="/catalogmanager/product?constructor=product#this-product">Product (item)</a></li>
+                <li><a href="/catalogmanager/product?constructor=shell">Product Shell</a></li>
+                <li><a href="/catalogmanager/product?constructor=builder">Product Builder</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Another link</a></li>
               </ul>
             </li>
           </ul>
           <form class="pull-left" action="">
-            <input type="text" placeholder="Search">
+            <input class="span3"type="text" placeholder="Search">
           </form>
           <ul class="nav secondary-nav">
             <? if($this->edpUser()) : ?>
-            <li>
-                <a href="/user">
-                    <?=$this->edpUser()->getDisplayName();?>
-                    <? if(isset($session)):?><strong>(<?=count($session->getEntities());?>)</strong><? endif; ?>
-                </a>
-            </li>
-            <? else: ?>
-                <li><a href="/user">Login</a></li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle">
+                <? if(isset($session)):?><strong>(<?=count($session->getEntities());?>)</strong><? endif; ?>
+                <?=$this->edpUser()->getDisplayName();?>
+              </a>
+              <ul class="dropdown-menu">
+                <li> asdf </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="/user/logout">
+                        Logout
+                    </a>
+                </li> 
+              </ul>
+            </li>  
             <? endif; ?>
           </ul>
         </div>
       </div><!-- /topbar-inner -->
     </div><!-- /topbar -->
   </div>
+
+    
     <div class="container"> 
+        <? foreach($messages as $this->message) : ?>
+            <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
+        <? endforeach; ?>
+
+
 
       <div class="content"> 
         <div class="row"> 
@@ -87,7 +117,9 @@ body{margin-top:80px;}
       </footer> 
 
     </div> <!-- /container --> 
-</body>
+
+ 
+
 <script>
 $('.newDropdown').change(function() {
     var selected = $(this).find("option:selected");
@@ -97,4 +129,5 @@ $('.newDropdown').change(function() {
     }
 });
 </script>
+</body>
 </html>

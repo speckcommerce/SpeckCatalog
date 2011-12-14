@@ -8,17 +8,31 @@ class SessionMapper
     public function __construct($userId)
     {
         // test entities
-        $product = new \SpeckCatalogManager\Entity\Product;
-        $product->setName('<font color="red">hi, im a product from a session!</font>');
-        $shell = new \SpeckCatalogManager\Entity\Shell('product');
-        $shell->setProduct($product)->setName('<font color="red">hi, im a shell from a session!</font>');
+        $productUom = new \SpeckCatalogManager\Entity\ProductUom;
+
+        $company = new \SpeckCatalogManager\Entity\Company;
+        $company->setName('companyname!');
         $option = new \SpeckCatalogManager\Entity\Option('radio');
         $option->setName('<font color="red">hello! im an option from a session!</font>');
-        $this->rows = $this->entitiesToRows(array($option, $shell, $product));
+        $product = new \SpeckCatalogManager\Entity\Product('product');
+        $product->setName('<font color="red">hi, im a product from a session!</font>');
+        $item = new \SpeckCatalogManager\Entity\Item;
+        $item->setName('<font color="red">hi, im an item from a session!</font>')
+            ->setUoms(array($productUom))
+            ->setManufacturer($company);
+        $product->setItem($item)->addOption($option);
+        $choice = new \SpeckCatalogManager\Entity\Choice;
+        $choice->setName('this is the override name of the choice');
+        $product->setParentChoices(array($choice,$choice));
+
+        //$this->rows = $this->entitiesToRows(array($option, $product, $option));
+        $this->rows = array($option, $product, $option);
     }
 
     public function readSessionEntities()
     {
+        // keep them populated for now
+        return $this->rows;
         return $this->rowsToEntities($this->rows);
     }
 

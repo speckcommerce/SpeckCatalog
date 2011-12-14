@@ -1,0 +1,32 @@
+<div class="item entity">
+    <h1>Item</h1>
+    <div class="entities">
+
+        <h3>Product Uoms:</h3>
+        <? $this->class = 'productUom'; ?>
+        <?=$this->render('catalogmanager/partial/add.phtml');?>
+        <? if (count($item->getUoms()) > 0) : ?>
+            <ul>
+                <? foreach($item->getUoms() as $this->productUom) : ?>
+                    <li class="product_uom icon"><?=$this->render('catalogmanager/partial/product-uom-icon.phtml');?></li>
+                <? endforeach; ?>
+            </ul>
+        <? else : ?>
+            (none)
+        <? endif; ?>
+
+        <h3>Manufacturer:</h3>
+        <? if($item->getManufacturer()) :?>
+            <? $this->company = $item->getManufacturer(); ?>
+            <ul>
+                <li class="company icon"><?=$this->render('catalogmanager/partial/company-icon.phtml');?></li>
+            </ul>
+        <? else : ?>
+            <? $this->class = 'company'; ?>
+            <?=$this->render('catalogmanager/partial/add.phtml');?>
+        <? endif; ?>
+    </div>
+    <?=$this->render('catalogmanager/partial/editform.phtml');?>
+    <div class="clear"></div>   
+</div>
+                                                        

@@ -1,8 +1,8 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
-
-class ProductUom extends \Catalog\Entity\ProductUom 
+use \SpeckCatalog as Catalog;
+class ProductUom extends Catalog\Entity\ProductUom 
 {
     protected $parentProductId;
     protected $availabilityIds;
@@ -39,5 +39,9 @@ class ProductUom extends \Catalog\Entity\ProductUom
     {
         $this->parentProductId = $parentProductId;
         return $this;
+    }
+    public function __toString()
+    {
+        return "ProductUom toString";
     }
 }

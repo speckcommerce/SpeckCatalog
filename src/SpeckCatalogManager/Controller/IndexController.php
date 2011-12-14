@@ -9,7 +9,7 @@ class IndexController extends ActionController
 {
     protected $userService;
     protected $catalogService;
-    protected $shell;
+    protected $item;
     protected $product;
     protected $option;
     protected $choice;
@@ -17,6 +17,7 @@ class IndexController extends ActionController
     protected $productUom;
     protected $uom;
     protected $availability;
+    protected $view = array();
     
     public function __construct()
     {
@@ -26,17 +27,27 @@ class IndexController extends ActionController
         if(!isset($_GET['entityId'])){
             $_GET['entityId'] = null;
         }
+        $this->events()->attach('dispatch', array($this, 'preDispatch'), 100);
+    }
+
+    public function preDispatch($e)
+    {
+        $user = $this->userService->getAuthService()->getIdentity();
+        if(!$user){
+            return $this->redirect()->toRoute('edpuser');
+        }
+        $this->session = $this->sessionService->getSession($user);
+        $this->view['messages'] = array();
+        $this->view['session'] = $this->session;
     }
     
     public function indexAction()
     {
-        return array(
-            'session' => $this->session,
-            'paginator' => $this->paginate(null, $this->session->getEntities(), 1)
-        );
+        $this->view['sessionPaginator'] = $this->paginate(null, $this->session->getEntities(), 2);
+        return $this->view;
     }
     
-    private function paginate($pageNum=1, $items=null, $perPage=null)
+    private function paginate($pageNum=1, $items=null, $perPage=10)
     {
         $paginator = \Zend\Paginator\Paginator::factory($items)->setItemCountPerPage($perPage)->setCurrentPageNumber($pageNum);
         return $paginator;
@@ -52,6 +63,11 @@ class IndexController extends ActionController
                 die('couldnt find an entity with that id');
             }
         }else{
+            $this->view['messages'][] = array(
+                'type' => 'success',
+                'status' => 'Grow your session 2 inches now!', 
+                'message' => "You have just added a new {$className} ({$constructor}) to your session.",
+            );
             $class = '\SpeckCatalogManager\Entity\\'.$className;
             try {
                 return new $class($constructor);
@@ -76,35 +92,39 @@ class IndexController extends ActionController
         )->build();
     }
 
-    public function shellAction()
-    {
-        $entity = $this->getEntity('Shell', $_GET['constructor'], $_GET['entityId']);
-        $formManager = $this->getFormManager($entity);
-
-        return array(                
-            'session' => $this->session,
-            'shell' => $entity,
-            'form' => $formManager->getForm(),
-        ); 
-    }
     public function productAction()
     {
         $entity = $this->getEntity('Product', $_GET['constructor'], $_GET['entityId']);
+        
+        $options = $entity->getOptions();
+        if($options){
+            $this->view['optionPaginator'] = $this->paginate(null, $options, null);
+        }
+        if($entity->getItem()){
+            $item = $entity->getItem();
+            if($item){
+                if($item->getUoms() > 0){
+                    $this->view['itemProductUomPaginator'] = $this->paginate(null, $item->getUoms(), null);
+                }
+            }
+            $manufacturer = $item->getManufacturer();
+            if($manufacturer){
+                $this->view['itemManufacturerPaginator'] = $this->paginate(null, array($manufacturer), null);
+            }
 
+        }
+        
+        $parentChoices = $entity->getParentChoices();
+        if($parentChoices){
+            $this->view['parentChoicesPaginator'] = $this->paginate(null, $parentChoices, null);
+        }
+        
         $formManager = $this->getFormManager($entity);
 
-        return array(                
-            'session' => $this->session,
-            'product' => $entity,
-            'form' => $formManager->getForm(),
-        ); 
-        
-        if(!$this->product)$this->product = new \Management\Entity\Product;
-        return array(
-            'session' => $this->session,
-            'product' => $this->getEntity('Product', null, $_GET['entityId']),
-            'entity'  => $this->getEntity('Product', null, $_GET['entityId']),
-        ); 
+        $this->view['paginator'] = $this->paginate(null, $this->session->getEntities(), 2);
+        $this->view['product'] = $entity;
+        $this->view['form'] = $formManager->getForm();
+        return $this->view;  
     }
     public function optionAction()
     {
@@ -117,12 +137,24 @@ class IndexController extends ActionController
     }
     public function choiceAction()
     {
-        if(!$this->choice)$this->choice = new \Management\Entity\Choice;
-        return array(
-            'session' => $this->session,
-            'choice' => $this->getEntity('Choice', null, $_GET['entityId']),
-            'entity'  => $this->getEntity('Choice', null, $_GET['entityId']),
-        ); 
+        $entity = $this->getEntity('Choice', $_GET['constructor'], $_GET['entityId']);
+        
+        $product = $entity->getProduct();
+        if($product){
+            $this->view['productPaginator'] = $this->paginate(null, $product, null);
+        }
+        
+        $parentChoices = $entity->getParentChoices();
+        if($parentChoices){
+            $this->view['parentChoicesPaginator'] = $this->paginate(null, $parentChoices, null);
+        }
+        
+        $formManager = $this->getFormManager($entity);
+
+        $this->view['paginator'] = $this->paginate(null, $this->session->getEntities(), 2);
+        $this->view['product'] = $entity;
+        $this->view['form'] = $formManager->getForm();
+        return $this->view;  
     }
     public function companyAction()
     {
@@ -163,21 +195,10 @@ class IndexController extends ActionController
     public function setUserService($userService)
     {
         $this->userService = $userService;
-        $this->user = $this->userService->getAuthService()->getIdentity();
-        if(!$this->user) $this->user="not logged in";
     }
 
     public function setSessionService($catalogManagerService)
     {
         $this->sessionService = $catalogManagerService;
-        $this->session = $this->sessionService->getSession($this->user);
-
-        $entities= $this->session->getEntities();
-        foreach($entities as $i => $entity){
-            $class = get_class($entity);
-            $classArr = explode('\\', $class);
-            $className = array_pop($classArr);    
-            $entities[$i] = "({$i}){$className}";
-        } 
     }
 }

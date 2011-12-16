@@ -1,0 +1,43 @@
+
+
+
+
+<? if($this->option) : ?>
+    <!-- option -->
+    <div class="row">
+        <div class="span5">
+                <? $this->optionId = $this->option->getOptionId();?>
+                <? $this->form = $this->forms['options'][$this->optionId]['form']; ?>
+                <?=$this->render('catalogmanager/partial/editform.phtml');?>
+
+                <? $parentOptionCount = count($this->option->getParentProducts()); ?>
+                <? if(count($parentOptionCount) > 1) : ?> 
+                    <?=$parentOptionCount;?> other products are<br/>also using this option. 
+                <? endif; ?>
+        </div>
+        <div class="span11">
+            <h4>Choices:</h4>
+            <? $this->class = 'choice'; ?>
+            <?=$this->render('/catalogmanager/partial/add.phtml');?>
+            <? if (count($this->option->getChoices()) > 0) : ?>
+                <? foreach($this->option->getChoices() as $this->choice) : ?>
+                    <?=$this->render('/catalogmanager/partial/product/option/choice.phtml');?>
+                <? endforeach; ?>
+            <? endif; ?>
+        </div>
+    </div>
+<? else: ?>
+    <!-- new option -->
+    <div class="row">
+        <div class="span5">
+            <? $this->form = $forms['blank']['option-radio']; ?>        
+            <?=$this->render('catalogmanager/partial/editform.phtml');?>
+        </div>
+        <div class="span11">
+            <h4>Choices:</h4>
+            <? $this->class = 'choice'; ?>
+            <?=$this->render('/catalogmanager/partial/add.phtml');?>
+            <?//=$this->render('/catalogmanager/partial/product/option/choice.phtml');?>
+        </div>
+    </div>  
+<? endif; ?>

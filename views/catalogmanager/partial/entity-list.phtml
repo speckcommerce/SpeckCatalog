@@ -1,19 +1,14 @@
 <table class='bordered-table'>
     <thead>
-        <tr><th>Entity Number</th><th>Information</th></tr>
+        <tr><th>Entity</th><th></th></tr>
     </thead>
     <tbody>
         <?php if (count($paginator)): ?>
             <?php foreach ($paginator as $i => $item): ?>
-            <? $class = get_class($item); $classArr = explode('\\', $class); $className = array_pop($classArr); ?> 
+                <? $class = explode('\\', get_class($item)); $className = array_pop($class);  ?>
                 <tr>
-                    <th>
-                        <a href="/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>"><?=$i;?></a>
-                    </th>
-                    <th>
-                        <?=get_class($item); ?><br/>
-                        <?=$item;?>
-                    </th>
+                    <td><?=$className;?></td>
+                    <td><a href="/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>"><?=$item;?></a></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>  

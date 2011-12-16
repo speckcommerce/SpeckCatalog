@@ -13,121 +13,103 @@
     <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-scrollspy.js"></script> 
     <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"></script> 
     <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-buttons.js"></script>     
-
 </head>
 
 <style>
-    <? /*
-    .clear{clear:both}
-    *{margin:0; padding:0}
-    div.entity{margin:10px; border:1px solid #999999; padding:10px;}
-        div.entities{float:right;}
-            input.add_search{width:50px;}
-            .icon{border:1px solid #999999; padding:5px; display:block; width:200px;}
-            .shell{background:#cccccc}
-            .product{background:#bbddff}
-            .option{background:#ffbb99}
-            .choice{background:#ff9999}
-            .product_uom{background:#ffffbb}
-            .productUom{background:#ffffbb}
-            .availability{background:#bbffbb}
-            .company{background:#ffccff}
-            .uom{background:#ffffff}
-            .add{background:#f7f7f7;}
-        div.editform{float:left; width:300px; min-height:200px; background:#eeeeee; border:1px solid #999999; padding:10px;}
-        .right{float:right}
-     */ ?>
-
     body{margin-top:60px;}
+    .add-new{background:#f5fff5}
 </style>
-
-
-
-
 
 <body>
 
-<div class="topbar-wrapper" style="z-index: 5;">
-    <div class="topbar" data-dropdown="dropdown">
-      <div class="topbar-inner">
-        <div class="container">
-          <h3><a href="/catalogmanager">CatalogManager</a></h3>
-          <ul class="nav">
-            <li class="active"><a href="/catalogmanager">Home</a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle">New Product</a>
-              <ul class="dropdown-menu">
-                <li><a href="/catalogmanager/product?constructor=product#this-product">Product (item)</a></li>
-                <li><a href="/catalogmanager/product?constructor=shell">Product Shell</a></li>
-                <li><a href="/catalogmanager/product?constructor=builder">Product Builder</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Another link</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form class="pull-left" action="">
-            <input class="span3"type="text" placeholder="Search">
-          </form>
-          <ul class="nav secondary-nav">
-            <? if($this->edpUser()) : ?>
+    <div class="topbar-wrapper" style="z-index: 5;">
+        <div class="topbar" data-dropdown="dropdown">
+            <div class="topbar-inner">
+                <div class="container">
+                    <h3><a href="/catalogmanager">CatalogManager</a></h3>
+                    <ul class="nav">
+                        <li class="active"><a href="/catalogmanager">Home</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle">New Product</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/catalogmanager/product?constructor=product#this-product" 
+                                       title="Single product with an item number">Product (Item)</a>
+                                </li>
+                                <li><a href="/catalogmanager/product?constructor=shell" 
+                                       title="Group similar products together to be displayed as one">Product Group</a>
+                                </li>
+                                <li><a href="/catalogmanager/product?constructor=builder" 
+                                       title="Intended for a single product with options that help compose the item number">Product Builder</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="#">Another link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="pull-left" action="">
+                        <input class="span3"type="text" placeholder="Search">
+                    </form>
+                    <ul class="nav secondary-nav">
+                        <? if($this->edpUser()) : ?>
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle">
-                <? if(isset($session)):?><strong>(<?=count($session->getEntities());?>)</strong><? endif; ?>
-                <?=$this->edpUser()->getDisplayName();?>
-              </a>
-              <ul class="dropdown-menu">
-                <li> asdf </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="/user/logout">
-                        Logout
-                    </a>
-                </li> 
-              </ul>
-            </li>  
-            <? endif; ?>
-          </ul>
-        </div>
-      </div><!-- /topbar-inner -->
-    </div><!-- /topbar -->
-  </div>
-
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle">
+                                    <? if(isset($session)):?><strong>(<?=count($session->getEntities());?>)</strong><? endif; ?>
+                                    <?=$this->edpUser()->getDisplayName();?>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li> asdf </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="/user/logout">
+                                            Logout
+                                        </a>
+                                    </li> 
+                                </ul>
+                            </li>  
+                        <? endif; ?>
+                    </ul>
+                </div>
+            </div><!-- /topbar-inner -->
+        </div><!-- /topbar -->
+    </div>
     
     <div class="container"> 
-        <? foreach($messages as $this->message) : ?>
-            <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
-        <? endforeach; ?>
+     
+        <? if (isset($messages)) : ?>
+            <? foreach($messages as $this->message) : ?>
+                <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
+            <? endforeach; ?>
+        <? endif; ?>
 
-
-
-      <div class="content"> 
-        <div class="row"> 
-          <div class="span16"> 
-            <?php echo $this->raw('content'); ?>
-          </div> 
+        <div class="content"> 
+            <div class="row"> 
+                <div class="span16"> 
+                    <?php echo $this->raw('content'); ?>
+                </div> 
+            </div> 
         </div> 
-      </div> 
 
       <footer> 
-        <p>&copy; Company 2011</p> 
+        <p>&copy; SpeckCommerce 2012</p> 
       </footer> 
 
     </div> <!-- /container --> 
 
- 
 
-<script>
-$('.newDropdown').change(function() {
-    var selected = $(this).find("option:selected");
-    if(selected.hasClass('selection')){
-        var parts = selected.val().split(' ');
-        location.href=parts[1]+"?constructor="+parts[0];
-    }
-});
-</script>
+    <script>
+        //on dropdown change, split the value on space and go to [1]?constructor=[0]
+        $('.newDropdown').change(function() {
+            var selected = $(this).find("option:selected");
+            if(selected.hasClass('selection')){
+                var parts = selected.val().split(' ');
+                location.href=parts[1]+"?constructor="+parts[0];
+            }
+        });
+    </script>
+
 </body>
 </html>

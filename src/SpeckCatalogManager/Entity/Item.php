@@ -1,8 +1,9 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
+use \SpeckCatalog\Entity\Item as CatalogItem;
 
-class Item extends \SpeckCatalog\Entity\Item
+class Item extends CatalogItem
 {
     protected $uomIds;
     protected $companyId;

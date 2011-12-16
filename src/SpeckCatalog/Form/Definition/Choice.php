@@ -5,20 +5,12 @@ use SpiffyAnnotation\Form,
     SpiffyForm\Form\Definition;
 
  
-class Shell implements Definition
+class Choice implements Definition
 {
     public function build(Manager $m)
     {
         $m
-          ->add('name')
-          ->add('description')
-          ->add('price')
-          ->add('submit', 'submit', array(
-              'label' => 'Save Changes',
-          ))
-          ->add('cancel', 'submit', array(
-              'label' => 'Cancel Changes'
-          ));
+          ->add('name');
     }
 
     public function isValid($params, $form)
@@ -33,6 +25,6 @@ class Shell implements Definition
 
     public function getOptions()
     {
-        return array('data_class' => 'SpeckCatalogManager\Entity\Shell');
+        return array('data_class' => 'Management\Entity\Choice');
     }
 }

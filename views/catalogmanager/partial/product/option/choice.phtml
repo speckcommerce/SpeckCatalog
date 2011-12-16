@@ -1,0 +1,18 @@
+<hr>
+<div class="row">
+    <div class="span5">
+        <? $this->choiceId = $this->choice->getChoiceId();?>
+        <? $this->form = $this->forms['options'][$this->optionId]['choices'][$this->choiceId]['form']; ?>
+        <?=$this->render('catalogmanager/partial/editform.phtml');?>  
+    </div>
+    <div class="span6">
+        <h4>Product:</h4>
+        <? if ($this->choice->getProduct()) : ?>
+            <? $this->product = $this->choice->getProduct(); ?>
+            <?=$this->render('/catalogmanager/partial/product/option/choice/product.phtml');?>
+        <? else : ?>
+            <? $this->class = 'product'; ?>
+            <?=$this->render('/catalogmanager/partial/add.phtml');?>
+        <? endif; ?>
+    </div>
+</div>

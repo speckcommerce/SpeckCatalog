@@ -1,8 +1,8 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
-
-class Choice extends \SpeckCatalog\Entity\Choice
+use \SpeckCatalog\Entity\Choice as CatalogChoice;
+class Choice extends CatalogChoice
 {
     protected $shellId;
     protected $targetUomId;

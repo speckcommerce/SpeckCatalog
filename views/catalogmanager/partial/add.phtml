@@ -1,27 +1,42 @@
-<div class="add icon">                                        
-    
-
+<div class="row">                                        
     <? // note: need a camelcase to dash function // ?>
     <? if($this->class === 'productUom'){ $className = 'product-uom'; }else{ $className = $this->class; } ?>
 
-    <? if($className == 'shell') : ?>
-        <? $options=array('shell','product','builder'); ?>
-    <? elseif($className == 'option') : ?>    
-        <? $options=array('radio','checkbox','dropdown'); ?>
+        <? if($className == 'shell') : ?>
+            <? $options=array('shell','product','builder'); ?>
+        <? elseif($className == 'option') : ?>    
+            <? $options=array('radio','checkbox','dropdown'); ?>
+        <? endif; ?>
+    
+    <? if($className !== 'product-uom') : ?>
+        <div id="modal-<?=$className;?>" class="modal hide fade in">
+            <div class="modal-header"> 
+              <a href="#" class="close">&times;</a> 
+              <h3>Searching all existing: <?=ucfirst($className);?></h3> 
+            </div> 
+            <div class="modal-body"> 
+              <p>dude! no results!</p> 
+            </div> 
+            <div class="modal-footer"> 
+              <a href="#" class="btn secondary close">Cancel</a> 
+            </div>
+        </div>
+        <div class='span4'>
+            <input type="text" id="find-<?=$className;?>" class="span3" placeholder="find existing <?=$className;?>">
+            <a class="btn primary" data-controls-modal="modal-<?=$className;?>" data-backdrop="static" >?</a>
+        </div>      
     <? endif; ?>
+    <div class='span2'>
 
-    <? if(isset($options)) : ?>
-        <select class="newDropdown class-<?=$className;?> <?=$className;?> right">
-            <option>New <?=ucfirst($this->class);?>...</option>
-        <? foreach ($options as $option) : ?>
-            <option class="selection" value="<?=$option;?> <?=$className;?>"><?=$option;?></option>
-        <? endforeach; ?>
-        </select>
-    <? else : ?>      
-
-    <input type="button" onClick="location.href='<?=$className;?>'" class="<?=$this->class;?> right" value="New <?=$this->class;?>"/>
-    <? endif; ?>
-    <input type="text" placeholder="find an existing <?=$className;?>">
-
-
-</div>
+        <input type="button" onClick="location.href='<?=$className;?>'" class="btn secondary <?=$this->class;?> right" value="New"/>
+    </div>
+<script>
+$(document).onReady(function()
+{
+    $('#my-modal').modal({
+      keyboard: true
+    });
+    $('#my-modal').modal('toggle');
+});
+</script>
+</div><br/>

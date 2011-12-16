@@ -1,8 +1,9 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
+use \SpeckCatalog\Entity\Availability as CatalogAvailability;
 
-class Availability extends \SpeckCatalog\Entity\Availability
+class Availability extends CatalogAvailability
 {
     protected $parentProductUomId;
     protected $companyId;

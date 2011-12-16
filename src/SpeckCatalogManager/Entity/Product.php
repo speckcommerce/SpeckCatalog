@@ -1,20 +1,22 @@
 <?php
 
 namespace SpeckCatalogManager\Entity;
-use \Speckcatalog as Catalog;
-class Product extends \SpeckCatalog\Entity\Product
+use \SpeckCatalog\Entity\Product as CatalogProduct;
+class Product extends CatalogProduct
 {
-    
-    /*
-     * @Form\Element(type="select")
-     */
-    protected $name;
-    
     
     protected $itemId;
     protected $optionIds = array();
     protected $parentChoiceIds = array();
- 
+
+    public function __construct($str, Item $item=null)
+    {
+        parent::__construct($str);
+        if(!$item && $str === 'product'){
+            $this->setItem(new Item);
+        }
+    }
+
     public function getItemId()
     {
         return $this->itemId;

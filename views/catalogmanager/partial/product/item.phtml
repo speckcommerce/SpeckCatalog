@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="span5">
+        <? $this->form = $this->forms['item']['form']; ?>
+        <?=$this->render('catalogmanager/partial/editform.phtml');?>  
+    </div>
+    <div class="span6">
+        <h4>Manufacturer:</h4>
+        <? if($this->item->getManufacturer()) :?>
+            <?=$this->item->getManufacturer();?>
+        <? else : ?>
+            <? $this->class = 'company'; ?>
+            <?=$this->render('catalogmanager/partial/add.phtml');?>
+        <? endif; ?>
+        <h4>Uoms:</h4>
+        <? $this->class = 'productUom'; ?>
+        <?=$this->render('catalogmanager/partial/add.phtml');?>
+        <? if (count($this->item->getUoms()) > 0) : ?>
+            <? foreach($this->item->getUoms() as $uom) : ?>
+                <?=$uom;?>
+            <? endforeach; ?>
+        <? else : ?>
+            (none)
+        <? endif; ?>  
+    </div>
+</div>  

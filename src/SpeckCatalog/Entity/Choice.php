@@ -26,10 +26,10 @@ class Choice
     /**
      *
      * This is the child shell
-     * @ORM\OneToMany(targetEntity="Shell", mappedBy="Choice")
-     * @ORM\JoinColumn(name="shell_id", referencedColumnName="shell_id")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="Choice")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id")
      */     
-    protected $shell;
+    protected $product;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductUom", mappedBy="Choice")
@@ -65,15 +65,15 @@ class Choice
         return $this;
     }
  
-    public function getShell()
+    public function getProduct()
     {
-        return $this->shell;
+        return $this->product;
     }
  
-    public function setShell(Shell $shell)
+    public function setProduct(Product $product)
     {
-        $this->targetUom = null; //keep this, if the shell changes, the targetuom must be reset. 
-        $this->shell = $shell;
+        $this->targetUom = null; //keep this, if the product changes, the targetuom must be reset. 
+        $this->product = $product;
         return $this;
     }
 

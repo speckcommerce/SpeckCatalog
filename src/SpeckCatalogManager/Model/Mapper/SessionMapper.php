@@ -8,60 +8,34 @@ class SessionMapper
     public function __construct($userId)
     {
         // test entities
-        $productUom = new \SpeckCatalogManager\Entity\ProductUom;
-
-        $company = new \SpeckCatalogManager\Entity\Company;
-        $company->setName('companyname!');
-        $option = new \SpeckCatalogManager\Entity\Option('radio');
-        $option->setName('<font color="red">hello! im an option from a session!</font>');
         $product = new \SpeckCatalogManager\Entity\Product('product');
-        $product->setName('<font color="red">hi, im a product from a session!</font>');
-        $item = new \SpeckCatalogManager\Entity\Item;
-        $item->setName('<font color="red">hi, im an item from a session!</font>')
-            ->setUoms(array($productUom))
-            ->setManufacturer($company);
-        $product->setItem($item)->addOption($option);
+        $product->setName('hi, im the name of a product');
+        $productUom = new \SpeckCatalogManager\Entity\ProductUom;
         $choice = new \SpeckCatalogManager\Entity\Choice;
-        $choice->setName('this is the override name of the choice');
-        $product->setParentChoices(array($choice,$choice));
+        $choice->setName('hi, im the name of a choice');
+        //$choice->setProduct($product);
+        //$company = new \SpeckCatalogManager\Entity\Company;
+        //$company->setName('companyname!');
+        $option = new \SpeckCatalogManager\Entity\Option('radio');
+        $option->setName('im an option name')
+               ->setChoices(array($choice));
+        $item = new \SpeckCatalogManager\Entity\Item;
+        $item->setName('im an item name')->addUom($productUom);
+        $product->setItem($item)->addOption($option);
 
-        //$this->rows = $this->entitiesToRows(array($option, $product, $option));
+      //$product->addOption($option2);
+      //$choice = new \SpeckCatalogManager\Entity\Choice;
+      //$choice->setName('this is the override name of the choice');
+      //$product->setParentChoices(array($choice,$choice));
+
         $this->rows = array($option, $product, $option);
     }
 
     public function readSessionEntities()
     {
-        // keep them populated for now
         return $this->rows;
-        return $this->rowsToEntities($this->rows);
     }
 
-    public function rowsToEntities($rows)
-    {
-        $entities = array();
-        foreach ($rows as $row){
-            $entities[] = unserialize($row['entity']);
-        }
-        return $entities;
-    }
 
-    public function entitiesToRows($entities)
-    {
-        $rows = array();
-        foreach ($entities as $entity){
-            $class = get_class($entity);
-            $classArr = explode('\\', $class);
-            $className = array_pop($classArr);
-
-            $entity->deflate();
-
-            $rows[] = Array(
-                'user_id' => $this->userId,
-                'entity' => serialize($entity),
-                'classname' => $className
-            );
-        }
-        return $rows;
-    }
 
 }

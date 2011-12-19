@@ -1,6 +1,7 @@
 <hr/>
 <? if($this->option) : ?>
     <!-- option -->
+    <span class="label">Option</span>
     <div class="row">
         <div class="span5">
                 <? $this->optionId = $this->option->getOptionId();?>
@@ -28,8 +29,8 @@
     </div>
     <? $this->option=null; // todo: need a better way to do this ?>
 <? else: ?>
-    <span class="label success">New Option</span>
     <!-- new option -->
+    <span class="label success">New Option</span>
     <div class="row">
         <div class="span5">
             <? $this->form = $forms['blank']['option-radio']; ?>        

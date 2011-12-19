@@ -1,0 +1,58 @@
+<hr/>
+<? if($this->itemUom) : ?>
+    <!-- item uom -->
+    <span class="label">ItemUom</span>
+    <div class="row">
+        <div class="span5">
+                <? $this->itemUomId = $this->itemUom->getItemUomId();?>
+                <? $this->form = $this->forms['item']['item-uoms'][$this->itemUomId]['form']; ?>
+                <?=$this->render('catalogmanager/partial/editform.phtml');?>
+        </div>
+        <div class="span6">
+            <h4>Uom:</h4>
+            <? if($this->itemUom->getUom()) :?>
+                    <? $this->uom = $this->itemUom->getUom(); ?>
+                    <?=$this->render('/catalogmanager/partial/product/item/item-uom/uom.phtml');?>
+            <? else : ?>
+                    <div class="add-new">
+                        <?=$this->render('/catalogmanager/partial/product/item/item-uom/uom.phtml');?>
+                    </div>
+            <? endif; ?>
+
+            <h4>Availabilities:</h4>
+            <? $this->class = 'availability'; ?>
+            <?=$this->render('/catalogmanager/partial/add.phtml');?>
+            <? if (count($this->itemUom->getAvailabilities()) > 0) : ?>
+                <? foreach($this->itemUom->getAvailabilities() as $this->availability) : ?>
+                    <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
+                <? endforeach; ?>
+            <? endif; ?>
+            <div class="add-new">
+                <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
+            </div>
+        </div>
+    </div>
+    <? $this->itemUom=null; // todo: need a better way to do this ?>
+<? else: ?>
+    <!-- new item uom -->
+    <span class="label success">New ItemUom</span>
+    <div class="row">
+        <div class="span5">
+                <? $this->form = $this->forms['blank']['item-uom']; ?>
+                <?=$this->render('catalogmanager/partial/editform.phtml');?>
+        </div>
+        <div class="span6">
+            <h4>Uom:</h4>
+            <div class="add-new">
+                <?=$this->render('/catalogmanager/partial/product/item/item-uom/uom.phtml');?>
+            </div>
+
+            <h4>Availabilities:</h4>
+            <? $this->class = 'availability'; ?>
+            <?=$this->render('/catalogmanager/partial/add.phtml');?>
+            <div class="add-new">
+                <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
+            </div>
+        </div>
+    </div>
+<? endif; ?>

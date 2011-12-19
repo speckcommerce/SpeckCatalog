@@ -2,7 +2,7 @@
 
 namespace SpeckCatalogManager\Entity;
 use \SpeckCatalog as Catalog;
-class ProductUom extends Catalog\Entity\ProductUom 
+class ItemUom extends Catalog\Entity\ItemUom 
 {
     protected $parentProductId;
     protected $availabilityIds;

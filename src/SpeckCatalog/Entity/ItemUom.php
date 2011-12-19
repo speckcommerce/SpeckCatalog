@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="catalog_product_uom")
  */
-class ProductUom
+class ItemUom
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="product_uom_id", type="integer")
+     * @ORM\Column(name="item_uom_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $productUomId;
+    private $itemUomId;
 
     protected $uom;
 
@@ -39,12 +39,10 @@ class ProductUom
     protected $retail;
 
     /**
-     * @ORM\OneToMany(targetEntity="Availability", mappedBy="productUom")
+     * @ORM\OneToMany(targetEntity="Availability", mappedBy="Availability")
      * @ORM\JoinColumn(name="availability_id", referencedColumnName="availability_id")
      */
     protected $availabilities;
-
-
  
     public function addAvailability(Availability $availability)
     {
@@ -78,12 +76,6 @@ class ProductUom
         return $this;
     }
  
-    public function setProductUomId($productUomId)
-    {
-        $this->productUomId = $productUomId;
-        return $this;
-    }
-
     public function getRetail()
     {
         return $this->retail;
@@ -95,10 +87,6 @@ class ProductUom
     public function getAvailabilities()
     {
         return $this->availabilities;
-    }
-    public function getProductUomId()
-    {
-        return $this->productUomId;
     }
  
     public function getQuantity()
@@ -142,4 +130,14 @@ class ProductUom
         }
     }
 
+    public function getItemUomId()
+    {
+        return $this->itemUomId;
+    }
+ 
+    public function setItemUomId($itemUomId)
+    {
+        $this->itemUomId = $itemUomId;
+        return $this;
+    }
 }

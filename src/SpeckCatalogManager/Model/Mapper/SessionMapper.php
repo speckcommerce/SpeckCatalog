@@ -10,7 +10,7 @@ class SessionMapper
         // test entities
         $product = new \SpeckCatalogManager\Entity\Product('product');
         $product->setName('hi, im the name of a product');
-        $productUom = new \SpeckCatalogManager\Entity\ProductUom;
+        $itemUom = new \SpeckCatalogManager\Entity\ItemUom;
         $choice = new \SpeckCatalogManager\Entity\Choice;
         $choice->setName('hi, im the name of a choice');
         //$choice->setProduct($product);
@@ -20,7 +20,7 @@ class SessionMapper
         $option->setName('im an option name')
                ->setChoices(array($choice));
         $item = new \SpeckCatalogManager\Entity\Item;
-        $item->setName('im an item name')->addUom($productUom);
+        $item->setName('im an item name')->addUom($itemUom);
         $product->setItem($item)->addOption($option);
 
       //$product->addOption($option2);

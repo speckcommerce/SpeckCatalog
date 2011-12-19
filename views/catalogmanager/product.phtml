@@ -54,17 +54,15 @@
                             <div class="row">
                             <? foreach ($product->getOptions() as $this->option) : ?>
                                 <div class="span16">
-                                <hr>
                                 <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
                                 </div>
                             <? endforeach; ?>
                             </div>
                         <? endif; ?>
                         <div class="add-new">
-                                <? $this->option = null; ?>
+                                <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
                                 <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
                         </div>
-
                 </div>
                 <!-- "This Product > Options" Pane -->
 
@@ -79,8 +77,6 @@
             <? if (count($product->getParentChoices()) > 0) : ?>
                 <? $this->paginator = $parentChoicesPaginator;?>
                 <?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>       
-            <? else : ?>
-            (none)
             <? endif; ?>  
     </div>
     <!-- /"Parent Choices" Pane -->

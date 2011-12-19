@@ -1,7 +1,4 @@
-
-
-
-
+<hr/>
 <? if($this->option) : ?>
     <!-- option -->
     <div class="row">
@@ -24,9 +21,14 @@
                     <?=$this->render('/catalogmanager/partial/product/option/choice.phtml');?>
                 <? endforeach; ?>
             <? endif; ?>
+            <div class="add-new">
+                <?=$this->render('/catalogmanager/partial/product/option/choice.phtml');?>
+            </div>
         </div>
     </div>
+    <? $this->option=null; // todo: need a better way to do this ?>
 <? else: ?>
+    <span class="label success">New Option</span>
     <!-- new option -->
     <div class="row">
         <div class="span5">
@@ -37,7 +39,7 @@
             <h4>Choices:</h4>
             <? $this->class = 'choice'; ?>
             <?=$this->render('/catalogmanager/partial/add.phtml');?>
-            <?//=$this->render('/catalogmanager/partial/product/option/choice.phtml');?>
+            <?=$this->render('/catalogmanager/partial/product/option/choice.phtml');?>
         </div>
     </div>  
 <? endif; ?>

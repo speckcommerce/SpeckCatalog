@@ -50,7 +50,7 @@ class Item
      */
     protected $uoms;
 
-    public function addUom(ProductUom $uom)
+    public function addUom(ItemUom $uom)
     {
         $this->uoms[] = $uom;
         return $this;
@@ -96,7 +96,6 @@ class Item
         $this->hcpcs = $hcpcs;
         return $this;
     }
-    
     
     public function getName()
     {

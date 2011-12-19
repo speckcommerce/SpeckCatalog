@@ -4,6 +4,7 @@ use SpiffyAnnotation\Form,
     SpiffyForm\Form\Manager,
     SpiffyForm\Form\Definition;
 
+
  
 class Choice implements Definition
 {
@@ -25,6 +26,6 @@ class Choice implements Definition
 
     public function getOptions()
     {
-        return array('data_class' => 'Management\Entity\Choice');
+        return array('data_class' => 'SpeckCatalogManager\Entity\Choice');
     }
 }

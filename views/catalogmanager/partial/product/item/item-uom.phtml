@@ -1,36 +1,41 @@
-<hr/>
 <? if($this->itemUom) : ?>
+<div class="existing">
     <!-- item uom -->
     <span class="label">ItemUom</span>
     <div class="row">
         <div class="span5">
-            <?=$this->partial('catalogmanager/partial/editform.phtml', array('form' => $forms['item']['item-uoms'][$itemUom->getItemUomId()]['form']));?>
+            <?=$this->partial('catalogmanager/partial/editform.phtml', array(
+                'form' => $forms['item']['item-uoms'][$itemUom->getItemUomId()]['form'],
+            ));?>
         </div>
         <div class="span11">
             <h4>Uom:</h4>
             <? if($this->itemUom->getUom()) :?>
-                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom/uom.phtml', array('uom' => $itemUom->getUom(), 'forms' => $forms));?>
+                <?=$this->partial('catalogmanager/partial/add.phtml', array(
+                    'class' => 'uom', 'dropdown' => '1',
+                ));?>   
             <? else : ?>
-                    <div class="add-new">
-                        <?=$this->render('/catalogmanager/partial/product/item/item-uom/uom.phtml');?>
-                    </div>
+                <?=$this->partial('catalogmanager/partial/add.phtml', array(
+                    'class' => 'uom', 'dropdown' => '1',
+                ));?>
             <? endif; ?>
             <h4>Availabilities:</h4>
-            <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability'));?>
-            <? if (count($this->itemUom->getAvailabilities()) > 0) : ?>
-                <? foreach($this->itemUom->getAvailabilities() as $availability) : ?>
-                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array(
-                        'availability' => $availability,
-                        'forms' => $forms,
-                    ));?>
-                <? endforeach; ?>
-            <? endif; ?>
-            <div class="add-new">
+            <div class="parent">
+                <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability', 'add' => '1'));?>
                 <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
+                <? if (count($this->itemUom->getAvailabilities()) > 0) : ?>
+                    <? foreach($this->itemUom->getAvailabilities() as $availability) : ?>
+                        <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array(
+                            'availability' => $availability, 'forms' => $forms,
+                        ));?>
+                    <? endforeach; ?>
+                <? endif; ?>
             </div>
         </div>
     </div>
+</div>
 <? else: ?>
+<div class="hide add-new">
     <!-- new item uom -->
     <span class="label success">New ItemUom</span>
     <div class="row">
@@ -39,15 +44,15 @@
         </div>
         <div class="span11">
             <h4>Uom:</h4>
-            <div class="add-new">
-                <?=$this->render('/catalogmanager/partial/product/item/item-uom/uom.phtml');?>
-            </div>
-
+                <?=$this->partial('catalogmanager/partial/add.phtml', array(
+                    'class' => 'uom', 'dropdown' => '1',
+                ));?>    
             <h4>Availabilities:</h4>
-            <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability'));?>
-            <div class="add-new">
+            <div class="parent">
+                <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability', 'add' => '1'));?>
                 <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
             </div>
         </div>
     </div>
+</div>
 <? endif; ?>

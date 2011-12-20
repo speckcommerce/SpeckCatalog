@@ -1,3 +1,7 @@
 <div class="editform">
-    <? echo $form; ?>
+    <? if(isset($form)) : ?>
+        <? echo $form; ?>
+    <? else : ?>
+        Spiffy form goes here!
+    <? endif; ?>
 </div>                                                        

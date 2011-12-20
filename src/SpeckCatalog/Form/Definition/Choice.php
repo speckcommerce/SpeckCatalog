@@ -11,7 +11,8 @@ class Choice implements Definition
     public function build(Manager $m)
     {
         $m
-          ->add('name');
+            ->add('override name')
+            ->add('price discount');
     }
 
     public function isValid($params, $form)

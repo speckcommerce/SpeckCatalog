@@ -1,3 +1,4 @@
+
 <!-- tabs -->
 <ul class="tabs" data-tabs="tabs">
     <li class="this-product"><a href="#this-product">This Product</a></li>
@@ -26,78 +27,69 @@
 
                 <!-- "This Product > Product" Pane -->
                 <div class="tab-pane" id="product">
-                        <? if($product->getType() === 'product') : ?>
-                            <div class="row">
-                                <div class="span5">
-                                    <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
-                                        'form' => $forms['form'], 
-                                        'product' => $product, 
-                                    ));?>
-                                </div>
-                                <div class="span5">
-                                    <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
-                                        'form' => $forms['item']['form'], 
-                                        'item' => $product->getItem(),
-                                    ));?>
-                                </div>
-                                <div class="span6">
-                                    <? $item = $product->getItem(); ?>  
-                                    <h4>Manufacturer:</h4>
-                                    <? if($item->getManufacturer()) :?>
-                                        <?=$item->getManufacturer();?>
-                                    <? else : ?>
-                                        <? $this->class = 'company'; ?>
-                                        <?=$this->render('catalogmanager/partial/add.phtml');?>
-                                    <? endif; ?>
-                                </div>
+                    <? if($product->getType() === 'product') : ?>
+                        <div class="row">
+                            <div class="span5">
+                                <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
+                                    'form' => $forms['form'], 'product' => $product, 
+                                ));?>
                             </div>
-                                    <h4>Item Uoms:</h4>
-                                    <? if (count($item->getUoms()) > 0) : ?>
-                                        <? foreach($item->getUoms() as $itemUom) : ?>
-                                            <?=$this->partial(
-                                                '/catalogmanager/partial/product/item/item-uom.phtml', array(
-                                                    'itemUom' => $itemUom,
-                                                    'forms' => $forms
-                                            ));?>
-                                        <? endforeach; ?>
-                                    <? endif; ?>  
-                                    <div class="add-new">
-                                        <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
-                                    </div>
-                        <? else: ?>
-                            <? $this->form = $this->forms['form']; ?>
-                            <?=$this->render('/catalogmanager/partial/editform.phtml');?>
-                        <? endif; ?> 
+                            <div class="span5">
+                                <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
+                                    'form' => $forms['item']['form'], 'item' => $product->getItem(),
+                                ));?>
+                            </div>
+                            <div class="span6">
+                                <? $item = $product->getItem(); ?>  
+                                <h4>Manufacturer:</h4>
+                                <? if($item->getManufacturer()) :?>
+                                    <?=$item->getManufacturer();?>
+                                <? else : ?>
+                                    <?=$this->partial('catalogmanager/partial/add.phtml', array(
+                                        'class' => 'company', 'dropdown' => '1',
+                                    ));?>
+                                <? endif; ?>
+                            </div>
+                        </div>
+                        <div class="parent">
+                            <h4>Item Uoms:</h4>
+                            <?=$this->partial('catalogmanager/partial/add.phtml', array('class' => 'item-uom', 'add' => 1));?>
+                            <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
+                            <? if (count($item->getUoms()) > 0) : ?>
+                                <? foreach($item->getUoms() as $itemUom) : ?>
+                                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom.phtml', array(
+                                        'itemUom' => $itemUom, 'forms' => $forms
+                                    ));?>
+                                <? endforeach; ?>
+                            <? endif; ?>
+                        </div>  
+                    <? else: ?>
+                        <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['form']));?>
+                    <? endif; ?> 
                 </div>
                 <!-- /"This Product > Product" Pane -->
 
                 <!-- "This Product > Options" Pane -->
-                <div class="tab-pane" id="options">
-                        <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'option'));?>
-                        <? if (count($product->getOptions()) > 0) : ?>
-                            <div class="row">
-                                <? foreach ($product->getOptions() as $option) : ?>
-                                    <?=$this->partial('/catalogmanager/partial/product/option.phtml', array(
-                                        'option' => $option, 
-                                        'forms' => $forms,
-                                        ));?>
-                                <? endforeach; ?>
-                            </div>
-                        <? endif; ?>
-                        <div class="add-new">
-                                <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
-                                <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
-                        </div>
+                <div class="tab-pane parent" id="options">
+                    <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'option', 'search' => 1, 'add' => 1));?>
+                    <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
+                    <? if (count($product->getOptions()) > 0) : ?>
+                        <? foreach ($product->getOptions() as $option) : ?>
+                            <?=$this->partial('/catalogmanager/partial/product/option.phtml', array(
+                                'option' => $option, 'forms' => $forms,
+                            ));?>
+                        <? endforeach; ?>
+                    <? endif; ?>
                 </div>
                 <!-- "This Product > Options" Pane -->
                 
                 <!-- "This Product > Specs" Pane -->
                 <div class="tab-pane" id="specs">
-                        <div class="add-new">
-                            add a spec
-                        </div>
+                    <div class="add-new">
+                        add a spec
+                    </div>
                 </div>
-                <!-- "This Product > Options" Pane -->
+                <!-- "This Product > Specs" Pane -->
 
             </div>
             <!-- /panes -->
@@ -115,3 +107,4 @@
 
 </div>
 <!-- /panes -->
+

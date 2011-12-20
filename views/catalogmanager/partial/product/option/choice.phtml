@@ -1,35 +1,36 @@
-<hr/>
-<? if($this->choice) : ?>
+<? if(isset($choice)) : ?>
+<div class="existing">
     <span class="label">Choice</span>
     <div class="row">
         <div class="span5">
-            <? $this->choiceId = $this->choice->getChoiceId();?>
+            <? $this->choiceId = $choice->getChoiceId();?>
             <? $this->form = $this->forms['options'][$this->optionId]['choices'][$this->choiceId]['form']; ?>
             <?=$this->render('catalogmanager/partial/editform.phtml');?>  
         </div>
         <div class="span6">
             <h4>Product:</h4>
-            <? if ($this->choice->getProduct()) : ?>
-                <? $this->product = $this->choice->getProduct(); ?>
-                <?=$this->render('/catalogmanager/partial/product/option/choice/product.phtml');?>
+            <? if ($choice->getProduct()) : ?>
+                <?=$this->partial('/catalogmanager/partial/product/option/choice/product.phtml', array(
+                    'product' => $choice->getProduct(),
+                ));?>
             <? else : ?>
-                <? $this->class = 'product'; ?>
-                <?=$this->render('/catalogmanager/partial/add.phtml');?>
+                <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'product', 'search' => 1));?>
             <? endif; ?>
         </div>
     </div>
-    <? $this->choice = null; //todo: need to fix this ?>
+</div>
 <? else : ?>
+<div class="add-new hide">
     <span class="label success">New Choice</span>
     <div class="row">
         <div class="span5">
-            <? $this->form = $this->forms['blank']['choice']; ?>
+            <? $this->form = $forms['blank']['choice']; ?>
             <?=$this->render('catalogmanager/partial/editform.phtml');?>  
         </div>
         <div class="span6">
             <h4>Product:</h4>
-                <? $this->class = 'product'; ?>
-                <?=$this->render('/catalogmanager/partial/add.phtml');?>
+                <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'product', 'search' => 1));?>
         </div>
     </div>
+</div>
 <? endif; ?>

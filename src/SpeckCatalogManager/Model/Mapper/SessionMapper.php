@@ -16,15 +16,18 @@ class SessionMapper
         $itemUom->setUom($uom);
         $choice = new \SpeckCatalogManager\Entity\Choice;
         $choice->setName('hi, im the name of a choice');
+        $choice->setProduct($product);
         //$choice->setProduct($product);
         //$company = new \SpeckCatalogManager\Entity\Company;
         //$company->setName('companyname!');
         $option = new \SpeckCatalogManager\Entity\Option('radio');
         $option->setName('im an option name')
-               ->setChoices(array($choice));
+            ->setChoices(array($choice))
+            ->setParentProducts(array($product, $product, $product, $product));
         $item = new \SpeckCatalogManager\Entity\Item;
         $item->setName('im an item name')->addUom($itemUom);
         $product->setItem($item)->addOption($option);
+        $product->setParentChoices(array($choice, $choice, $choice));
 
       //$product->addOption($option2);
       //$choice = new \SpeckCatalogManager\Entity\Choice;

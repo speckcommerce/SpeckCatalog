@@ -12,7 +12,8 @@ class Option implements Definition
     public function build(Manager $m)
     {
         $m
-          ->add('name');
+            ->add('name')
+            ->add('instruction');
     }
 
     public function isValid($params, $form)

@@ -15,8 +15,14 @@
     <script src="/bootstrap-buttons.js"></script>     
 </head>
 <style>
-    body{margin-top:60px;}
-    .add-new{background:#f5fff5; border-left:3px solid #55ff55; margin-left:5px; padding-left:10px}
+    body{margin-top:37px; background:#f5f5f5}
+    .add-new{background:#f5fff5; border-top:1px solid #55ff55; padding: 5px 0 5px 0;}
+    .existing{border-top:1px solid #cccccc; padding: 5px 0 5px 0}
+    .add-form{padding:5px;}
+    .container-wrap{
+        width:940px; background:#ffffff; padding:10px; margin:0 auto; border:1px solid #cccccc; margin-bottom:20px;
+        -webkit-border-radius:0 0 4px 4px;-moz-border-radius:0 0 4px 4px;border-radius:0 0 4px 4px;
+    }
 </style>
 
 <body>
@@ -76,30 +82,31 @@
         </div><!-- /topbar -->
     </div>
     
-    <div class="container"> 
-     
-        <? if (isset($messages)) : ?>
-            <? foreach($messages as $this->message) : ?>
-                <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
-            <? endforeach; ?>
-        <? endif; ?>
+    <div class="container-wrap">
+    
+        <div class="container"> 
+         
+            <? if (isset($messages)) : ?>
+                <? foreach($messages as $this->message) : ?>
+                    <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
+                <? endforeach; ?>
+            <? endif; ?>
 
-        <div class="content"> 
-            <div class="row"> 
-                <div class="span16"> 
-                    <?php echo $this->raw('content'); ?>
+            <div class="content"> 
+                <div class="row"> 
+                    <div class="span16"> 
+                        <?php echo $this->raw('content'); ?>
+                    </div> 
                 </div> 
             </div> 
-        </div> 
 
-      <footer> 
-        <p>&copy; SpeckCommerce 2012</p> 
-      </footer> 
+        </div> <!-- /container --> 
 
-    </div> <!-- /container --> 
+    </div>
 
 
-    <script>
+
+<script type="text/javascript">
         //on dropdown change, split the value on space and go to [1]?constructor=[0]
         $('.newDropdown').change(function() {
             var selected = $(this).find("option:selected");
@@ -108,7 +115,17 @@
                 location.href=parts[1]+"?constructor="+parts[0];
             }
         });
-    </script>
+        $(document).ready(function(){
+            $('.addButton').live('click', function(){
+                $(this).parent().parent().next('.hide').clone().removeClass('hide').appendTo($(this).parentsUntil('.parent').last().parent());
+            });
+            $('.close').live('click', function(){
+                $(this).parent().remove();
+                return false;
+            });
+        });
+
+</script>
 
 </body>
 </html>

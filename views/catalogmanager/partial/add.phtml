@@ -1,4 +1,5 @@
-<div class="row">                                        
+
+<div class="row add-form">                                        
     <? // note: need a camelcase to dash function // ?>
     <? if($class === 'productUom'){ $className = 'product-uom'; }else{ $className = $class; } ?>
 
@@ -8,36 +9,36 @@
         <? $options=array('radio','checkbox','dropdown'); ?>
     <? endif; ?>
 
-    <!-- modal -->
-    <div id="modal-<?=$className;?>" class="modal hide fade in">
-        <div class="modal-header"> 
-          <a href="#" class="close">&times;</a> 
-          <h3>Searching all existing: <?=ucfirst($className);?></h3> 
-        </div> 
-        <div class="modal-body"> 
-          <p>dude! no results!</p> 
-        </div> 
-        <div class="modal-footer"> 
-          <a href="#" class="btn secondary close">Cancel</a> 
-        </div>
-    </div>
-    <!-- /modal -->
-
     <? if(isset($search)) : ?>
+        <!-- modal -->
+        <div id="modal-<?=$className;?>" class="modal hide fade in">
+            <div class="modal-header"> 
+              <a href="#" class="close">&times;</a> 
+              <h3>Searching all existing: <?=ucfirst($className);?></h3> 
+            </div> 
+            <div class="modal-body"> 
+              <p>dude! no results!</p> 
+            </div> 
+            <div class="modal-footer"> 
+              <a href="#" class="btn secondary close">Cancel</a> 
+            </div>
+        </div>
+        <!-- /modal -->
         <div class="span4">
             <input type="text" id="find-<?=$className;?>" class="span3" placeholder="find existing <?=$className;?>">
             <a class="btn primary" data-controls-modal="modal-<?=$className;?>" data-backdrop="static" >?</a>
         </div>      
     <? elseif(isset($dropdown)) : ?>
         <div class="span4">
-            dropdown goes here
+            <select>
+            <option>Choose a <?=ucfirst($className);?></option>
+            </select>
         </div>
     <? endif; ?>
 
     <? if(isset($add)) : ?>
         <div class='span2'>
-            <input type="button" onClick="location.href='<?=$className;?>'" class="btn secondary <?=$class;?> right" value="New"/>
+        <input type="button" class="addButton btn secondary <?=$class;?> right" value="New <?=ucfirst($className);?>"/>
         </div>
     <? endif; ?>
-
-</div><br/>
+</div>

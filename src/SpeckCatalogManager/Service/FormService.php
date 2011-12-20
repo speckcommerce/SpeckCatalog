@@ -12,7 +12,6 @@ class FormService
     
     public function getProductForms($product)
     {
-        
         $this->forms['blank']['choice'] = $this->getFormManager(null, 'Choice')->getForm();
         $this->forms['blank']['option-radio'] = $this->getFormManager(null, 'Option')->getForm();
         $this->forms['blank']['item-uom'] = $this->getFormManager(null, 'ItemUom')->getForm();
@@ -30,7 +29,6 @@ class FormService
                 $this->forms['item']['item-uoms'] = $itemUoms;
             }
         }
-        
         $returnedOptions = $product->getOptions();
         if($returnedOptions){
             $options = array();
@@ -52,7 +50,7 @@ class FormService
 
     private function getFormManager($entity=null, $className=null)
     {
-        if(!$className){ 
+        if($entity){ 
             $class = explode('\\', get_class($entity)); $className = array_pop($class);  
         }
         $definitionClass = 'SpeckCatalog\Form\Definition\\'.$className;

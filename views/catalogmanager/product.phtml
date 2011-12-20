@@ -26,50 +26,62 @@
 
                 <!-- "This Product > Product" Pane -->
                 <div class="tab-pane" id="product">
-                        <div class="row show-grid product">
-                            <? if($product->getType() === 'product') : ?>
+                        <? if($product->getType() === 'product') : ?>
+                            <div class="row">
                                 <div class="span5">
-                                    <? $this->form = $this->forms['form']; ?>
-                                    <?=$this->render('/catalogmanager/partial/editform.phtml');?>
-                                    <? $this->item = $product->getItem(); ?>
-                                    <? $this->form = $this->forms['item']['form']; ?>
-                                    <?=$this->render('/catalogmanager/partial/editform.phtml');?>
-                                </div>  
-                                <div class="span11">
+                                    <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
+                                        'form' => $forms['form'], 
+                                        'product' => $product, 
+                                    ));?>
+                                </div>
+                                <div class="span5">
+                                    <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
+                                        'form' => $forms['item']['form'], 
+                                        'item' => $product->getItem(),
+                                    ));?>
+                                </div>
+                                <div class="span6">
+                                    <? $item = $product->getItem(); ?>  
                                     <h4>Manufacturer:</h4>
-                                    <? if($this->item->getManufacturer()) :?>
-                                        <?=$this->item->getManufacturer();?>
+                                    <? if($item->getManufacturer()) :?>
+                                        <?=$item->getManufacturer();?>
                                     <? else : ?>
                                         <? $this->class = 'company'; ?>
                                         <?=$this->render('catalogmanager/partial/add.phtml');?>
                                     <? endif; ?>
+                                </div>
+                            </div>
                                     <h4>Item Uoms:</h4>
-                                    <? if (count($this->item->getUoms()) > 0) : ?>
-                                        <? foreach($this->item->getUoms() as $this->itemUom) : ?>
-                                            <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
+                                    <? if (count($item->getUoms()) > 0) : ?>
+                                        <? foreach($item->getUoms() as $itemUom) : ?>
+                                            <?=$this->partial(
+                                                '/catalogmanager/partial/product/item/item-uom.phtml', array(
+                                                    'itemUom' => $itemUom,
+                                                    'forms' => $forms
+                                            ));?>
                                         <? endforeach; ?>
                                     <? endif; ?>  
                                     <div class="add-new">
                                         <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
                                     </div>
-                                </div>
-                            <? else: ?>
-                                <? $this->form = $this->forms['form']; ?>
-                                <?=$this->render('/catalogmanager/partial/editform.phtml');?>
-                            <? endif; ?> 
-                        </div>
+                        <? else: ?>
+                            <? $this->form = $this->forms['form']; ?>
+                            <?=$this->render('/catalogmanager/partial/editform.phtml');?>
+                        <? endif; ?> 
                 </div>
                 <!-- /"This Product > Product" Pane -->
 
                 <!-- "This Product > Options" Pane -->
                 <div class="tab-pane" id="options">
-                        <? $this->class = 'option'; ?>
-                        <?=$this->render('/catalogmanager/partial/add.phtml');?>
+                        <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'option'));?>
                         <? if (count($product->getOptions()) > 0) : ?>
                             <div class="row">
-                            <? foreach ($product->getOptions() as $this->option) : ?>
-                                <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
-                            <? endforeach; ?>
+                                <? foreach ($product->getOptions() as $option) : ?>
+                                    <?=$this->partial('/catalogmanager/partial/product/option.phtml', array(
+                                        'option' => $option, 
+                                        'forms' => $forms,
+                                        ));?>
+                                <? endforeach; ?>
                             </div>
                         <? endif; ?>
                         <div class="add-new">
@@ -96,8 +108,7 @@
     <!-- "Parent Choices" Pane -->
     <div class="tab-pane" id="parent-choices">
             <? if (count($product->getParentChoices()) > 0) : ?>
-                <? $this->paginator = $parentChoicesPaginator;?>
-                <?=$this->render('/catalogmanager/partial/entity-list.phtml'); ?>       
+                <?=$this->partial('/catalogmanager/partial/entity-list.phtml', array('paginator' => $parentChoicesPaginator)); ?>       
             <? endif; ?>  
     </div>
     <!-- /"Parent Choices" Pane -->

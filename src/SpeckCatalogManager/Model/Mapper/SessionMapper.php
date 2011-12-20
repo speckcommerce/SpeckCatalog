@@ -11,6 +11,9 @@ class SessionMapper
         $product = new \SpeckCatalogManager\Entity\Product('product');
         $product->setName('hi, im the name of a product');
         $itemUom = new \SpeckCatalogManager\Entity\ItemUom;
+        $uom = new \SpeckCatalogManager\Entity\Uom;
+        $uom->setName('name of uom!');
+        $itemUom->setUom($uom);
         $choice = new \SpeckCatalogManager\Entity\Choice;
         $choice->setName('hi, im the name of a choice');
         //$choice->setProduct($product);

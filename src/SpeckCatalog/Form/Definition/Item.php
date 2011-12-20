@@ -10,8 +10,8 @@ class Item implements Definition
     public function build(Manager $m)
     {
         $m
-            ->add('item_number');
-
+            ->add('item_number')
+            ->add('hcpcs');
     }
 
     public function isValid($params, $form)

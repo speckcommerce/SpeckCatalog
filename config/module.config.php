@@ -23,17 +23,17 @@ return array(
                     ),
                 ),
             ), 
-             'doctrine_driver_chain' => array(
-                'parameters' => array(
-                    'drivers' => array(
-                        'speckcatalog_annotationdriver' => array(
-                            'class'           => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                            'namespace'       => 'Catalog\Entity',
-                            'paths'           => array(__DIR__ . '/../src/Catalog/Entity'),
-                        ),
-                    ),
-                )
-            ),         
+           'orm_driver_chain' => array(
+               'parameters' => array(
+                   'drivers' => array(
+                       'speckcatalog_annotationdriver' => array(
+                           'class'           => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                           'namespace'       => 'Catalog\Entity',
+                           'paths'           => array(__DIR__ . '/../src/Catalog/Entity'),
+                       ),
+                   ),
+               )
+           ),         
         ),
     ),
 );

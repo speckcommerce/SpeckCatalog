@@ -1,5 +1,24 @@
-<? if($this->availability) : ?>
+<hr/>
+<? if(isset($availability)) : ?>
     <span class="label">Availability</span>
+    <div class="row">
+        <div class="span5">
+            spiffyform
+        </div>
+        <div class="span6">
+            <h4>Manufacturer</h4>
+            <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'manufacturer')); ?>
+        </div>
+    </div>
 <? else : ?>
     <span class="label success">New Availability</span>
+    <div class="row">
+        <div class="span5">
+            spiffyform
+        </div>
+        <div class="span6">
+            <h4>Manufacturer</h4>
+            <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'manufacturer')); ?>
+        </div>
+    </div>
 <? endif; ?>

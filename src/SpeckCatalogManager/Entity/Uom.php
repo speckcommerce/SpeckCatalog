@@ -16,4 +16,8 @@ class Uom extends \SpeckCatalog\Entity\Uom
         $this->parentProductUomIds = $parentProductUomIds;
         return $this;
     }
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

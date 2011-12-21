@@ -1,6 +1,6 @@
 <? if(isset($option)) : ?>
+    <!-- option -->
     <div class="existing">
-        <!-- option -->
         <span class="label">Option</span>
         <? $parentOptionCount = count($option->getParentProducts()); ?>
         <? if($parentOptionCount > 1) : ?>
@@ -8,9 +8,7 @@
         <? endif; ?>   
         <div class="row">
             <div class="span5">
-                <?=$this->render('catalogmanager/partial/editform.phtml', array(
-                    'form' => $forms['options'][$option->getOptionId()],
-                ));?>
+                <?=$this->partial('catalogmanager/partial/editform.phtml', array('form' => $forms['options'][$option->getOptionId()]));?>
             </div>
             <div class="span11 parent">
                 <h4>Choices:</h4>
@@ -18,17 +16,15 @@
                 <?=$this->render('/catalogmanager/partial/product/option/choice.phtml'); // hidden empty choice?>
                 <? if (count($option->getChoices()) > 0) : ?>
                     <? foreach($option->getChoices() as $choice) : ?>
-                        <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array(
-                            'choice' => $choice, 'forms' => $forms,
-                        ));?>
+                        <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('choice' => $choice, 'forms' => $forms));?>
                     <? endforeach; ?>
                 <? endif; ?>
             </div>
         </div>
     </div>
-<? else: ?>
+<? else: ?>     
+    <!-- new option -->
     <div class="hide add-new">
-        <!-- new option -->
         <span class="label success">New Option</span>
         <div class="row">
             <div class="span5">

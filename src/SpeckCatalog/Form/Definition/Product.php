@@ -11,9 +11,7 @@ class Product implements Definition
     {
         $m
           ->add('name')
-          ->add('description')
-          ->add('price')
-          ->add('type');
+          ->add('description');
     }
 
     public function isValid($params, $form)

@@ -1,36 +1,36 @@
 <? if(isset($choice)) : ?>
-<div class="existing">
-    <span class="label">Choice</span>
-    <div class="row">
-        <div class="span5">
-            <? $this->choiceId = $choice->getChoiceId();?>
-            <? $this->form = $this->forms['options'][$this->optionId]['choices'][$this->choiceId]['form']; ?>
-            <?=$this->render('catalogmanager/partial/editform.phtml');?>  
-        </div>
-        <div class="span6">
-            <h4>Product:</h4>
-            <? if ($choice->getProduct()) : ?>
-                <?=$this->partial('/catalogmanager/partial/product/option/choice/product.phtml', array(
-                    'product' => $choice->getProduct(),
-                ));?>
-            <? else : ?>
-                <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'product', 'search' => 1));?>
-            <? endif; ?>
+    <div class="existing">
+        <span class="label">Choice</span>
+        <div class="row">
+            <div class="span5">
+                
+                <?=$this->partial('catalogmanager/partial/editform.phtml', array(
+                    'form' => $forms['choices'][$choice->getChoiceId()]
+                ));?> 
+            </div>
+            <div class="span6">
+                <h4>Product:</h4>
+                <? if ($choice->getProduct()) : ?>
+                    <?=$this->partial('/catalogmanager/partial/product/option/choice/product.phtml', array(
+                        'product' => $choice->getProduct(),
+                    ));?>
+                <? else : ?>
+                    <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'product', 'search' => 1));?>
+                <? endif; ?>
+            </div>
         </div>
     </div>
-</div>
 <? else : ?>
-<div class="add-new hide">
-    <span class="label success">New Choice</span>
-    <div class="row">
-        <div class="span5">
-            <? $this->form = $forms['blank']['choice']; ?>
-            <?=$this->render('catalogmanager/partial/editform.phtml');?>  
-        </div>
-        <div class="span6">
-            <h4>Product:</h4>
-                <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'product', 'search' => 1));?>
+    <div class="add-new hide">
+        <span class="label success">New Choice</span>
+        <div class="row">
+            <div class="span5">
+                <?=$this->partial('catalogmanager/partial/editform.phtml', array('form' => $forms['blank']['choice']));?>  
+            </div>
+            <div class="span6">
+                <h4>Product:</h4>
+                    <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'product', 'search' => 1));?>
+            </div>
         </div>
     </div>
-</div>
 <? endif; ?>

@@ -31,12 +31,12 @@
                         <div class="row">
                             <div class="span5">
                                 <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
-                                    'form' => $forms['form'], 'product' => $product, 
+                                    'form' => $forms['product'], 'product' => $product, 
                                 ));?>
                             </div>
                             <div class="span5">
                                 <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
-                                    'form' => $forms['item']['form'], 'item' => $product->getItem(),
+                                    'form' => $forms['item'], 'item' => $product->getItem(),
                                 ));?>
                             </div>
                             <div class="span6">
@@ -64,7 +64,7 @@
                             <? endif; ?>
                         </div>  
                     <? else: ?>
-                        <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['form']));?>
+                        <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['product']));?>
                     <? endif; ?> 
                 </div>
                 <!-- /"This Product > Product" Pane -->
@@ -72,7 +72,7 @@
                 <!-- "This Product > Options" Pane -->
                 <div class="tab-pane parent" id="options">
                     <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'option', 'search' => 1, 'add' => 1));?>
-                    <?=$this->render('/catalogmanager/partial/product/option.phtml');?>
+                    <?=$this->render('/catalogmanager/partial/product/option.phtml'); // hidden empty option?>
                     <? if (count($product->getOptions()) > 0) : ?>
                         <? foreach ($product->getOptions() as $option) : ?>
                             <?=$this->partial('/catalogmanager/partial/product/option.phtml', array(

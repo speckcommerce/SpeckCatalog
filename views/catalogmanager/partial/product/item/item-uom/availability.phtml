@@ -1,30 +1,32 @@
 
 <? if(isset($availability)) : ?>
-    <span class="label">Availability</span>
-    <div class="row">
-        <div class="span5">
-            <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => null));?>
-        </div>
-        <div class="span6">
-            <h4>Distributor:</h4>
-            <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                'class' => 'company', 'dropdown' => '1',
-            ));?>   
+    <div class="existing">
+        <span class="label">Availability</span>
+        <div class="row">
+            <div class="span5">
+                <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => null));?>
+            </div>
+            <div class="span6">
+                <h4>Distributor:</h4>
+                <?=$this->partial('catalogmanager/partial/add.phtml', array(
+                    'class' => 'company', 'dropdown' => '1',
+                ));?>   
+            </div>
         </div>
     </div>
 <? else : ?>
-<div class="hide add-new">
-    <span class="label success">New Availability</span>
-    <div class="row">
-        <div class="span5">
-            <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => null));?>
-        </div>
-        <div class="span6">
-            <h4>Distributor:</h4>
-            <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                'class' => 'company', 'dropdown' => '1',
-            ));?>   
+    <div class="hide add-new">
+        <span class="label success">New Availability</span>
+        <div class="row">
+            <div class="span5">
+                <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => null));?>
+            </div>
+            <div class="span6">
+                <h4>Distributor:</h4>
+                <?=$this->partial('catalogmanager/partial/add.phtml', array(
+                    'class' => 'company', 'dropdown' => '1',
+                ));?>   
+            </div>
         </div>
     </div>
-</div>
 <? endif; ?>

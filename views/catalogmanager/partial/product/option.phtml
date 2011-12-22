@@ -19,7 +19,7 @@
                             ));?>
                         <? endforeach; ?>
                     <? endif; ?>
-                    <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('courtesy' =>1, 'forms' => $forms)); ?>
+                    <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('courtesy' => 1, 'forms' => $forms)); ?>
                 </div>
                 <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
                 <?=$this->render('/catalogmanager/partial/product/option/choice.phtml'); // hidden empty choice?>
@@ -36,8 +36,7 @@
             </div>
             <div class="span11 list-wrap">
                 <div class="list-items">
-                    one blank choice
-                    <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('courtesy' =>1, 'forms' => $forms)); ?>
+                    <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('courtesy' => 1, 'forms' => $forms)); ?>
                 </div>
                 <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
                 <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('forms' => $forms)); // hidden empty choice?>

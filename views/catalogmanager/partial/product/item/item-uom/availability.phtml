@@ -4,27 +4,25 @@
         <span class="label">Availability</span>
         <div class="row">
             <div class="span5">
-                <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => null));?>
+                <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['blank']['availability']));?>
             </div>
             <div class="span6">
-                <h4>Distributor:</h4>
                 <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                    'class' => 'company', 'dropdown' => '1',
-                ));?>   
+                    'function' => 'import-dropdown', 'name' => 'distributor', 'data' => array('foo' => 'bar',)
+                ));?>                                                      
             </div>
         </div>
     </div>
 <? else : ?>
-    <div class="hide add-new">
+    <? if(isset($courtesy)) : ?><div class="add-new"> <? else : ?><div class="hide add-new"><? endif; ?>
         <span class="label success">New Availability</span>
         <div class="row">
             <div class="span5">
-                <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => null));?>
+                <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['blank']['availability']));?>
             </div>
             <div class="span6">
-                <h4>Distributor:</h4>
                 <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                    'class' => 'company', 'dropdown' => '1',
+                    'function' => 'import-dropdown', 'name' => 'distributor', 'data' => array('foo' => 'bar',)
                 ));?>   
             </div>
         </div>

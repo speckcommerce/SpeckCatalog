@@ -51,7 +51,7 @@
                                         ));?>
                                     <? endforeach; ?>
                                 <? endif; ?>
-                                //magic function to clone a blank
+                                <?=$this->partial('/catalogmanager/partial/product/item/item-uom.phtml', array('forms' => $forms, 'courtesy' => 1));?>
                             </div>
                             <div class="row">
                                 <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>

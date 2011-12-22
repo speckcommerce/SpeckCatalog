@@ -6,17 +6,16 @@
      * import-from = The returned value from the form element will assist in creating a NEW 'whatever'  
      */
 ?>
-
 <? if(!isset($name)){$name = 'passed name';} ?>
-
     <? if($function === 'add-button') : ?>
         <div class="span1 add-element"><input type="button" class="addButton btn secondary" value="+"/></div>
     <? endif; ?>
-
-    <? if($function === 'import-search') : ?>
-        <input class="span3 add-element" type="text" placeholder="import <?=$name;?>"></input>
+    <? if($function === 'add-modal-button') : ?>
+        <div class="span1 add-element"><input type="button" class="addModalButton btn primary" value="+"/ title="pop up a modal to create a new <?=$name;?>"></div>
     <? endif; ?>
-
+    <? if($function === 'import-search') : ?>
+        <div class="span3 add-element"><input type="text" class="span3" placeholder="import <?=$name;?>"></input></div>
+    <? endif; ?>
     <? if($function === 'import-dropdown') : ?>
         <div class="span3 add-element">
             <select class="span3">
@@ -25,11 +24,9 @@
             </select>
         </div>
     <? endif; ?>
-
     <? if($function === 'import-from-search') : ?>
-        <input class="span3 add-element" type="text" placeholder="import from <?=$name;?>"></input>
+        <div class="span3 add-element"><input class="span3" type="text" placeholder="import from <?=$name;?>"></input></div>
     <? endif; ?>
-    
     <? if($function === 'import-from-dropdown') : ?>
         <div class="span3 add-element">
             <select class="span3">
@@ -38,6 +35,5 @@
             </select>
         </div>
     <? endif; ?>
-
 <? endif; ?>
 <!-- /add-import -->

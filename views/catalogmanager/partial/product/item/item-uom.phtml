@@ -21,6 +21,7 @@
                                 ));?>
                             <? endforeach; ?>
                         <? endif; ?>
+                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
                     </div>
                     <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability', 'add' => '1'));?>
                     <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
@@ -30,7 +31,7 @@
     </div>
 <? else: ?>
     <!-- new item uom -->
-    <div class="hide add-new">
+    <? if(isset($courtesy)) : ?><div class="add-new"> <? else :?> <div class="hide add-new"><? endif; ?>
         <span class="label success">New Uom</span>
         <div class="row">
             <div class="span5">
@@ -46,7 +47,7 @@
                     <div class="list-items">
                     </div>
                     <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability', 'add' => '1'));?>
-                    <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
+                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
                 </div>
             </div>
         </div>  

@@ -12,6 +12,7 @@ class FormService
     
     public function getProductForms($product)
     {
+        $this->forms['blank']['availability'] = $this->getFormManager(null, 'Availability')->getForm();
         $this->forms['blank']['choice'] = $this->getFormManager(null, 'Choice')->getForm();
         $this->forms['blank']['option-radio'] = $this->getFormManager(null, 'Option')->getForm();
         $this->forms['blank']['item-uom'] = $this->getFormManager(null, 'ItemUom')->getForm();

@@ -2,7 +2,8 @@
 
 namespace SpeckCatalog;
 
-use Zend\Module\Consumer\AutoloaderProvider;
+use Zend\Module\Consumer\AutoloaderProvider,
+    Zend\EventManager\StaticEventManager;
 
 class Module implements AutoloaderProvider
 {
@@ -25,6 +26,13 @@ class Module implements AutoloaderProvider
     public function init()
     {
         \Zend\View\Helper\PaginationControl::setDefaultViewPartial('catalogmanager/partial/paginator.phtml');
+        $events = StaticEventManager::getInstance();
+        $events->attach('EdpUser\Form\Login', 'init', function($e) {
+            $form = $e->getTarget();
+            $form->addElement('hidden', 'redirect', array(
+                'value'   => '/catalogmanager',
+            ));
+        });
     }
 
     public function getConfig($env = null)

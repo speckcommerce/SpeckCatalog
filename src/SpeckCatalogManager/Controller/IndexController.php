@@ -64,6 +64,7 @@ class IndexController extends ActionController
 
     public function productAction()
     {
+        $this->view['uomData'] = array('ea' => 'ea - each','bx' => 'bx - box','ca' => 'ca - case'); // hacky... for development
         $entityName = 'product';
         $entity = $this->getEntity(ucfirst($entityName), $_GET['constructor'], $_GET['entityId']);
         $this->view[$entityName] = $entity;

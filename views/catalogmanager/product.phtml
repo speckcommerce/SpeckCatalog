@@ -32,7 +32,7 @@
                             <div class="span5">
                                 <? $item = $product->getItem(); ?>  
                                 <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                                    'class' => 'company', 'dropdown' => '1', 'selected' => $item->getManufacturer(),
+                                    'function'=>'import-dropdown','name' => 'manufacturer', 'selected' => $item->getManufacturer(),
                                 ));?>
                                 <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
                                     'form' => $forms['product'], 'product' => $product, 
@@ -47,13 +47,13 @@
                                 <? if (count($item->getUoms()) > 0) : ?>
                                     <? foreach($item->getUoms() as $itemUom) : ?>
                                         <?=$this->partial('/catalogmanager/partial/product/item/item-uom.phtml', array(
-                                            'itemUom' => $itemUom, 'forms' => $forms
+                                            'itemUom' => $itemUom, 'forms' => $forms, 'uomData' => array('asdf'=>1234)
                                         ));?>
                                     <? endforeach; ?>
                                 <? endif; ?>
+                                //magic function to clone a blank
                             </div>
                             <div class="row">
-                                <? $uomData = array('ea' => 'ea - each','bx' => 'bx - box','ca' => 'ca - case'); ?>
                                 <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
                                 <?=$this->partial('catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
                                 <?=$this->partial('catalogmanager/partial/add.phtml', array(

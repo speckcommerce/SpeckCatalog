@@ -5,8 +5,8 @@
         <div class="row">
             <div class="span5">
                 <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                    'class' => 'uom', 'dropdown' => '1', 'selected' => $itemUom->getUom(),
-                ));?>   
+                    'function' => 'import-dropdown', 'name'=>'uom', 'data' => $uomData,
+                ));?>
                 <?=$this->partial('catalogmanager/partial/editform.phtml', array(
                     'form' => $forms['item-uoms'][$itemUom->getItemUomId()],
                 ));?>
@@ -35,8 +35,8 @@
         <div class="row">
             <div class="span5">
                 <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                    'class' => 'uom', 'dropdown' => '1',
-                ));?>   
+                    'function' => 'import-dropdown', 'name'=>'uom', 'data' => $this->uomData,
+                ));?>
                 <?=$this->partial('catalogmanager/partial/editform.phtml', array(
                     'form' => $forms['blank']['item-uom'],
                 ));?>

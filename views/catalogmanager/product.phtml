@@ -78,7 +78,7 @@
                                     ));?>
                                 <? endforeach; ?>
                             <? endif; ?>
-                            //magic function to clone a blank
+                            <?=$this->partial('/catalogmanager/partial/product/option.phtml', array('courtesy' =>1, 'forms' => $forms)); // empty option, visible?>
                         </div>
                         <div class="row">
                             <?=$this->render('/catalogmanager/partial/product/option.phtml'); // hidden empty option?>

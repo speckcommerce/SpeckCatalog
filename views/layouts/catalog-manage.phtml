@@ -117,7 +117,7 @@
         $(document).ready(function(){
             $('.addButton').live('click', function(){
                 $(this).parentsUntil('.list-wrap').parent().children('.hide').first().clone().removeClass('hide') // clone
-                    .appendTo($(this).parentsUntil('.list-wrap').parent().children('.list-items'));               // append it
+                    .appendTo($(this).parentsUntil('.list-wrap').parent().children('.list-items').first());               // append it
                 $(this).scrollTo(this);
             });
             $('.close').live('click', function(){

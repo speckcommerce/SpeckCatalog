@@ -21,7 +21,7 @@
         </div>
     </div>
 <? else : ?>
-    <div class="add-new hide">
+    <? if(isset($courtesy)) : ?> <div class="add-new"> <? else : ?> <div class="add-new hide"> <? endif; ?>
         <span class="label success">New Choice</span>
         <div class="row">
             <div class="span5">

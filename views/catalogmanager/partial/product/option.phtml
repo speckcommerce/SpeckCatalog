@@ -19,7 +19,7 @@
                             ));?>
                         <? endforeach; ?>
                     <? endif; ?>
-                    //magic function to clone a blank
+                    <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('courtesy' =>1, 'forms' => $forms)); ?>
                 </div>
                 <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
                 <?=$this->render('/catalogmanager/partial/product/option/choice.phtml'); // hidden empty choice?>
@@ -28,7 +28,7 @@
     </div>
 <? else: ?>     
     <!-- new option -->
-    <div class="hide add-new">
+    <? if(isset($courtesy)) : ?> <div class="add-new"> <? else : ?> <div class="hide add-new"> <? endif; unset($courtesy); ?>
         <span class="label success">New Option</span>
         <div class="row">
             <div class="span5">
@@ -36,10 +36,11 @@
             </div>
             <div class="span11 list-wrap">
                 <div class="list-items">
-                    //magic function to clone a blank
+                    one blank choice
+                    <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('courtesy' =>1, 'forms' => $forms)); ?>
                 </div>
                 <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
-                <?=$this->render('/catalogmanager/partial/product/option/choice.phtml'); // hidden empty choice?>
+                <?=$this->partial('/catalogmanager/partial/product/option/choice.phtml', array('forms' => $forms)); // hidden empty choice?>
             </div>
         </div>
     </div>

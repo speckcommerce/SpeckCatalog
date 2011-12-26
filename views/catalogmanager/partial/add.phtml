@@ -14,26 +14,25 @@
         <div class="span1 add-element"><input type="button" class="addModalButton btn primary" value="+"/ title="pop up a modal to create a new <?=$name;?>"></div>
     <? endif; ?>
     <? if($function === 'import-search') : ?>
-        <div class="span3 add-element"><input type="text" class="span3" placeholder="import <?=$name;?>"></input></div>
+        <div class="span3 add-element"><input type="text" class="span3 import-modal" placeholder="import <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-dropdown') : ?>
         <div class="span3 add-element">
-            <select class="span3">
+            <select class="span3 import-modal">
                 <option class="disabled"><?=$name;?></option>
                 <? foreach($data as $key => $val) : ?><option value="<?=$key;?>"><?=$val;?></option><? endforeach; ?>
             </select>
         </div>
     <? endif; ?>
     <? if($function === 'import-from-search') : ?>
-        <div class="span3 add-element"><input class="span3" type="text" placeholder="import from <?=$name;?>"></input></div>
+        <div class="span3 add-element"><input class="span3 import-modal" type="text" placeholder="import from <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-from-dropdown') : ?>
         <div class="span3 add-element">
-            <select class="span3">
+            <select class="span3 import-modal">
                 <option class="disabled">import from <?=$name;?></option>
                 <? foreach($data as $key => $val) : ?><option value="<?=$key;?>"><?=$val;?></option><? endforeach; ?>
             </select>
         </div>
     <? endif; ?>
 <? endif; ?>
-<!-- /add-import -->

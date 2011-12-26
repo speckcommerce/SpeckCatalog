@@ -21,10 +21,13 @@
                                 ));?>
                             <? endforeach; ?>
                         <? endif; ?>
-                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
+                        <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
                     </div>
-                    <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability', 'add' => '1'));?>
-                    <?=$this->render('/catalogmanager/partial/product/item/item-uom/availability.phtml');?>
+                    <div class="row">
+                        <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('forms' => $forms));?>
+                        <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
+                        <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'import-from-search'));?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,9 +48,13 @@
             <div class="span11">
                 <div class="list-wrap">
                     <div class="list-items">
+                        <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
                     </div>
-                    <?=$this->partial('/catalogmanager/partial/add.phtml', array('class' => 'availability', 'add' => '1'));?>
-                    <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
+                    <div class="row">
+                        <?=$this->partial('/catalogmanager/partial/product/item/item-uom/availability.phtml', array('forms' => $forms));?>
+                        <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
+                        <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'import-from-search'));?>
+                    </div>
                 </div>
             </div>
         </div>  

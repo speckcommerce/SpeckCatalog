@@ -56,9 +56,6 @@
                             <div class="row">
                                 <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
                                 <?=$this->partial('catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
-                                <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                                    'function' => 'import-from-dropdown', 'name'=>'uom', 'data' => $uomData,
-                                ));?>
                             </div>
                         </div>  
                     <? else: ?>

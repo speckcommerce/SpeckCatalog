@@ -54,7 +54,9 @@
         <div class="topbar" data-dropdown="dropdown">
             <div class="topbar-inner">
                <div class="container">
+
                     <h3><a href="/catalogmanager">CatalogManager</a></h3>
+
                     <ul class="nav">
                         <li class="active"><a href="/catalogmanager">Home</a></li>
                         <li><a href="#"></a></li>
@@ -63,7 +65,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle">New Product</a>
                             <ul class="dropdown-menu">
-                                <li><a href="/catalogmanager/product?constructor=product#this-product" 
+                                <li><a href="/catalogmanager/product?constructor=product" 
                                        title="Single product with an item number">Product (Item)</a>
                                 </li>
                                 <li><a href="/catalogmanager/product?constructor=shell" 
@@ -77,12 +79,13 @@
                             </ul>
                         </li>
                     </ul>
+
                     <form class="pull-left" action="">
                         <input class="span3" type="text" placeholder="Search">
                     </form>
+
                     <ul class="nav secondary-nav">
                         <? if($this->edpUser()) : ?>
-
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle">
                                     <? if(isset($session)):?><strong>(<?=count($session->getEntities());?>)</strong><? endif; ?>
@@ -100,6 +103,7 @@
                             </li>  
                         <? endif; ?>
                     </ul>
+
                 </div>
             </div><!-- /topbar-inner -->
         </div><!-- /topbar -->
@@ -125,8 +129,23 @@
         </div> <!-- /container --> 
     </div>
 
+    <!-- Modal -->
+    <div class="modal hide fade in" id="modal-box" >
+        <div class="modal-header">
+            <a class="close" href="#">×</a>
+            <h3></h3>
+        </div>
+        <div class="modal-body">
+            <p>no results…</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn primary" href="#">Primary</a>
+            <a class="btn secondary" href="#">Secondary</a>
+        </div>
+    </div>
+
     <script type="text/javascript">
-        //on dropdown change, split the value on space and go to [1]?constructor=[0]
+
         $('.newDropdown').change(function() {
             var selected = $(this).find("option:selected");
             if(selected.hasClass('selection')){
@@ -134,20 +153,37 @@
                 location.href=parts[1]+"?constructor="+parts[0];
             }
         });
+
         $(document).ready(function(){
             $('.addButton').live('click', function(){
                 $(this).parentsUntil('.list-wrap').parent().children('.hide').first().clone().removeClass('hide') // clone
                     .appendTo($(this).parentsUntil('.list-wrap').parent().children('.list-items').first());       // append it
                 $(this).scrollTo(this);
             });
-            $('.close').live('click', function(){
-                $(this).parent().remove();
-            });
             $('.import-modal').live("change", function(){
-                alert('search caught');
+                entitySearch($(this));
                 $(this).val('');
             });
         });
+
+        function entitySearch(formElement){
+            var title = 'Search for: "'+formElement.val()+'"';
+            $.getJSON("/catalogmanager/json-entity-search", function(data) {
+                populateModal(data, title);
+                $('#modal-box').modal('show');
+            });
+        }
+
+        function populateModal(data,title){
+            $('.modal-header h3').text(title);
+            $('.modal-body').text('');
+            $.each(data, function(index, value){
+                $('.modal-body').append(value+'<br/>');
+            });
+        };
+
+            
+
     </script>
 
 </body>

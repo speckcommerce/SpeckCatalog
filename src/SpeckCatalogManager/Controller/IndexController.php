@@ -90,4 +90,15 @@ class IndexController extends ActionController
     {
         $this->sessionService = $catalogManagerService;
     }
-}
+
+    public function jsonEntitySearchAction($type=null, $id=null)
+    {
+        $entities=array(
+            1 => 'entity one',
+            2 => 'entity two',
+        );
+        echo json_encode($entities);
+        die();
+    }
+
+}                                   

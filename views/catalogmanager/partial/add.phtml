@@ -14,7 +14,7 @@
         <div class="span1 add-element"><input type="button" class="addModalButton btn primary" value="+"/ title="pop up a modal to create a new <?=$name;?>"></div>
     <? endif; ?>
     <? if($function === 'import-search') : ?>
-        <div class="span3 add-element"><input type="text" class="span3 import-modal" placeholder="import <?=$name;?>"></input></div>
+        <div class="span3 add-element"><input type="text" class="span3 import-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-dropdown') : ?>
         <div class="span3 add-element">

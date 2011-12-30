@@ -13,6 +13,7 @@
     <script src="/bootstrap-scrollspy.js"></script> 
     <script src="/bootstrap-tabs.js"></script> 
     <script src="/bootstrap-buttons.js"></script>     
+    <script src="/catalog-modal.js"></script>     
 </head>
 <style>
     body{
@@ -158,31 +159,12 @@
             $('.addButton').live('click', function(){
                 $(this).parentsUntil('.list-wrap').parent().children('.hide').first().clone().removeClass('hide') // clone
                     .appendTo($(this).parentsUntil('.list-wrap').parent().children('.list-items').first());       // append it
-                $(this).scrollTo(this);
             });
             $('.import-modal').live("change", function(){
-                entitySearch($(this));
+                entitySearch($(this)); //catalog-modal.js
                 $(this).val('');
             });
         });
-
-        function entitySearch(formElement){
-            var title = 'Search for: "'+formElement.val()+'"';
-            $.getJSON("/catalogmanager/json-entity-search", function(data) {
-                populateModal(data, title);
-                $('#modal-box').modal('show');
-            });
-        }
-
-        function populateModal(data,title){
-            $('.modal-header h3').text(title);
-            $('.modal-body').text('');
-            $.each(data, function(index, value){
-                $('.modal-body').append(value+'<br/>');
-            });
-        };
-
-            
 
     </script>
 

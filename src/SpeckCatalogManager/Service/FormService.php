@@ -24,14 +24,14 @@ class FormService
             $returnedItemUoms = $returnedItem->getUoms();
             if($returnedItemUoms){
                 foreach($returnedItemUoms as $itemUom){
-                    $this->forms['item-uoms'][$itemUom->getItemUomId()] = $this->getFormManager($itemUom)->getForm();
+                    $this->forms['item-uom'][$itemUom->getItemUomId()] = $this->getFormManager($itemUom)->getForm();
                 }
             }
         }
         $returnedOptions = $product->getOptions();
         if($returnedOptions){
             foreach($returnedOptions as $option){
-                $this->forms['options'][$option->getOptionId()] = $this->getFormManager($option)->getForm();
+                $this->forms['option'][$option->getOptionId()] = $this->getFormManager($option)->getForm();
                 $returnedChoices = $option->getChoices();
                 if($returnedChoices){
                     foreach($returnedChoices as $choice){
@@ -40,6 +40,17 @@ class FormService
                 }
             }
         }
+        return $this->forms;
+    }
+
+    public function getOptionForms($option)
+    {
+        $this->forms['blank']['availability'] = $this->getFormManager(null, 'Availability')->getForm();
+        $this->forms['blank']['choice'] = $this->getFormManager(null, 'Choice')->getForm();
+        $this->forms['blank']['option-radio'] = $this->getFormManager(null, 'Option')->getForm();
+        $this->forms['blank']['item-uom'] = $this->getFormManager(null, 'ItemUom')->getForm();
+
+        $this->forms['option'][$option->getOptionId()] = $this->getFormManager($option)->getForm();
         return $this->forms;
     }
 

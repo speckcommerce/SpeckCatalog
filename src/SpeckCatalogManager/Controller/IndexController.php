@@ -91,14 +91,35 @@ class IndexController extends ActionController
         $this->sessionService = $catalogManagerService;
     }
 
-    public function jsonEntitySearchAction($type=null, $id=null)
+    public function jsonEntitySearchAction()
     {
+        if(isset($_GET['type'])){ $type = $_GET['type']; }else{ $type='type'; }
+        if(isset($_GET['value'])){ $value = $_GET['value']; }else{ $value='val'; }
+        
         $entities=array(
-            1 => 'entity one',
-            2 => 'entity two',
+            1 => $type,
+            2 => $value,
         );
         echo json_encode($entities);
         die();
+    }                     
+    public function jsonEntityFetchAction(){
+        echo json_encode('fetched entity'); die();
     }
+
+    public function entityPartialAction()
+    {
+        $this->view['page'] = 'product';
+        $this->view['partial'] = 'option';
+        $entity = $this->view['option'] = new \SpeckCatalogManager\Entity\Option('radio');
+        $this->view['forms'] = $this->formService->getOptionForms($entity);
+        return $this->view;
+    }    
+
+
+
+
+
+
 
 }                                   

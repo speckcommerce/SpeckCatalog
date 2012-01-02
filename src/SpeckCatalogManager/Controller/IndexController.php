@@ -4,6 +4,7 @@ namespace SpeckCatalogManager\Controller;
 
 use Zend\Mvc\Controller\ActionController,
     SpeckCatalogManager\Service\FormService,
+    SpeckCatalogManager\Entity,
     \Exception;
 
 class IndexController extends ActionController
@@ -30,12 +31,8 @@ class IndexController extends ActionController
             return $this->redirect()->toRoute('edpuser');
         }
         $this->session = $this->sessionService->getSession($user);
-        //todo:  make this non-DI
-        $this->formService = new FormService($this->getLocator());
-
-        $this->view['messages'] = array();
+        $this->formService = new FormService($this->getLocator()); //todo:  make this non-DI
         $this->view['session'] = $this->session;
-
     }
     
     public function indexAction()
@@ -56,7 +53,6 @@ class IndexController extends ActionController
                     'message' => "You have just added a new {$className} ({$constructor}) to your session.",
                 );
             }
-            
             $class = '\SpeckCatalogManager\Entity\\'.$className;
             return new $class($constructor);
         } 
@@ -91,35 +87,22 @@ class IndexController extends ActionController
         $this->sessionService = $catalogManagerService;
     }
 
-    public function jsonEntitySearchAction()
+    protected function jsonEntitySearchAction()
     {
         if(isset($_GET['type'])){ $type = $_GET['type']; }else{ $type='type'; }
         if(isset($_GET['value'])){ $value = $_GET['value']; }else{ $value='val'; }
-        
-        $entities=array(
-            1 => $type,
-            2 => $value,
-        );
-        echo json_encode($entities);
-        die();
-    }                     
-    public function jsonEntityFetchAction(){
-        echo json_encode('fetched entity'); die();
-    }
+        $entities = array( 1 => $type, 2 => $value );
+        die(json_encode($entities));
+    }   
 
-    public function entityPartialAction()
+    protected function livePartialAction()
     {
-        $this->view['page'] = 'product';
+        $this->view['nolayout'] = true;
         $this->view['partial'] = 'option';
-        $entity = $this->view['option'] = new \SpeckCatalogManager\Entity\Option('radio');
+        $entity = new Entity\Option('radio');
+        $entity->setName('imported!');
+        $this->view['option'] = $entity;
         $this->view['forms'] = $this->formService->getOptionForms($entity);
         return $this->view;
     }    
-
-
-
-
-
-
-
 }                                   

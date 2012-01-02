@@ -46,15 +46,15 @@
                             <div class="list-items">
                                 <? if (count($item->getUoms()) > 0) : ?>
                                     <? foreach($item->getUoms() as $itemUom) : ?>
-                                        <?=$this->partial('/catalogmanager/partial/product/item/item-uom.phtml', array(
+                                        <?=$this->partial('/catalogmanager/partial/item-uom.phtml', array(
                                             'itemUom' => $itemUom, 'forms' => $forms, 'uomData' => array('asdf'=>1234)
                                         ));?>
                                     <? endforeach; ?>
                                 <? endif; ?>
-                                <?=$this->partial('/catalogmanager/partial/product/item/item-uom.phtml', array('forms' => $forms, 'courtesy' => 1));?>
+                                <?=$this->partial('/catalogmanager/partial/item-uom.phtml', array('forms' => $forms, 'courtesy' => 1));?>
                             </div>
                             <div class="row">
-                                <?=$this->render('/catalogmanager/partial/product/item/item-uom.phtml');?>
+                                <?=$this->render('/catalogmanager/partial/item-uom.phtml');?>
                                 <?=$this->partial('catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
                             </div>
                         </div>  
@@ -70,22 +70,22 @@
                         <div class="list-items">
                             <? if (count($product->getOptions()) > 0) : ?>
                                 <? foreach ($product->getOptions() as $option) : ?>
-                                    <?=$this->partial('/catalogmanager/partial/product/option.phtml', array(
+                                    <?=$this->partial('/catalogmanager/partial/option.phtml', array(
                                         'option' => $option, 'forms' => $forms,
                                     ));?>
                                 <? endforeach; ?>
                             <? endif; ?>
-                            <?=$this->partial('/catalogmanager/partial/product/option.phtml', array('courtesy' =>1, 'forms' => $forms)); // empty option, visible?>
+                            <?=$this->partial('/catalogmanager/partial/option.phtml', array('courtesy' =>1, 'forms' => $forms)); // empty option, visible?>
                         </div>
                         <div class="row">
-                            <?=$this->render('/catalogmanager/partial/product/option.phtml'); // hidden empty option?>
+                            <?=$this->render('/catalogmanager/partial/option.phtml'); // hidden empty option?>
                             <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
                             <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'import-search', 'name' => 'option'));?>
                         </div>
                     </div>
 
                 </div>
-                <!-- "This Product > Options" Pane -->
+                <!-- /"This Product > Options" Pane -->
                 
                 <!-- "This Product > Specs" Pane -->
                 <div class="tab-pane" id="specs">
@@ -93,7 +93,7 @@
                         add a spec
                     </div>
                 </div>
-                <!-- "This Product > Specs" Pane -->
+                <!-- /"This Product > Specs" Pane -->
 
             </div>
             <!-- /panes -->

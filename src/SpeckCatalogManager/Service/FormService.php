@@ -1,5 +1,7 @@
 <?php
 namespace SpeckCatalogManager\Service;
+use SpiffyForm\Form\Manager as FormManager;
+
 class FormService
 {
     protected $forms = array();
@@ -63,6 +65,11 @@ class FormService
         if(!class_exists($definitionClass)){
             die("sorry, dont have that definition class - {$className}, couldnt get your formManager");
         }
+
+        //$formManager = new FormManager;
+        //(array('definition' => $definitionClass, 'data' => $entity));
+        //return $formManager->build(); //think this is about right.
+        //todo: remove this from DI.
         return $this->locator->get('spiffy_form', array('definition' => $definitionClass, 'data' => $entity,))->build();
     }      
 }

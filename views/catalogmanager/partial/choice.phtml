@@ -7,7 +7,7 @@
             </div>
             <div class="span6">
                 <? if ($choice->getProduct()) : ?>
-                    <?=$this->partial('/catalogmanager/partial/product/option/choice/product.phtml', array(
+                    <?=$this->partial('/catalogmanager/partial/product.phtml', array(
                         'product' => $choice->getProduct(),
                     ));?>
                 <? else : ?>

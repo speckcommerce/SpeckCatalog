@@ -5,12 +5,6 @@ use SpiffyForm\Form\Manager as FormManager;
 class FormService
 {
     protected $forms = array();
-    protected $locator;
-
-    public function __construct($locator)
-    {
-        $this->locator = $locator;
-    }
     
     public function getProductForms($product)
     {
@@ -61,15 +55,13 @@ class FormService
         if($entity){ 
             $class = explode('\\', get_class($entity)); $className = array_pop($class);  
         }
+
         $definitionClass = 'SpeckCatalog\Form\Definition\\'.$className;
         if(!class_exists($definitionClass)){
             die("sorry, dont have that definition class - {$className}, couldnt get your formManager");
         }
 
-        //$formManager = new FormManager;
-        //(array('definition' => $definitionClass, 'data' => $entity));
-        //return $formManager->build(); //think this is about right.
-        //todo: remove this from DI.
-        return $this->locator->get('spiffy_form', array('definition' => $definitionClass, 'data' => $entity,))->build();
+        $formManager = new FormManager(new $definitionClass, $entity);
+        return $formManager->build();
     }      
 }

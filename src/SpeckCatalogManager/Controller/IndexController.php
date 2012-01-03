@@ -31,7 +31,7 @@ class IndexController extends ActionController
             return $this->redirect()->toRoute('edpuser');
         }
         $this->session = $this->sessionService->getSession($user);
-        $this->formService = new FormService($this->getLocator()); //todo:  make this non-DI
+        $this->formService = new FormService(); 
         $this->view['session'] = $this->session;
     }
     
@@ -83,26 +83,29 @@ class IndexController extends ActionController
     }
 
     public function setSessionService($catalogManagerService)
-    {
+    {                                              
         $this->sessionService = $catalogManagerService;
     }
 
-    protected function jsonEntitySearchAction()
+    protected function entitySearchAction()
     {
-        if(isset($_GET['type'])){ $type = $_GET['type']; }else{ $type='type'; }
-        if(isset($_GET['value'])){ $value = $_GET['value']; }else{ $value='val'; }
-        $entities = array( 1 => $type, 2 => $value );
-        die(json_encode($entities));
+        $this->view['nolayout'] = true;
+        return $this->view;
     }   
 
     protected function livePartialAction()
     {
         $this->view['nolayout'] = true;
-        $this->view['partial'] = 'option';
-        $entity = new Entity\Option('radio');
-        $entity->setName('imported!');
-        $this->view['option'] = $entity;
-        $this->view['forms'] = $this->formService->getOptionForms($entity);
+        
+        $className = $_GET['className'];
+        $entityId = $_GET['entityId'];
+        
+        $this->view['partial'] = $className;
+        $entity = $this->sessionService->getEntity($className, $entityId);
+        $method = 'get'.ucfirst($className).'Forms';
+        $this->view['forms'] = $this->formService->$method($entity);
+        
+        $this->view[$className] = $entity;
         return $this->view;
     }    
 }                                   

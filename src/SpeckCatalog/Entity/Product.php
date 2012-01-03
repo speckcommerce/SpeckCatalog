@@ -28,12 +28,10 @@ class Product
     */
     protected $description;
     
-    
     /**
      * @ORM\Column(type="string", length=16)
      */
     protected $type = null;  //will be('shell', 'product', 'builder')
-    
     
     //protected $features;
     
@@ -47,7 +45,7 @@ class Product
     /**
      * @ORM\Column(type="float")
      * @Form\Element(type="float")
-    */
+     */
     protected $price = 0;
 
     /**

@@ -6,8 +6,6 @@ class CatalogManagerService
 
     public function getSession(\EdpUser\Model\User $user)
     {
-        //if($user->getPermissions('speckcatalog_catalog_management') !=== true) return false;
-        
         if($this->session){
             return $this->session;
         }
@@ -17,5 +15,10 @@ class CatalogManagerService
         $this->session->setEntities($mapper->readSessionEntities());
 
         return $this->session;
+    } 
+    public function getEntity($className, $entityId)
+    {
+        $entityName = '\SpeckCatalogManager\Entity\\'.ucfirst($className);
+        return new $entityName('radio');
     }
 }

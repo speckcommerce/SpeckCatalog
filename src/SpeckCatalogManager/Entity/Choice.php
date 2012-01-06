@@ -67,6 +67,23 @@ class Choice extends CatalogChoice
     }
     public function __toString()
     {
-        return $this->getName();
-    }  
+        if($this->getOverrideName() != ''){
+            return $this->getOverrideName();
+        } elseif ($this->getProduct()) {
+            return $this->getProduct()->getName();
+        } else {
+            return 'no name for toString';
+        }
+    }
+    public function hasOptions()
+    {
+        if($this->getProduct()){
+            $count = count($this->getProduct()->getOptions());
+            if($count > 0){
+                return 'hasOptions';
+            }
+        } else {
+            return '';
+        }
+    }
 }

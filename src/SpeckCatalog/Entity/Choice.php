@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="catalog_choice")
  */
-class Choice
+class Choice extends RevisionAbstract
 {
     /**
      * @ORM\Id
@@ -21,11 +21,9 @@ class Choice
     /**
      * @ORM\Column(type="string")
      */
-    protected $name;
+    protected $overrideName;
 
     /**
-     *
-     * This is the child shell
      * @ORM\OneToMany(targetEntity="Product", mappedBy="Choice")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id")
      */     
@@ -54,16 +52,7 @@ class Choice
 
     protected $naChoices = array();
 
-    public function getName()
-    {
-        return $this->name;
-    }
- 
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
+
  
     public function getProduct()
     {
@@ -161,6 +150,27 @@ class Choice
     public function setParentOptions($parentOptions)
     {
         $this->parentOptions = $parentOptions;
+        return $this;
+    }
+ 
+    /**
+     * Get overrideName.
+     *
+     * @return overrideName
+     */
+    public function getOverrideName()
+    {
+        return $this->overrideName;
+    }
+ 
+    /**
+     * Set overrideName.
+     *
+     * @param $overrideName the value to be set
+     */
+    public function setOverrideName($overrideName)
+    {
+        $this->overrideName = $overrideName;
         return $this;
     }
 }

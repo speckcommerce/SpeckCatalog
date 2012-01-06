@@ -1,45 +1,60 @@
-<? if(isset($option)) : ?>
+<? $pdir = '/catalogmanager/partial/'; ?>
+<? if(isset($option) && $option->getOptionId()) : ?>
     <!-- option -->
-    <div class="existing">
-        <span class="label">Option</span>
-        <? $parentOptionCount = count($option->getParentProducts()); ?>
-        <? if($parentOptionCount > 1) : ?>
-            <span class="label warning" title="This option is currently shared amongst <?=$parentOptionCount;?> products.">Shared</span>
-        <? endif; ?>   
+    <div class="existing option">
+        <div class="item-top">
+            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
+            <div><span class="label sort-handle">Option</span></div>
+            <div><span class="label important remover" title="double click to remove this option">x</span></div>
+            <? $parentProductCount = count($option->getParentProducts()); ?>
+            <? if($parentProductCount > 1) : ?>
+            <div><span class="label warning" title="This option is shared amongst <?=$parentProductCount;?> products.">Shared</span></div>
+            <? endif; ?>  
+            <div> &nbsp; <?=$option;?></div>
+        </div>   
         <div class="row">
-            <div class="span5">
-                <?=$this->partial('catalogmanager/partial/editform.phtml', array('form' => $forms['option'][$option->getOptionId()]));?>
+            <div class="span16">
+                <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['option'][$option->getOptionId()]));?>
             </div>
-            <div class="span11 list-wrap">
+        </div>
+        <div class="row">
+            <div class="offset1 span15 list-wrap">
                 <div class="list-items">
                     <? if (count($option->getChoices()) > 0) : ?>
                         <? foreach($option->getChoices() as $choice) : ?>
-                            <?=$this->partial('/catalogmanager/partial/choice.phtml', array(
+                            <?=$this->partial($pdir.'choice.phtml', array(
                                 'choice' => $choice, 'forms' => $forms,
                             ));?>
                         <? endforeach; ?>
+                    <? else: ?>
+                        <?=$this->partial($pdir.'choice.phtml', array('courtesy' => 1, 'forms' => $forms)); ?>
                     <? endif; ?>
-                    <?=$this->partial('/catalogmanager/partial/choice.phtml', array('courtesy' => 1, 'forms' => $forms)); ?>
                 </div>
-                <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
-                <?=$this->render('/catalogmanager/partial/choice.phtml'); // hidden empty choice?>
+                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name'=>'choice'));?>
+                <?=$this->render($pdir.'choice.phtml'); // hidden empty choice?>
             </div>
         </div>
     </div>
 <? else: ?>     
     <!-- new option -->
-    <? if(isset($courtesy)) : ?> <div class="add-new"> <? else : ?> <div class="hide add-new"> <? endif; ?>
-        <span class="label success">New Option</span>
+    <? if(isset($courtesy)) : ?> <div class="add-new option"> <? else : ?> <div class="hide add-new option"> <? endif; ?>
+        <div class="item-top">
+            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
+            <div><span class="label success sort-handle">New Option</span></div>
+            <div><span class="label important remover" title="double click to remove this option">x</span></div>
+        </div>   
         <div class="row">
-            <div class="span5">
-                <?=$this->partial('catalogmanager/partial/editform.phtml', array('form' => $forms['blank']['option-radio']));?>
+            <div class="span16">
+                <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['blank']['option-radio']));?>
             </div>
-            <div class="span11 list-wrap">
+        </div>
+        <div class="row">
+            <div class="offset1 span15 list-wrap">
                 <div class="list-items">
-                    <?=$this->partial('/catalogmanager/partial/choice.phtml', array('courtesy' => 1, 'forms' => $forms)); ?>
+                    <?=$this->partial($pdir.'choice.phtml', array('courtesy' => 1, 'forms' => $forms)); ?>
                 </div>
-                <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
-                <?=$this->partial('/catalogmanager/partial/choice.phtml', array('forms' => $forms)); // hidden empty choice?>
+                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name'=>'choice'));?>
+                <?=$this->partial($pdir.'choice.phtml', array('forms' => $forms)); // hidden empty choice?>
             </div>
         </div>
     </div>

@@ -1,3 +1,4 @@
+
 <!-- add-import -->
 <? if(isset($function)) : ?>
 <? 
@@ -6,33 +7,28 @@
      * import-from = The returned value from the form element will assist in creating a NEW 'whatever'  
      */
 ?>
-<? if(!isset($name)){$name = 'passed name';} ?>
+<? if(!isset($name)){$name = '';} ?>
     <? if($function === 'add-button') : ?>
-        <div class="span1 add-element"><input type="button" class="addButton btn secondary" value="+"/></div>
+        <div class="span2 add-element"><input type="button" class="addButton btn primary" value="+ <?=$name;?>"/></div>
     <? endif; ?>
-    <? if($function === 'add-modal-button') : ?>
-        <div class="span1 add-element"><input type="button" class="addModalButton btn primary" value="+"/ title="pop up a modal to create a new <?=$name;?>"></div>
+    <? if($function === 'add-button-ajax') : ?>
+        <div class="span2 add-element"><input type="button" class="addButtonAjax btn secondary" value="+ <?=$name;?>"/></div>
     <? endif; ?>
     <? if($function === 'import-search') : ?>
-        <div class="span3 add-element"><input type="text" class="span3 import-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
+        <div class="span2 add-element"><input type="text" class="span2 import-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
+    <? endif; ?>
+    <? if($function === 'import-one-search') : ?>
+        <div class="span2 add-element"><input type="text" class="span2 import-one-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-dropdown') : ?>
         <div class="span3 add-element">
-            <select class="span3 import-modal">
+            <select class="span3">
                 <option class="disabled"><?=$name;?></option>
-                <? foreach($data as $key => $val) : ?><option value="<?=$key;?>"><?=$val;?></option><? endforeach; ?>
-            </select>
-        </div>
-    <? endif; ?>
-    <? if($function === 'import-from-search') : ?>
-        <div class="span3 add-element"><input class="span3 import-modal" type="text" placeholder="import from <?=$name;?>"></input></div>
-    <? endif; ?>
-    <? if($function === 'import-from-dropdown') : ?>
-        <div class="span3 add-element">
-            <select class="span3 import-modal">
-                <option class="disabled">import from <?=$name;?></option>
-                <? foreach($data as $key => $val) : ?><option value="<?=$key;?>"><?=$val;?></option><? endforeach; ?>
+                <? if(isset($data)) : ?>
+                    <? foreach($data as $key => $val) : ?><option value="<?=$key;?>"><?=$val;?></option><? endforeach; ?>
+                <? endif; ?>
             </select>
         </div>
     <? endif; ?>
 <? endif; ?>
+<!-- /add-import -->

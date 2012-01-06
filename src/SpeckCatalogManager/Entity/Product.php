@@ -79,6 +79,9 @@ class Product extends CatalogProduct
     }
     public function __toString()
     {
+        if(!$this->getName()){
+            return '';
+        } 
         return $this->getName();
     }
 }

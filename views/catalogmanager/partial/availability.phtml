@@ -1,7 +1,7 @@
 
 <? if(isset($availability)) : ?>
     <div class="existing">
-        <span class="label">Availability</span>
+        <span class="handle label">Availability</span>
         <div class="row">
             <div class="span5">
                 <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['blank']['availability']));?>
@@ -15,7 +15,7 @@
     </div>
 <? else : ?>
     <? if(isset($courtesy)) : ?><div class="add-new"> <? else : ?><div class="hide add-new"><? endif; ?>
-        <span class="label success">New Availability</span>
+        <span class="handle label success">New Availability</span>
         <div class="row">
             <div class="span5">
                 <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['blank']['availability']));?>

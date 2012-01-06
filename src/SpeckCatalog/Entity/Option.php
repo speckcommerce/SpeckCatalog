@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="catalog_option")
  */
-class Option
+class Option extends RevisionAbstract
 {
     /**
      * @ORM\Id
@@ -52,11 +52,6 @@ class Option
 
     protected $choices=array();
 
-    public function __construct($type = null)
-    {
-        $this->setListType($type);
-    }
-
     public function addChoice(Choice $choice)
     {
         $this->choices[] = $choice;
@@ -86,7 +81,7 @@ class Option
         return $this;
     }
  
-    private function setListType($listType)
+    private function setListType($listType=null)
     {
         if(!$listType){
             throw new \RuntimeException("listType not Set!");

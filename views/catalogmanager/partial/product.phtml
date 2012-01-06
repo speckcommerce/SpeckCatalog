@@ -1,1 +1,50 @@
-<?=$this->product;?>
+<? $pdir = '/catalogmanager/partial/'; ?>
+<? if(isset($product)) : ?>
+    <div>
+        <div class="row">
+            <div class="span14 offset1">
+                <span class="label">Product</span> &raquo; <?=$product; ?>
+                <? if($product->getType() === 'product') : ?>
+                    <? $item = $product->getItem(); ?>  
+                    <? if($item) : ?>
+                        $0.00
+                    <? endif; ?>
+                <? endif; ?>
+            </div>
+        </div><br/>
+        <div class="list-wrap half-pad">
+            <div class="list-items">
+                <? if (count($product->getOptions()) > 0) : ?>
+                    <? foreach ($product->getOptions() as $option) : ?>
+                        <?=$this->partial($pdir.'option.phtml', array(
+                            'option' => $option, 'forms' => $forms,
+                        ));?>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </div>
+            <div class="row">
+                <?=$this->render($pdir.'option.phtml'); ?>
+                <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'option'));?>
+                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'option'));?>
+            </div>
+        </div>
+    </div>
+
+<? else : ?>
+    <div class="hide">
+        <div class="row">
+            <div class="span14 offset1">   
+                <span class="label success">New Product</span><br/><br/>
+            </div>
+        </div>
+        <div class="list-wrap half-pad">
+            <div class="list-items"></div>
+            <div class="row">
+                <? //cannot load hidden partial, or it will loop recursively forever, ?> 
+                <? //instead, get it with ajax when the add button is pressed         ?>
+                <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'option'));?>
+                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button-ajax', 'name' => 'option'));?>
+            </div>
+        </div>     
+    </div>
+<? endif; ?>

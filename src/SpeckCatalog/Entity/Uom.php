@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="catalog_uom")
  */
-class Uom 
+class Uom extends RevisionAbstract
 {
     /**
      * @ORM\Id

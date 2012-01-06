@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping AS ORM,
  * @ORM\Entity
  * @ORM\Table(name="catalog_product")
  */
-class Product
+class Product extends RevisionAbstract
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="shell_id", type="integer")
+     * @ORM\Column(name="product_id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */             
-    private $shellId;
+    private $productId;
 
      /**
      * @ORM\Column(type="string")
@@ -61,6 +61,9 @@ class Product
     
     public function __construct($type=null)
     {
+        if(!$type){
+            $type = 'shell';
+        }
         $this->setType($type);
     }
 
@@ -114,9 +117,9 @@ class Product
         return $this;
     }
  
-    public function setShellId($shellId)
+    public function setProductId($productId)
     {
-        $this->shellId = $shellId;
+        $this->productId = $productId;
         return $this;
     }
 
@@ -149,9 +152,9 @@ class Product
         return $this->description;
     }
  
-    public function getShellId()
+    public function getProductId()
     {
-        return $this->shellId;
+        return $this->productId;
     }
  
     public function getType()

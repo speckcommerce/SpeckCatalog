@@ -10,7 +10,7 @@ use Zend\Mvc\Controller\ActionController,
 class IndexController extends ActionController
 {
     protected $userService;
-    protected $catalogService;
+    protected $sessionService;
     protected $view = array();
     
     public function __construct()
@@ -30,21 +30,30 @@ class IndexController extends ActionController
         if(!$user){
             return $this->redirect()->toRoute('edpuser');
         }
+        
         $this->session = $this->sessionService->getSession($user);
         $this->formService = new FormService(); 
         $this->view['session'] = $this->session;
     }
-    
+    public function sortableSortAction(){
+        echo "<script>console.log('sorted');</script>";
+    }
+
     public function indexAction()
     {
-        $this->prepPaginator('session', $this->session->getEntities());
+        $this->prepPaginator('session', $this->sessionService->getSession());
         return $this->view;
     }
     
-    private function getEntity($className, $constructor=null, $entityId=null, $notifyNew=false)
+    private function getEntity($className, $entityId=null, $constructor=null, $notifyNew=false)
     {
         if($entityId){
-            return $entity = $this->session->getEntityById($entityId);
+            $session = $this->sessionService->getSession();
+            if(is_numeric($entityId)){
+                return $session[$className.'-'.$entityId];
+            }else{
+                return $session[$entityId];
+            }
         }else{
             if($notifyNew === false){
                 $this->view['messages'][] = array(
@@ -54,7 +63,8 @@ class IndexController extends ActionController
                 );
             }
             $class = '\SpeckCatalogManager\Entity\\'.$className;
-            return new $class($constructor);
+            $entity = new $class($constructor);
+            return $entity;
         } 
     }
 
@@ -62,7 +72,7 @@ class IndexController extends ActionController
     {
         $this->view['uomData'] = array('ea' => 'ea - each','bx' => 'bx - box','ca' => 'ca - case'); // hacky... for development
         $entityName = 'product';
-        $entity = $this->getEntity(ucfirst($entityName), $_GET['constructor'], $_GET['entityId']);
+        $entity = $this->getEntity(ucfirst($entityName), $_GET['entityId'], $_GET['constructor']);
         $this->view[$entityName] = $entity;
         $this->view['forms'] = $this->formService->getProductForms($entity);
         $this->prepPaginator('parentChoices', $entity->getParentChoices());
@@ -90,21 +100,19 @@ class IndexController extends ActionController
     protected function entitySearchAction()
     {
         $this->view['nolayout'] = true;
+        $this->view['results'] = $this->sessionService->getSession();
         return $this->view;
     }   
 
     protected function livePartialAction()
     {
         $this->view['nolayout'] = true;
-        
         $className = $_GET['className'];
         $entityId = $_GET['entityId'];
-        
         $this->view['partial'] = $className;
-        $entity = $this->sessionService->getEntity($className, $entityId);
+        $entity = $this->getEntity($className, $entityId);
         $method = 'get'.ucfirst($className).'Forms';
         $this->view['forms'] = $this->formService->$method($entity);
-        
         $this->view[$className] = $entity;
         return $this->view;
     }    

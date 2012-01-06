@@ -1,3 +1,4 @@
+<? $pdir = '/catalogmanager/partial/'; ?>
 
 <!-- tabs -->
 <ul class="tabs" data-tabs="tabs">
@@ -31,35 +32,39 @@
                         <div class="row">
                             <div class="span5">
                                 <? $item = $product->getItem(); ?>  
-                                <?=$this->partial('catalogmanager/partial/add.phtml', array(
-                                    'function'=>'import-dropdown','name' => 'manufacturer', 'selected' => $item->getManufacturer(),
+                                <?=$this->partial($pdir.'editform.phtml', array(
+                                    'form' => $forms['product'][$product->getProductId()], 'product' => $product, 
                                 ));?>
-                                <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
-                                    'form' => $forms['product'], 'product' => $product, 
-                                ));?>
-                                <?=$this->partial('/catalogmanager/partial/editform.phtml', array(
-                                    'form' => $forms['item'], 'item' => $product->getItem(),
-                                ));?>
+                                <? if($item) : ?>
+                                    <?=$this->partial($pdir.'add.phtml', array(
+                                        'function'=>'import-dropdown','name' => 'manufacturer', 'selected' => $item->getManufacturer(),
+                                    ));?>
+                                    <?=$this->partial($pdir.'editform.phtml', array(
+                                        'form' => $forms['item'][$item->getItemId()], 
+                                        'item' => $item,
+                                    ));?>
+                                <? endif; ?>
                             </div>
                         </div>
                         <div class="list-wrap">
                             <div class="list-items">
                                 <? if (count($item->getUoms()) > 0) : ?>
                                     <? foreach($item->getUoms() as $itemUom) : ?>
-                                        <?=$this->partial('/catalogmanager/partial/item-uom.phtml', array(
+                                        <?=$this->partial($pdir.'item-uom.phtml', array(
                                             'itemUom' => $itemUom, 'forms' => $forms, 'uomData' => array('asdf'=>1234)
                                         ));?>
                                     <? endforeach; ?>
+                                <? else : ?>
+                                    <?=$this->partial($pdir.'item-uom.phtml', array('forms' => $forms, 'courtesy' => 1));?>
                                 <? endif; ?>
-                                <?=$this->partial('/catalogmanager/partial/item-uom.phtml', array('forms' => $forms, 'courtesy' => 1));?>
                             </div>
                             <div class="row">
-                                <?=$this->render('/catalogmanager/partial/item-uom.phtml');?>
-                                <?=$this->partial('catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
+                                <?=$this->render($pdir.'item-uom.phtml');?>
+                                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button'));?>
                             </div>
                         </div>  
                     <? else: ?>
-                        <?=$this->partial('/catalogmanager/partial/editform.phtml', array('form' => $forms['product']));?>
+                        <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['product'][$product->getProductId()]));?>
                     <? endif; ?> 
                 </div>
                 <!-- /"This Product > Product" Pane -->
@@ -70,17 +75,18 @@
                         <div class="list-items">
                             <? if (count($product->getOptions()) > 0) : ?>
                                 <? foreach ($product->getOptions() as $option) : ?>
-                                    <?=$this->partial('/catalogmanager/partial/option.phtml', array(
+                                    <?=$this->partial($pdir.'option.phtml', array(
                                         'option' => $option, 'forms' => $forms,
                                     ));?>
                                 <? endforeach; ?>
+                            <? else : ?>
+                                <?=$this->partial($pdir.'option.phtml', array('courtesy' =>1, 'forms' => $forms));?>
                             <? endif; ?>
-                            <?=$this->partial('/catalogmanager/partial/option.phtml', array('courtesy' =>1, 'forms' => $forms)); // empty option, visible?>
                         </div>
                         <div class="row">
-                            <?=$this->render('/catalogmanager/partial/option.phtml'); // hidden empty option?>
-                            <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'add-button'));?>
-                            <?=$this->partial('/catalogmanager/partial/add.phtml', array('function' => 'import-search', 'name' => 'option'));?>
+                            <?=$this->render($pdir.'option.phtml'); ?>
+                            <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'option'));?>
+                            <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'option'));?>
                         </div>
                     </div>
 
@@ -104,7 +110,7 @@
     <!-- "Parent Choices" Pane -->
     <div class="tab-pane" id="parent-choices">
             <? if (count($product->getParentChoices()) > 0) : ?>
-                <?=$this->partial('/catalogmanager/partial/entity-list.phtml', array('paginator' => $parentChoicesPaginator)); ?>       
+                <?=$this->partial($pdir.'entity-list.phtml', array('paginator' => $parentChoicesPaginator)); ?>       
             <? endif; ?>  
     </div>
     <!-- /"Parent Choices" Pane -->

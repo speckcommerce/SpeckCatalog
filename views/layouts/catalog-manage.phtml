@@ -8,7 +8,9 @@
         <?php echo $this->headTitle() ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="/bootstrap.min.css">
+		<link type="text/css" href="/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
         <script src="/jquery.min.js"></script> 
+		<script src="/js/jquery-ui-1.8.16.custom.min.js"></script>
         <script src="/bootstrap-dropdown.js"></script>
         <script src="/bootstrap-modal.js"></script> 
         <script src="/bootstrap-alerts.js"></script> 
@@ -17,15 +19,15 @@
         <script src="/bootstrap-scrollspy.js"></script> 
         <script src="/bootstrap-tabs.js"></script> 
         <script src="/bootstrap-buttons.js"></script>     
-        <script src="/catalog-modal.js"></script>     
+        <script src="/catalogmanager.js"></script>
     </head>
     <style>
         body{
-            margin-top:37px; 
-            background:#f5f5f5
+            
+            margin:40px; 
+            background:#ffffff
         }
         .add-new{
-            background:#f5fff5; 
             border-top:1px solid #55ff55; border-bottom:1px solid #eeeeee; 
             margin-bottom:4px; 
             padding: 5px 0 5px 0;
@@ -42,7 +44,7 @@
             width:940px; 
             background:#ffffff; 
             padding:10px; 
-            margin:0 auto; margin-bottom:20px; 
+            margin:0 auto; margin-bottom:250px; 
             border:1px solid #cccccc; 
             -webkit-border-radius:0 0 4px 4px;
             -moz-border-radius:0 0 4px 4px;
@@ -50,6 +52,40 @@
         }
         .editform input{
             width:140px;
+        }
+        .sortable-placeholder{ height:100px; border:1px solid #f5f5f5; background:#fafafa; padding: 5px }
+        .sort-handle{border:1px solid #555555; cursor:move;}
+        .remover{cursor:hand; cursor:pointer;}
+        .half-pad{margin-left:40px;}
+        .choice{
+            border-left:1px solid #dddddd;
+            background:#ffffff;
+        }
+        .option{
+            border-left:1px solid #dddddd;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#fff'); /* for IE */
+background: -webkit-gradient(linear, left top, right top, from(#eef), to(#fff)); /* for webkit browsers */
+background: -moz-linear-gradient(left,  #eee,  #fff); /* for firefox 3.6+ */ 
+
+        }
+        .collapsed{border:2px solid #000000;}
+        .label{margin-left:5px; border:1px solid #777777;}
+        .item-top{height:20px;}
+        .item-top span.ui-icon{margin-top:1px; margin-left:5px;}
+        .item-top div{float:left}
+        .deported{
+            border-bottom:10px solid #ff0000; 
+            border-top:1px solid #ff0000;
+            background:#ff9999; 
+            padding: 5px 0 5px 0; 
+            margin-bottom:4px
+        }
+        .imported{
+            border-bottom:10px solid #0000ff; 
+            border-top:1px solid #0000ff;
+            background:#9999ff; 
+            padding: 5px 0 5px 0; 
+            margin-bottom:4px
         }
     </style>
 
@@ -93,7 +129,7 @@
                             <? if($this->edpUser()) : ?>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle">
-                                        <? if(isset($session)):?><strong>(<?=count($session->getEntities());?>)</strong><? endif; ?>
+                                        <? if(isset($session)):?><strong>(<?=count($session);?>)</strong><? endif; ?>
                                         <?=$this->edpUser()->getDisplayName();?>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -114,25 +150,19 @@
             </div><!-- /topbar -->
         </div>
         
-        <div class="container-wrap">
-            <div class="container"> 
-             
-                <? if (isset($messages)) : ?>
-                    <? foreach($messages as $this->message) : ?>
-                        <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
-                    <? endforeach; ?>
-                <? endif; ?>
+        <? if (isset($messages)) : ?>
+            <? foreach($messages as $this->message) : ?>
+                <?=$this->render('/catalogmanager/partial/alert-message.phtml'); ?>
+            <? endforeach; ?>
+        <? endif; ?>
 
-                <div class="content"> 
-                    <div class="row"> 
-                        <div class="span16"> 
-                            <?php echo $this->raw('content'); ?>
-                       </div> 
-                    </div> 
-                </div> 
-
-            </div> <!-- /container --> 
-        </div>
+        <div class="content"> 
+            <div class="row"> 
+                <div class="span16"> 
+                    <?php echo $this->raw('content'); ?>
+               </div> 
+            </div> 
+        </div> 
 
         <!-- Modal -->
         <div class="modal hide fade in" id="modal-box" >
@@ -148,29 +178,6 @@
                 <a class="btn secondary" href="#">Secondary</a>
             </div>
         </div>
-
-        <script type="text/javascript">
-
-            $('.newDropdown').change(function() {
-                var selected = $(this).find("option:selected");
-                if(selected.hasClass('selection')){
-                    var parts = selected.val().split(' ');
-                    location.href=parts[1]+"?constructor="+parts[0];
-                }
-            });
-
-            $(document).ready(function(){
-                $('.addButton').live('click', function(){
-                    $(this).parentsUntil('.list-wrap').parent().children('.hide').first().clone().removeClass('hide') // clone
-                        .appendTo($(this).parentsUntil('.list-wrap').parent().children('.list-items').first());       // append it
-                });
-                $('.import-modal').live("change", function(){
-                    entitySearch($(this)); //catalog-modal.js
-                    $(this).val('');
-                });
-            });
-
-        </script>
 
     </body>
     </html>

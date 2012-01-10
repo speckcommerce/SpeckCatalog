@@ -1,0 +1,14 @@
+<div id="product-<?=(isset($itemUom)&& $itemUom->getItemUomId()?'':'');?>" class="live-form row quarter-pad">
+        <div class="span3">
+            Override Name<br/>
+            <input name="overrideName" class="span3" type="text" value="<?=(isset($choice)?$choice->getOverrideName():'');?>"/>
+        </div>  
+        <div class="span2">
+            Price Discount<br/>
+            <input name="priceDiscount" class="span2" type="text" value="0"/>
+        </div>
+        <div class="span2">
+            Price Increase<br/>
+            <input name="priceIncrease" class="span2" type="text" value="0"/>
+        </div>
+</div>  

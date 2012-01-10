@@ -1,25 +1,28 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
 <? if($this->itemUom) : ?>
     <!-- item uom -->
-    <div class="existing">
-        <span class="handle label">Uom</span>
+    <div class="existing contrastbg entity">
+        <div class="entity-header">
+            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
+            <div><span class="label sort-handle entity-title">Uom</span></div>
+            <div><span class="label important remover hide" title="double click to remove this uom">x</span></div>
+        </div> 
         <div class="row">
             <div class="span5">
-                <?=$this->partial($pdir.'add.phtml', array('function' => 'import-dropdown', 'name'=>'uom', 'data' => $uomData));?>
-                <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['item-uom'][$itemUom->getItemUomId()]));?>
+                <?=$this->partial($pdir.'form/item-uom.phtml', array('itemUom' => $itemUom));?>
             </div>
             <div class="span11">
                 <div class="list-wrap">
                     <div class="list-items">
                         <? if (count($this->itemUom->getAvailabilities()) > 0) : ?>
                             <? foreach($this->itemUom->getAvailabilities() as $availability) : ?>
-                                <?=$this->partial($pdir.'catalogmanager/partial/availability.phtml', array('availability' => $availability, 'forms' => $forms));?>
+                                <?=$this->partial($pdir.'catalogmanager/partial/availability.phtml', array('availability' => $availability));?>
                             <? endforeach; ?>
                         <? endif; ?>
-                        <?=$this->partial($pdir.'availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
+                        <?=$this->partial($pdir.'availability.phtml', array('courtesy' => 1));?>
                     </div>
                     <div class="row">
-                        <?=$this->partial($pdir.'availability.phtml', array('forms' => $forms));?>
+                        <?=$this->partial($pdir.'availability.phtml');?>
                         <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button'));?>
                         <?=$this->partial($pdir.'add.phtml', array('function' => 'import-from-search'));?>
                     </div>
@@ -29,20 +32,23 @@
     </div>
 <? else: ?>
     <!-- new item uom -->
-    <? if(isset($courtesy)) : ?><div class="add-new"><? else : ?><div class="hide add-new"><? endif; ?>
-        <span class="handle label success">New Uom</span>
+    <? if(isset($courtesy)) : ?><div class="add-new contrastbg entity"><? else : ?><div class="hide add-new contrastbg entity"><? endif; ?>
+        <div class="entity-header">
+            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
+            <div><span class="label success sort-handle entity-title">New Uom</span></div>
+            <div><span class="label important remover hide" title="double click to remove this uom">x</span></div>
+        </div>  
         <div class="row">
             <div class="span5">
-                <?=$this->partial($pdir.'add.phtml', array('function' => 'import-dropdown', 'name'=>'uom', 'data' => $this->uomData));?>
-                <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['blank']['item-uom']));?>
+                <?=$this->partial($pdir.'form/item-uom.phtml');?>
             </div>
             <div class="span11">
                 <div class="list-wrap">
                     <div class="list-items">
-                        <?=$this->partial($pdir.'availability.phtml', array('courtesy' => 1, 'forms' => $forms));?>
+                        <?=$this->partial($pdir.'availability.phtml', array('courtesy' => 1));?>
                     </div>
                     <div class="row">
-                        <?=$this->partial($pdir.'availability.phtml', array('forms' => $forms));?>
+                        <?=$this->partial($pdir.'availability.phtml');?>
                         <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name'=>'availability'));?>
                     </div>
                 </div>

@@ -9,8 +9,6 @@ class FormService
     protected $forms = array();
     protected $depth = 0;
 
-
-
     /**
      * Somewhere, we need to check that choice->product is not a descendant of its 
      * parent product, or these functions will loop forever
@@ -33,6 +31,7 @@ class FormService
     private function itemForms($item)
     {
         $this->forms['item'][$item->getItemId()] = $this->getFormManager($item)->getForm();
+
         $itemUoms = $item->getUoms();
         if($itemUoms){
             foreach($itemUoms as $itemUom){
@@ -49,8 +48,6 @@ class FormService
     private function productForms($product)
     {
         $this->forms['product'][$product->getProductId()] = $this->getFormManager($product)->getForm();
-        //var_dump($this->forms['product'][$product->getProductId()]);die();
-
 
         if($product->getType() === 'product'){
             $item = $product->getItem();
@@ -68,8 +65,10 @@ class FormService
 
     private function optionForms($option)
     {
-        $this->depth++; if($this->depth > 200) die('over 200 options??');
+        $this->depth++; if($this->depth > 100) die('over 100 options??');
+
         $this->forms['option'][$option->getOptionId()] = $this->getFormManager($option)->getForm();
+
         $returnedChoices = $option->getChoices();
         if(count($returnedChoices) > 0){
             foreach($returnedChoices as $choice){
@@ -81,6 +80,7 @@ class FormService
     private function choiceForms($choice)
     {
         $this->forms['choice'][$choice->getChoiceId()] = $this->getFormManager($choice)->getForm();
+
         $product = $choice->getProduct();
         if($product){
             $this->productForms($product);

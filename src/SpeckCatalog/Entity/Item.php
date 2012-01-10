@@ -40,9 +40,9 @@ class Item extends RevisionAbstract
     protected $hcpcs;
     
     /**
-     * @ORM\Column(name="part_number", type="string")
+     * @ORM\Column(name="item_number", type="string")
      */
-    protected $partNumber;
+    protected $itemNumber;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductUom")
@@ -78,13 +78,6 @@ class Item extends RevisionAbstract
         return $this;
     }
  
- 
-    public function setPartNumber($partNumber)
-    {
-        $this->partNumber = $partNumber;
-        return $this;
-    }
- 
     public function setItemId($itemId)
     {
         $this->itemId = $itemId;
@@ -109,10 +102,7 @@ class Item extends RevisionAbstract
     {
         return $this->uoms;
     }
-    public function getPartNumber()
-    {
-        return $this->partNumber;
-    }
+
     public function getItemId()
     {
         return $this->itemId;
@@ -130,6 +120,27 @@ class Item extends RevisionAbstract
     public function setParentProduct(Product $parentProduct)
     {
         $this->parentProduct = $parentProduct;
+        return $this;
+    }
+ 
+    /**
+     * Get itemNumber.
+     *
+     * @return itemNumber
+     */
+    public function getItemNumber()
+    {
+        return $this->itemNumber;
+    }
+ 
+    /**
+     * Set itemNumber.
+     *
+     * @param $itemNumber the value to be set
+     */
+    public function setItemNumber($itemNumber)
+    {
+        $this->itemNumber = $itemNumber;
         return $this;
     }
 }

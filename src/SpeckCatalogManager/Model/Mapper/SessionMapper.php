@@ -9,58 +9,45 @@ class SessionMapper
     public function __construct($userId)
     {
       //// test entities
-      //$product = new Entity\Product('product');
-      //$product->setName('name of a product')->setProductId(3);
-      //$product2 = new \SpeckCatalogManager\Entity\Product('product');
-      //$product2->setName('name of product2')->setProductId(123);
-      //$itemUom = new \SpeckCatalogManager\Entity\ItemUom;
-      //$uom = new \SpeckCatalogManager\Entity\Uom;
-      //$uom->setName('name of uom!');
-      //$itemUom->setUom($uom);
-      //$choice = new \SpeckCatalogManager\Entity\Choice;
-      //$choice->setName('name of a choice');
-      //$choice->setProduct($product2);
-      ////$choice->setProduct($product);
-      ////$company = new \SpeckCatalogManager\Entity\Company;
-      ////$company->setName('companyname!');
-      //$option = new \SpeckCatalogManager\Entity\Option('radio');
-      //$option->setName('im an option name')
-      //    ->setOptionId(99)
-      //    ->setChoices(array($choice))
-      //    ->setParentProducts(array($product, $product, $product, $product));
-      //$item = new \SpeckCatalogManager\Entity\Item;
-      //$item->setName('im an item name')->addUom($itemUom);
-      //$product->setItem($item)->addOption($option);
-      //$product->setParentChoices(array($choice, $choice, $choice));
-
 
         $product = new Entity\Product('shell');
         $product->setName('coffee cup')
+                ->setDescription('this is a mug for your joe, comes in 2 colors')
                 ->setProductId(3);
         
         $option = new Entity\Option;
         $option->setOptionId(999)
-               ->setName('color')
+               ->setName('Color')
                ->setInstruction('Choose Color');
 
 
         $choice1 = new Entity\Choice;
         $choice1->setChoiceId(122);
         $red = new Entity\Product('product');
-        $red->setName('red coffee cup')->setproductId(11);
+        $red->setName('red coffee cup')
+            ->setDescription('this is a red coffee cup!')
+            ->setproductId(11)
+            ->setPrice(8.99);
+        $itemUom = new Entity\ItemUom;
         $item1 = new Entity\Item;
-        $item1->setItemId(88);
+        $item1->setItemId(88)
+            ->setItemNumber('redcup123')
+            ->addUom($itemUom);
         $red->setItem($item1);
         $choice1->setProduct($red)->setOverrideName('red');
 
         $choice2 = new Entity\Choice;
         $choice2->setChoiceId(123);
         $blue = new Entity\Product('product');
-        $blue->setName('blue coffee cup')->setProductId(22);
+        $blue->setName('blue coffee cup')
+            ->setDescription('this is the description for the blue one')
+            ->setProductId(22)
+            ->setPrice(8.99);
         $item2 = new Entity\Item;
-        $item2->setItemId(99);
+        $item2->setItemId(99)
+            ->setItemNumber('bluecup123');
         $blue->setItem($item2);
-        $choice2->setProduct($blue);//->setOverrideName('blue');
+        $choice2->setProduct($blue)->setOverrideName('blue');
 
         $option->setChoices(array($choice1, $choice2));
 
@@ -69,6 +56,8 @@ class SessionMapper
         $this->rows = array( 
             'option-'.$option->getOptionId() => $option, 
             'product-'.$product->getProductId() => $product,
+            'product-'.$red->getProductId() => $red,
+            'product-'.$blue->getProductId() => $blue,
         );   
 
     }

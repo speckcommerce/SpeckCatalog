@@ -1,0 +1,10 @@
+<div id="option-<?=(isset($option)&& $option->getOptionId()?$option->getOptionId():'new');?>" class="live-form row quarter-pad">
+    <div class="span3">
+        Name<br/>
+        <input name="name" class="span3" type="text" value="<?=(isset($option)?$option->getName():'');?>"/>
+    </div>  
+    <div class="span3">
+        Instruction<br/>
+        <input name="instruction" class="span3" type="text" value="<?=(isset($option)?$option->getInstruction():'');?>"/>
+    </div>
+</div>  

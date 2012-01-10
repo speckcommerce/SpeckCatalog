@@ -27,44 +27,30 @@
             <div id="my-tab-content" class="tab-content">
 
                 <!-- "This Product > Product" Pane -->
-                <div class="tab-pane" id="product">
+                <div class="tab-pane entity" id="product">
+                    <div class="entity-header">
+                        <div><span class="label entity-title">Product</span></div>
+                    </div>
+                    <?=$this->partial($pdir.'form/product.phtml', array('product' => $product));?><br/>
                     <? if($product->getType() === 'product') : ?>
-                        <div class="row">
-                            <div class="span5">
-                                <? $item = $product->getItem(); ?>  
-                                <?=$this->partial($pdir.'editform.phtml', array(
-                                    'form' => $forms['product'][$product->getProductId()], 'product' => $product, 
-                                ));?>
-                                <? if($item) : ?>
-                                    <?=$this->partial($pdir.'add.phtml', array(
-                                        'function'=>'import-dropdown','name' => 'manufacturer', 'selected' => $item->getManufacturer(),
-                                    ));?>
-                                    <?=$this->partial($pdir.'editform.phtml', array(
-                                        'form' => $forms['item'][$item->getItemId()], 
-                                        'item' => $item,
-                                    ));?>
-                                <? endif; ?>
+                        <? $item = $product->getItem(); ?>
+                        <? if($item) : ?>  
+                            <div class="list-wrap">
+                                <div class="list-items">
+                                    <? if (count($item->getUoms()) > 0) : ?>
+                                        <? foreach($item->getUoms() as $itemUom) : ?>
+                                            <?=$this->partial($pdir.'item-uom.phtml', array('itemUom' => $itemUom));?>
+                                        <? endforeach; ?>
+                                    <? else : ?>
+                                        <?=$this->partial($pdir.'item-uom.phtml', array('courtesy' => 1));?>
+                                    <? endif; ?>
+                                </div>
+                                <div class="row">
+                                    <?=$this->render($pdir.'item-uom.phtml');?>
+                                    <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'uom'));?>
+                                </div>
                             </div>
-                        </div>
-                        <div class="list-wrap">
-                            <div class="list-items">
-                                <? if (count($item->getUoms()) > 0) : ?>
-                                    <? foreach($item->getUoms() as $itemUom) : ?>
-                                        <?=$this->partial($pdir.'item-uom.phtml', array(
-                                            'itemUom' => $itemUom, 'forms' => $forms, 'uomData' => array('asdf'=>1234)
-                                        ));?>
-                                    <? endforeach; ?>
-                                <? else : ?>
-                                    <?=$this->partial($pdir.'item-uom.phtml', array('forms' => $forms, 'courtesy' => 1));?>
-                                <? endif; ?>
-                            </div>
-                            <div class="row">
-                                <?=$this->render($pdir.'item-uom.phtml');?>
-                                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button'));?>
-                            </div>
-                        </div>  
-                    <? else: ?>
-                        <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['product'][$product->getProductId()]));?>
+                        <? endif; ?>  
                     <? endif; ?> 
                 </div>
                 <!-- /"This Product > Product" Pane -->
@@ -75,12 +61,10 @@
                         <div class="list-items">
                             <? if (count($product->getOptions()) > 0) : ?>
                                 <? foreach ($product->getOptions() as $option) : ?>
-                                    <?=$this->partial($pdir.'option.phtml', array(
-                                        'option' => $option, 'forms' => $forms,
-                                    ));?>
+                                    <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
                                 <? endforeach; ?>
                             <? else : ?>
-                                <?=$this->partial($pdir.'option.phtml', array('courtesy' =>1, 'forms' => $forms));?>
+                                <?=$this->partial($pdir.'option.phtml', array('courtesy' =>1));?>
                             <? endif; ?>
                         </div>
                         <div class="row">

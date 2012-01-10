@@ -1,0 +1,26 @@
+<div id="product-<?=(isset($product)?$product->getProductId():'new');?>" class="live-form">
+    <div class="row">
+        <div class="span11">
+            Name<br/>
+            <input name="name" class="span11" type="text" value="<?=(isset($product)?$product->getName():null);?>"/>
+            Description<br/>
+            <textarea name="description" rows="4" class="span11"><?=(isset($product)?$product->getDescription():null);?></textarea>
+        </div>
+        <div class="span3">
+            <? if(isset($product) && $product->getType() === 'product') : ?>
+                <? $item = $product->getItem(); ?>  
+                <? if($item) : ?>
+                    Manufacturer<br/>
+                    <select class="span3">
+                        <option>asdf</option>
+                        <option>1234</option>
+                    </select>
+                    Item Number<br/>
+                    <input name="itemNumber" class="span3" type="text" value="<?=$item->getItemNumber();?>"/>
+                    HCPCS<br/>
+                    <input name="hcpcs" class="span3" type="text" value="<?=$item->getHcpcs();?>"/>
+                <? endif; ?>
+            <? endif; ?>    
+        </div> 
+    </div>
+</div>            

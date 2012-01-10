@@ -1,48 +1,47 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
 <? if(isset($choice)) : ?>
+
     <? $product = $choice->getProduct(); ?>
-    <div class="existing choice">
-        <div class="item-top">
+    <div class="existing whitebg entity">
+        <div class="entity-header">
             <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser initialCollapse"></span></div>
-            <div><span class="label sort-handle">Choice</span></div>
+            <div><span class="label sort-handle entity-title">Choice</span></div>
             <? if($choice->hasOptions()) : ?>
             <div><span class="label warning" title="This choice has options.">Options</span></div>
             <? endif; ?>  
-            <div><span class="label important remover" title="double click to remove this choice">x</span></div>
+            <div><span class="label important remover hide" title="double click to remove this choice">x</span></div>
             <div> &nbsp; <?=$choice;?></div>
         </div>  
         <div class="row">
             <div class="span15">
-                <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['choice'][$choice->getChoiceId()]));?>
+                <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
                 <? if($product) : ?>
                     <? if ($product->getType() === 'product') : ?>
                         <div class="row">
-                            <?=$this->partial($pdir.'product.phtml', array(
-                                'product' => $product, 'forms' => $forms,
-                            ));?>
+                            <?=$this->partial($pdir.'product.phtml', array('product' => $product));?>
                         </div>
                     <? endif; ?>
                 <? else : ?>
                     <div class="row">
-                        <?=$this->partial($pdir.'add.phtml', array(
-                            'function' => 'import-search', 'data'=> array(1=>1), 'name' => 'product'
-                        ));?>
+                        <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'product'));?>
                         <?=$this->partial($pdir.'add.phtml', array('function' => 'add-modal-button'));?>
                     </div>
                 <? endif; ?>
             </div>
         </div>
     </div>
+
 <? else : ?>
-    <? if(isset($courtesy)) : ?> <div class="add-new choice"> <? else : ?> <div class="add-new choice hide"> <? endif; ?>
-        <div class="item-top">
+
+    <? if(isset($courtesy)) : ?> <div class="add-new whitebg entity"> <? else : ?> <div class="add-new whitebg hide entity"> <? endif; ?>
+        <div class="entity-header">
             <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
-            <div><span class="label success sort-handle">New Choice</span></div>
-            <div><span class="label important remover" title="double click to remove this choice">x</span></div>
+            <div><span class="label success sort-handle entity-title">New Choice</span></div>
+            <div><span class="label important remover hide" title="double click to remove this choice">x</span></div>
         </div>   
         <div class="row">
             <div class="import-one hide">
-                <?=$this->partial($pdir.'editform.phtml', array('form' => $forms['blank']['choice']));?>
+                <?=$this->partial($pdir.'form/choice.phtml');?>
             </div>    
             <div class="span15 list-wrap">
                 <div class="list-items"></div>

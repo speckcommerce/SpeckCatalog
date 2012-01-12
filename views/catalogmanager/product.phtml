@@ -32,13 +32,12 @@
                         <div><span class="label entity-title">Product</span></div>
                     </div>
                     <?=$this->partial($pdir.'form/product.phtml', array('product' => $product));?><br/>
-                    <? if($product->getType() === 'product') : ?>
-                        <? $item = $product->getItem(); ?>
-                        <? if($item) : ?>  
+
+                    <? if($product->isItem()) :?>
                             <div class="list-wrap">
                                 <div class="list-items">
-                                    <? if (count($item->getUoms()) > 0) : ?>
-                                        <? foreach($item->getUoms() as $itemUom) : ?>
+                                    <? if ($product->hasUoms()) : ?>
+                                        <? foreach($product->getUoms() as $itemUom) : ?>
                                             <?=$this->partial($pdir.'item-uom.phtml', array('itemUom' => $itemUom));?>
                                         <? endforeach; ?>
                                     <? else : ?>
@@ -50,7 +49,6 @@
                                     <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'uom'));?>
                                 </div>
                             </div>
-                        <? endif; ?>  
                     <? endif; ?> 
                 </div>
                 <!-- /"This Product > Product" Pane -->

@@ -7,19 +7,16 @@
             <textarea name="description" rows="4" class="span11"><?=(isset($product)?$product->getDescription():null);?></textarea>
         </div>
         <div class="span3">
-            <? if(isset($product) && $product->getType() === 'product') : ?>
-                <? $item = $product->getItem(); ?>  
-                <? if($item) : ?>
+            <? if(isset($product) && $product->isItem()) : ?>
                     Manufacturer<br/>
                     <select class="span3">
                         <option>asdf</option>
                         <option>1234</option>
                     </select>
                     Item Number<br/>
-                    <input name="itemNumber" class="span3" type="text" value="<?=$item->getItemNumber();?>"/>
+                    <input name="itemNumber" class="span3" type="text" value="<?=$product->getItemNumber();?>"/>
                     HCPCS<br/>
-                    <input name="hcpcs" class="span3" type="text" value="<?=$item->getHcpcs();?>"/>
-                <? endif; ?>
+                    <input name="hcpcs" class="span3" type="text" value=""/>
             <? endif; ?>    
         </div> 
     </div>

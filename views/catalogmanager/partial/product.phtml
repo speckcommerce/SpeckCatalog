@@ -16,9 +16,7 @@
             <div class="list-items">
                 <? if (count($product->getOptions()) > 0) : ?>
                     <? foreach ($product->getOptions() as $option) : ?>
-                        <?=$this->partial($pdir.'option.phtml', array(
-                            'option' => $option, 'forms' => $forms,
-                        ));?>
+                        <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
                     <? endforeach; ?>
                 <? endif; ?>
             </div>

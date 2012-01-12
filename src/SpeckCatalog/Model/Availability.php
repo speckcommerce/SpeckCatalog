@@ -18,10 +18,10 @@ class Availability extends RevisionAbstract
     private $availabilityId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductUom")
-     * @ORM\JoinColumn(name="product_uom_id", referencedColumnName="product_uom_id")
+     * @ORM\ManyToOne(targetEntity="ItemUom")
+     * @ORM\JoinColumn(name="item_uom_id", referencedColumnName="item_uom_id")
      */
-    protected $parentProductUom;
+    protected $parentItemUom;
 
 
     /**
@@ -34,6 +34,10 @@ class Availability extends RevisionAbstract
      * @ORM\Column(type="decimal")
      */
     protected $cost = 0;
+
+    protected $parentProductUomId;
+
+    protected $distributorId;
 
     public function getQuantity()
     {
@@ -79,16 +83,6 @@ class Availability extends RevisionAbstract
         return $this->availabilityId;
     }
 
-    public function getParentProductUom()
-    {
-        return $this->parentProductUom;
-    }
-
-    public function setParentProductUom($parentProductUom)
-    {
-        $this->parentProductUom = $parentProductUom;
-        return $this;
-    }
     public function getName()
     {
         return $this->getCost();

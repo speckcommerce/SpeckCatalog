@@ -1,64 +1,25 @@
 <?php
 
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
-use Doctrine\ORM\Mapping AS ORM,
-    SpiffyAnnotation\Form;
-/**
- * @ORM\Entity
- * @ORM\Table(name="catalog_product")
- */
 class Product extends RevisionAbstract
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="product_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */             
-    private $productId;
-
-     /**
-     * @ORM\Column(type="string")
-     * @Form\Element(type="string")
-     */
+    //shell view        
+    protected $productId;
     protected $name;
-
-    /**
-     * @ORM\Column(type="string")
-    */
     protected $description;
-    
-    /**
-     * @ORM\Column(type="string", length=16)
-     */
-    protected $type = null;  //will be('shell', 'product', 'builder')
-    
+    protected $type; 
     //protected $features;
-    
     //protected $attributes;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Option", mappedBy="product")
-     */
     protected $options;
-
-    /**
-     * @ORM\Column(type="float")
-     * @Form\Element(type="float")
-     */
-    protected $price = 0;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Choice", mappedBy="Choice")
-     */
-    protected $parentChoices = array();
-
-    /**
-     * @ORM\OneToOne(targetEntity="Item")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="item_id", nullable=true)
-     */
-    protected $item;
+    protected $parentChoices;
     
+    //item view
+    protected $manufacturer;
+    protected $manufacturerCompanyId;
+    protected $itemNumber;
+    protected $uoms;
+
     public function __construct($type=null)
     {
         if(!$type){
@@ -67,24 +28,15 @@ class Product extends RevisionAbstract
         $this->setType($type);
     }
 
-    private function setType($type)
+    public function setType($type, Item $item=null)
     {
         if($type === null) {
             throw new \RuntimeException("no type specified! '{$this->type}'");  
         }
-        if($type !== 'shell' && $type !== 'product' && $type !== 'builder'){
+        if($type !== 'shell' && $type !== 'item' && $type !== 'builder'){
             throw new \InvalidArgumentException("invalid type, must be 'shell', 'product', or 'builder'");
         }
         $this->type = $type;
-        return $this;
-    }
-
-    public function setItem(Item $item=null)
-    {
-        if($this->type !== 'product') {
-            throw new \RuntimeException("expected type: product, type is: {$this->type}");  
-        }
-        $this->item = $item;
         return $this;
     }
 
@@ -96,8 +48,8 @@ class Product extends RevisionAbstract
 
     public function setOptions($options)
     {
-        $this->options = array();
-        if(is_array($options)){
+        if(is_array($options) && count($options) > 0){
+            $this->options = array();
             foreach($options as $option){
                 $this->addOption($option);
             }
@@ -130,11 +82,6 @@ class Product extends RevisionAbstract
         }
         $this->price = $price;
         return $this;
-    }
-
-    public function getItem()
-    {
-        return $this->item;
     }
 
     public function getOptions()
@@ -175,6 +122,76 @@ class Product extends RevisionAbstract
     public function setParentChoices($parentChoices)
     {
         $this->parentChoices = $parentChoices;
+        return $this;
+    }
+
+    public function forcedItem(){
+        if($this->getType() === 'item'){
+            return true;
+        }else{
+            die('not type "item"');
+        }
+    }
+    public function isItem(){
+        if($this->getType() === 'item'){
+            return true;
+        }
+    }
+    public function hasUoms(){
+        if(is_array($this->getUoms()) && count($this->getUoms()) > 0){
+            return true;
+        }
+    }
+    
+    public function getManufacturer()
+    {
+        $this->forcedItem();
+        return $this->manufacturer;
+    }
+ 
+    public function setManufacturer($manufacturer)
+    {
+        $this->forcedItem();
+        $this->manufacturer = $manufacturer;
+        return $this;
+    }
+ 
+    public function getManufacturerCompanyId()
+    {
+        $this->forcedItem();
+        return $this->manufacturerCompanyId;
+    }
+ 
+    public function setManufacturerCompanyId($companyId)
+    {
+        $this->forcedItem();
+        $this->manufacturerCompanyId = $companyId;
+        return $this;
+    }
+ 
+    public function getItemNumber()
+    {
+        $this->forcedItem();
+        return $this->itemNumber;
+    }
+ 
+    public function setItemNumber($itemNumber)
+    {
+        $this->forcedItem();
+        $this->itemNumber = $itemNumber;
+        return $this;
+    }
+ 
+    public function getUoms()
+    {
+        $this->forcedItem();
+        return $this->uoms;
+    }
+ 
+    public function setUoms($uoms)
+    {
+        $this->forcedItem();
+        $this->uoms = $uoms;
         return $this;
     }
 }

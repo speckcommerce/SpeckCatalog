@@ -1,7 +1,7 @@
 <?php
 namespace SpeckCatalogManager\Service;
 
-use EdpUser\Model\User;
+use ZfcUser\Model\User;
 
 class CatalogManagerService
 {

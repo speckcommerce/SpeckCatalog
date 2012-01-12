@@ -1,53 +1,24 @@
 <?php
 
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
-use Doctrine\ORM\Mapping AS ORM;
-    
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="catalog_option")
- */
 class Option extends RevisionAbstract
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="option_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */             
     private $optionId;
 
 
-    //Many to Many
-    //other parents may own THIS option
     protected $parentProducts;
     
-    /**
-     * @ORM\Column(type="string")
-     */   
     protected $name;
     
-    /**
-     * @ORM\Column(type="string")
-     */   
     protected $listType = null; //radio, checkbox, dropdown,
     
-    /**
-     * @ORM\Column(type="string")
-     */   
     protected $required = false;
 
     protected $selectedChoice;
     
-    /**
-     * @ORM\Column(type="string")
-     */   
     protected $instruction;
 
-    /**
-     * @ORM\Column(type="string")
-     */   
     protected $builderSegment;
 
     protected $choices=array();
@@ -170,5 +141,12 @@ class Option extends RevisionAbstract
     {
         $this->parentProducts = $parentProducts;
         return $this;
+    }
+    public function __toString(){
+        if($this->getName()){
+            return $this->getName();
+        }else{
+            return '';
+        }
     }
 }

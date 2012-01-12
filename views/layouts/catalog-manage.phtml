@@ -6,68 +6,40 @@
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <?php echo $this->headTitle() ?>
+        <?php echo $this->headScript();?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="/bootstrap.min.css">
-		<link type="text/css" href="/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
-        <script src="/jquery.min.js"></script> 
-		<script src="/js/jquery-ui-1.8.16.custom.min.js"></script>
-        <script src="/bootstrap-dropdown.js"></script>
-        <script src="/bootstrap-modal.js"></script> 
-        <script src="/bootstrap-alerts.js"></script> 
-        <script src="/bootstrap-twipsy.js"></script> 
-        <script src="/bootstrap-popover.js"></script> 
-        <script src="/bootstrap-scrollspy.js"></script> 
-        <script src="/bootstrap-tabs.js"></script> 
-        <script src="/bootstrap-buttons.js"></script>     
-        <script src="/js/catalogmanager.js"></script>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link type="text/css" href="/css/smoothness/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
     </head>
     <style>
         body{
-            
-            margin:40px; 
+            margin:50px; 
             background:#ffffff
         }
         .add-new{
-            /* border-top:1px solid #55ff55; border-bottom:1px solid #eeeeee; */
             margin-bottom:4px; 
             padding: 5px 0 5px 0;
         }
         .existing{
-            /* border-top:1px solid #cccccc; border-bottom:1px solid #eeeeee; */
             padding: 5px 0 5px 0; 
             margin-bottom:4px
         }
         .add-element{
             padding:5px 0 5px 0;
         }
-        .container-wrap{
-            width:940px; 
-            background:#ffffff; 
-            padding:10px; 
-            margin:0 auto; margin-bottom:250px; 
-            border:1px solid #cccccc; 
-            -webkit-border-radius:0 0 4px 4px;
-            -moz-border-radius:0 0 4px 4px;
-            border-radius:0 0 4px 4px;
-        }
         .editform input{
             width:140px;
         }
-        .sortable-placeholder{ height:100px; border:1px solid #f5f5f5; background:#fafafa; padding: 5px }
+        .sortable-placeholder{ height:100px; border:1px solid #000000; background:#fafafa; padding: 5px }
         .sort-handle{border:1px solid #555555; cursor:move;}
         .remover{cursor:hand; cursor:pointer;}
         .half-pad{margin-left:40px;}
         .quarter-pad{margin-left:20px; margin-bottom:20px;}
-        .whitebg{
-            /* border-left:1px solid #dddddd; */
-            background:#ffffff;
-        }
+        .whitebg{background:#ffffff;}
         .contrastbg{
-            /* border-left:1px solid #dddddd; */
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#fff'); /* for IE */
-background: -webkit-gradient(linear, left top, right top, from(#eef), to(#fff)); /* for webkit browsers */
-background: -moz-linear-gradient(left,  #eee,  #fff); /* for firefox 3.6+ */ 
-
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#fff'); /* for IE */
+            background: -webkit-gradient(linear, left top, right top, from(#eef), to(#fff)); /* for webkit browsers */
+            background: -moz-linear-gradient(left,  #eee,  #fff); /* for firefox 3.6+ */ 
         }
         .collapsed{border:2px solid #000000;}
         .label{margin-left:5px; border:1px solid #777777;}
@@ -127,11 +99,11 @@ background: -moz-linear-gradient(left,  #eee,  #fff); /* for firefox 3.6+ */
                         </form>
 
                         <ul class="nav secondary-nav">
-                            <? if($this->edpUser()) : ?>
+                            <? if($this->zfcUserIdentity()) : ?>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle">
                                         <? if(isset($session)):?><strong>(<?=count($session);?>)</strong><? endif; ?>
-                                        <?=$this->edpUser()->getDisplayName();?>
+                                        <?=$this->zfcUserIdentity()->getDisplayName();?>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li> asdf </li>
@@ -179,6 +151,8 @@ background: -moz-linear-gradient(left,  #eee,  #fff); /* for firefox 3.6+ */
                 <a class="btn secondary" href="#">Secondary</a>
             </div>
         </div>
+        
+        <ul id="myMenu" class="contextMenu hide"></ul>
 
     </body>
     </html>

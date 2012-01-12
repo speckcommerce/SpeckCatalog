@@ -1,13 +1,14 @@
 <?php
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
 abstract class RevisionAbstract
 {
+    
     protected $userId;
     protected $datetime;
     protected $parentId;
     protected $id;
- 
+
     /**
      * Get userId.
      *

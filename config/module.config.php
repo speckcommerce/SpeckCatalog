@@ -18,8 +18,7 @@ return array(
                 'parameters' => array(
                     'userService'    => 'speckcatalog_user_service',
                     'productService' => 'SpeckCatalog\Service\ProductService',
-            //        'catalogManagerService' => 'SpeckCatalogManager\Service\CatalogManagerService',
-            //        'productService' => 'SpeckCatalog\Service\ProductService',
+                    'optionService' => 'SpeckCatalog\Service\OptionService',
                 ),
             ),
             'Zend\View\PhpRenderer' => array(
@@ -41,6 +40,11 @@ return array(
                        ),
                    ),
                )
+           ),
+           'SpeckCatalog\Service\OptionService' => array(
+               'parameters' => array(
+                   'optionMapper' => 'SpeckCatalog\Model\Mapper\OptionMapper',
+               ),
            ),
            'SpeckCatalog\Service\ProductService' => array(
                'parameters' => array(

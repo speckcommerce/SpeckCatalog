@@ -137,8 +137,15 @@ class Product extends RevisionAbstract
             return true;
         }
     }
-    public function hasUoms(){
+    public function hasUoms()
+    {
         if(is_array($this->getUoms()) && count($this->getUoms()) > 0){
+            return true;
+        }
+    }
+    public function hasOptions()
+    {
+        if($this->getOptions() && count($this->getOptions()) > 0){
             return true;
         }
     }
@@ -193,5 +200,13 @@ class Product extends RevisionAbstract
         $this->forcedItem();
         $this->uoms = $uoms;
         return $this;
+    }
+    public function __toString()
+    {
+        if($this->getName()){
+            return $this->getName();
+        }else{
+            return '';
+        }
     }
 }

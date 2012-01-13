@@ -1,6 +1,14 @@
-<? foreach($results as $entity) : ?>
-    <? $class = explode('\\', get_class($entity)); $className = array_pop($class);?>
-    <? $method = 'get'.ucfirst($className).'Id'; ?>
-    <? $entityId = $entity->$method(); ?>
-    <?=$className;?> - <a href="#" class="modal-search-result" entityId="<?=$entityId;?>" className="<?=strtolower($className);?>"><?=$entity;?></a><br/>
-<? endforeach; ?>
+<? if($results) : ?>
+    <? foreach($results as $entity) : ?>
+        <? $class = explode('\\', get_class($entity)); $className = array_pop($class);?>
+        <? $method = 'get'.ucfirst($className).'Id'; ?>
+        <? $entityId = $entity->$method(); ?>
+        <? $title = ''; ?>
+        <? foreach($entity->toArray() as $key => $val){$title.="| {$key}: {$val} |";}; ?>
+        <?=$className;?> - <a href="#" class="modal-search-result" data-content="<?=$title;?>" rel="popover" data-placement="below" entityId="<?=$entityId;?>" className="<?=strtolower($className);?>"><?=$entity;?></a><br/>
+
+    <? endforeach; ?>
+
+<? else: ?>
+    No Results
+<? endif; ?>

@@ -10,7 +10,8 @@ use Zend\Mvc\Controller\ActionController,
 class IndexController extends ActionController
 {
     protected $productService;
-    
+    protected $optionService;
+
     protected $userService;
     protected $sessionService;
     protected $view = array();
@@ -47,29 +48,6 @@ class IndexController extends ActionController
         return $this->view;
     }
     
-    private function getEntity($className, $entityId=null, $constructor=null, $notifyNew=false)
-    {
-        if($entityId){
-            $session = $this->sessionService->getSession();
-            if(is_numeric($entityId)){
-                return $session[$className.'-'.$entityId];
-            }else{
-                return $session[$entityId];
-            }
-        }else{
-            if($notifyNew === false){
-                $this->view['messages'][] = array(
-                    'type' => 'success',
-                    'status' => 'If you insist!', 
-                    'message' => "You have just added a new {$className} ({$constructor}) to your session.",
-                );
-            }
-            $class = '\SpeckCatalog\Model\\'.$className;
-            $entity = new $class($constructor);
-            return $entity;
-        } 
-    }
-
     public function productAction()
     {
         $this->view['product'] = $this->productService->getProductById($_GET['id']);
@@ -94,10 +72,11 @@ class IndexController extends ActionController
         $this->sessionService = $catalogManagerService;
     }
 
-    protected function entitySearchAction()
+    public function entitySearchAction()
     {
         $this->view['nolayout'] = true;
-        $this->view['results'] = $this->sessionService->getSession();
+        $modelService = $_GET['className'].'Service';
+        $this->view['results'] = $this->$modelService->getModelsBySearchData($_GET['value']);
         return $this->view;
     }   
 
@@ -105,10 +84,10 @@ class IndexController extends ActionController
     {
         $this->view['nolayout'] = true;
         $className = $_GET['className'];
-        $entityId = $_GET['entityId'];
+        $modelService = $className.'Service';
+        $method = 'get'.ucfirst($className).'ById';
         $this->view['partial'] = $className;
-        $entity = $this->getEntity($className, $entityId);
-        $this->view[$className] = $entity;
+        $this->view[$className] = $this->$modelService->$method($_GET['entityId']);
         return $this->view;
     }
     public function entityOptionsAjaxAction()
@@ -118,8 +97,6 @@ class IndexController extends ActionController
         return $this->view;
     }
 
- 
-
     public function getProductService()
     {
         return $this->productService;
@@ -128,6 +105,17 @@ class IndexController extends ActionController
     public function setProductService($productService)
     {
         $this->productService = $productService;
+        return $this;
+    }
+ 
+    public function getOptionService()
+    {
+        return $this->optionService;
+    }
+
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
         return $this;
     }
 }                                   

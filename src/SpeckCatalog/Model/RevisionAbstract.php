@@ -1,7 +1,7 @@
 <?php
 namespace SpeckCatalog\Model;
 
-abstract class RevisionAbstract
+abstract class RevisionAbstract extends SearchData
 {
     
     protected $userId;

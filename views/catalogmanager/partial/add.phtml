@@ -4,10 +4,13 @@
 <? 
     /**
      * import = go get the actual entity
-     * import-from = The returned value from the form element will assist in creating a NEW 'whatever'  
      */
 ?>
-<? if(!isset($name)){$name = '';} ?>
+<? 
+    if(!isset($name)){$name = '';} 
+    if(isset($parentId)){$parentIdString="parentid=\"{$parentId}\"";}else{$parentIdString = '';} 
+
+?>
     <? if($function === 'add-button') : ?>
         <div class="span2 add-element"><input type="button" class="addButton btn primary" value="+ <?=$name;?>"/></div>
     <? endif; ?>
@@ -15,7 +18,7 @@
         <div class="span2 add-element"><input type="button" class="addButtonAjax btn secondary" value="+ <?=$name;?>"/></div>
     <? endif; ?>
     <? if($function === 'import-search') : ?>
-        <div class="span2 add-element"><input type="text" class="span2 import-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
+        <div class="span2 add-element"><input type="text" class="span2 import-modal" <?=$parentIdString;?>entityclass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-one-search') : ?>
         <div class="span2 add-element"><input type="text" class="span2 import-one-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>

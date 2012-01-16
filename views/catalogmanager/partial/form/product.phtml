@@ -1,6 +1,8 @@
-<div id="product-<?=(isset($product)?$product->getProductId():'new');?>" class="live-form">
-    <div class="row">
+<form id="product-<?=(isset($product)?$product->getProductId():'new');?>">
+    <div id="product-<?=(isset($product)?$product->getProductId():'new');?>" class="live-form row">
         <div class="span11">
+            <input type="hidden" name="product_id" value="<?=(isset($product)?$product->getProductId():null);?>"/>
+            <input type="hidden" name="type" value="<?=(isset($product)?$product->getType():null);?>"/>
             Name<br/>
             <input name="name" class="span11" type="text" value="<?=(isset($product)?$product->getName():null);?>"/>
             Description<br/>
@@ -9,15 +11,15 @@
         <div class="span3">
             <? if(isset($product) && $product->isItem()) : ?>
                     Manufacturer<br/>
-                    <select class="span3">
-                        <option>asdf</option>
-                        <option>1234</option>
+                    <select name="manufacturer_company_id" class="span3">
+                        <option value="1">asdf</option>
+                        <option value="2">1234</option>
                     </select>
                     Item Number<br/>
-                    <input name="itemNumber" class="span3" type="text" value="<?=$product->getItemNumber();?>"/>
+                    <input name="item_number" class="span3" type="text" value="<?=$product->getItemNumber();?>"/>
                     HCPCS<br/>
                     <input name="hcpcs" class="span3" type="text" value=""/>
             <? endif; ?>    
         </div> 
-    </div>
-</div>            
+    </div>            
+</form>

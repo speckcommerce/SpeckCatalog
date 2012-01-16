@@ -8,7 +8,7 @@
                 <? $class = explode('\\', get_class($item)); $className = array_pop($class);  ?>
                 <tr>
                     <td><?=$className;?></td>
-                    <td><a href="/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>"><?=$item;?></a></td>
+                    <td><a href="/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>&parent_id=<?=$parentId;?>"><?=$item;?></a></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>  

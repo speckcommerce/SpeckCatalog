@@ -42,25 +42,40 @@ class OptionMapper extends DbMapperAbstract
     public function instantiateModel($row){
         $option = new Option();
         $option->setOptionId($row['option_id'])
-            ->setName($row['name']);
+               ->setInstruction($row['instruction'])
+               ->setName($row['name']);
+        $this->events()->trigger(__FUNCTION__, $this, array('model' => $option));
         return $option;
     }
 
-    public function linkOptionToProduct($productId, $option)
+    public function linkOptionToProduct($productId, $optionId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getLinkerTableName())
             ->where('product_id = ?', $productId)
-            ->where('option_id = ?', $option->getOptionId());
+            ->where('option_id = ?', $optionId());
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if(false === $row){
             $data = new ArrayObject(array(
                 'product_id' => $productId,
-                'option_id'  => $option->getOptionId(),
+                'option_id'  => $optionId,
             ));
             $db->insert($this->getLinkerTableName(), (array) $data);
+        }
+    }
+
+    public function linkOptionsToProduct($productId, $options)
+    {
+        foreach($options as $option){
+            if($option->getOptionId()){
+                $this->optionMapper->update($option);
+                $this->linkOptionToProduct($productId, $option->getOptionId());
+            }else{
+                $option = $this->optionMapper->add($option);
+                $this->linkOptionToProduct($productId, $option->getOptionId());
+            }
         }
     }
 
@@ -76,16 +91,14 @@ class OptionMapper extends DbMapperAbstract
 
     public function persist(Option $option, $mode = 'insert')
     {
-        $data = new ArrayObject();
-        if($option->getName())        $data['name']        = $option->getName();
-        if($option->getInstruction()) $data['instruction'] = $option->getInstruction();
-        if($option->getOptionId())    $data['option_id']   = $option->getOptionId();
+        $data = new ArrayObject($option->toArray());
         $data['search_data'] = $option->getSearchData();
 
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
         $db = $this->getWriteAdapter();
         if ('update' === $mode) {
-            $db->update($this->getTableName(),(array) $data, $db->quoteInto('option_id = ?', $option->getOptionId())); 
+            $db->update($this->getTableName(),(array) $data, $db->quoteInto('option_id = ?', $option->getOptionId()));
+            $option = $this->getOptionById($option->getOptionId());
         } elseif ('insert' === $mode) {
             $db->insert($this->getTableName(), (array) $data);
             $option->setOptionId($db->lastInsertId());

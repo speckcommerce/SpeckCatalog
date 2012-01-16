@@ -10,10 +10,20 @@ class OptionService
     {
         return $this->optionMapper->getOptionById($id);
     }
-
+    
+    public function updateModelFromArray($arr)
+    {
+        $option = $this->optionMapper->instantiateModel($arr);
+        return $this->optionMapper->update($option)->toArray();
+    }  
+    
     public function getModelsBySearchData($string)
     {
         return $this->optionMapper->getModelsBySearchData($string);
+    }
+    public function linkOptionToProduct($productId, $optionId)
+    {
+        $this->optionMapper->linkOptionToProduct($productId, $optionId);
     }    
 
     public function add($option)

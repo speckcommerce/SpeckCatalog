@@ -33,24 +33,33 @@ class IndexController extends ActionController
         if(!$user){
             return $this->redirect()->toRoute('zfcuser');
         }
-        
-        //$this->session = $this->sessionService->getSession($user);
-        //$this->formService = new FormService(); 
-        //$this->view['session'] = $this->session;
     }
+
     public function sortableSortAction(){
         echo "<script>console.log('sorted');</script>";
     }
 
     public function indexAction()
     {
-        
         return $this->view;
     }
     
+    public function updateRecordAction()
+    {
+        $modelService = $_GET['className'].'Service';
+        $return = $this->$modelService->updateModelFromArray($_POST);
+        
+        var_dump($return);
+        die();
+    }
+
     public function productAction()
     {
-        $this->view['product'] = $this->productService->getProductById($_GET['id']);
+        if(isset($_GET['new'])){
+            $this->view['product'] = $this->productService->newProduct($_GET['new']);
+        }else{
+            $this->view['product'] = $this->productService->getProductById($_GET['id']);
+        }
         return $this->view;
     }
 
@@ -85,9 +94,12 @@ class IndexController extends ActionController
         $this->view['nolayout'] = true;
         $className = $_GET['className'];
         $modelService = $className.'Service';
-        $method = 'get'.ucfirst($className).'ById';
+        $modelById = 'get'.ucfirst($className).'ById';
         $this->view['partial'] = $className;
-        $this->view[$className] = $this->$modelService->$method($_GET['entityId']);
+        if(isset($GET['parent_id'])){
+            $this->$modelService->linkParent($_GET['entityId'], $_GET['parent_id']);
+        }  
+        $this->view[$className] = $this->$modelService->$modelById($_GET['entityId']);
         return $this->view;
     }
     public function entityOptionsAjaxAction()

@@ -28,6 +28,7 @@ class Option extends RevisionAbstract
         $this->choices[] = $choice;
         return $this;
     }
+
     public function setChoices($choices)
     {
         $this->selectedChoice = null; // this must reset the selected choice.
@@ -93,7 +94,7 @@ class Option extends RevisionAbstract
  
     public function setOptionId($optionId)
     {
-        $this->optionId = $optionId;
+        $this->optionId = (int) $optionId;
         return $this;
     }
     
@@ -101,6 +102,13 @@ class Option extends RevisionAbstract
     {
         $this->instruction = $instruction;
         return $this;
+    }
+
+    public function hasChoices()
+    {
+        if($this->getChoices() && count($this->getChoices()) > 0){
+            return true;
+        }
     }
 
     public function getName()
@@ -117,7 +125,7 @@ class Option extends RevisionAbstract
     }
     public function getOptionId()
     {
-        return $this->optionId;
+        return (int)$this->optionId;
     }
     public function getListType()
     {

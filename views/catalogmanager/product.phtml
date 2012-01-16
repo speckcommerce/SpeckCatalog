@@ -67,7 +67,7 @@
                         </div>
                         <div class="row">
                             <?=$this->render($pdir.'option.phtml'); ?>
-                            <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'option'));?>
+                            <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'option', 'parentId' => $product->getProductId()));?>
                             <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'option'));?>
                         </div>
                     </div>

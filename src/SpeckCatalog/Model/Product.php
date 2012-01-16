@@ -5,10 +5,10 @@ namespace SpeckCatalog\Model;
 class Product extends RevisionAbstract
 {
     //shell view        
+    protected $type; 
     protected $productId;
     protected $name;
     protected $description;
-    protected $type; 
     //protected $features;
     //protected $attributes;
     protected $options;
@@ -19,14 +19,6 @@ class Product extends RevisionAbstract
     protected $manufacturerCompanyId;
     protected $itemNumber;
     protected $uoms;
-
-    public function __construct($type=null)
-    {
-        if(!$type){
-            $type = 'shell';
-        }
-        $this->setType($type);
-    }
 
     public function setType($type, Item $item=null)
     {
@@ -39,6 +31,16 @@ class Product extends RevisionAbstract
         $this->type = $type;
         return $this;
     }
+
+    public function __construct($type=null)
+    {
+        if(!$type){
+            $type = 'shell';
+        }
+        $this->setType($type);
+    }
+
+
 
     public function addOption(Option $option)
     {
@@ -152,52 +154,44 @@ class Product extends RevisionAbstract
     
     public function getManufacturer()
     {
-        $this->forcedItem();
         return $this->manufacturer;
     }
  
     public function setManufacturer($manufacturer)
     {
-        $this->forcedItem();
         $this->manufacturer = $manufacturer;
         return $this;
     }
  
     public function getManufacturerCompanyId()
     {
-        $this->forcedItem();
         return $this->manufacturerCompanyId;
     }
  
     public function setManufacturerCompanyId($companyId)
     {
-        $this->forcedItem();
         $this->manufacturerCompanyId = $companyId;
         return $this;
     }
  
     public function getItemNumber()
     {
-        $this->forcedItem();
         return $this->itemNumber;
     }
  
     public function setItemNumber($itemNumber)
     {
-        $this->forcedItem();
         $this->itemNumber = $itemNumber;
         return $this;
     }
  
     public function getUoms()
     {
-        $this->forcedItem();
         return $this->uoms;
     }
  
     public function setUoms($uoms)
     {
-        $this->forcedItem();
         $this->uoms = $uoms;
         return $this;
     }

@@ -9,18 +9,23 @@ use SpeckCatalog\Model\Product,
 class ProductMapper extends DbMapperAbstract
 {
     protected $tableName = 'catalog_product';
-    protected $itemTableName = 'catalog_item';
     
     public function getProductById($id)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from($this->getTableName())
-            ->where( 'product_id = ?', $id);
+                  ->from($this->getTableName())
+                  ->where( 'product_id = ?', $id);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
 
         return $this->instantiateModel($row);
+    }
+    
+    public function newProduct($type)
+    {
+        $product = new Product($type);
+        return $this->add($product);
     }
 
     public function instantiateModel($row)
@@ -29,13 +34,14 @@ class ProductMapper extends DbMapperAbstract
         $product->setProductId($row['product_id'])
                 ->setName($row['name'])
                 ->setDescription($row['description'])
-                ->setType($row['type'])
-                ->setItemNumber($row['item_number'])
-                ->setManufacturerCompanyId($row['manufacturer_company_id']);
+                ->setType($row['type']);
             
-        if($row['type'] ==='item'){
-            $product->setItemNumber($row['item_number']);
-        }
+        if($row['type'] ==='item'){ 
+            $product->setItemNumber($row['item_number'])
+                    ->setManufacturerCompanyId($row['manufacturer_company_id']);
+        }     
+
+        $this->events()->trigger(__FUNCTION__, $this, array('model' => $product));
 
         return $product;  
     }
@@ -52,23 +58,19 @@ class ProductMapper extends DbMapperAbstract
 
     public function persist(Product $product, $mode = 'insert')
     {
-        $data = new ArrayObject(array(
-            'product_id'              => $product->getProductId(),
-            'name'                    => $product->getName(),
-            'description'             => $product->getDescription(),
-            'type'                    => $product->getType(),
-            'item_number'             => $product->getItemNumber(),
-            'manufacturer_company_id' => $product->getManufacturerCompanyId(),
-            'search_data'             => $product->getSearchData(),
-        ));
+        $data = new ArrayObject($product->toArray());
+        $data['search_data'] = $product->getSearchData();
+        
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
         $db = $this->getWriteAdapter();
+        
         if ('update' === $mode) {
             $db->update($this->getTableName(), (array) $data, $db->quoteInto('product_id = ?', $product->getProductId())); 
         } elseif ('insert' === $mode) {
             $db->insert($this->getTableName(), (array) $data);
             $product->setProductId($db->lastInsertId());
         }
+
         return $product;
     }   
 

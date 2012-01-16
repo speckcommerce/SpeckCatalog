@@ -17,7 +17,9 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         } else {
             $sql->where( 'search_data LIKE ?', '%'.$string.'%');
         }
+
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
+  
         $rows = $db->fetchAll($sql);
         if($rows){
             $return = array();

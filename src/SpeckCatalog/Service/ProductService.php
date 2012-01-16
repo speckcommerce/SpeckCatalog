@@ -7,7 +7,6 @@ class ProductService
     protected $productMapper;
     protected $optionMapper;
     
-    
     public function getProductById($id)
     {
         $product = $this->productMapper->getProductById($id);
@@ -16,6 +15,17 @@ class ProductService
         return $product;
     }
 
+    public function updateModelFromArray($arr)
+    {
+        $product = $this->productMapper->instantiateModel($arr);
+        return $this->productMapper->update($product)->toArray();
+    }
+
+    public function newProduct($type)
+    {
+        return $this->productMapper->newProduct($type);
+    }    
+    
     public function getModelsBySearchData($string)
     {
         return $this->productMapper->getModelsBySearchData($string);
@@ -31,15 +41,7 @@ class ProductService
         $this->productMapper->update($product);
     
         if($product->hasOptions()){
-            foreach($product->getOptions() as $option){
-                if($option->getOptionId()){
-                    $this->optionMapper->update($option);
-                    $this->optionMapper->linkOptionToProduct($product->getProductId(), $option);
-                }else{
-                    $option = $this->optionMapper->add($option);
-                    $this->optionMapper->linkOptionToProduct($product->getProductId(), $option);
-                }
-            }
+            $this->optionMapper->linkOptionsToProduct($product->getProductId(), $product->getOptions);
         }
     }
 

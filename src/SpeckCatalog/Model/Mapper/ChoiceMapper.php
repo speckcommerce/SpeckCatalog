@@ -8,12 +8,12 @@ class ChoiceMapper extends DbMapperAbstract
 {
     protected $tableName = 'catalog_choice';
 
-    public function getChoicesByOptionId($optionId)
+    public function getChoicesByParentOptionId($optionId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->where( $this->getLinkerTableName().'.option_id = ?', $optionId);
+                  ->where('parent_option_id = ?', $optionId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
@@ -23,8 +23,11 @@ class ChoiceMapper extends DbMapperAbstract
                 $choices[] = $this->instantiateModel($row);
             }
             return $choices;
+        }else{
+            return array();
         }
     }
+    
     public function getChoiceById($id)
     {
         $db = $this->getReadAdapter();
@@ -37,15 +40,23 @@ class ChoiceMapper extends DbMapperAbstract
         return $this->instantiateModel($row);  
     }
 
+    public function newModel()
+    {
+        $choice = new Choice;
+        return $this->add($choice);
+    }
+
     public function instantiateModel($row){
         $choice = new Choice;
         $choice->setChoiceId($row['choice_id'])
-               ->setName($row['name']);
+               ->setProductId($row['product_id'])
+               ->setParentOptionId($row['parent_option_id'])
+               ->setOverrideName($row['override_name']);
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $choice));
         return $choice;
     }
 
-    public function choice(Choice $choice)
+    public function add(Choice $choice)
     {
         return $this->persist($choice);
     }
@@ -70,8 +81,4 @@ class ChoiceMapper extends DbMapperAbstract
         }
         return $choice;
     }   
-
-    public function getLinkerTableName(){
-        return $this->linkerTableName;
-    }
 }

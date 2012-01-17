@@ -1,51 +1,31 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
-<? if(isset($option)) : ?>
-    <!-- option -->
-    <div class="existing contrastbg entity">
-        <div class="entity-header">
-            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
-            <div><span class="label sort-handle entity-title">Option</span></div>
-            <div><span class="label important remover hide" title="double click to remove this option">x</span></div>
-            <? $parentProductCount = count($option->getParentProducts()); ?>
-            <? if($parentProductCount > 1) : ?>
-                <div><span class="label warning" title="This option is shared amongst <?=$parentProductCount;?> products.">Shared</span></div>
-            <? endif; ?>  
-            <div> &nbsp; <?=$option;?></div>
-        </div>   
-        <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
-        <div class="row">
-            <div class="offset1 span15 list-wrap">
-                <div class="list-items">
-                    <? if (count($option->getChoices()) > 0) : ?>
-                        <? foreach($option->getChoices() as $choice) : ?>
-                            <?=$this->partial($pdir.'choice.phtml', array('choice' => $choice));?>
-                        <? endforeach; ?>
-                    <? else: ?>
-                        <?=$this->partial($pdir.'choice.phtml', array('courtesy' => 1));?>
-                    <? endif; ?>
-                </div>
-                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name'=>'choice'));?>
-                <?=$this->render($pdir.'choice.phtml');?>
+<!-- option -->
+<div class="existing contrastbg boundary">
+    <div class="entity-header">
+        <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
+        <div><span class="label sort-handle entity-title">Option</span></div>
+        <div><span class="label important remover hide" title="double click to remove this option">x</span></div>
+        <? if($option->isShared()) : ?>
+            <div><span class="label warning" title="This option is shared amongst <?=count($option->getParentProducts());?> products.">Shared</span></div>
+        <? endif; ?>  
+        <div> &nbsp; <?=$option;?></div>
+    </div>   
+    <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
+    <div class="row">
+        <div class="offset1 span15 list-wrap">
+            <div class="list-items">
+                <? if ($option->hasChoices()) : ?>
+                    <? foreach($option->getChoices() as $choice) : ?>
+                        <?=$this->partial($pdir.'choice.phtml', array('choice' => $choice));?>
+                    <? endforeach; ?>
+                <? endif; ?>
             </div>
+            <?=$this->partial($pdir.'add.phtml', array(
+                'function' => 'add-button',
+                'className'=>'choice',
+                'parentClassName' => 'option',
+                'parentId' => $option->getOptionId(),
+            ));?>
         </div>
     </div>
-<? else: ?>     
-    <!-- new option -->
-    <? if(isset($courtesy)) : ?> <div class="add-new contrastbg entity"> <? else : ?> <div class="hide add-new contrastbg entity"> <? endif; ?>
-        <div class="entity-header">
-            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
-            <div><span class="label success sort-handle entity-title">New Option</span></div>
-            <div><span class="label important remover hide" title="double click to remove this option">x</span></div>
-        </div>
-        <?=$this->partial($pdir.'form/option.phtml');?>
-        <div class="row">
-            <div class="offset1 span15 list-wrap">
-                <div class="list-items">
-                    <?=$this->partial($pdir.'choice.phtml', array('courtesy' => 1, ));?>
-                </div>
-                <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name'=>'choice'));?>
-                <?=$this->partial($pdir.'choice.phtml');?>
-            </div>
-        </div>
-    </div>
-<? endif; ?>
+</div>

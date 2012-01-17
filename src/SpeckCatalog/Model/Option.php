@@ -6,7 +6,6 @@ class Option extends RevisionAbstract
 {
     private $optionId;
 
-
     protected $parentProducts;
     
     protected $name;
@@ -107,6 +106,12 @@ class Option extends RevisionAbstract
     public function hasChoices()
     {
         if($this->getChoices() && count($this->getChoices()) > 0){
+            return true;
+        }
+    }
+    public function isShared()
+    {
+        if($this->getParentProducts() && count($this->getParentProducts) > 1){
             return true;
         }
     }

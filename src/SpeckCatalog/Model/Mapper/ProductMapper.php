@@ -22,7 +22,7 @@ class ProductMapper extends DbMapperAbstract
         return $this->instantiateModel($row);
     }
     
-    public function newProduct($type)
+    public function newModel($type)
     {
         $product = new Product($type);
         return $this->add($product);

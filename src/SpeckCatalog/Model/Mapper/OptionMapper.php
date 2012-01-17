@@ -27,6 +27,7 @@ class OptionMapper extends DbMapperAbstract
             return $options;
         }
     }
+
     public function getOptionById($id)
     {
         $db = $this->getReadAdapter();
@@ -37,6 +38,12 @@ class OptionMapper extends DbMapperAbstract
         $row = $db->fetchRow($sql);
 
         return $this->instantiateModel($row);  
+    }
+
+    public function newModel()
+    {
+        $option = new Option;
+        return $this->add($option);
     }
 
     public function instantiateModel($row){
@@ -54,7 +61,7 @@ class OptionMapper extends DbMapperAbstract
         $sql = $db->select()
             ->from($this->getLinkerTableName())
             ->where('product_id = ?', $productId)
-            ->where('option_id = ?', $optionId());
+            ->where('option_id = ?', $optionId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if(false === $row){

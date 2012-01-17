@@ -10,6 +10,7 @@ use Zend\Mvc\Controller\ActionController,
 class IndexController extends ActionController
 {
     protected $productService;
+    protected $choiceService;
     protected $optionService;
 
     protected $userService;
@@ -83,23 +84,30 @@ class IndexController extends ActionController
 
     public function entitySearchAction()
     {
+        @extract($_POST);
         $this->view['nolayout'] = true;
-        $modelService = $_GET['className'].'Service';
-        $this->view['results'] = $this->$modelService->getModelsBySearchData($_GET['value']);
+        $modelService = $className.'Service';
+        $this->view['results'] = $this->$modelService->getModelsBySearchData($value);
+        $this->view['parentId'] = $parentId;
         return $this->view;
     }   
 
-    protected function livePartialAction()
+    protected function fetchPartialAction()
     {
         $this->view['nolayout'] = true;
-        $className = $_GET['className'];
+        @extract($_POST);
         $modelService = $className.'Service';
-        $modelById = 'get'.ucfirst($className).'ById';
+        if(isset($isNew)){
+            $newClass = 'new'.ucfirst($parentClassName).ucfirst($className);
+            $this->view[$className] = $this->$modelService->$newClass($parentId);
+        }else{
+            if($parentId){
+                $this->$modelService->linkParent($parentId, $entityId);  
+            }
+            $modelById = 'get'.ucfirst($className).'ById';
+            $this->view[$className] = $this->$modelService->$modelById($_POST['entityId']);
+        }
         $this->view['partial'] = $className;
-        if(isset($GET['parent_id'])){
-            $this->$modelService->linkParent($_GET['entityId'], $_GET['parent_id']);
-        }  
-        $this->view[$className] = $this->$modelService->$modelById($_GET['entityId']);
         return $this->view;
     }
     public function entityOptionsAjaxAction()
@@ -128,6 +136,17 @@ class IndexController extends ActionController
     public function setOptionService($optionService)
     {
         $this->optionService = $optionService;
+        return $this;
+    }
+ 
+    public function getChoiceService()
+    {
+        return $this->choiceService;
+    }
+
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
         return $this;
     }
 }                                   

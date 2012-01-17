@@ -5,12 +5,12 @@ namespace SpeckCatalog\Service;
 class ProductService
 {
     protected $productMapper;
-    protected $optionMapper;
+    protected $optionService;
     
     public function getProductById($id)
     {
         $product = $this->productMapper->getProductById($id);
-        $options = $this->optionMapper->getOptionsByProductId($id);
+        $options = $this->optionService->getOptionsByProductId($id);
         $product->setOptions($options);
         return $product;
     }
@@ -23,7 +23,7 @@ class ProductService
 
     public function newProduct($type)
     {
-        return $this->productMapper->newProduct($type);
+        return $this->productMapper->newModel($type);
     }    
     
     public function getModelsBySearchData($string)
@@ -56,14 +56,14 @@ class ProductService
         return $this;
     }
 
-    public function getOptionMapper()
+    public function getOptionService()
     {
-        return $this->optionMapper;
+        return $this->optionService;
     }
 
-    public function setOptionMapper($optionMapper)
+    public function setOptionService($optionService)
     {
-        $this->optionMapper = $optionMapper;
+        $this->optionService = $optionService;
         return $this;
     }
 }

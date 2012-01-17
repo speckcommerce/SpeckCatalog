@@ -1,27 +1,39 @@
 
 <!-- add-import -->
 <? if(isset($function)) : ?>
+
 <? 
-    /**
-     * import = go get the actual entity
-     */
-?>
-<? 
-    if(!isset($name)){$name = '';} 
-    if(isset($parentId)){$parentIdString="parentid=\"{$parentId}\"";}else{$parentIdString = '';} 
+    if(isset($parentId)){
+        $parentIdString=" parentid=\"{$parentId}\"";
+    }else{
+        $parentIdString = '';
+    } 
+
+    if(isset($parentClassName)){
+        $parentClassNameString=" parentClassName=\"{$parentClassName}\"";
+    }else{
+        $parentClassNameString = '';
+    } 
+    
+    if(isset($className)){
+        $classNameString=" className=\"{$className}\"";
+    }else{
+        $classNameString = '';
+    }
+    if(!isset($name)) $name = $className; 
 
 ?>
     <? if($function === 'add-button') : ?>
-        <div class="span2 add-element"><input type="button" class="addButton btn primary" value="+ <?=$name;?>"/></div>
+        <div class="span2 add-element"><input type="button"<?=$parentClassNameString;?><?=$parentIdString;?><?=$classNameString;?> class="addButton btn primary" value="+ <?=$name;?>"/></div>
     <? endif; ?>
     <? if($function === 'add-button-ajax') : ?>
-        <div class="span2 add-element"><input type="button" class="addButtonAjax btn secondary" value="+ <?=$name;?>"/></div>
+        <div class="span2 add-element"><input type="button" class="addButtonAjax btn secondary"/></div>
     <? endif; ?>
     <? if($function === 'import-search') : ?>
-        <div class="span2 add-element"><input type="text" class="span2 import-modal" <?=$parentIdString;?>entityclass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
+        <div class="span2 add-element"><input type="text" class="span2 import-modal" <?=$parentIdString;?><?=$classNameString;?> placeholder="import <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-one-search') : ?>
-        <div class="span2 add-element"><input type="text" class="span2 import-one-modal" entityClass="<?=$name;?>" placeholder="import <?=$name;?>"></input></div>
+        <div class="span2 add-element"><input type="text" class="span2 import-one-modal"<?=$classNameString;?> placeholder="import <?=$name;?>"></input></div>
     <? endif; ?>
     <? if($function === 'import-dropdown') : ?>
         <div class="span3 add-element">

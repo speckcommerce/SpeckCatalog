@@ -27,7 +27,7 @@
             <div id="my-tab-content" class="tab-content">
 
                 <!-- "This Product > Product" Pane -->
-                <div class="tab-pane entity" id="product">
+                <div class="tab-pane boundary" id="product">
                     <div class="entity-header">
                         <div><span class="label entity-title">Product</span></div>
                     </div>
@@ -37,16 +37,20 @@
                             <div class="list-wrap">
                                 <div class="list-items">
                                     <? if ($product->hasUoms()) : ?>
-                                        <? foreach($product->getUoms() as $itemUom) : ?>
-                                            <?=$this->partial($pdir.'item-uom.phtml', array('itemUom' => $itemUom));?>
+                                        <? foreach($product->getUoms() as $productUom) : ?>
+                                            <?=$this->partial($pdir.'product-uom.phtml', array('productUom' => $productUom));?>
                                         <? endforeach; ?>
-                                    <? else : ?>
-                                        <?=$this->partial($pdir.'item-uom.phtml', array('courtesy' => 1));?>
                                     <? endif; ?>
                                 </div>
                                 <div class="row">
                                     <?=$this->render($pdir.'item-uom.phtml');?>
-                                    <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'uom'));?>
+                                    <?=$this->partial($pdir.'add.phtml', array(
+                                        'function'        => 'add-button',
+                                        'name'            => 'uom',
+                                        'className'       => 'productUom',
+                                        'parentClassName' => 'product',
+                                        'parentId'        => $product->getProductId(),
+                                    ));?>
                                 </div>
                             </div>
                     <? endif; ?> 
@@ -57,18 +61,24 @@
                 <div class="tab-pane" id="options">
                     <div class="list-wrap">
                         <div class="list-items">
-                            <? if (count($product->getOptions()) > 0) : ?>
+                            <? if ($product->hasOptions()) : ?>
                                 <? foreach ($product->getOptions() as $option) : ?>
                                     <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
                                 <? endforeach; ?>
-                            <? else : ?>
-                                <?=$this->partial($pdir.'option.phtml', array('courtesy' =>1));?>
                             <? endif; ?>
                         </div>
                         <div class="row">
-                            <?=$this->render($pdir.'option.phtml'); ?>
-                            <?=$this->partial($pdir.'add.phtml', array('function' => 'import-search', 'name' => 'option', 'parentId' => $product->getProductId()));?>
-                            <?=$this->partial($pdir.'add.phtml', array('function' => 'add-button', 'name' => 'option'));?>
+                            <?=$this->partial($pdir.'add.phtml', array(
+                                'function'  => 'import-search',
+                                'className' => 'option',
+                                'parentId'  => $product->getProductId()
+                            ));?>
+                            <?=$this->partial($pdir.'add.phtml', array(
+                                'function'        => 'add-button',
+                                'className'       => 'option',
+                                'parentClassName' => 'product',
+                                'parentId'        => $product->getProductId(),
+                            ));?>
                         </div>
                     </div>
 

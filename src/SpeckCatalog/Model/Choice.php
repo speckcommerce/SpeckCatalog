@@ -1,58 +1,28 @@
 <?php
 
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
-use Doctrine\ORM\Mapping AS ORM;
     
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="catalog_choice")
- */
 class Choice extends RevisionAbstract
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="choice_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */             
-    private $choiceId;
+           
+    protected $choiceId;
 
-    /**
-     * @ORM\Column(type="string")
-     */
     protected $overrideName;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="Choice")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id")
-     */     
+ 
     protected $product;
 
-    /**
-     * @ORM\OneToMany(targetEntity="ProductUom", mappedBy="Choice")
-     * @ORM\JoinColumn(name="target_uom_id", referencedColumnName="product_uom_id")
-     */
     protected $targetUom;
 
-    /**
-     * @ORM\Column(type="string")
-     */
     protected $targetUomDiscount;
 
-    /**
-     * @ORM\Column(type="string")
-     */
     protected $allUomsDiscount;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Option", mappedBy="Option")
-     */     
-    protected $parentOptions = array();
+   
+    protected $parentOption;
+    protected $parentOptionId;
 
     protected $naChoices = array();
-
-
  
     public function getProduct()
     {
@@ -112,15 +82,23 @@ class Choice extends RevisionAbstract
  
     public function getChoiceId()
     {
-        return $this->choiceId;
+        return (int) $this->choiceId;
     }
  
     public function setChoiceId($choiceId)
     {
-        $this->choiceId = $choiceId;
+        $this->choiceId = (int) $choiceId;
         return $this;
     }
- 
+
+    public function hasOptions()
+    {
+        if($this->getProduct() && $this->getProduct()->hasOptions()){
+            return true;
+        }
+    }
+
+
     public function getNaChoices()
     {
         return $this->naChoices;
@@ -132,45 +110,57 @@ class Choice extends RevisionAbstract
         return $this;
     }
  
-    /**
-     * Get parentOptions.
-     *
-     * @return parentOptions
-     */
-    public function getParentOptions()
-    {
-        return $this->parentOptions;
-    }
- 
-    /**
-     * Set parentOptions.
-     *
-     * @param $parentOptions the value to be set
-     */
-    public function setParentOptions($parentOptions)
-    {
-        $this->parentOptions = $parentOptions;
-        return $this;
-    }
- 
-    /**
-     * Get overrideName.
-     *
-     * @return overrideName
-     */
     public function getOverrideName()
     {
         return $this->overrideName;
     }
  
-    /**
-     * Set overrideName.
-     *
-     * @param $overrideName the value to be set
-     */
     public function setOverrideName($overrideName)
     {
         $this->overrideName = $overrideName;
+        return $this;
+    }
+ 
+
+    public function getParentOption()
+    {
+        return $this->parentOption;
+    }
+ 
+    public function setParentOption($parentOption)
+    {
+        $this->parentOption = $parentOption;
+        return $this;
+    }
+ 
+
+    public function getParentOptionId()
+    {
+        return $this->parentOptionId;
+    }
+ 
+    public function setParentOptionId($parentOptionId)
+    {
+        $this->parentOptionId = $parentOptionId;
+        return $this;
+    }
+    public function __toString()
+    {
+        if($this->getOverrideName()){
+            return $this->getOverrideName();
+        }else{
+            return '';
+        }
+    }
+ 
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+ 
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
         return $this;
     }
 }

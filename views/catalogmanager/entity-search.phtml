@@ -5,7 +5,7 @@
         <? $entityId = $entity->$method(); ?>
         <? $title = ''; ?>
         <? foreach($entity->toArray() as $key => $val){$title.="| {$key}: {$val} |";}; ?>
-        <?=$className;?> - <a href="#" class="modal-search-result" data-content="<?=$title;?>" rel="popover" data-placement="below" entityId="<?=$entityId;?>" className="<?=strtolower($className);?>"><?=$entity;?></a><br/>
+        <?=$className;?> - <a href="#" class="modal-search-result" data-content="<?=$title;?>" rel="popover" data-placement="below" entityId="<?=$entityId;?>" parentId="<?=$parentId;?>" className="<?=strtolower($className);?>"><?=$entity;?></a><br/>
 
     <? endforeach; ?>
 

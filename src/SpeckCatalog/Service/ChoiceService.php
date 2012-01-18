@@ -2,89 +2,46 @@
 
 namespace SpeckCatalog\Service;
 
-class ChoiceService
+class ChoiceService extends ServiceAbstract
 {
-    protected $choiceMapper;
-    protected $productMapper;
-    
-    public function getChoiceById($id)
-    {
-        return $this->choiceMapper->getChoiceById($id);
-    }     
+    protected $productService;
     
     public function getChoicesByParentOptionId($id)
     {
-        $choices = $this->choiceMapper->getChoicesByParentOptionId($id);
+        $choices = $this->modelMapper->getChoicesByParentOptionId($id);
         $return = array();
         foreach ($choices as $choice){
-            $return[] = $this->populateChoice($choice);
+            $return[] = $this->populateModel($choice);
         }
         return $return;
     }
 
-    public function populateChoice($choice)
+    public function populateModel($choice)
     {
-        $product = $this->productMapper->getProductById($choice->getProductId());
+        $product = $this->productService->getModelById($choice->getProductId());
         $choice->setProduct($product);
         return $choice;
     }
     
     public function newOptionChoice($optionId)
     {
-        $choice = $this->choiceMapper->newModel();
+        $choice = $this->modelMapper->newModel();
         $choice->setParentOptionId($optionId);
-        $product = $this->productMapper->newModel('shell');
+        $product = $this->productService->newModel('shell');
         $choice->setProductId($product->getProductId());
-        $this->choiceMapper->update($choice);
+        $this->modelMapper->update($choice);
         $choice->setProduct($product);
         return $choice;
     }
 
-    public function updateModelFromArray($arr)
+    public function getProductService()
     {
-        $choice = $this->choiceMapper->instantiateModel($arr);
-        return $this->choiceMapper->update($choice)->toArray();
-    }  
-    
-    public function getModelsBySearchData($string)
-    {
-        return $this->optionMapper->getModelsBySearchData($string);
-    }
-    
-    public function linkParent($productId, $optionId)
-    {
-        $this->optionMapper->linkOptionToProduct($productId, $optionId);
-    }    
-
-    public function add($option)
-    {
-        $this->optionMapper->add($option);
+        return $this->productService;
     }
 
-    public function update($option)
+    public function setProductService($productService)
     {
-        $this->optionMapper->update($option);
-    }
-
-    public function getChoiceMapper()
-    {
-        return $this->choiceMapper;
-    }
-
-    public function setChoiceMapper($choiceMapper)
-    {
-        $this->choiceMapper = $choiceMapper;
-        return $this;
-    }
- 
-    public function getProductMapper()
-    {
-        return $this->productMapper;
-    }
- 
-    public function setProductMapper($productMapper)
-    {
-        $this->productMapper = $productMapper;
+        $this->productService = $productService;
         return $this;
     }
 }

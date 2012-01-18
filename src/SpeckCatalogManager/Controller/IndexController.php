@@ -57,9 +57,9 @@ class IndexController extends ActionController
     public function productAction()
     {
         if(isset($_GET['new'])){
-            $this->view['product'] = $this->productService->newProduct($_GET['new']);
+            $this->view['product'] = $this->productService->newModel($_GET['new']);
         }else{
-            $this->view['product'] = $this->productService->getProductById($_GET['id']);
+            $this->view['product'] = $this->productService->getModelById($_GET['id']);
         }
         return $this->view;
     }

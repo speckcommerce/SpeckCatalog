@@ -2,9 +2,7 @@
 
 namespace SpeckCatalog\Model;
 
-    
-
-class Choice extends RevisionAbstract
+class Choice extends ModelAbstract
 {
            
     protected $choiceId;

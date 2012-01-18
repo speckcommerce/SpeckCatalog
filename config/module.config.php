@@ -44,19 +44,19 @@ return array(
             ),
             'SpeckCatalog\Service\OptionService' => array(
                 'parameters' => array(
-                    'optionMapper' => 'SpeckCatalog\Model\Mapper\OptionMapper',
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\OptionMapper',
                     'choiceService' => 'SpeckCatalog\Service\ChoiceService',
                 ),
             ),          
             'SpeckCatalog\Service\ChoiceService' => array(
                 'parameters' => array(
-                    'choiceMapper' => 'SpeckCatalog\Model\Mapper\ChoiceMapper',
-                    'productMapper' => 'SpeckCatalog\Model\Mapper\ProductMapper',
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\ChoiceMapper',
+                    'productService' => 'SpeckCatalog\Service\ProductService',
                 ),
             ),
             'SpeckCatalog\Service\ProductService' => array(
                 'parameters' => array(
-                    'productMapper' => 'SpeckCatalog\Model\Mapper\ProductMapper',
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductMapper',
                     'optionService' => 'SpeckCatalog\Service\OptionService',
                 ),
             ),

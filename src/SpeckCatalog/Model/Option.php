@@ -2,7 +2,7 @@
 
 namespace SpeckCatalog\Model;
 
-class Option extends RevisionAbstract
+class Option extends ModelAbstract
 {
     private $optionId;
 

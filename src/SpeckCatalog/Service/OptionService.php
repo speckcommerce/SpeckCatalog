@@ -2,50 +2,32 @@
 
 namespace SpeckCatalog\Service;
 
-class OptionService
+class OptionService extends ServiceAbstract
 {
-    protected $optionMapper;
     protected $choiceService;
-    
-    public function getOptionById($id)
-    {
-        $option = $this->optionMapper->getOptionById($id);
-        return $this->populateOption($option);
-
-    }
     
     public function getOptionsByProductId($productId)
     {
-        $options = $this->optionMapper->getOptionsByProductId($productId);
+        $options = $this->modelMapper->getOptionsByProductId($productId);
+        $return = array();
         foreach($options as $option){
-            $return[] = $this->populateOption($option);
+            $return[] = $this->populateModel($option);
         }
         return $return;
     }
 
-    public function populateOption($option)
+    public function populateModel($option)
     {
-        $choices = $this->choiceService->getChoicesByParentOptionId($option->getOptionId());
+        $choices = $this->getChoiceService()->getChoicesByParentOptionId($option->getOptionId());
         $option->setChoices($choices);
         return $option;
     }
     
     public function newProductOption($productId)
     {
-        $option = $this->optionMapper->newModel();
-        $this->optionMapper->linkOptionToProduct($productId, $option->getOptionId());
+        $option = $this->modelMapper->newModel();
+        $this->modelMapper->linkOptionToProduct($productId, $option->getOptionId());
         return $option;
-    }
-
-    public function updateModelFromArray($arr)
-    {
-        $option = $this->optionMapper->instantiateModel($arr);
-        return $this->optionMapper->update($option)->toArray();
-    }  
-    
-    public function getModelsBySearchData($string)
-    {
-        return $this->optionMapper->getModelsBySearchData($string);
     }
     
     public function linkParent($productId, $optionId)
@@ -53,27 +35,6 @@ class OptionService
         $this->optionMapper->linkOptionToProduct($productId, $optionId);
     }    
 
-    public function add($option)
-    {
-        $this->optionMapper->add($option);
-    }
-
-    public function update($option)
-    {
-        $this->optionMapper->update($option);
-    }
-
-    public function getOptionMapper()
-    {
-        return $this->optionMapper;
-    }
-
-    public function setOptionMapper($optionMapper)
-    {
-        $this->optionMapper = $optionMapper;
-        return $this;
-    }
- 
     public function getChoiceService()
     {
         return $this->choiceService;

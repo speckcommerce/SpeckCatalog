@@ -1,22 +1,20 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
-
-    <div class="existing whitebg boundary">
-        <div class="entity-header">
-            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
-            <div><span class="label sort-handle entity-title">Choice</span></div>
-            <? if($choice->hasOptions()) : ?>
-                <div><span class="label warning" title="This choice has options.">Options</span></div>
-            <? endif; ?>  
-            <div><span class="label important remover hide" title="double click to remove this choice">x</span></div>
-            <div> &nbsp; <?=$choice;?></div>
-        </div>  
-        <div class="row">
-            <div class="span15">
-                <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
-                <div class="row">
-                    <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
-                </div>
+<div class="choice whitebg boundary">
+    <div class="entity-header">
+        <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser initialCollapse"></span></div>
+        <div><span class="label sort-handle entity-title">Choice</span></div>
+        <div><span class="label important remover hide" title="double click to remove this choice">x</span></div>
+        <? if($choice->hasOptions()) : ?>
+            <div><span class="label warning" title="This choice has options.">Options</span></div>
+        <? endif; ?>  
+        <div> &nbsp; <?=$choice;?></div>
+    </div>  
+    <div class="row">
+        <div class="span15">
+            <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
+            <div class="row">
+                <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
             </div>
         </div>
     </div>
-
+</div>

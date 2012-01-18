@@ -1,7 +1,8 @@
 <?php
 namespace SpeckCatalog\Model;
+use ZfcBase\Model\ModelAbstract as ZfcModelAbstract;
 
-abstract class RevisionAbstract extends SearchData
+abstract class ModelAbstract extends ZfcModelAbstract
 {
     
     protected $userId;
@@ -9,87 +10,68 @@ abstract class RevisionAbstract extends SearchData
     protected $parentId;
     protected $id;
 
-    /**
-     * Get userId.
-     *
-     * @return userId
-     */
     public function getUserId()
     {
         return $this->userId;
     }
- 
-    /**
-     * Set userId.
-     *
-     * @param $userId the value to be set
-     */
+
     public function setUserId($userId)
     {
         $this->userId = $userId;
         return $this;
     }
- 
-    /**
-     * Get parentId.
-     *
-     * @return parentId
-     */
+
     public function getParentId()
     {
         return $this->parentId;
     }
- 
-    /**
-     * Set parentId.
-     *
-     * @param $parentId the value to be set
-     */
+
     public function setParentId($parentId)
     {
         $this->parentId = $parentId;
         return $this;
     }
- 
-    /**
-     * Get id.
-     *
-     * @return id
-     */
+
     public function getId()
     {
         return $this->id;
     }
  
-    /**
-     * Set id.
-     *
-     * @param $id the value to be set
-     */
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
  
-    /**
-     * Get datetime.
-     *
-     * @return datetime
-     */
     public function getDatetime()
     {
         return $this->datetime;
     }
  
-    /**
-     * Set datetime.
-     *
-     * @param $datetime the value to be set
-     */
     public function setDatetime($datetime)
     {
         $this->datetime = $datetime;
         return $this;
     }
+
+    private function arrToData($arr, $searchData){
+        foreach($arr as $val){
+            if(is_array($val)){
+                $searchData = $this->arrToData($val, $searchData);
+            }else{
+                if(strstr($val, ' ')){
+                    $searchData = $this->arrToData(explode(' ', $val),$searchData);
+                }else{
+                    if(strlen($val) > 1) $searchData[$val] = strtolower($val);
+                }   
+            }   
+        }
+        return $searchData;
+    }
+
+    public function getSearchData(){
+        $arr = $this->arrToData($this->toArray(), array());
+        return implode(' ', $arr);
+    }   
+
 }

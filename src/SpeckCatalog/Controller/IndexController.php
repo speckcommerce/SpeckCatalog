@@ -16,7 +16,7 @@ class IndexController extends ActionController
     public function productAction()
     {
         $productService = $this->getProductService();
-        return array('product' => $productService->getProductById($_GET['id']));
+        return array('product' => $productService->getModelById($_GET['id']));
     }
 
     public function getProductService()

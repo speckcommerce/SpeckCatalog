@@ -2,7 +2,7 @@
 
 namespace SpeckCatalog\Model;
 
-class Product extends RevisionAbstract
+class Product extends ModelAbstract
 {
     //shell view        
     protected $type; 

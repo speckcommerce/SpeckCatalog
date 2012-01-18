@@ -1,11 +1,11 @@
 <?php
 
 namespace SpeckCatalog\Model\Mapper;
-use SpeckCatalog\Model\Option, 
-    ArrayObject;
+use SpeckCatalog\Model\Option; 
 
 class OptionMapper extends DbMapperAbstract
 {
+    protected $modelClass = 'option';
     protected $tableName = 'catalog_option';
     protected $linkerTableName = 'catalog_product_option_linker';
 
@@ -25,25 +25,9 @@ class OptionMapper extends DbMapperAbstract
                 $options[] = $this->instantiateModel($row);
             }
             return $options;
+        }else{
+            return array();
         }
-    }
-
-    public function getOptionById($id)
-    {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from($this->getTableName())
-            ->where( 'option_id = ?', $id);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-
-        return $this->instantiateModel($row);  
-    }
-
-    public function newModel()
-    {
-        $option = new Option;
-        return $this->add($option);
     }
 
     public function instantiateModel($row){
@@ -85,33 +69,6 @@ class OptionMapper extends DbMapperAbstract
             }
         }
     }
-
-    public function add(Option $option)
-    {
-        return $this->persist($option);
-    }
-
-    public function update(Option $option)
-    {
-        return $this->persist($option, 'update');
-    }       
-
-    public function persist(Option $option, $mode = 'insert')
-    {
-        $data = new ArrayObject($option->toArray());
-        $data['search_data'] = $option->getSearchData();
-
-        $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
-        $db = $this->getWriteAdapter();
-        if ('update' === $mode) {
-            $db->update($this->getTableName(),(array) $data, $db->quoteInto('option_id = ?', $option->getOptionId()));
-            $option = $this->getOptionById($option->getOptionId());
-        } elseif ('insert' === $mode) {
-            $db->insert($this->getTableName(), (array) $data);
-            $option->setOptionId($db->lastInsertId());
-        }
-        return $option;
-    }   
 
     public function getLinkerTableName(){
         return $this->linkerTableName;

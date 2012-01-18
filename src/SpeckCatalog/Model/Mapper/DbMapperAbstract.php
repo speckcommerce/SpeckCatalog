@@ -1,9 +1,31 @@
 <?php
 
 namespace SpeckCatalog\Model\Mapper;
-use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract;
+use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract,
+    ArrayObject;
 class DbMapperAbstract extends ZfcDbMapperAbstract
 {
+    protected $modelClass;
+
+    public function newModel($constructor=null)
+    {
+        $fullClassName = $this->getFullClassName();
+        $model = new $fullClassName($constructor);
+        return $this->add($model);
+    }    
+    
+    public function getModelById($id)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+                  ->from($this->getTableName())
+                  ->where( $this->getModelClass().'_id = ?', $id);
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
+        $row = $db->fetchRow($sql);
+
+        return $this->instantiateModel($row);
+    }     
+
     public function getModelsBySearchData($string)
     {
         $db = $this->getReadAdapter();
@@ -28,5 +50,56 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
             }
             return $return;
         }
+    }  
+    public function add($model)
+    {
+        return $this->persist($model);
+    }
+
+    public function update($model)
+    {
+        return $this->persist($model, 'update');
+    }    
+
+
+    
+    public function persist($model, $mode = 'insert')
+    {
+        $data = new ArrayObject($model->toArray());
+        $data['search_data'] = $model->getSearchData();
+        
+        $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
+        $db = $this->getWriteAdapter();
+        
+        if ('update' === $mode) {
+            $getModelId = 'get'.ucfirst($this->getModelClass()).'Id';
+            $db->update(
+                $this->getTableName(), 
+                (array) $data, 
+                $db->quoteInto($this->getModelClass().'_id = ?', $model->$getModelId())
+            );
+            $model = $this->getModelById($model->$getModelId()); 
+        } elseif ('insert' === $mode) {
+            $db->insert($this->getTableName(), (array) $data);
+            $setModelId = 'set'.ucfirst($this->getModelClass()).'Id';
+            $model->$setModelId($db->lastInsertId());
+        }
+
+        return $model;
+    }
+    public function getFullClassName()
+    {
+        return '\SpeckCatalog\Model\\'.ucfirst($this->getModelClass());  
+    }
+
+    public function getModelClass()
+    {
+        return $this->modelClass;
+    }
+ 
+    public function setModelClass($modelClass)
+    {
+        $this->modelClass = $modelClass;
+        return $this;
     }  
 }

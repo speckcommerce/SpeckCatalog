@@ -9,7 +9,7 @@ use SpeckCatalog\Model\Product,
 class ProductMapper extends DbMapperAbstract
 {
     protected $tableName = 'catalog_product';
-    protected $modelClass = 'product';
+    protected $modelClass = 'Product';
 
     public function instantiateModel($row)
     {

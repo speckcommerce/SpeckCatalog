@@ -18,6 +18,7 @@ return array(
                 'parameters' => array(
                     'userService'    => 'speckcatalog_user_service',
                     'productService' => 'SpeckCatalog\Service\ProductService',
+                    'productUomService' => 'SpeckCatalog\Service\ProductUomService',
                     'optionService' => 'SpeckCatalog\Service\OptionService',
                     'choiceService' => 'SpeckCatalog\Service\ChoiceService',
                 ),
@@ -58,6 +59,12 @@ return array(
                 'parameters' => array(
                     'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductMapper',
                     'optionService' => 'SpeckCatalog\Service\OptionService',
+                    'productUomService' => 'SpeckCatalog\Service\ProductUomService',
+                ),
+            ),
+            'SpeckCatalog\Service\ProductUomService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductUomMapper',
                 ),
             ),
             'SpeckCatalog\Model\Mapper\ChoiceMapper' => array(
@@ -67,6 +74,12 @@ return array(
                 ),
             ),            
             'SpeckCatalog\Model\Mapper\OptionMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+            'SpeckCatalog\Model\Mapper\ProductUomMapper' => array(
                 'parameters' => array(
                     'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',

@@ -10,6 +10,7 @@ use Zend\Mvc\Controller\ActionController,
 class IndexController extends ActionController
 {
     protected $productService;
+    protected $productUomService;
     protected $choiceService;
     protected $optionService;
 
@@ -91,6 +92,11 @@ class IndexController extends ActionController
         $this->view['parentId'] = $parentId;
         return $this->view;
     }   
+    
+    public function camelCaseToDashed($name)
+    {
+        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '-'.strtolower($c[1]); }, $name),'-');
+    }
 
     protected function fetchPartialAction()
     {
@@ -104,10 +110,9 @@ class IndexController extends ActionController
             if($parentId){
                 $this->$modelService->linkParent($parentId, $entityId);  
             }
-            $modelById = 'get'.ucfirst($className).'ById';
-            $this->view[$className] = $this->$modelService->$modelById($_POST['entityId']);
+            $this->view[$className] = $this->$modelService->getModelById($_POST['entityId']);
         }
-        $this->view['partial'] = $className;
+        $this->view['partial'] = $this->camelCaseToDashed($className);
         return $this->view;
     }
     public function entityOptionsAjaxAction()
@@ -147,6 +152,17 @@ class IndexController extends ActionController
     public function setChoiceService($choiceService)
     {
         $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    public function getProductUomService()
+    {
+        return $this->productUomService;
+    }
+
+    public function setProductUomService($productUomService)
+    {
+        $this->productUomService = $productUomService;
         return $this;
     }
 }                                   

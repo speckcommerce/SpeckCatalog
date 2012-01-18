@@ -1,0 +1,35 @@
+<? $pdir = '/catalogmanager/partial/'; ?>
+    <!-- item uom -->
+    <div class="existing contrastbg boundary">
+        <div class="entity-header">
+            <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
+            <div><span class="label sort-handle entity-title">Uom</span></div>
+            <div><span class="label important remover hide" title="double click to remove this uom">x</span></div>
+        </div> 
+        <div class="row">
+            <div class="span5">
+                <?=$this->partial($pdir.'form/product-uom.phtml', array('productUom' => $productUom));?>
+            </div>
+            <div class="span11">
+                <div class="list-wrap">
+                    <div class="list-items">
+                        <? if ($productUom->hasAvailabilities()) : ?>
+                            <? foreach($productUom->getAvailabilities() as $availability) : ?>
+                                <?=$this->partial($pdir.'catalogmanager/partial/availability.phtml', array('availability' => $availability));?>
+                            <? endforeach; ?>
+                        <? endif; ?>
+                    </div>
+                    <div class="row">
+                        <?=$this->partial($pdir.'add.phtml', array(
+                            'function'        => 'add-button',
+                            'name'            => 'availability',
+                            'className'       => 'availability',
+                            'parentClassName' => 'productUom',
+                            'parentId'        => $productUom->getProductUomId(),
+                        ));?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

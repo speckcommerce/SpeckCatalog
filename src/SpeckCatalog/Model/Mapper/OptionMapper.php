@@ -5,7 +5,7 @@ use SpeckCatalog\Model\Option;
 
 class OptionMapper extends DbMapperAbstract
 {
-    protected $modelClass = 'option';
+    protected $modelClass = 'Option';
     protected $tableName = 'catalog_option';
     protected $linkerTableName = 'catalog_product_option_linker';
 

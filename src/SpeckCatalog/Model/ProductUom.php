@@ -1,54 +1,30 @@
 <?php
 
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
-use Doctrine\ORM\Mapping AS ORM;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="catalog_product_uom")
- */
-class ItemUom extends RevisionAbstract
+class ProductUom extends ModelAbstract
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="item_uom_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $itemUomId;
+    protected $productUomId;
 
     protected $uom;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="Product")
-     */
     protected $parentProduct;
+    protected $parentProductId;
     
-    /**
-     * @ORM\Column(type="integer")
-     */
     protected $quantity;
 
-    /**
-     * @ORM\Column(type="decimal")
-     */
     protected $price;
-    /**
-     * @ORM\Column(type="decimal")
-     */
+
     protected $retail;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Availability", mappedBy="Availability")
-     * @ORM\JoinColumn(name="availability_id", referencedColumnName="availability_id")
-     */
     protected $availabilities;
- 
+
     public function addAvailability(Availability $availability)
     {
         $this->availabilities[] = $availability;
         return $this;
     }
+
     public function setAvailabilities($availabilities)
     {
         $this->availabilities = array();
@@ -60,19 +36,14 @@ class ItemUom extends RevisionAbstract
  
     public function setPrice($price)
     {
-        if(!is_float($price)){ 
-            throw new \InvalidArgumentException("price must be float - '{$price}'");
-        }  
-        $this->price = $price;
+        $this->price = (float) $price;
         return $this;
     }
 
     public function setRetail($retail)
     {
-        if(!is_float($retail)){ 
-            throw new \InvalidArgumentException("price must be float - '{$retail}'");
-        }
-        $this->retail = $retail;
+
+        $this->retail = (float) $retail;
         return $this;
     }
  
@@ -88,7 +59,14 @@ class ItemUom extends RevisionAbstract
     {
         return $this->availabilities;
     }
- 
+
+    public function hasAvailabilities()
+    {
+        if($this->getAvailabilities() && count($this->getAvailabilities) > 0){
+            return true;
+        }
+    }
+
     public function getQuantity()
     {
         return $this->quantity;
@@ -121,23 +99,26 @@ class ItemUom extends RevisionAbstract
         $this->parentProduct = $parentProduct;
         return $this;
     }
-    public function getName()
-    {
-        if($this->getUom()){ 
-            return $this->getUom()->getName();
-        }else{
-            return 'n/a';
-        }
-    }
 
-    public function getItemUomId()
+    public function getProductUomId()
     {
-        return $this->itemUomId;
+        return $this->productUomId;
     }
  
-    public function setItemUomId($itemUomId)
+    public function setProductUomId($productUomId)
     {
-        $this->itemUomId = $itemUomId;
+        $this->productUomId = $productUomId;
+        return $this;
+    }
+
+    public function getParentProductId()
+    {
+        return $this->parentProductId;
+    }
+
+    public function setParentProductId($parentProductId)
+    {
+        $this->parentProductId = $parentProductId;
         return $this;
     }
 }

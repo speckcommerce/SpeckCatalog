@@ -19,7 +19,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->where( $this->getModelClass().'_id = ?', $id);
+                  ->where($this->fromCamelCase($this->getModelClass()).'_id = ?', $id);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
 
@@ -76,7 +76,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
             $db->update(
                 $this->getTableName(), 
                 (array) $data, 
-                $db->quoteInto($this->getModelClass().'_id = ?', $model->$getModelId())
+                $db->quoteInto($this->fromCamelCase($this->getModelClass()).'_id = ?', $model->$getModelId())
             );
             $model = $this->getModelById($model->$getModelId()); 
         } elseif ('insert' === $mode) {
@@ -89,7 +89,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     }
     public function getFullClassName()
     {
-        return '\SpeckCatalog\Model\\'.ucfirst($this->getModelClass());  
+        return '\SpeckCatalog\Model\\'.$this->getModelClass();  
     }
 
     public function getModelClass()
@@ -101,5 +101,10 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     {
         $this->modelClass = $modelClass;
         return $this;
-    }  
+    }
+
+    public static function fromCamelCase($name)
+    {
+        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
+    }     
 }

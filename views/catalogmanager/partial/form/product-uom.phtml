@@ -1,0 +1,30 @@
+<form id="productUom-<?=$productUom->getProductUomId();?>">
+<input type="hidden" name="product_uom_id" value="<?=$productUom->getProductUomId();?>"/>
+<input type="hidden" name="parent_product_id" value="<?=$productUom->getParentProductId();?>"/>
+    <div id="productUom-<?=$productUom->getProductUomId();?>" class="row quarter-pad live-form">
+        <div class="span4">
+            <div class="row">
+                <div class="span2">
+                    Uom<br/>
+                    <select class="span2">
+                        <option>asdf</option>
+                    </select>
+                </div>
+                <div class="span1">
+                    Qty<br/>
+                    <input class="span1" type="text" name="quantity" value="<?=$productUom->getQuantity();?>"/>
+                </div>  
+            </div>
+            <div class="row">
+                <div class="span2">
+                    Retail<br/>
+                    <input class="span2" type="text" name="retail" value="<?=$productUom->getRetail();?>"/>
+                </div>
+                <div class="span2">
+                    Price<br/>
+                    <input class="span2" type="text" name="price" value="<?=$productUom->getPrice();?>"/>
+                </div>
+            </div>
+        </div> 
+    </div>
+</form>

@@ -6,7 +6,7 @@ use SpeckCatalog\Model\Choice,
 
 class ChoiceMapper extends DbMapperAbstract
 {
-    protected $modelClass = 'choice';
+    protected $modelClass = 'Choice';
     protected $tableName = 'catalog_choice';
 
     public function getChoicesByParentOptionId($optionId)

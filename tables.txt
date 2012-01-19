@@ -1,0 +1,336 @@
+-- phpMyAdmin SQL Dump
+-- version 3.4.9
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jan 19, 2012 at 02:16 PM
+-- Server version: 5.5.18
+-- PHP Version: 5.3.8
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `speck`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_availability`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_availability` (
+  `availability_id` int(11) NOT NULL AUTO_INCREMENT,
+  `search_data` text NOT NULL,
+  `parent_product_uom_id` int(11) NOT NULL,
+  `distributor_company_id` int(11) NOT NULL,
+  `cost` float NOT NULL,
+  PRIMARY KEY (`availability_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+
+--
+-- Dumping data for table `catalog_availability`
+--
+
+INSERT INTO `catalog_availability` (`availability_id`, `search_data`, `parent_product_uom_id`, `distributor_company_id`, `cost`) VALUES
+(13, '13 10 15', 15, 1, 10),
+(14, '14 123 15', 15, 2, 123);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_choice`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_choice` (
+  `choice_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `search_data` text NOT NULL,
+  `parent_option_id` int(11) NOT NULL,
+  `override_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`choice_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+
+--
+-- Dumping data for table `catalog_choice`
+--
+
+INSERT INTO `catalog_choice` (`choice_id`, `product_id`, `search_data`, `parent_option_id`, `override_name`) VALUES
+(4, 2, 'zzzzzzzzzzzzzzzz', 1, 'zzzzzzzzzzzzzzzz'),
+(5, 3, 'zzzoption3 choice', 5, 'zzzoption3 choice 1'),
+(6, 4, '', 2, ''),
+(7, 5, 'derp', 1, 'derp'),
+(8, 6, '', 2, ''),
+(9, 9, '75', 7, '75'),
+(10, 10, '10 80', 7, '80'),
+(11, 11, '11 85', 7, '85'),
+(12, 12, '12 0"', 8, '0"'),
+(13, 13, '13 1"', 8, '1"'),
+(14, 14, '14 2"', 8, '2"'),
+(15, 15, '15 standard frame', 9, 'Standard Frame'),
+(16, 16, '16 classic frame', 9, 'Classic Frame'),
+(17, 17, '17 direct mount wheel lock (compact only) 10', 10, 'Direct Mount Wheel Lock (Compact Only)'),
+(18, 18, '18 depth adjustable bizzack 11', 11, 'Depth Adjustable Bizzack'),
+(19, 19, '19 0" 12', 12, '0"'),
+(20, 20, '20 -1" 12', 12, '-1"'),
+(21, 21, '21 -2 12', 12, '-2'),
+(25, 28, '25 28', 7, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_company`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_company` (
+  `company_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `search_data` text NOT NULL,
+  PRIMARY KEY (`company_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `catalog_company`
+--
+
+INSERT INTO `catalog_company` (`company_id`, `name`, `search_data`) VALUES
+(1, 'Sunrise Medical', ''),
+(2, 'Invacare', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_option`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_option` (
+  `option_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `instruction` varchar(255) NOT NULL,
+  `search_data` text NOT NULL,
+  `required` tinyint(1) NOT NULL,
+  PRIMARY KEY (`option_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+
+--
+-- Dumping data for table `catalog_option`
+--
+
+INSERT INTO `catalog_option` (`option_id`, `name`, `instruction`, `search_data`, `required`) VALUES
+(1, 'op1', '', 'op1', 0),
+(2, 'op2', '', 'op2', 0),
+(3, 'zzzzzz''s option', '', 'zzzzzz''s option', 0),
+(4, 'zzzz''s option2', '', 'zzzz''s option2', 0),
+(5, '', '', '', 0),
+(6, 'zzzoption3 choice1 option1', '', 'zzzoption3 choice1 option1', 0),
+(7, 'Frame Angle', 'Select Angle', 'frame angle select', 0),
+(8, 'Frame Inset per Side', '', 'frame inset per side', 0),
+(9, 'Frame Style', '', 'frame style', 0),
+(10, 'Frame Direct Mount Wheel Lock', '', 'frame direct mount wheel lock', 0),
+(11, 'Depth Adjustable Backrest', '', 'depth adjustable backrest', 0),
+(12, 'Setting', '', 'setting', 0),
+(13, '', '', '', 0),
+(14, '', '', '', 0),
+(15, '', '', '', 0),
+(16, '', '', '', 0),
+(17, '', '', '', 0),
+(18, '', '', '', 0),
+(19, '', '', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `description` text,
+  `type` enum('item','shell','builder') NOT NULL DEFAULT 'shell',
+  `item_number` varchar(255) NOT NULL,
+  `manufacturer_company_id` int(11) NOT NULL,
+  `search_data` text NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
+
+--
+-- Dumping data for table `catalog_product`
+--
+
+INSERT INTO `catalog_product` (`product_id`, `name`, `description`, `type`, `item_number`, `manufacturer_company_id`, `search_data`) VALUES
+(1, 'asdf', 'desc', 'shell', '', 0, 'shell asdf desc'),
+(2, NULL, NULL, 'shell', '', 0, 'shell'),
+(3, NULL, NULL, 'shell', '', 0, 'shell'),
+(4, NULL, NULL, 'shell', '', 0, 'shell'),
+(5, NULL, NULL, 'shell', '', 0, 'shell'),
+(6, NULL, NULL, 'shell', '', 0, 'shell'),
+(7, 'Quickie Q7', 'The Quickie Q7 with 7000 Series Aluminum and ShapeLoc Technology is shifting the axis of today''s mobility world creating the ultimate in a light-weight wheelchair. Packed with more performance and lifestyle options than ever, the Q7''s leading design and exciting new colors will have everyone saying, "I Want Q7!" Q7...lighter weight, lighter price.', 'item', 'EIR4', 1, 'item quickie q7 the with 7000 series aluminum and shapeloc technology is shifting the axis of today''s mobility world creating ultimate in light-weight wheelchair. packed more performance lifestyle options than ever, q7''s leading design exciting new colors will have everyone saying, "i want q7!" q7...lighter weight, lighter price. eir4'),
+(8, NULL, NULL, 'item', '', 0, 'item'),
+(9, NULL, NULL, 'shell', '', 0, 'shell'),
+(10, NULL, NULL, 'shell', '', 0, 'shell'),
+(11, NULL, NULL, 'shell', '', 0, 'shell'),
+(12, NULL, NULL, 'shell', '', 0, 'shell'),
+(13, NULL, NULL, 'shell', '', 0, 'shell'),
+(14, NULL, NULL, 'shell', '', 0, 'shell'),
+(15, NULL, NULL, 'shell', '', 0, 'shell'),
+(16, NULL, NULL, 'shell', '', 0, 'shell'),
+(17, NULL, NULL, 'shell', '', 0, 'shell'),
+(18, NULL, NULL, 'shell', '', 0, 'shell'),
+(19, NULL, NULL, 'shell', '', 0, 'shell'),
+(20, NULL, NULL, 'shell', '', 0, 'shell'),
+(21, NULL, NULL, 'shell', '', 0, 'shell'),
+(22, NULL, NULL, 'shell', '', 0, 'shell'),
+(24, NULL, NULL, 'shell', '', 0, 'shell'),
+(25, NULL, NULL, 'item', '', 0, 'item'),
+(26, NULL, NULL, 'item', '', 0, 'item'),
+(27, NULL, NULL, 'item', '', 0, 'item'),
+(28, NULL, NULL, 'shell', '', 0, 'shell'),
+(29, NULL, NULL, 'item', '', 0, 'item'),
+(30, 'some new product', 'this is the description', 'item', 'itemnum1234', 1, 'item 30 some new product this is the description itemnum1234'),
+(31, NULL, NULL, 'shell', '', 0, 'shell'),
+(32, 'bnnnnnnnnnnasdfasdf', '', 'builder', '', 0, 'builder 32 bnnnnnnnnnnasdfasdf'),
+(33, NULL, NULL, 'builder', '', 0, 'builder'),
+(34, 'ssssssssssssssssss', '', 'item', '', 1, 'item 34 ssssssssssssssssss'),
+(35, NULL, NULL, 'item', '', 0, 'item'),
+(36, NULL, NULL, 'item', '', 0, 'item'),
+(37, NULL, NULL, 'item', '', 0, 'item'),
+(38, NULL, NULL, 'item', '', 0, 'item');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_option_linker`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_option_linker` (
+  `product_id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL,
+  `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`linker_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `catalog_product_option_linker`
+--
+
+INSERT INTO `catalog_product_option_linker` (`product_id`, `option_id`, `linker_id`) VALUES
+(1, 1, 1),
+(1, 2, 2),
+(2, 3, 3),
+(2, 4, 4),
+(2, 5, 5),
+(3, 6, 6),
+(7, 7, 7),
+(7, 8, 8),
+(7, 9, 9),
+(7, 10, 10),
+(7, 11, 11),
+(18, 12, 12),
+(23, 13, 13),
+(30, 15, 14),
+(30, 16, 15),
+(32, 17, 16),
+(32, 18, 17),
+(32, 19, 18);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_uom`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
+  `product_uom_id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_product_id` int(11) NOT NULL,
+  `search_data` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `retail` float NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `uom_id` int(11) NOT NULL,
+  PRIMARY KEY (`product_uom_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `catalog_product_uom`
+--
+
+INSERT INTO `catalog_product_uom` (`product_uom_id`, `parent_product_id`, `search_data`, `price`, `retail`, `quantity`, `uom_id`) VALUES
+(15, 7, 15, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_uom`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_uom` (
+  `uom_id` int(11) NOT NULL,
+  `search_data` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `display_name` varchar(50) DEFAULT NULL,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `last_ip` int(11) DEFAULT NULL,
+  `register_time` datetime NOT NULL,
+  `register_ip` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `username`, `email`, `display_name`, `password`, `last_login`, `last_ip`, `register_time`, `register_ip`, `active`, `enabled`) VALUES
+(1, NULL, 'nigel.lundsten@gmail.com', 'Nigel Lundsten', '$2a$10$hAxQuYSwuOnLEBNToJyD7.M6NTM1Z2MoyZrYJjXtUOU6XDz.Aj202', '2012-01-19 09:06:52', 2130706433, '2012-01-10 15:08:22', 2130706433, 1, 1),
+(2, NULL, 'postmaster@southwestmedical.com', 'TestUser', '$2a$10$w0LfWj3RZlT7a4XiYC5aIulCCq.jzGPQev0YsqTf.SuzH0lo4QTta', '2012-01-18 11:45:24', 2147483647, '2012-01-18 11:45:24', 2147483647, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_meta`
+--
+
+CREATE TABLE IF NOT EXISTS `user_meta` (
+  `meta_key` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `meta` longtext NOT NULL,
+  PRIMARY KEY (`meta_key`,`user_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `user_meta`
+--
+ALTER TABLE `user_meta`
+  ADD CONSTRAINT `user_meta_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

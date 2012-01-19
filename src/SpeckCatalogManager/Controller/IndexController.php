@@ -13,26 +13,24 @@ class IndexController extends ActionController
     protected $productUomService;
     protected $choiceService;
     protected $optionService;
+    protected $availabilityService;
 
     protected $userService;
-    protected $sessionService;
+    protected $user;
     protected $view = array();
     
     public function __construct()
     {
-        if(!isset($_GET['constructor'])){
-            $_GET['constructor'] = null;
-        }
-        if(!isset($_GET['entityId'])){
-            $_GET['entityId'] = null;
+        if(!isset($_GET['id'])){
+            $_GET['id'] = null;
         }
         $this->events()->attach('dispatch', array($this, 'preDispatch'), 100);
     }
 
     public function preDispatch($e)
     {
-        $user = $this->userService->getAuthService()->getIdentity();
-        if(!$user){
+        $this->user = $this->userService->getAuthService()->getIdentity();
+        if(!$this->user){
             return $this->redirect()->toRoute('zfcuser');
         }
     }
@@ -59,8 +57,10 @@ class IndexController extends ActionController
     {
         if(isset($_GET['new'])){
             $this->view['product'] = $this->productService->newModel($_GET['new']);
-        }else{
+        }elseif($_GET['id']){
             $this->view['product'] = $this->productService->getModelById($_GET['id']);
+        }else{
+            die();
         }
         return $this->view;
     }
@@ -83,16 +83,35 @@ class IndexController extends ActionController
         $this->sessionService = $catalogManagerService;
     }
 
-    public function entitySearchAction()
+    public function searchClassesAction()
     {
+        @extract($_POST);
+        $this->view['nolayout'] = true;
+        $products = $this->productService->getModelsBySearchData($value);
+        if($products){
+            foreach($products as $product){
+                $this->view['results'][] = $product;
+            }
+        }
+        $options = $this->optionService->getModelsBySearchData($value);
+        if($options){
+            foreach($options as $option){
+                $this->view['results'][] = $option;
+            }
+        }
+        return $this->view;
+    }
+
+    public function searchClassAction()
+    {   
         @extract($_POST);
         $this->view['nolayout'] = true;
         $modelService = $className.'Service';
         $this->view['results'] = $this->$modelService->getModelsBySearchData($value);
         $this->view['parentId'] = $parentId;
         return $this->view;
-    }   
-    
+    }
+
     public function camelCaseToDashed($name)
     {
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '-'.strtolower($c[1]); }, $name),'-');
@@ -115,6 +134,7 @@ class IndexController extends ActionController
         $this->view['partial'] = $this->camelCaseToDashed($className);
         return $this->view;
     }
+
     public function entityOptionsAjaxAction()
     {
         $this->view['nolayout'] = true;
@@ -129,7 +149,7 @@ class IndexController extends ActionController
 
     public function setProductService($productService)
     {
-        $this->productService = $productService;
+        $this->productService = $productService->setUser($this->user);
         return $this;
     }
  
@@ -140,7 +160,7 @@ class IndexController extends ActionController
 
     public function setOptionService($optionService)
     {
-        $this->optionService = $optionService;
+        $this->optionService = $optionService->setUser($this->user);
         return $this;
     }
  
@@ -151,7 +171,7 @@ class IndexController extends ActionController
 
     public function setChoiceService($choiceService)
     {
-        $this->choiceService = $choiceService;
+        $this->choiceService = $choiceService->setUser($this->user);
         return $this;
     }
 
@@ -162,7 +182,18 @@ class IndexController extends ActionController
 
     public function setProductUomService($productUomService)
     {
-        $this->productUomService = $productUomService;
+        $this->productUomService = $productUomService->setUser($this->user);
+        return $this;
+    }
+
+    public function getAvailabilityService()
+    {
+        return $this->availabilityService;
+    }
+
+    public function setAvailabilityService($availabilityService)
+    {
+        $this->availabilityService = $availabilityService->setUser($this->user);
         return $this;
     }
 }                                   

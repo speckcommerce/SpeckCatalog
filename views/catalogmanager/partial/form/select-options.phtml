@@ -1,0 +1,17 @@
+<? 
+    /**
+     * echoes options for a dropdown, requires all of these variables:
+     * $data = array of models to use to populate the options
+     * $getIdMethod = the method called to get the id from the model
+     * $getNameMethod = the method called to get the display name from the model 
+     */
+    echo '<option> --- </option>';
+    foreach($data as $option){
+        echo '<option ';
+        if($selectedId === $option->$getIdMethod()){
+            echo 'selected="SELECTED"';
+        }
+        echo 'value="'.$option->$getIdMethod().'">';
+        echo $option->$getNameMethod().'</option>';
+    };
+?>

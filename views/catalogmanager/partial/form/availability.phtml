@@ -1,19 +1,34 @@
- <div id="product-<?=(isset($itemUom)&& $itemUom->getItemUomId()?$itemUom->getItemUomId():'new');?>" class="live-form">
-    <div class="row">
-        <div class="span5">
-            <div class="row">
-                <div class="span3">
-                    Distributor
-                    <select name="distributor" class="span3">
-                        <option>asdf</option>
-                    </select>    
-                </div>
+<? $pdir = '/catalogmanager/partial/'; ?>
+<form id="availability-<?=$availability->getAvailabilityId();?>">
 
-                <div class="span2">
-                    Cost<br/>
-                    <input name="cost" class="span2" type="text"/>
+    <input type="hidden" name="availability_id" value="<?=$availability->getAvailabilityId();?>"/>
+    <input type="hidden" name="parent_product_uom_id" value="<?=$availability->getParentProductUomId();?>"/>
+    
+    <div id="availability-<?=$availability->getAvailabilityId();?>" class="live-form">
+        <div class="row">
+            <div class="span5">
+                <div class="row">
+                    <div class="span3">
+                        Distributor
+
+
+                        <select name="distributor_company_id" class="span3">
+                            <?=$this->partial($pdir.'form/select-options.phtml', array(
+                                'data' => $availability->getCompanies(),
+                                'getIdMethod' => 'getCompanyId',
+                                'selectedId'  => $availability->getDistributorCompanyId(),
+                                'getNameMethod' => 'getName',
+                            ));?>
+                        </select>
+
+                    </div>
+
+                    <div class="span2">
+                        Cost<br/>
+                        <input name="cost" class="span2" value="<?=$availability->getCost();?>" type="text"/>
+                    </div>
                 </div>
-            </div>
+            </div> 
         </div> 
-    </div> 
-</div>  
+    </div>
+</form>                                                                              

@@ -1,7 +1,8 @@
 <?php
 
 namespace SpeckCatalog\Model\Mapper;
-use SpeckCatalog\Model\Option; 
+use SpeckCatalog\Model\Option,
+    ArrayObject; 
 
 class OptionMapper extends DbMapperAbstract
 {

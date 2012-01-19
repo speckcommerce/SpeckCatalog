@@ -14,6 +14,23 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         return $this->add($model);
     }    
     
+    public function getAll()
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+                  ->from($this->getTableName());
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
+     
+        $rows = $db->fetchAll($sql);
+        if($rows){
+            $return = array();
+            foreach($rows as $row){
+                $return[] = $this->instantiateModel($row);   
+            }
+            return $return;
+        }
+    }  
+
     public function getModelById($id)
     {
         $db = $this->getReadAdapter();
@@ -60,8 +77,6 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     {
         return $this->persist($model, 'update');
     }    
-
-
     
     public function persist($model, $mode = 'insert')
     {

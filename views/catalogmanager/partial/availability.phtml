@@ -1,24 +1,12 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
-<? if(isset($availability)) : ?>
-    <div class="existing whitebg">
-        <div class="row">
-            <div class="span2">
-                <span class="handle label">Availability</span>
-            </div>
-            <div class="span6">
-                <?=$this->partial($pdir.'form/availability.phtml', array('availability' => $availability));?>
-            </div>
+<div class="boundary whitebg">
+    <div class="row">
+        <div class="span3 entity-header">
+            <div><span class="label sort-handle entity-title">Availability</span></div>
+            <div><span class="label important remover hide" title="double click to remove this availability">x</span></div>
+        </div>  
+        <div class="span6">
+            <?=$this->partial($pdir.'form/availability.phtml', array('availability' => $availability));?>
         </div>
     </div>
-<? else : ?>
-    <? if(isset($courtesy)) : ?><div class="add-new whitebg"> <? else : ?><div class="hide add-new whitebg"><? endif; ?>
-        <div class="row">
-            <div class="span2">
-                <span class="handle label success">New Availability</span>
-            </div>
-            <div class="span6">
-                <?=$this->partial($pdir.'form/availability.phtml');?>
-            </div>
-        </div>
-    </div>
-<? endif; ?>
+</div>

@@ -62,7 +62,7 @@ class ProductUom extends ModelAbstract
 
     public function hasAvailabilities()
     {
-        if($this->getAvailabilities() && count($this->getAvailabilities) > 0){
+        if($this->getAvailabilities() && count($this->getAvailabilities()) > 0){
             return true;
         }
     }

@@ -1,35 +1,15 @@
 <?php
 
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
-use Doctrine\ORM\Mapping AS ORM;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="catalog_company")
- */
-class Company extends RevisionAbstract
+class Company extends ModelAbstract
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="company_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $companyId;
+    protected $companyId;
 
-    /**
-     * @ORM\Column(type="string", length=32)
-     */
     protected $name;
 
-    /**
-     * @ORM\Column(type="string", length=32)
-     */
     protected $phone;
-
-    /**
-     * @ORM\Column(type="string")
-     */
+    
     protected $email;
 
     protected $products = array();
@@ -71,7 +51,7 @@ class Company extends RevisionAbstract
  
     public function setCompanyId($companyId)
     {
-        $this->companyId = $companyId;
+        $this->companyId = (int) $companyId;
         return $this;
     }
  

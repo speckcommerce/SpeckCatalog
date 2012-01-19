@@ -4,9 +4,17 @@ namespace SpeckCatalog\Service;
 
 class ServiceAbstract
 {
-    protected $modelMapper; 
+    protected $modelMapper;
+    protected $user; 
     
-    public function getModelById($id, $populate=true){
+    
+    public function getAll()
+    {
+        return $this->modelMapper->getAll();
+    }
+
+    public function getModelById($id, $populate=true)
+    {
         $model = $this->modelMapper->getModelById($id);
         if(true === $populate){
             return $this->populateModel($model);
@@ -51,4 +59,15 @@ class ServiceAbstract
     {
         return $this->modelMapper;
     }     
+ 
+    public function getUser()
+    {
+        return $this->user;
+    }
+ 
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
 }

@@ -1,43 +1,20 @@
 <?php
 
-namespace SpeckCatalog\Entity;
+namespace SpeckCatalog\Model;
 
-use Doctrine\ORM\Mapping AS ORM;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="catalog_availability")
- */
-class Availability extends RevisionAbstract
+class Availability extends ModelAbstract
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="availability_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $availabilityId;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ItemUom")
-     * @ORM\JoinColumn(name="item_uom_id", referencedColumnName="item_uom_id")
-     */
-    protected $parentItemUom;
+    protected $availabilityId;
 
-
-    /**
-     * @ORM\OneToOne(targetEntity="Company")
-     * @ORM\JoinColumn(name="company_id", referencedColumnName="company_id")
-     */
+    protected $distributorCompanyId;
     protected $distributor;
+    protected $companies;
 
-    /**
-     * @ORM\Column(type="decimal")
-     */
     protected $cost = 0;
-
+    
     protected $parentProductUomId;
-
-    protected $distributorId;
+    protected $parentProductUom;
 
     public function getQuantity()
     {
@@ -57,7 +34,7 @@ class Availability extends RevisionAbstract
  
     public function setCost($cost)
     {
-        $this->cost = (float)$cost;
+        $this->cost = (float) $cost;
         return $this;
     }
  
@@ -86,5 +63,38 @@ class Availability extends RevisionAbstract
     public function getName()
     {
         return $this->getCost();
+    }
+ 
+    public function getParentProductUomId()
+    {
+        return $this->parentProductUomId;
+    }
+ 
+    public function setParentProductUomId($parentProductUomId)
+    {
+        $this->parentProductUomId = $parentProductUomId;
+        return $this;
+    }
+
+    public function getDistributorCompanyId()
+    {
+        return $this->distributorCompanyId;
+    }
+
+    public function setDistributorCompanyId($distributorCompanyId)
+    {
+        $this->distributorCompanyId = (int) $distributorCompanyId;
+        return $this;
+    }
+ 
+    public function getCompanies()
+    {
+        return $this->companies;
+    }
+ 
+    public function setCompanies($companies)
+    {
+        $this->companies = $companies;
+        return $this;
     }
 }

@@ -1,3 +1,4 @@
+<? $pdir = '/catalogmanager/partial/'; ?>
 <form id="product-<?=(isset($product)?$product->getProductId():'new');?>">
     <div id="product-<?=(isset($product)?$product->getProductId():'new');?>" class="live-form row">
         <div class="span11">
@@ -12,9 +13,14 @@
             <? if(isset($product) && $product->isItem()) : ?>
                     Manufacturer<br/>
                     <select name="manufacturer_company_id" class="span3">
-                        <option value="1">asdf</option>
-                        <option value="2">1234</option>
+                        <?=$this->partial($pdir.'form/select-options.phtml', array(
+                            'data' => $product->getCompanies(),
+                            'getIdMethod' => 'getCompanyId',
+                            'selectedId'  => $product->getManufacturerCompanyId(),
+                            'getNameMethod' => 'getName',
+                        ));?>
                     </select>
+
                     Item Number<br/>
                     <input name="item_number" class="span3" type="text" value="<?=$product->getItemNumber();?>"/>
                     HCPCS<br/>

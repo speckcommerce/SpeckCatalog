@@ -1,102 +1,76 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
 
-<!-- tabs -->
 <ul class="tabs" data-tabs="tabs">
-    <li class="this-product"><a href="#this-product">This Product</a></li>
-    <li class="parent-choices"><a href="#parent-choices">Parent Choices</a></li>
+    <li class="active"><a href="#product">Product</a></li>
+    <li><a href="#options">Options</a></li>
 </ul>
-<!-- /tabs -->
+ 
+<div class="pill-content">
 
-<!-- panes -->
-<div id="my-tab-content" class="tab-content">
-    
-    <!--"This Product" Pane -->
-    <div id="this-product">
+    <div class="active boundary" id="product">
+        <div class="entity-header">
+            <div><span class="label entity-title">Product</span></div>
+        </div>
+        <?=$this->partial($pdir.'form/product.phtml', array('product' => $product));?><br/>
 
-            <!-- tabs -->
-            <ul class="tabs" data-tabs="tabs">
-                <li class="product"><a href="#product">Product</a></li>
-                <li class="options"><a href="#options">Options</a></li>
-                <li class="specs"><a href="#specs">Specs</a></li>
-                <li class="features"><a href="#features">Features</a></li>
-                <li class="documents"><a href="#documents">Documents</a></li>
-            </ul> 
-            <!-- /tabs -->
-
-            <!-- panes -->
-            <div id="my-tab-content" class="tab-content">
-
-                <!-- "This Product > Product" Pane -->
-                <div class="tab-pane boundary" id="product">
-                    <div class="entity-header">
-                        <div><span class="label entity-title">Product</span></div>
+        <? if($product->isItem()) :?>
+                <div class="list-wrap">
+                    <div class="list-items">
+                        <? if ($product->hasUoms()) : ?>
+                            <? foreach($product->getUoms() as $productUom) : ?>
+                                <?=$this->partial($pdir.'product-uom.phtml', array('productUom' => $productUom));?>
+                            <? endforeach; ?>
+                        <? endif; ?>
                     </div>
-                    <?=$this->partial($pdir.'form/product.phtml', array('product' => $product));?><br/>
-
-                    <? if($product->isItem()) :?>
-                            <div class="list-wrap">
-                                <div class="list-items">
-                                    <? if ($product->hasUoms()) : ?>
-                                        <? foreach($product->getUoms() as $productUom) : ?>
-                                            <?=$this->partial($pdir.'product-uom.phtml', array('productUom' => $productUom));?>
-                                        <? endforeach; ?>
-                                    <? endif; ?>
-                                </div>
-                                <div class="row">
-                                    <?=$this->partial($pdir.'add.phtml', array(
-                                        'function'        => 'add-button',
-                                        'name'            => 'uom',
-                                        'className'       => 'productUom',
-                                        'parentClassName' => 'product',
-                                        'parentId'        => $product->getProductId(),
-                                    ));?>
-                                </div>
-                            </div>
-                    <? endif; ?> 
-                </div>
-                <!-- /"This Product > Product" Pane -->
-
-                <!-- "This Product > Options" Pane -->
-                <div class="tab-pane" id="options">
-                    <div class="list-wrap">
-                        <div class="list-items">
-                            <? if ($product->hasOptions()) : ?>
-                                <? foreach ($product->getOptions() as $option) : ?>
-                                    <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
-                                <? endforeach; ?>
-                            <? endif; ?>
-                        </div>
-                        <div class="row">
-                            <?=$this->partial($pdir.'add.phtml', array(
-                                'function'  => 'import-search',
-                                'className' => 'option',
-                                'parentId'  => $product->getProductId()
-                            ));?>
-                            <?=$this->partial($pdir.'add.phtml', array(
-                                'function'        => 'add-button',
-                                'className'       => 'option',
-                                'parentClassName' => 'product',
-                                'parentId'        => $product->getProductId(),
-                            ));?>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- /"This Product > Options" Pane -->
-                
-                <!-- "This Product > Specs" Pane -->
-                <div class="tab-pane" id="specs">
-                    <div class="add-new">
-                        add a spec
+                    <div class="row">
+                        <?=$this->partial($pdir.'add.phtml', array(
+                            'function'        => 'add-button',
+                            'name'            => 'uom',
+                            'className'       => 'productUom',
+                            'parentClassName' => 'product',
+                            'parentId'        => $product->getProductId(),
+                        ));?>
                     </div>
                 </div>
-                <!-- /"This Product > Specs" Pane -->
-
-            </div>
-            <!-- /panes -->
-
+        <? endif; ?>  
     </div>
-    <!-- /"This Product" Pane -->
+
+    <div id="options">
+        <div class="list-wrap">
+            <div class="list-items">
+                <? if ($product->hasOptions()) : ?>
+                    <? foreach ($product->getOptions() as $option) : ?>
+                        <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </div>
+            <div class="row">
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'  => 'import-search',
+                    'className' => 'option',
+                    'parentId'  => $product->getProductId()
+                ));?>
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'add-button',
+                    'className'       => 'option',
+                    'parentClassName' => 'product',
+                    'parentId'        => $product->getProductId(),
+                ));?>
+            </div>
+        </div> 
+    </div>
+
+</div>
+
+<div class="hide">
+
+    <!-- "This Product > Specs" Pane -->
+    <div class="tab-pane" id="specs">
+        <div class="add-new">
+            add a spec
+        </div>
+    </div>
+    <!-- /"This Product > Specs" Pane -->
 
     <!-- "Parent Choices" Pane -->
     <div class="tab-pane" id="parent-choices">
@@ -107,5 +81,3 @@
     <!-- /"Parent Choices" Pane -->
 
 </div>
-<!-- /panes -->
-

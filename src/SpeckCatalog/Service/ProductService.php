@@ -6,10 +6,12 @@ class ProductService extends ServiceAbstract
 {
     protected $optionService;
     protected $productUomService;
+    protected $companyService;
     
     public function populateModel($product){
         $product->setOptions($this->getOptionService()->getOptionsByProductId($product->getProductId()));
         $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($product->getProductId()));
+        $product->setCompanies($this->getCompanyService()->getAll());
         return $product;
     } 
 
@@ -32,6 +34,17 @@ class ProductService extends ServiceAbstract
     public function setProductUomService($productUomService)
     {
         $this->productUomService = $productUomService;
+        return $this;
+    }
+ 
+    public function getCompanyService()
+    {
+        return $this->companyService;
+    }
+ 
+    public function setCompanyService($companyService)
+    {
+        $this->companyService = $companyService;
         return $this;
     }
 }

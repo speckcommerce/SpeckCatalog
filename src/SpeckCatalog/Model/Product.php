@@ -17,6 +17,8 @@ class Product extends ModelAbstract
     //item view
     protected $manufacturer;
     protected $manufacturerCompanyId;
+    protected $companies;
+
     protected $itemNumber;
     protected $uoms;
 
@@ -170,7 +172,7 @@ class Product extends ModelAbstract
  
     public function setManufacturerCompanyId($companyId)
     {
-        $this->manufacturerCompanyId = $companyId;
+        $this->manufacturerCompanyId = (int) $companyId;
         return $this;
     }
  
@@ -202,5 +204,26 @@ class Product extends ModelAbstract
         }else{
             return '';
         }
+    }
+ 
+    /**
+     * Get companies.
+     *
+     * @return companies
+     */
+    public function getCompanies()
+    {
+        return $this->companies;
+    }
+ 
+    /**
+     * Set companies.
+     *
+     * @param $companies the value to be set
+     */
+    public function setCompanies($companies)
+    {
+        $this->companies = $companies;
+        return $this;
     }
 }

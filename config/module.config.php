@@ -21,6 +21,7 @@ return array(
                     'productUomService' => 'SpeckCatalog\Service\ProductUomService',
                     'optionService' => 'SpeckCatalog\Service\OptionService',
                     'choiceService' => 'SpeckCatalog\Service\ChoiceService',
+                    'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
                 ),
             ),
             'Zend\View\PhpRenderer' => array(
@@ -60,11 +61,24 @@ return array(
                     'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductMapper',
                     'optionService' => 'SpeckCatalog\Service\OptionService',
                     'productUomService' => 'SpeckCatalog\Service\ProductUomService',
+                    'companyService' => 'SpeckCatalog\Service\CompanyService',
                 ),
             ),
-            'SpeckCatalog\Service\ProductUomService' => array(
+            'SpeckCatalog\Service\AvailabilityService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\AvailabilityMapper',
+                    'companyService' => 'SpeckCatalog\Service\CompanyService',
+                ),
+            ),              
+             'SpeckCatalog\Service\ProductUomService' => array(
                 'parameters' => array(
                     'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductUomMapper',
+                    'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
+                ),
+            ),              
+            'SpeckCatalog\Service\CompanyService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\CompanyMapper',
                 ),
             ),
             'SpeckCatalog\Model\Mapper\ChoiceMapper' => array(
@@ -85,7 +99,19 @@ return array(
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
-            'SpeckCatalog\Model\Mapper\ProductMapper' => array(
+             'SpeckCatalog\Model\Mapper\ProductMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),              
+            'SpeckCatalog\Model\Mapper\AvailabilityMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+            'SpeckCatalog\Model\Mapper\CompanyMapper' => array(
                 'parameters' => array(
                     'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',

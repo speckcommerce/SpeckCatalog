@@ -32,22 +32,11 @@ class ProductUomService extends ServiceAbstract
         return $return;
     }
       
- 
-    /**
-     * Get availabilityService.
-     *
-     * @return availabilityService
-     */
     public function getAvailabilityService()
     {
         return $this->availabilityService;
     }
  
-    /**
-     * Set availabilityService.
-     *
-     * @param $availabilityService the value to be set
-     */
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;

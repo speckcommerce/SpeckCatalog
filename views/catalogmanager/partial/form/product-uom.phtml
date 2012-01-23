@@ -1,7 +1,9 @@
-<form id="productUom-<?=$productUom->getProductUomId();?>">
-<input type="hidden" name="product_uom_id" value="<?=$productUom->getProductUomId();?>"/>
-<input type="hidden" name="parent_product_id" value="<?=$productUom->getParentProductId();?>"/>
-    <div id="productUom-<?=$productUom->getProductUomId();?>" class="row quarter-pad live-form">
+<form id="productUom-<?=$productUom->getProductUomId();?>" class="live-form">
+    
+    <input type="hidden" name="product_uom_id" value="<?=$productUom->getProductUomId();?>"/>
+    <input type="hidden" name="parent_product_id" value="<?=$productUom->getParentProductId();?>"/>
+    
+    <div class="row quarter-pad">
         <div class="span4">
             <div class="row">
                 <div class="span2">
@@ -27,4 +29,5 @@
             </div>
         </div> 
     </div>
+
 </form>

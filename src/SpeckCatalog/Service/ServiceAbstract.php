@@ -49,6 +49,11 @@ class ServiceAbstract
         $this->modelMapper->update($model);
     }
 
+    public function delete($modelId)
+    {
+        return $this->modelMapper->deleteById($modelId);
+    }
+
     public function setModelMapper($modelMapper)
     {
         $this->modelMapper = $modelMapper;

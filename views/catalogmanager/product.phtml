@@ -8,6 +8,7 @@
 <div class="pill-content">
 
     <div class="active boundary" id="product">
+
         <div class="entity-header">
             <div><span class="label entity-title">Product</span></div>
         </div>
@@ -32,7 +33,8 @@
                         ));?>
                     </div>
                 </div>
-        <? endif; ?>  
+        <? endif; ?>
+
     </div>
 
     <div id="options">
@@ -64,20 +66,16 @@
 
 <div class="hide">
 
-    <!-- "This Product > Specs" Pane -->
     <div class="tab-pane" id="specs">
         <div class="add-new">
             add a spec
         </div>
     </div>
-    <!-- /"This Product > Specs" Pane -->
 
-    <!-- "Parent Choices" Pane -->
     <div class="tab-pane" id="parent-choices">
             <? if (count($product->getParentChoices()) > 0) : ?>
                 <?=$this->partial($pdir.'entity-list.phtml', array('paginator' => $parentChoicesPaginator)); ?>       
             <? endif; ?>  
     </div>
-    <!-- /"Parent Choices" Pane -->
 
 </div>

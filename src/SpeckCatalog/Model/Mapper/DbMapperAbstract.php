@@ -31,6 +31,16 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         }
     }  
 
+    public function deleteById($id)
+    {
+        $db = $this->getReadAdapter();
+        $result = $db->delete(
+            $this->getTableName(),
+            $this->fromCamelCase($this->getModelClass()).'_id = '.$id
+        );
+        die($result);
+    }
+
     public function getModelById($id)
     {
         $db = $this->getReadAdapter();
@@ -48,13 +58,18 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
+        
         if(strstr($string, ' ')){
+
             $string = explode(' ', $string);
             foreach($string as $word){
                 $sql->where( 'search_data LIKE ?', '%'.$word.'%');
             }
+
         } else {
+
             $sql->where( 'search_data LIKE ?', '%'.$string.'%');
+
         }
 
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
@@ -80,13 +95,22 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     
     public function persist($model, $mode = 'insert')
     {
-        $data = new ArrayObject($model->toArray());
+        $data = new ArrayObject(
+            $model->toArray(
+                NULL,
+                function($v){
+                    return htmlentities($v);
+                }
+            )
+        );
+        
         $data['search_data'] = $model->getSearchData();
         
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
         $db = $this->getWriteAdapter();
         
         if ('update' === $mode) {
+            
             $getModelId = 'get'.ucfirst($this->getModelClass()).'Id';
             $db->update(
                 $this->getTableName(), 
@@ -94,10 +118,13 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
                 $db->quoteInto($this->fromCamelCase($this->getModelClass()).'_id = ?', $model->$getModelId())
             );
             $model = $this->getModelById($model->$getModelId()); 
+
         } elseif ('insert' === $mode) {
+
             $db->insert($this->getTableName(), (array) $data);
             $setModelId = 'set'.ucfirst($this->getModelClass()).'Id';
             $model->$setModelId($db->lastInsertId());
+
         }
 
         return $model;

@@ -1,14 +1,17 @@
-<form id="option-<?=(isset($option)&& $option->getOptionId()?$option->getOptionId():'new');?>">
-<div id="option-<?=(isset($option)&& $option->getOptionId()?$option->getOptionId():'new');?>" class="live-form row quarter-pad">
-    <div class="span3">
-        <input type="hidden" name="option_id" value="<?=(isset($option)?$option->getOptionId():'');?>"/>
-        Name<br/>
-        <input name="name" class="span3" type="text" value="<?=(isset($option)?$option->getName():'');?>"/>
-    </div>  
-    <div class="span3">
-        Instruction<br/>
-        <input name="instruction" class="span3" type="text" value="<?=(isset($option)?$option->getInstruction():'');?>"/>
+<form id="option-<?=$option->getOptionId();?>" class="live-form">
+    
+    <input type="hidden" name="option_id" value="<?=$option->getOptionId();?>"/>
+    
+    <div class="row quarter-pad">
+        <div class="span3">
+            Name<br/>
+            <input name="name" class="span3" type="text" value="<?=$option->getName();?>"/>
+        </div>  
+        <div class="span3">
+            Instruction<br/>
+            <input name="instruction" class="span3" type="text" value="<?=$option->getInstruction();?>"/>
+        </div>
+        </form>
     </div>
-    </form>
-</div>
+
 </form>  

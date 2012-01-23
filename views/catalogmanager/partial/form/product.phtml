@@ -1,13 +1,15 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
-<form id="product-<?=(isset($product)?$product->getProductId():'new');?>">
-    <div id="product-<?=(isset($product)?$product->getProductId():'new');?>" class="live-form row">
+<form id="product-<?=$product->getProductId();?>" class="live-form">
+            
+    <input type="hidden" name="product_id" value="<?=$product->getProductId();?>"/>
+    <input type="hidden" name="type" value="<?=$product->getType();?>"/>
+
+    <div class="row">
         <div class="span11">
-            <input type="hidden" name="product_id" value="<?=(isset($product)?$product->getProductId():null);?>"/>
-            <input type="hidden" name="type" value="<?=(isset($product)?$product->getType():null);?>"/>
             Name<br/>
-            <input name="name" class="span11" type="text" value="<?=(isset($product)?$product->getName():null);?>"/>
+            <input name="name" class="span11" type="text" value="<?=$product->getName();?>"/>
             Description<br/>
-            <textarea name="description" rows="4" class="span11"><?=(isset($product)?$product->getDescription():null);?></textarea>
+            <textarea name="description" rows="4" class="span11"><?=$product->getDescription();?></textarea>
         </div>
         <div class="span3">
             <? if(isset($product) && $product->isItem()) : ?>
@@ -28,4 +30,5 @@
             <? endif; ?>    
         </div> 
     </div>            
+
 </form>

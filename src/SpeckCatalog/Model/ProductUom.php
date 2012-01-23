@@ -7,15 +7,16 @@ class ProductUom extends ModelAbstract
     protected $productUomId;
 
     protected $uom;
+    protected $uomCode = 'ea';
 
     protected $parentProduct;
     protected $parentProductId;
     
-    protected $quantity;
+    protected $quantity = 1;
 
-    protected $price;
+    protected $price = 0;
 
-    protected $retail;
+    protected $retail = 0;
 
     protected $availabilities;
 

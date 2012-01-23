@@ -1,6 +1,6 @@
 <?php
 
-namespace SpeckCatalogManager\Controller;
+namespace TestApp\Controller;
 
 use Zend\Mvc\Controller\ActionController,
     SpeckCatalogManager\Service\FormService,
@@ -9,13 +9,13 @@ use Zend\Mvc\Controller\ActionController,
 
 class IndexController extends ActionController
 {
-    protected $productService;
-    protected $productUomService;
-    protected $choiceService;
-    protected $optionService;
-    protected $availabilityService;
-
-    protected $userService;
+    private $productService;
+    private $productUomService;
+    private $choiceService;
+    private $optionService;
+    private $availabilityService;
+    private $userService;
+    
     protected $user;
     protected $view = array();
     
@@ -44,25 +44,18 @@ class IndexController extends ActionController
         return $this->view;
     }
     
-    public function updateRecordAction()
-    {
-        $modelService = $_GET['className'].'Service';
-        $return = $this->$modelService->updateModelFromArray($_POST);
-        
-        var_dump($return);
-        die();
-    }
+
 
     public function productAction()
     {
-        if(isset($_GET['new'])){
-            $this->view['product'] = $this->productService->newModel($_GET['new']);
-        }elseif($_GET['id']){
-            $this->view['product'] = $this->productService->getModelById($_GET['id']);
-        }else{
-            die();
+        @extract($_GET);
+    
+        if (isset($new)) {
+            $product = $this->getProductService()->newModel($new);
+            $this->redirect()->toUrl('/catalogmanager/product?id='.$product->getProductId());
+        } elseif (isset($id)) {
+            return array('product' => $this->getProductService()->getModelById($id));
         }
-        return $this->view;
     }
 
     private function prepPaginator($name, $items=null, $perPage=10, $pageNum=1)
@@ -73,20 +66,31 @@ class IndexController extends ActionController
         }
     }
 
-    public function setUserService($userService)
+    public function updateRecordAction()
     {
-        $this->userService = $userService;
+        $modelService = $_GET['className'].'Service';
+        $return = $this->$modelService->updateModelFromArray($_POST);
+        
+        var_dump($return);
+        die();
     }
 
-    public function setSessionService($catalogManagerService)
-    {                                              
-        $this->sessionService = $catalogManagerService;
+    public function removeAction()
+    {
+        @extract($_POST);
+        $modelService = $model.'Service';
+
+        if ('delete' === $action){
+            var_dump($this->$modelService->delete($id));
+        } elseif ('unlink' === $action){
+            var_dump($this->$modelService->unlink($id, $parentId));
+        }
+        die();
     }
 
     public function searchClassesAction()
     {
         @extract($_POST);
-        $this->view['nolayout'] = true;
         $products = $this->productService->getModelsBySearchData($value);
         if($products){
             foreach($products as $product){
@@ -99,15 +103,18 @@ class IndexController extends ActionController
                 $this->view['results'][] = $option;
             }
         }
+        
+        $this->view['nolayout'] = true;
         return $this->view;
     }
 
     public function searchClassAction()
     {   
         @extract($_POST);
-        $this->view['nolayout'] = true;
         $modelService = $className.'Service';
-        $this->view['results'] = $this->$modelService->getModelsBySearchData($value);
+
+        $this->view['nolayout'] = true;
+        $this->view['results']  = $this->$modelService->getModelsBySearchData($value);
         $this->view['parentId'] = $parentId;
         return $this->view;
     }
@@ -119,9 +126,9 @@ class IndexController extends ActionController
 
     protected function fetchPartialAction()
     {
-        $this->view['nolayout'] = true;
         @extract($_POST);
         $modelService = $className.'Service';
+
         if(isset($isNew)){
             $newClass = 'new'.ucfirst($parentClassName).ucfirst($className);
             $this->view[$className] = $this->$modelService->$newClass($parentId);
@@ -131,14 +138,16 @@ class IndexController extends ActionController
             }
             $this->view[$className] = $this->$modelService->getModelById($_POST['entityId']);
         }
+        
         $this->view['partial'] = $this->camelCaseToDashed($className);
+        $this->view['nolayout'] = true;
         return $this->view;
     }
 
     public function entityOptionsAjaxAction()
     {
         $this->view['nolayout'] = true;
-        $this->view['options'] = array('save',);
+        $this->view['options'] = array('save');
         return $this->view;
     }
 
@@ -195,5 +204,15 @@ class IndexController extends ActionController
     {
         $this->availabilityService = $availabilityService->setUser($this->user);
         return $this;
+    }
+    
+    public function setUserService($userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function setSessionService($catalogManagerService)
+    {                                              
+        $this->sessionService = $catalogManagerService;
     }
 }                                   

@@ -9,10 +9,12 @@ class ProductService extends ServiceAbstract
     protected $companyService;
     
     public function populateModel($product){
-        $product->setOptions($this->getOptionService()->getOptionsByProductId($product->getProductId()));
-        $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($product->getProductId()));
-        $product->setCompanies($this->getCompanyService()->getAll());
-        return $product;
+        if($product){
+            $product->setOptions($this->getOptionService()->getOptionsByProductId($product->getProductId()));
+            $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($product->getProductId()));
+            $product->setCompanies($this->getCompanyService()->getAll());
+            return $product;
+        }
     } 
 
     public function getOptionService()

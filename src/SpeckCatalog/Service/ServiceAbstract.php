@@ -1,6 +1,7 @@
 <?php
 
 namespace SpeckCatalog\Service;
+    use Exception;
 
 class ServiceAbstract
 {
@@ -31,27 +32,27 @@ class ServiceAbstract
     
     public function newModel($constructor)
     {
-        return $this->modelMapper->newModel($constructor);
+        return $this->getModelMapper()->newModel($constructor);
     }
 
     public function getModelsBySearchData($string)
     {
-        return $this->modelMapper->getModelsBySearchData($string);
+        return $this->getModelMapper()->getModelsBySearchData($string);
     }
 
     public function add($model)
     {
-        $this->modelMapper->add($model);
+        $this->getModelMapper()->add($model);
     }
     
     public function update($model)
     {
-        $this->modelMapper->update($model);
+        $this->getModelMapper()->update($model);
     }
 
     public function delete($modelId)
     {
-        return $this->modelMapper->deleteById($modelId);
+        return $this->getModelMapper()->deleteById($modelId);
     }
 
     public function setModelMapper($modelMapper)
@@ -62,7 +63,12 @@ class ServiceAbstract
 
     public function getModelMapper()
     {
-        return $this->modelMapper;
+        if($this->modelMapper){
+            return $this->modelMapper;
+        }else{
+            $class = get_class($this);
+            throw new exception("Please check this modules DI config for {$class} modelMapper, currently none exists, or there was an error");
+        }
     }     
  
     public function getUser()

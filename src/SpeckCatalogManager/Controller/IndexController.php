@@ -1,6 +1,6 @@
 <?php
 
-namespace TestApp\Controller;
+namespace SpeckCatalogManager\Controller;
 
 use Zend\Mvc\Controller\ActionController,
     SpeckCatalogManager\Service\FormService,
@@ -43,8 +43,6 @@ class IndexController extends ActionController
     {
         return $this->view;
     }
-    
-
 
     public function productAction()
     {

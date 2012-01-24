@@ -49,7 +49,6 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
                   ->where($this->fromCamelCase($this->getModelClass()).'_id = ?', $id);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
-
         return $this->instantiateModel($row);
     }     
 
@@ -90,6 +89,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
 
     public function update($model)
     {
+        die($model);
         return $this->persist($model, 'update');
     }    
     

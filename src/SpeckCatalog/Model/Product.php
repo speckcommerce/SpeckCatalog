@@ -22,7 +22,7 @@ class Product extends ModelAbstract
     protected $itemNumber;
     protected $uoms;
 
-    public function setType($type, Item $item=null)
+    public function setType($type = null, Item $item = null)
     {
         if($type === null) {
             throw new \RuntimeException("no type specified! '{$this->type}'");  
@@ -30,6 +30,7 @@ class Product extends ModelAbstract
         if($type !== 'shell' && $type !== 'item' && $type !== 'builder'){
             throw new \InvalidArgumentException("invalid type, must be 'shell', 'product', or 'builder'");
         }
+        
         $this->type = $type;
         return $this;
     }
@@ -75,7 +76,7 @@ class Product extends ModelAbstract
  
     public function setProductId($productId)
     {
-        $this->productId = $productId;
+        $this->productId = (int) $productId;
         return $this;
     }
 

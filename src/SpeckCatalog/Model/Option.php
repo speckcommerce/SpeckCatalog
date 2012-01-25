@@ -52,11 +52,8 @@ class Option extends ModelAbstract
         return $this;
     }
  
-    private function setListType($listType=null)
+    public function setListType($listType=null)
     {
-        if(!$listType){
-            throw new \RuntimeException("listType not Set!");
-        }
         if($listType !== 'radio' && $listType !== 'dropdown' && $listType !== 'checkbox'){
             throw new \InvalidArgumentException("invalid list type - '{$listType}', must be 'radio', 'dropdown' or 'checkbox'");
         }
@@ -114,6 +111,10 @@ class Option extends ModelAbstract
         if($this->getParentProducts() && count($this->getParentProducts) > 1){
             return true;
         }
+    }
+    public function getListTypes()
+    {
+        return array('radio', 'checkbox', 'dropdown');
     }
 
     public function getName()

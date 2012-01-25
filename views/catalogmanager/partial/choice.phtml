@@ -12,9 +12,11 @@
     <div class="row">
         <div class="span15">
             <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
+<? if($choice->hasProduct()) : ?>
             <div class="row">
                 <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
             </div>
+<? endif; ?>
         </div>
     </div>
 </div>

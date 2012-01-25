@@ -14,9 +14,9 @@ class ServiceAbstract
         return $this->modelMapper->getAll();
     }
 
-    public function getModelById($id, $populate=true)
+    public function getById($id, $populate=true)
     {
-        $model = $this->modelMapper->getModelById($id);
+        $model = $this->modelMapper->getById($id);
         if(true === $populate){
             return $this->populateModel($model);
         }else{

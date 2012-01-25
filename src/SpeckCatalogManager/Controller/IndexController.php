@@ -52,7 +52,7 @@ class IndexController extends ActionController
             $product = $this->getProductService()->newModel($new);
             $this->redirect()->toUrl('/catalogmanager/product?id='.$product->getProductId());
         } elseif (isset($id)) {
-            return array('product' => $this->getProductService()->getModelById($id));
+            return array('product' => $this->getProductService()->getById($id));
         }
     }
 

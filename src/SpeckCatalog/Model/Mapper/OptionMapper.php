@@ -35,7 +35,8 @@ class OptionMapper extends DbMapperAbstract
         $option = new Option();
         $option->setOptionId($row['option_id'])
                ->setInstruction($row['instruction'])
-               ->setName($row['name']);
+               ->setName($row['name'])
+               ->setListType($row['list_type']);
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $option));
         return $option;
     }

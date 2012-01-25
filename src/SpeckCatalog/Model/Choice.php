@@ -146,6 +146,8 @@ class Choice extends ModelAbstract
     {
         if($this->getOverrideName()){
             return $this->getOverrideName();
+        }elseif($this->getProduct()){
+            return $this->getProduct()->getName();
         }else{
             return '';
         }
@@ -160,5 +162,12 @@ class Choice extends ModelAbstract
     {
         $this->productId = $productId;
         return $this;
+    }
+
+    public function hasProduct()
+    {
+        if($this->product){
+            return true;
+        }
     }
 }

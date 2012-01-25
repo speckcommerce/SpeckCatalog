@@ -18,8 +18,8 @@ class ChoiceService extends ServiceAbstract
 
     public function populateModel($choice)
     {
-        $product = $this->productService->getModelById($choice->getProductId());
-        $choice->setProduct($product);
+        $product = $this->productService->getById($choice->getProductId());
+        if($product){ $choice->setProduct($product); }
         return $choice;
     }
     
@@ -27,10 +27,10 @@ class ChoiceService extends ServiceAbstract
     {
         $choice = $this->modelMapper->newModel();
         $choice->setParentOptionId($optionId);
-        $product = $this->productService->newModel('shell');
-        $choice->setProductId($product->getProductId());
+        //$product = $this->productService->newModel('shell');
+        //$choice->setProductId($product->getProductId());
         $this->modelMapper->update($choice);
-        $choice->setProduct($product);
+        //$choice->setProduct($product);
         return $choice;
     }
 

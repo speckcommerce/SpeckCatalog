@@ -41,7 +41,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         die($result);
     }
 
-    public function getModelById($id)
+    public function getById($id)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
@@ -89,7 +89,6 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
 
     public function update($model)
     {
-        die($model);
         return $this->persist($model, 'update');
     }    
     
@@ -117,7 +116,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
                 (array) $data, 
                 $db->quoteInto($this->fromCamelCase($this->getModelClass()).'_id = ?', $model->$getModelId())
             );
-            $model = $this->getModelById($model->$getModelId()); 
+            //$model = $this->getModelById($model->$getModelId()); 
 
         } elseif ('insert' === $mode) {
 

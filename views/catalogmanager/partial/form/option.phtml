@@ -1,12 +1,25 @@
+<? $pdir = '/catalogmanager/partial/'; ?>
 <form id="option-<?=$option->getOptionId();?>" class="live-form">
     
     <input type="hidden" name="option_id" value="<?=$option->getOptionId();?>"/>
-    
+
     <div class="row quarter-pad">
+       
+        <div class="span3">
+            List Type<br/>
+            <select name="list_type" class="span3">
+                <?=$this->partial($pdir.'form/select-options.phtml', array(
+                    'data' => $option->getListTypes(),
+                    'selectedId'  => $option->getListType(),
+                ));?>
+            </select> 
+        </div>
+        
         <div class="span3">
             Name<br/>
             <input name="name" class="span3" type="text" value="<?=$option->getName();?>"/>
-        </div>  
+        </div>
+          
         <div class="span3">
             Instruction<br/>
             <input name="instruction" class="span3" type="text" value="<?=$option->getInstruction();?>"/>

@@ -17,9 +17,10 @@ class ServiceAbstract
     public function getById($id, $populate=true)
     {
         $model = $this->modelMapper->getById($id);
-        if(true === $populate){
-            return $this->populateModel($model);
-        }else{
+        if($model){
+            if(true === $populate){
+                $model = $this->populateModel($model);
+            }
             return $model;
         }
     }
@@ -27,10 +28,10 @@ class ServiceAbstract
     public function updateModelFromArray($arr)
     {
         $model = $this->modelMapper->instantiateModel($arr);
-        return $this->modelMapper->update($model)->toArray();
+        return $this->update($model)->toArray();
     }    
     
-    public function newModel($constructor)
+    public function newModel($constructor=null)
     {
         return $this->getModelMapper()->newModel($constructor);
     }
@@ -42,12 +43,12 @@ class ServiceAbstract
 
     public function add($model)
     {
-        $this->getModelMapper()->add($model);
+        return $this->getModelMapper()->add($model);
     }
     
     public function update($model)
     {
-        $this->getModelMapper()->update($model);
+        return $this->getModelMapper()->update($model);
     }
 
     public function delete($modelId)
@@ -66,8 +67,7 @@ class ServiceAbstract
         if($this->modelMapper){
             return $this->modelMapper;
         }else{
-            $class = get_class($this);
-            throw new exception("Please check this modules DI config for {$class} modelMapper, currently none exists, or there was an error");
+            throw new Exception("mapper undefined");
         }
     }     
  

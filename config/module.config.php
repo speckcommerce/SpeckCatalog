@@ -54,6 +54,7 @@ return array(
                 'parameters' => array(
                     'modelMapper' => 'SpeckCatalog\Model\Mapper\ChoiceMapper',
                     'productService' => 'SpeckCatalog\Service\ProductService',
+                    'optionService' => 'SpeckCatalog\Service\OptionService',
                 ),
             ),
             'SpeckCatalog\Service\ProductService' => array(

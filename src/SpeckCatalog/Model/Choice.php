@@ -4,7 +4,6 @@ namespace SpeckCatalog\Model;
 
 class Choice extends ModelAbstract
 {
-           
     protected $choiceId;
 
     protected $overrideName;
@@ -19,6 +18,8 @@ class Choice extends ModelAbstract
    
     protected $parentOption;
     protected $parentOptionId;
+
+    protected $options;
 
     protected $naChoices = array();
  
@@ -91,11 +92,10 @@ class Choice extends ModelAbstract
 
     public function hasOptions()
     {
-        if($this->getProduct() && $this->getProduct()->hasOptions()){
+        if(!$this->getProduct() && $this->getOptions()){
             return true;
         }
     }
-
 
     public function getNaChoices()
     {
@@ -166,8 +166,20 @@ class Choice extends ModelAbstract
 
     public function hasProduct()
     {
-        if($this->product){
+        if($this->getProduct()){
             return true;
         }
+    }
+ 
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+ 
+    public function setOptions($options)
+    {
+        $this->options = $options;
+        return $this;
     }
 }

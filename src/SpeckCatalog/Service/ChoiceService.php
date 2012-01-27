@@ -5,6 +5,7 @@ namespace SpeckCatalog\Service;
 class ChoiceService extends ServiceAbstract
 {
     protected $productService;
+    protected $optionService;
     
     public function getChoicesByParentOptionId($id)
     {
@@ -19,7 +20,11 @@ class ChoiceService extends ServiceAbstract
     public function populateModel($choice)
     {
         $product = $this->productService->getById($choice->getProductId());
-        if($product){ $choice->setProduct($product); }
+        if($product){ 
+            $choice->setProduct($product); 
+        }else{
+            $choice->setOptions($this->getOptionService()->getOptionsByChoiceId($choice->getChoiceId()));
+        }
         return $choice;
     }
     
@@ -42,6 +47,17 @@ class ChoiceService extends ServiceAbstract
     public function setProductService($productService)
     {
         $this->productService = $productService;
+        return $this;
+    }
+ 
+    public function getOptionService()
+    {
+        return $this->optionService;
+    }
+ 
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
         return $this;
     }
 }

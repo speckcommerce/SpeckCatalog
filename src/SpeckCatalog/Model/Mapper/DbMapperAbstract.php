@@ -2,10 +2,12 @@
 
 namespace SpeckCatalog\Model\Mapper;
 use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract,
-    ArrayObject;
+    ArrayObject,
+    Exception;
 class DbMapperAbstract extends ZfcDbMapperAbstract
 {
     protected $modelClass;
+    protected $debugging;
 
     public function newModel($constructor=null)
     {
@@ -49,7 +51,12 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
                   ->where($this->fromCamelCase($this->getModelClass()).'_id = ?', $id);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
-        return $this->instantiateModel($row);
+        if($row){
+            return $this->instantiateModel($row);
+        }elseif($this->debugging){
+            echo get_class($this)."::getById({$id}) returned no row";
+        }
+        
     }     
 
     public function getModelsBySearchData($string)
@@ -59,16 +66,12 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
             ->from($this->getTableName());
         
         if(strstr($string, ' ')){
-
             $string = explode(' ', $string);
             foreach($string as $word){
                 $sql->where( 'search_data LIKE ?', '%'.$word.'%');
             }
-
         } else {
-
             $sql->where( 'search_data LIKE ?', '%'.$string.'%');
-
         }
 
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
@@ -82,6 +85,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
             return $return;
         }
     }  
+
     public function add($model)
     {
         return $this->persist($model);
@@ -94,40 +98,25 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     
     public function persist($model, $mode = 'insert')
     {
-        $data = new ArrayObject(
-            $model->toArray(
-                NULL,
-                function($v){
-                    return htmlentities($v);
-                }
-            )
-        );
-        
+        $data = new ArrayObject($model->toArray(NULL, function($v){return htmlentities($v);}));
+        foreach($data as $key){ if(is_array($key)){ unset($data[$key]); }}
         $data['search_data'] = $model->getSearchData();
-        
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
         $db = $this->getWriteAdapter();
         
         if ('update' === $mode) {
-            
-            $getModelId = 'get'.ucfirst($this->getModelClass()).'Id';
-            $db->update(
-                $this->getTableName(), 
-                (array) $data, 
-                $db->quoteInto($this->fromCamelCase($this->getModelClass()).'_id = ?', $model->$getModelId())
-            );
-            //$model = $this->getModelById($model->$getModelId()); 
-
+            $getModelId = 'get' . ucfirst($this->getModelClass()) . 'Id';
+            $field = $this->fromCamelCase($this->getModelclass()) . '_id = ?';
+            $db->update($this->getTableName(), (array) $data, $db->quoteInto($field, $model->$getModelId()));
         } elseif ('insert' === $mode) {
-
-            $db->insert($this->getTableName(), (array) $data);
-            $setModelId = 'set'.ucfirst($this->getModelClass()).'Id';
+            $result = $db->insert($this->getTableName(), (array) $data);
+            $setModelId = 'set' . ucfirst($this->getModelClass()).'Id';
             $model->$setModelId($db->lastInsertId());
-
         }
 
         return $model;
     }
+
     public function getFullClassName()
     {
         return '\SpeckCatalog\Model\\'.$this->getModelClass();  
@@ -135,7 +124,11 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
 
     public function getModelClass()
     {
-        return $this->modelClass;
+        if($this->modelClass){
+            return $this->modelClass;
+        } else {
+            throw new Exception('modelClass not set');
+        }
     }
  
     public function setModelClass($modelClass)

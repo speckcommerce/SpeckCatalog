@@ -6,17 +6,29 @@
         <div><span class="label important remover hide" title="double click to remove this choice">x</span></div>
         <? if($choice->hasOptions()) : ?>
             <div><span class="label warning" title="This choice has options.">Options</span></div>
+        <? endif; ?>
+        <? if($choice->hasProduct()) : ?>
+            <div><span class="label notice" title="This choice results in a product">Product</span></div>
         <? endif; ?>  
         <div> &nbsp; <?=$choice;?></div>
     </div>  
     <div class="row">
         <div class="span15">
             <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
-<? if($choice->hasProduct()) : ?>
-            <div class="row">
-                <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
-            </div>
-<? endif; ?>
+            <? if($choice->hasProduct()) : ?>
+                <div class="row">
+                    <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
+                </div>
+            <? endif; ?>
+            <? if ($choice->hasOptions()) : ?>
+                <div class="list-wrap">
+                    <div class="list-items">
+                        <? foreach($choice->getOptions() as $option) : ?>
+                            <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
+                        <? endforeach; ?>
+                    </div>
+                </div>  
+            <? endif; ?>
         </div>
     </div>
 </div>

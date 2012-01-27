@@ -16,6 +16,16 @@ class OptionService extends ServiceAbstract
         return $return;
     }
 
+    public function getOptionsByChoiceId($choiceId)
+    {
+        $options = $this->modelMapper->getOptionsByChoiceId($choiceId);
+        $return = array();
+        foreach($options as $option){
+            $return[] = $this->populateModel($option);
+        }
+        return $return;
+    }
+
     public function populateModel($option)
     {
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($option->getOptionId());
@@ -25,14 +35,20 @@ class OptionService extends ServiceAbstract
     
     public function newProductOption($productId)
     {
-        $option = $this->modelMapper->newModel();
-        $this->modelMapper->linkOptionToProduct($productId, $option->getOptionId());
+        $option = $this->newModel();
+        $this->getModelMapper()->linkOptionToProduct($productId, $option->getOptionId());
         return $option;
     }
+
+    public function newChoiceOption($choiceId){}
     
-    public function linkParent($productId, $optionId)
+    public function linkParentChoice($choiceId, $optionId)
     {
-        $this->modelMapper->linkOptionToProduct($productId, $optionId);
+        $this->getModelMapper()->linkOptionToChoice($choiceId, $optionId);
+    }    
+    public function linkParentProduct($productId, $optionId)
+    {
+        $this->getModelMapper()->linkOptionToProduct($productId, $optionId);
     }    
 
     public function getChoiceService()

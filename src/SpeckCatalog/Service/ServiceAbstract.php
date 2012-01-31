@@ -28,7 +28,7 @@ class ServiceAbstract
     public function updateModelFromArray($arr)
     {
         $model = $this->modelMapper->instantiateModel($arr);
-        return $this->update($model)->toArray();
+        return $this->update($model);
     }    
     
     public function newModel($constructor=null)

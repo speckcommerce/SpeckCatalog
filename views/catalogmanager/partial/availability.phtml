@@ -1,12 +1,11 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
 <div class="boundary whitebg">
-    <div class="row">
-        <div class="span3 entity-header">
-            <div><span class="label sort-handle entity-title">Availability</span></div>
-            <div><span class="label important remover hide" title="double click to remove this availability">x</span></div>
-        </div>  
-        <div class="span6">
+    <div class="entity-header">
+        <div><span class="ui-icon ui-icon-triangle-1-s collapser initialCollapse"></span></div>
+        <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
+        <div class="title sort-handle collapser">&nbsp; <?=$availability;?></div>
+    </div>
+    <div class="entity-content">   
             <?=$this->partial($pdir.'form/availability.phtml', array('availability' => $availability));?>
-        </div>
     </div>
 </div>

@@ -1,18 +1,24 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
 <!-- option -->
 <div class="option contrastbg boundary">
+
     <div class="entity-header">
-        <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser"></span></div>
-        <div><span class="label sort-handle entity-title">Option</span></div>
-        <div><span class="label important remover hide" title="double click to remove this option">x</span></div>
+        <div><span class="ui-icon ui-icon-triangle-1-s collapser"></span></div>
         <? if($option->isShared()) : ?>
             <div><span class="label warning" title="This option is shared amongst <?=count($option->getParentProducts());?> products.">Shared</span></div>
         <? endif; ?>  
-        <div> &nbsp; <?=$option;?></div>
-    </div>   
+        <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
+        <div class="title sort-handle collapser">&nbsp; <?=$option;?></div>
+    </div>
+
+    <div class="entity-content">   
     <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
-    <div class="row">
-        <div class="offset1 span15 list-wrap">
+        <div class="list-wrap half-pad">
+            <div class="child-expand">
+                <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-active ui-corner-all"></span></div>
+                <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-active ui-corner-all"></span></div>
+                <div class="title">&nbsp; Choices</div>
+            </div>
             <div class="list-items">
                 <? if ($option->hasChoices()) : ?>
                     <? foreach($option->getChoices() as $choice) : ?>
@@ -20,12 +26,15 @@
                     <? endforeach; ?>
                 <? endif; ?>
             </div>
-            <?=$this->partial($pdir.'add.phtml', array(
-                'function' => 'add-button',
-                'className'=>'choice',
-                'parentClassName' => 'option',
-                'parentId' => $option->getOptionId(),
-            ));?>
+            <div class="collapse">
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function' => 'add-button',
+                    'className'=>'choice',
+                    'parentClassName' => 'option',
+                    'parentId' => $option->getOptionId(),
+                ));?>
+            </div>
         </div>
     </div>
+
 </div>

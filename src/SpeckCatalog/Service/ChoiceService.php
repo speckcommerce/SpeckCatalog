@@ -19,23 +19,22 @@ class ChoiceService extends ServiceAbstract
 
     public function populateModel($choice)
     {
-        $product = $this->productService->getById($choice->getProductId());
-        if($product){ 
-            $choice->setProduct($product); 
-        }else{
-            $choice->setOptions($this->getOptionService()->getOptionsByChoiceId($choice->getChoiceId()));
+        if($choice->getProductId()){
+            $product = $this->productService->getById($choice->getProductId());
+            if($product){ 
+                $choice->setProduct($product); 
+            }
         }
+        $choice->setOptions($this->getOptionService()->getOptionsByChoiceId($choice->getChoiceId()));
+
         return $choice;
     }
     
     public function newOptionChoice($optionId)
     {
-        $choice = $this->modelMapper->newModel();
+        $choice = $this->newModel();
         $choice->setParentOptionId($optionId);
-        //$product = $this->productService->newModel('shell');
-        //$choice->setProductId($product->getProductId());
         $this->modelMapper->update($choice);
-        //$choice->setProduct($product);
         return $choice;
     }
 

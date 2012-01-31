@@ -1,34 +1,43 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
 <div class="choice whitebg boundary">
     <div class="entity-header">
-        <div><span class="ui-state-default ui-corner-all ui-icon ui-icon-triangle-1-s collapser initialCollapse"></span></div>
-        <div><span class="label sort-handle entity-title">Choice</span></div>
-        <div><span class="label important remover hide" title="double click to remove this choice">x</span></div>
-        <? if($choice->hasOptions()) : ?>
-            <div><span class="label warning" title="This choice has options.">Options</span></div>
-        <? endif; ?>
+        <div><span class="ui-icon ui-icon-triangle-1-s collapser initialCollapse"></span></div>
+        <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
+        <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>
+    </div>   
+    <div class="entity-content">  
+        <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
         <? if($choice->hasProduct()) : ?>
-            <div><span class="label notice" title="This choice results in a product">Product</span></div>
-        <? endif; ?>  
-        <div> &nbsp; <?=$choice;?></div>
-    </div>  
-    <div class="row">
-        <div class="span15">
-            <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
-            <? if($choice->hasProduct()) : ?>
-                <div class="row">
-                    <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
-                </div>
-            <? endif; ?>
-            <? if ($choice->hasOptions()) : ?>
-                <div class="list-wrap">
+            <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?>
+        <? else: ?>
+                <div class="list-wrap half-pad">
+                    <div class="child-expand">
+                        <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-default ui-corner-all"></span></div>
+                        <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-default ui-corner-all"></span></div>
+                        <div>&nbsp; Options</div>
+                    </div>  
                     <div class="list-items">
-                        <? foreach($choice->getOptions() as $option) : ?>
-                            <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
-                        <? endforeach; ?>
+                        <? if ($choice->hasOptions()) : ?>
+                            <? foreach($choice->getOptions() as $option) : ?>
+                                <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
+                            <? endforeach; ?>
+                        <? endif; ?>
                     </div>
                 </div>  
-            <? endif; ?>
-        </div>
+            <div class="row">
+            <?=$this->partial($pdir.'add.phtml', array(
+                'function'  => 'import-search', 
+                'className' => 'option',
+                'parentClassName' => 'choice',
+                'parentId' => $choice->getChoiceId(),     
+            ));?>
+            <?=$this->partial($pdir.'add.phtml', array(
+                'function' => 'add-button', 
+                'className' => 'option',
+                'parentClassName' => 'choice',
+                'parentId' => $choice->getChoiceId(),
+            ));?>
+            </div>
+        <? endif; ?> 
     </div>
 </div>

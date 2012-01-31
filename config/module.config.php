@@ -16,11 +16,11 @@ return array(
             ),
             'catalogmanager' => array(
                 'parameters' => array(
-                    'userService'    => 'speckcatalog_user_service',
-                    'productService' => 'SpeckCatalog\Service\ProductService',
-                    'productUomService' => 'SpeckCatalog\Service\ProductUomService',
-                    'optionService' => 'SpeckCatalog\Service\OptionService',
-                    'choiceService' => 'SpeckCatalog\Service\ChoiceService',
+                    'userService'         => 'speckcatalog_user_service',
+                    'productService'      => 'SpeckCatalog\Service\ProductService',
+                    'productUomService'   => 'SpeckCatalog\Service\ProductUomService',
+                    'optionService'       => 'SpeckCatalog\Service\OptionService',
+                    'choiceService'       => 'SpeckCatalog\Service\ChoiceService',
                     'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
                 ),
             ),
@@ -46,34 +46,34 @@ return array(
             ),
             'SpeckCatalog\Service\OptionService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'SpeckCatalog\Model\Mapper\OptionMapper',
+                    'modelMapper'   => 'SpeckCatalog\Model\Mapper\OptionMapper',
                     'choiceService' => 'SpeckCatalog\Service\ChoiceService',
                 ),
             ),          
             'SpeckCatalog\Service\ChoiceService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'SpeckCatalog\Model\Mapper\ChoiceMapper',
+                    'modelMapper'    => 'SpeckCatalog\Model\Mapper\ChoiceMapper',
                     'productService' => 'SpeckCatalog\Service\ProductService',
-                    'optionService' => 'SpeckCatalog\Service\OptionService',
+                    'optionService'  => 'SpeckCatalog\Service\OptionService',
                 ),
             ),
             'SpeckCatalog\Service\ProductService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductMapper',
-                    'optionService' => 'SpeckCatalog\Service\OptionService',
+                    'modelMapper'       => 'SpeckCatalog\Model\Mapper\ProductMapper',
+                    'optionService'     => 'SpeckCatalog\Service\OptionService',
                     'productUomService' => 'SpeckCatalog\Service\ProductUomService',
-                    'companyService' => 'SpeckCatalog\Service\CompanyService',
+                    'companyService'    => 'SpeckCatalog\Service\CompanyService',
                 ),
             ),
             'SpeckCatalog\Service\AvailabilityService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'SpeckCatalog\Model\Mapper\AvailabilityMapper',
+                    'modelMapper'    => 'SpeckCatalog\Model\Mapper\AvailabilityMapper',
                     'companyService' => 'SpeckCatalog\Service\CompanyService',
                 ),
             ),              
              'SpeckCatalog\Service\ProductUomService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'SpeckCatalog\Model\Mapper\ProductUomMapper',
+                    'modelMapper'         => 'SpeckCatalog\Model\Mapper\ProductUomMapper',
                     'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
                 ),
             ),              

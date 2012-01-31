@@ -145,9 +145,9 @@ class Choice extends ModelAbstract
     public function __toString()
     {
         if($this->getOverrideName()){
-            return $this->getOverrideName();
+            return (string) $this->getOverrideName();
         }elseif($this->getProduct()){
-            return $this->getProduct()->getName();
+            return (string) $this->getProduct()->getName();
         }else{
             return '';
         }

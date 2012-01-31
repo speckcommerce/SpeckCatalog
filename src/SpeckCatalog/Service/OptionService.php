@@ -29,7 +29,9 @@ class OptionService extends ServiceAbstract
     public function populateModel($option)
     {
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($option->getOptionId());
-        $option->setChoices($choices);
+        if($choices){
+            $option->setChoices($choices);
+        }
         return $option;
     }
     
@@ -40,7 +42,11 @@ class OptionService extends ServiceAbstract
         return $option;
     }
 
-    public function newChoiceOption($choiceId){}
+    public function newChoiceOption($choiceId){
+        $option = $this->newModel();
+        $this->getModelMapper()->linkOptionToChoice($choiceId, $option->getOptionId());
+        return $option;    
+    }
     
     public function linkParentChoice($choiceId, $optionId)
     {

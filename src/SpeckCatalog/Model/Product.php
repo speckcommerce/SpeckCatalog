@@ -22,13 +22,14 @@ class Product extends ModelAbstract
     protected $itemNumber;
     protected $uoms;
 
-    public function setType($type = null, Item $item = null)
+    public function setType($type = null)
     {
         if($type === null) {
-            throw new \RuntimeException("no type specified! '{$this->type}'");  
+            throw new \RuntimeException("no type specified!");  
         }
+
         if($type !== 'shell' && $type !== 'item' && $type !== 'builder'){
-            throw new \InvalidArgumentException("invalid type, must be 'shell', 'product', or 'builder'");
+            throw new \InvalidArgumentException("invalid type, must be 'shell', 'item', or 'builder'");
         }
         
         $this->type = $type;
@@ -42,8 +43,6 @@ class Product extends ModelAbstract
         }
         $this->setType($type);
     }
-
-
 
     public function addOption(Option $option)
     {
@@ -82,9 +81,6 @@ class Product extends ModelAbstract
 
     public function setPrice($price)
     {
-        if(!is_float($price)){ 
-            throw new \InvalidArgumentException("price must be float - '{$price}'");
-        }
         $this->price = $price;
         return $this;
     }
@@ -130,18 +126,12 @@ class Product extends ModelAbstract
         return $this;
     }
 
-    public function forcedItem(){
-        if($this->getType() === 'item'){
-            return true;
-        }else{
-            die('not type "item"');
-        }
-    }
     public function isItem(){
         if($this->getType() === 'item'){
             return true;
         }
     }
+
     public function hasUoms()
     {
         if(is_array($this->getUoms()) && count($this->getUoms()) > 0){
@@ -207,21 +197,11 @@ class Product extends ModelAbstract
         }
     }
  
-    /**
-     * Get companies.
-     *
-     * @return companies
-     */
     public function getCompanies()
     {
         return $this->companies;
     }
- 
-    /**
-     * Set companies.
-     *
-     * @param $companies the value to be set
-     */
+
     public function setCompanies($companies)
     {
         $this->companies = $companies;

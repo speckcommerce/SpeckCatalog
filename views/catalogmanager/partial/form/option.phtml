@@ -1,13 +1,13 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
-<form id="option-<?=$option->getOptionId();?>" class="live-form">
+<form id="option-<?=$option->getOptionId();?>" class="live-form collapse">
     
     <input type="hidden" name="option_id" value="<?=$option->getOptionId();?>"/>
 
-    <div class="row quarter-pad">
+    <div class="row offset0">
        
-        <div class="span3">
+        <div class="span2">
             List Type<br/>
-            <select name="list_type" class="span3">
+            <select name="list_type" class="span2">
                 <?=$this->partial($pdir.'form/select-options.phtml', array(
                     'data' => $option->getListTypes(),
                     'selectedId'  => $option->getListType(),
@@ -25,6 +25,7 @@
             <input name="instruction" class="span3" type="text" value="<?=$option->getInstruction();?>"/>
         </div>
         </form>
+
     </div>
 
 </form>  

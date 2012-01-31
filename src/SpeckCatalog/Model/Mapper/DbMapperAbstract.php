@@ -99,7 +99,6 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     public function persist($model, $mode = 'insert')
     {
         $data = new ArrayObject($model->toArray(NULL, function($v){return htmlentities($v);}));
-        foreach($data as $key){ if(is_array($key)){ unset($data[$key]); }}
         $data['search_data'] = $model->getSearchData();
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
         $db = $this->getWriteAdapter();
@@ -110,6 +109,14 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
             $db->update($this->getTableName(), (array) $data, $db->quoteInto($field, $model->$getModelId()));
         } elseif ('insert' === $mode) {
             $result = $db->insert($this->getTableName(), (array) $data);
+            if($result === 0){
+                echo "could not insert:";    
+                var_dump($data);
+                echo "into table:";
+                var_dump($this->getTableName());
+                //die();
+            }
+
             $setModelId = 'set' . ucfirst($this->getModelClass()).'Id';
             $model->$setModelId($db->lastInsertId());
         }

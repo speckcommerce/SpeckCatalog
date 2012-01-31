@@ -68,9 +68,7 @@ class IndexController extends ActionController
     {
         $modelService = $_GET['className'].'Service';
         $return = $this->$modelService->updateModelFromArray($_POST);
-        
-        var_dump($return);
-        die();
+        die($return->__toString());
     }
 
     public function removeAction()
@@ -114,6 +112,7 @@ class IndexController extends ActionController
         $this->view['nolayout'] = true;
         $this->view['results']  = $this->$modelService->getModelsBySearchData($value);
         $this->view['parentId'] = $parentId;
+        $this->view['parentClassName'] = $parentClassName;
         return $this->view;
     }
 
@@ -126,15 +125,15 @@ class IndexController extends ActionController
     {
         @extract($_POST);
         $modelService = $className.'Service';
-
         if(isset($isNew)){
             $newClass = 'new'.ucfirst($parentClassName).ucfirst($className);
             $this->view[$className] = $this->$modelService->$newClass($parentId);
         }else{
-            if($parentId){
-                $this->$modelService->linkParent($parentId, $entityId);  
+            if($parentId && $parentClassName){
+                $linkParentClass = 'linkParent'.ucfirst($parentClassName);
+                $this->$modelService->$linkParentClass($parentId, $entityId);  
             }
-            $this->view[$className] = $this->$modelService->getModelById($_POST['entityId']);
+            $this->view[$className] = $this->$modelService->getById($_POST['entityId']);
         }
         
         $this->view['partial'] = $this->camelCaseToDashed($className);

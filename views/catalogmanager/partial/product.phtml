@@ -1,31 +1,11 @@
 <? $pdir = '/catalogmanager/partial/'; ?>
-<div>
-    <div class="row">
-        <div class="span14 offset1">
-            <span class="label">Product</span> &raquo; <?=$product; ?>
-        </div>
-    </div><br/>
-    <div class="list-wrap half-pad">
-        <div class="list-items">
-            <? if ($product->hasOptions()) : ?>
-                <? foreach ($product->getOptions() as $option) : ?>
-                    <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
-                <? endforeach; ?>
-            <? endif; ?>
-        </div>
-        <div class="row">
-            <?=$this->partial($pdir.'add.phtml', array(
-                'function'  => 'import-search', 
-                'className' => 'option',
-                'parentClassName' => 'product',
-                'parentId' => $product->getProductId(),     
-            ));?>
-            <?=$this->partial($pdir.'add.phtml', array(
-                'function' => 'add-button', 
-                'className' => 'option',
-                'parentClassName' => 'product',
-                'parentId' => $product->getProductId(),
-            ));?>
-        </div>
+
+
+<div class="boundary contrastbg2">
+    <div class="entity-header">
+        <div><span class="label sort-handle entity-title">Product</span></div>
+
+        <div> &nbsp; <?=$product; ?></div>
     </div>
 </div>
+

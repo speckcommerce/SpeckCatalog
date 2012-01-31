@@ -9,13 +9,17 @@
 
     <div class="active boundary" id="product">
 
-        <div class="entity-header">
-            <div><span class="label entity-title">Product</span></div>
-        </div>
+        <div class="entity-header hide"><div class="title"></div></div>
+        <div class="entity-content">
         <?=$this->partial($pdir.'form/product.phtml', array('product' => $product));?><br/>
 
         <? if($product->isItem()) :?>
                 <div class="list-wrap">
+                    <div class="child-expand">
+                        <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-default ui-corner-all"></span></div>
+                        <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-default ui-corner-all"></span></div>
+                        <div>&nbsp;Uoms</div>
+                    </div>   
                     <div class="list-items">
                         <? if ($product->hasUoms()) : ?>
                             <? foreach($product->getUoms() as $productUom) : ?>
@@ -34,11 +38,17 @@
                     </div>
                 </div>
         <? endif; ?>
+        </div>
 
     </div>
 
-    <div id="options">
+    <div id="options" class="boundary">
         <div class="list-wrap">
+            <div class="child-expand">
+                <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-default ui-corner-all"></span></div>
+                <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-default ui-corner-all"></span></div>
+                <div>&nbsp;Options</div>
+            </div>
             <div class="list-items">
                 <? if ($product->hasOptions()) : ?>
                     <? foreach ($product->getOptions() as $option) : ?>
@@ -48,9 +58,10 @@
             </div>
             <div class="row">
                 <?=$this->partial($pdir.'add.phtml', array(
-                    'function'  => 'import-search',
-                    'className' => 'option',
-                    'parentId'  => $product->getProductId()
+                    'function'        => 'import-search',
+                    'className'       => 'option',
+                    'parentClassName' => 'product',
+                    'parentId'        => $product->getProductId()
                 ));?>
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function'        => 'add-button',

@@ -99,22 +99,10 @@ class OptionMapper extends DbMapperAbstract
         }
     }
 
-    //public function linkOptionsToProduct($productId, $options)
-    //{
-    //    foreach($options as $option){
-    //        if($option->getOptionId()){
-    //            $this->optionMapper->update($option);
-    //            $this->linkOptionToProduct($productId, $option->getOptionId());
-    //        }else{
-    //            $option = $this->optionMapper->add($option);
-    //            $this->linkOptionToProduct($productId, $option->getOptionId());
-    //        }
-    //    }
-    //}
-
     public function getChoiceLinkerTableName(){
         return $this->choiceLinkerTableName;
     }
+
     public function getProductLinkerTableName(){
         return $this->productLinkerTableName;
     }

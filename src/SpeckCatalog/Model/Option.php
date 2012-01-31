@@ -14,8 +14,6 @@ class Option extends ModelAbstract
     
     protected $required = false;
 
-    protected $selectedChoice;
-    
     protected $instruction;
 
     protected $builderSegment;
@@ -42,12 +40,6 @@ class Option extends ModelAbstract
  
     public function setRequired($required)
     {
-        if($this->listType !== "radio" && $this->listType !== 'dropdown'){
-            throw new \RuntimeException("invalid listType - '{$this->listType}', must be 'radio' or 'dropdown'");
-        }
-        if(!is_bool($required)){
-            throw new \InvalidArgumentException("invalid required value '{$required}', expected boolean");
-        }
         $this->required = $required;
         return $this;
     }
@@ -58,27 +50,6 @@ class Option extends ModelAbstract
             throw new \InvalidArgumentException("invalid list type - '{$listType}', must be 'radio', 'dropdown' or 'checkbox'");
         }
         $this->listType = $listType;
-        return $this;
-    }
-    
-    public function setSelectedChoice(Choice $choice=null)
-    {
-        if ($this->listType !== 'radio'){ 
-            throw new \RuntimeException("invalid type! - '{$this->listType}', must be 'radio'");
-        }
-        if($choice){
-            if(count($this->choices) === 0){
-                throw new \RuntimeException('there are no choices');
-            }
-            $choiceIds = array();
-            foreach($this->choices as $currentChoice){
-                $choiceIds[] = $currentChoice->getChoiceId();
-            }
-            if(!in_array($choice->getChoiceId(), $choiceIds)){
-                throw new \RuntimeException('choice not in choices');
-            }
-        } 
-        $this->selectedChoice = $choice;
         return $this;
     }
     
@@ -106,12 +77,14 @@ class Option extends ModelAbstract
             return true;
         }
     }
+
     public function isShared()
     {
         if($this->getParentProducts() && count($this->getParentProducts) > 1){
             return true;
         }
     }
+
     public function getListTypes()
     {
         return array('radio', 'checkbox', 'dropdown');
@@ -121,26 +94,32 @@ class Option extends ModelAbstract
     {
         return $this->name;
     }
+
     public function getChoices()
     {
         return $this->choices;
     }
+
     public function getRequired()
     {
         return $this->required;
     }
+
     public function getOptionId()
     {
         return (int)$this->optionId;
     }
+
     public function getListType()
     {
         return $this->listType;
     }
+
     public function getInstruction()
     {
         return $this->instruction;
-    } 
+    }
+
     public function getSelectedChoice()
     {
         return $this->selectedChoice;
@@ -156,7 +135,9 @@ class Option extends ModelAbstract
         $this->parentProducts = $parentProducts;
         return $this;
     }
-    public function __toString(){
+
+    public function __toString()
+    {
         if($this->getName()){
             return $this->getName();
         }else{

@@ -97,4 +97,14 @@ class Availability extends ModelAbstract
         $this->companies = $companies;
         return $this;
     }
+
+    public function __toString()
+    {
+        $string = "";
+        $company = $this->getDistributor();
+        if($company){
+            $string .= $company->getName() . ' - ' . $this->getCost();
+        }
+        return $string;
+    }
 }

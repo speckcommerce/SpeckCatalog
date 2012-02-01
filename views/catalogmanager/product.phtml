@@ -15,10 +15,10 @@
 
         <? if($product->isItem()) :?>
                 <div class="list-wrap">
-                    <div class="child-expand">
-                        <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-default ui-corner-all"></span></div>
-                        <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-default ui-corner-all"></span></div>
-                        <div>&nbsp;Uoms</div>
+                    <div class="child-expand list-items-helper">
+                        <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-default ui-corner-all"></span></div>
+                        <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-default ui-corner-all"></span></div>
+                        <span class="smallcaps">&nbsp;uoms</span><br/>
                     </div>   
                     <div class="list-items">
                         <? if ($product->hasUoms()) : ?>
@@ -27,7 +27,7 @@
                             <? endforeach; ?>
                         <? endif; ?>
                     </div>
-                    <div class="row">
+                    <div class="row list-items-helper">
                         <?=$this->partial($pdir.'add.phtml', array(
                             'function'        => 'add-button',
                             'name'            => 'uom',
@@ -44,10 +44,9 @@
 
     <div id="options" class="boundary">
         <div class="list-wrap">
-            <div class="child-expand">
-                <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-default ui-corner-all"></span></div>
-                <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-default ui-corner-all"></span></div>
-                <div>&nbsp;Options</div>
+            <div class="child-expand list-items-helper">
+                <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-default ui-corner-all"></span></div>
+                <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-default ui-corner-all"></span></div>
             </div>
             <div class="list-items">
                 <? if ($product->hasOptions()) : ?>
@@ -56,7 +55,7 @@
                     <? endforeach; ?>
                 <? endif; ?>
             </div>
-            <div class="row">
+            <div class="row list-items-helper">
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function'        => 'import-search',
                     'className'       => 'option',

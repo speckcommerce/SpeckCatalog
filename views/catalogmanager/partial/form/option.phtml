@@ -6,7 +6,7 @@
     <div class="row offset0">
        
         <div class="span2">
-            List Type<br/>
+            <span class="smallcaps">list type</span><br/>
             <select name="list_type" class="span2">
                 <?=$this->partial($pdir.'form/select-options.phtml', array(
                     'data' => $option->getListTypes(),
@@ -16,16 +16,16 @@
         </div>
         
         <div class="span3">
-            Name<br/>
+            <span class="smallcaps">name</span><br/>
             <input name="name" class="span3" type="text" value="<?=$option->getName();?>"/>
         </div>
           
         <div class="span3">
-            Instruction<br/>
+            <span class="smallcaps">instruction</span><br/>
             <input name="instruction" class="span3" type="text" value="<?=$option->getInstruction();?>"/>
         </div>
         </form>
 
     </div>
 
-</form>  
+</form><br/>  

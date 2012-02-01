@@ -29,10 +29,10 @@ class IndexController extends ActionController
 
     public function preDispatch($e)
     {
-        $this->user = $this->userService->getAuthService()->getIdentity();
-        if(!$this->user){
-            return $this->redirect()->toRoute('zfcuser');
-        }
+        //$this->user = $this->userService->getAuthService()->getIdentity();
+        //if(!$this->user){
+        //    return $this->redirect()->toRoute('zfcuser');
+        //}
     }
 
     public function sortableSortAction(){

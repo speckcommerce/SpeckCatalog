@@ -14,10 +14,10 @@
     <div class="entity-content">   
     <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
         <div class="list-wrap half-pad">
-            <div class="child-expand">
-                <div><span class="collapse-all ui-icon ui-icon-carat-1-nw ui-state-active ui-corner-all"></span></div>
-                <div><span class="expand-all ui-icon ui-icon-carat-1-se ui-state-active ui-corner-all"></span></div>
-                <div class="title">&nbsp; Choices</div>
+            <div class="child-expand list-items-helper">
+                <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-default ui-corner-all"></span></div>
+                <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-default ui-corner-all"></span></div>
+                <span class="smallcaps">&nbsp;choices</span>
             </div>
             <div class="list-items">
                 <? if ($option->hasChoices()) : ?>
@@ -26,7 +26,7 @@
                     <? endforeach; ?>
                 <? endif; ?>
             </div>
-            <div class="collapse">
+            <div class="list-items-helper">
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function' => 'add-button',
                     'className'=>'choice',

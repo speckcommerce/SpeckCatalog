@@ -8,7 +8,7 @@
         <div class="span5">
             <div class="row">
                 <div class="span3">
-                    Distributor
+                    <span class="smallcaps">distributor</span><br/>
                     <select name="distributor_company_id" class="span3">
                         <?=$this->partial($pdir.'form/select-options.phtml', array(
                             'data' => $availability->getCompanies(),
@@ -19,11 +19,11 @@
                     </select>
                 </div>
                 <div class="span2">
-                    Cost<br/>
+                    <span class="smallcaps">cost</span><br/>
                     <input name="cost" class="span2" value="<?=$availability->getCost();?>" type="text"/>
                 </div>
             </div>
         </div> 
     </div> 
 
-</form>                                                                              
+</form></br>                                                                              

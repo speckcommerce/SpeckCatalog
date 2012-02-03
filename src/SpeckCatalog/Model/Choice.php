@@ -1,17 +1,31 @@
 <?php
 
 namespace SpeckCatalog\Model;
+use Exception;
 
 class Choice extends ModelAbstract
 {
     protected $choiceId;
 
+    //field holds name for 'choice', override name for 'product'
     protected $overrideName;
  
     protected $product;
 
-    protected $targetUom;
+    protected $type = 'choice';
 
+    //only when type is product
+    //protected $priceDiscountFixed;
+    
+    //only when type is product
+    //protected $priceNoCharge = false;
+    
+    //only when type is product
+    //protected $priceDiscountPercent;
+
+    //only when type is product
+    //protected $priceOverrideFixed;
+    
     protected $targetUomDiscount;
 
     protected $allUomsDiscount;
@@ -22,7 +36,7 @@ class Choice extends ModelAbstract
     protected $options;
 
     protected $naChoices = array();
- 
+
     public function getProduct()
     {
         return $this->product;
@@ -57,31 +71,12 @@ class Choice extends ModelAbstract
         return $this;
     }
  
-    public function getTargetUomDiscount()
-    {
-        return $this->targetUomDiscount;
-    }
- 
-    public function setTargetUomDiscount($targetUomDiscount)
-    {
-        $this->targetUomDiscount = $targetUomDiscount;
-        return $this;
-    }
- 
-    public function getAllUomsDiscount()
-    {
-        return $this->allUomsDiscount;
-    }
- 
-    public function setAllUomsDiscount($allUomsDiscount)
-    {
-        $this->allUomsDiscount = $allUomsDiscount;
-        return $this;
-    }
- 
     public function getChoiceId()
     {
-        return (int) $this->choiceId;
+        if (0 === $this->choiceId){
+            return false;
+        }
+        return $this->choiceId;
     }
  
     public function setChoiceId($choiceId)
@@ -131,7 +126,6 @@ class Choice extends ModelAbstract
         return $this;
     }
  
-
     public function getParentOptionId()
     {
         return $this->parentOptionId;
@@ -139,7 +133,7 @@ class Choice extends ModelAbstract
  
     public function setParentOptionId($parentOptionId)
     {
-        $this->parentOptionId = $parentOptionId;
+        $this->parentOptionId = (int) $parentOptionId;
         return $this;
     }
     public function __toString()
@@ -170,8 +164,14 @@ class Choice extends ModelAbstract
             return true;
         }
     }
- 
 
+    public function hasProductUoms()
+    {
+        if($this->hasProduct() && $this->getProduct()->hasUoms()){
+            return true;
+        }
+    }
+ 
     public function getOptions()
     {
         return $this->options;
@@ -180,6 +180,65 @@ class Choice extends ModelAbstract
     public function setOptions($options)
     {
         $this->options = $options;
+        return $this;
+    }
+ 
+    public function getPriceDiscountFixed()
+    {
+        return $this->priceDiscountFixed;
+    }
+ 
+    public function setPriceDiscountFixed($priceDiscountFixed)
+    {
+        $this->priceDiscountFixed = $priceDiscountFixed;
+        return $this;
+    }
+ 
+    public function getPriceNoCharge()
+    {
+        return $this->priceNoCharge;
+    }
+ 
+    public function setPriceNoCharge($priceNoCharge)
+    {
+        $this->priceNoCharge = $priceNoCharge;
+        return $this;
+    }
+ 
+    public function getPriceDiscountPercent()
+    {
+        return $this->priceDiscountPercent;
+    }
+ 
+    public function setPriceDiscountPercent($priceDiscountPercent)
+    {
+        $this->priceDiscountPercent = $priceDiscountPercent;
+        return $this;
+    }
+ 
+    public function getPriceOverrideFixed()
+    {
+        return $this->priceOverrideFixed;
+    }
+ 
+    public function setPriceOverrideFixed($priceOverrideFixed)
+    {
+        $this->priceOverrideFixed = $priceOverrideFixed;
+        return $this;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+ 
+    public function setType($type)
+    {
+        if($type === 'choice' || $type === 'product'){
+            $this->type = $type;
+        }else{
+            throw new Exception('invalid type - ' . $type);
+        }
         return $this;
     }
 }

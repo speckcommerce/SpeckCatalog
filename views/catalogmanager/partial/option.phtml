@@ -15,8 +15,8 @@
     <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
         <div class="list-wrap half-pad">
             <div class="child-expand list-items-helper">
-                <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-default ui-corner-all"></span></div>
-                <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-default ui-corner-all"></span></div>
+                <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-active ui-corner-all"></span></div>
+                <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-active ui-corner-all"></span></div>
                 <span class="smallcaps">&nbsp;choices</span>
             </div>
             <div class="list-items">
@@ -26,7 +26,15 @@
                     <? endforeach; ?>
                 <? endif; ?>
             </div>
-            <div class="list-items-helper">
+            <div class="row list-items-helper">
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'import-search',
+                    'callback'        => 'newPartialWithExisting',
+                    'className'       => 'product',
+                    'parentClassName' => 'option',
+                    'parentId'        => $option->getOptionId(),
+                    'newPartialName'  => 'choice',
+                ));?>    
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function' => 'add-button',
                     'className'=>'choice',

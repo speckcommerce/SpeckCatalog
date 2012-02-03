@@ -49,8 +49,11 @@ class Module implements AutoloaderProvider
     
     public function initializeView($e)
     {
+        $events = StaticEventManager::getInstance();
         $app = $e->getParam('application');
         $locator = $app->getLocator();
+        $listener = $locator->get('SpeckCatalog\Model\Helper\OptionHelperListener');
+        $events->attach('SpeckCatalog\Model\Option', 'getChoices', array($listener, 'getChoices'));
         $config = $e->getParam('config');
         $view = $this->getView($app);
         $viewListener = $this->getViewListener($view, $config);

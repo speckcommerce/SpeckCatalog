@@ -3,47 +3,39 @@
 <? if(isset($function)) : ?>
 
 <? 
-    if(isset($parentId)){
-        $parentIdString=" parentid=\"{$parentId}\"";
-    }else{
-        $parentIdString = '';
-    } 
+    $string = '';
+    if(isset($parentId))        $string .= 'parentid="'        . $parentId        . '" ';
+    if(isset($parentClassName)) $string .= 'parentClassName="' . $parentClassName . '" ';
+    if(isset($className))       $string .= 'className="'       . $className       . '" ';
+    if(isset($newPartialName))  $string .= 'newPartialName="'  . $newPartialName  . '" ';
+    if(isset($callback))        $string .= 'callback="'        . $callback        . '" ';
 
-    if(isset($parentClassName)){
-        $parentClassNameString=" parentClassName=\"{$parentClassName}\"";
-    }else{
-        $parentClassNameString = '';
-    } 
-    
-    if(isset($className)){
-        $classNameString=" className=\"{$className}\"";
-    }else{
-        $classNameString = '';
-    }
     if(!isset($name)) $name = $className; 
 
 ?>
     <? if($function === 'add-button') : ?>
-        <div class="span2 add-element"><input type="button"<?=$parentClassNameString;?><?=$parentIdString;?><?=$classNameString;?> class="addButton btn" value="+ <?=$name;?>"/></div>
+        <div class="span2 add-element">
+            <input type="button" <?=$string;?> callback="newPartial" class="addButton btn" value="+ <?=$name;?>"/>
+        </div>
     <? endif; ?>
     <? if($function === 'add-button-ajax') : ?>
         <div class="span2 add-element"><input type="button" class="addButtonAjax btn primary"/></div>
     <? endif; ?>
     <? if($function === 'import-search') : ?>
-        <div class="span2 add-element"><input type="text" class="span2 import-modal"<?=$parentClassNameString;?><?=$parentIdString;?><?=$classNameString;?> placeholder="import <?=$name;?>"></input></div>
-    <? endif; ?>
-    <? if($function === 'import-one-search') : ?>
-        <div class="span2 add-element"><input type="text" class="span2 import-one-modal"<?=$classNameString;?> placeholder="import <?=$name;?>"></input></div>
-    <? endif; ?>
-    <? if($function === 'import-dropdown') : ?>
-        <div class="span3 add-element">
-            <select class="span3">
-                <option class="disabled"><?=$name;?></option>
-                <? if(isset($data)) : ?>
-                    <? foreach($data as $key => $val) : ?><option value="<?=$key;?>"><?=$val;?></option><? endforeach; ?>
-                <? endif; ?>
-            </select>
+        <div class="span2 add-element">
+            <input type="text" class="span2 import-modal" <?=$string;?> placeholder="import <?=$name;?>"></input>
         </div>
     <? endif; ?>
+    <? if($function === 'import-one-search') : ?>
+        <div class="span2 add-element">
+            <input type="text" class="span2 import-one-modal" <?=$string;?> placeholder="import <?=$name;?>"></input>
+        </div>
+    <? endif; ?>
+    <? if($function === 'import-file') : ?>
+        <div class="span2 add-element">
+            <input class="input-file" type="file" placeholder="upload <?=$name; ?>"/>
+        </div>
+    <? endif; ?>
+
 <? endif; ?>
 <!-- /add-import -->

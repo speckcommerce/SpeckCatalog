@@ -44,6 +44,11 @@ return array(
                     ),
                 )
             ),
+            'SpeckCatalog\Model\Helper\OptionHelperListener' => array(
+                'parameters' => array(
+                    'modelMapper'   => 'SpeckCatalog\Model\Mapper\OptionHelperMapper',
+                ),
+            ),          
             'SpeckCatalog\Service\OptionService' => array(
                 'parameters' => array(
                     'modelMapper'   => 'SpeckCatalog\Model\Mapper\OptionMapper',
@@ -88,6 +93,12 @@ return array(
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),            
+            'SpeckCatalog\Model\Mapper\OptionHelperMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),               
             'SpeckCatalog\Model\Mapper\OptionMapper' => array(
                 'parameters' => array(
                     'readAdapter'  => 'catalog_read_db',

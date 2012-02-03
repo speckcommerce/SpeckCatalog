@@ -1,16 +1,26 @@
-<? if($results) : ?>
-    <? foreach($results as $entity) : ?>
-        <? 
-        $class = explode('\\', get_class($entity)); $className = array_pop($class);
-        $method = 'get'.$className.'Id';
-        $entityId = $entity->$method();
-        if(isset($parentClassName)){$pc = 'parentClassName = "' . $parentClassName . '" ';}else{$pc = '';}
-        $title = ''; foreach($entity->toArray() as $key => $val){$title.="| {$key}: {$val} |";} 
-        ?>
-        <?=$className;?> - <a href="#" class="modal-search-result" data-content="<?=$title;?>" rel="popover" data-placement="below" entityId="<?=$entityId;?>" parentId="<?=$parentId;?>" <?=$pc;?> className="<?=strtolower($className);?>"><?=$entity;?></a><br/>
+<?php 
+    if($results){
+        foreach($results as $entity){
+            $class = explode('\\', get_class($entity)); $className = array_pop($class);
+            $method = 'get'.$className.'Id';
+            $entityId = $entity->$method();
+            $title = ''; 
+            foreach($entity->toArray() as $key => $val){
+                $val = htmlentities($val); 
+                $title.="| {$key}: {$val} |";
+            } 
+            $link = '<a href="#" class="modal-search-result" data-placement="below" rel="popover" ';
+            $link .= 'data-content="' . $title                 . '" ';
+            $link .= 'parentId="'     . $parentId              . '" ';
+            $link .= 'entityId="'     . $entityId              . '" ';
+            $link .= 'className="'    . strtolower($className) . '" ';
+            if(isset($callback))        $link .= 'callback="'        . $callback        . '" ';
+            if(isset($parentClassName)) $link .= 'parentClassName="' . $parentClassName . '" ';
+            if(isset($newPartialName))  $link .= 'newPartialName="'  . $newPartialName  . '" ';
+            $link .= '>' . $entity->__toString() . '</a><br/>';
 
-    <? endforeach; ?>
-
-<? else: ?>
-    No Results
-<? endif; ?>
+            echo $className . ' - ' . $link;
+        }
+    }else{
+        echo 'No Results';
+    } 

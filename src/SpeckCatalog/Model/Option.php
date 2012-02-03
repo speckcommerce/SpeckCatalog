@@ -1,6 +1,7 @@
 <?php
 
 namespace SpeckCatalog\Model;
+use Exception;
 
 class Option extends ModelAbstract
 {
@@ -18,7 +19,11 @@ class Option extends ModelAbstract
 
     protected $builderSegment;
 
-    protected $choices=array();
+    protected $choices;
+
+    protected $priceMap;
+
+    protected $choiceUomAdjustments;
 
     public function addChoice(Choice $choice)
     {
@@ -28,7 +33,6 @@ class Option extends ModelAbstract
 
     public function setChoices($choices)
     {
-        $this->selectedChoice = null; // this must reset the selected choice.
         $this->choices = array();
         if(is_array($choices)){
             foreach($choices as $choice){
@@ -97,6 +101,7 @@ class Option extends ModelAbstract
 
     public function getChoices()
     {
+        //$this->events()->trigger(__FUNCTION__, $this, array('choices' => $this->choices));
         return $this->choices;
     }
 
@@ -107,7 +112,7 @@ class Option extends ModelAbstract
 
     public function getOptionId()
     {
-        return (int)$this->optionId;
+        return (int) $this->optionId;
     }
 
     public function getListType()
@@ -118,11 +123,6 @@ class Option extends ModelAbstract
     public function getInstruction()
     {
         return $this->instruction;
-    }
-
-    public function getSelectedChoice()
-    {
-        return $this->selectedChoice;
     }
 
     public function getParentProducts()

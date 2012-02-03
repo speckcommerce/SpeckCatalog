@@ -98,9 +98,11 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     
     public function persist($model, $mode = 'insert')
     {
+
         $data = new ArrayObject($model->toArray(NULL, function($v){return htmlentities($v);}));
         $data['search_data'] = $model->getSearchData();
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
+        
         $db = $this->getWriteAdapter();
         
         if ('update' === $mode) {
@@ -120,7 +122,6 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
             $setModelId = 'set' . ucfirst($this->getModelClass()).'Id';
             $model->$setModelId($db->lastInsertId());
         }
-
         return $model;
     }
 

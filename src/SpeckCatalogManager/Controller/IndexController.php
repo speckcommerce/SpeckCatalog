@@ -113,6 +113,8 @@ class IndexController extends ActionController
         $this->view['results']  = $this->$modelService->getModelsBySearchData($value);
         $this->view['parentId'] = $parentId;
         $this->view['parentClassName'] = $parentClassName;
+        $this->view['callback'] = $callback;
+        if(isset($newPartialName)) $this->view['newPartialName'] = $newPartialName;
         return $this->view;
     }
 
@@ -121,22 +123,33 @@ class IndexController extends ActionController
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '-'.strtolower($c[1]); }, $name),'-');
     }
 
-    protected function fetchPartialAction()
+    public function fetchPartialAction()
     {
-        @extract($_POST);
+        $callback = $_POST['callback'];
+        return $this->$callback($_POST);
+    }
+    
+    public function newPartial($data)
+    {
+        extract($data);
         $modelService = $className.'Service';
-        if(isset($isNew)){
-            $newClass = 'new'.ucfirst($parentClassName).ucfirst($className);
-            $this->view[$className] = $this->$modelService->$newClass($parentId);
-        }else{
-            if($parentId && $parentClassName){
-                $linkParentClass = 'linkParent'.ucfirst($parentClassName);
-                $this->$modelService->$linkParentClass($parentId, $entityId);  
-            }
-            $this->view[$className] = $this->$modelService->getById($_POST['entityId']);
-        }
-        
-        $this->view['partial'] = $this->camelCaseToDashed($className);
+        $newClass = 'new' . ucfirst($parentClassName) . ucfirst($className);
+        $this->view[$className] = $this->$modelService->$newClass($parentId);
+        return $this->returnPartial($className);
+    }
+
+    protected function newPartialWithExisting($data)
+    {
+        extract($data);
+        $modelService = $newPartialName . 'Service';
+        $newClass = 'new' . ucfirst($parentClassName) . ucfirst($newPartialName) . 'WithExisting' . ucfirst($className);
+        $this->view[$newPartialName] = $this->$modelService->$newClass($parentId, $existingChildId);
+        return $this->returnPartial($newPartialName);
+    }
+
+    private function returnPartial($partialName)
+    {
+        $this->view['partial'] = $this->camelCaseToDashed($partialName);
         $this->view['nolayout'] = true;
         return $this->view;
     }

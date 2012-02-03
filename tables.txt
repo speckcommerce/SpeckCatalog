@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 27, 2012 at 03:15 PM
+-- Generation Time: Feb 03, 2012 at 02:36 PM
 -- Server version: 5.5.18
 -- PHP Version: 5.3.9
 
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `catalog_availability` (
   `availability_id` int(11) NOT NULL AUTO_INCREMENT,
   `search_data` text NOT NULL,
   `parent_product_uom_id` int(11) NOT NULL,
-  `distributor_company_id` int(11) NOT NULL,
+  `distributor_company_id` int(11) DEFAULT NULL,
   `cost` float NOT NULL,
   PRIMARY KEY (`availability_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -37,11 +37,14 @@ CREATE TABLE IF NOT EXISTS `catalog_availability` (
 
 CREATE TABLE IF NOT EXISTS `catalog_choice` (
   `choice_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
   `search_data` text NOT NULL,
   `parent_option_id` int(11) NOT NULL,
   `override_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`choice_id`)
+  `default_choice_id` int(11) DEFAULT NULL,
+  `type` enum('choice','product') NOT NULL,
+  PRIMARY KEY (`choice_id`),
+  KEY `parent_option_id` (`parent_option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -54,7 +57,8 @@ CREATE TABLE IF NOT EXISTS `catalog_choice_option_linker` (
   `choice_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`linker_id`)
+  PRIMARY KEY (`linker_id`),
+  UNIQUE KEY `link` (`choice_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -68,7 +72,14 @@ CREATE TABLE IF NOT EXISTS `catalog_company` (
   `name` varchar(255) NOT NULL,
   `search_data` text NOT NULL,
   PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `catalog_company`
+--
+
+INSERT INTO `catalog_company` (`company_id`, `name`, `search_data`) VALUES
+(1, 'invacare', '');
 
 -- --------------------------------------------------------
 
@@ -89,6 +100,22 @@ CREATE TABLE IF NOT EXISTS `catalog_option` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `catalog_option_helper`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_option_helper` (
+  `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+  `helper_name` varchar(255) DEFAULT NULL,
+  `product_uom_id` int(11) DEFAULT NULL,
+  `product_uom_fixed_discount` float DEFAULT NULL,
+  `product_uom_percent_discount` int(11) DEFAULT NULL,
+  `product_uom_fixed_price` float DEFAULT NULL,
+  PRIMARY KEY (`linker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `catalog_product`
 --
 
@@ -98,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product` (
   `description` text,
   `type` enum('item','shell','builder') NOT NULL DEFAULT 'shell',
   `item_number` varchar(255) NOT NULL,
-  `manufacturer_company_id` int(11) NOT NULL,
+  `manufacturer_company_id` int(11) DEFAULT NULL,
   `search_data` text NOT NULL,
   PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -113,7 +140,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_linker` (
   `product_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`linker_id`)
+  PRIMARY KEY (`linker_id`),
+  UNIQUE KEY `link` (`option_id`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -125,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_linker` (
 CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
   `product_uom_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_product_id` int(11) NOT NULL,
-  `search_data` int(11) NOT NULL,
+  `search_data` text NOT NULL,
   `price` float NOT NULL,
   `retail` float NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -172,8 +200,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `email`, `display_name`, `password`, `last_login`, `last_ip`, `register_time`, `register_ip`, `active`, `enabled`) VALUES
-(1, NULL, 'nigel.lundsten@gmail.com', 'Nigel Lundsten', '$2a$10$JKpkatPIKqY.IZLkIEMYLe3KDhy9js7CrDoGt0V6ObDvd4Pxmz8GS', '2012-01-26 08:10:49', 2130706433, '2012-01-10 15:08:22', 2130706433, 1, 1);
-
+(1, NULL, 'nigel.lundsten@gmail.com', 'Nigel Lundsten', '$2a$10$74Bev8zQ/XLeQU/rTxjC4O1X5/AB0oXI6Zy8konGR.sji6zytjz6S', '2012-02-01 07:35:51', 2130706433, '2012-01-10 15:08:22', 2130706433, 1, 1),
+(2, NULL, 'postmaster@southwestmedical.com', 'TestUser', '$2a$10$MOUy5lPYdXCQZ.mk345so.zTCJ73Y2P1coZI1QC8TCaBkkRFEqUOO', '2012-01-31 12:31:24', 2147483647, '2012-01-18 11:45:24', 2147483647, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -198,3 +226,4 @@ CREATE TABLE IF NOT EXISTS `user_meta` (
 --
 ALTER TABLE `user_meta`
   ADD CONSTRAINT `user_meta_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+

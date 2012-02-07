@@ -51,7 +51,8 @@ class OptionService extends ServiceAbstract
     public function linkParentChoice($choiceId, $optionId)
     {
         $this->getModelMapper()->linkOptionToChoice($choiceId, $optionId);
-    }    
+    }
+    
     public function linkParentProduct($productId, $optionId)
     {
         $this->getModelMapper()->linkOptionToProduct($productId, $optionId);

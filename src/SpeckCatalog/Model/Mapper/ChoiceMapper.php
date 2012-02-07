@@ -28,16 +28,4 @@ class ChoiceMapper extends DbMapperAbstract
             return array();
         }
     }
-    
-    public function instantiateModel($row){
-        $choice = new Choice;
-        $choice->setChoiceId($row['choice_id'])
-               ->setProductId($row['product_id'])
-               ->setParentOptionId($row['parent_option_id'])
-               ->setOverrideName($row['override_name']);
-        $this->events()->trigger(__FUNCTION__, $this, array('model' => $choice));
-        return $choice;
-    }
-
-
 }

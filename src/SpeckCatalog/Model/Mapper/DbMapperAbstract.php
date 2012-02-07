@@ -14,7 +14,15 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         $fullClassName = $this->getFullClassName();
         $model = new $fullClassName($constructor);
         return $this->add($model);
-    }    
+    }
+
+    public function instantiateModel($row)
+    {
+        $fullClassName = $this->getFullClassName();
+        $model = new $fullClassName;
+        $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
+        return $model->fromArray($row);
+    }
     
     public function getAll()
     {
@@ -95,16 +103,25 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     {
         return $this->persist($model, 'update');
     }    
-    
-    public function persist($model, $mode = 'insert')
-    {
 
-        $data = new ArrayObject($model->toArray(NULL, function($v){return htmlentities($v);}));
+    public function prepareRow($model)
+    {
+        $data = $model->toArray(NULL, function($v){ return htmlentities($v); });
+        foreach($data as $key => $val){
+            if(is_array($val)){
+                unset($data[$key]);
+            }
+        }   
         $data['search_data'] = $model->getSearchData();
         $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
-        
+
+        return new ArrayObject($data);
+    }
+
+    public function persist($model, $mode = 'insert')
+    {
+        $data = $this->prepareRow($model); 
         $db = $this->getWriteAdapter();
-        
         if ('update' === $mode) {
             $getModelId = 'get' . ucfirst($this->getModelClass()) . 'Id';
             $field = $this->fromCamelCase($this->getModelclass()) . '_id = ?';

@@ -42,4 +42,5 @@ class ProductUomService extends ServiceAbstract
         $this->availabilityService = $availabilityService;
         return $this;
     }
+
 }

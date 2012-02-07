@@ -54,8 +54,8 @@
                     <div class="row list-items-helper">
                         <?=$this->partial($pdir.'add.phtml', array(
                             'function'        => 'add-button',
-                            'name'            => 'uom',
-                            'className'       => 'productUom',
+                            'ClassName'       => 'productUom',
+                            'newClassName'    => 'productUom',
                             'parentClassName' => 'product',
                             'parentId'        => $product->getProductId(),
                         ));?>
@@ -81,16 +81,17 @@
             </div>
             <div class="row list-items-helper">
                 <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'add-button',
+                    'newClassName'    => 'option',
+                    'parentClassName' => 'product',
+                    'parentId'        => $product->getProductId(),
+                ));?>
+                <?=$this->partial($pdir.'add.phtml', array(
                     'function'        => 'import-search',
+                    'searchClassName' => 'option',
                     'className'       => 'option',
                     'parentClassName' => 'product',
                     'parentId'        => $product->getProductId()
-                ));?>
-                <?=$this->partial($pdir.'add.phtml', array(
-                    'function'        => 'add-button',
-                    'className'       => 'option',
-                    'parentClassName' => 'product',
-                    'parentId'        => $product->getProductId(),
                 ));?>
             </div>
         </div> 

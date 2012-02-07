@@ -29,11 +29,11 @@
             <div class="row list-items-helper">
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function'        => 'import-search',
-                    'callback'        => 'newPartialWithExisting',
-                    'className'       => 'product',
+                    'searchClassName' => 'product',
+                    'childClassName'  => 'product',
+                    'newClassName'    => 'choice',
                     'parentClassName' => 'option',
                     'parentId'        => $option->getOptionId(),
-                    'newPartialName'  => 'choice',
                 ));?>    
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function' => 'add-button',

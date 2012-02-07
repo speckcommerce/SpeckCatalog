@@ -10,18 +10,6 @@ class AvailabilityMapper extends DbMapperAbstract
     protected $tableName = 'catalog_availability';
     protected $modelClass = 'Availability';
 
-    public function instantiateModel($row)
-    {
-        $availability = new Availability;
-        $availability->setAvailabilityId($row['availability_id'])
-                     ->setParentProductUomId($row['parent_product_uom_id'])
-                     ->setCost($row['cost'])
-                     ->setDistributorCompanyId($row['distributor_company_id']);
-                    
-        $this->events()->trigger(__FUNCTION__, $this, array('model' => $availability));
-        return $availability;  
-    }
-
     public function getByParentProductUomId($productUomId)
     {
         $db = $this->getReadAdapter();

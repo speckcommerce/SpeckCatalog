@@ -15,6 +15,7 @@ class IndexController extends ActionController
     private $optionService;
     private $availabilityService;
     private $userService;
+    private $modelLinkerService;
     
     protected $user;
     protected $view = array();
@@ -47,7 +48,6 @@ class IndexController extends ActionController
     public function productAction()
     {
         @extract($_GET);
-    
         if (isset($new)) {
             $product = $this->getProductService()->newModel($new);
             $this->redirect()->toUrl('/catalogmanager/product?id='.$product->getProductId());
@@ -56,13 +56,13 @@ class IndexController extends ActionController
         }
     }
 
-    private function prepPaginator($name, $items=null, $perPage=10, $pageNum=1)
-    {
-        if(is_array($items)){ 
-           $this->view["{$name}Paginator"] = \Zend\Paginator\Paginator::factory($items)
-               ->setItemCountPerPage($perPage)->setCurrentPageNumber($pageNum); 
-        }
-    }
+    //private function prepPaginator($name, $items=null, $perPage=10, $pageNum=1)
+    //{
+    //    if(is_array($items)){ 
+    //       $this->view["{$name}Paginator"] = \Zend\Paginator\Paginator::factory($items)
+    //           ->setItemCountPerPage($perPage)->setCurrentPageNumber($pageNum); 
+    //    }
+    //}
 
     public function updateRecordAction()
     {
@@ -106,15 +106,11 @@ class IndexController extends ActionController
 
     public function searchClassAction()
     {   
-        @extract($_POST);
-        $modelService = $className.'Service';
-
+        $modelService = $_POST['search_class_name'] . 'Service';
+        $this->view['results']  = $this->$modelService->getModelsBySearchData($_POST['value']);
+        $this->view['data'] = $_POST;
+        
         $this->view['nolayout'] = true;
-        $this->view['results']  = $this->$modelService->getModelsBySearchData($value);
-        $this->view['parentId'] = $parentId;
-        $this->view['parentClassName'] = $parentClassName;
-        $this->view['callback'] = $callback;
-        if(isset($newPartialName)) $this->view['newPartialName'] = $newPartialName;
         return $this->view;
     }
 
@@ -125,42 +121,21 @@ class IndexController extends ActionController
 
     public function fetchPartialAction()
     {
-        $callback = $_POST['callback'];
-        return $this->$callback($_POST);
+        $className = (($_POST['new_class_name']) ? $_POST['new_class_name'] : $_POST['class_name']);
+        $this->view[$className] = $this->modelLinkerService->linkModel($_POST);
+        $this->view['partial'] = $this->camelCaseToDashed($className);
+        
+        $this->view['nolayout'] = true;
+        return $this->view;
     }
+
+
+    /**
+     * DI stuff below here !! 
+     */
     
-    public function newPartial($data)
-    {
-        extract($data);
-        $modelService = $className.'Service';
-        $newClass = 'new' . ucfirst($parentClassName) . ucfirst($className);
-        $this->view[$className] = $this->$modelService->$newClass($parentId);
-        return $this->returnPartial($className);
-    }
 
-    protected function newPartialWithExisting($data)
-    {
-        extract($data);
-        $modelService = $newPartialName . 'Service';
-        $newClass = 'new' . ucfirst($parentClassName) . ucfirst($newPartialName) . 'WithExisting' . ucfirst($className);
-        $this->view[$newPartialName] = $this->$modelService->$newClass($parentId, $existingChildId);
-        return $this->returnPartial($newPartialName);
-    }
-
-    private function returnPartial($partialName)
-    {
-        $this->view['partial'] = $this->camelCaseToDashed($partialName);
-        $this->view['nolayout'] = true;
-        return $this->view;
-    }
-
-    public function entityOptionsAjaxAction()
-    {
-        $this->view['nolayout'] = true;
-        $this->view['options'] = array('save');
-        return $this->view;
-    }
-
+    
     public function getProductService()
     {
         return $this->productService;
@@ -224,5 +199,16 @@ class IndexController extends ActionController
     public function setSessionService($catalogManagerService)
     {                                              
         $this->sessionService = $catalogManagerService;
+    }
+ 
+    public function getModelLinkerService()
+    {
+        return $this->modelLinkerService;
+    }
+ 
+    public function setModelLinkerService($modelLinkerService)
+    {
+        $this->modelLinkerService = $modelLinkerService;
+        return $this;
     }
 }                                   

@@ -2,40 +2,52 @@
 <!-- add-import -->
 <? if(isset($function)) : ?>
 
-<? 
-    $string = '';
-    if(isset($parentId))        $string .= 'parentid="'        . $parentId        . '" ';
-    if(isset($parentClassName)) $string .= 'parentClassName="' . $parentClassName . '" ';
-    if(isset($className))       $string .= 'className="'       . $className       . '" ';
-    if(isset($newPartialName))  $string .= 'newPartialName="'  . $newPartialName  . '" ';
-    if(isset($callback))        $string .= 'callback="'        . $callback        . '" ';
+        <? if (!isset($searchClassName)){ $searchClassName = null; } ?>
+        <? if (!isset($childClassName)){ $childClassName = null; } ?>
+        <? if (!isset($childId)){ $childId = null; } ?> 
+        <? if (!isset($className)){ $className = null; } ?> 
+        <? if (!isset($newClassName)){ $newClassName = null; } ?> 
+        <? if (!isset($parentClassName)){ $parentClassName = null; } ?> 
+        <? if (!isset($parentId)){ $parentId = null; } ?> 
 
-    if(!isset($name)) $name = $className; 
+        <? if($function === 'add-button') : ?>
+            <div class="span1 add-element">
+                <form action="" class="add-partial">
+                    <input type="hidden" name="class_name"        value="<?=$className;?>" />
+                    <input type="hidden" name="new_class_name"    value="<?=$newClassName;?>" />
+                    <input type="hidden" name="parent_class_name" value="<?=$parentClassName;?>" />
+                    <input type="hidden" name="parent_id"         value="<?=$parentId;?>" />
+                    <input type="submit" class="btn" value="+"/>
+                </form>
+            </div>
+        <? endif; ?>
 
-?>
-    <? if($function === 'add-button') : ?>
-        <div class="span2 add-element">
-            <input type="button" <?=$string;?> callback="newPartial" class="addButton btn" value="+ <?=$name;?>"/>
-        </div>
-    <? endif; ?>
-    <? if($function === 'add-button-ajax') : ?>
-        <div class="span2 add-element"><input type="button" class="addButtonAjax btn primary"/></div>
-    <? endif; ?>
-    <? if($function === 'import-search') : ?>
-        <div class="span2 add-element">
-            <input type="text" class="span2 import-modal" <?=$string;?> placeholder="import <?=$name;?>"></input>
-        </div>
-    <? endif; ?>
-    <? if($function === 'import-one-search') : ?>
-        <div class="span2 add-element">
-            <input type="text" class="span2 import-one-modal" <?=$string;?> placeholder="import <?=$name;?>"></input>
-        </div>
-    <? endif; ?>
-    <? if($function === 'import-file') : ?>
-        <div class="span2 add-element">
-            <input class="input-file" type="file" placeholder="upload <?=$name; ?>"/>
-        </div>
-    <? endif; ?>
+        <? if($function === 'import-search') : ?>
+            <div class="span2 add-element">
+                <form action="" class="import-search">
+                    <input type="hidden" name="class_name"        value="<?=$className;?>" />
+                    <input type="hidden" name="search_class_name" value="<?=$searchClassName;?>" />
+                    <input type="hidden" name="child_class_name"  value="<?=$childClassName;?>" />
+                    <input type="hidden" name="child_id"          value="<?=$childId;?>" />
+                    <input type="hidden" name="new_class_name"    value="<?=$newClassName;?>" />
+                    <input type="hidden" name="parent_class_name" value="<?=$parentClassName;?>" />
+                    <input type="hidden" name="parent_id"         value="<?=$parentId;?>" />
+                    <input type="text" name="value" class="span2" placeholder="import" />
+                </form>
+            </div>
+        <? endif; ?>
+
+        <? if($function === 'import-file') : ?>
+            <div class="span2 add-element">
+                <form action="">
+                    <input class="input-file" type="file" placeholder="upload"/>
+                </form>
+            </div>
+        <? endif; ?>
 
 <? endif; ?>
+
+
+
+
 <!-- /add-import -->

@@ -22,6 +22,7 @@ return array(
                     'optionService'       => 'SpeckCatalog\Service\OptionService',
                     'choiceService'       => 'SpeckCatalog\Service\ChoiceService',
                     'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
+                    'modelLinkerService'  => 'SpeckCatalogManager\Service\ModelLinkerService',
                 ),
             ),
             'Zend\View\PhpRenderer' => array(
@@ -44,6 +45,15 @@ return array(
                     ),
                 )
             ),
+            'SpeckCatalogManager\Service\ModelLinkerService' => array(
+                'parameters' => array(
+                    'optionService'   => 'SpeckCatalog\Service\OptionService',
+                    'choiceService'   => 'SpeckCatalog\Service\ChoiceService',
+                    'productService'   => 'SpeckCatalog\Service\ProductService',
+                    'productUomService'   => 'SpeckCatalog\Service\ProductUomService',
+                    'availabilityService'   => 'SpeckCatalog\Service\AvailabilityService',
+                ),
+            ),               
             'SpeckCatalog\Model\Helper\OptionHelperListener' => array(
                 'parameters' => array(
                     'modelMapper'   => 'SpeckCatalog\Model\Mapper\OptionHelperMapper',
@@ -68,6 +78,7 @@ return array(
                     'optionService'     => 'SpeckCatalog\Service\OptionService',
                     'productUomService' => 'SpeckCatalog\Service\ProductUomService',
                     'companyService'    => 'SpeckCatalog\Service\CompanyService',
+                    'choiceService'     => 'SpeckCatalog\Service\ChoiceService',
                 ),
             ),
             'SpeckCatalog\Service\AvailabilityService' => array(

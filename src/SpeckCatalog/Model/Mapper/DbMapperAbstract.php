@@ -70,7 +70,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         if($rows){
             $return = array();
             foreach($rows as $row){
-                $return[] = $this->instantiateModel($row);   
+                $return[] = $this->mapModel($row);   
             }
             return $return;
         }
@@ -115,7 +115,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if($row){
-            return $this->instantiateModel($row);
+            return $this->mapModel($row);
         }elseif($this->debugging){
             echo get_class($this)."::getById({$id}) returned no row";
         }
@@ -154,7 +154,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
         if($rows){
             $return = array();
             foreach($rows as $row){
-                $return[] = $this->instantiateModel($row);   
+                $return[] = $this->mapModel($row);   
             }
             return $return;
         }

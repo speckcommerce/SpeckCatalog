@@ -21,7 +21,7 @@ class ChoiceMapper extends DbMapperAbstract
         if(count($rows) > 0 ){
             $choices = array();
             foreach($rows as $row){
-                $choices[] = $this->instantiateModel($row);
+                $choices[] = $this->mapModel($row);
             }
             return $choices;
         }else{

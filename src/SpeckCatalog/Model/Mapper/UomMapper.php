@@ -21,7 +21,7 @@ class UomMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if($row){
-            return $this->instantiateModel($row);
+            return $this->mapModel($row);
         }elseif($this->debugging){
             echo get_class($this)."::getById({$uomCode}) returned no row";
         }
@@ -41,7 +41,7 @@ class UomMapper extends DbMapperAbstract
         if($rows){
             $return = array();
             foreach($rows as $row){
-                $return[] = $this->instantiateModel($row);   
+                $return[] = $this->mapModel($row);   
             }
             return $return;
         }

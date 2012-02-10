@@ -24,7 +24,7 @@ class OptionMapper extends DbMapperAbstract
         if(count($rows) > 0 ){
             $options = array();
             foreach($rows as $row){
-                $options[] = $this->instantiateModel($row);
+                $options[] = $this->mapModel($row);
             }
             return $options;
         }else{
@@ -45,7 +45,7 @@ class OptionMapper extends DbMapperAbstract
         if(count($rows) > 0 ){
             $options = array();
             foreach($rows as $row){
-                $options[] = $this->instantiateModel($row);
+                $options[] = $this->mapModel($row);
             }
             return $options;
         }else{

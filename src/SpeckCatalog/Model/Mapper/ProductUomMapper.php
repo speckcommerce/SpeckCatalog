@@ -23,7 +23,7 @@ class ProductUomMapper extends DbMapperAbstract
         if(count($rows) > 0 ){
             $productUoms = array();
             foreach($rows as $row){
-                $productUoms[] = $this->instantiateModel($row);
+                $productUoms[] = $this->mapModel($row);
             }
             return $productUoms;
         }else{

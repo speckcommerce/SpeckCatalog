@@ -22,7 +22,7 @@ class AvailabilityMapper extends DbMapperAbstract
         if(count($rows) > 0 ){
             $availabilities = array();
             foreach($rows as $row){
-                $availabilities[] = $this->instantiateModel($row);
+                $availabilities[] = $this->mapModel($row);
             }
             return $availabilities;
         }else{

@@ -200,7 +200,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
      * @access public
      * @return void
      */
-    abstract function prepareRow($model)
+    private function prepareRow($model)
     {
         $data = $model->toArray(NULL, function($v){ return htmlentities($v); });
         $data['search_data'] = $model->getSearchData();

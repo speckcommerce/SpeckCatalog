@@ -4,13 +4,13 @@ namespace SpeckCatalog\Model;
 
 class ProductUom extends ModelAbstract
 {
- 
-
     protected $productUomId;
 
     protected $uom;
-    protected $uomCode = 'ea';
+    protected $uomCode = 'EA';
 
+    protected $uoms;
+    
     protected $parentProduct;
     protected $parentProductId;
     
@@ -77,7 +77,7 @@ class ProductUom extends ModelAbstract
  
     public function setQuantity($quantity)
     {
-        $this->quantity = $quantity;
+        $this->quantity = (int) $quantity;
         return $this;
     }
  
@@ -110,7 +110,7 @@ class ProductUom extends ModelAbstract
  
     public function setProductUomId($productUomId)
     {
-        $this->productUomId = $productUomId;
+        $this->productUomId = (int)$productUomId;
         return $this;
     }
 
@@ -121,7 +121,7 @@ class ProductUom extends ModelAbstract
 
     public function setParentProductId($parentProductId)
     {
-        $this->parentProductId = $parentProductId;
+        $this->parentProductId = (int) $parentProductId;
         return $this;
     }
 
@@ -138,6 +138,21 @@ class ProductUom extends ModelAbstract
 
     public function __toString()
     {
-        return strtoupper($this->getUomCode()) . ' ' . $this->getQuantity() . ' - $' . number_format($this->getPrice(), 2);
+        return $this->getUom()->__toString() . ' ' . $this->getQuantity() . ' - $' . number_format($this->getPrice(), 2);
     }
+ 
+    public function getUoms()
+    {
+        return $this->uoms;
+    }
+ 
+    public function setUoms($uoms)
+    {
+        $this->uoms = $uoms;
+        return $this;
+    }
+    public function getId()
+    {
+        return $this->productUomId;
+    }   
 }

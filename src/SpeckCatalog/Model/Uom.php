@@ -8,8 +8,6 @@ class Uom extends ModelAbstract
 
     protected $name;
 
-    protected $parentProductUoms;
-
     public function getUomCode()
     {
         return $this->uomCode;
@@ -25,22 +23,19 @@ class Uom extends ModelAbstract
     {
         return $this->name;
     }
- 
 
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
- 
-    public function getParentProductUoms()
-    {
-        return $this->parentProductUoms;
-    }
 
-    public function setParentProductUoms($parentProductUoms)
+    public function __toString()
     {
-        $this->parentProductUoms = $parentProductUoms;
-        return $this;
+        return $this->name . ' (' . $this->uomCode . ')';
+    }
+    public function getId()
+    {
+        return $this->uomCode;
     }
 }

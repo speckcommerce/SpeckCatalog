@@ -207,4 +207,8 @@ class Product extends ModelAbstract
         $this->companies = $companies;
         return $this;
     }
+    public function getId()
+    {
+        return $this->productId;
+    }      
 }

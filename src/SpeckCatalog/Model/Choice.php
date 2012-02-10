@@ -241,4 +241,8 @@ class Choice extends ModelAbstract
         }
         return $this;
     }
+    public function getId()
+    {
+        return $this->choiceId;
+    }    
 }

@@ -5,12 +5,16 @@ namespace SpeckCatalog\Service;
 class ProductUomService extends ServiceAbstract
 {
     protected $availabilityService;
+    protected $uomService;
 
     public function populateModel($productUom)
     {
         $productUom->setAvailabilities(
             $this->getAvailabilityService()->getAvailabilitiesByParentProductUomId($productUom->getProductUomId())
         );
+        $productUom->setUoms($this->getUomService()->getAll());
+        $productUom->setUom($this->getUomService()->getById($productUom->getUomCode()));
+
         return $productUom;
     }
 
@@ -43,4 +47,14 @@ class ProductUomService extends ServiceAbstract
         return $this;
     }
 
+    public function getUomService()
+    {
+        return $this->uomService;
+    }
+ 
+    public function setUomService($uomService)
+    {
+        $this->uomService = $uomService;
+        return $this;
+    }
 }

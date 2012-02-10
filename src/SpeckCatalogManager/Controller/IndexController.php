@@ -53,6 +53,8 @@ class IndexController extends ActionController
             $this->redirect()->toUrl('/catalogmanager/product?id='.$product->getProductId());
         } elseif (isset($id)) {
             return array('product' => $this->getProductService()->getById($id));
+        } else {
+            throw new Exception('didnt get "new" or a product id');
         }
     }
 
@@ -128,6 +130,8 @@ class IndexController extends ActionController
         $this->view['nolayout'] = true;
         return $this->view;
     }
+
+
 
 
     /**

@@ -8,54 +8,12 @@ use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
 abstract class ModelAbstract extends ZfcModelAbstract
 {
     
-    protected $userId;
-    protected $datetime;
-    protected $parentId;
-    protected $id;
+    protected $revUserId;
+    protected $revDateTime;
+    protected $revParentId;
+    protected $revId;
 
-    public function getUserId()
-    {
-        return $this->userId;
-    }
 
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-        return $this;
-    }
-
-    public function getParentId()
-    {
-        return $this->parentId;
-    }
-
-    public function setParentId($parentId)
-    {
-        $this->parentId = $parentId;
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
- 
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
- 
-    public function getDatetime()
-    {
-        return $this->datetime;
-    }
- 
-    public function setDatetime($datetime)
-    {
-        $this->datetime = $datetime;
-        return $this;
-    }
 
     private function arrToData($arr, $searchData){
         foreach($arr as $val){
@@ -132,4 +90,88 @@ abstract class ModelAbstract extends ZfcModelAbstract
         return array();
     }
 
+ 
+    /**
+     * Get revUserId.
+     *
+     * @return revUserId
+     */
+    public function getRevUserId()
+    {
+        return $this->revUserId;
+    }
+ 
+    /**
+     * Set revUserId.
+     *
+     * @param $revUserId the value to be set
+     */
+    public function setRevUserId($revUserId)
+    {
+        $this->revUserId = $revUserId;
+        return $this;
+    }
+ 
+    /**
+     * Get revDateTime.
+     *
+     * @return revDateTime
+     */
+    public function getRevDateTime()
+    {
+        return $this->revDateTime;
+    }
+ 
+    /**
+     * Set revDateTime.
+     *
+     * @param $revDateTime the value to be set
+     */
+    public function setRevDateTime($revDateTime)
+    {
+        $this->revDateTime = $revDateTime;
+        return $this;
+    }
+ 
+    /**
+     * Get revParentId.
+     *
+     * @return revParentId
+     */
+    public function getRevParentId()
+    {
+        return $this->revParentId;
+    }
+ 
+    /**
+     * Set revParentId.
+     *
+     * @param $revParentId the value to be set
+     */
+    public function setRevParentId($revParentId)
+    {
+        $this->revParentId = $revParentId;
+        return $this;
+    }
+ 
+    /**
+     * Get revId.
+     *
+     * @return revId
+     */
+    public function getRevId()
+    {
+        return $this->revId;
+    }
+ 
+    /**
+     * Set revId.
+     *
+     * @param $revId the value to be set
+     */
+    public function setRevId($revId)
+    {
+        $this->revId = $revId;
+        return $this;
+    }
 }

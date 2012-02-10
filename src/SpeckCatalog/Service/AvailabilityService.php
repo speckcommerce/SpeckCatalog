@@ -9,6 +9,7 @@ class AvailabilityService extends ServiceAbstract
     public function populateModel($availability)
     {
         $availability->setCompanies($this->getCompanyService()->getAll());
+        $availability->setDistributor($this->getCompanyService()->getById($availability->getDistributorCompanyId()));
         return $availability;
     }
 

@@ -81,4 +81,8 @@ class Company extends ModelAbstract
         $this->availabilities = $availabilities;
         return $this;
     }
+    public function getId()
+    {
+        return $this->companyId;
+    }        
 }

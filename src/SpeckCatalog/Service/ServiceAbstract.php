@@ -8,7 +8,6 @@ class ServiceAbstract
     protected $modelMapper;
     protected $user; 
     
-    
     public function getAll()
     {
         return $this->modelMapper->getAll();
@@ -48,7 +47,8 @@ class ServiceAbstract
     
     public function update($model)
     {
-        return $this->getModelMapper()->update($model);
+        $this->getModelMapper()->update($model);
+        return $this->getById($model->getId());  
     }
 
     public function delete($modelId)

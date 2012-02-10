@@ -91,11 +91,23 @@ return array(
                 'parameters' => array(
                     'modelMapper'         => 'SpeckCatalog\Model\Mapper\ProductUomMapper',
                     'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
+                    'uomService' => 'SpeckCatalog\Service\UomService',
                 ),
             ),              
             'SpeckCatalog\Service\CompanyService' => array(
                 'parameters' => array(
                     'modelMapper' => 'SpeckCatalog\Model\Mapper\CompanyMapper',
+                ),
+            ),              
+            'SpeckCatalog\Service\UomService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'SpeckCatalog\Model\Mapper\UomMapper',
+                ),
+            ),
+            'SpeckCatalog\Model\Mapper\UomMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
                 ),
             ),
             'SpeckCatalog\Model\Mapper\ChoiceMapper' => array(

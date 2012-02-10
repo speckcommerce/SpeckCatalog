@@ -60,11 +60,6 @@ class Availability extends ModelAbstract
         return $this->availabilityId;
     }
 
-    public function getName()
-    {
-        return $this->getCost();
-    }
- 
     public function getParentProductUomId()
     {
         return $this->parentProductUomId;
@@ -103,8 +98,13 @@ class Availability extends ModelAbstract
         $string = "";
         $company = $this->getDistributor();
         if($company){
-            $string .= $company->getName() . ' - ' . $this->getCost();
+            $string .= $company->getName() . ' - $' . number_format($this->getCost(),2);
         }
         return $string;
     }
+
+    public function getId()
+    {
+        return $this->availabilityId;
+    }    
 }

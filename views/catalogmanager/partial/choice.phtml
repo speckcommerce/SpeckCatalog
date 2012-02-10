@@ -30,16 +30,16 @@
                 </div>
                 <div class="row list-items-helper">
                     <?=$this->partial($pdir.'add.phtml', array(
+                        'function' => 'add-button', 
+                        'newClassName' => 'option',
+                        'parentClassName' => 'choice',
+                        'parentId' => $choice->getChoiceId(),
+                    ));?>
+                    <?=$this->partial($pdir.'add.phtml', array(
                         'function'  => 'import-search', 
                         'className' => 'option',
                         'parentClassName' => 'choice',
                         'parentId' => $choice->getChoiceId(),     
-                    ));?>
-                    <?=$this->partial($pdir.'add.phtml', array(
-                        'function' => 'add-button', 
-                        'className' => 'option',
-                        'parentClassName' => 'choice',
-                        'parentId' => $choice->getChoiceId(),
                     ));?>
                 </div>             
             </div>  

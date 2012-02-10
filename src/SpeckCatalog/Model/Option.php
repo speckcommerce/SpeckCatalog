@@ -144,4 +144,8 @@ class Option extends ModelAbstract
             return '';
         }
     }
+    public function getId()
+    {
+        return $this->optionId;
+    }     
 }

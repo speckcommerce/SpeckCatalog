@@ -21,7 +21,7 @@ class IndexController extends ActionController
 		@ini_set('implicit_flush', 1);
         ini_set('memory_limit',-1);     
         $productService = $this->getProductService();
-        return array('product' => $productService->getById($_GET['id']));
+        array('product' => $productService->getById($_GET['id']));
     }
 
     public function getProductService()

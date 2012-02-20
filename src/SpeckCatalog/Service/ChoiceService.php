@@ -33,21 +33,26 @@ class ChoiceService extends ServiceAbstract
     public function newOptionChoice($optionId)
     {
         $choice = $this->newModel();
-        $choice->setParentOptionId($optionId);
+        $this->linkParentOption($optionId, $choice->getChoiceId());
         $this->update($choice);
+
         return $choice;
     }
 
     public function newOptionChoiceWithExistingProduct($optionId, $productId)
     {
         $choice = $this->newModel();
-        $choice->setParentOptionId($optionId);
         $choice->setProductId($productId);
         $this->update($choice);
         $choice->setProduct($this->getProductService()->getById($productId));
+
         return $choice;
     }
 
+    public function linkParentOption($optionId, $choiceId)
+    {
+        return $this->getModelMapper()->linkParentOption($optionId, $choiceId);
+    }
 
     public function getProductService()
     {

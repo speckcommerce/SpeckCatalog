@@ -80,14 +80,14 @@ abstract class ModelAbstract extends ZfcModelAbstract
         return $this->events;
     }
 
-    public function __toArray($model){
-        $array = parent::__toArray($model);
+    public function toArray($array = null, $filter=null){
+        $array = parent::toArray($array, $filter);
         foreach($array as $key => $val){
             if(is_array($val)){
                 unset($array[$key]);
             }
         }
-        return array();
+        return $array;
     }
 
  

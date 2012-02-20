@@ -11,7 +11,7 @@ class UomMapper extends DbMapperAbstract
     protected $modelClass = 'Uom';
 
     //overrides abstract
-    //field does not end in _id
+    //db field does not end in _id      
     public function getById($uomCode)
     {
         $db = $this->getReadAdapter();

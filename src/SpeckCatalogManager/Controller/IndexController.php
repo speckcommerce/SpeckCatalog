@@ -42,6 +42,8 @@ class IndexController extends ActionController
 
     public function indexAction()
     {
+        $this->view['results']  = $this->productService->getModelsBySearchData('');
+        
         return $this->view;
     }
 

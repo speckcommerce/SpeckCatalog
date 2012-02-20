@@ -19,11 +19,11 @@ class ModelLinkerService
     {
         if(isset($data['new_class_name']))   { $newClassName    = $data['new_class_name'];    }else{ $newClassName = null; }
         if(isset($data['class_name']))       { $className       = $data['class_name'];        }else{ $className = null; }
-        if(isset($data['id']))               { $id              = $data['id'];                }else{ $id = null; }
+        if(isset($data['id']))               { $id              = (int) $data['id'];                }else{ $id = null; }
         if(isset($data['child_class_name'])) { $childClassName  = $data['child_class_name'];  }else{ $childClassName = null; }
-        if(isset($data['child_id']))         { $childId         = $data['child_id'];          }else{ $childId = null; }
+        if(isset($data['child_id']))         { $childId         = (int) $data['child_id'];          }else{ $childId = null; }
         if(isset($data['parent_class_name'])){ $parentClassName = $data['parent_class_name']; }else{ $parentClassName = null; }
-        if(isset($data['parent_id']))        { $parentId        = $data['parent_id'];         }else{ $parentId = null; }
+        if(isset($data['parent_id']))        { $parentId        = (int) $data['parent_id'];         }else{ $parentId = null; }
 
         if($newClassName){
             return $this->newModel($newClassName, $parentClassName, $parentId, $childClassName, $childId);
@@ -37,12 +37,11 @@ class ModelLinkerService
         $modelService = $newClassName . 'Service';
         $newClass = 'new' . ucfirst($parentClassName) . ucfirst($newClassName);
         $model = $this->$modelService->$newClass($parentId);
-        $getModelId = 'get' . ucfirst($newClassName) . 'Id';        
-        $this->linkParent($newClassName, $model->$getModelId(), $parentClassName, $parentId);
+        $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
         if($childClassName && $childId){
-            $this->linkParent($childClassName, $childId, $newClassName, $model->$getModelId());
+            $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
         }    
-        return $this->$modelService->getById($model->$getModelId());
+        return $this->$modelService->getById($model->getId());
     }
 
     public function existingModel($className, $id, $parentClassName, $parentId)
@@ -58,9 +57,9 @@ class ModelLinkerService
         $linkParentClass = 'linkParent' . ucfirst($parentClassName);
         if(method_exists($this->$modelService, $linkParentClass)){
             $this->$modelService->$linkParentClass($parentId, $id);
-            //echo $modelService . '::' . $linkParentClass . ' - called';
+            echo '<script>console.log(\'' . $modelService . '::' . $linkParentClass . ' - called\')</script>';
         } else {
-            //echo $modelService . '::' . $linkParentClass . ' - not called';
+            echo '<script>console.log(\'' . $modelService . '::' . $linkParentClass . ' - NOT called\')</script>';
         }
     }    
 

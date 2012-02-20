@@ -4,7 +4,7 @@
 
     <div class="entity-header">
         <div><span class="ui-icon ui-icon-triangle-1-s collapser"></span></div>
-        <? if($option->isShared()) : ?>
+        <? if(1===1 || $option->isShared()) : ?>
             <div><span class="label warning" title="This option is shared amongst <?=count($option->getParentProducts());?> products.">Shared</span></div>
         <? endif; ?>  
         <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
@@ -41,6 +41,13 @@
                     'parentClassName' => 'option',
                     'parentId' => $option->getOptionId(),
                 ));?>
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'import-search',
+                    'searchClassName' => 'choice',
+                    'className'       => 'choice',
+                    'parentClassName' => 'option',
+                    'parentId'        => $option->getOptionId(),
+                ));?>    
             </div>
         </div>
     </div>

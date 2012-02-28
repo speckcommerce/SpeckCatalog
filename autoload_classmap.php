@@ -18,6 +18,7 @@ return array(
         'Catalog\Service\AvailabilityService'       => __DIR__ . '/src/Catalog/Service/AvailabilityService.php',
         'Catalog\Service\CompanyService'            => __DIR__ . '/src/Catalog/Service/CompanyService.php',
     'Catalog\Service\CatalogService'            => __DIR__ . '/src/Catalog/Service/CatalogService.php',
+    'Catalog\Service\Installer'                 => __DIR__ . '/src/Catalog/Service/Installer.php',
 
     /**
      * Mappers

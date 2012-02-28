@@ -4,7 +4,8 @@ namespace SpeckCatalog;
 
 use Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
-    Zend\Module\Consumer\AutoloaderProvider;
+    Zend\Module\Consumer\AutoloaderProvider,
+    Service\Installer;
 
 class Module implements AutoloaderProvider
 {
@@ -15,6 +16,8 @@ class Module implements AutoloaderProvider
     {
         $events = StaticEventManager::getInstance();
         $events->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
+        $moduleManager->events()->attach('install', array($this, 'install'));
+        
     }
 
     public function getAutoloaderConfig()
@@ -29,6 +32,13 @@ class Module implements AutoloaderProvider
                 ),
             ),
         );
+    }
+
+    public function install($e)
+    {
+        $locator = $e->getParam('locator');
+        echo "catalog - install";
+        $locator->get('catalog_install')->install();
     }
 
     public function getConfig()

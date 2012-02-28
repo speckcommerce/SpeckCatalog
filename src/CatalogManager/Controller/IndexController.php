@@ -22,13 +22,13 @@ class IndexController extends ActionController
 
     public function indexAction()
     {
-        $this->layout();
+        //$this->layout();
         return new ViewModel;
     }
     
     public function productAction()
     {
-        $this->layout();
+        //$this->layout();
         $product = $this->getCatalogService()->getModel('product', $_GET['id']);
         
         return new ViewModel(array('product' => $product));

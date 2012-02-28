@@ -1,10 +1,10 @@
 <?php
-
 //return array();
 return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
+                'catalog_install' => 'Catalog\Service\Installer',
                 'catalog' => 'Catalog\Controller\IndexController',
                 'catalogmanager' => 'CatalogManager\Controller\IndexController',
                 'catalog_read_db'         => 'masterzdb',
@@ -22,7 +22,6 @@ return array(
                     'catalogService' => 'Catalog\Service\CatalogService',
                 ),
             ),
-
 
 
             /**
@@ -87,6 +86,12 @@ return array(
                     'modelMapper' => 'Catalog\Model\Mapper\CompanyMapper',
                 ),
             ),
+
+            'Catalog\Service\Installer' => array(
+                'parameters' => array(
+                    'catalogService' => 'Catalog\Service\CatalogService',
+                ),
+            ),   
 
 
 
@@ -158,7 +163,7 @@ return array(
                         'catalog' => __DIR__ . '/../view',
                     ),
                 ),
-            ),  
+            ),
         ),
     ),
 );      

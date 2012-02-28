@@ -144,10 +144,13 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             $availability, $choice, $choiceOptionLinker, 
             $company, $option, $optionChoiceLinker, 
             $optionHelper, $product, $productOptionLinker, $productUom
-        );  
+        );
+        
         foreach($tables as $createStatement){
-            var_dump($db->exec($createStatement)); 
+            $db->exec($createStatement); 
         }
+
+        return 'catalog tables should now exist!';
     }
 
     public function dropCatalog()

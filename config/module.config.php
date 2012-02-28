@@ -1,179 +1,164 @@
 <?php
 
+//return array();
 return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'catalog' => 'SpeckCatalog\Controller\IndexController',
+                'catalog' => 'Catalog\Controller\IndexController',
+                'catalogmanager' => 'CatalogManager\Controller\IndexController',
+                'catalog_read_db'         => 'masterzdb',
+                'catalog_write_db'        => 'masterzdb',
             ),
-            
-            // Setup the View layer
-            'Zend\View\Resolver\TemplatePathStack' => array(
+
+            'CatalogManager\Controller\IndexController' => array(
                 'parameters' => array(
-                    'options'  => array(
-                        'script_paths' => array(
-                            'testmodule' => __DIR__ . '/../view',
-                        ),
-                    ),
+                    'catalogService' => 'Catalog\Service\CatalogService',
                 ),
             ),
+
+            'Catalog\Controller\IndexController' => array(
+                'parameters' => array(
+                    'catalogService' => 'Catalog\Service\CatalogService',
+                ),
+            ),
+
+
+
+            /**
+             * Services 
+             */
+            'Catalog\Service\CatalogService' => array(
+                'parameters' => array(
+                    'productService' => 'Catalog\Service\ProductService',
+                    'mapper' => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
+                ),
+            ),
+
+            'Catalog\Service\ProductService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\ProductMapper',
+                    'optionService' => 'Catalog\Service\OptionService',
+                    'choiceService' => 'Catalog\Service\ChoiceService',
+                    'companyService' => 'Catalog\Service\CompanyService',
+                    'productUomService' => 'Catalog\Service\ProductUomService',
+
+                ),
+            ),
+
+            'Catalog\Service\OptionService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\OptionMapper',
+                    'choiceService' => 'Catalog\Service\ChoiceService',
+                ),
+            ),
+
+            'Catalog\Service\ChoiceService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\ChoiceMapper',
+                    'optionService' => 'Catalog\Service\OptionService',
+                    'productService' => 'Catalog\Service\ProductService',
+                ),
+            ),
+            
+            'Catalog\Service\ProductUomService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\ProductUomMapper',
+                    'uomService' => 'Catalog\Service\UomService',
+                    'availabilityService' => 'Catalog\Service\AvailabilityService',
+                ),
+            ),
+            
+            'Catalog\Service\UomService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\UomMapper',
+                ),
+            ),
+
+            'Catalog\Service\AvailabilityService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\AvailabilityMapper',
+                    'companyService' => 'Catalog\Service\CompanyService',
+                ),
+            ),
+
+            'Catalog\Service\CompanyService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\CompanyMapper',
+                ),
+            ),
+
+
+
+            /**
+             * Mappers 
+             */
+            'Catalog\Model\Mapper\ProductMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\OptionMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\ChoiceMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\ProductUomMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\UomMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\AvailabilityMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\CompanyMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+            'Catalog\Model\Mapper\MYSQL_CatalogMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+
+
+
+
+            'Zend\View\Resolver\TemplatePathStack' => array(
+                'parameters' => array(
+                    'paths'  => array(
+                        'catalog' => __DIR__ . '/../view',
+                    ),
+                ),
+            ),  
         ),
     ),
-); 
-
-//return array(
-//    'layout' => 'layouts/catalog-manage.phtml',
-//    'di' => array(
-//        'instance' => array(
-//            'alias' => array(
-//                'catalog'                 => 'SpeckCatalog\Controller\IndexController',
-//                'catalogmanager'          => 'SpeckCatalogManager\Controller\IndexController',
-//                'catalog_read_db'         => 'masterzdb',
-//                'catalog_write_db'        => 'masterzdb',
-//            ),
-//            'catalog' => array(
-//                'parameters' => array(
-//                    'productService' => 'SpeckCatalog\Service\ProductService',
-//                ),
-//            ),
-//            'catalogmanager' => array(
-//                'parameters' => array(
-//                    'userService'         => 'speckcatalog_user_service',
-//                    'productService'      => 'SpeckCatalog\Service\ProductService',
-//                    'productUomService'   => 'SpeckCatalog\Service\ProductUomService',
-//                    'optionService'       => 'SpeckCatalog\Service\OptionService',
-//                    'choiceService'       => 'SpeckCatalog\Service\ChoiceService',
-//                    'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
-//                    'modelLinkerService'  => 'SpeckCatalogManager\Service\ModelLinkerService',
-//                ),
-//            ),
-//            'Zend\View\PhpRenderer' => array(
-//                'parameters' => array(
-//                    'options'  => array(
-//                        'script_paths' => array(
-//                            'SwmBase' => __DIR__ . '/../views',
-//                        ),
-//                    ),
-//                ),
-//            ), 
-//            'orm_driver_chain' => array(
-//                'parameters' => array(
-//                    'drivers' => array(
-//                        'speckcatalog_annotationdriver' => array(
-//                            'class'           => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-//                            'namespace'       => 'Catalog\Entity',
-//                            'paths'           => array(__DIR__ . '/../src/Catalog/Entity'),
-//                        ),
-//                    ),
-//                )
-//            ),
-//            'SpeckCatalogManager\Service\ModelLinkerService' => array(
-//                'parameters' => array(
-//                    'optionService'   => 'SpeckCatalog\Service\OptionService',
-//                    'choiceService'   => 'SpeckCatalog\Service\ChoiceService',
-//                    'productService'   => 'SpeckCatalog\Service\ProductService',
-//                    'productUomService'   => 'SpeckCatalog\Service\ProductUomService',
-//                    'availabilityService'   => 'SpeckCatalog\Service\AvailabilityService',
-//                ),
-//            ),               
-//            'SpeckCatalog\Model\Helper\OptionHelperListener' => array(
-//                'parameters' => array(
-//                    'modelMapper'   => 'SpeckCatalog\Model\Mapper\OptionHelperMapper',
-//                ),
-//            ),          
-//            'SpeckCatalog\Service\OptionService' => array(
-//                'parameters' => array(
-//                    'modelMapper'   => 'SpeckCatalog\Model\Mapper\OptionMapper',
-//                    'choiceService' => 'SpeckCatalog\Service\ChoiceService',
-//                ),
-//            ),          
-//            'SpeckCatalog\Service\ChoiceService' => array(
-//                'parameters' => array(
-//                    'modelMapper'    => 'SpeckCatalog\Model\Mapper\ChoiceMapper',
-//                    'productService' => 'SpeckCatalog\Service\ProductService',
-//                    'optionService'  => 'SpeckCatalog\Service\OptionService',
-//                ),
-//            ),
-//            'SpeckCatalog\Service\ProductService' => array(
-//                'parameters' => array(
-//                    'modelMapper'       => 'SpeckCatalog\Model\Mapper\ProductMapper',
-//                    'optionService'     => 'SpeckCatalog\Service\OptionService',
-//                    'productUomService' => 'SpeckCatalog\Service\ProductUomService',
-//                    'companyService'    => 'SpeckCatalog\Service\CompanyService',
-//                    'choiceService'     => 'SpeckCatalog\Service\ChoiceService',
-//                ),
-//            ),
-//            'SpeckCatalog\Service\AvailabilityService' => array(
-//                'parameters' => array(
-//                    'modelMapper'    => 'SpeckCatalog\Model\Mapper\AvailabilityMapper',
-//                    'companyService' => 'SpeckCatalog\Service\CompanyService',
-//                ),
-//            ),              
-//             'SpeckCatalog\Service\ProductUomService' => array(
-//                'parameters' => array(
-//                    'modelMapper'         => 'SpeckCatalog\Model\Mapper\ProductUomMapper',
-//                    'availabilityService' => 'SpeckCatalog\Service\AvailabilityService',
-//                    'uomService' => 'SpeckCatalog\Service\UomService',
-//                ),
-//            ),              
-//            'SpeckCatalog\Service\CompanyService' => array(
-//                'parameters' => array(
-//                    'modelMapper' => 'SpeckCatalog\Model\Mapper\CompanyMapper',
-//                ),
-//            ),              
-//            'SpeckCatalog\Service\UomService' => array(
-//                'parameters' => array(
-//                    'modelMapper' => 'SpeckCatalog\Model\Mapper\UomMapper',
-//                ),
-//            ),
-//            'SpeckCatalog\Model\Mapper\UomMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),
-//            'SpeckCatalog\Model\Mapper\ChoiceMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),            
-//            'SpeckCatalog\Model\Mapper\OptionHelperMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),               
-//            'SpeckCatalog\Model\Mapper\OptionMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),
-//            'SpeckCatalog\Model\Mapper\ProductUomMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),
-//             'SpeckCatalog\Model\Mapper\ProductMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),              
-//            'SpeckCatalog\Model\Mapper\AvailabilityMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),
-//            'SpeckCatalog\Model\Mapper\CompanyMapper' => array(
-//                'parameters' => array(
-//                    'readAdapter'  => 'catalog_read_db',
-//                    'writeAdapter' => 'catalog_write_db',
-//                ),
-//            ),
-//        ),
-//    ),
-//);
+);      

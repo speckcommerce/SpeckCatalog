@@ -1,0 +1,55 @@
+<? $pdir = '/catalogmanager/partial/'; ?>
+<!-- option -->
+<div class="option contrastbg boundary">
+
+    <div class="entity-header">
+        <div><span class="ui-icon ui-icon-triangle-1-s collapser"></span></div>
+        <? if(1===1 || $option->isShared()) : ?>
+            <div><span class="label warning" title="This option is shared amongst <?=count($option->getParentProducts());?> products.">Shared</span></div>
+        <? endif; ?>  
+        <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
+        <div class="title sort-handle collapser">&nbsp; <?=$option;?></div>
+    </div>
+
+    <div class="entity-content">   
+    <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
+        <div class="list-wrap half-pad">
+            <div class="child-expand list-items-helper">
+                <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-active ui-corner-all"></span></div>
+                <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-active ui-corner-all"></span></div>
+                <span class="smallcaps">&nbsp;choices</span>
+            </div>
+            <div class="list-items">
+                <? if ($option->hasChoices()) : ?>
+                    <? foreach($option->getChoices() as $choice) : ?>
+                        <?=$this->partial($pdir.'choice.phtml', array('choice' => $choice));?>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </div>
+            <div class="row list-items-helper">
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'import-search',
+                    'searchClassName' => 'product',
+                    'childClassName'  => 'product',
+                    'newClassName'    => 'choice',
+                    'parentClassName' => 'option',
+                    'parentId'        => $option->getOptionId(),
+                ));?>    
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function' => 'add-button',
+                    'newClassName'=>'choice',
+                    'parentClassName' => 'option',
+                    'parentId' => $option->getOptionId(),
+                ));?>
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'import-search',
+                    'searchClassName' => 'choice',
+                    'className'       => 'choice',
+                    'parentClassName' => 'option',
+                    'parentId'        => $option->getOptionId(),
+                ));?>    
+            </div>
+        </div>
+    </div>
+
+</div>

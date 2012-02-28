@@ -1,0 +1,48 @@
+<? $pdir = '/catalogmanager/partial/'; ?>
+<div class="choice whitebg boundary">
+    <div class="entity-header">
+        <div><span class="ui-icon ui-icon-triangle-1-s collapser initialCollapse"></span></div>
+        <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
+        <? if ($choice->hasOptions()) : ?>
+            <div><span class="ui-icon ui-icon-shuffle"></span></div>
+        <? elseif($choice->hasProduct()) : ?>
+            <div><span class="ui-icon ui-icon-tag"></span></div>
+        <? endif; ?>
+        <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>
+    </div>   
+    <div class="entity-content">  
+        <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
+        <? if($choice->hasProduct()) : ?>
+            <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?><br/>
+        <? else: ?>
+            <div class="list-wrap half-pad">
+                <div class="child-expand list-items-helper">
+                    <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-default ui-corner-all"></span></div>
+                    <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-default ui-corner-all"></span></div>
+                    <span class="smallcaps">&nbsp;options</span><br/>
+                </div>  
+                <div class="list-items">
+                    <? if ($choice->hasOptions()) : ?>
+                        <? foreach($choice->getOptions() as $option) : ?>
+                            <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
+                        <? endforeach; ?>
+                    <? endif; ?>
+                </div>
+                <div class="row list-items-helper">
+                    <?=$this->partial($pdir.'add.phtml', array(
+                        'function' => 'add-button', 
+                        'newClassName' => 'option',
+                        'parentClassName' => 'choice',
+                        'parentId' => $choice->getChoiceId(),
+                    ));?>
+                    <?=$this->partial($pdir.'add.phtml', array(
+                        'function'  => 'import-search', 
+                        'className' => 'option',
+                        'parentClassName' => 'choice',
+                        'parentId' => $choice->getChoiceId(),     
+                    ));?>
+                </div>             
+            </div>  
+        <? endif; ?> 
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<? if($results) : ?>
+    <table class="table table-condensed">
+        <thead><td>type</td><td>description</td></thead> 
+        <tbody>
+
+            <? foreach($results as $model) : ?>
+
+                <? 
+                    $class = explode('\\', get_class($model)); $className = array_pop($class);
+                    $getModelId = 'get'.$className.'Id';
+                    $entityId = $model->$getModelId();
+                ?>
+
+                <tr>
+                    <td><?=$className;?></td>
+                    <td>
+                        <form action="" class="search-result-data">
+                            <input type="hidden" name="id"                value="<?=$entityId;?>"                  />
+                            <input type="hidden" name="class_name"        value="<?=$data['class_name'];?>"        />
+                            <input type="hidden" name="parent_id"         value="<?=$data['parent_id'];?>"         />
+                            <input type="hidden" name="parent_class_name" value="<?=$data['parent_class_name'];?>" />
+                            <input type="hidden" name="child_id"          value="<?=$entityId;?>"                  />
+                            <input type="hidden" name="child_class_name"  value="<?=$data['child_class_name'];?>"  />
+                            <input type="hidden" name="new_class_name"    value="<?=$data['new_class_name'];?>"    />
+                                
+                            <a href="" class="search-result"><?=$model;?></a>
+                        </form>
+                    </td>
+                </tr>
+
+            <? endforeach; ?>
+
+        </tbody>
+    </table>
+<? else : ?>
+    no results
+<? endif; ?>

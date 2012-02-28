@@ -15,7 +15,6 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
     protected $modelClass;
     protected $debugging;
 
-
     /**
      * newModel
      *
@@ -27,8 +26,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
      */
     public function newModel($constructor=null)
     {
-        $fullClassName = $this->getFullClassName();
-        $model = new $fullClassName($constructor);
+        $model = $this->getModel($constructor);
         return $this->add($model);
     }
 
@@ -44,8 +42,7 @@ class DbMapperAbstract extends ZfcDbMapperAbstract
      */
     public function mapModel($row)
     {
-        $fullClassName = $this->getFullClassName();
-        $model = new $fullClassName;
+        $model = $this->getModel();
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
         return $model->fromArray($row);
     }

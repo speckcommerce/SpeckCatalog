@@ -11,19 +11,24 @@ class ModelLinkerService
     
     /**
      * link a new model to its parent
+     * or
      * link an existing model to its parent
+     * or
      * link an existing model to its parent, and link its child
      */
 
     public function linkModel($data)
     {
         if(isset($data['new_class_name']))   { $newClassName    = $data['new_class_name'];    }else{ $newClassName = null; }
+            
         if(isset($data['class_name']))       { $className       = $data['class_name'];        }else{ $className = null; }
-        if(isset($data['id']))               { $id              = (int) $data['id'];                }else{ $id = null; }
+        if(isset($data['id']))               { $id              = (int) $data['id'];          }else{ $id = null; }
+            
         if(isset($data['child_class_name'])) { $childClassName  = $data['child_class_name'];  }else{ $childClassName = null; }
-        if(isset($data['child_id']))         { $childId         = (int) $data['child_id'];          }else{ $childId = null; }
+        if(isset($data['child_id']))         { $childId         = (int) $data['child_id'];    }else{ $childId = null; }
+
         if(isset($data['parent_class_name'])){ $parentClassName = $data['parent_class_name']; }else{ $parentClassName = null; }
-        if(isset($data['parent_id']))        { $parentId        = (int) $data['parent_id'];         }else{ $parentId = null; }
+        if(isset($data['parent_id']))        { $parentId        = (int) $data['parent_id'];   }else{ $parentId = null; }
 
         if($newClassName){
             return $this->newModel($newClassName, $parentClassName, $parentId, $childClassName, $childId);
@@ -74,84 +79,44 @@ class ModelLinkerService
         return $this;
     }
  
-    /**
-     * Get productUomService.
-     *
-     * @return productUomService
-     */
     public function getProductUomService()
     {
         return $this->productUomService;
     }
  
-    /**
-     * Set productUomService.
-     *
-     * @param $productUomService the value to be set
-     */
     public function setProductUomService($productUomService)
     {
         $this->productUomService = $productUomService;
         return $this;
     }
  
-    /**
-     * Get choiceService.
-     *
-     * @return choiceService
-     */
     public function getChoiceService()
     {
         return $this->choiceService;
     }
- 
-    /**
-     * Set choiceService.
-     *
-     * @param $choiceService the value to be set
-     */
+
     public function setChoiceService($choiceService)
     {
         $this->choiceService = $choiceService;
         return $this;
     }
- 
-    /**
-     * Get productService.
-     *
-     * @return productService
-     */
+
     public function getProductService()
     {
         return $this->productService;
     }
- 
-    /**
-     * Set productService.
-     *
-     * @param $productService the value to be set
-     */
+
     public function setProductService($productService)
     {
         $this->productService = $productService;
         return $this;
     }
- 
-    /**
-     * Get availabilityService.
-     *
-     * @return availabilityService
-     */
+
     public function getAvailabilityService()
     {
         return $this->availabilityService;
     }
- 
-    /**
-     * Set availabilityService.
-     *
-     * @param $availabilityService the value to be set
-     */
+
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;

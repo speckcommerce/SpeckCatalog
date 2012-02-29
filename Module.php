@@ -16,6 +16,7 @@ class Module implements AutoloaderProvider
     {
         $events = StaticEventManager::getInstance();
         $events->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
+        $moduleManager->events()->attach('install', array($this, 'preInstall'));
         $moduleManager->events()->attach('install', array($this, 'install'));
         
     }
@@ -34,11 +35,15 @@ class Module implements AutoloaderProvider
         );
     }
 
+    public function preInstall($e)
+    {
+        //all info needed to configure/update/install this module('SpeckCatalog') will be returned
+        return "SpeckCatalog";
+    }
+
     public function install($e)
     {
-        $locator = $e->getParam('locator');
-        echo "catalog - install";
-        $locator->get('catalog_install')->install();
+        echo $e->getParam('locator')->get('catalog_install')->install();
     }
 
     public function getConfig()

@@ -150,6 +150,8 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             $db->exec($createStatement); 
         }
 
+        $this->createAnsiUom();
+
         return 'catalog tables should now exist!';
     }
 
@@ -173,6 +175,7 @@ drop table if exists catalog_company;
 
 
     public function createAnsiUom(){
+        $db = $this->getWriteAdapter();
         $query = "
 CREATE TABLE IF NOT EXISTS `ansi_uom` (
   `uom_code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
@@ -977,6 +980,6 @@ INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('ZP', 'Page', 0),
 ('ZZ', 'Mutually Defined', 0);
 ";
+        $db->exec($query);
     }
-
 }

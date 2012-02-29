@@ -8,7 +8,7 @@ class Installer
 
     public function install()
     {
-        $this->getCatalogService()->createCatalog();
+        return $this->getCatalogService()->createCatalog();
     }
 
     public function getCatalogService()

@@ -7,7 +7,7 @@ return array(
                 'catalog_install' => 'Catalog\Service\Installer',
                 'catalog' => 'Catalog\Controller\IndexController',
                 'catalogmanager' => 'CatalogManager\Controller\IndexController',
-                'masterdb'                => 'PDO',
+                'masterzdb' => 'Zend\Db\Adapter\DiPdoMysql',
                 'catalog_read_db'         => 'masterzdb',
                 'catalog_write_db'        => 'masterzdb',
             ),

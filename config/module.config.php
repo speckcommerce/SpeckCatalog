@@ -7,10 +7,16 @@ return array(
                 'catalog_install' => 'Catalog\Service\Installer',
                 'catalog' => 'Catalog\Controller\IndexController',
                 'catalogmanager' => 'CatalogManager\Controller\IndexController',
+                'masterdb'                => 'PDO',
                 'catalog_read_db'         => 'masterzdb',
                 'catalog_write_db'        => 'masterzdb',
             ),
-
+            'masterzdb' => array(
+                'parameters' => array(
+                    'pdo'    => 'masterdb',
+                    'config' => array(),
+                ),
+            ),   
             'CatalogManager\Controller\IndexController' => array(
                 'parameters' => array(
                     'catalogService' => 'Catalog\Service\CatalogService',

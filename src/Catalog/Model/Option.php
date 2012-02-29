@@ -11,7 +11,9 @@ class Option extends ModelAbstract
     
     protected $name;
     
-    protected $listType = null; //radio, checkbox, dropdown,
+    protected $listType = null; //radio, checkbox, dropdown, slider
+
+    protected $slider;
     
     protected $required = false;
 
@@ -148,4 +150,17 @@ class Option extends ModelAbstract
     {
         return $this->optionId;
     }     
+ 
+    public function getSlider()
+    {
+        return $this->slider;
+    }
+ 
+    public function setSlider($slider)
+    {
+        if('slider' === $this->getType()){
+            $this->slider = $slider;
+        }
+        return $this;
+    }
 }

@@ -39,6 +39,7 @@ return array(
     'Catalog\Model\ModelAbstract' => __DIR__ . '/src/Catalog/Model/ModelAbstract.php',
         'Catalog\Model\Product'                => __DIR__ . '/src/Catalog/Model/Product.php',
         'Catalog\Model\Option'                 => __DIR__ . '/src/Catalog/Model/Option.php',
+            'Catalog\Model\OptionSlider'           => __DIR__ . '/src/Catalog/Model/OptionSlider.php',
         'Catalog\Model\Choice'                 => __DIR__ . '/src/Catalog/Model/Choice.php',
         'Catalog\Model\ProductUom'             => __DIR__ . '/src/Catalog/Model/ProductUom.php',
         'Catalog\Model\Uom'                    => __DIR__ . '/src/Catalog/Model/Uom.php',

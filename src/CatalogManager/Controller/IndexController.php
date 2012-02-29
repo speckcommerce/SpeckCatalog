@@ -20,12 +20,28 @@ class IndexController extends ActionController
         }
     }
 
+    public function optionSliderTestAction()
+    {
+        $slider = new \Catalog\Model\OptionSlider;
+        $slider->setStart(1)
+               ->setEnd(25)
+               ->setIncriment(.5);
+        var_dump($slider->__toArray());
+        die();
+    }
+
     public function indexAction()
     {
         //$this->layout();
         return new ViewModel;
     }
-    
+
+    public function newAction()
+    {
+        $model = $this->getCatalogService()->newModel($_GET['type']);
+        $this->_redirect('catalogmanager/' . $_GET['type'] . '?id=' . $model->getId());
+    }
+
     public function productAction()
     {
         //$this->layout();

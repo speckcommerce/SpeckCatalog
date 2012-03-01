@@ -3,9 +3,10 @@
 namespace Catalog\Controller;
 
 use Zend\Mvc\Controller\ActionController,
-    Zend\View\Model\ViewModel;
+    Zend\View\Model\ViewModel,
+    Exception;
 
-class IndexController extends ActionController
+class CatalogController extends ActionController
 {
     protected $catalogService;
     protected $modelLinkerService;
@@ -17,23 +18,23 @@ class IndexController extends ActionController
 
     public function productAction()
     {
-        $product = $this->getCatalogService()->getModel('product', $_GET['id']);
-        if($product){
-            return new ViewModel(array('product' => $product));
-        }else{
-            return null;
-        }
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        $product = $this->getCatalogService()->getModel('product', $id);
+        var_dump($product);
+    }
+    
+    public function productRedirectAction()
+    {
+        $id = (int) $this->getEvent()->getRouteMatch()->getParam('id');
+        $this->redirect()->toRoute('catalogmanager/product', array('id' => $id));
     }
 
-    public function dropCatalogAction(){
-        $this->getCatalogService()->dropCatalog();
-    }
-    public function createCatalogAction(){
-        $this->getCatalogService()->createCatalog();
-    }
-    public function truncateCatalogAction(){
-        $this->getCatalogService()->truncateCatalog();
-    }
+    public function categoryAction()
+    {
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        $category = $this->getCatalogService()->getModel('category', $id);
+        var_dump($category);
+    }   
     
     public function getCatalogService()
     {

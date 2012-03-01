@@ -1,15 +1,15 @@
-<? $pdir = '/catalogmanager/partial/'; ?>
+<? $pdir = '/catalog-manager/partial/'; ?>
 <form id="product-<?=$product->getProductId();?>" class="live-form">
             
     <input type="hidden" name="product_id" value="<?=$product->getProductId();?>"/>
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
 
     <div class="row">
-        <div class="span11">
+        <div class="span8">
             <span class="smallcaps">name</span><br/>
-            <input name="name" class="span11" type="text" value="<?=$product->getName();?>"/>
+            <input name="name" class="span8" type="text" value="<?=$product->getName();?>"/><br/>
             <span class="smallcaps">description</span><br/>
-            <textarea name="description" rows="4" class="span11"><?=$product->getDescription();?></textarea>
+            <textarea name="description" rows="4" class="span8"><?=$product->getDescription();?></textarea>
         </div>
         <div class="span3">
             <? if(isset($product) && $product->isItem()) : ?>

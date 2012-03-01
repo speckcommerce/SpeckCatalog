@@ -10,8 +10,9 @@
     <input type="text" name="id"> import a product by id
 </form>
 
-<? if(isset($results)) :?>
-    <? foreach($results as $model) : ?>
-    <a href="/catalogmanager/product?id=<?=$model->getId();?>"><?=$model;?></a><br/>
+<? if(isset($products)) :?>
+    
+    <? foreach($products as $product) : ?>
+    <a href="/catalogmanager/product/<?=$product->getId();?>">"<?=$product;?>"</a><br/>
 <? endforeach; ?>
 <? endif; ?>

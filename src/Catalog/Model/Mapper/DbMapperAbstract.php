@@ -59,8 +59,9 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         $sql = $db->select()
                   ->from($this->getTableName());
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
-     
+        
         $rows = $db->fetchAll($sql);
+        
         if($rows){
             $return = array();
             foreach($rows as $row){

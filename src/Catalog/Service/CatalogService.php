@@ -1,6 +1,7 @@
 <?php
 namespace Catalog\Service;
-use Exception;
+use Exception,
+    RuntimeException;
 
 class CatalogService
 {
@@ -9,9 +10,9 @@ class CatalogService
 
     public function getModel($class, $id=null)
     {
-        if(null === $id){
-            throw new Exception('need an ID');
-        } elseif (is_numeric($id)){
+        if(0 === (int) $id){
+            throw new RuntimeException('need an ID');
+        } else {
             $getModelService = 'get' . ucfirst($class) . 'Service';
             $modelService = $this->$getModelService();
             $model = $modelService->getById((int)$id);
@@ -22,11 +23,19 @@ class CatalogService
         }
     }
 
+    public function getAll($class)
+    {
+        $getModelService = 'get' . ucfirst($class) . 'Service';
+        $modelService = $this->$getModelService();
+        return $modelService->getAll();
+    }
+
+
     public function newModel($class, $constructor = null, $relationData = null)
     {
         $getModelService = 'get' . ucfirst($class) . 'Service';
         $modelService = $this->$getModelService();
-        $model = $modelService()->newModel($constructor);
+        $model = $modelService->newModel($constructor);
 
         if($relationData){
             if(isset($relationData['parent'])){

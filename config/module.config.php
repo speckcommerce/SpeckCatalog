@@ -5,8 +5,6 @@ return array(
         'instance' => array(
             'alias' => array(
                 'catalog_install' => 'Catalog\Service\Installer',
-                'catalog' => 'Catalog\Controller\IndexController',
-                'catalogmanager' => 'CatalogManager\Controller\IndexController',
                 'masterzdb' => 'Zend\Db\Adapter\DiPdoMysql',
                 'catalog_read_db'         => 'masterzdb',
                 'catalog_write_db'        => 'masterzdb',
@@ -17,13 +15,13 @@ return array(
                     'config' => array(),
                 ),
             ),   
-            'CatalogManager\Controller\IndexController' => array(
+            'CatalogManager\Controller\CatalogManagerController' => array(
                 'parameters' => array(
                     'catalogService' => 'Catalog\Service\CatalogService',
                 ),
             ),
 
-            'Catalog\Controller\IndexController' => array(
+            'Catalog\Controller\CatalogController' => array(
                 'parameters' => array(
                     'catalogService' => 'Catalog\Service\CatalogService',
                 ),
@@ -167,6 +165,69 @@ return array(
                 'parameters' => array(
                     'paths'  => array(
                         'catalog' => __DIR__ . '/../view',
+                    ),
+                ),
+            ),
+
+
+
+            // Setup the router and routes
+            'Zend\Mvc\Router\RouteStack' => array(
+                'parameters' => array(
+                    'routes' => array(
+                        'productshortcut' => array(
+                            'type' => 'Segment',
+                            'priority' => -1000,
+                            'options' => array(
+                                'route' => '/:id',
+                                'defaults' => array(
+                                    'controller' => 'Catalog\Controller\CatalogController',
+                                    'action' => 'productRedirect',
+                                ),
+                            ),
+                        ),
+                       'product' => array(
+                            'type' => 'Segment',
+                            'options' => array(
+                                'route' => '/catalog/product/:id',
+                                'defaults' => array(
+                                    'controller' => 'Catalog\Controller\CatalogController',
+                                    'action' => 'product',
+                                ),
+                            ),
+                        ), 
+                        'catalogmanager' => array(
+                            'type' => 'Segment',
+                            'priority' => 1000,
+                            'options' => array(
+                                'route' => '/catalogmanager',
+                                'defaults' => array(
+                                    'controller' => 'CatalogManager\Controller\CatalogManagerController',
+                                    'action' => 'index',
+                                ),
+                            ),
+                            'may_terminate' => true,
+                            'child_routes' => array(
+                                'new' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/new/:something[/:constructor]',
+                                        'defaults' => array(
+                                            'action' => 'new',
+                                        ),
+                                    ),
+                                ),
+                                'product' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/product/:id',
+                                        'defaults' => array(
+                                            'action' => 'product',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),

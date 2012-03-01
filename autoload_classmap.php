@@ -1,8 +1,8 @@
 <?php
 return array(
 
-    'Catalog\Controller\IndexController'        => __DIR__ . '/src/Catalog/Controller/IndexController.php',
-    'CatalogManager\Controller\IndexController' => __DIR__ . '/src/CatalogManager/Controller/IndexController.php',
+    'Catalog\Controller\CatalogController'        => __DIR__ . '/src/Catalog/Controller/CatalogController.php',
+    'CatalogManager\Controller\CatalogManagerController' => __DIR__ . '/src/CatalogManager/Controller/CatalogManagerController.php',
     'Catalog\Controller\ErrorController'        => __DIR__ . '/src/Catalog/Controller/ErrorController.php',
     'Catalog\Module'                            => __DIR__ . '/Module.php',
 

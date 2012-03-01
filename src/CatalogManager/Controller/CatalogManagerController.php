@@ -5,7 +5,7 @@ namespace CatalogManager\Controller;
 use Zend\Mvc\Controller\ActionController,
     Zend\View\Model\ViewModel;
 
-class IndexController extends ActionController
+class CatalogManagerController extends ActionController
 {
     protected $catalogService;
     
@@ -32,20 +32,23 @@ class IndexController extends ActionController
 
     public function indexAction()
     {
-        //$this->layout();
-        return new ViewModel;
+        $products = $this->getCatalogService()->getAll('product');
+        return new ViewModel(array('products' => $products));
     }
 
     public function newAction()
     {
-        $model = $this->getCatalogService()->newModel($_GET['type']);
-        $this->_redirect('catalogmanager/' . $_GET['type'] . '?id=' . $model->getId());
+        $something = $this->getEvent()->getRouteMatch()->getParam('something');
+        $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
+        $model = $this->getCatalogService()->newModel($something, $constructor);
+        $this->redirect()->toRoute('catalogmanager/product', array('id' => $model->getId()));
     }
 
+    
     public function productAction()
     {
-        //$this->layout();
-        $product = $this->getCatalogService()->getModel('product', $_GET['id']);
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        $product = $this->getCatalogService()->getModel('product', $id);
         
         return new ViewModel(array('product' => $product));
     }

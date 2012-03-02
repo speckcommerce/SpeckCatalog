@@ -51,6 +51,11 @@ class Module implements AutoloaderProvider
         return include __DIR__ . '/config/module.config.php';
     }
     
+    public function getAssetPath()
+    {
+        return __DIR__ . '/public';
+    }
+
     public function initializeView($e)
     {
         $app          = $e->getParam('application');
@@ -58,7 +63,13 @@ class Module implements AutoloaderProvider
         $locator      = $app->getLocator();
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($app->getRouter());
-        $renderer->doctype()->setDoctype('HTML5');
+        $renderer->plugin('headScript')->appendFile('/jquery.js');
+        $renderer->plugin('headScript')->appendFile('/jquery-ui.js');
+        $renderer->plugin('headScript')->appendFile('/catalogmanager.js');
+        $renderer->plugin('headScript')->appendFile('/bootstrap-dropdown.js');
+        $renderer->plugin('headScript')->appendFile('/bootstrap-modal.js');
+        $renderer->plugin('headScript')->appendFile('/bootstrap-scrollspy.js');
+        $renderer->plugin('headScript')->appendFile('/bootstrap-tab.js');
         $renderer->plugin('basePath')->setBasePath($basePath);
     }
 }

@@ -18,6 +18,7 @@ return array(
             'CatalogManager\Controller\CatalogManagerController' => array(
                 'parameters' => array(
                     'catalogService' => 'Catalog\Service\CatalogService',
+                    'modelLinkerService' => 'CatalogManager\Service\ModelLinkerService',
                 ),
             ),
 
@@ -94,6 +95,11 @@ return array(
             'Catalog\Service\Installer' => array(
                 'parameters' => array(
                     'catalogService' => 'Catalog\Service\CatalogService',
+                ),
+            ),
+
+            'CatalogManager\Service\ModelLinkerService' => array(
+                'parameters' => array(
                 ),
             ),   
 
@@ -186,13 +192,27 @@ return array(
                                 ),
                             ),
                         ),
-                       'product' => array(
-                            'type' => 'Segment',
+                        'catalog' => array(
+                            'type' => 'Literal',
+                            'priority' => 1000,
                             'options' => array(
-                                'route' => '/catalog/product/:id',
+                                'route' => '/catalog',
                                 'defaults' => array(
                                     'controller' => 'Catalog\Controller\CatalogController',
-                                    'action' => 'product',
+                                    'action' => 'index',
+                                ),
+                            ),
+                            'may_terminate' => false,
+                            'child_routes' => array(  
+                                'product' => array(
+                                    'type' => 'Segment',
+                                    'options' => array(
+                                        'route' => '/product/:id',
+                                        'defaults' => array(
+                                            'controller' => 'Catalog\Controller\CatalogController',
+                                            'action' => 'product',
+                                        ),
+                                    ),
                                 ),
                             ),
                         ), 
@@ -214,6 +234,15 @@ return array(
                                         'route'    => '/new/:something[/:constructor]',
                                         'defaults' => array(
                                             'action' => 'new',
+                                        ),
+                                    ),
+                                ),
+                                'fetch-partial' => array(
+                                    'type'    => 'literal',
+                                    'options' => array(
+                                        'route'    => '/fetch-partial',
+                                        'defaults' => array(
+                                            'action' => 'fetchPartial',
                                         ),
                                     ),
                                 ),

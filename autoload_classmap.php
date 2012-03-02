@@ -20,6 +20,8 @@ return array(
     'Catalog\Service\CatalogService'            => __DIR__ . '/src/Catalog/Service/CatalogService.php',
     'Catalog\Service\Installer'                 => __DIR__ . '/src/Catalog/Service/Installer.php',
 
+    'CatalogManager\Service\ModelLinkerService' => __DIR__ . '/src/CatalogManager/Service/ModelLinkerService.php',
+
     /**
      * Mappers
      */

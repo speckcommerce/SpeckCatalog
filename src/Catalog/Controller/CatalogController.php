@@ -26,7 +26,7 @@ class CatalogController extends ActionController
     public function productRedirectAction()
     {
         $id = (int) $this->getEvent()->getRouteMatch()->getParam('id');
-        $this->redirect()->toRoute('catalogmanager/product', array('id' => $id));
+        $this->redirect()->toRoute('catalog/product', array('id' => $id));
     }
 
     public function categoryAction()

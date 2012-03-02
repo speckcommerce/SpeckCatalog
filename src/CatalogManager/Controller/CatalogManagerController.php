@@ -8,6 +8,7 @@ use Zend\Mvc\Controller\ActionController,
 class CatalogManagerController extends ActionController
 {
     protected $catalogService;
+    protected $modelLinkerService;
     
     public function layout($layout=null)
     {
@@ -43,7 +44,6 @@ class CatalogManagerController extends ActionController
         $model = $this->getCatalogService()->newModel($something, $constructor);
         $this->redirect()->toRoute('catalogmanager/product', array('id' => $model->getId()));
     }
-
     
     public function productAction()
     {
@@ -55,7 +55,9 @@ class CatalogManagerController extends ActionController
     
     public function fetchPartialAction()
     {
-        return new ViewModel(array($_POST['class'] =>$this->getModelLinkerService->getModel($_POST)));
+        $class = (isset($_POST['class_name']) ? $_POST['class_name'] : $_POST['new_class_name']);
+        var_dump($this->getModelLinkerService());
+        return new ViewModel(array($class => $this->getModelLinkerService()->getModel($_POST)));
     }
 
     public function remove()
@@ -71,6 +73,17 @@ class CatalogManagerController extends ActionController
     public function setCatalogService($catalogService)
     {
         $this->catalogService = $catalogService;
+        return $this;
+    }
+
+    public function getModelLinkerService()
+    {
+        return $this->modelLinkerService;
+    }
+
+    public function setModelLinkerService($modelLinkerService)
+    {
+        $this->modelLinkerService = $modelLinkerService;
         return $this;
     }
 }   

@@ -5,6 +5,7 @@ namespace SpeckCatalog;
 use Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
     Zend\Module\Consumer\AutoloaderProvider,
+    Zend\Navigation,
     Service\Installer;
 
 class Module implements AutoloaderProvider
@@ -18,6 +19,8 @@ class Module implements AutoloaderProvider
         $events->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
         $moduleManager->events()->attach('install', array($this, 'preInstall'));
         $moduleManager->events()->attach('install', array($this, 'install'));
+        $moduleManager->events()->attach('navigation', array($this, 'navigation'));
+
         
     }
 
@@ -72,4 +75,28 @@ class Module implements AutoloaderProvider
         $renderer->plugin('headScript')->appendFile('/bootstrap-tab.js');
         $renderer->plugin('basePath')->setBasePath($basePath);
     }
+
+    public function navigation($e)
+    {
+        $navigation = $e->getTarget();
+        
+        $catman = new Navigation\Page\Uri(array(
+            'uri' =>'#',
+            'label' => 'Catalog Manager',
+            'liAttributes' => array('class' => 'dropdown'),
+            'linkAttributes' => array(
+               'data-toggle' => 'dropdown', 
+               'class' => 'dropdown-toggle',
+            ), 
+        ));
+
+        $home = new Navigation\Page\Uri(array(
+            'uri' => '/catalogmanager',
+            'label' => 'Home',
+            'ulAttributes' => array('class' => 'dropdown-menu'),
+        ));
+
+        $navigation->addPage($catman->addPage($home));
+    }
+
 }

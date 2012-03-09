@@ -3,7 +3,11 @@
 namespace Catalog\Service;
     use Exception;
 
-class ServiceAbstract
+/**
+ * ServiceAbstract 
+ * TODO: needs an interface
+ */
+abstract class ServiceAbstract // implements ServiceInterface
 {
     protected $modelMapper;
     protected $user; 
@@ -81,5 +85,10 @@ class ServiceAbstract
     {
         $this->user = $user;
         return $this;
+    }
+
+    public function populateModel($model)
+    {
+        // this will be a req in the interface
     }
 }

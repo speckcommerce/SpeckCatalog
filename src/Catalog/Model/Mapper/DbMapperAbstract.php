@@ -196,7 +196,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
     {
         $data = $model->toArray(NULL, function($v){ return htmlentities($v); });
         $data['search_data'] = $model->getSearchData();
-        $this->events()->trigger(__FUNCTION__ . '.pre', $this, array('data' => $data));
+        $this->events()->trigger(__FUNCTION__, $this, array('data' => $data));
 
         return new ArrayObject($data);
     }

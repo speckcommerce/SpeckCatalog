@@ -6,6 +6,7 @@ use Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
     Zend\Module\Consumer\AutoloaderProvider,
     Zend\Navigation,
+    Application\Extra\Page,
     Service\Installer;
 
 class Module implements AutoloaderProvider
@@ -62,41 +63,32 @@ class Module implements AutoloaderProvider
     public function initializeView($e)
     {
         $app          = $e->getParam('application');
-        $basePath     = $app->getRequest()->getBasePath();
         $locator      = $app->getLocator();
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($app->getRouter());
-        $renderer->plugin('headScript')->appendFile('/jquery.js');
-        $renderer->plugin('headScript')->appendFile('/jquery-ui.js');
-        $renderer->plugin('headScript')->appendFile('/catalogmanager.js');
-        $renderer->plugin('headScript')->appendFile('/bootstrap-dropdown.js');
-        $renderer->plugin('headScript')->appendFile('/bootstrap-modal.js');
-        $renderer->plugin('headScript')->appendFile('/bootstrap-scrollspy.js');
-        $renderer->plugin('headScript')->appendFile('/bootstrap-tab.js');
-        $renderer->plugin('basePath')->setBasePath($basePath);
+        $renderer->plugin('headScript')->appendFile('/js/jquery.js');
+        //$renderer->plugin('headScript')->appendFile('/jquery-ui.js');
+        //$renderer->plugin('headScript')->appendFile('/catalogmanager.js');
+        $renderer->plugin('headScript')->appendFile('/js/bootstrap-dropdown.js');
+        //$renderer->plugin('headScript')->appendFile('/bootstrap-modal.js');
+        //$renderer->plugin('headScript')->appendFile('/bootstrap-scrollspy.js');
+        //$renderer->plugin('headScript')->appendFile('/bootstrap-tab.js');
     }
 
     public function navigation($e)
     {
-        $navigation = $e->getTarget();
-        
-        $catman = new Navigation\Page\Uri(array(
-            'uri' =>'#',
-            'label' => 'Catalog Manager',
-            'liAttributes' => array('class' => 'dropdown'),
-            'linkAttributes' => array(
-               'data-toggle' => 'dropdown', 
-               'class' => 'dropdown-toggle',
-            ), 
+        $catMgr = new Page(array('title' => 'Catalog Manager <b class="caret"></b>'));
+        $catMgr->setAttributes(array(
+            'wrap' => array('class' => 'dropdown'),
+            'page' => array('href' =>'#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'),
+            'container' => array('class'=>'dropdown-menu'),
         ));
 
-        $home = new Navigation\Page\Uri(array(
-            'uri' => '/catalogmanager',
-            'label' => 'Home',
-            'ulAttributes' => array('class' => 'dropdown-menu'),
-        ));
+        $home = new Page();
+        $home ->setTitle('Home')->setUrl('/catalogmanager');
+        $catMgr->addPage($home);      
 
-        $navigation->addPage($catman->addPage($home));
+        $e->getTarget()->addPage($catMgr);
     }
 
 }

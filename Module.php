@@ -21,8 +21,6 @@ class Module implements AutoloaderProvider
         $moduleManager->events()->attach('install', array($this, 'preInstall'));
         $moduleManager->events()->attach('install', array($this, 'install'));
         $moduleManager->events()->attach('navigation', array($this, 'navigation'));
-
-        
     }
 
     public function getAutoloaderConfig()
@@ -85,8 +83,24 @@ class Module implements AutoloaderProvider
         ));
 
         $home = new Page();
-        $home ->setTitle('Home')->setUrl('/catalogmanager');
-        $catMgr->addPage($home);      
+        $home->setTitle('Home')->setUrl('/catalogmanager');
+        
+        $divider = new Page(array('pageTag'=>false));
+        $divider ->setAttributes(array(
+            'wrap' => array('class' => 'divider'),
+        ));
+
+        $productItem = new Page();
+        $productItem->setTitle('New Product(item)')->setUrl('/catalogmanager/new/product/item');
+        $productShell = new Page();
+        $productShell->setTitle('New Product(shell)')->setUrl('/catalogmanager/new/product/shell');
+        
+        $catMgr->addPages(array(
+            $home,
+            $divider, 
+            $productItem, 
+            $productShell,
+        ));
 
         $e->getTarget()->addPage($catMgr);
     }

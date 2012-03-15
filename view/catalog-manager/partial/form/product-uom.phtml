@@ -24,13 +24,15 @@
                 </div>  
             </div>
             <div class="row">
-                <div class="span2">
+                <div class="span2 input-prepend">
                     <span class="smallcaps">retail</span><br/>
-                    <input class="span2" type="text" name="retail" value="<?=$productUom->getRetail();?>"/>
+                    <span class="add-on">$</span>
+                    <input class="span1" type="text" name="retail" value="<?=$productUom->getRetail();?>"/>
                 </div>
-                <div class="span2">
+                <div class="span2 input-prepend">
                     <span class="smallcaps">price</span><br/>
-                    <input class="span2" type="text" name="price" value="<?=$productUom->getPrice();?>"/>
+                    <span class="add-on">$</span>
+                    <input class="span1" type="text" name="price" value="<?=$productUom->getPrice();?>"/>
                 </div>
             </div>
         </div> 

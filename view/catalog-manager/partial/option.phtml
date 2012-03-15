@@ -4,10 +4,10 @@
 
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down"></i></div>
-        <? if(1===0 || $option->isShared()) : ?>
-            <div><span class="label warning" title="This option is shared amongst <?=count($option->getParentProducts());?> products.">Shared</span></div>
+        <? if(1===1 || $option->isShared()) : ?>
+            <div><i class="icon-eye-open" title="This option is shared amongst <?=count($option->getParentProducts());?> products."></i></div>
         <? endif; ?>  
-        <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
+        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
         <div class="title sort-handle collapser">&nbsp; <?=$option;?></div>
     </div>
 

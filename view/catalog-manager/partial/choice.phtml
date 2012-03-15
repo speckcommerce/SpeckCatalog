@@ -2,9 +2,9 @@
 <div class="choice whitebg boundary">
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
-        <div class="remover"><div class="hide"><span class="icon-trash"></span></div></div>
+        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
         <? if ($choice->hasOptions()) : ?>
-            <div><span class="icon-random"></span></div>
+            <div><span class="icon-list" title="has options"></span></div>
         <? elseif($choice->hasProduct()) : ?>
             <div><span class="icon-tag"></span></div>
         <? endif; ?>
@@ -37,6 +37,7 @@
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
                         'function'  => 'import-search', 
+                        'searchClassName' => 'option',
                         'className' => 'option',
                         'parentClassName' => 'choice',
                         'parentId' => $choice->getChoiceId(),     

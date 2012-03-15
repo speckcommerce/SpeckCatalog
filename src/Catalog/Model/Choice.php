@@ -30,10 +30,9 @@ class Choice extends ModelAbstract
 
     protected $allUomsDiscount;
    
-    protected $parentOption;
-    protected $parentOptionId;
-
     protected $options;
+
+    protected $parentOptions;
 
     protected $naChoices = array();
 
@@ -114,28 +113,6 @@ class Choice extends ModelAbstract
         return $this;
     }
  
-
-    public function getParentOption()
-    {
-        return $this->parentOption;
-    }
- 
-    public function setParentOption($parentOption)
-    {
-        $this->parentOption = $parentOption;
-        return $this;
-    }
- 
-    public function getParentOptionId()
-    {
-        return $this->parentOptionId;
-    }
- 
-    public function setParentOptionId($parentOptionId)
-    {
-        $this->parentOptionId = (int) $parentOptionId;
-        return $this;
-    }
     public function __toString()
     {
         if($this->getOverrideName()){
@@ -244,5 +221,22 @@ class Choice extends ModelAbstract
     public function getId()
     {
         return $this->choiceId;
-    }    
+    }
+
+    public function isShared()
+    {
+        //todo: get parent options and count
+        return false;    
+    }
+
+    public function getParentOptions()
+    {
+        return $this->parentOptions;
+    }
+
+    public function setParentOptions($parentOptions)
+    {
+        $this->parentOptions = $parentOptions;
+        return $this;
+    }
 }

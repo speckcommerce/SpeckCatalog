@@ -44,12 +44,10 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
               `choice_id` int(11) NOT NULL AUTO_INCREMENT,
               `product_id` int(11) DEFAULT NULL,
               `search_data` text NOT NULL,
-              `parent_option_id` int(11) NOT NULL,
               `override_name` varchar(255) NOT NULL,
               `default_choice_id` int(11) DEFAULT NULL,
               `type` enum('choice','product') NOT NULL,
-              PRIMARY KEY (`choice_id`),
-              KEY `parent_option_id` (`parent_option_id`)
+              PRIMARY KEY (`choice_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
         $choiceOptionLinker = "

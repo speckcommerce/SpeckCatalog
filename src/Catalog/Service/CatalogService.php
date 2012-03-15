@@ -6,6 +6,10 @@ use Exception,
 class CatalogService
 {
     protected $productService;
+    protected $productUomService;
+    protected $availabilityService;
+    protected $optionService;
+    protected $choiceService;
     protected $mapper;
 
     public function getModel($class, $id=null)
@@ -26,10 +30,14 @@ class CatalogService
     public function getAll($class)
     {
         $getModelService = 'get' . ucfirst($class) . 'Service';
-        $modelService = $this->$getModelService();
-        return $modelService->getAll();
+        return $this->$getModelService()->getAll();
     }
 
+    public function update($class, $id, $post){
+        $getModelService = 'get' . ucfirst($class) . 'Service';
+        $return = $this->$getModelService()->updateModelFromArray($post);
+        die($return->__toString());
+    }
 
     public function newModel($class, $constructor = null, $relationData = null)
     {
@@ -82,6 +90,50 @@ class CatalogService
     public function setMapper($mapper)
     {
         $this->mapper = $mapper;
+        return $this;
+    }
+
+    public function getOptionService()
+    {
+        return $this->optionService;
+    }
+
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
+        return $this;
+    }
+
+    public function getChoiceService()
+    {
+        return $this->choiceService;
+    }
+
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    public function getProductUomService()
+    {
+        return $this->productUomService;
+    }
+
+    public function setProductUomService($productUomService)
+    {
+        $this->productUomService = $productUomService;
+        return $this;
+    }
+
+    public function getAvailabilityService()
+    {
+        return $this->availabilityService;
+    }
+
+    public function setAvailabilityService($availabilityService)
+    {
+        $this->availabilityService = $availabilityService;
         return $this;
     }
 }

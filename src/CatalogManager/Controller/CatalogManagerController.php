@@ -55,9 +55,20 @@ class CatalogManagerController extends ActionController
     
     public function fetchPartialAction()
     {
-        $class = (isset($_POST['class_name']) ? $_POST['class_name'] : $_POST['new_class_name']);
-        var_dump($this->getModelLinkerService());
-        return new ViewModel(array($class => $this->getModelLinkerService()->getModel($_POST)));
+        $this->layout(false);
+        $class = ($_POST['class_name'] ? $_POST['class_name'] : $_POST['new_class_name']);
+        $model = $this->getModelLinkerService()->linkModel($_POST);
+        return new ViewModel(array(
+            $class => $model,
+            'partial' => $class,
+        ));
+    }
+
+    public function updateRecordAction()
+    {
+        $class = $this->getEvent()->getRouteMatch()->getParam('class');
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        return $this->getCatalogService()->update($class, $id, $_POST);
     }
 
     public function remove()

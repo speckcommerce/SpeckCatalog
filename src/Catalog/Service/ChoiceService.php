@@ -35,7 +35,7 @@ class ChoiceService extends ServiceAbstract
         $choice = $this->newModel();
         $this->linkParentOption($optionId, $choice->getChoiceId());
         $this->update($choice);
-
+        
         return $choice;
     }
 

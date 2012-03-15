@@ -20,7 +20,7 @@
     }
 
     function getCollapser(ele){
-        return getBoundary(ele).find('span.collapser').first()
+        return getBoundary(ele).find('div.collapser').first().children()
     }
 
     function getContent(ele){
@@ -81,7 +81,7 @@
         targetTitle(this);
         var form = getForm(this)
         var parts = form.attr('id').split('-')
-        $.post('/catalogmanager/update-record?className='+parts[0]+'&id='+parts[1], form.serializeArray(), function(title){
+        $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(title){
             $('.target').html('&nbsp; '+title)
         })    
     })
@@ -182,30 +182,29 @@
         var collapsers = $(headers).find('.collapser')
         if('expand' === action){
             $(collapsing).show()
-            var add = 'ui-icon-triangle-1-s'
-            var rem = 'ui-icon-triangle-1-e'
+            var add = 'icon-arrow-up'
+            var rem = 'icon-arrow-down'
             $(collapsers).removeClass(rem).addClass(add)
         }else{ //collapse
             $(collapsing).hide()
-            var add = 'ui-icon-triangle-1-e'
-            var rem = 'ui-icon-triangle-1-s' 
+            var add = 'icon-arrow-up'
+            var rem = 'icon-arrow-down'
             $(collapsers).removeClass(rem).addClass(add)
         }
     }
 
     $('.collapser').live("click", function(){
-        getCollapser(this).toggleClass('ui-icon-triangle-1-s ui-icon-triangle-1-e')
+        getCollapser(this).toggleClass('icon-chevron-down icon-chevron-right')
         getContent(this).slideToggle(100)
     })
 
     function initialCollapse(){
-        $('.initialCollapse').toggleClass('ui-icon-triangle-1-s ui-icon-triangle-1-e')
+        $('.initialCollapse').toggleClass('icon-chevron-down icon-chevron-right')
             .removeClass('initialCollapse').parent().parent().siblings().hide()
     }     
 
 $(document).ready(function(){
     initialCollapse()
     doSort()
-    alert('asdf');
 })   
 

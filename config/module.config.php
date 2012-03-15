@@ -28,13 +28,16 @@ return array(
                 ),
             ),
 
-
             /**
              * Services 
              */
             'Catalog\Service\CatalogService' => array(
                 'parameters' => array(
                     'productService' => 'Catalog\Service\ProductService',
+                    'productUomService' => 'Catalog\Service\ProductUomService',
+                    'availabilityService' => 'Catalog\Service\AvailabilityService',
+                    'optionService' => 'Catalog\Service\OptionService',
+                    'choiceService' => 'Catalog\Service\ChoiceService',
                     'mapper' => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
                 ),
             ),
@@ -100,6 +103,11 @@ return array(
 
             'CatalogManager\Service\ModelLinkerService' => array(
                 'parameters' => array(
+                    'productService' => 'Catalog\Service\ProductService',
+                    'optionService' => 'Catalog\Service\OptionService',
+                    'choiceService' => 'Catalog\Service\ChoiceService',
+                    'productUomService' => 'Catalog\Service\ProductUomService',
+                    'availabilityService' => 'Catalog\Service\AvailabilityService',
                 ),
             ),   
 
@@ -252,6 +260,15 @@ return array(
                                         'route'    => '/product/:id',
                                         'defaults' => array(
                                             'action' => 'product',
+                                        ),
+                                    ),
+                                ),
+                                'update-record' => array(
+                                    'type' => 'Segment',
+                                    'options' => array(
+                                        'route' => '/update-record/:class/:id',
+                                        'defaults' => array(
+                                            'action' => 'update-record',
                                         ),
                                     ),
                                 ),

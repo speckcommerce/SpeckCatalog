@@ -65,12 +65,13 @@ class Module implements AutoloaderProvider
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($app->getRouter());
         $renderer->plugin('headScript')->appendFile('/js/jquery.js');
-        //$renderer->plugin('headScript')->appendFile('/jquery-ui.js');
-        //$renderer->plugin('headScript')->appendFile('/catalogmanager.js');
+        $renderer->plugin('headScript')->appendFile('/js/jquery-ui.js');
+        $renderer->plugin('headScript')->appendFile('/js/catalogmanager.js');
         $renderer->plugin('headScript')->appendFile('/js/bootstrap-dropdown.js');
-        //$renderer->plugin('headScript')->appendFile('/bootstrap-modal.js');
-        //$renderer->plugin('headScript')->appendFile('/bootstrap-scrollspy.js');
-        //$renderer->plugin('headScript')->appendFile('/bootstrap-tab.js');
+        $renderer->plugin('headScript')->appendFile('/js/bootstrap-modal.js');
+        $renderer->plugin('headScript')->appendFile('/js/bootstrap-scrollspy.js');
+        $renderer->plugin('headScript')->appendFile('/js/bootstrap-tab.js');
+        $renderer->plugin('headLink')->appendStylesheet('/catman.css');
     }
 
     public function navigation($e)
@@ -94,12 +95,12 @@ class Module implements AutoloaderProvider
         $productItem->setTitle('New Product(item)')->setUrl('/catalogmanager/new/product/item');
         $productShell = new Page();
         $productShell->setTitle('New Product(shell)')->setUrl('/catalogmanager/new/product/shell');
-        
         $catMgr->addPages(array(
             $home,
             $divider, 
             $productItem, 
             $productShell,
+            $divider,
         ));
 
         $e->getTarget()->addPage($catMgr);

@@ -1,10 +1,10 @@
-<? $pdir = '/catalogmanager/partial/'; ?>
+<? $pdir = '/catalog-manager/partial/'; ?>
 <!-- option -->
 <div class="option contrastbg boundary">
 
     <div class="entity-header">
-        <div><span class="ui-icon ui-icon-triangle-1-s collapser"></span></div>
-        <? if(1===1 || $option->isShared()) : ?>
+        <div class="collapser"><i class="icon-chevron-down"></i></div>
+        <? if(1===0 || $option->isShared()) : ?>
             <div><span class="label warning" title="This option is shared amongst <?=count($option->getParentProducts());?> products.">Shared</span></div>
         <? endif; ?>  
         <div class="remover"><div class="hide"><span class="ui-icon ui-icon-trash"></span></div></div>
@@ -15,8 +15,8 @@
     <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
         <div class="list-wrap half-pad">
             <div class="child-expand list-items-helper">
-                <div><span class="collapse-all ui-icon ui-icon-arrowstop-1-n ui-state-active ui-corner-all"></span></div>
-                <div><span class="expand-all ui-icon ui-icon-arrowstop-1-s ui-state-active ui-corner-all"></span></div>
+                <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                <div class="expand-all"><i class="icon-arrow-down"></i></div>
                 <span class="smallcaps">&nbsp;choices</span>
             </div>
             <div class="list-items">

@@ -40,7 +40,7 @@ class ModelLinkerService
         $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
         if($childClassName && $childId){
             $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
-        }    
+        }
         return $this->$modelService->getById($model->getId());
     }
 
@@ -73,85 +73,45 @@ class ModelLinkerService
         $this->optionService = $optionService;
         return $this;
     }
- 
-    /**
-     * Get productUomService.
-     *
-     * @return productUomService
-     */
+
     public function getProductUomService()
     {
         return $this->productUomService;
     }
- 
-    /**
-     * Set productUomService.
-     *
-     * @param $productUomService the value to be set
-     */
+
     public function setProductUomService($productUomService)
     {
         $this->productUomService = $productUomService;
         return $this;
     }
- 
-    /**
-     * Get choiceService.
-     *
-     * @return choiceService
-     */
+
     public function getChoiceService()
     {
         return $this->choiceService;
     }
- 
-    /**
-     * Set choiceService.
-     *
-     * @param $choiceService the value to be set
-     */
+
     public function setChoiceService($choiceService)
     {
         $this->choiceService = $choiceService;
         return $this;
     }
- 
-    /**
-     * Get productService.
-     *
-     * @return productService
-     */
+
     public function getProductService()
     {
         return $this->productService;
     }
- 
-    /**
-     * Set productService.
-     *
-     * @param $productService the value to be set
-     */
+
     public function setProductService($productService)
     {
         $this->productService = $productService;
         return $this;
     }
- 
-    /**
-     * Get availabilityService.
-     *
-     * @return availabilityService
-     */
+
     public function getAvailabilityService()
     {
         return $this->availabilityService;
     }
- 
-    /**
-     * Set availabilityService.
-     *
-     * @param $availabilityService the value to be set
-     */
+
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;

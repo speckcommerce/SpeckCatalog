@@ -65,6 +65,7 @@ class Module implements AutoloaderProvider
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($app->getRouter());
         $renderer->plugin('headScript')->appendFile('/js/jquery.js');
+        $renderer->plugin('headScript')->appendFile('/js/jquery-ui.js');
         $renderer->plugin('headScript')->appendFile('/js/catalogmanager.js');
         $renderer->plugin('headScript')->appendFile('/js/bootstrap-dropdown.js');
         $renderer->plugin('headScript')->appendFile('/js/bootstrap-modal.js');

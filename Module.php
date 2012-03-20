@@ -95,12 +95,15 @@ class Module implements AutoloaderProvider
         $productItem->setTitle('New Product(item)')->setUrl('/catalogmanager/new/product/item');
         $productShell = new Page();
         $productShell->setTitle('New Product(shell)')->setUrl('/catalogmanager/new/product/shell');
+        $newCategory = new Page();
+        $newCategory->setTitle('New Category')->setUrl('/catalogmanager/new/category');
         $catMgr->addPages(array(
             $home,
             $divider, 
             $productItem, 
             $productShell,
             $divider,
+            $newCategory,
         ));
 
         $e->getTarget()->addPage($catMgr);

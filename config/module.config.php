@@ -239,7 +239,7 @@ return array(
                                 'new' => array(
                                     'type'    => 'Segment',
                                     'options' => array(
-                                        'route'    => '/new/:something[/:constructor]',
+                                        'route'    => '/new/:class[/:constructor]',
                                         'defaults' => array(
                                             'action' => 'new',
                                         ),

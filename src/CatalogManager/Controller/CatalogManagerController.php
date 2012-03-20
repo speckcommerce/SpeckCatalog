@@ -39,9 +39,9 @@ class CatalogManagerController extends ActionController
 
     public function newAction()
     {
-        $something = $this->getEvent()->getRouteMatch()->getParam('something');
+        $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
-        $model = $this->getCatalogService()->newModel($something, $constructor);
+        $model = $this->getCatalogService()->newModel($class, $constructor);
         $this->redirect()->toRoute('catalogmanager/product', array('id' => $model->getId()));
     }
     

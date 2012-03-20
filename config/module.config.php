@@ -263,6 +263,15 @@ return array(
                                         ),
                                     ),
                                 ),
+                                'category' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/category/:id',
+                                        'defaults' => array(
+                                            'action' => 'category',
+                                        ),
+                                    ),
+                                ),
                                 'update-record' => array(
                                     'type' => 'Segment',
                                     'options' => array(

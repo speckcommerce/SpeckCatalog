@@ -10,6 +10,7 @@ class CatalogService
     protected $availabilityService;
     protected $optionService;
     protected $choiceService;
+    protected $categoryService;
     protected $mapper;
 
     public function getModel($class, $id=null)
@@ -134,6 +135,17 @@ class CatalogService
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;
+        return $this;
+    }
+
+    public function getCategoryService()
+    {
+        return $this->categoryService;
+    }
+
+    public function setCategoryService($categoryService)
+    {
+        $this->categoryService = $categoryService;
         return $this;
     }
 }

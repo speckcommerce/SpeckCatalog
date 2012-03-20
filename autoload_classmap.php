@@ -17,6 +17,7 @@ return array(
         'Catalog\Service\UomService'                => __DIR__ . '/src/Catalog/Service/UomService.php',
         'Catalog\Service\AvailabilityService'       => __DIR__ . '/src/Catalog/Service/AvailabilityService.php',
         'Catalog\Service\CompanyService'            => __DIR__ . '/src/Catalog/Service/CompanyService.php',
+        'Catalog\Service\CategoryService'            => __DIR__ . '/src/Catalog/Service/CategoryService.php',
     'Catalog\Service\CatalogService'            => __DIR__ . '/src/Catalog/Service/CatalogService.php',
     'Catalog\Service\Installer'                 => __DIR__ . '/src/Catalog/Service/Installer.php',
 
@@ -33,6 +34,7 @@ return array(
         'Catalog\Model\Mapper\UomMapper'            => __DIR__ . '/src/Catalog/Model/Mapper/UomMapper.php',
         'Catalog\Model\Mapper\AvailabilityMapper'   => __DIR__ . '/src/Catalog/Model/Mapper/AvailabilityMapper.php',
         'Catalog\Model\Mapper\CompanyMapper'        => __DIR__ . '/src/Catalog/Model/Mapper/CompanyMapper.php',
+        'Catalog\Model\Mapper\CategoryMapper'        => __DIR__ . '/src/Catalog/Model/Mapper/CategoryMapper.php',
         'Catalog\Model\Mapper\MYSQL_CatalogMapper'  => __DIR__ . '/src/Catalog/Model/Mapper/MYSQL_CatalogMapper.php',
 
     /**
@@ -43,6 +45,7 @@ return array(
         'Catalog\Model\Option'                 => __DIR__ . '/src/Catalog/Model/Option.php',
             'Catalog\Model\OptionSlider'           => __DIR__ . '/src/Catalog/Model/OptionSlider.php',
         'Catalog\Model\Choice'                 => __DIR__ . '/src/Catalog/Model/Choice.php',
+        'Catalog\Model\Category'                 => __DIR__ . '/src/Catalog/Model/Category.php',
         'Catalog\Model\ProductUom'             => __DIR__ . '/src/Catalog/Model/ProductUom.php',
         'Catalog\Model\Uom'                    => __DIR__ . '/src/Catalog/Model/Uom.php',
         'Catalog\Model\Availability'           => __DIR__ . '/src/Catalog/Model/Availability.php',

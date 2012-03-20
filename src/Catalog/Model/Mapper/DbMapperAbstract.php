@@ -226,7 +226,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
                 var_dump($data);
                 echo "into table:";
                 var_dump($this->getTableName());
-                //die();
+                throw new Exception('query returned no result - insert failed');
             }
 
             $setModelId = 'set' . ucfirst($this->getModelClass()) . 'Id';

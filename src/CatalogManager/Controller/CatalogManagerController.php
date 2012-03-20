@@ -42,13 +42,14 @@ class CatalogManagerController extends ActionController
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
-        $this->redirect()->toRoute('catalogmanager/product', array('id' => $model->getId()));
+        $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
     }
 
     public function categoryAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        return new ViewModel;
+        $category = $this->getCatalogService()->getModel('category', $id);
+        return new ViewModel(array('category' => $category));
     }
     
     public function productAction()

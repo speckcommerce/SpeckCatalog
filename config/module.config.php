@@ -38,6 +38,7 @@ return array(
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
                     'optionService' => 'Catalog\Service\OptionService',
                     'choiceService' => 'Catalog\Service\ChoiceService',
+                    'categoryService' => 'Catalog\Service\CategoryService',
                     'mapper' => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
                 ),
             ),
@@ -57,6 +58,12 @@ return array(
                 'parameters' => array(
                     'modelMapper' => 'Catalog\Model\Mapper\OptionMapper',
                     'choiceService' => 'Catalog\Service\ChoiceService',
+                ),
+            ),
+            
+            'Catalog\Service\CategoryService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\CategoryMapper',
                 ),
             ),
 
@@ -111,8 +118,6 @@ return array(
                 ),
             ),   
 
-
-
             /**
              * Mappers 
              */
@@ -124,6 +129,13 @@ return array(
             ),
 
             'Catalog\Model\Mapper\OptionMapper' => array(
+                'parameters' => array(
+                    'readAdapter' => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ),
+            
+            'Catalog\Model\Mapper\CategoryMapper' => array(
                 'parameters' => array(
                     'readAdapter' => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',

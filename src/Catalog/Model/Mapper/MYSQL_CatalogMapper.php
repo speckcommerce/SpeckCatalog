@@ -39,6 +39,15 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
 
+        $category = "
+            CREATE TABLE IF NOT EXISTS `catalog_category` (
+              `name` varchar(255) NOT NULL,
+              `category_id` int(11) NOT NULL AUTO_INCREMENT,
+              `search_data` text NOT NULL,
+              PRIMARY KEY (`category_id`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        ";
+        
         $choice = "
             CREATE TABLE IF NOT EXISTS `catalog_choice` (
               `choice_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -139,7 +148,7 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
         ";
 
         $tables = array(
-            $availability, $choice, $choiceOptionLinker, 
+            $availability, $category, $choice, $choiceOptionLinker, 
             $company, $option, $optionChoiceLinker, 
             $optionHelper, $product, $productOptionLinker, $productUom
         );

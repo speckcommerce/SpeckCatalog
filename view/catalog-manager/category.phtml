@@ -1,2 +1,46 @@
-<?php 
-var_dump($category);
+<? $pdir = '/catalog-manager/partial/'; ?>
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#category" data-toggle="tab">Category</a></li>
+        <li><a href="#products" data-toggle="tab">Products</a></li>
+    </ul>
+ 
+    <div class="tab-content">
+
+        <div class="active boundary tab-pane" id="category">
+
+            <div class="entity-header hide"><div class="title"></div></div>
+            <div class="entity-content">
+                <?=$this->partial($pdir.'form/category.phtml', array('category' => $category));?><br/>
+            </div>
+
+        </div>
+
+        <div id="products" class="tab-pane boundary">
+            <div class="list-wrap">
+                <div class="child-expand list-items-helper">
+                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                    <div class="expand-all"><i class="icon-arrow-down"></i></div>   
+                </div>
+                <div class="list-items">
+                    <? if ($category->hasProducts()) : ?>
+                        <? foreach ($category->getProducts() as $product) : ?>
+                            <?=$this->partial($pdir.'product.phtml', array('product' => $product));?>
+                        <? endforeach; ?>
+                    <? endif; ?>
+                </div>
+                <div class="row list-items-helper">
+                    <?=$this->partial($pdir.'add.phtml', array(
+                        'function'        => 'import-search',
+                        'searchClassName' => 'product',
+                        'className'       => 'product',
+                        'parentClassName' => 'category',
+                        'parentId'        => $category->getCategoryId()
+                    ));?>
+                </div>
+            </div> 
+        </div>
+
+    </div>
+</div><!--/tabbable-->

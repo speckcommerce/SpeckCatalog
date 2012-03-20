@@ -3,6 +3,7 @@ namespace Catalog\Model;
 class Category extends ModelAbstract
 {
     protected $categoryId;
+    protected $name;
     protected $products = array();
  
     public function getCategoryId()
@@ -37,5 +38,16 @@ class Category extends ModelAbstract
         if(count($this->getProducts()) > 0){
             return true;
         }
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+ 
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 }

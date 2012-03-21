@@ -51,7 +51,18 @@ class CatalogManagerController extends ActionController
         $category = $this->getCatalogService()->getModel('category', $id);
         return new ViewModel(array('category' => $category));
     }
-    
+
+    public function searchClassAction()
+    {   
+        $this->layout(false);
+        $class = $_POST['search_class_name'];
+        $value = trim($_POST['value']);
+        return new ViewModel(array(
+            'results' => $this->getCatalogService()->searchClass($class, $value),
+            'data'    => $_POST,
+        ));
+    }     
+   
     public function productAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -63,11 +74,12 @@ class CatalogManagerController extends ActionController
     public function fetchPartialAction()
     {
         $this->layout(false);
+        $partialName = $_POST['partial_name'];
         $class = ($_POST['class_name'] ? $_POST['class_name'] : $_POST['new_class_name']);
         $model = $this->getModelLinkerService()->linkModel($_POST);
         return new ViewModel(array(
             $class => $model,
-            'partial' => $class,
+            'partial' => $_POST['partial_name'],
         ));
     }
 

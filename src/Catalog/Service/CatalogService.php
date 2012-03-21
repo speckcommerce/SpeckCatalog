@@ -34,11 +34,19 @@ class CatalogService
         return $this->$getModelService()->getAll();
     }
 
-    public function update($class, $id, $post){
+    public function update($class, $id, $post)
+    {
         $getModelService = 'get' . ucfirst($class) . 'Service';
         $return = $this->$getModelService()->updateModelFromArray($post);
         die($return->__toString());
     }
+
+    public function searchClass($class, $value)
+    {
+        $getModelService = 'get' . ucfirst($class) . 'Service';
+        return $this->$getModelService()->getModelsBySearchData($value);
+    }
+
 
     public function newModel($class, $constructor = null, $relationData = null)
     {
@@ -52,7 +60,6 @@ class CatalogService
             if(isset($relationData['child'])){
             }
         }
-
         return $model;
     }
 

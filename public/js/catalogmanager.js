@@ -50,7 +50,7 @@
  * searches
  */
     // search one class
-    $('.import-search').live("submit",function(e){
+    $('.import-search').live("submit", function(e){
         e.preventDefault();
         targetListItems(this); 
         $.post("/catalogmanager/search-class", $(this).serializeArray(), function(html) {

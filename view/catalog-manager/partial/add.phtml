@@ -6,6 +6,7 @@
     if (!isset($newClassName)){ $newClassName = null; }  
     if (!isset($parentClassName)){ $parentClassName = null; }  
     if (!isset($parentId)){ $parentId = null; }  
+    if (!isset($partialName)){ $partialName = null; }  
     if($function === 'add-button') {
         echo '
         <div class="span1 add-element">
@@ -14,6 +15,7 @@
                 <input type="hidden" name="new_class_name"    value="' . $newClassName . '" />
                 <input type="hidden" name="parent_class_name" value="' . $parentClassName . '" />
                 <input type="hidden" name="parent_id"         value="' . $parentId . '" />
+                <input type="hidden" name="partial_name"      value="' . $partialName . '" />
                 <input type="submit" class="btn" value="+"/>
             </form>
         </div>
@@ -30,6 +32,7 @@
                 <input type="hidden" name="new_class_name"    value="' . $newClassName . '" />
                 <input type="hidden" name="parent_class_name" value="' . $parentClassName . '" />
                 <input type="hidden" name="parent_id"         value="' . $parentId . '" />
+                <input type="hidden" name="partial_name"      value="' . $partialName . '" />
                 <input type="text" name="value" class="span2" placeholder="import ' . $searchClassName . '" />
             </form>
         </div>

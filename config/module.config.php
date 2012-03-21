@@ -14,7 +14,8 @@ return array(
                     'pdo'    => 'masterdb',
                     'config' => array(),
                 ),
-            ),   
+            ),
+            
             'CatalogManager\Controller\CatalogManagerController' => array(
                 'parameters' => array(
                     'catalogService' => 'Catalog\Service\CatalogService',
@@ -281,6 +282,15 @@ return array(
                                         'route'    => '/category/:id',
                                         'defaults' => array(
                                             'action' => 'category',
+                                        ),
+                                    ),
+                                ),
+                                'search-class' => array(
+                                    'type' => 'Literal',
+                                    'options' => array(
+                                        'route' => '/search-class',
+                                        'defaults' => array(
+                                            'action' => 'search-class',
                                         ),
                                     ),
                                 ),

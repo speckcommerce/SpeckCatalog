@@ -59,6 +59,7 @@
                                 'newClassName'    => 'productUom',
                                 'parentClassName' => 'product',
                                 'parentId'        => $product->getProductId(),
+                                'partialName'     => 'product-uom',
                             ));?>
                         </div>
                     </div>
@@ -86,13 +87,15 @@
                         'newClassName'    => 'option',
                         'parentClassName' => 'product',
                         'parentId'        => $product->getProductId(),
+                        'partialName'     => 'option',
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
                         'function'        => 'import-search',
                         'searchClassName' => 'option',
                         'className'       => 'option',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId()
+                        'parentId'        => $product->getProductId(),
+                        'partialName'     => 'option',
                     ));?>
                 </div>
             </div> 
@@ -100,6 +103,21 @@
 
     </div>
 </div><!--/tabbable-->
+
+
+<!-- Modal -->
+<div class="modal hide fade in" id="modal-box" >
+    <div class="modal-header">
+        <a class="close" href="#">×</a>
+        <h3></h3>
+    </div>
+    <div style="max-height:300px; overflow:auto;" class="modal-body">
+        <p>no results…</p>
+    </div>
+    <div class="modal-footer">
+        Select from the above.
+    </div>
+</div>  
 
 <div class="hide">
 

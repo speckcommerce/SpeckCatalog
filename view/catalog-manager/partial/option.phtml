@@ -34,12 +34,14 @@
                     'newClassName'    => 'choice',
                     'parentClassName' => 'option',
                     'parentId'        => $option->getOptionId(),
+                    'partialName'     => 'choice',
                 ));?>    
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function' => 'add-button',
                     'newClassName'=>'choice',
                     'parentClassName' => 'option',
                     'parentId' => $option->getOptionId(),
+                    'partialName'     => 'choice',
                 ));?>
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function'        => 'import-search',
@@ -47,6 +49,7 @@
                     'className'       => 'choice',
                     'parentClassName' => 'option',
                     'parentId'        => $option->getOptionId(),
+                    'partialName'     => 'choice',
                 ));?>    
             </div>
         </div>

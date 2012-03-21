@@ -7,10 +7,10 @@
 </div>  
     <div class="entity-content">
         <div class="row">
-            <div class="span5">
+            <div class="span4">
                 <?=$this->partial($pdir.'form/product-uom.phtml', array('productUom' => $productUom));?>
             </div>
-            <div class="span10">
+            <div class="span6">
                 <div class="list-wrap">
                     <div class="child-expand list-items-helper">
                         <div class="collapse-all"><i class="icon-arrow-up"></i></div>
@@ -30,6 +30,7 @@
                             'newClassName'    => 'availability',
                             'parentClassName' => 'productUom',
                             'parentId'        => $productUom->getProductUomId(),
+                            'partialName'     => 'availability',
                         ));?>
                     </div>
                 </div>

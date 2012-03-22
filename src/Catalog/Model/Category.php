@@ -5,7 +5,8 @@ class Category extends ModelAbstract
     protected $categoryId;
     protected $name;
     protected $products = array();
- 
+    protected $categories = array();
+
     public function getCategoryId()
     {
         return $this->categoryId;
@@ -48,6 +49,24 @@ class Category extends ModelAbstract
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function hasCategories()
+    {
+        if(count($this->getCategories()) > 0){
+            return true;
+        }
+    }
+
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+ 
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
         return $this;
     }
 }

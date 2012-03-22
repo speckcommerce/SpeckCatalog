@@ -267,12 +267,30 @@ return array(
                                         ),
                                     ),
                                 ),
+                                'products' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/products[/:page]',
+                                        'defaults' => array(
+                                            'action' => 'products',
+                                        ),
+                                    ),
+                                ),
                                 'product' => array(
                                     'type'    => 'Segment',
                                     'options' => array(
                                         'route'    => '/product/:id',
                                         'defaults' => array(
                                             'action' => 'product',
+                                        ),
+                                    ),
+                                ),
+                                'categories' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/categories[/:page]',
+                                        'defaults' => array(
+                                            'action' => 'categories',
                                         ),
                                     ),
                                 ),

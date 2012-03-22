@@ -3,7 +3,9 @@
 namespace CatalogManager\Controller;
 
 use Zend\Mvc\Controller\ActionController,
-    Zend\View\Model\ViewModel;
+    Zend\View\Model\ViewModel,
+    Zend\Paginator\Paginator,
+    Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter;
 
 class CatalogManagerController extends ActionController
 {
@@ -43,6 +45,28 @@ class CatalogManagerController extends ActionController
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
         $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
+    }
+    
+    public function productsAction()
+    {
+        $products = $this->getCatalogService()->getAll('product');
+        $paginator = new Paginator(new ArrayAdapter($products));
+        $page = $this->getEvent()->getRouteMatch()->getParam('page');
+        if($page){
+            $paginator->setCurrentPageNumber($page);
+        }
+        return new ViewModel(array('products' => $paginator)); 
+    }
+
+    public function categoriesAction()
+    {
+        $categories = $this->getCatalogService()->getAll('category');
+        $paginator = new Paginator(new ArrayAdapter($categories));
+        $page = $this->getEvent()->getRouteMatch()->getParam('page');
+        if($page){
+            $paginator->setCurrentPageNumber($page);
+        }
+        return new ViewModel(array('categories' => $paginator)); 
     }
 
     public function categoryAction()

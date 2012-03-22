@@ -84,25 +84,29 @@ class Module implements AutoloaderProvider
         ));
 
         $home = new Page();
-        $home->setTitle('Home')->setUrl('/catalogmanager');
-        
+        $home->setTitle('<b>Home</b>')->setUrl('/catalogmanager');
         $divider = new Page(array('pageTag'=>false));
         $divider ->setAttributes(array(
             'wrap' => array('class' => 'divider'),
         ));
-
+        $products = new Page();
+        $products->setTitle('<b>Products</b>')->setUrl('/catalogmanager/products');
         $productItem = new Page();
-        $productItem->setTitle('New Product(item)')->setUrl('/catalogmanager/new/product/item');
+        $productItem->setTitle('+ New Product (item)')->setUrl('/catalogmanager/new/product/item');
         $productShell = new Page();
-        $productShell->setTitle('New Product(shell)')->setUrl('/catalogmanager/new/product/shell');
+        $productShell->setTitle(' + New Product (shell)')->setUrl('/catalogmanager/new/product/shell');
+        $categories = new Page();
+        $categories->setTitle('<b>Categories</b>')->setUrl('/catalogmanager/categories');
         $newCategory = new Page();
-        $newCategory->setTitle('New Category')->setUrl('/catalogmanager/new/category');
+        $newCategory->setTitle(' + New Category')->setUrl('/catalogmanager/new/category');
         $catMgr->addPages(array(
             $home,
             $divider, 
+            $products,
             $productItem, 
             $productShell,
             $divider,
+            $categories,
             $newCategory,
         ));
 

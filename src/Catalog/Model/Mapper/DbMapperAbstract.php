@@ -27,6 +27,10 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         return $this->add($this->getModel($constructor));
     }
 
+    public function getModel(){
+        //override in individual mappers
+        //return an empty model, and pass the constructor 
+    }              
 
     /**
      * mapModel
@@ -44,11 +48,10 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         return $model->fromArray($row);
     }
 
-
     /**
      * getAll 
      * 
-     * Fetches all records in a table
+     * Fetches all records in a table, does not get child models/etc.
      * 
      * @access public
      * @return void
@@ -71,7 +74,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         }
     }  
 
-
     /**
      * deleteById 
      *
@@ -90,7 +92,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         );
         die($result);
     }
-
 
     /**
      * getById 
@@ -113,7 +114,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
             return $this->mapModel($row);
         } 
     }     
-
     
     /**
      * getModelsBySearchData 
@@ -152,7 +152,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         }
     }  
 
-
     /**
      * add 
      *
@@ -167,7 +166,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         return $this->persist($model);
     }
 
-
     /**
      * update 
      * 
@@ -181,7 +179,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
     {
         return $this->persist($model, 'update');
     }    
-
     
     /**
      * prepareRow
@@ -200,7 +197,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
 
         return new ArrayObject($data);
     }
-    
     
     /**
      * persist 
@@ -255,6 +251,4 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract
         $class = explode('\\', get_class($this->getModel())); 
         return array_pop($class);
     } 
-
-
 }

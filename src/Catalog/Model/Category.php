@@ -69,4 +69,8 @@ class Category extends ModelAbstract
         $this->categories = $categories;
         return $this;
     }
+    public function __toString()
+    {
+        return '' . $this->getName();
+    }
 }

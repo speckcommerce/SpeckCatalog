@@ -1,4 +1,6 @@
 <? 
 $items = $products->getCurrentItems();
-var_dump($items);
+foreach($items as $item){
+    echo "\" {$item} \"<br/>";
+}
 ?>

@@ -64,6 +64,7 @@ return array(
             
             'Catalog\Service\CategoryService' => array(
                 'parameters' => array(
+                    'productService' => 'Catalog\Service\ProductService',
                     'modelMapper' => 'Catalog\Model\Mapper\CategoryMapper',
                 ),
             ),

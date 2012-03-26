@@ -15,6 +15,11 @@ class ProductService extends ServiceAbstract
             $product->setCompanies($this->getCompanyService()->getAll());
             return $product;
         }
+    }
+
+    public function getProductsByCategoryId($categoryId)
+    {
+        return $this->getModelMapper()->getProductsByCategoryId($categoryId);
     } 
 
     public function getOptionService()

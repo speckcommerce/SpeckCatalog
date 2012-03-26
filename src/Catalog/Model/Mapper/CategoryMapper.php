@@ -13,13 +13,13 @@ class CategoryMapper extends DbMapperAbstract
         return new Category($constructor);
     }
 
-    public function getChildCategories($catId)
+    public function getChildCategories($categoryId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->join('catalog_category_linker', 'catalog_category_linker'.'.parent_category_id = '.$this->getTableName().'.choice_id') 
-                  ->where('parent_category_id = ?', $catId);
+                  ->join('catalog_category_category_linker', 'catalog_category_category_linker'.'.parent_category_id = '.$this->getTableName().'.category_id') 
+                  ->where('parent_category_id = ?', $categoryId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
@@ -33,8 +33,8 @@ class CategoryMapper extends DbMapperAbstract
             return array();
         }
         
-    } 
- 
+    }
+
     public function getTableName()
     {
         return $this->tableName;

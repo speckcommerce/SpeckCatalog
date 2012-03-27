@@ -1,6 +1,32 @@
-<? 
-$items = $categories->getCurrentItems();
-foreach($items as $item){
-    echo "\" {$item} \"<br/>";
-}    
-?>
+<? $pdir = '/catalog-manager/partial/'; ?>
+<div class="list-wrap half-pad">
+    <div class="child-expand list-items-helper">
+        <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+        <div class="expand-all"><i class="icon-arrow-down"></i></div>
+        <span class="smallcaps">&nbsp;categories</span>
+    </div>
+    <div class="list-items">
+            <? foreach($categories as $category) : ?>
+                <?=$this->partial($pdir.'category.phtml', array('category' => $category, 'contrastbg' => 'contrastbg'));?>
+            <? endforeach; ?>
+    </div>
+    <div class="row list-items-helper">
+        <?=$this->partial($pdir.'add.phtml', array(
+            'function'        => 'import-search',
+            'searchClassName' => 'product',
+            'childClassName'  => 'product',
+            'newClassName'    => 'choice',
+            'parentClassName' => 'option',
+            'parentId'        => $category->getCategoryId(),
+            'partialName'     => 'choice',
+        ));?>    
+        <?=$this->partial($pdir.'add.phtml', array(
+            'function' => 'add-button',
+            'newClassName'=>'choice',
+            'parentClassName' => 'option',
+            'parentId'        => $category->getCategoryId(),
+            'partialName'     => 'choice',
+        ));?>
+
+    </div>
+</div>

@@ -61,12 +61,7 @@ class CatalogManagerController extends ActionController
     public function categoriesAction()
     {
         $categories = $this->getCatalogService()->getAll('category');
-        $paginator = new Paginator(new ArrayAdapter($categories));
-        $page = $this->getEvent()->getRouteMatch()->getParam('page');
-        if($page){
-            $paginator->setCurrentPageNumber($page);
-        }
-        return new ViewModel(array('categories' => $paginator)); 
+        return new ViewModel(array('categories' => $categories)); 
     }
 
     public function categoryAction()

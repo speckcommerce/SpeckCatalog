@@ -22,6 +22,15 @@ class CategoryService extends ServiceAbstract
         return $category;   
     }
 
+    public function getAll()
+    {
+        $categories = $this->getModelMapper()->getAll();
+        foreach ($categories as $i => $category){
+            $categories[$i] = $this->populateModel($category);
+        }
+        return $categories;
+    }
+
     public function getProductService()
     {
         return $this->productService;

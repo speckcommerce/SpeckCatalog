@@ -10,14 +10,17 @@ class CategoryService extends ServiceAbstract
     {
         $categories = $this->getModelMapper()->getChildCategories($category->getCategoryId());
         if($categories){
-            $category->setCategories($categories);
+            foreach($categories as $i => $childCategory){
+                $childCategories[$i] = $this->populateModel($childCategory);
+                $category->setCategories($childCategories);
+            }
         }
         $products = $this->getProductService()->getProductsByCategoryId($category->getCategoryId());
         if($products){
             $category->setProducts($products);
         }
         return $category;   
-    }   
+    }
 
     public function getProductService()
     {

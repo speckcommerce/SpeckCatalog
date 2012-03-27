@@ -5,7 +5,9 @@
         <div> 
             &nbsp; <?=$product; ?>
             <?=$product->getItemNumber(); ?>
-            <? foreach($product->getUoms() as $uom) : ?>(<?=$uom;?>)<? endforeach;?>
+            <? if($product->hasUoms()) : ?>
+                <? foreach($product->getUoms() as $uom) : ?>(<?=$uom;?>)<? endforeach;?>
+            <? endif; ?>
         </div>
     </div>
 </div>

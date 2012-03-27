@@ -18,21 +18,20 @@ class CategoryMapper extends DbMapperAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->join('catalog_category_category_linker', 'catalog_category_category_linker'.'.parent_category_id = '.$this->getTableName().'.category_id') 
+                  ->join('catalog_category_category_linker', 'catalog_category_category_linker'.'.child_category_id = '.$this->getTableName().'.category_id') 
                   ->where('parent_category_id = ?', $categoryId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
         if(count($rows) > 0 ){
-            $choices = array();
+            $categories = array();
             foreach($rows as $row){
-                $choices[] = $this->mapModel($row);
+                $categories[] = $this->mapModel($row);
             }
-            return $choices;
+            return $categories;
         }else{
             return array();
         }
-        
     }
 
     public function getTableName()

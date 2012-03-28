@@ -34,6 +34,28 @@ class CategoryMapper extends DbMapperAbstract
         }
     }
 
+    public function linkParentCategory($parentCategoryId, $categoryId)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from('catalog_category_category_linker')
+            ->where('parent_category_id = ?', $parentCategoryId)
+            ->where('child_category_id = ?', $categoryId);
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
+        $row = $db->fetchRow($sql);
+        if(false === $row){
+            $data = new ArrayObject(array(
+                'parent_category_id'  => $parentCategoryId,
+                'child_category_id' => $categoryId,
+            ));
+            $result = $db->insert('catalog_category_category_linker', (array) $data);
+            if($result !== 1){
+                var_dump($result);
+                die('something didnt work!');
+            }
+        }
+    }
+
     public function getTableName()
     {
         return $this->tableName;

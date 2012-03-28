@@ -8,6 +8,7 @@ class ModelLinkerService
     protected $productUomService;
     protected $choiceService;
     protected $availabilityService;
+    protected $categoryService;
     
     /**
      * link a new model to its parent
@@ -115,6 +116,17 @@ class ModelLinkerService
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;
+        return $this;
+    }
+
+    public function getCategoryService()
+    {
+        return $this->categoryService;
+    }
+
+    public function setCategoryService($categoryService)
+    {
+        $this->categoryService = $categoryService;
         return $this;
     }
 }

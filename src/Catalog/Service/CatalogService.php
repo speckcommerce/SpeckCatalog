@@ -63,6 +63,11 @@ class CatalogService
         return $model;
     }
 
+    public function getCategories()
+    {
+        return $this->getCategoryService()->getChildCategories(0);
+    }
+
     public function createCatalog()
     {
         return $this->getMapper()->createCatalog();

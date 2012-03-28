@@ -38,6 +38,7 @@
                         'newClassName' => 'option',
                         'parentClassName' => 'choice',
                         'parentId' => $choice->getChoiceId(),
+                        'partialName' => 'option',     
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
                         'function'  => 'import-search', 
@@ -45,6 +46,7 @@
                         'className' => 'option',
                         'parentClassName' => 'choice',
                         'parentId' => $choice->getChoiceId(),     
+                        'partialName' => 'option',     
                     ));?>
                 </div>             
             </div>  

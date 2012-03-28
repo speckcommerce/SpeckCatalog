@@ -117,6 +117,7 @@ return array(
                     'choiceService' => 'Catalog\Service\ChoiceService',
                     'productUomService' => 'Catalog\Service\ProductUomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
+                    'categoryService' => 'Catalog\Service\CategoryService',
                 ),
             ),   
 

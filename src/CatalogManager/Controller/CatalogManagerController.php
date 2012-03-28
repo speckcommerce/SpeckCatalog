@@ -60,7 +60,7 @@ class CatalogManagerController extends ActionController
 
     public function categoriesAction()
     {
-        $categories = $this->getCatalogService()->getAll('category');
+        $categories = $this->getCatalogService()->getCategories();
         return new ViewModel(array('categories' => $categories)); 
     }
 

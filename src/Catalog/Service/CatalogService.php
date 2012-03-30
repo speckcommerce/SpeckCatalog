@@ -51,7 +51,6 @@ class CatalogService
 
     public function newModel($class, $constructor = null, $relationData = null)
     {
-        die('asdf');
         $getModelService = 'get' . ucfirst($class) . 'Service';
         $modelService = $this->$getModelService();
         $model = $modelService->newModel($constructor);

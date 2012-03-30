@@ -10,14 +10,24 @@ class SpecMapper extends DbMapperAbstract
         return new Spec($constructor);
     }
 
-    public function getTableName()
+    public function getByProductId($productId)
     {
-        return $this->tableName;
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+                  ->from($this->getTableName())
+                  ->where('product_id = ?', $productId);
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
+        $rows = $db->fetchAll($sql);
+
+        if(count($rows) > 0 ){
+            $specs = array();
+            foreach($rows as $row){
+                $specs[] = $this->mapModel($row);
+            }
+            return $specs;
+        }else{
+            return array();
+        }  
     }
 
-    public function setTableName($tableName)
-    {
-        $this->tableName = $tableName;
-        return $this;
-    }
 }

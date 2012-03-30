@@ -52,7 +52,7 @@ return array(
                     'choiceService'     => 'Catalog\Service\ChoiceService',
                     'companyService'    => 'Catalog\Service\CompanyService',
                     'productUomService' => 'Catalog\Service\ProductUomService',
-
+                    'specService'       => 'Catalog\Service\SpecService',
                 ),
             ),
 

@@ -10,7 +10,7 @@ use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract,
  * 
  * @uses ZfcDbMapperAbstract
  */
-abstract class DbMapperAbstract extends ZfcDbMapperAbstract
+abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements MapperInterface
 {
 
     /**

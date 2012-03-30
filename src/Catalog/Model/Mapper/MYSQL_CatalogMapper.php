@@ -166,10 +166,22 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
 
+        $spec = "
+            CREATE TABLE IF NOT EXISTS `catalog_spec` (
+              `spec_id` int(11) NOT NULL AUTO_INCREMENT,
+              `product_id` int(11) NOT NULL,
+              `label` varchar(255) NOT NULL,
+              `value` text NOT NULL,
+              `search_data` text NOT NULL,
+              PRIMARY KEY (`spec_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+        ";
+
+
         $tables = array(
             $availability, $choice, $choiceOptionLinker,
             $categoryHierarchy, $categoryProduct, $category, 
-            $company, $option, $optionChoiceLinker, 
+            $company, $option, $optionChoiceLinker, $spec, 
             $optionHelper, $product, $productOptionLinker, $productUom
         );
         

@@ -22,6 +22,8 @@ class Product extends ModelAbstract
     protected $itemNumber;
     protected $uoms;
 
+    protected $specs;
+
     public function setType($type = null)
     {
         if($type === null) {
@@ -211,4 +213,22 @@ class Product extends ModelAbstract
     {
         return $this->productId;
     }      
+
+    public function getSpecs()
+    {
+        return $this->specs;
+    }
+
+    public function setSpecs($specs)
+    {
+        $this->specs = $specs;
+        return $this;
+    }
+
+    public function hasSpecs()
+    {
+        if ($this->getSpecs()){
+            return true;
+        }
+    }
 }

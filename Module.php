@@ -97,8 +97,6 @@ class Module implements AutoloaderProvider
         $productShell->setTitle(' + New Product (shell)')->setUrl('/catalogmanager/new/product/shell');
         $categories = new Page();
         $categories->setTitle('<b>Categories</b>')->setUrl('/catalogmanager/categories');
-        $newCategory = new Page();
-        $newCategory->setTitle(' + New Category')->setUrl('/catalogmanager/new/category');
         $catMgr->addPages(array(
             $home,
             $divider, 
@@ -107,10 +105,17 @@ class Module implements AutoloaderProvider
             $productShell,
             $divider,
             $categories,
-            $newCategory,
+        ));
+
+        $sites = new Page(array('title' => 'Site <b class="caret"></b>'));
+        $sites->setAttributes(array(
+            'wrap' => array('class' => 'dropdown'),
+            'page' => array('href' =>'#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'),
+            'container' => array('class'=>'dropdown-menu'),
         ));
 
         $e->getTarget()->addPage($catMgr);
+        $e->getTarget()->addPage($sites);
     }
 
 }

@@ -7,7 +7,7 @@ namespace Catalog\Service;
  * ServiceAbstract 
  * TODO: needs an interface
  */
-abstract class ServiceAbstract // implements ServiceInterface
+abstract class ServiceAbstract implements ServiceInterface
 {
     protected $modelMapper;
     protected $user; 
@@ -87,8 +87,4 @@ abstract class ServiceAbstract // implements ServiceInterface
         return $this;
     }
 
-    public function populateModel($model)
-    {
-        // this will be a req in the interface
-    }
 }

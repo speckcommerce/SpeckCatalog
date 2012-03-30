@@ -4,6 +4,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#product" data-toggle="tab">Product</a></li>
         <li><a href="#options" data-toggle="tab">Options</a></li>
+        <li><a href="#specs" data-toggle="tab">Specs</a></li>
     </ul>
  
     <div class="tab-content">
@@ -101,6 +102,38 @@
             </div> 
         </div>
 
+        <div id="specs" class="tab-pane boundary">
+            <div class="list-wrap">
+                <div class="child-expand list-items-helper">
+                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                    <div class="expand-all"><i class="icon-arrow-down"></i></div>   
+                </div>
+                <div class="list-items">
+                    <? if ($product->hasSpecs()) : ?>
+                        <? foreach ($product->getSpecs() as $spec) : ?>
+                            <?=$this->partial($pdir.'spec.phtml', array('spec' => $spec));?>
+                        <? endforeach; ?>
+                    <? endif; ?>
+                </div>
+                <div class="row list-items-helper">
+                    <?=$this->partial($pdir.'add.phtml', array(
+                        'function'        => 'add-button',
+                        'newClassName'    => 'spec',
+                        'parentClassName' => 'product',
+                        'parentId'        => $product->getProductId(),
+                        'partialName'     => 'spec',
+                    ));?>
+                    <?=$this->partial($pdir.'add.phtml', array(
+                        'function'        => 'import-search',
+                        'searchClassName' => 'spec',
+                        'className'       => 'spec',
+                        'parentClassName' => 'product',
+                        'parentId'        => $product->getProductId(),
+                        'partialName'     => 'spec',
+                    ));?>
+                </div>
+            </div> 
+        </div>
     </div>
 </div><!--/tabbable-->
 

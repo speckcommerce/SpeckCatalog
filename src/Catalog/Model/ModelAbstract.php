@@ -5,15 +5,12 @@ use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
     Zend\EventManager\EventManager,
     Zend\EventManager\EventCollection;
 
-abstract class ModelAbstract extends ZfcModelAbstract
+abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
 {
     protected $revUserId;
     protected $revDateTime;
     protected $revParentId;
     protected $revId;
-
-
-
 
     /**
      * @var EventCollection

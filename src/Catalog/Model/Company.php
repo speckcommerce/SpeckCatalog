@@ -84,5 +84,9 @@ class Company extends ModelAbstract
     public function getId()
     {
         return $this->companyId;
-    }        
+    }
+    public function __toString()
+    {
+        return '';
+    }    
 }

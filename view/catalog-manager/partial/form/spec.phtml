@@ -1,0 +1,15 @@
+<form id="spec-<?=$spec->getSpecId();?>" class="live-form">
+
+    <input type="hidden" name="spec_id" value="<?=$spec->getSpecId();?>"/>
+    <div class="row">
+        <div class="span3">
+            <span class="smallcaps">label</span><br/>
+            <input name="label" class="span3" type="text" value="<?=$spec->getLabel();?>"/>
+        </div>  
+        <div class="span3">
+            <span class="smallcaps">value</span><br/>
+            <input name="value" class="span3" type="text" value="<?=$spec->getValue();?>"/>
+        </div>  
+    </div>
+
+</form><br/>  

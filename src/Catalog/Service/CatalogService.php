@@ -11,6 +11,7 @@ class CatalogService
     protected $optionService;
     protected $choiceService;
     protected $categoryService;
+    protected $specService;
     protected $mapper;
 
     public function getModel($class, $id=null)
@@ -50,6 +51,7 @@ class CatalogService
 
     public function newModel($class, $constructor = null, $relationData = null)
     {
+        die('asdf');
         $getModelService = 'get' . ucfirst($class) . 'Service';
         $modelService = $this->$getModelService();
         $model = $modelService->newModel($constructor);
@@ -158,6 +160,17 @@ class CatalogService
     public function setCategoryService($categoryService)
     {
         $this->categoryService = $categoryService;
+        return $this;
+    }
+
+    public function getSpecService()
+    {
+        return $this->specService;
+    }
+
+    public function setSpecService($specService)
+    {
+        $this->specService = $specService;
         return $this;
     }
 }

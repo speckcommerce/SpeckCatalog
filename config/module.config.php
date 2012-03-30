@@ -18,7 +18,7 @@ return array(
             
             'CatalogManager\Controller\CatalogManagerController' => array(
                 'parameters' => array(
-                    'catalogService' => 'Catalog\Service\CatalogService',
+                    'catalogService'     => 'Catalog\Service\CatalogService',
                     'modelLinkerService' => 'CatalogManager\Service\ModelLinkerService',
                 ),
             ),
@@ -34,22 +34,23 @@ return array(
              */
             'Catalog\Service\CatalogService' => array(
                 'parameters' => array(
-                    'productService' => 'Catalog\Service\ProductService',
-                    'productUomService' => 'Catalog\Service\ProductUomService',
+                    'productService'      => 'Catalog\Service\ProductService',
+                    'productUomService'   => 'Catalog\Service\ProductUomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
-                    'optionService' => 'Catalog\Service\OptionService',
-                    'choiceService' => 'Catalog\Service\ChoiceService',
-                    'categoryService' => 'Catalog\Service\CategoryService',
-                    'mapper' => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
+                    'optionService'       => 'Catalog\Service\OptionService',
+                    'choiceService'       => 'Catalog\Service\ChoiceService',
+                    'categoryService'     => 'Catalog\Service\CategoryService',
+                    'specService'         => 'Catalog\Service\SpecService',
+                    'mapper'              => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
                 ),
             ),
 
             'Catalog\Service\ProductService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'Catalog\Model\Mapper\ProductMapper',
-                    'optionService' => 'Catalog\Service\OptionService',
-                    'choiceService' => 'Catalog\Service\ChoiceService',
-                    'companyService' => 'Catalog\Service\CompanyService',
+                    'modelMapper'       => 'Catalog\Model\Mapper\ProductMapper',
+                    'optionService'     => 'Catalog\Service\OptionService',
+                    'choiceService'     => 'Catalog\Service\ChoiceService',
+                    'companyService'    => 'Catalog\Service\CompanyService',
                     'productUomService' => 'Catalog\Service\ProductUomService',
 
                 ),
@@ -57,7 +58,7 @@ return array(
 
             'Catalog\Service\OptionService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'Catalog\Model\Mapper\OptionMapper',
+                    'modelMapper'   => 'Catalog\Model\Mapper\OptionMapper',
                     'choiceService' => 'Catalog\Service\ChoiceService',
                 ),
             ),
@@ -65,22 +66,22 @@ return array(
             'Catalog\Service\CategoryService' => array(
                 'parameters' => array(
                     'productService' => 'Catalog\Service\ProductService',
-                    'modelMapper' => 'Catalog\Model\Mapper\CategoryMapper',
+                    'modelMapper'    => 'Catalog\Model\Mapper\CategoryMapper',
                 ),
             ),
 
             'Catalog\Service\ChoiceService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'Catalog\Model\Mapper\ChoiceMapper',
-                    'optionService' => 'Catalog\Service\OptionService',
+                    'modelMapper'    => 'Catalog\Model\Mapper\ChoiceMapper',
+                    'optionService'  => 'Catalog\Service\OptionService',
                     'productService' => 'Catalog\Service\ProductService',
                 ),
             ),
             
             'Catalog\Service\ProductUomService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'Catalog\Model\Mapper\ProductUomMapper',
-                    'uomService' => 'Catalog\Service\UomService',
+                    'modelMapper'         => 'Catalog\Model\Mapper\ProductUomMapper',
+                    'uomService'          => 'Catalog\Service\UomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
                 ),
             ),
@@ -93,7 +94,7 @@ return array(
 
             'Catalog\Service\AvailabilityService' => array(
                 'parameters' => array(
-                    'modelMapper' => 'Catalog\Model\Mapper\AvailabilityMapper',
+                    'modelMapper'    => 'Catalog\Model\Mapper\AvailabilityMapper',
                     'companyService' => 'Catalog\Service\CompanyService',
                 ),
             ),
@@ -101,6 +102,12 @@ return array(
             'Catalog\Service\CompanyService' => array(
                 'parameters' => array(
                     'modelMapper' => 'Catalog\Model\Mapper\CompanyMapper',
+                ),
+            ),
+
+            'Catalog\Service\SpecService' => array(
+                'parameters' => array(
+                    'modelMapper' => 'Catalog\Model\Mapper\SpecMapper',
                 ),
             ),
 
@@ -112,12 +119,13 @@ return array(
 
             'CatalogManager\Service\ModelLinkerService' => array(
                 'parameters' => array(
-                    'productService' => 'Catalog\Service\ProductService',
-                    'optionService' => 'Catalog\Service\OptionService',
-                    'choiceService' => 'Catalog\Service\ChoiceService',
-                    'productUomService' => 'Catalog\Service\ProductUomService',
+                    'productService'      => 'Catalog\Service\ProductService',
+                    'optionService'       => 'Catalog\Service\OptionService',
+                    'choiceService'       => 'Catalog\Service\ChoiceService',
+                    'productUomService'   => 'Catalog\Service\ProductUomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
-                    'categoryService' => 'Catalog\Service\CategoryService',
+                    'categoryService'     => 'Catalog\Service\CategoryService',
+                    'specService'         => 'Catalog\Service\SpecService',
                 ),
             ),   
 
@@ -126,63 +134,70 @@ return array(
              */
             'Catalog\Model\Mapper\ProductMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
             'Catalog\Model\Mapper\OptionMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
             
             'Catalog\Model\Mapper\CategoryMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
             'Catalog\Model\Mapper\ChoiceMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
             'Catalog\Model\Mapper\ProductUomMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
             'Catalog\Model\Mapper\UomMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
             'Catalog\Model\Mapper\AvailabilityMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
             'Catalog\Model\Mapper\CompanyMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
 
+            'Catalog\Model\Mapper\SpecMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ), 
+
             'Catalog\Model\Mapper\MYSQL_CatalogMapper' => array(
                 'parameters' => array(
-                    'readAdapter' => 'catalog_read_db',
+                    'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
@@ -293,15 +308,6 @@ return array(
                                         'route'    => '/categories[/:page]',
                                         'defaults' => array(
                                             'action' => 'categories',
-                                        ),
-                                    ),
-                                ),
-                                'category' => array(
-                                    'type'    => 'Segment',
-                                    'options' => array(
-                                        'route'    => '/category/:id',
-                                        'defaults' => array(
-                                            'action' => 'category',
                                         ),
                                     ),
                                 ),

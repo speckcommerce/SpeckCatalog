@@ -78,6 +78,7 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
               PRIMARY KEY (`choice_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
+
         $choiceOptionLinker = "
             CREATE TABLE IF NOT EXISTS `catalog_choice_option_linker` (
               `choice_id` int(11) NOT NULL,

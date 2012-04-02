@@ -21,6 +21,7 @@ return array(
         'Catalog\Service\CompanyService'            => __DIR__ . '/src/Catalog/Service/CompanyService.php',
         'Catalog\Service\CategoryService'           => __DIR__ . '/src/Catalog/Service/CategoryService.php',
         'Catalog\Service\SpecService'               => __DIR__ . '/src/Catalog/Service/SpecService.php',
+        'Catalog\Service\DocumentService'           => __DIR__ . '/src/Catalog/Service/DocumentService.php',
     'Catalog\Service\CatalogService'                => __DIR__ . '/src/Catalog/Service/CatalogService.php',
     'Catalog\Service\Installer'                     => __DIR__ . '/src/Catalog/Service/Installer.php',
 
@@ -40,6 +41,7 @@ return array(
         'Catalog\Model\Mapper\CompanyMapper'        => __DIR__ . '/src/Catalog/Model/Mapper/CompanyMapper.php',
         'Catalog\Model\Mapper\CategoryMapper'       => __DIR__ . '/src/Catalog/Model/Mapper/CategoryMapper.php',
         'Catalog\Model\Mapper\SpecMapper'           => __DIR__ . '/src/Catalog/Model/Mapper/SpecMapper.php',
+        'Catalog\Model\Mapper\DocumentMapper'       => __DIR__ . '/src/Catalog/Model/Mapper/DocumentMapper.php',
         'Catalog\Model\Mapper\MYSQL_CatalogMapper'  => __DIR__ . '/src/Catalog/Model/Mapper/MYSQL_CatalogMapper.php',
 
     /**
@@ -57,5 +59,6 @@ return array(
         'Catalog\Model\Availability'            => __DIR__ . '/src/Catalog/Model/Availability.php',
         'Catalog\Model\Company'                 => __DIR__ . '/src/Catalog/Model/Company.php',
         'Catalog\Model\Spec'                    => __DIR__ . '/src/Catalog/Model/Spec.php',
+        'Catalog\Model\Document'                => __DIR__ . '/src/Catalog/Model/Document.php',
 
 );

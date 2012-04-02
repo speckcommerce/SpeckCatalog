@@ -41,6 +41,7 @@ return array(
                     'choiceService'       => 'Catalog\Service\ChoiceService',
                     'categoryService'     => 'Catalog\Service\CategoryService',
                     'specService'         => 'Catalog\Service\SpecService',
+                    'documentService'     => 'Catalog\Service\DocumentService',
                     'mapper'              => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
                 ),
             ),
@@ -52,7 +53,27 @@ return array(
                     'choiceService'     => 'Catalog\Service\ChoiceService',
                     'companyService'    => 'Catalog\Service\CompanyService',
                     'productUomService' => 'Catalog\Service\ProductUomService',
+                    'documentService'   => 'Catalog\Service\DocumentService',
                     'specService'       => 'Catalog\Service\SpecService',
+                ),
+            ),
+            
+            'CatalogManager\Service\ModelLinkerService' => array(
+                'parameters' => array(
+                    'productService'      => 'Catalog\Service\ProductService',
+                    'optionService'       => 'Catalog\Service\OptionService',
+                    'choiceService'       => 'Catalog\Service\ChoiceService',
+                    'productUomService'   => 'Catalog\Service\ProductUomService',
+                    'availabilityService' => 'Catalog\Service\AvailabilityService',
+                    'categoryService'     => 'Catalog\Service\CategoryService',
+                    'documentService'     => 'Catalog\Service\DocumentService',
+                    'specService'         => 'Catalog\Service\SpecService',
+                ),
+            ),   
+
+            'Catalog\Service\DocumentService' => array(
+                'parameters' => array(
+                    'modelMapper'   => 'Catalog\Model\Mapper\DocumentMapper',
                 ),
             ),
 
@@ -117,17 +138,6 @@ return array(
                 ),
             ),
 
-            'CatalogManager\Service\ModelLinkerService' => array(
-                'parameters' => array(
-                    'productService'      => 'Catalog\Service\ProductService',
-                    'optionService'       => 'Catalog\Service\OptionService',
-                    'choiceService'       => 'Catalog\Service\ChoiceService',
-                    'productUomService'   => 'Catalog\Service\ProductUomService',
-                    'availabilityService' => 'Catalog\Service\AvailabilityService',
-                    'categoryService'     => 'Catalog\Service\CategoryService',
-                    'specService'         => 'Catalog\Service\SpecService',
-                ),
-            ),   
 
             /**
              * Mappers 
@@ -188,6 +198,13 @@ return array(
                 ),
             ),
 
+            'Catalog\Model\Mapper\DocumentMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ), 
+
             'Catalog\Model\Mapper\SpecMapper' => array(
                 'parameters' => array(
                     'readAdapter'  => 'catalog_read_db',
@@ -203,8 +220,7 @@ return array(
             ),
 
 
-
-
+            
             'Zend\View\Resolver\TemplatePathStack' => array(
                 'parameters' => array(
                     'paths'  => array(

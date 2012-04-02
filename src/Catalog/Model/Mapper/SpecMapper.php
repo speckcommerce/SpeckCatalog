@@ -3,7 +3,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Spec;
 class SpecMapper extends DbMapperAbstract
 {
-    protected $tableName = 'catalog_spec';
+    protected $tableName = 'catalog_product_spec';
 
     public function getModel($constructor=null)
     {

@@ -168,7 +168,7 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
         ";
 
         $spec = "
-            CREATE TABLE IF NOT EXISTS `catalog_spec` (
+            CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
               `spec_id` int(11) NOT NULL AUTO_INCREMENT,
               `product_id` int(11) NOT NULL,
               `label` varchar(255) NOT NULL,
@@ -178,9 +178,27 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
         ";
 
+        $document = "
+            CREATE TABLE IF NOT EXISTS `catalog_document` (
+              `document_id` int(11) NOT NULL AUTO_INCREMENT,
+              `label` varchar(255) NOT NULL,
+              `filename` varchar(255) NOT NULL,
+              `search_data` text NOT NULL,
+              PRIMARY KEY (`document_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        ";
+
+        $productDocument = "
+            CREATE TABLE IF NOT EXISTS `catalog_product_document_linker` (
+              `product_id` int(11) NOT NULL,
+              `document_id` int(11) NOT NULL,
+              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              PRIMARY KEY (`linker_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        ";
 
         $tables = array(
-            $availability, $choice, $choiceOptionLinker,
+            $availability, $choice, $choiceOptionLinker, $productDocument, $document,
             $categoryHierarchy, $categoryProduct, $category, 
             $company, $option, $optionChoiceLinker, $spec, 
             $optionHelper, $product, $productOptionLinker, $productUom

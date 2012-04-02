@@ -12,6 +12,7 @@ class CatalogService
     protected $choiceService;
     protected $categoryService;
     protected $specService;
+    protected $documentService;
     protected $mapper;
 
     public function getModel($class, $id=null)
@@ -170,6 +171,17 @@ class CatalogService
     public function setSpecService($specService)
     {
         $this->specService = $specService;
+        return $this;
+    }
+
+    public function getDocumentService()
+    {
+        return $this->documentService;
+    }
+ 
+    public function setDocumentService($documentService)
+    {
+        $this->documentService = $documentService;
         return $this;
     }
 }

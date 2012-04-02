@@ -8,13 +8,16 @@ class ProductService extends ServiceAbstract
     protected $productUomService;
     protected $companyService;
     protected $specService;
+    protected $documentService;
     
     public function populateModel($product){
         if($product){
-            $product->setOptions($this->getOptionService()->getOptionsByProductId($product->getProductId()));
-            $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($product->getProductId()));
+            $productId = $product->getProductId();
+            $product->setOptions($this->getOptionService()->getOptionsByProductId($productId));
+            $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
             $product->setCompanies($this->getCompanyService()->getAll());
-            $product->setSpecs($this->getSpecService()->getByProductId($product->getProductId()));
+            $product->setSpecs($this->getSpecService()->getByProductId($productId));
+            $product->setDocuments($this->getDocumentService()->getByProductId($productId));
             return $product;
         }
     }
@@ -60,25 +63,26 @@ class ProductService extends ServiceAbstract
         $this->companyService = $companyService;
         return $this;
     }
- 
-    /**
-     * Get specService.
-     *
-     * @return specService
-     */
+
     public function getSpecService()
     {
         return $this->specService;
     }
- 
-    /**
-     * Set specService.
-     *
-     * @param $specService the value to be set
-     */
+
     public function setSpecService($specService)
     {
         $this->specService = $specService;
+        return $this;
+    }
+
+    public function getDocumentService()
+    {
+        return $this->documentService;
+    }
+
+    public function setDocumentService($documentService)
+    {
+        $this->documentService = $documentService;
         return $this;
     }
 }

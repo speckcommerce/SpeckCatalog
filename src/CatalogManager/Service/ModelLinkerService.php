@@ -9,6 +9,7 @@ class ModelLinkerService
     protected $choiceService;
     protected $availabilityService;
     protected $categoryService;
+    protected $documentService;
     protected $specService;
     
     /**
@@ -139,6 +140,17 @@ class ModelLinkerService
     public function setSpecService($specService)
     {
         $this->specService = $specService;
+        return $this;
+    }
+
+    public function getDocumentService()
+    {
+        return $this->documentService;
+    }
+
+    public function setDocumentService($documentService)
+    {
+        $this->documentService = $documentService;
         return $this;
     }
 }

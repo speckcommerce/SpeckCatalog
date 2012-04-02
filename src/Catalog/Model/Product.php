@@ -9,10 +9,10 @@ class Product extends ModelAbstract
     protected $productId;
     protected $name;
     protected $description;
-    //protected $features;
-    //protected $attributes;
     protected $options;
     protected $parentChoices;
+    protected $specs;
+    protected $documents;
     
     //item view
     protected $manufacturer;
@@ -22,7 +22,6 @@ class Product extends ModelAbstract
     protected $itemNumber;
     protected $uoms;
 
-    protected $specs;
 
     public function setType($type = null)
     {
@@ -230,5 +229,23 @@ class Product extends ModelAbstract
         if ($this->getSpecs()){
             return true;
         }
+    }
+
+    public function hasDocuments()
+    {
+        if($this->getDocuments()){
+            return true;
+        }
+    }
+
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    public function setDocuments($documents)
+    {
+        $this->documents = $documents;
+        return $this;
     }
 }

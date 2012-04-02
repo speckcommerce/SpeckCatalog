@@ -1,0 +1,15 @@
+<form id="document-<?=$document->getDocumentId();?>" class="live-form">
+
+    <input type="hidden" name="document_id" value="<?=$document->getDocumentId();?>"/>
+    <div class="row">
+        <div class="span3">
+            <span class="smallcaps">label</span><br/>
+            <input name="label" class="span3" type="text" value="<?=$document->getLabel();?>"/>
+        </div>  
+        <div class="span3">
+            <span class="smallcaps">filename</span><br/>
+            <input name="filename" class="span3" type="text" value="<?=$document->getFilename();?>"/>
+        </div>  
+    </div>
+
+</form><br/>  

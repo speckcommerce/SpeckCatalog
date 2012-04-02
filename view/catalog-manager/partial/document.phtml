@@ -1,0 +1,12 @@
+<? $pdir = '/catalog-manager/partial/'; ?>
+
+<div class="boundary contrastbg">
+    <div class="entity-header">
+        <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
+        <div><i class="icon-file"></i></div>
+        <div class="title sort-handle collapser">&nbsp; <?=$document;?></div>
+    </div>
+    <div class="entity-content initialcol">
+        <?=$this->partial($pdir.'form/document.phtml', array('document' => $document));?>
+    </div>   
+</div>

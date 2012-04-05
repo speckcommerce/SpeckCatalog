@@ -30,7 +30,7 @@ return array(
     /**
      * Mappers
      */
-    'Catalog\Model\Mapper\MapperInterface'          => __DIR__ . '/src/Catalog/Model/Mapper/MapperInterface.php',
+    'Catalog\Model\Mapper\ModelMapperInterface'          => __DIR__ . '/src/Catalog/Model/Mapper/ModelMapperInterface.php',
     'Catalog\Model\Mapper\DbMapperAbstract'         => __DIR__ . '/src/Catalog/Model/Mapper/DbMapperAbstract.php',
         'Catalog\Model\Mapper\ProductMapper'        => __DIR__ . '/src/Catalog/Model/Mapper/ProductMapper.php',
         'Catalog\Model\Mapper\OptionMapper'         => __DIR__ . '/src/Catalog/Model/Mapper/OptionMapper.php',

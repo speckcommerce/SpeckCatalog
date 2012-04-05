@@ -230,8 +230,6 @@ drop table if exists catalog_company;
         $db->exec($query); die('tables dropped!');
     }     
 
-
-
     public function createAnsiUom(){
         $db = $this->getWriteAdapter();
         $query = "
@@ -1040,4 +1038,6 @@ INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ";
         $db->exec($query);
     }
+
+    public function getModel(){ /* play nice with interface */ }
 }

@@ -2,14 +2,6 @@
 namespace Catalog\Model\Mapper;
 interface ModelMapperInterface
 {
-    
-    /**
-     * modelClass 
-     * 
-     * name of the model class that the individual mapper handles
-     */
-    public $modelClass;
-    
     /**
      * getModel 
      *

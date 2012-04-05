@@ -1,12 +1,12 @@
 <? $pdir = '/catalog-manager/partial/'; ?>
-<!-- option -->
 <div class="option contrastbg boundary">
-
+    
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down"></i></div>
         <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
         <? if(1===1 || $option->isShared()) : ?>
-            <div><i class="icon-eye-open" title="This option is shared <?=count($option->getParentProducts());?> times"></i></div>
+            <? $count = count($option->getParentProducts()); ?>
+            <div><i class="icon-eye-open" title="This option is shared <?=$count;?> times"></i></div>
         <? endif; ?>  
         <div class="title sort-handle collapser">&nbsp; <?=$option;?></div>
     </div>

@@ -23,14 +23,12 @@ class ProductUomMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
+        $productUoms = array();
         if(count($rows) > 0 ){
-            $productUoms = array();
             foreach($rows as $row){
                 $productUoms[] = $this->mapModel($row);
             }
-            return $productUoms;
-        }else{
-            return array();
         }
+        return $productUoms;
     }  
 }

@@ -40,14 +40,13 @@ class UomMapper extends DbMapperAbstract
                   ->from($this->getTableName())
                   ->where('enabled = ?', 1);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
-     
         $rows = $db->fetchAll($sql);
+        $return = array();
         if($rows){
-            $return = array();
             foreach($rows as $row){
                 $return[] = $this->mapModel($row);   
             }
-            return $return;
         }
+        return $return;
     }   
 }

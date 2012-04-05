@@ -23,14 +23,12 @@ class AvailabilityMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
+        $availabilities = array();
         if(count($rows) > 0 ){
-            $availabilities = array();
             foreach($rows as $row){
                 $availabilities[] = $this->mapModel($row);
             }
-            return $availabilities;
-        }else{
-            return array();
         }
+        return $availabilities;
     }  
 }

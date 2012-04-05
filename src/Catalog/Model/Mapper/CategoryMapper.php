@@ -23,15 +23,13 @@ class CategoryMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
+        $categories = array();
         if(count($rows) > 0 ){
-            $categories = array();
             foreach($rows as $row){
                 $categories[] = $this->mapModel($row);
             }
-            return $categories;
-        }else{
-            return array();
         }
+        return $categories;
     }
 
     public function linkParentCategory($parentCategoryId, $categoryId)

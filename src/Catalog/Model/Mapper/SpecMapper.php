@@ -19,15 +19,13 @@ class SpecMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
+        $specs = array();
         if(count($rows) > 0 ){
-            $specs = array();
             foreach($rows as $row){
                 $specs[] = $this->mapModel($row);
             }
-            return $specs;
-        }else{
-            return array();
         }  
+        return $specs;
     }
 
 }

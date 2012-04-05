@@ -24,15 +24,13 @@ class ProductMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
+        $choices = array();
         if(count($rows) > 0 ){
-            $choices = array();
             foreach($rows as $row){
                 $choices[] = $this->mapModel($row);
             }
-            return $choices;
-        }else{
-            return array();
         }
+        return $choices;
     }   
     public function linkParentCategory($categoryId, $productId)
     {

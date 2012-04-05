@@ -25,15 +25,13 @@ class DocumentMapper extends DbMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
-        if(count($rows) > 0 ){
-            $specs = array();
+        $specs = array();
+        if (count($rows) > 0){
             foreach($rows as $row){
                 $specs[] = $this->mapModel($row);
             }
-            return $specs;
-        }else{
-            return array();
         }  
+        return $specs;
     } 
 
     public function linkParentProduct($productId, $documentId)
@@ -47,8 +45,8 @@ class DocumentMapper extends DbMapperAbstract
         $row = $db->fetchRow($sql);
         if(false === $row){
             $data = new ArrayObject(array(
-                'product_id' => $productId,
-                'document_id'  => $documentId,
+                'product_id'  => $productId,
+                'document_id' => $documentId,
             ));
             $db->insert($this->getProductLinkerTableName(), (array) $data);
         }

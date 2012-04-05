@@ -10,7 +10,7 @@ use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract,
  * 
  * @uses ZfcDbMapperAbstract
  */
-abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements MapperInterface
+abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapperInterface
 {
 
     /**
@@ -26,11 +26,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements MapperInt
     {
         return $this->add($this->getModel($constructor));
     }
-
-    public function getModel(){
-        //override in individual mappers
-        //return an empty model, and pass the constructor 
-    }              
 
     /**
      * mapModel
@@ -241,7 +236,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements MapperInt
      * @access public
      * @return void
      */
-    public static function fromCamelCase($name)
+    public function fromCamelCase($name)
     {
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
     }     

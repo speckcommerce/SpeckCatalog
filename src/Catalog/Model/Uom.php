@@ -36,6 +36,10 @@ class Uom extends ModelAbstract
     }
     public function getId()
     {
-        return $this->uomCode;
+        return $this->getUomCode();
+    }
+    public function setId($id)
+    {
+        return $this->setUomCode($id);
     }
 }

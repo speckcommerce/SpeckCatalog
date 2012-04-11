@@ -81,10 +81,17 @@ class Company extends ModelAbstract
         $this->availabilities = $availabilities;
         return $this;
     }
+    
     public function getId()
     {
-        return $this->companyId;
+        return $this->getCompanyId();
     }
+
+    public function setId($id)
+    {
+        return $this->setCompanyId($id);
+    }
+
     public function __toString()
     {
         return '';

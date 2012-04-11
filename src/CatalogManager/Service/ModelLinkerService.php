@@ -44,7 +44,9 @@ class ModelLinkerService
         if($childClassName && $childId){
             $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
         }
-        return $this->$modelService->getById($model->getId());
+        $model = $this->$modelService->getById($model->getId());
+        return $model;
+
     }
 
     public function existingModel($className, $id, $parentClassName, $parentId)

@@ -42,6 +42,7 @@ return array(
                     'categoryService'     => 'Catalog\Service\CategoryService',
                     'specService'         => 'Catalog\Service\SpecService',
                     'documentService'     => 'Catalog\Service\DocumentService',
+                    'imageService'        => 'Catalog\Service\ImageService',
                     'mapper'              => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
                 ),
             ),
@@ -54,6 +55,7 @@ return array(
                     'companyService'    => 'Catalog\Service\CompanyService',
                     'productUomService' => 'Catalog\Service\ProductUomService',
                     'documentService'   => 'Catalog\Service\DocumentService',
+                    'imageService'      => 'Catalog\Service\ImageService',
                     'specService'       => 'Catalog\Service\SpecService',
                 ),
             ),
@@ -66,10 +68,17 @@ return array(
                     'productUomService'   => 'Catalog\Service\ProductUomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
                     'categoryService'     => 'Catalog\Service\CategoryService',
+                    'imageService'        => 'Catalog\Service\ImageService',
                     'documentService'     => 'Catalog\Service\DocumentService',
                     'specService'         => 'Catalog\Service\SpecService',
                 ),
             ),   
+
+            'Catalog\Service\ImageService' => array(
+                'parameters' => array(
+                    'modelMapper'   => 'Catalog\Model\Mapper\ImageMapper',
+                ),
+            ),
 
             'Catalog\Service\DocumentService' => array(
                 'parameters' => array(
@@ -197,6 +206,13 @@ return array(
                     'writeAdapter' => 'catalog_write_db',
                 ),
             ),
+
+            'Catalog\Model\Mapper\ImageMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ), 
 
             'Catalog\Model\Mapper\DocumentMapper' => array(
                 'parameters' => array(

@@ -21,7 +21,10 @@ return array(
         'Catalog\Service\CompanyService'            => __DIR__ . '/src/Catalog/Service/CompanyService.php',
         'Catalog\Service\CategoryService'           => __DIR__ . '/src/Catalog/Service/CategoryService.php',
         'Catalog\Service\SpecService'               => __DIR__ . '/src/Catalog/Service/SpecService.php',
-        'Catalog\Service\DocumentService'           => __DIR__ . '/src/Catalog/Service/DocumentService.php',
+        'Catalog\Service\MediaServiceInterface'     => __DIR__ . '/src/Catalog/Service/MediaServiceInterface.php',
+        'Catalog\Service\MediaServiceAbstract'      => __DIR__ . '/src/Catalog/Service/MediaServiceAbstract.php',
+            'Catalog\Service\DocumentService'       => __DIR__ . '/src/Catalog/Service/DocumentService.php',
+            'Catalog\Service\ImageService'          => __DIR__ . '/src/Catalog/Service/ImageService.php',
     'Catalog\Service\CatalogService'                => __DIR__ . '/src/Catalog/Service/CatalogService.php',
     'Catalog\Service\Installer'                     => __DIR__ . '/src/Catalog/Service/Installer.php',
 
@@ -30,7 +33,7 @@ return array(
     /**
      * Mappers
      */
-    'Catalog\Model\Mapper\ModelMapperInterface'          => __DIR__ . '/src/Catalog/Model/Mapper/ModelMapperInterface.php',
+    'Catalog\Model\Mapper\ModelMapperInterface'     => __DIR__ . '/src/Catalog/Model/Mapper/ModelMapperInterface.php',
     'Catalog\Model\Mapper\DbMapperAbstract'         => __DIR__ . '/src/Catalog/Model/Mapper/DbMapperAbstract.php',
         'Catalog\Model\Mapper\ProductMapper'        => __DIR__ . '/src/Catalog/Model/Mapper/ProductMapper.php',
         'Catalog\Model\Mapper\OptionMapper'         => __DIR__ . '/src/Catalog/Model/Mapper/OptionMapper.php',
@@ -41,7 +44,8 @@ return array(
         'Catalog\Model\Mapper\CompanyMapper'        => __DIR__ . '/src/Catalog/Model/Mapper/CompanyMapper.php',
         'Catalog\Model\Mapper\CategoryMapper'       => __DIR__ . '/src/Catalog/Model/Mapper/CategoryMapper.php',
         'Catalog\Model\Mapper\SpecMapper'           => __DIR__ . '/src/Catalog/Model/Mapper/SpecMapper.php',
-        'Catalog\Model\Mapper\DocumentMapper'       => __DIR__ . '/src/Catalog/Model/Mapper/DocumentMapper.php',
+        'Catalog\Model\Mapper\MediaMapperAbstract'  => __DIR__ . '/src/Catalog/Model/Mapper/MediaMapperAbstract.php',
+            'Catalog\Model\Mapper\DocumentMapper'   => __DIR__ . '/src/Catalog/Model/Mapper/DocumentMapper.php',
         'Catalog\Model\Mapper\MYSQL_CatalogMapper'  => __DIR__ . '/src/Catalog/Model/Mapper/MYSQL_CatalogMapper.php',
 
     /**
@@ -59,6 +63,8 @@ return array(
         'Catalog\Model\Availability'            => __DIR__ . '/src/Catalog/Model/Availability.php',
         'Catalog\Model\Company'                 => __DIR__ . '/src/Catalog/Model/Company.php',
         'Catalog\Model\Spec'                    => __DIR__ . '/src/Catalog/Model/Spec.php',
-        'Catalog\Model\Document'                => __DIR__ . '/src/Catalog/Model/Document.php',
+        'Catalog\Model\MediaAbstract'           => __DIR__ . '/src/Catalog/Model/MediaAbstract.php',
+            'Catalog\Model\Document'            => __DIR__ . '/src/Catalog/Model/Document.php',
+            'Catalog\Model\Image'               => __DIR__ . '/src/Catalog/Model/Image.php',
 
 );

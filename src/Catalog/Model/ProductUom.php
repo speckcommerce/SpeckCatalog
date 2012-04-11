@@ -153,6 +153,11 @@ class ProductUom extends ModelAbstract
     }
     public function getId()
     {
-        return $this->productUomId;
+        return $this->getProductUomId();
+    }
+
+    public function setId($id)
+    {
+        return $this->setProductUomId($id);
     }   
 }

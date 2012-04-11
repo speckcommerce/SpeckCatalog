@@ -220,7 +220,12 @@ class Choice extends ModelAbstract
     }
     public function getId()
     {
-        return $this->choiceId;
+        return $this->getChoiceId();
+    }
+
+    public function setId($id)
+    {
+        return $this->setChoiceId($id);
     }
 
     public function isShared()

@@ -12,7 +12,10 @@ class CatalogService
     protected $choiceService;
     protected $categoryService;
     protected $specService;
+
+    protected $imageService;
     protected $documentService;
+
     protected $mapper;
 
     public function getModel($class, $id=null)
@@ -54,6 +57,7 @@ class CatalogService
     {
         $getModelService = 'get' . ucfirst($class) . 'Service';
         $modelService = $this->$getModelService();
+        var_dump($modelService);
         $model = $modelService->newModel($constructor);
 
         if($relationData){
@@ -174,11 +178,22 @@ class CatalogService
         return $this;
     }
 
+    public function getImageService()
+    {
+        return $this->imageService;
+    }
+
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
+        return $this;
+    }
+
     public function getDocumentService()
     {
         return $this->documentService;
     }
- 
+
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;

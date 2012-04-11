@@ -105,6 +105,11 @@ class Availability extends ModelAbstract
 
     public function getId()
     {
-        return $this->availabilityId;
+        return $this->getAvailabilityId();
     }    
+
+    public function setId($id)
+    {
+        return $this->setAvailabilityId($id);
+    }
 }

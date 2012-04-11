@@ -208,7 +208,10 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
         $data = $this->prepareRow($model); 
         $db = $this->getWriteAdapter();
         if ('update' === $mode) {
-            $field = $this->fromCamelCase($this->getModelclass()) . '_id = ?';
+            $field = $this->fromCamelCase($this->getModelClass()) . '_id = ?';
+            //var_dump($this->getTableName());
+            //var_dump($db->quoteInto($field, $model->getId()));
+            //var_dump( (array) $data);
             $db->update($this->getTableName(), (array) $data, $db->quoteInto($field, $model->getId()));
         } elseif ('insert' === $mode) {
             $result = $db->insert($this->getTableName(), (array) $data);
@@ -219,9 +222,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
                 var_dump($this->getTableName());
                 throw new Exception('query returned no result - insert failed');
             }
-
-            $setModelId = 'set' . ucfirst($this->getModelClass()) . 'Id';
-            $model->$setModelId($db->lastInsertId());
+            $model->setId($db->lastInsertId());
         }
         return $model;
     }
@@ -243,7 +244,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
 
     public function getModelClass()
     {
-        $class = explode('\\', get_class($this->getModel())); 
+        $class = explode('\\', get_class($this->getModel()));
         return array_pop($class);
-    } 
+    }
 }

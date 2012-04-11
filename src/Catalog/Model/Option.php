@@ -146,10 +146,16 @@ class Option extends ModelAbstract
             return '';
         }
     }
+    
     public function getId()
     {
-        return $this->optionId;
-    }     
+        return $this->getOptionId();
+    }
+
+    public function setId($id)
+    {
+        return $this->setOptionId($id);
+    }    
  
     public function getSlider()
     {

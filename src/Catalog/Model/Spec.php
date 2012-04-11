@@ -75,6 +75,11 @@ class Spec extends ModelAbstract
         return $this->getSpecId();
     }
 
+    public function setId($id)
+    {
+        return $this->setSpecId($id);
+    }
+
     public function __toString()
     {
         if($this->getLabel()){
@@ -83,22 +88,12 @@ class Spec extends ModelAbstract
             return '';
         }
     }
- 
-    /**
-     * Get productId.
-     *
-     * @return productId
-     */
+
     public function getProductId()
     {
         return $this->productId;
     }
- 
-    /**
-     * Set productId.
-     *
-     * @param $productId the value to be set
-     */
+
     public function setProductId($productId)
     {
         $this->productId = $productId;

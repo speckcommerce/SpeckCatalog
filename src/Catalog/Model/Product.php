@@ -210,8 +210,13 @@ class Product extends ModelAbstract
     }
     public function getId()
     {
-        return $this->productId;
-    }      
+        return $this->getProductId();
+    }
+    
+    public function setId($id)
+    {
+        return $this->setProductId($id);
+    }    
 
     public function getSpecs()
     {

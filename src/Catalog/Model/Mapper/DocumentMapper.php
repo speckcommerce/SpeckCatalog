@@ -2,24 +2,28 @@
 namespace Catalog\Model\Mapper;
 use Catalog\Model\Document,
     ArrayObject;
-class DocumentMapper extends DbMapperAbstract
+class DocumentMapper extends MediaMapperAbstract
 {
-    protected $tableName = 'catalog_document';
-    protected $productLinkerTableName = 'catalog_product_document_linker';
-
-    public function getModel($constructor=null)
+    protected $linkerTableName = 'catalog_product_document_linker';
+    
+    public function getModel()
     {
-        return new Document($constructor);
+        return new Document;
     }
 
-    public function getByProductId($productId)
+    public function getModelClass()
+    {
+        return 'media';
+    } 
+
+    public function getDocumentsByProductId($productId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from($this->getProductLinkerTableName())
+            ->from($this->getLinkerTableName())
             ->join(
                 $this->getTableName(), 
-                $this->getProductLinkerTableName().'.document_id = '.$this->getTableName().'.document_id'
+                $this->getLinkerTableName().'.media_id = '.$this->getTableName().'.media_id'
             )       
             ->where('product_id = ?', $productId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
@@ -32,34 +36,23 @@ class DocumentMapper extends DbMapperAbstract
             }
         }  
         return $specs;
-    } 
+    }    
 
     public function linkParentProduct($productId, $documentId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from($this->getProductLinkerTableName())
+            ->from($this->getLinkerTableName())
             ->where('product_id = ?', $productId)
-            ->where('document_id = ?', $documentId);
+            ->where('media_id = ?', $documentId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if(false === $row){
             $data = new ArrayObject(array(
                 'product_id'  => $productId,
-                'document_id' => $documentId,
+                'media_id' => $documentId,
             ));
-            $db->insert($this->getProductLinkerTableName(), (array) $data);
+            $db->insert($this->getLinkerTableName(), (array) $data);
         }
-    }  
-
-    public function getProductLinkerTableName()
-    {
-        return $this->productLinkerTableName;
-    }
-
-    public function setProductLinkerTableName($productLinkerTableName)
-    {
-        $this->productLinkerTableName = $productLinkerTableName;
-        return $this;
-    }
+    } 
 }

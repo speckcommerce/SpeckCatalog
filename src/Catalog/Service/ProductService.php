@@ -17,7 +17,7 @@ class ProductService extends ServiceAbstract
             $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
             $product->setCompanies($this->getCompanyService()->getAll());
             $product->setSpecs($this->getSpecService()->getByProductId($productId));
-            $product->setDocuments($this->getDocumentService()->getByProductId($productId));
+            $product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
             return $product;
         }
     }

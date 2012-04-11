@@ -10,12 +10,12 @@ return array(
         'instance' => array(
             'Catalog\Service\ImageService' => array(
                 'parameters' => array(
-                    'basePath' => $imagePaths['documents'],
+                    'basePath' => $imagePaths['images'],
                 ),
             ),
             'Catalog\Service\DocumentService' => array(
                 'parameters' => array(
-                    'basePath' => $imagePaths['images'],
+                    'basePath' => $imagePaths['documents'],
                 ),
             ),
         ),

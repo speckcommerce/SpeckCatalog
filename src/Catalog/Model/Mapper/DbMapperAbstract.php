@@ -81,10 +81,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
     public function deleteById($id)
     {
         $db = $this->getWriteAdapter();
-        $result = $db->delete(
-            $this->getTableName(),
-            $this->fromCamelCase($this->getModelClass()).'_id = '.$id
-        );
+        $result = $db->delete($this->getTableName(), $this->getIdField() . ' = ' . $id);
         die($result);
     }
 
@@ -102,7 +99,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->where($this->fromCamelCase($this->getModelClass()).'_id = ?', $id);
+                  ->where($this->getIdField() . ' = ?', $id);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if($row){
@@ -208,7 +205,7 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
         $data = $this->prepareRow($model); 
         $db = $this->getWriteAdapter();
         if ('update' === $mode) {
-            $field = $this->fromCamelCase($this->getModelClass()) . '_id = ?';
+            $field = $this->getIdField() . ' = ?';
             //var_dump($this->getTableName());
             //var_dump($db->quoteInto($field, $model->getId()));
             //var_dump( (array) $data);
@@ -242,9 +239,10 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
     }     
 
-    public function getModelClass()
+    public function getIdField()
     {
         $class = explode('\\', get_class($this->getModel()));
-        return array_pop($class);
+        $className = array_pop($class);
+        return $this->fromCamelCase($className) . '_id';
     }
 }

@@ -67,8 +67,5 @@ interface ModelMapperInterface
      */
     public function fromCamelCase($name);
     
-    /**
-     * returns $this->modelClass 
-     */
-    public function getModelClass(); 
+    public function getIdField(); 
 }                       

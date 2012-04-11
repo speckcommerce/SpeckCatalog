@@ -10,6 +10,7 @@ class ModelLinkerService
     protected $availabilityService;
     protected $categoryService;
     protected $documentService;
+    protected $imageService;
     protected $specService;
     
     /**
@@ -153,6 +154,17 @@ class ModelLinkerService
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;
+        return $this;
+    }
+
+    public function getImageService()
+    {
+        return $this->imageService;
+    }
+
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
         return $this;
     }
 }

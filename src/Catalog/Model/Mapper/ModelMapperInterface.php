@@ -60,12 +60,5 @@ interface ModelMapperInterface
      */
     public function persist($model, $mode);
     
-    /**
-     * fromCamelCase 
-     * 
-     * used to change camelcase attributes and turn them into underscore separated table field names
-     */
-    public function fromCamelCase($name);
-    
     public function getIdField(); 
 }                       

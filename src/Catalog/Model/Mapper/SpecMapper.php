@@ -1,7 +1,7 @@
 <?php
 namespace Catalog\Model\Mapper;
 use Catalog\Model\Spec;
-class SpecMapper extends DbMapperAbstract
+class SpecMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_product_spec';
 

@@ -5,7 +5,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Company, 
     ArrayObject;
 
-class CompanyMapper extends DbMapperAbstract
+class CompanyMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_company';
     

@@ -13,6 +13,7 @@ class Product extends ModelAbstract
     protected $parentChoices;
     protected $specs;
     protected $documents;
+    protected $images;
     
     //item view
     protected $manufacturer;
@@ -251,6 +252,24 @@ class Product extends ModelAbstract
     public function setDocuments($documents)
     {
         $this->documents = $documents;
+        return $this;
+    }
+ 
+    public function hasImages()
+    {
+        if($this->getImages()){
+            return true;
+        }
+    }
+
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    public function setImages($images)
+    {
+        $this->images = $images;
         return $this;
     }
 }

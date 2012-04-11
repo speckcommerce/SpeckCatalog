@@ -12,7 +12,6 @@ class CatalogService
     protected $choiceService;
     protected $categoryService;
     protected $specService;
-
     protected $imageService;
     protected $documentService;
 

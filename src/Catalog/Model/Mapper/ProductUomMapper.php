@@ -5,7 +5,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\ProductUom, 
     ArrayObject;
 
-class ProductUomMapper extends DbMapperAbstract
+class ProductUomMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_product_uom';
 

@@ -4,7 +4,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Category, 
     ArrayObject;
 
-class CategoryMapper extends DbMapperAbstract
+class CategoryMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_category';
 

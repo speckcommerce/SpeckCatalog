@@ -1,7 +1,7 @@
 <?php
 
 namespace Catalog\Model\Mapper;
-use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract,
+use ZfcBase\Mapper\DbMapperAbstract,
     ArrayObject,
     Exception;
 
@@ -10,7 +10,7 @@ use ZfcBase\Mapper\DbMapperAbstract as ZfcDbMapperAbstract,
  * 
  * @uses ZfcDbMapperAbstract
  */
-abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapperInterface
+abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
 
     /**
@@ -224,16 +224,6 @@ abstract class DbMapperAbstract extends ZfcDbMapperAbstract implements ModelMapp
         return $model;
     }
 
-    /**
-     * fromCamelCase
-     *
-     * takes a camelCase model property name and returns a underscore_separated database column name
-     * 
-     * @param mixed $name 
-     * @static
-     * @access public
-     * @return void
-     */
     public function fromCamelCase($name)
     {
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');

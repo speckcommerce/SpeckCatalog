@@ -9,6 +9,7 @@ class ProductService extends ServiceAbstract
     protected $companyService;
     protected $specService;
     protected $documentService;
+    protected $imageService;
     
     public function populateModel($product){
         if($product){
@@ -18,6 +19,7 @@ class ProductService extends ServiceAbstract
             $product->setCompanies($this->getCompanyService()->getAll());
             $product->setSpecs($this->getSpecService()->getByProductId($productId));
             $product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
+            $product->setImages($this->getImageService()->getImagesByProductId($productId));
             return $product;
         }
     }
@@ -83,6 +85,17 @@ class ProductService extends ServiceAbstract
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;
+        return $this;
+    }
+
+    public function getImageService()
+    {
+        return $this->imageService;
+    }
+
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
         return $this;
     }
 }

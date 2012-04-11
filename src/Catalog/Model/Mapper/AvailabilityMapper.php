@@ -5,7 +5,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Availability, 
     ArrayObject;
 
-class AvailabilityMapper extends DbMapperAbstract
+class AvailabilityMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_availability';
 
@@ -24,7 +24,7 @@ class AvailabilityMapper extends DbMapperAbstract
         $rows = $db->fetchAll($sql);
 
         $availabilities = array();
-        if(count($rows) > 0 ){
+        if (count($rows) > 0){
             foreach($rows as $row){
                 $availabilities[] = $this->mapModel($row);
             }

@@ -4,7 +4,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Choice, 
     ArrayObject;
 
-class ChoiceMapper extends DbMapperAbstract
+class ChoiceMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_choice';
 

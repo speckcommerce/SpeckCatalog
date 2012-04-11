@@ -221,6 +221,13 @@ return array(
                 ),
             ), 
 
+            'Catalog\Model\Mapper\ImageMapper' => array(
+                'parameters' => array(
+                    'readAdapter'  => 'catalog_read_db',
+                    'writeAdapter' => 'catalog_write_db',
+                ),
+            ), 
+
             'Catalog\Model\Mapper\SpecMapper' => array(
                 'parameters' => array(
                     'readAdapter'  => 'catalog_read_db',

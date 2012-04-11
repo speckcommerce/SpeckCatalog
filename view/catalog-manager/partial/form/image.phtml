@@ -1,0 +1,15 @@
+<form id="image-<?=$image->getImageId();?>" class="live-form">
+
+    <input type="hidden" name="image_id" value="<?=$image->getImageId();?>"/>
+    <div class="row">
+        <div class="span3">
+            <span class="smallcaps">label</span><br/>
+            <input name="label" class="span3" type="text" value="<?=$image->getLabel();?>"/>
+        </div>  
+        <div class="span3">
+            <span class="smallcaps">filename</span><br/>
+            <input name="filename" class="span3" type="text" value="<?=$image->getFilename();?>"/>
+        </div>  
+    </div>
+
+</form><br/>  

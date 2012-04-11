@@ -5,7 +5,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Uom, 
     ArrayObject;
 
-class UomMapper extends DbMapperAbstract
+class UomMapper extends ModelMapperAbstract
 {
     protected $tableName = 'ansi_uom';
 

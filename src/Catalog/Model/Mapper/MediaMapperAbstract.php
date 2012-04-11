@@ -1,7 +1,7 @@
 <?php
 namespace Catalog\Model\Mapper;
 use ArrayObject;
-abstract class MediaMapperAbstract extends DbMapperAbstract
+abstract class MediaMapperAbstract extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_media';
 

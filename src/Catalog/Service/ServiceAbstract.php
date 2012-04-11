@@ -5,7 +5,6 @@ namespace Catalog\Service;
 
 /**
  * ServiceAbstract 
- * TODO: needs an interface
  */
 abstract class ServiceAbstract implements ServiceInterface
 {
@@ -68,11 +67,11 @@ abstract class ServiceAbstract implements ServiceInterface
 
     public function getModelMapper()
     {
-        if($this->modelMapper InstanceOf \Catalog\Model\Mapper\DbMapperAbstract){
+        if($this->modelMapper InstanceOf \Catalog\Model\Mapper\ModelMapperAbstract){
             return $this->modelMapper;
         }else{
             var_dump($this->modelMapper);
-            throw new Exception('not instance of DbMapperAbstract');
+            throw new Exception('not instance of ModelMapperAbstract');
         }
     }     
  

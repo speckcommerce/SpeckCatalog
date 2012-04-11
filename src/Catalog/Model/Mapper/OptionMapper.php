@@ -4,7 +4,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Option,
     ArrayObject; 
 
-class OptionMapper extends DbMapperAbstract
+class OptionMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_option';
     protected $productLinkerTableName = 'catalog_product_option_linker';

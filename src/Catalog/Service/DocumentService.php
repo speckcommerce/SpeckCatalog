@@ -2,12 +2,6 @@
 namespace Catalog\Service;
 class DocumentService extends MediaServiceAbstract
 {
-    public function populateModel($model)
-    {
-        $model->setBaseUrl('http://cdn.yoursite.com/documents/');
-        return $model;
-    }
-
     public function newProductDocument($productId)
     {
         return $this->getModelMapper()->newModel();

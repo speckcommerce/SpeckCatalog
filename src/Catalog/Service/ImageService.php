@@ -2,11 +2,6 @@
 namespace Catalog\Service;
 class ImageService extends MediaServiceAbstract
 {
-    public function populateModel($model)
-    {
-        $model->setBaseUrl('http://cdn.yoursite.com/images/');
-        return $model;
-    }
     
     public function newProductImage($productId)
     {
@@ -20,5 +15,5 @@ class ImageService extends MediaServiceAbstract
             $images[$i] = $this->populateModel($image);
         }
         return $images;
-    }  
+    }
 }

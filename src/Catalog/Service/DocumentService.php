@@ -7,11 +7,6 @@ class DocumentService extends MediaServiceAbstract
         return $this->getModelMapper()->newModel();
     }
 
-    public function linkParentProduct($productId, $documentId)
-    {
-        $this->getModelMapper()->linkParentProduct($productId, $documentId);
-    }
-
     public function getDocumentsByProductId($productId)
     {
         return $this->getModelMapper()->getDocumentsByProductId($productId);

@@ -2,6 +2,9 @@
 
     <input type="hidden" name="image_id" value="<?=$image->getImageId();?>"/>
     <div class="row">
+        <div class="span1">
+        <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
+        </div> 
         <div class="span3">
             <span class="smallcaps">label</span><br/>
             <input name="label" class="span3" type="text" value="<?=$image->getLabel();?>"/>

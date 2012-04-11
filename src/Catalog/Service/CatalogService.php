@@ -56,7 +56,6 @@ class CatalogService
     {
         $getModelService = 'get' . ucfirst($class) . 'Service';
         $modelService = $this->$getModelService();
-        var_dump($modelService);
         $model = $modelService->newModel($constructor);
 
         if($relationData){

@@ -106,10 +106,6 @@
 
         <div id="specs" class="tab-pane boundary">
             <div class="list-wrap">
-                <div class="child-expand list-items-helper">
-                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
-                    <div class="expand-all"><i class="icon-arrow-down"></i></div>   
-                </div>
                 <div class="list-items">
                     <? if ($product->hasSpecs()) : ?>
                         <? foreach ($product->getSpecs() as $spec) : ?>
@@ -139,10 +135,6 @@
 
         <div id="documents" class="tab-pane boundary">
             <div class="list-wrap">
-                <div class="child-expand list-items-helper">
-                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
-                    <div class="expand-all"><i class="icon-arrow-down"></i></div>   
-                </div>
                 <div class="list-items">
                     <? if ($product->hasDocuments()) : ?>
                         <? foreach ($product->getDocuments() as $document) : ?>
@@ -172,10 +164,6 @@
 
         <div id="images" class="tab-pane boundary">
             <div class="list-wrap">
-                <div class="child-expand list-items-helper">
-                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
-                    <div class="expand-all"><i class="icon-arrow-down"></i></div>   
-                </div>
                 <div class="list-items">
                     <? if ($product->hasImages()) : ?>
                         <? foreach ($product->getImages() as $image) : ?>

@@ -6,6 +6,7 @@ abstract class MediaAbstract extends ModelAbstract
     protected $label;
     protected $fileName;
     protected $mediaType;
+    protected $baseUrl;
 
     public function getId()
     {
@@ -63,6 +64,34 @@ abstract class MediaAbstract extends ModelAbstract
     public function setMediaType($mediaType)
     {
         $this->mediaType = $mediaType;
+        return $this;
+    }
+
+    public function getFullPath()
+    {
+        if($this->getBaseUrl() 
+            && $this->getFileName()
+            && @fopen($this->getBaseUrl() . $this->getFileName(),'r') 
+        ){
+            return $this->getBaseUrl() . $this->getFileName();
+        }else{
+            return $this->noFile();
+        }
+    }
+    
+    public function noFile()
+    {
+        return '';
+    }  
+ 
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+ 
+    public function setBaseUrl($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
         return $this;
     }
 }

@@ -175,7 +175,7 @@ class CatalogMapper extends ModelMapperAbstract
             CREATE TABLE IF NOT EXISTS `catalog_media` (
               `media_id` int(11) NOT NULL AUTO_INCREMENT,
               `label` varchar(255) NOT NULL,
-              `filename` varchar(255) NOT NULL,
+              `file_name` varchar(255) NOT NULL,
               `search_data` text NOT NULL,
               PRIMARY KEY (`media_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

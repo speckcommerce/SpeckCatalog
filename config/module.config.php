@@ -43,7 +43,6 @@ return array(
                     'specService'         => 'Catalog\Service\SpecService',
                     'documentService'     => 'Catalog\Service\DocumentService',
                     'imageService'        => 'Catalog\Service\ImageService',
-                    'mapper'              => 'Catalog\Model\Mapper\MYSQL_CatalogMapper',
                 ),
             ),
 
@@ -143,7 +142,7 @@ return array(
 
             'Catalog\Service\Installer' => array(
                 'parameters' => array(
-                    'catalogService' => 'Catalog\Service\CatalogService',
+                    'mapper' => 'Catalog\Model\Mapper\CatalogMapper',
                 ),
             ),
 
@@ -235,7 +234,7 @@ return array(
                 ),
             ), 
 
-            'Catalog\Model\Mapper\MYSQL_CatalogMapper' => array(
+            'Catalog\Model\Mapper\CatalogMapper' => array(
                 'parameters' => array(
                     'readAdapter'  => 'catalog_read_db',
                     'writeAdapter' => 'catalog_write_db',

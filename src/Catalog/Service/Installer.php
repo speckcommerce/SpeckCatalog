@@ -4,11 +4,11 @@ namespace Catalog\Service;
 
 class Installer
 {
-    private $catalogService;
+    protected $mapper;
 
     public function install()
     {
-        $this->getCatalogService()->createCatalog();
+        $this->getMapper()->createCatalog();
         $this->copyDirectory('module/SpeckCatalog/public', 'public');
     }
 
@@ -34,14 +34,19 @@ class Installer
         }
     }
 
-    public function getCatalogService()
+    public function getMapper()
     {
-        return $this->catalogService;
+        return $this->mapper;
     }
- 
-    public function setCatalogService($catalogService)
+
+    public function setMapper($mapper)
     {
-        $this->catalogService = $catalogService;
+        if($mapper instanceof \Catalog\Model\Mapper\ModelMapperAbstract){
+            $this->mapper = $mapper;
+        }else{
+            var_dump($mapper);
+            die('not instance of ModelMapperAbstract');
+        }
         return $this;
-    }
+    }    
 }   

@@ -110,7 +110,7 @@
                 //var order = $(this).sortable("serialize") + '&action=updateRecordsListings' 
                 //$.post("updateDB.php", order, function(theResponse){
                 //    $("#contentRight").html(theResponse)
-                //}) 															 
+                //}) 								 
             }
         })
     }       
@@ -119,7 +119,11 @@
         hideModal()
         $.post("/catalogmanager/fetch-partial", data, function(html){
             $('.target').append(html)
-            initialCollapse()
+            if(data[1]['name'] === 'new_class_name' && data[1]['value']){
+                initialCollapse('skip')
+            }else{
+                initialCollapse()
+            }
             $('.target').children().last().hide().addClass('appearing').slideDown(200, function(){
                 $(this).removeClass('appearing', 200)
             })
@@ -198,13 +202,17 @@
         getContent(this).slideToggle(100)
     })
 
-    function initialCollapse(){
-        $('.initialCollapse').toggleClass('icon-chevron-down icon-chevron-right')
-            .removeClass('initialCollapse').parent().parent().siblings().hide()
+    function initialCollapse(skip){
+        if(skip){
+            //dont hide them, just remove the initialCollapse class (used for new partials)
+            $('.initialCollapse').removeClass('initialCollapse')
+        }else{
+            $('.initialCollapse').toggleClass('icon-chevron-down icon-chevron-right')
+                .removeClass('initialCollapse').parent().parent().siblings().hide()
+        }
     }     
 
 $(document).ready(function(){
     initialCollapse()
     doSort()
-})   
-
+})

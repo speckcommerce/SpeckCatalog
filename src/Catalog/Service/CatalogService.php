@@ -15,7 +15,7 @@ class CatalogService
     protected $imageService;
     protected $documentService;
 
-    protected $mapper;
+    protected $mysqlMapper;
 
     public function getModel($class, $id=null)
     {
@@ -74,7 +74,8 @@ class CatalogService
 
     public function createCatalog()
     {
-        return $this->getMapper()->createCatalog();
+        var_dump($this->getMysqlMapper());die();
+        return $this->getMysqlMapper()->createCatalog();
     }
 
     public function truncateCatalog()
@@ -96,17 +97,6 @@ class CatalogService
     public function setProductService($productService)
     {
         $this->productService = $productService;
-        return $this;
-    }
- 
-    public function getMapper()
-    {
-        return $this->mapper;
-    }
- 
-    public function setMapper($mapper)
-    {
-        $this->mapper = $mapper;
         return $this;
     }
 
@@ -195,6 +185,22 @@ class CatalogService
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;
+        return $this;
+    }
+
+    public function getMysqlMapper()
+    {
+        return $this->mysqlMapper;
+    }
+
+    public function setMysqlMapper($mysqlMapper)
+    {
+        if($mysqlMapper instanceof \Catalog\Model\Mapper\ModelMapperAbstract){
+            $this->mysqlMapper = $mysqlMapper;
+        }else{
+            var_dump($mysqlMapper);
+            die('not instance of modelMapperAbstract');
+        }
         return $this;
     }
 }

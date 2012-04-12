@@ -1,12 +1,6 @@
 <?php
-
 namespace Catalog\Model\Mapper;
-
-use Catalog\Model\Product, 
-    Catalog\Model\Item,
-    ArrayObject;
-
-class MYSQL_CatalogMapper extends DbMapperAbstract
+class CatalogMapper extends ModelMapperAbstract
 {
     public function truncateCatalog()
     {
@@ -39,7 +33,6 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
 
-
         $categoryHierarchy = "
             CREATE TABLE IF NOT EXISTS `catalog_category_category_linker` (
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -49,7 +42,7 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
 
-        $categoryProducts = "
+        $categoryProduct = "
             CREATE TABLE IF NOT EXISTS `catalog_category_product_linker` (
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
               `category_id` int(11) NOT NULL,
@@ -178,30 +171,41 @@ class MYSQL_CatalogMapper extends DbMapperAbstract
             ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
         ";
 
-        $document = "
-            CREATE TABLE IF NOT EXISTS `catalog_document` (
-              `document_id` int(11) NOT NULL AUTO_INCREMENT,
+        $media = "
+            CREATE TABLE IF NOT EXISTS `catalog_media` (
+              `media_id` int(11) NOT NULL AUTO_INCREMENT,
               `label` varchar(255) NOT NULL,
               `filename` varchar(255) NOT NULL,
               `search_data` text NOT NULL,
-              PRIMARY KEY (`document_id`)
+              PRIMARY KEY (`media_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
 
-        $productDocument = "
+        $image = "
+            CREATE TABLE IF NOT EXISTS `catalog_product_image_linker` (
+              `product_id` int(11) NOT NULL,
+              `media_id` int(11) NOT NULL,
+              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              PRIMARY KEY (`linker_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        ";
+
+        $document = "
             CREATE TABLE IF NOT EXISTS `catalog_product_document_linker` (
               `product_id` int(11) NOT NULL,
-              `document_id` int(11) NOT NULL,
+              `media_id` int(11) NOT NULL,
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
               PRIMARY KEY (`linker_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
 
         $tables = array(
-            $availability, $choice, $choiceOptionLinker, $productDocument, $document,
+            $choice, $choiceOptionLinker, $option, $optionChoiceLinker, 
+            $media, $image, $document,
+            $productUom, $availability,
             $categoryHierarchy, $categoryProduct, $category, 
-            $company, $option, $optionChoiceLinker, $spec, 
-            $optionHelper, $product, $productOptionLinker, $productUom
+            $company,  $spec, 
+            $optionHelper, $product, $productOptionLinker, 
         );
         
         foreach($tables as $createStatement){

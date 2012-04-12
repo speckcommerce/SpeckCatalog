@@ -6,24 +6,25 @@
      * $getNameMethod = the method called to get the display name from the model 
      */
     echo '<option> --- </option>';
+    if(isset($data) && is_array($data)){
+        foreach($data as $option){
 
-    foreach($data as $option){
+            if(is_string($option)){
+                echo '<option ';
+                if($selectedId === $option){
+                    echo 'selected="SELECTED" ';
+                };
+                echo 'value="' . $option . '">';
+                echo $option . '</option>';
+            }else{
+                echo '<option ';
+                if($selectedId === $option->$getIdMethod()){
+                    echo 'selected="SELECTED" ';
+                };
+                echo 'value="' . $option->$getIdMethod() . '">';
+                echo $option->$getNameMethod() . '</option>';
+            }
 
-        if(is_string($option)){
-            echo '<option ';
-            if($selectedId === $option){
-                echo 'selected="SELECTED" ';
-            };
-            echo 'value="' . $option . '">';
-            echo $option . '</option>';
-        }else{
-            echo '<option ';
-            if($selectedId === $option->$getIdMethod()){
-                echo 'selected="SELECTED" ';
-            };
-            echo 'value="' . $option->$getIdMethod() . '">';
-            echo $option->$getNameMethod() . '</option>';
         }
-
-    };
+    }
 ?>

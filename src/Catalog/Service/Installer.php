@@ -10,6 +10,7 @@ class Installer
     {
         $this->getMapper()->createCatalog();
         $this->copyDirectory('module/SpeckCatalog/public', 'public');
+        copy('module/SpeckCatalog/config/speckcatalog.local.config.php.dist', 'config/autoload/speckcatalog.local.config.php.dist');
     }
 
     public function copyDirectory( $source, $destination ) {

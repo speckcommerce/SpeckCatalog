@@ -15,8 +15,6 @@ class CatalogService
     protected $imageService;
     protected $documentService;
 
-    protected $mysqlMapper;
-
     public function getModel($class, $id=null)
     {
         if(0 === (int) $id){
@@ -185,22 +183,6 @@ class CatalogService
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;
-        return $this;
-    }
-
-    public function getMysqlMapper()
-    {
-        return $this->mysqlMapper;
-    }
-
-    public function setMysqlMapper($mysqlMapper)
-    {
-        if($mysqlMapper instanceof \Catalog\Model\Mapper\ModelMapperAbstract){
-            $this->mysqlMapper = $mysqlMapper;
-        }else{
-            var_dump($mysqlMapper);
-            die('not instance of modelMapperAbstract');
-        }
         return $this;
     }
 }

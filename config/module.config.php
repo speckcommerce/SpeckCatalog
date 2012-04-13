@@ -316,7 +316,7 @@ return array(
                                 'sort' => array(
                                     'type'    => 'Segment',
                                     'options' => array(
-                                        'route'    => '/sort/:type',
+                                        'route'    => '/sort/:type/:parent',
                                         'defaults' => array(
                                             'action' => 'sort',
                                         ),

@@ -107,7 +107,9 @@
             axis: 'y',          
             forcePlaceholderSize: true,
             update: function() {
-                //var order = $(this).sortable("serialize") + '&action=updateRecordsListings' 
+                var order = $(this).sortable('toArray').toString()//+ '&action=updateRecordsListings'      
+                var segments = order.split(',');        
+                console.log(segments);
                 //$.post("updateDB.php", order, function(theResponse){
                 //    $("#contentRight").html(theResponse)
                 //}) 								 

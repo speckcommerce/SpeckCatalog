@@ -65,15 +65,18 @@ class CatalogService
         return $model;
     }
 
+    public function updateSortOrder($class, $parent, $order)
+    {
+        $getModelService = 'get' . ucfirst($class) . 'Service';
+        $modelService = $this->$getModelService();
+        $result = $modelService->updateSortOrder($parent, $order);
+
+        var_dump($result);
+    }
+
     public function getCategories()
     {
         return $this->getCategoryService()->getChildCategories(0);
-    }
-
-    public function createCatalog()
-    {
-        var_dump($this->getMysqlMapper());die();
-        return $this->getMysqlMapper()->createCatalog();
     }
 
     public function truncateCatalog()

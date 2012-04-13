@@ -25,7 +25,7 @@
                 <div class="expand-all"><i class="icon-arrow-down"></i></div>    
                     <span class="smallcaps">&nbsp;options</span><br/>
                 </div>  
-                <div class="list-items">
+                <div class="list-items" hint="choice_option">
                     <? if ($choice->hasOptions()) : ?>
                         <? foreach($choice->getOptions() as $option) : ?>
                             <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>

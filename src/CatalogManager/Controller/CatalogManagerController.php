@@ -109,6 +109,15 @@ class CatalogManagerController extends ActionController
         return $this->getCatalogService()->update($class, $id, $_POST);
     }
 
+    public function sortAction()
+    {
+        $order = explode(',', $_POST['order']);
+        $type = $this->getEvent()->getRouteMatch()->getParam('type');
+        $parent = $this->getEvent()->getRouteMatch()->getParam('parent');
+        $result = $this->getCatalogService()->updateSortOrder($type, $parent, $order);
+        die();
+    }
+
     public function remove()
     {
         die($this->getModelLinkerService->remove($_POST));

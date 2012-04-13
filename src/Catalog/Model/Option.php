@@ -27,6 +27,13 @@ class Option extends ModelAbstract
 
     protected $choiceUomAdjustments;
 
+    
+    /* Linker */
+    protected $linkerId;
+    protected $sortWeight; 
+
+
+
     public function addChoice(Choice $choice)
     {
         $this->choices[] = $choice;
@@ -167,6 +174,28 @@ class Option extends ModelAbstract
         if('slider' === $this->getType()){
             $this->slider = $slider;
         }
+        return $this;
+    }
+ 
+    public function getLinkerId()
+    {
+        return $this->linkerId;
+    }
+ 
+    public function setLinkerId($linkerId)
+    {
+        $this->linkerId = $linkerId;
+        return $this;
+    }
+
+    public function getSortWeight()
+    {
+        return $this->sortWeight;
+    }
+
+    public function setSortWeight($sortWeight)
+    {
+        $this->sortWeight = $sortWeight;
         return $this;
     }
 }

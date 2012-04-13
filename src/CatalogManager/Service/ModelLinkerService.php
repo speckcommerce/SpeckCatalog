@@ -41,11 +41,15 @@ class ModelLinkerService
         $modelService = $newClassName . 'Service';
         $newClass = 'new' . ucfirst($parentClassName) . ucfirst($newClassName);
         $model = $this->$modelService->$newClass($parentId);
-        $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
+        $linkerId = $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
         if($childClassName && $childId){
-            $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
+            $linkerId = $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
         }
         $model = $this->$modelService->getById($model->getId());
+        if(isset($linkerId)){
+            $model->setSortWeight(0);
+            $model->setLinkerId($linkerId);
+        }
         return $model;
 
     }
@@ -62,11 +66,13 @@ class ModelLinkerService
         $modelService = $className . 'Service';
         $linkParentClass = 'linkParent' . ucfirst($parentClassName);
         if(method_exists($this->$modelService, $linkParentClass)){
-            $this->$modelService->$linkParentClass($parentId, $id);
+            $linkerId = $this->$modelService->$linkParentClass($parentId, $id);
             echo '<script>console.log(\'' . $modelService . '::' . $linkParentClass . ' - called\')</script>';
         } else {
+            $linkerId = 'Z';
             echo '<script>console.log(\'' . $modelService . '::' . $linkParentClass . ' - NOT called\')</script>';
         }
+        return $linkerId;
     }    
 
     public function getOptionService()

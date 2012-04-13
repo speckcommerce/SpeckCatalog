@@ -53,7 +53,7 @@
                     <div class="collapse-all"><i class="icon-arrow-up"></i></div>
                     <div class="expand-all"><i class="icon-arrow-down"></i></div>   
                 </div>
-                <div class="list-items">
+                <div class="list-items" type="option" parent="product">
                     <? if ($product->hasOptions()) : ?>
                         <? foreach ($product->getOptions() as $option) : ?>
                             <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>

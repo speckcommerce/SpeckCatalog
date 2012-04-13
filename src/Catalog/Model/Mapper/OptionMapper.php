@@ -21,7 +21,8 @@ class OptionMapper extends ModelMapperAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->join($this->getProductLinkerTableName(), $this->getProductLinkerTableName().'.option_id = '.$this->getTableName().'.option_id') 
-            ->where( $this->getProductLinkerTableName().'.product_id = ?', $productId);
+            ->where( $this->getProductLinkerTableName().'.product_id = ?', $productId)
+            ->order('sort_weight DESC');
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
@@ -40,7 +41,8 @@ class OptionMapper extends ModelMapperAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->join($this->getChoiceLinkerTableName(), $this->getChoiceLinkerTableName().'.option_id = '.$this->getTableName().'.option_id') 
-            ->where( $this->getChoiceLinkerTableName().'.choice_id = ?', $choiceId);
+            ->where( $this->getChoiceLinkerTableName().'.choice_id = ?', $choiceId)
+            ->order('sort_weight DESC');
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
@@ -69,6 +71,7 @@ class OptionMapper extends ModelMapperAbstract
             ));
             $db->insert($this->getProductLinkerTableName(), (array) $data);
         }
+        return $db->lastInsertId();
     }
     
     public function linkOptionToChoice($choiceId, $optionId)
@@ -87,6 +90,17 @@ class OptionMapper extends ModelMapperAbstract
             ));
             $db->insert($this->getChoiceLinkerTableName(), (array) $data);
         }
+        return $db->lastInsertId();
+    }
+
+    public function updateChoiceOptionSortOrder($order)
+    {
+        $this->updateSort('catalog_choice_option_linker', $order);
+    }
+
+    public function updateProductOptionSortOrder($order)
+    {
+        $this->updateSort('catalog_product_option_linker', $order);
     }
 
     public function getChoiceLinkerTableName(){

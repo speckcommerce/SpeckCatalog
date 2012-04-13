@@ -313,6 +313,15 @@ return array(
                                         ),
                                     ),
                                 ),
+                                'sort' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/sort/:type',
+                                        'defaults' => array(
+                                            'action' => 'sort',
+                                        ),
+                                    ),
+                                ),
                                 'fetch-partial' => array(
                                     'type'    => 'literal',
                                     'options' => array(

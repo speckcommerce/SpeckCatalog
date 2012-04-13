@@ -19,7 +19,7 @@
                 <div class="expand-all"><i class="icon-arrow-down"></i></div>
                 <span class="smallcaps">&nbsp;choices</span>
             </div>
-            <div class="list-items">
+            <div class="list-items" type="choice" parent="option">
                 <? if ($option->hasChoices()) : ?>
                     <? foreach($option->getChoices() as $choice) : ?>
                         <?=$this->partial($pdir.'choice.phtml', array('choice' => $choice));?>

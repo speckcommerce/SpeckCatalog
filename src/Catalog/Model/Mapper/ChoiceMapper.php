@@ -19,7 +19,8 @@ class ChoiceMapper extends ModelMapperAbstract
         $sql = $db->select()
                   ->from($this->getTableName())
                   ->join('catalog_option_choice_linker', 'catalog_option_choice_linker'.'.choice_id = '.$this->getTableName().'.choice_id') 
-                  ->where('option_id = ?', $optionId);
+                  ->where('option_id = ?', $optionId)
+                  ->order('sort_weight DESC');
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
@@ -51,7 +52,12 @@ class ChoiceMapper extends ModelMapperAbstract
                 var_dump($result);
                 die('something didnt work!');
             }
-            
         }
+        return $db->lastInsertId();
+    }
+
+    public function updateOptionChoiceSortOrder($order)
+    {
+        $this->updateSort('catalog_option_choice_linker', $order);
     }   
 }

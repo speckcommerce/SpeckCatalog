@@ -36,6 +36,9 @@ class Choice extends ModelAbstract
 
     protected $naChoices = array();
 
+    protected $linkerId;
+    protected $sortWeight;
+
     public function getProduct()
     {
         return $this->product;
@@ -242,6 +245,28 @@ class Choice extends ModelAbstract
     public function setParentOptions($parentOptions)
     {
         $this->parentOptions = $parentOptions;
+        return $this;
+    }
+
+    public function getLinkerId()
+    {
+        return $this->linkerId;
+    }
+
+    public function setLinkerId($linkerId)
+    {
+        $this->linkerId = $linkerId;
+        return $this;
+    }
+
+    public function getSortWeight()
+    {
+        return $this->sortWeight;
+    }
+
+    public function setSortWeight($sortWeight)
+    {
+        $this->sortWeight = $sortWeight;
         return $this;
     }
 }

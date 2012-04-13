@@ -49,6 +49,13 @@ class ChoiceService extends ServiceAbstract
         return $choice;
     }
 
+    public function updateSortOrder($parent, $order)
+    {
+        if('option' === $parent){
+            $this->getModelMapper()->updateOptionChoiceSortOrder($order);
+        }
+    }  
+
     public function linkParentOption($optionId, $choiceId)
     {
         return $this->getModelMapper()->linkParentOption($optionId, $choiceId);

@@ -77,6 +77,7 @@ class CatalogMapper extends ModelMapperAbstract
               `choice_id` int(11) NOT NULL,
               `option_id` int(11) NOT NULL,
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              `sort_weight` int(11) NOT NULL DEFAULT '0',
               PRIMARY KEY (`linker_id`),
               UNIQUE KEY `link` (`choice_id`,`option_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -108,6 +109,7 @@ class CatalogMapper extends ModelMapperAbstract
               `option_id` int(11) NOT NULL,
               `choice_id` int(11) NOT NULL,
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              `sort_weight` int(11) NOT NULL DEFAULT '0',
               PRIMARY KEY (`linker_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
@@ -142,6 +144,7 @@ class CatalogMapper extends ModelMapperAbstract
               `product_id` int(11) NOT NULL,
               `option_id` int(11) NOT NULL,
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              `sort_weight` int(11) NOT NULL DEFAULT '0',
               PRIMARY KEY (`linker_id`),
               UNIQUE KEY `link` (`option_id`,`product_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -186,6 +189,7 @@ class CatalogMapper extends ModelMapperAbstract
               `product_id` int(11) NOT NULL,
               `media_id` int(11) NOT NULL,
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              `sort_weight` int(11) NOT NULL DEFAULT '0',
               PRIMARY KEY (`linker_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";
@@ -195,6 +199,7 @@ class CatalogMapper extends ModelMapperAbstract
               `product_id` int(11) NOT NULL,
               `media_id` int(11) NOT NULL,
               `linker_id` int(11) NOT NULL AUTO_INCREMENT,
+              `sort_weight` int(11) NOT NULL DEFAULT '0',
               PRIMARY KEY (`linker_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";

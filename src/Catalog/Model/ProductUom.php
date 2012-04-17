@@ -161,8 +161,4 @@ class ProductUom extends ModelAbstract
         return $this->setProductUomId($id);
     }   
 
-    public function getLinkerId()
-    {
-        return $this->productUomId;
-    }
 }

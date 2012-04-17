@@ -31,5 +31,10 @@ class ProductUomMapper extends ModelMapperAbstract
             }
         }
         return $productUoms;
+    }
+    public function removeLinker($id)
+    {
+        //no linker, delete the actual record!
+        return $this->deleteById($id);
     }  
 }

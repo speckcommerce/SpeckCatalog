@@ -322,6 +322,15 @@ return array(
                                         ),
                                     ),
                                 ),
+                                'remove' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/remove/:type/:linkerId',
+                                        'defaults' => array(
+                                            'action' => 'remove',
+                                        ),
+                                    ),
+                                ),
                                 'fetch-partial' => array(
                                     'type'    => 'literal',
                                     'options' => array(

@@ -69,22 +69,32 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         }
     }  
 
-    public function updateSort($table, $order)
+    public function updateSort($table, $order, $idField = null)
     {
         $db = $this->getWriteAdapter();
         $weight = count($order);
+        $return = '';
         foreach($order as $linkerId){
             $row = array(
                 'sort_weight' => $weight,
             );
-            $sql = "update {$table} set sort_weight = {$weight} where linker_id = {$linkerId};";
-            echo $sql;
+            if (null === $idField){
+                $idField = 'linker_id';
+            }
+            $sql = "update {$table} set sort_weight = {$weight} where {$idField} = {$linkerId};";
+            $return .= $sql . "\n";
             $db->query($sql);
             //$result = $db->update($table, $row, $db->quoteInto('linker_id = ?', $linkerId));
             $weight--;
         }
+        return $return;
     }
 
+    public function deleteLinker($table, $linkerId)
+    {
+        $db = $this->getWriteAdapter();
+        return $db->delete($table, 'linker_id = ' . $linkerId);
+    }
     
     /**
      * deleteById 

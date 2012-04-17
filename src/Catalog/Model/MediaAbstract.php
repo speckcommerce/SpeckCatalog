@@ -8,6 +8,9 @@ abstract class MediaAbstract extends ModelAbstract
     protected $mediaType;
     protected $baseUrl;
 
+    protected $sortWeight;
+    protected $linkerId;
+
     public function getId()
     {
         return $this->getMediaId();
@@ -92,6 +95,38 @@ abstract class MediaAbstract extends ModelAbstract
     public function setBaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
+        return $this;
+    }
+
+    public function getSortWeight()
+    {
+        return $this->sortWeight;
+    }
+
+    public function setSortWeight($sortWeight)
+    {
+        $this->sortWeight = $sortWeight;
+        return $this;
+    }
+ 
+    /**
+     * Get linkerId.
+     *
+     * @return linkerId
+     */
+    public function getLinkerId()
+    {
+        return $this->linkerId;
+    }
+ 
+    /**
+     * Set linkerId.
+     *
+     * @param $linkerId the value to be set
+     */
+    public function setLinkerId($linkerId)
+    {
+        $this->linkerId = $linkerId;
         return $this;
     }
 }

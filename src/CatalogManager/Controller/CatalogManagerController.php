@@ -10,7 +10,6 @@ use Zend\Mvc\Controller\ActionController,
 class CatalogManagerController extends ActionController
 {
     protected $catalogService;
-    protected $modelLinkerService;
     
     public function layout($layout=null)
     {
@@ -95,7 +94,7 @@ class CatalogManagerController extends ActionController
         $this->layout(false);
         $partialName = $_POST['partial_name'];
         $class = ($_POST['class_name'] ? $_POST['class_name'] : $_POST['new_class_name']);
-        $model = $this->getModelLinkerService()->linkModel($_POST);
+        $model = $this->getCatalogService()->linkModel($_POST);
         return new ViewModel(array(
             $class => $model,
             'partial' => $_POST['partial_name'],
@@ -114,13 +113,14 @@ class CatalogManagerController extends ActionController
         $order = explode(',', $_POST['order']);
         $type = $this->getEvent()->getRouteMatch()->getParam('type');
         $parent = $this->getEvent()->getRouteMatch()->getParam('parent');
-        $result = $this->getCatalogService()->updateSortOrder($type, $parent, $order);
-        die();
+        die($this->getCatalogService()->updateSortOrder($type, $parent, $order));
     }
 
-    public function remove()
+    public function removeAction()
     {
-        die($this->getModelLinkerService->remove($_POST));
+        $type = $this->getEvent()->getRouteMatch()->getParam('type');
+        $linkerId = $this->getEvent()->getRouteMatch()->getParam('linkerId');
+        die($this->getCatalogService()->removeLinker($type, $linkerId));
     }
     
     public function getCatalogService()
@@ -131,17 +131,6 @@ class CatalogManagerController extends ActionController
     public function setCatalogService($catalogService)
     {
         $this->catalogService = $catalogService;
-        return $this;
-    }
-
-    public function getModelLinkerService()
-    {
-        return $this->modelLinkerService;
-    }
-
-    public function setModelLinkerService($modelLinkerService)
-    {
-        $this->modelLinkerService = $modelLinkerService;
         return $this;
     }
 }   

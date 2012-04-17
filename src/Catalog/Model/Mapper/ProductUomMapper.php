@@ -19,7 +19,8 @@ class ProductUomMapper extends ModelMapperAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->where('parent_product_id = ?', $productId);
+                  ->where('parent_product_id = ?', $productId)
+                  ->order('price DESC');//note: this isnt working, figure out why
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 

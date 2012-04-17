@@ -58,6 +58,6 @@ class ChoiceMapper extends ModelMapperAbstract
 
     public function updateOptionChoiceSortOrder($order)
     {
-        $this->updateSort('catalog_option_choice_linker', $order);
+        return $this->updateSort('catalog_option_choice_linker', $order);
     }   
 }

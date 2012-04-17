@@ -25,7 +25,8 @@ class ImageMapper extends MediaMapperAbstract
                 $this->getTableName(), 
                 $this->getLinkerTableName().'.media_id = '.$this->getTableName().'.media_id'
             )       
-            ->where('product_id = ?', $productId);
+            ->where('product_id = ?', $productId)
+            ->order('sort_weight DESC');
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
@@ -54,6 +55,16 @@ class ImageMapper extends MediaMapperAbstract
             ));
             $db->insert($this->getLinkerTableName(), (array) $data);
         }
-    } 
+    }  
+
+    public function updateProductImageSortOrder($order)
+    {
+        return $this->updateSort('catalog_product_image_linker', $order);
+    }
+    
+    public function removeLinker($linkerId)
+    {
+        return $this->deleteLinker('catalog_product_image_linker', $linkerId);
+    }
 }
 

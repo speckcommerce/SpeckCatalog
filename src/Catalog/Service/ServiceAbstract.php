@@ -54,6 +54,11 @@ abstract class ServiceAbstract implements ServiceInterface
         return $this->getById($model->getId());  
     }
 
+    public function removeLinker($linkerId)
+    {
+        return $this->getModelMapper()->removeLinker($linkerId);
+    }
+
     public function delete($modelId)
     {
         return $this->getModelMapper()->deleteById($modelId);

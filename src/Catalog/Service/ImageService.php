@@ -16,4 +16,10 @@ class ImageService extends MediaServiceAbstract
         }
         return $images;
     }
+    
+    public function updateSortOrder($parent, $order)
+    {
+        $this->getModelMapper()->updateProductImageSortOrder($order);
+    }   
+
 }

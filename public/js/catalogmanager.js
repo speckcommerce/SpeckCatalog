@@ -4,6 +4,10 @@
     function getBoundary(ele){ 
         return $(ele).parentsUntil('.boundary').parent().first() 
     }
+    
+    function getLinkerId(ele){
+        return getBoundary(ele).attr('id');
+    }
 
     function getForm(ele){ 
         return getBoundary(ele).find('form').first() 
@@ -107,12 +111,15 @@
             axis: 'y',          
             forcePlaceholderSize: true,
             update: function() {
-                var order = $(this).sortable('toArray').toString()//+ '&action=updateRecordsListings'      
-                var segments = order.split(',');        
-                console.log(segments);
-                //$.post("updateDB.php", order, function(theResponse){
-                //    $("#contentRight").html(theResponse)
-                //}) 								 
+                var data = {
+                    order : $(this).sortable("toArray").toString(),
+                }
+                $.post(
+                    "/catalogmanager/sort/" + $(this).attr('type') + '/' + $(this).attr('parent'), 
+                    data, function(res){
+                        console.log(res);
+                    }
+                ) 								 
             }
         })
     }       
@@ -136,20 +143,15 @@
 
     $('.remover').live("dblclick", function(){
         var parts = getForm($(this)).attr('id').split('-')
-        if($(this).attr('parentId')){
-            var action = 'unlink'
+        var linkerId = getLinkerId($(this))
+        if(linkerId){
+            $.post('/catalogmanager/remove/' + parts[0] + '/' + linkerId)
+            getBoundary(this).addClass('removing').fadeOut(function(){
+                $(this).remove()
+            })
         }else{
-            var action = 'delete'
+            alert('does not have a linkerId ?!');
         }
-        var data = {
-            model:  parts[0],
-            id:     parts[1],
-            action: action,
-        }
-        $.post('/catalogmanager/remove', data)
-        getBoundary(this).addClass('removing').fadeOut(function(){
-            $(this).remove()
-        })
     })  
 
 

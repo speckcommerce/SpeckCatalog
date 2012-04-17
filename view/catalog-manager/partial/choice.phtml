@@ -6,7 +6,6 @@
         <? if(1===1 || $choice->isShared()) : ?>
             <div><i class="icon-eye-open" title="This choice is shared <?=count($choice->getParentOptions());?> times"></i></div>
         <? endif; ?>  
-
         <? if ($choice->hasOptions()) : ?>
             <div><span class="icon-list" title="has options"></span></div>
         <? elseif($choice->hasProduct()) : ?>

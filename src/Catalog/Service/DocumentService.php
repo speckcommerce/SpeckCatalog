@@ -15,4 +15,9 @@ class DocumentService extends MediaServiceAbstract
         }
         return $documents;
     }    
+
+    public function updateSortOrder($parent, $order)
+    {
+        $this->getModelMapper()->updateProductDocumentSortOrder($order);
+    }   
 }

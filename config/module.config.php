@@ -8,6 +8,8 @@ return array(
                 'masterzdb' => 'Zend\Db\Adapter\DiPdoMysql',
                 'catalog_read_db'         => 'masterzdb',
                 'catalog_write_db'        => 'masterzdb',
+                'product_service' => 'Catalog\Service\ProductService', //hacky -- fix me!
+                'option_service' => 'Catalog\Service\OptionService', //also hacky -- fix me next!
             ),
             'masterzdb' => array(
                 'parameters' => array(
@@ -34,10 +36,10 @@ return array(
              */
             'Catalog\Service\CatalogService' => array(
                 'parameters' => array(
-                    'productService'      => 'Catalog\Service\ProductService',
+                    'productService'      => 'product_service',
                     'productUomService'   => 'Catalog\Service\ProductUomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
-                    'optionService'       => 'Catalog\Service\OptionService',
+                    'optionService'       => 'option_service',
                     'choiceService'       => 'Catalog\Service\ChoiceService',
                     'categoryService'     => 'Catalog\Service\CategoryService',
                     'specService'         => 'Catalog\Service\SpecService',
@@ -46,10 +48,10 @@ return array(
                 ),
             ),
 
-            'Catalog\Service\ProductService' => array(
+            'product_service' => array(
                 'parameters' => array(
                     'modelMapper'       => 'Catalog\Model\Mapper\ProductMapper',
-                    'optionService'     => 'Catalog\Service\OptionService',
+                    'optionService'     => 'option_service',
                     'choiceService'     => 'Catalog\Service\ChoiceService',
                     'companyService'    => 'Catalog\Service\CompanyService',
                     'productUomService' => 'Catalog\Service\ProductUomService',
@@ -61,8 +63,8 @@ return array(
             
             'CatalogManager\Service\ModelLinkerService' => array(
                 'parameters' => array(
-                    'productService'      => 'Catalog\Service\ProductService',
-                    'optionService'       => 'Catalog\Service\OptionService',
+                    'productService'      => 'product_service',
+                    'optionService'       => 'option_service',
                     'choiceService'       => 'Catalog\Service\ChoiceService',
                     'productUomService'   => 'Catalog\Service\ProductUomService',
                     'availabilityService' => 'Catalog\Service\AvailabilityService',
@@ -85,7 +87,7 @@ return array(
                 ),
             ),
 
-            'Catalog\Service\OptionService' => array(
+            'option_service' => array(
                 'parameters' => array(
                     'modelMapper'   => 'Catalog\Model\Mapper\OptionMapper',
                     'choiceService' => 'Catalog\Service\ChoiceService',
@@ -94,7 +96,7 @@ return array(
             
             'Catalog\Service\CategoryService' => array(
                 'parameters' => array(
-                    'productService' => 'Catalog\Service\ProductService',
+                    'productService' => 'product_service',
                     'modelMapper'    => 'Catalog\Model\Mapper\CategoryMapper',
                 ),
             ),
@@ -102,8 +104,8 @@ return array(
             'Catalog\Service\ChoiceService' => array(
                 'parameters' => array(
                     'modelMapper'    => 'Catalog\Model\Mapper\ChoiceMapper',
-                    'optionService'  => 'Catalog\Service\OptionService',
-                    'productService' => 'Catalog\Service\ProductService',
+                    'optionService'  => 'option_service',
+                    'productService' => 'product_service',
                 ),
             ),
             

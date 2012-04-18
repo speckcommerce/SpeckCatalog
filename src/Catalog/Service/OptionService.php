@@ -8,7 +8,7 @@ class OptionService extends ServiceAbstract
     
     public function getOptionsByProductId($productId)
     {
-        $options = $this->modelMapper->getOptionsByProductId($productId);
+        $options = $this->getModelMapper()->getOptionsByProductId($productId);
         $return = array();
         foreach($options as $option){
             $return[] = $this->populateModel($option);

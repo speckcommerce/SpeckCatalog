@@ -159,6 +159,7 @@ class CatalogMapper extends ModelMapperAbstract
               `retail` float NOT NULL,
               `quantity` int(11) NOT NULL,
               `uom_code` varchar(2) NOT NULL DEFAULT 'EA',
+              `sort_weight` int(11) NOT NULL DEFAULT '0',
               PRIMARY KEY (`product_uom_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
         ";

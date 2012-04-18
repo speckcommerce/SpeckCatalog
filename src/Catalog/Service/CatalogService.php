@@ -56,6 +56,13 @@ class CatalogService
         return $modelService->updateSortOrder($parent, $order);
     }
 
+    public function newModel($class, $constructor = null)
+    {
+        var_dump($class); var_dump($constructor);
+        $modelService = $class . 'Service';
+        return $this->$modelService->newModel($constructor);
+    }
+
     public function linkModel($data)
     {
         $newClassName    = (isset($data['new_class_name'])    ? $data['new_class_name']    : null );
@@ -67,12 +74,12 @@ class CatalogService
         $parentId        = (isset($data['parent_id'])         ? $data['parent_id']         : null );
 
         if($newClassName){
-            return $this->newModel($newClassName, $parentClassName, $parentId, $childClassName, $childId);
+            return $this->linkNewModel($newClassName, $parentClassName, $parentId, $childClassName, $childId);
         }
-        return $this->existingModel($className, $id, $parentClassName, $parentId);
+        return $this->linkExistingModel($className, $id, $parentClassName, $parentId);
     }
     
-    private function newModel($newClassName, $parentClassName, $parentId, $childClassName = null, $childId = null)
+    private function linkNewModel($newClassName, $parentClassName, $parentId, $childClassName = null, $childId = null)
     { 
         $modelService = $newClassName . 'Service';
         $newClass = 'new' . ucfirst($parentClassName) . ucfirst($newClassName);
@@ -89,7 +96,7 @@ class CatalogService
         return $model;
     }
 
-    private function existingModel($className, $id, $parentClassName, $parentId)
+    private function linkExistingModel($className, $id, $parentClassName, $parentId)
     {
         $modelService = $className . 'Service';
         $this->linkParent($className, $id, $parentClassName, $parentId);

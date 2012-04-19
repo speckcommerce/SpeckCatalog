@@ -74,7 +74,6 @@ class ChoiceService extends ServiceAbstract
  
     public function setOptionService($optionService)
     {
-        var_dump($optionService);
         $this->optionService = $optionService;
         return $this;
     }

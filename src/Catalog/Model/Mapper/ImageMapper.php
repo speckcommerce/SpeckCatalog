@@ -11,11 +11,6 @@ class ImageMapper extends MediaMapperAbstract
         return new Image;
     }
 
-    public function getModelClass()
-    {
-        return 'media';
-    } 
-
     public function getImagesByProductId($productId)
     {
         $db = $this->getReadAdapter();

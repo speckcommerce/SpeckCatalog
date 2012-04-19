@@ -60,4 +60,9 @@ class ChoiceMapper extends ModelMapperAbstract
     {
         return $this->updateSort('catalog_option_choice_linker', $order);
     }   
+
+    public function removeLinker($linkerId)
+    {
+        return $this->deleteLinker('catalog_option_choice_linker', $linkerId);
+    }     
 }

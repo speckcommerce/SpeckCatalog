@@ -11,11 +11,6 @@ class DocumentMapper extends MediaMapperAbstract
         return new Document;
     }
 
-    public function getModelClass()
-    {
-        return 'media';
-    } 
-
     public function getDocumentsByProductId($productId)
     {
         $db = $this->getReadAdapter();

@@ -27,5 +27,10 @@ class SpecMapper extends ModelMapperAbstract
         }  
         return $specs;
     }
-
+   
+    public function removeLinker($id)
+    {
+        //no linker, delete the actual record!
+        return $this->deleteById($id);
+    }    
 }

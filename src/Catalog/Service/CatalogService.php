@@ -58,7 +58,6 @@ class CatalogService
 
     public function newModel($class, $constructor = null)
     {
-        var_dump($class); var_dump($constructor);
         $modelService = $class . 'Service';
         return $this->$modelService->newModel($constructor);
     }

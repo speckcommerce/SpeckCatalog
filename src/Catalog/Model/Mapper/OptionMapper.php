@@ -110,4 +110,9 @@ class OptionMapper extends ModelMapperAbstract
     public function getProductLinkerTableName(){
         return $this->productLinkerTableName;
     }
+
+    public function removeLinker($linkerId)
+    {
+        return $this->deleteLinker('catalog_product_option_linker', $linkerId);
+    }   
 }

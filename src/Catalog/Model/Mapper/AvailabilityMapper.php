@@ -30,5 +30,11 @@ class AvailabilityMapper extends ModelMapperAbstract
             }
         }
         return $availabilities;
-    }  
+    }    
+
+    public function removeLinker($id)
+    {
+        //no linker, delete the actual record!
+        return $this->deleteById($id);
+    }   
 }

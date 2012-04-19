@@ -50,6 +50,7 @@ class DocumentMapper extends MediaMapperAbstract
             ));
             $db->insert($this->getLinkerTableName(), (array) $data);
         }
+        return $db->lastInsertId();
     }
     public function updateProductDocumentSortOrder($order)
     {

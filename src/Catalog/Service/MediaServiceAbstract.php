@@ -12,7 +12,7 @@ abstract class MediaServiceAbstract extends ServiceAbstract implements MediaServ
 
     public function linkParentProduct($productId, $mediaId)
     {
-        $this->getModelMapper()->linkParentProduct($productId, $mediaId);
+        return $this->getModelMapper()->linkParentProduct($productId, $mediaId);
     }
     
     public function getBasePath()

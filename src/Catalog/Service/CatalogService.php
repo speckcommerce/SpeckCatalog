@@ -20,46 +20,43 @@ class CatalogService
         if(0 === (int) $id){
             throw new RuntimeException('need an ID');
         } else {
-            $getModelService = 'get' . ucfirst($class) . 'Service';
-            $modelService = $this->$getModelService();
-            $model = $modelService->getById((int)$id);
+            $model = $this->getModelService($class)->getById((int)$id);
             if(null === $model){
-                throw new Exception(get_class($modelService) . '::getById(' . $id . ') - returned null');
+                throw new Exception(get_class($this->getModelService($class)) . '::getById(' . $id . ') - returned null');
             }
             return $model;
         }
     }
 
-    public function getAll($class)
+    private function getModelService($class)
     {
         $getModelService = 'get' . ucfirst($class) . 'Service';
-        return $this->$getModelService()->getAll();
+        return $this->$getModelService();
+    }
+
+    public function getAll($class)
+    {
+        return $this->getModelService($class)->getAll();
     }
 
     public function update($class, $id, $post)
     {
-        $getModelService = 'get' . ucfirst($class) . 'Service';
-        $return = $this->$getModelService()->updateModelFromArray($post);
-        die($return->__toString());
+        echo $this->getModelService($class)->updateModelFromArray($post); die();
     }
 
     public function searchClass($class, $value)
     {
-        $getModelService = 'get' . ucfirst($class) . 'Service';
-        return $this->$getModelService()->getModelsBySearchData($value);
+        return $this->getModelService($class)->getModelsBySearchData($value);
     }
 
     public function updateSortOrder($class, $parent, $order)
     {
-        $getModelService = 'get' . ucfirst($class) . 'Service';
-        $modelService = $this->$getModelService();
-        return $modelService->updateSortOrder($parent, $order);
+        return $this->getModelService($class)->updateSortOrder($parent, $order);
     }
 
     public function newModel($class, $constructor = null)
     {
-        $modelService = $class . 'Service';
-        return $this->$modelService->newModel($constructor);
+        return $this->getModelService($class)->newModel($constructor);
     }
 
     public function linkModel($data)
@@ -80,14 +77,13 @@ class CatalogService
     
     private function linkNewModel($newClassName, $parentClassName, $parentId, $childClassName = null, $childId = null)
     { 
-        $modelService = $newClassName . 'Service';
-        $newClass = 'new' . ucfirst($parentClassName) . ucfirst($newClassName);
-        $model = $this->$modelService->$newClass($parentId);
+
+        $model = $this->getModelService($newClassName)->$newClass($parentId);
         $linkerId = $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
         if($childClassName && $childId){
             $linkerId = $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
         }
-        $model = $this->$modelService->getById($model->getId());
+        $model = $this->getModelService($newClassName)->getById($model->getId());
         if (is_callable(array($model,'setLinkerId'))){
             $model->setSortWeight(0);
             $model->setLinkerId($linkerId);
@@ -97,24 +93,21 @@ class CatalogService
 
     private function linkExistingModel($className, $id, $parentClassName, $parentId)
     {
-        $modelService = $className . 'Service';
         $this->linkParent($className, $id, $parentClassName, $parentId);
-        return $this->$modelService->getById($id);
+        return $this->getModelService($className)->getById($id);
     }
    
     private function linkParent($className, $id, $parentClassName, $parentId)
     {
-        $modelService = $className . 'Service';
         $linkParentClass = 'linkParent' . ucfirst($parentClassName);
-        if(method_exists($this->$modelService, $linkParentClass)){
-            return $this->$modelService->$linkParentClass($parentId, $id);
+        if(method_exists($this->getModelService($className), $linkParentClass)){
+            return $this->getModelService($className)->$linkParentClass($parentId, $id);
         } 
     }
 
     public function removeLinker($className, $linkerId)
     {
-        $modelService = $className . 'Service';
-        var_dump($this->$modelService->removeLinker($linkerId));
+        var_dump($this->getModelService($className)->removeLinker($linkerId));
         //todo: check for orphan records....
     }   
 

@@ -22,6 +22,11 @@ class Category extends ModelAbstract
     {
         return $this->getCategoryId();
     }
+
+    public function setId($id)
+    {
+        return $this->setCategoryId($id);
+    }
  
     public function getProducts()
     {

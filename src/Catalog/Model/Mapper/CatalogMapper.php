@@ -6,15 +6,15 @@ class CatalogMapper extends ModelMapperAbstract
     {
         $db = $this->getWriteAdapter();
         $query = "
-            truncate table if exists catalog_availability;
-            truncate table if exists catalog_choice;
-            truncate table if exists catalog_option;
-            truncate table if exists catalog_product;
-            truncate table if exists catalog_product_option_linker;
-            truncate table if exists catalog_choice_option_linker;
-            truncate table if exists catalog_option_choice_linker;
-            truncate table if exists catalog_product_uom;
-            truncate table if exists catalog_company;
+            truncate table catalog_availability;
+            truncate table catalog_choice;
+            truncate table catalog_option;
+            truncate table catalog_product;
+            truncate table catalog_product_option_linker;
+            truncate table catalog_choice_option_linker;
+            truncate table catalog_option_choice_linker;
+            truncate table catalog_product_uom;
+            truncate table catalog_company;
         ";
         $db->exec($query); die('should be empty!');
     }

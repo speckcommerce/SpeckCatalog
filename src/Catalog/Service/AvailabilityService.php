@@ -15,7 +15,6 @@ class AvailabilityService extends ServiceAbstract
 
     public function newProductUomAvailability($parentId)
     {
-        
         $availability = $this->getModelMapper()->newModel();
         $availability->setParentProductUomId($parentId);
         $this->update($availability);
@@ -32,7 +31,7 @@ class AvailabilityService extends ServiceAbstract
         }
         return $return;
     }  
-    
+
     public function getCompanyService()
     {
         return $this->companyService;
@@ -42,5 +41,10 @@ class AvailabilityService extends ServiceAbstract
     {
         $this->companyService = $companyService;
         return $this;
+    }
+ 
+    public function getProductUomService()
+    {
+        return $this->productUomService;
     }
 }

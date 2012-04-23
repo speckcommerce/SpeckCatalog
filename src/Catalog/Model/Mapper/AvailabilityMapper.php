@@ -23,13 +23,7 @@ class AvailabilityMapper extends ModelMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
-        $availabilities = array();
-        if (count($rows) > 0){
-            foreach($rows as $row){
-                $availabilities[] = $this->mapModel($row);
-            }
-        }
-        return $availabilities;
+        return $this->rowsToModels($rows);
     }    
 
     public function removeLinker($id)

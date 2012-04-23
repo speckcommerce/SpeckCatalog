@@ -24,13 +24,7 @@ class ProductUomMapper extends ModelMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
-        $productUoms = array();
-        if(count($rows) > 0 ){
-            foreach($rows as $row){
-                $productUoms[] = $this->mapModel($row);
-            }
-        }
-        return $productUoms;
+        return $this->rowsToModels($rows);
     }
 
     public function removeLinker($id)

@@ -23,15 +23,15 @@ class ProductMapper extends ModelMapperAbstract
                   ->where('category_id = ?', $categoryId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
+        
+        return $this->rowsToModels($rows);
+    } 
 
-        $choices = array();
-        if(count($rows) > 0 ){
-            foreach($rows as $row){
-                $choices[] = $this->mapModel($row);
-            }
-        }
-        return $choices;
-    }   
+    public function getProductsByChildOptionId($optionId)
+    {
+        return array();
+    }
+
     public function linkParentCategory($categoryId, $productId)
     {
         $db = $this->getReadAdapter();

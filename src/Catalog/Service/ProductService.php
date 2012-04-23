@@ -10,18 +10,24 @@ class ProductService extends ServiceAbstract
     protected $specService;
     protected $documentService;
     protected $imageService;
+    protected $choiceService;
     
     public function populateModel($product){
-        if($product){
-            $productId = $product->getProductId();
-            $product->setOptions($this->getOptionService()->getOptionsByProductId($productId));
-            $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
-            $product->setCompanies($this->getCompanyService()->getAll());
-            $product->setSpecs($this->getSpecService()->getByProductId($productId));
-            $product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
-            $product->setImages($this->getImageService()->getImagesByProductId($productId));
-            return $product;
-        }
+        $productId = $product->getProductId();
+        $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($product->getProductId()));
+        $product->setOptions($this->getOptionService()->getOptionsByProductId($productId));
+        $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
+        $product->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()));
+        $product->setCompanies($this->getCompanyService()->getAll());
+        $product->setSpecs($this->getSpecService()->getByProductId($productId));
+        $product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
+        $product->setImages($this->getImageService()->getImagesByProductId($productId));
+        return $product;
+    }
+
+    public function getProductsByChildOptionId($optionId)
+    {
+        return $this->getModelMapper()->getProductsByChildOptionId($optionId);
     }
 
     public function getProductsByCategoryId($categoryId)
@@ -96,6 +102,17 @@ class ProductService extends ServiceAbstract
     public function setImageService($imageService)
     {
         $this->imageService = $imageService;
+        return $this;
+    }
+
+    public function getChoiceService()
+    {
+        return $this->choiceService;
+    }
+
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
         return $this;
     }
 }

@@ -24,7 +24,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function newModel($constructor=null)
     {
-        return $this->add($this->getModel($constructor));
+        return $this->persist($this->getModel($constructor), 'insert');
     }
 
     /**
@@ -43,10 +43,22 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $model->fromArray($row);
     }
 
+    //convenience
+    public function rowsToModels($rows=null)
+    {
+        $models = array();
+        if(is_array($rows)){
+            foreach($rows as $row){
+                $models[] = $this->mapModel($row);
+            }
+        }
+        return $models;
+    } 
+    
     /**
      * getAll 
      * 
-     * Fetches all records in a table, does not get child models/etc.
+     * Fetches all records in a table, does not get child/parent models (populateModel)
      * 
      * @access public
      * @return void
@@ -57,16 +69,9 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $sql = $db->select()
                   ->from($this->getTableName());
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
-        
         $rows = $db->fetchAll($sql);
-        
-        if($rows){
-            $return = array();
-            foreach($rows as $row){
-                $return[] = $this->mapModel($row);   
-            }
-            return $return;
-        }
+
+        return $this->rowsToModels($rows);
     }  
 
     public function updateSort($table, $order, $idField = null)
@@ -160,15 +165,9 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         }
 
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-  
         $rows = $db->fetchAll($sql);
-        if($rows){
-            $return = array();
-            foreach($rows as $row){
-                $return[] = $this->mapModel($row);   
-            }
-            return $return;
-        }
+        
+        return $this->rowsToModels($rows); 
     }  
 
     /**
@@ -233,9 +232,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $db = $this->getWriteAdapter();
         if ('update' === $mode) {
             $field = $this->getIdField() . ' = ?';
-            //var_dump($this->getTableName());
-            //var_dump($db->quoteInto($field, $model->getId()));
-            //var_dump( (array) $data);
             $db->update($this->getTableName(), (array) $data, $db->quoteInto($field, $model->getId()));
         } elseif ('insert' === $mode) {
             $result = $db->insert($this->getTableName(), (array) $data);

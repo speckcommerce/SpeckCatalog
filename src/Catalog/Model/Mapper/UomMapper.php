@@ -41,12 +41,7 @@ class UomMapper extends ModelMapperAbstract
                   ->where('enabled = ?', 1);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
         $rows = $db->fetchAll($sql);
-        $return = array();
-        if($rows){
-            foreach($rows as $row){
-                $return[] = $this->mapModel($row);   
-            }
-        }
-        return $return;
+
+        return $this->rowsToModels($rows);
     }   
 }

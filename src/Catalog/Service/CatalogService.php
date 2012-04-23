@@ -76,9 +76,9 @@ class CatalogService
     }
     
     private function linkNewModel($newClassName, $parentClassName, $parentId, $childClassName = null, $childId = null)
-    { 
-
-        $model = $this->getModelService($newClassName)->$newClass($parentId);
+    {
+        $newParentChild =  'new' . ucfirst($parentClassName) . ucfirst($newClassName); 
+        $model = $this->getModelService($newClassName)->$newParentChild($parentId);
         $linkerId = $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
         if($childClassName && $childId){
             $linkerId = $this->linkParent($childClassName, $childId, $newClassName, $model->getId());

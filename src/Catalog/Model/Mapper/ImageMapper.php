@@ -25,13 +25,7 @@ class ImageMapper extends MediaMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
-        $specs = array();
-        if (count($rows) > 0){
-            foreach($rows as $row){
-                $specs[] = $this->mapModel($row);
-            }
-        }  
-        return $specs;
+        return $this->rowsToModels($rows);
     }    
 
     public function linkParentProduct($productId, $imageId)

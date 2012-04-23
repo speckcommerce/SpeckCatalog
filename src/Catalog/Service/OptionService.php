@@ -5,6 +5,7 @@ namespace Catalog\Service;
 class OptionService extends ServiceAbstract
 {
     protected $choiceService;
+    protected $productService;
     
     public function getOptionsByProductId($productId)
     {
@@ -28,6 +29,11 @@ class OptionService extends ServiceAbstract
 
     public function populateModel($option)
     {
+        $parentProducts = $this->getProductService()->getProductsByChildOptionId($option->getOptionId());
+        $option->setParentProducts($parentProducts);
+        //$parentChoices = $this->getChoiceService()->getChoicesByChildOptionId($option->getOptionId());
+        //$option->setParentChoices($parentChoices);
+        
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($option->getOptionId());
         if($choices){
             $option->setChoices($choices);
@@ -76,6 +82,17 @@ class OptionService extends ServiceAbstract
     public function setChoiceService($choiceService)
     {
         $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    public function getProductService()
+    {
+        return $this->productService;
+    }
+
+    public function setProductService($productService)
+    {
+        $this->productService = $productService;
         return $this;
     }
 }

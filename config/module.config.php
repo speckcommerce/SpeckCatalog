@@ -58,6 +58,7 @@ return array(
                     'documentService'   => 'Catalog\Service\DocumentService',
                     'imageService'      => 'Catalog\Service\ImageService',
                     'specService'       => 'Catalog\Service\SpecService',
+                    'choiceService'     => 'Catalog\Service\ChoiceService',
                 ),
             ),
             
@@ -89,8 +90,9 @@ return array(
 
             'option_service' => array(
                 'parameters' => array(
-                    'modelMapper'   => 'Catalog\Model\Mapper\OptionMapper',
-                    'choiceService' => 'Catalog\Service\ChoiceService',
+                    'modelMapper'    => 'Catalog\Model\Mapper\OptionMapper',
+                    'choiceService'  => 'Catalog\Service\ChoiceService',
+                    'productService' => 'product_service',
                 ),
             ),
             

@@ -26,13 +26,7 @@ class OptionMapper extends ModelMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
-        $options = array();
-        if(count($rows) > 0 ){
-            foreach($rows as $row){
-                $options[] = $this->mapModel($row);
-            }
-        }
-        return $options;
+        return $this->rowsToModels($rows);
     }
 
     public function getOptionsByChoiceId($choiceId)
@@ -46,13 +40,7 @@ class OptionMapper extends ModelMapperAbstract
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
 
-        $options = array();
-        if(count($rows) > 0 ){
-            foreach($rows as $row){
-                $options[] = $this->mapModel($row);
-            }
-        }
-        return $options;
+        return $this->rowsToModels($rows);
     }  
 
     public function linkOptionToProduct($productId, $optionId)

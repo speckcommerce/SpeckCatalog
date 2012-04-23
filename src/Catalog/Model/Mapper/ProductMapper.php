@@ -19,7 +19,7 @@ class ProductMapper extends ModelMapperAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from('catalog_category_product_linker')
-                  ->join($this->getTableName(), 'catalog_category_product_linker'.'.product_id = '.$this->getTableName().'.product_id') 
+                  ->join($this->getTableName(), 'catalog_category_product_linker.product_id = '.$this->getTableName().'.product_id') 
                   ->where('category_id = ?', $categoryId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
@@ -29,7 +29,15 @@ class ProductMapper extends ModelMapperAbstract
 
     public function getProductsByChildOptionId($optionId)
     {
-        return array();
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from('catalog_product_option_linker')
+            ->join($this->getTableName(), 'catalog_product_option_linker.product_id = ' . $this->getTableName() . '.product_id')
+            ->where('option_id = ?', $optionId);
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
+        $rows = $db->fetchAll($sql);
+
+        return $this->rowsToModels($rows);
     }
 
     public function linkParentCategory($categoryId, $productId)

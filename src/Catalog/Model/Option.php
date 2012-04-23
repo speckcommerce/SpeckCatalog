@@ -93,9 +93,21 @@ class Option extends ModelAbstract
 
     public function isShared()
     {
-        if($this->getParentProducts() && count($this->getParentProducts) > 1){
+        if($this->shareCount() > 1){
             return true;
         }
+    }
+
+    public function shareCount()
+    {
+        $count = 0;
+        if($this->getParentProducts()){
+            $count = $count + count($this->getParentProducts());
+        }
+        if($this->getParentChoices()){
+            $count = $count + count($this->getParentChoices());
+        }
+        return $count;
     }
 
     public function getListTypes()

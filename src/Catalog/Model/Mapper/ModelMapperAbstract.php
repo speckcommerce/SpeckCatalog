@@ -42,8 +42,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
         return $model->fromArray($row);
     }
-
-    //convenience
     public function rowsToModels($rows=null)
     {
         $models = array();
@@ -54,15 +52,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         }
         return $models;
     }
-
-    public function populateModels($models)
-    {
-        $models = array();
-        foreach($models as $model){
-            $models[] = $this->populateModel($model);
-        }
-        return $models;
-    } 
     
     /**
      * getAll 
@@ -87,7 +76,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     {
         $db = $this->getWriteAdapter();
         $weight = count($order);
-        $return = '';
+      
         foreach($order as $linkerId){
             $row = array(
                 'sort_weight' => $weight,
@@ -96,12 +85,11 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
                 $idField = 'linker_id';
             }
             $sql = "update {$table} set sort_weight = {$weight} where {$idField} = {$linkerId};";
-            $return .= $sql . "\n";
-            $db->query($sql);
-            //$result = $db->update($table, $row, $db->quoteInto('linker_id = ?', $linkerId));
+            $result = $db->query($sql);
             $weight--;
         }
-        return $return;
+
+        return $result;
     }
 
     public function deleteLinker($table, $linkerId)

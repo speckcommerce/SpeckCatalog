@@ -8,6 +8,7 @@ class Option extends ModelAbstract
     protected $optionId;
 
     protected $parentProducts;
+    protected $parentChoices;
     
     protected $name;
     
@@ -206,6 +207,17 @@ class Option extends ModelAbstract
     public function setSortWeight($sortWeight)
     {
         $this->sortWeight = $sortWeight;
+        return $this;
+    }
+ 
+    public function getParentChoices()
+    {
+        return $this->parentChoices;
+    }
+    
+    public function setParentChoices($parentChoices)
+    {
+        $this->parentChoices = $parentChoices;
         return $this;
     }
 }

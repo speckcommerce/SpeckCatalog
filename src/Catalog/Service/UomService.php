@@ -4,7 +4,7 @@ namespace Catalog\Service;
 
 class UomService extends ServiceAbstract
 {
-    public function populateModel($uom)
+    public function _populateModel($uom)
     {
         return $uom;
     }

@@ -12,7 +12,7 @@ class ProductService extends ServiceAbstract
     protected $imageService;
     protected $choiceService;
     
-    public function populateModel($product)
+    public function _populateModel($product)
     {
         $productId = $product->getProductId();
         

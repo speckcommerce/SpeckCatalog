@@ -4,7 +4,7 @@ namespace Catalog\Service;
 
 class CompanyService extends ServiceAbstract
 {
-    public function populateModel($company)
+    public function _populateModel($company)
     {
         return $company;
     }

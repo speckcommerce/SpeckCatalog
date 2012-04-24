@@ -84,6 +84,7 @@ class CatalogService
             $linkerId = $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
         }
         $model = $this->getModelService($newClassName)->getById($model->getId());
+        var_dump($linkerId);
         if (is_callable(array($model,'setLinkerId'))){
             $model->setSortWeight(0);
             $model->setLinkerId($linkerId);

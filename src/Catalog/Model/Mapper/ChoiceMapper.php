@@ -62,6 +62,20 @@ class ChoiceMapper extends ModelMapperAbstract
         return $db->lastInsertId();
     }
 
+
+    public function getChoicesByChildOptionId($choiceId)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from('catalog_choice_option_linker')
+            ->join($this->getTableName(), 'catalog_choice_option_linker.choice_id = ' . $this->getTableName() . '.choice_id')
+            ->where('choice_id = ?', $choiceId);
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
+        $rows = $db->fetchAll($sql);
+
+        return $this->rowsToModels($rows);   
+    } 
+
     public function updateOptionChoiceSortOrder($order)
     {
         return $this->updateSort('catalog_option_choice_linker', $order);

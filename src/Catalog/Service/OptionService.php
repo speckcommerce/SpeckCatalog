@@ -7,19 +7,7 @@ class OptionService extends ServiceAbstract
     protected $choiceService;
     protected $productService;
     
-    public function getOptionsByProductId($productId)
-    {
-        $options = $this->getModelMapper()->getOptionsByProductId($productId);
-        return $this->populateModels($options);
-    }
-
-    public function getOptionsByChoiceId($choiceId)
-    {
-        $options = $this->modelMapper->getOptionsByChoiceId($choiceId);
-        return $this->populateModels($options);
-    }
-
-    public function populateModel($option)
+    public function _populateModel($option)
     {
         $parentProducts = $this->getProductService()->getProductsByChildOptionId($option->getOptionId());
         $option->setParentProducts($parentProducts);
@@ -33,6 +21,18 @@ class OptionService extends ServiceAbstract
         return $option;
     }
     
+    public function getOptionsByProductId($productId)
+    {
+        $options = $this->getModelMapper()->getOptionsByProductId($productId);
+        return $this->populateModels($options);
+    }
+
+    public function getOptionsByChoiceId($choiceId)
+    {
+        $options = $this->modelMapper->getOptionsByChoiceId($choiceId);
+        return $this->populateModels($options);
+    }
+
     public function newProductOption($productId)
     {
         $option = $this->newModel();

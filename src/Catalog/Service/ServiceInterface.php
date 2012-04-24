@@ -2,5 +2,5 @@
 namespace Catalog\Service;
 interface ServiceInterface
 {
-    public function populateModel($model);
+    public function _populateModel($model);
 }

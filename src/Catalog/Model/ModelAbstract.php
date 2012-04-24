@@ -7,6 +7,7 @@ use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
 
 abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
 {
+    protected $isPopulated = false;
     protected $revUserId;
     protected $revDateTime;
     protected $revParentId;
@@ -87,7 +88,13 @@ abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
         return $array;
     }
 
- 
+    public function isPopulated($flag=null)
+    {
+        if($flag){
+            $this->isPopulated = true;
+        }
+        return $this->isPopulated;
+    }
 
     public function getRevUserId()
     {

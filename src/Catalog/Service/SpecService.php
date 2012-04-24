@@ -2,6 +2,11 @@
 namespace Catalog\Service;
 class SpecService extends ServiceAbstract
 {
+    public function _populateModel($model)
+    {
+        return $model;
+    }
+
     public function newProductSpec($productId)
     {
         $spec = $this->getModelMapper()->newModel();
@@ -12,10 +17,5 @@ class SpecService extends ServiceAbstract
     public function getByProductId($productId)
     {
         return $this->getModelMapper()->getByProductId($productId);
-    }
-
-    public function populateModel($model)
-    {
-        return $model;
     }
 }

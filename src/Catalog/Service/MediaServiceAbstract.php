@@ -4,7 +4,7 @@ abstract class MediaServiceAbstract extends ServiceAbstract implements MediaServ
 {
     protected $basePath;
 
-    public function populateModel($model)
+    public function _populateModel($model)
     {
         $model->setBaseUrl($this->getBasePath());
         return $model;

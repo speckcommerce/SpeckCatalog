@@ -6,7 +6,7 @@ class CategoryService extends ServiceAbstract
 {
     protected $productService;
 
-    public function populateModel($category)
+    public function _populateModel($category)
     {
         $categories = $this->getModelMapper()->getChildCategories($category->getCategoryId());
         if($categories){

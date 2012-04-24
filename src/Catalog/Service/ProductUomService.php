@@ -7,7 +7,7 @@ class ProductUomService extends ServiceAbstract
     protected $availabilityService;
     protected $uomService;
 
-    public function populateModel($productUom)
+    public function _populateModel($productUom)
     {
         $productUom->setAvailabilities(
             $this->getAvailabilityService()->getAvailabilitiesByParentProductUomId($productUom->getProductUomId())

@@ -6,7 +6,7 @@ class AvailabilityService extends ServiceAbstract
 {
     protected $companyService;
 
-    public function populateModel($availability)
+    public function _populateModel($availability)
     {
         $availability->setCompanies($this->getCompanyService()->getAll());
         $availability->setDistributor($this->getCompanyService()->getById($availability->getDistributorCompanyId()));

@@ -9,7 +9,14 @@ namespace Catalog\Service;
 abstract class ServiceAbstract implements ServiceInterface
 {
     protected $modelMapper;
-    protected $user; 
+    protected $user;
+
+    public function populateModel($model)
+    {
+        $model = $this->_populateModel($model);
+        $model->isPopulated(true);
+        return $model;
+    } 
     
     public function getAll()
     {

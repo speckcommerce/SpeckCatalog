@@ -81,10 +81,9 @@ class CatalogService
         $model = $this->getModelService($newClassName)->$newParentChild($parentId);
         $linkerId = $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
         if($childClassName && $childId){
-            $linkerId = $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
+            $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
         }
         $model = $this->getModelService($newClassName)->getById($model->getId());
-        var_dump($linkerId);
         if (is_callable(array($model,'setLinkerId'))){
             $model->setSortWeight(0);
             $model->setLinkerId($linkerId);
@@ -103,7 +102,15 @@ class CatalogService
         $linkParentClass = 'linkParent' . ucfirst($parentClassName);
         if(method_exists($this->getModelService($className), $linkParentClass)){
             return $this->getModelService($className)->$linkParentClass($parentId, $id);
-        } 
+        }
+
+        //doesnt use a linker! - try and set the child id in the parent record.
+        $setChildClassId = 'setChild' . ucfirst($className) . 'Id';
+        if(method_exists($this->getModelService($parentClassName), $setChildClassId)){
+            $this->getModelService($parentClassName)->$setChildClassId($parentId, $id);
+        }
+        
+        return;
     }
 
     public function removeLinker($className, $linkerId)

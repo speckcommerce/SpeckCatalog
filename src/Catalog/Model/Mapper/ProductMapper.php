@@ -61,5 +61,6 @@ class ProductMapper extends ModelMapperAbstract
             }
             
         }
-    }   
+    }
+
 }

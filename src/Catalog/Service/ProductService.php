@@ -38,9 +38,10 @@ class ProductService extends ServiceAbstract
         return $this->getModelMapper()->getProductsByCategoryId($categoryId);
     }
 
-    public function linkParentCategory($categoryId, $productId){
+    public function linkParentCategory($categoryId, $productId)
+    {
         return $this->getModelMapper()->linkParentCategory($categoryId, $productId);
-    } 
+    }
 
     public function getOptionService()
     {

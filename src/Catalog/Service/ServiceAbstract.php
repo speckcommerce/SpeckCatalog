@@ -26,6 +26,15 @@ abstract class ServiceAbstract implements ServiceInterface
             return $model;
         }
     }
+
+    public function populateModels($models)
+    {
+        $models = array();
+        foreach($models as $model){
+            $models[] = $this->populateModel($model);
+        }
+        return $models;
+    } 
     
     public function updateModelFromArray($arr)
     {

@@ -10,29 +10,21 @@ class OptionService extends ServiceAbstract
     public function getOptionsByProductId($productId)
     {
         $options = $this->getModelMapper()->getOptionsByProductId($productId);
-        $return = array();
-        foreach($options as $option){
-            $return[] = $this->populateModel($option);
-        }
-        return $return;
+        return $this->populateModels($options);
     }
 
     public function getOptionsByChoiceId($choiceId)
     {
         $options = $this->modelMapper->getOptionsByChoiceId($choiceId);
-        $return = array();
-        foreach($options as $option){
-            $return[] = $this->populateModel($option);
-        }
-        return $return;
+        return $this->populateModels($options);
     }
 
     public function populateModel($option)
     {
         $parentProducts = $this->getProductService()->getProductsByChildOptionId($option->getOptionId());
         $option->setParentProducts($parentProducts);
-        //$parentChoices = $this->getChoiceService()->getChoicesByChildOptionId($option->getOptionId());
-        //$option->setParentChoices($parentChoices);
+        $parentChoices = $this->getChoiceService()->getChoicesByChildOptionId($option->getOptionId());
+        $option->setParentChoices($parentChoices);
         
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($option->getOptionId());
         if($choices){

@@ -12,16 +12,19 @@ class ProductService extends ServiceAbstract
     protected $imageService;
     protected $choiceService;
     
-    public function populateModel($product){
+    public function populateModel($product)
+    {
         $productId = $product->getProductId();
-        $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($product->getProductId()));
-        $product->setOptions($this->getOptionService()->getOptionsByProductId($productId));
-        $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
-        $product->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()));
-        $product->setCompanies($this->getCompanyService()->getAll());
-        $product->setSpecs($this->getSpecService()->getByProductId($productId));
-        $product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
-        $product->setImages($this->getImageService()->getImagesByProductId($productId));
+        
+        $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($product->getProductId()))
+                ->setOptions($this->getOptionService()->getOptionsByProductId($productId))
+                ->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId))
+                ->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()))
+                ->setCompanies($this->getCompanyService()->getAll())
+                ->setSpecs($this->getSpecService()->getByProductId($productId))
+                ->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId))
+                ->setImages($this->getImageService()->getImagesByProductId($productId));
+
         return $product;
     }
 

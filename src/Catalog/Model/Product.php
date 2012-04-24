@@ -18,9 +18,8 @@ class Product extends ModelAbstract
     //item view
     protected $manufacturer;
     protected $manufacturerCompanyId;
-    protected $companies;
 
-    protected $itemNumber;
+    protected $companies;
     protected $uoms;
 
 

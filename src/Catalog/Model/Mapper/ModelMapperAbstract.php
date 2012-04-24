@@ -53,6 +53,15 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             }
         }
         return $models;
+    }
+
+    public function populateModels($models)
+    {
+        $models = array();
+        foreach($models as $model){
+            $models[] = $this->populateModel($model);
+        }
+        return $models;
     } 
     
     /**

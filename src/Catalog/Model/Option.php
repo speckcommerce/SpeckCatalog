@@ -26,12 +26,10 @@ class Option extends ModelAbstract
     protected $priceMap;
 
     protected $choiceUomAdjustments;
-
     
     /* Linker */
     protected $linkerId;
     protected $sortWeight; 
-
 
 
     public function addChoice(Choice $choice)

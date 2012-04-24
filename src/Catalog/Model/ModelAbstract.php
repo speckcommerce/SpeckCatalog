@@ -7,7 +7,7 @@ use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
 
 abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
 {
-    protected $isPopulated = false;
+    private $isPopulated = false; //must remain private
     protected $revUserId;
     protected $revDateTime;
     protected $revParentId;
@@ -50,7 +50,6 @@ abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
     }
 
 
-    
     /**
      * Retrieve the event manager
      *

@@ -139,7 +139,41 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if($row){
             return $this->rowToModel($row);
         } 
-    }     
+    }
+
+    public function new_getById($id)
+    {
+        $where = $this->sqlFactory('where')->equalTo($this->getIdField(), $id);
+        $select = $this->sqlFactory('select')->where($where);
+        $this->events()->trigger(__FUNCTION__, $this, array('query' => $select));
+
+        return $this->rowToModel($this->getTable()->select($select));
+    }
+
+    public function sqlFactory($type=null)
+    {
+        switch($type){
+            case 'select' : 
+                return new Select;
+                break;
+            case 'where' :
+                return new Where;
+                break;
+            default :
+                die('invalid');
+                break;
+        }   
+    }
+
+    public function getTable()
+    {
+        if($this->table){
+            return clone $this->table;
+        }
+        $this->table = new TableGateway($this->getTableName(), $this->getReadAdapter);
+        return clone $this->table;
+    }
+
     
     /**
      * getModelsBySearchData 

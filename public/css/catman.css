@@ -1,5 +1,5 @@
     body{ margin:50px; background:#ffffff;}
-    form{ margin-bottom:0}
+    form{ margin-bottom:0 !important}
     .smallcaps{font-variant:small-caps; font-size:13px; color:#555555; font-weight:bold}
     .boundary{ 
         margin-bottom:4px; -moz-border-radius: 5px; -webkit-border-radius: 5px; 
@@ -23,9 +23,9 @@
     .label{ margin-left:4px; border:1px solid #777777;}
     .entity-header{ padding-left:5px; height:20px; margin-bottom:2px; margin-top:2px;}
     .entity-header div{ padding:1px 0 0 0; float:left; min-height:20px; min-width:18px}
-    .entity-header .title{ min-width:300px;}
+    .entity-header .title{ min-width:400px; white-space:nowrap;}
     .removing{ background:#ff9999;}
     .appearing{ background:#9999ff;}
     .child-expand{ height:20px; margin-bottom:2px;}
     .child-expand div{ float:left;}
-    .list-items-helper{ opacity: 0.2 }  
+    .list-items-helper{ opacity: 0.2;}  

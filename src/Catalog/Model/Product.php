@@ -70,7 +70,7 @@ class Product extends ModelAbstract
     
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = htmlentities($description, ENT_QUOTES, "UTF-8", false); 
         return $this;
     }
  

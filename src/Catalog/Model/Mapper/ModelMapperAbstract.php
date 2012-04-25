@@ -38,6 +38,11 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function mapModel($row)
     {
+        echo "something is still using mapmodel function";
+        return $this->rowToModel($row);
+    }
+    public function rowToModel($row)
+    {
         $model = $this->getModel();
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
         return $model->fromArray($row);
@@ -47,7 +52,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $models = array();
         if(is_array($rows)){
             foreach($rows as $row){
-                $models[] = $this->mapModel($row);
+                $models[] = $this->rowToModel($row);
             }
         }
         return $models;
@@ -132,7 +137,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $row = $db->fetchRow($sql);
         if($row){
-            return $this->mapModel($row);
+            return $this->rowToModel($row);
         } 
     }     
     
@@ -233,10 +238,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         } elseif ('insert' === $mode) {
             $result = $db->insert($this->getTableName(), (array) $data);
             if($result === 0){
-                echo "could not insert:";    
-                var_dump($data);
-                echo "into table:";
-                var_dump($this->getTableName());
+                var_dump("could not insert:", var_dump($data), "into table:", $this->getTableName());
                 throw new Exception('query returned no result - insert failed');
             }
             $model->setId($db->lastInsertId());

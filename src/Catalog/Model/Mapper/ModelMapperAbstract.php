@@ -12,7 +12,9 @@ use ZfcBase\Mapper\DbMapperAbstract,
  */
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
-
+    protected $sqlFactory;
+    protected $table;
+    
     /**
      * newModel
      *
@@ -143,26 +145,27 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
     public function new_getById($id)
     {
-        $where = $this->sqlFactory('where')->equalTo($this->getIdField(), $id);
-        $select = $this->sqlFactory('select')->where($where);
+        $where = $this->newSql('where')->equalTo($this->getIdField(), $id);
+        $select = $this->newSql('select')->where($where);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $select));
 
         return $this->rowToModel($this->getTable()->select($select));
     }
 
-    public function sqlFactory($type=null)
+    public function newSql($type=null)
     {
-        switch($type){
-            case 'select' : 
-                return new Select;
-                break;
-            case 'where' :
-                return new Where;
-                break;
-            default :
-                die('invalid');
-                break;
-        }   
+        return $this->getSqlFactory($type);
+    }
+
+    public function getSqlFactory($type=null)
+    {
+        return $this->sqlFactory($type);
+    }
+
+    public function setSqlFactory($sqlFactory)
+    {
+        $this->sqlFactory = $sqlFactory;
+        return $this;
     }
 
     public function getTable()
@@ -172,7 +175,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         }
         $this->table = new TableGateway($this->getTableName(), $this->getReadAdapter);
         return clone $this->table;
-    }
+    }        
 
     
     /**
@@ -291,4 +294,5 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $className = array_pop($class);
         return $this->fromCamelCase($className) . '_id';
     }
+
 }

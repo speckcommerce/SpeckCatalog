@@ -45,7 +45,7 @@ abstract class ServiceAbstract implements ServiceInterface
     
     public function updateModelFromArray($arr)
     {
-        $model = $this->getModelMapper()->mapModel($arr);
+        $model = $this->getModelMapper()->rowToModel($arr);
         return $this->update($model);
     }    
     

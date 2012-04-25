@@ -26,11 +26,11 @@ interface ModelMapperInterface
     public function getAll();
 
     /**
-     * mapModel
+     * rowToModel
      *
      * takes a row as an array, and returns a matching model. 
      */
-    public function mapModel($row);
+    public function rowToModel($row);
 
 
     /**

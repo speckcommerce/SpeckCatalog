@@ -159,10 +159,11 @@ class Option extends ModelAbstract
     public function __toString()
     {
         if($this->getName()){
-            return $this->getName();
+            $return  = $this->getName();
         }else{
-            return '';
+            $return  = '';
         }
+        return $this->spaceToNbsp($return);
     }
     
     public function getId()

@@ -28,7 +28,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     }
 
     /**
-     * mapModel
+     * rowToModel
      *
      * Instantiates a new model, and populates from an array of data.
      *
@@ -38,7 +38,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function mapModel($row)
     {
-        echo "something is still using mapmodel function";
+        echo "something still using mapmodel function";
         return $this->rowToModel($row);
     }
     public function rowToModel($row)

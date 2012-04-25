@@ -87,6 +87,11 @@ abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
         return $array;
     }
 
+    public function spaceToNbsp($string)
+    {
+        return str_replace(' ', '&nbsp;', $string);
+    }
+
     public function isPopulated($flag=null)
     {
         if($flag){

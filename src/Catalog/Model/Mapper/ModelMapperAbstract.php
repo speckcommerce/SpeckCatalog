@@ -2,6 +2,10 @@
 
 namespace Catalog\Model\Mapper;
 use ZfcBase\Mapper\DbMapperAbstract,
+    Zend\Db\Sql\Select,
+    Zend\Db\Sql\Where,
+    Zend\Db\Sql\Update,
+    Zend\Db\Sql\Insert,
     ArrayObject,
     Exception;
 
@@ -13,8 +17,12 @@ use ZfcBase\Mapper\DbMapperAbstract,
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
     protected $sqlFactory;
-    protected $table;
     
+    public function getTable()
+    {
+        return $this->getTableGateway();
+    }
+
     /**
      * newModel
      *
@@ -43,16 +51,20 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         echo "something still using mapmodel function";
         return $this->rowToModel($row);
     }
-    public function rowToModel($row)
+    public function rowToModel($row=null)
     {
+        if(!$row){
+            return false;
+        }
         $model = $this->getModel();
+        $model = $model->fromArray($row->getArrayCopy());
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
-        return $model->fromArray($row);
+        return $model;
     }
-    public function rowsToModels($rows=null)
+    public function rowsetToModels($rows=null)
     {
         $models = array();
-        if(is_array($rows)){
+        if($rows){
             foreach($rows as $row){
                 $models[] = $this->rowToModel($row);
             }
@@ -70,13 +82,11 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getAll()
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from($this->getTableName());
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
-        $rows = $db->fetchAll($sql);
+        $select = new Select();
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->select($select);
 
-        return $this->rowsToModels($rows);
+        return $this->rowsetToModels($rowset);
     }  
 
     public function updateSort($table, $order, $idField = null)
@@ -132,53 +142,16 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getById($id)
     {
-        $table = $this->getTable();
-        //$db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from($this->getTableName())
-                  ->where($this->getIdField() . ' = ?', $id);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if($row){
-            return $this->rowToModel($row);
-        } 
+        $select = new Select();
+        $select->from($this->getTable()->getTableName())
+               ->where(array($this->getIdField() => $id));
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowToModel($rowset->current());   
     }
 
-    public function new_getById($id)
-    {
-        $where = $this->newSql('where')->equalTo($this->getIdField(), $id);
-        $select = $this->newSql('select')->where($where);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $select));
 
-        return $this->rowToModel($this->getTable()->select($select));
-    }
-
-    public function newSql($type=null)
-    {
-        return $this->getSqlFactory($type);
-    }
-
-    public function getSqlFactory($type=null)
-    {
-        return $this->sqlFactory($type);
-    }
-
-    public function setSqlFactory($sqlFactory)
-    {
-        $this->sqlFactory = $sqlFactory;
-        return $this;
-    }
-
-    public function getTable()
-    {
-        if($this->table){
-            return clone $this->table;
-        }
-        $this->table = new TableGateway($this->getTableName(), 'adaptergoeshere');
-        return clone $this->table;
-    }        
-
-    
     /**
      * getModelsBySearchData 
      * 
@@ -289,6 +262,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
     }     
 
+    //todo:: get the ui field from the tablegateway.
     public function getIdField()
     {
         $class = explode('\\', get_class($this->getModel()));

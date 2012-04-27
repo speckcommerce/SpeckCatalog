@@ -6,7 +6,7 @@ return array(
             'alias' => array(
                 'catalog_install'              => 'Catalog\Service\Installer',
 
-                'catalog_zend_db_adapter'      => 'Zend\Db\Adapter',
+                'catalog_zend_db_adapter'      => 'Zend\Db\Adapter\Adapter',
 
                 'catalog_generic_service'      => 'Catalog\Service\CatalogService',
 

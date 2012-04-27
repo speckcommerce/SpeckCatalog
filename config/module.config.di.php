@@ -33,7 +33,7 @@ return array(
 
             'catalog_product_service' => array(
                 'parameters' => array(
-                    'tableGateway'      => 'catalog_product_tg',
+                    'modelMapper'       => 'catalog_product_mapper',
                     'optionService'     => 'catalog_option_service',
                     'choiceService'     => 'catalog_chocie_service',
                     'companyService'    => 'catalog_company_service',
@@ -191,8 +191,6 @@ return array(
             //todo: this.
             'Catalog\Model\Mapper\CatalogMapper' => array(
                 'parameters' => array(
-                    'tablename'  => '',
-                    'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),
 
@@ -200,22 +198,50 @@ return array(
              * table gateways 
              */
             'catalog_product_tg' => array(
-                'paramaters' => array(
+                'parameters' => array(
                     'tableName' => 'catalog_product',
                     'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),
 
             'catalog_option_tg' => array(
-                'paramaters' => array(
+                'parameters' => array(
                     'tableName' => 'catalog_option',
                     'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),
 
             'catalog_choice_tg' => array(
-                'paramaters' => array(
+                'parameters' => array(
                     'tableName' => 'catalog_choice',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_company_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_company',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_availability_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_availability',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_product_uom_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_product_uom',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_uom_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_uom',
                     'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),

@@ -189,6 +189,9 @@ return array(
                 ),
             ), 
 
+            /**
+             * table gateways 
+             */
             'catalog_product_tg' => array(
                 'paramaters' => array(
                     'tableName' => 'catalog_product',

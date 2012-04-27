@@ -112,7 +112,6 @@ return array(
                 ),
             ),
 
-
             //todo:  this.
             'Catalog\Service\Installer' => array(
                 'parameters' => array(
@@ -188,6 +187,14 @@ return array(
                     'tableGateway'  => 'catalog_spec_tg',
                 ),
             ), 
+            
+            //todo: this.
+            'Catalog\Model\Mapper\CatalogMapper' => array(
+                'parameters' => array(
+                    'tablename'  => '',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
 
             /**
              * table gateways 
@@ -209,15 +216,6 @@ return array(
             'catalog_choice_tg' => array(
                 'paramaters' => array(
                     'tableName' => 'catalog_choice',
-                    'adapter' => 'catalog_zend_db_adapter',
-                ),
-            ),
-
-
-            //todo: this.
-            'Catalog\Model\Mapper\CatalogMapper' => array(
-                'parameters' => array(
-                    'tablename'  => '',
                     'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),

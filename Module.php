@@ -47,7 +47,7 @@ class Module implements AutoloaderProvider
 
     public function install($e)
     {
-        echo $e->getParam('speck_catalog')->get('install')->install();
+        echo $e->getParam('locator')->get('catalog_install')->install();
     }
 
     public function getConfig()

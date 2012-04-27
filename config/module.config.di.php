@@ -46,19 +46,19 @@ return array(
 
             'catalog_image_service' => array(
                 'parameters' => array(
-                    'tableGateway'   => 'catalog_image_tg',
+                    'modelMapper'   => 'catalog_image_mapper',
                 ),
             ),
 
             'catalog_document_service' => array(
                 'parameters' => array(
-                    'tableGateway'   => 'catalog_document_tg',
+                    'modelMapper'   => 'catalog_document_mapper',
                 ),
             ),
 
             'catalog_option_service' => array(
                 'parameters' => array(
-                    'tableGateway'   => 'catalog_option_tg',
+                    'modelMapper'   => 'catalog_option_mapper',
                     'choiceService'  => 'catalog_choice_service',
                     'productService' => 'catalog_product_service',
                 ),
@@ -66,14 +66,14 @@ return array(
             
             'category_category_service' => array(
                 'parameters' => array(
-                    'tableGateway'    => 'catalog_category_tg',
+                    'modelMapper'    => 'catalog_category_mapper',
                     'productService' => 'catalog_product_service',
                 ),
             ),
 
             'catalog_choice_service' => array(
                 'parameters' => array(
-                    'tableGateway'    => 'catalog_choice_tg',
+                    'modelMapper'    => 'catalog_choice_mapper',
                     'optionService'  => 'catalog_option_service',
                     'productService' => 'catalog_product_service',
                 ),
@@ -81,7 +81,7 @@ return array(
             
             'catalog_product_uom_service' => array(
                 'parameters' => array(
-                    'tableGateway'         => 'catalog_product_uom_tg',
+                    'modelMapper'         => 'catalog_product_uom_mapper',
                     'uomService'          => 'catalog_uom_service',
                     'availabilityService' => 'catalog_availability_service',
                 ),
@@ -89,26 +89,26 @@ return array(
             
             'catalog_uom_service' => array(
                 'parameters' => array(
-                    'tableGateway' => 'catalog_uom_tg',
+                    'modelMapper' => 'catalog_uom_mapper',
                 ),
             ),
 
             'catalog_availability_service' => array(
                 'parameters' => array(
-                    'tableGateway'    => 'catalog_availability_tg',
+                    'modelMapper'    => 'catalog_availability_mapper',
                     'companyService' => 'catalog_company_service',
                 ),
             ),
 
             'catalog_company_service' => array(
                 'parameters' => array(
-                    'tableGateway' => 'catalog_company_tg',
+                    'modelMapper' => 'catalog_company_mapper',
                 ),
             ),
 
             'catalog_spec_service' => array(
                 'parameters' => array(
-                    'tableGateway' => 'catalog_spec_tg',
+                    'modelMapper' => 'catalog_spec_mapper',
                 ),
             ),
 
@@ -125,87 +125,91 @@ return array(
              */
             'catalog_product_mapper' => array(
                 'parameters' => array(
-                    'tableName' => 'catalog_product',
-                    'adapter'   => 'catalog_zend_db_adapter',
+                    'tableGateway' => 'catalog_product_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\OptionMapper' => array(
+            'catalog_option_mapper' => array(
                 'parameters' => array(
-                    'tableName'  => 'catalog_option',
-                    'adapter' => 'catalog_zend_db_adapter',
-                ),
-            ),
-
-            'Catalog\Model\Mapper\OptionMapper' => array(
-                'parameters' => array(
-                    'tableName'  => 'catalog_option',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_option_tg',
                 ),
             ),
             
-            'Catalog\Model\Mapper\CategoryMapper' => array(
+            'catalog_category_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_category',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_category_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\ChoiceMapper' => array(
+            'catalog_choice_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_choice',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_choice_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\ProductUomMapper' => array(
+            'catalog_product_uom_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_product_uom',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_product_uom_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\UomMapper' => array(
+            'catalog_uom_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_uom',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_uom_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\AvailabilityMapper' => array(
+            'catalog_availability_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_availability',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_availability_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\CompanyMapper' => array(
+            'catalog_company_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_company',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_company_tg',
                 ),
             ),
 
-            'Catalog\Model\Mapper\DocumentMapper' => array(
+            'catalog_document_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_media',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_media_tg',
                 ),
             ), 
 
-            'Catalog\Model\Mapper\ImageMapper' => array(
+            'catalog_image_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_media',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_media_tg',
                 ),
             ), 
 
-            'Catalog\Model\Mapper\SpecMapper' => array(
+            'catalog_spec_mapper' => array(
                 'parameters' => array(
-                    'tablename'  => 'catalog_spec',
-                    'adapter' => 'catalog_zend_db_adapter',
+                    'tableGateway'  => 'catalog_spec_tg',
                 ),
             ), 
+
+            'catalog_product_tg' => array(
+                'paramaters' => array(
+                    'tableName' => 'catalog_product',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_option_tg' => array(
+                'paramaters' => array(
+                    'tableName' => 'catalog_option',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_choice_tg' => array(
+                'paramaters' => array(
+                    'tableName' => 'catalog_choice',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
 
             //todo: this.
             'Catalog\Model\Mapper\CatalogMapper' => array(

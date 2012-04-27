@@ -132,7 +132,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getById($id)
     {
-        $db = $this->getReadAdapter();
+        $table = $this->getTable();
+        //$db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
                   ->where($this->getIdField() . ' = ?', $id);
@@ -173,7 +174,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if($this->table){
             return clone $this->table;
         }
-        $this->table = new TableGateway($this->getTableName(), $this->getReadAdapter);
+        $this->table = new TableGateway($this->getTableName(), 'adaptergoeshere');
         return clone $this->table;
     }        
 

@@ -3,6 +3,14 @@ return array(
     'di' => array(
         'instance' => array(
 
+            'Zend\View\Resolver\TemplatePathStack' => array(
+                'parameters' => array(
+                    'paths'  => array(
+                        'catalog' => __DIR__ . '/../view',
+                    ),
+                ),
+            ), 
+                      
             // Setup the router and routes
             'Zend\Mvc\Router\RouteStack' => array(
                 'parameters' => array(

@@ -1,7 +1,7 @@
 <?php
 $config = array(
     'speck_catalog' => array(
-        'installer' => 'Catalog\Service\Installer',
+        'install' => 'Catalog\Service\Installer',
     )
 );
 

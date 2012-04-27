@@ -1,9 +1,5 @@
 <?php
-$config = array(
-    'speck_catalog' => array(
-        'install' => 'Catalog\Service\Installer',
-    )
-);
+$config = array();
 
 $configFiles = array(
     __DIR__ . '/module.config.di.php',

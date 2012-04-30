@@ -32,7 +32,6 @@ interface ModelMapperInterface
      */
     public function rowToModel($row);
 
-
     /**
      * deleteById 
      * 

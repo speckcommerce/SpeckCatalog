@@ -23,6 +23,23 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $this->getTableGateway();
     }
 
+    public function getTableName()
+    {
+        return $this->getTable()->getTableName();
+    }
+
+    public function newSelect()
+    {
+        return new Select();
+    }
+
+    public function describeTable()
+    {
+        $adapter = $this->getTable()->getAdapter();
+        $sql = 'describe ' . $this->getTableName();
+        var_dump($adapter->query($sql)->execute()->current());
+    }
+
     /**
      * newModel
      *
@@ -82,7 +99,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getAll()
     {
-        $select = new Select();
+        $select = $this->newSelect();
         $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
         $rowset = $this->getTable()->select($select);
 
@@ -142,6 +159,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getById($id)
     {
+        $this->describeTable();
         $select = new Select();
         $select->from($this->getTable()->getTableName())
                ->where(array($this->getIdField() => $id));
@@ -226,7 +244,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $data['search_data'] = $model->getSearchData();
         $this->events()->trigger(__FUNCTION__, $this, array('data' => $data));
 
-        return new ArrayObject($data);
+        return $data;
+        //return new ArrayObject($data);
     }
     
     /**
@@ -241,18 +260,18 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function persist($model, $mode = 'insert')
     {
-        $data = $this->prepareRow($model); 
-        $db = $this->getWriteAdapter();
+        $data = $this->prepareRow($model);
+        $table = $this->getTable(); 
         if ('update' === $mode) {
             $field = $this->getIdField() . ' = ?';
-            $db->update($this->getTableName(), (array) $data, $db->quoteInto($field, $model->getId()));
+            $table->update( $data, array($this->getIdField => $model->getId()));
         } elseif ('insert' === $mode) {
-            $result = $db->insert($this->getTableName(), (array) $data);
+            $result = $table->insert($data);
             if($result === 0){
                 var_dump("could not insert:", var_dump($data), "into table:", $this->getTableName());
                 throw new Exception('query returned no result - insert failed');
             }
-            $model->setId($db->lastInsertId());
+            $model->setId($table->getLastInsertId());
         }
         return $model;
     }

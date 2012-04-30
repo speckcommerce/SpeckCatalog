@@ -10,7 +10,7 @@ class ImageService extends MediaServiceAbstract
 
     public function getImagesByProductId($productId)
     {
-        $images = $this->getModelMapper()->getImagesByProductId($productId);
+        $images = $this->getModelMapper()->getMediaByProductId($productId);
         foreach($images as $i => $image){
             $images[$i] = $this->populateModel($image);
         }

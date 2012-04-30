@@ -7,14 +7,23 @@ use Catalog\Model\Availability,
 
 class AvailabilityMapper extends ModelMapperAbstract
 {
-    protected $tableName = 'catalog_availability';
-
     public function getModel($constructor = null)
     {
         return new Availability($constructor);
     }
 
     public function getByParentProductUomId($productUomId)
+    {
+        $select = $this->newSelect();
+        $select->from($this->getTable()->getTableName())
+            ->where(array('parent_product_uom_id' => $productUomId));
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);   
+    }
+
+    public function old_getByParentProductUomId($productUomId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()

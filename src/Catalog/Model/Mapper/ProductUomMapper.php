@@ -2,19 +2,29 @@
 
 namespace Catalog\Model\Mapper;
 
-use Catalog\Model\ProductUom, 
+use Catalog\Model\ProductUom,
     ArrayObject;
 
 class ProductUomMapper extends ModelMapperAbstract
 {
-    protected $tableName = 'catalog_product_uom';
-
     public function getModel($constructor = null)
     {
         return new ProductUom($constructor);
     }
 
     public function getProductUomsByParentProductId($productId)
+    {
+        $select = $this->newSelect();
+        $select->from($this->getTable()->getTableName())
+            ->where(array('parent_product_id' => $productId));
+            //->order('price ASC');
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);    
+    }
+
+    public function old_getProductUomsByParentProductId($productId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()

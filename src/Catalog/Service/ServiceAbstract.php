@@ -91,10 +91,16 @@ abstract class ServiceAbstract implements ServiceInterface
         if($this->modelMapper InstanceOf \Catalog\Model\Mapper\ModelMapperAbstract){
             return $this->modelMapper;
         }else{
-            var_dump($this->modelMapper);
-            throw new Exception('not instance of ModelMapperAbstract');
+            throw new Exception('not instance of ModelMapperAbstract -- ' . $this->dumpVarToString($this->modelMapper));
         }
-    }     
+    }
+
+    public function dumpVarToString($var)
+    {
+        ob_start();
+        var_dump($var);
+        return ob_get_clean();
+    }    
  
     public function getUser()
     {

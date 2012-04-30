@@ -11,23 +11,6 @@ class ImageMapper extends MediaMapperAbstract
         return new Image;
     }
 
-    public function getImagesByProductId($productId)
-    {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from($this->getLinkerTableName())
-            ->join(
-                $this->getTableName(), 
-                $this->getLinkerTableName().'.media_id = '.$this->getTableName().'.media_id'
-            )       
-            ->where('product_id = ?', $productId)
-            ->order('sort_weight DESC');
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $rows = $db->fetchAll($sql);
-
-        return $this->rowsToModels($rows);
-    }    
-
     public function linkParentProduct($productId, $imageId)
     {
         $db = $this->getReadAdapter();

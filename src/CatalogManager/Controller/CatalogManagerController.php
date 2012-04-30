@@ -40,10 +40,11 @@ class CatalogManagerController extends ActionController
 
     public function newAction()
     {
+        $this->redirect()->toRoute('home');
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
-        $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
+        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
     }
     
     public function productsAction()

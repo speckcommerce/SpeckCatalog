@@ -7,8 +7,6 @@ use Catalog\Model\Product,
 
 class ProductMapper extends ModelMapperAbstract
 {
-    protected $tableName = 'catalog_product';
-
     public function getModel($constructor = null)
     {
         return new Product($constructor);

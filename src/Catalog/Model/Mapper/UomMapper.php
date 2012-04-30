@@ -7,33 +7,29 @@ use Catalog\Model\Uom,
 
 class UomMapper extends ModelMapperAbstract
 {
-    protected $tableName = 'ansi_uom';
-
     public function getModel($constructor = null)
     {
         return new Uom($constructor);
     }
 
-    //overrides abstract
-    //db field does not end in _id      
-    public function getById($uomCode)
+    public function getIdField()
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from($this->getTableName())
-                  ->where('uom_code = ?', $uomCode);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if($row){
-            return $this->rowToModel($row);
-        }elseif($this->debugging){
-            echo get_class($this)."::getById({$uomCode}) returned no row";
-        }
-    }  
+        return 'uom_code';
+    }
 
     //overrides abstract
     //where enabled = 1
     public function getAll()
+    {
+        $select = $this->newSelect();
+        $select->where('enabled = ?', 1);
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->select($select);
+
+        return $this->rowsetToModels($rowset);    
+    }
+
+    public function old_getAll()
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()

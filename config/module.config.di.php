@@ -239,9 +239,23 @@ return array(
                 ),
             ),
 
+            'catalog_spec_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_product_spec',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
             'catalog_uom_tg' => array(
                 'parameters' => array(
-                    'tableName' => 'catalog_uom',
+                    'tableName' => 'ansi_uom',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_media_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_media',
                     'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),

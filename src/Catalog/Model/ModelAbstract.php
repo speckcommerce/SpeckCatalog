@@ -5,7 +5,7 @@ use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
     Zend\EventManager\EventManager,
     Zend\EventManager\EventCollection;
 
-abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
+abstract class ModelAbstract implements ModelInterface
 {
     private $isPopulated = false; //must remain private
     protected $revUserId;
@@ -44,6 +44,7 @@ abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
         }
         return $searchData;
     }
+
     public function getSearchData(){
         $arr = $this->arrToData($this->toArray(), array());
         return implode(' ', $arr);
@@ -77,15 +78,40 @@ abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
         return $this->events;
     }
 
-    public function toArray($array = null, $filter=null){
-        $array = parent::toArray($array, $filter);
-        foreach($array as $key => $val){
-            if(is_array($val)){
-                unset($array[$key]);
+    public function toArray()
+    {
+        $vars = get_object_vars($this);
+        foreach($vars as $key => $val){
+            unset($vars[$key]);
+            if(is_scalar($val)){
+                $key = $this->fromCamelCase($key);
+                $array[$key] = $val;
             }
         }
         return $array;
     }
+
+    public function fromArray($array)
+    {
+        foreach($array as $key => $val){
+            $setterMethod = 'set' . $this->toCamelCase($key);
+            if(method_exists($this,$setterMethod)){
+                $this->$setterMethod($val);
+            }
+        }
+        return $this;   
+    }    
+
+
+    public static function toCamelCase($name)
+    {
+        return implode('',array_map('ucfirst', explode('_',$name)));
+    }
+
+    public static function fromCamelCase($name)
+    {
+        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
+    }  
 
     public function isPopulated($flag=null)
     {
@@ -93,9 +119,8 @@ abstract class ModelAbstract extends ZfcModelAbstract implements ModelInterface
             $this->isPopulated = true;
         }
         return $this->isPopulated;
-    }
+    }     public function getRevUserId()
 
-    public function getRevUserId()
     {
         return $this->revUserId;
     }

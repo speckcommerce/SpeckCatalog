@@ -1,19 +1,31 @@
 <?php
 
 namespace Catalog\Model\Mapper;
-use Catalog\Model\Choice, 
+use Catalog\Model\Choice,
     ArrayObject;
 
 class ChoiceMapper extends ModelMapperAbstract
 {
-    protected $tableName = 'catalog_choice';
-
     public function getModel($constructor = null)
     {
         return new Choice($constructor);
     }
 
     public function getChoicesByParentOptionId($optionId)
+    {
+        $select = $this->newSelect();
+        $select->from('catalog_option_choice_linker')
+            ->where(array($this->getIdField() => $id));
+        //->join($this->getTableName());
+        //->order('sort_weight DESC');
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);   
+    }
+
+
+    public function old_getChoicesByParentOptionId($optionId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
@@ -28,6 +40,17 @@ class ChoiceMapper extends ModelMapperAbstract
     }
 
     public function getChoicesByChildProductId($productId)
+    {
+        $select = $this->newSelect();
+        $select->from($this->getTable()->getTableName())
+            ->where(array('product_id' => $productId));
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);  
+    }
+
+    public function old_getChoicesByChildProductId($productId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()

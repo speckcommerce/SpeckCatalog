@@ -17,6 +17,21 @@ class OptionMapper extends ModelMapperAbstract
 
     public function getOptionsByProductId($productId)
     {
+        $select = $this->newSelect();
+        $select->from($this->getTableName())
+            ->join('catalog_product_option_linker', $this->getTableName() . '.option_id = catalog_product_option_linker.option_id')
+            ->where(array('product_id' => $productId));
+            //->order('sort_weight DESC');
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);     
+    }    
+    
+    
+                       
+    public function old_getOptionsByProductId($productId)
+    {
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName())

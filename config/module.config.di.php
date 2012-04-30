@@ -35,7 +35,7 @@ return array(
                 'parameters' => array(
                     'modelMapper'       => 'catalog_product_mapper',
                     'optionService'     => 'catalog_option_service',
-                    'choiceService'     => 'catalog_chocie_service',
+                    'choiceService'     => 'catalog_choice_service',
                     'companyService'    => 'catalog_company_service',
                     'productUomService' => 'catalog_product_uom_service',
                     'documentService'   => 'catalog_document_service',
@@ -58,7 +58,7 @@ return array(
 
             'catalog_option_service' => array(
                 'parameters' => array(
-                    'modelMapper'   => 'catalog_option_mapper',
+                    'modelMapper'    => 'catalog_option_mapper',
                     'choiceService'  => 'catalog_choice_service',
                     'productService' => 'catalog_product_service',
                 ),

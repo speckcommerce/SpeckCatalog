@@ -17,6 +17,7 @@ use ZfcBase\Mapper\DbMapperAbstract,
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
     protected $sqlFactory;
+    protected $tableFields;
     
     public function getTable()
     {
@@ -33,11 +34,19 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return new Select();
     }
 
-    public function describeTable()
+    public function getTableFields()
     {
-        $adapter = $this->getTable()->getAdapter();
-        $sql = 'describe ' . $this->getTableName();
-        var_dump($adapter->query($sql)->execute()->current());
+        if(!$this->tableFields){
+            $adapter = $this->getTable()->getAdapter();
+            $sql = 'describe ' . $this->getTableName();
+            $result = $adapter->query($sql)->execute();
+            $fields = array();
+            foreach($result as $col){
+                $fields[] = $col['Field'];
+            }
+            $this->tableFields = $fields;
+        }
+        return $this->tableFields;
     }
 
     /**
@@ -63,21 +72,18 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      * @access public
      * @return void
      */
-    public function mapModel($row)
-    {
-        echo "something still using mapmodel function";
-        return $this->rowToModel($row);
-    }
     public function rowToModel($row=null)
     {
         if(!$row){
             return false;
         }
-        $model = $this->getModel();
-        $model = $model->fromArray($row->getArrayCopy());
+        
+        $model = $this->fromArray($row->getArrayCopy());
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
         return $model;
     }
+
+
     public function rowsetToModels($rows=null)
     {
         $models = array();
@@ -159,7 +165,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getById($id)
     {
-        $this->describeTable();
         $select = new Select();
         $select->from($this->getTable()->getTableName())
                ->where(array($this->getIdField() => $id));
@@ -201,6 +206,31 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $this->rowsToModels($rows); 
     }  
 
+    public function toArray($model)
+    {
+        $vars = get_object_vars($model);
+        foreach($vars as $key => $val){
+            unset($vars[$key]);
+            $key = $this->fromCamelCase($key);
+            if(in_array($key, $this->getTableFields())){
+                $array[$key] = $val;
+            }
+        }
+        return $array;
+    }
+
+    public function fromArray($array)
+    {
+        $model = $this->getModel();
+        foreach($array as $key => $val){
+            $setterMethod = 'set' . $this->toCamelCase($key);
+            if(method_exists($model,$setterMethod)){
+                $model->$setterMethod($val);
+            }
+        }
+        return $model;   
+    }           
+
     /**
      * add 
      *
@@ -240,12 +270,9 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     protected function prepareRow($model)
     {
-        $data = $model->toArray(NULL, function($v){ return htmlentities($v); });
-        $data['search_data'] = $model->getSearchData();
+        return $this->toArray($model);
+        //$data['search_data'] = $model->getSearchData();
         $this->events()->trigger(__FUNCTION__, $this, array('data' => $data));
-
-        return $data;
-        //return new ArrayObject($data);
     }
     
     /**
@@ -260,10 +287,10 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function persist($model, $mode = 'insert')
     {
-        $data = $this->prepareRow($model);
+        $row = $this->prepareRow($model);
+
         $table = $this->getTable(); 
         if ('update' === $mode) {
-            $field = $this->getIdField() . ' = ?';
             $table->update( $data, array($this->getIdField => $model->getId()));
         } elseif ('insert' === $mode) {
             $result = $table->insert($data);
@@ -276,10 +303,15 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $model;
     }
 
-    public function fromCamelCase($name)
+    public static function toCamelCase($name)
+    {
+        return implode('',array_map('ucfirst', explode('_',$name)));
+    }
+
+    public static function fromCamelCase($name)
     {
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
-    }     
+    }      
 
     //todo:: get the ui field from the tablegateway.
     public function getIdField()

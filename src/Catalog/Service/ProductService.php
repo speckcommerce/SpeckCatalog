@@ -16,14 +16,14 @@ class ProductService extends ServiceAbstract
     {
         $productId = $product->getProductId();
         
-        $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($product->getProductId()))
-                ->setOptions($this->getOptionService()->getOptionsByProductId($productId))
-                ->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId))
-                ->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()))
-                ->setCompanies($this->getCompanyService()->getAll())
-                ->setSpecs($this->getSpecService()->getByProductId($productId))
-                ->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId))
-                ->setImages($this->getImageService()->getImagesByProductId($productId));
+        //$product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($product->getProductId()))
+        //        ->setOptions($this->getOptionService()->getOptionsByProductId($productId))
+        //        ->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId))
+        //        ->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()))
+        //        ->setCompanies($this->getCompanyService()->getAll())
+        //        ->setSpecs($this->getSpecService()->getByProductId($productId))
+        //        ->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId))
+        //        ->setImages($this->getImageService()->getImagesByProductId($productId));
 
         return $product;
     }

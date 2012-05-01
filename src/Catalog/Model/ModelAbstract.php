@@ -78,41 +78,6 @@ abstract class ModelAbstract implements ModelInterface
         return $this->events;
     }
 
-    public function toArray()
-    {
-        $vars = get_object_vars($this);
-        foreach($vars as $key => $val){
-            unset($vars[$key]);
-            if(is_scalar($val)){
-                $key = $this->fromCamelCase($key);
-                $array[$key] = $val;
-            }
-        }
-        return $array;
-    }
-
-    public function fromArray($array)
-    {
-        foreach($array as $key => $val){
-            $setterMethod = 'set' . $this->toCamelCase($key);
-            if(method_exists($this,$setterMethod)){
-                $this->$setterMethod($val);
-            }
-        }
-        return $this;   
-    }    
-
-
-    public static function toCamelCase($name)
-    {
-        return implode('',array_map('ucfirst', explode('_',$name)));
-    }
-
-    public static function fromCamelCase($name)
-    {
-        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
-    }  
-
     public function isPopulated($flag=null)
     {
         if($flag){

@@ -33,19 +33,6 @@ class OptionService extends ServiceAbstract
         return $this->populateModels($options);
     }
 
-    public function newProductOption($productId)
-    {
-        $option = $this->newModel();
-        $this->getModelMapper()->linkOptionToProduct($productId, $option->getOptionId());
-        return $option;
-    }
-
-    public function newChoiceOption($choiceId){
-        $option = $this->newModel();
-        $this->getModelMapper()->linkOptionToChoice($choiceId, $option->getOptionId());
-        return $option;    
-    }
-
     public function updateSortOrder($parent, $order)
     {
         if('product' === $parent){

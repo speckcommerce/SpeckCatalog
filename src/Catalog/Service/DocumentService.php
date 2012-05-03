@@ -2,11 +2,6 @@
 namespace Catalog\Service;
 class DocumentService extends MediaServiceAbstract
 {
-    public function newProductDocument($productId)
-    {
-        return $this->getModelMapper()->newModel();
-    }
-
     public function getDocumentsByProductId($productId)
     {
         $documents = $this->getModelMapper()->getMediaByProductId($productId);

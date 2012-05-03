@@ -10,15 +10,6 @@ interface ModelMapperInterface
     public function getModel();
     
     /**
-     * newModel 
-     *
-     * name is misleading, this method reuturns a model that has been 
-     * instantiated, and written to the the catalog 
-     * todo: rename this and references to it, to something more explanatory
-     */
-    public function newModel();
-    
-    /**
      * getAll 
      * 
      * simple, fetches all rows, and returns matching models from the appropriate table.

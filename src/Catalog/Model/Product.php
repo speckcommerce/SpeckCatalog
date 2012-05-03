@@ -14,6 +14,7 @@ class Product extends ModelAbstract
     protected $specs;
     protected $documents;
     protected $images;
+    protected $itemNumber;
     
     //item view
     protected $manufacturer;

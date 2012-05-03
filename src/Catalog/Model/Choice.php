@@ -11,6 +11,7 @@ class Choice extends ModelAbstract
     protected $overrideName;
  
     protected $product;
+    protected $productId;
 
     protected $type = 'choice';
 

@@ -12,7 +12,7 @@ class Option extends ModelAbstract
     
     protected $name;
     
-    protected $listType = null; //radio, checkbox, dropdown, slider
+    protected $listType = 'radio'; //radio, checkbox, dropdown, slider
 
     protected $slider;
     

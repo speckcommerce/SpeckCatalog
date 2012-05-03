@@ -99,4 +99,8 @@ class Spec extends ModelAbstract
         $this->productId = $productId;
         return $this;
     }
+    public function setParentProductId($productId)
+    {
+        return $this->setProductId($productId);
+    }
 }

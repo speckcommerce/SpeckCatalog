@@ -9,9 +9,9 @@ class SpecService extends ServiceAbstract
 
     public function newProductSpec($productId)
     {
-        $spec = $this->getModelMapper()->newModel();
+        $spec = $this->getModelMapper()->getModel();
         $spec->setProductId($productId);
-        return $this->getModelMapper()->update($spec);
+        return $this->add($spec);
     }
 
     public function getByProductId($productId)

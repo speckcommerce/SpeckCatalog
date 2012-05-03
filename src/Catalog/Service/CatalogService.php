@@ -3,6 +3,16 @@ namespace Catalog\Service;
 use Exception,
     RuntimeException;
 
+/**
+ * CatalogService 
+ * 
+ * this is a generic wrapper service for all the other services
+ * 
+ * First parameter of all methods (lowercase, underscore_separated)
+ * will be used to fetch the correct model service, one exception is the 'linkModel' 
+ * method. 
+ *
+ */
 class CatalogService
 {
     protected $productService;
@@ -15,20 +25,7 @@ class CatalogService
     protected $imageService;
     protected $documentService;
 
-    public function getModel($class, $id=null)
-    {
-        if(0 === (int) $id){
-            throw new RuntimeException('need an ID');
-        } else {
-            $model = $this->getModelService($class)->getById((int)$id);
-            if(null === $model){
-                throw new Exception(get_class($this->getModelService($class)) . '::getById(' . $id . ') - returned null');
-            }
-            return $model;
-        }
-    }
-
-    private function getModelService($class)
+    public function getModelService($class)
     {
         $getModelService = 'get' . ucfirst($class) . 'Service';
         return $this->$getModelService();
@@ -53,69 +50,26 @@ class CatalogService
     {
         return $this->getModelService($class)->updateSortOrder($parent, $order);
     }
-
-    public function newModel($class, $constructor = null)
+   
+    public function getModel($class, $id)
     {
-        return $this->getModelService($class)->newModel($constructor);
+        return $this->getModelService($class)->getById($id);
     }
 
     public function linkModel($data)
     {
-        $newClassName    = (isset($data['new_class_name'])    ? $data['new_class_name']    : null );
-        $className       = (isset($data['class_name'])        ? $data['class_name']        : null );
-        $id              = (isset($data['id'])                ? $data['id']                : null );
-        $childClassName  = (isset($data['child_class_name'])  ? $data['child_class_name']  : null );
-        $childId         = (isset($data['child_id'])          ? $data['child_id']          : null );
-        $parentClassName = (isset($data['parent_class_name']) ? $data['parent_class_name'] : null );
-        $parentId        = (isset($data['parent_id'])         ? $data['parent_id']         : null );
-
-        if($newClassName){
-            return $this->linkNewModel($newClassName, $parentClassName, $parentId, $childClassName, $childId);
-        }
-        return $this->linkExistingModel($className, $id, $parentClassName, $parentId);
-    }
-    
-    private function linkNewModel($newClassName, $parentClassName, $parentId, $childClassName = null, $childId = null)
-    {
-        $newParentChild =  'new' . ucfirst($parentClassName) . ucfirst($newClassName); 
-        $model = $this->getModelService($newClassName)->$newParentChild($parentId);
-        $linkerId = $this->linkParent($newClassName, $model->getId(), $parentClassName, $parentId);
-        if($childClassName && $childId){
-            $this->linkParent($childClassName, $childId, $newClassName, $model->getId());
-        }
-        $model = $this->getModelService($newClassName)->getById($model->getId());
-        if (is_callable(array($model,'setLinkerId'))){
-            $model->setSortWeight(0);
-            $model->setLinkerId($linkerId);
-        }
-        return $model;
+        return $this->getModelLinkerService()->getAndLinkModel($data);
     }
 
-    private function linkExistingModel($className, $id, $parentClassName, $parentId)
+    public function newModel($class, $constructor)
     {
-        $this->linkParent($className, $id, $parentClassName, $parentId);
-        return $this->getModelService($className)->getById($id);
-    }
-   
-    private function linkParent($className, $id, $parentClassName, $parentId)
-    {
-        $linkParentClass = 'linkParent' . ucfirst($parentClassName);
-        if(method_exists($this->getModelService($className), $linkParentClass)){
-            return $this->getModelService($className)->$linkParentClass($parentId, $id);
-        }
-
-        //doesnt use a linker! - try and set the child id in the parent record.
-        $setChildClassId = 'setChild' . ucfirst($className) . 'Id';
-        if(method_exists($this->getModelService($parentClassName), $setChildClassId)){
-            $this->getModelService($parentClassName)->$setChildClassId($parentId, $id);
-        }
-        
-        return;
+        $model = $this->getModelService($class)->getModelMapper()->getModel();
+        return $this->getModelService($class)->add($model);
     }
 
-    public function removeLinker($className, $linkerId)
+    public function removeLinker($class, $linkerId)
     {
-        var_dump($this->getModelService($className)->removeLinker($linkerId));
+        var_dump($this->getModelService($class)->removeLinker($linkerId));
         //todo: check for orphan records....
     }   
 

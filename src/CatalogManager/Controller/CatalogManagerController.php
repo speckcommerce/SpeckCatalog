@@ -10,6 +10,7 @@ use Zend\Mvc\Controller\ActionController,
 class CatalogManagerController extends ActionController
 {
     protected $catalogService;
+    protected $linkerService;
     
     public function layout($layout=null)
     {
@@ -40,7 +41,6 @@ class CatalogManagerController extends ActionController
 
     public function newAction()
     {
-        $this->redirect()->toRoute('home');
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
@@ -95,7 +95,7 @@ class CatalogManagerController extends ActionController
         $this->layout(false);
         $partialName = $_POST['partial_name'];
         $class = ($_POST['class_name'] ? $_POST['class_name'] : $_POST['new_class_name']);
-        $model = $this->getCatalogService()->linkModel($_POST);
+        $model = $this->getLinkerService()->linkModel($_POST);
         return new ViewModel(array(
             $class => $model,
             'partial' => $_POST['partial_name'],
@@ -132,6 +132,17 @@ class CatalogManagerController extends ActionController
     public function setCatalogService($catalogService)
     {
         $this->catalogService = $catalogService;
+        return $this;
+    }
+ 
+    public function getLinkerService()
+    {
+        return $this->linkerService;
+    }
+ 
+    public function setLinkerService($linkerService)
+    {
+        $this->linkerService = $linkerService;
         return $this;
     }
 }   

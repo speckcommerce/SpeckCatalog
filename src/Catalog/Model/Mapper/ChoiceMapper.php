@@ -6,6 +6,9 @@ use Catalog\Model\Choice,
 
 class ChoiceMapper extends ModelMapperAbstract
 {
+    protected $parentOptionLinkerTable;
+    protected $childOptionLinkerTable;
+    
     public function getModel($constructor = null)
     {
         return new Choice($constructor);
@@ -13,17 +16,17 @@ class ChoiceMapper extends ModelMapperAbstract
 
     public function getChoicesByParentOptionId($optionId)
     {
+        $linkerName = $this->getParentOptionLinkerTable()->getTableName();
         $select = $this->newSelect();
-        $select->from('catalog_option_choice_linker')
-            ->where(array($this->getIdField() => $id));
-        //->join($this->getTableName());
+        $select->from($this->getTableName())
+            ->join($linkerName, $this->getTableName() . '.' . $this->getIdField() . ' = ' . $linkerName . '.' . $this->getIdField())
+            ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
         $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
         $rowset = $this->getTable()->selectWith($select);
 
         return $this->rowsetToModels($rowset);   
     }
-
 
     public function old_getChoicesByParentOptionId($optionId)
     {
@@ -64,29 +67,31 @@ class ChoiceMapper extends ModelMapperAbstract
 
     public function linkParentOption($optionId, $choiceId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from('catalog_option_choice_linker')
-            ->where('option_id = ?', $optionId)
-            ->where('choice_id = ?', $choiceId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if(false === $row){
-            $data = new ArrayObject(array(
-                'option_id'  => $optionId,
-                'choice_id' => $choiceId,
-            ));
-            $result = $db->insert('catalog_option_choice_linker', (array) $data);
-            if($result !== 1){
-                var_dump($result);
-                die('something didnt work!');
-            }
-        }
-        return $db->lastInsertId();
+        $table = $this->getParentOptionLinkerTable();
+        $row = array(
+            'choice_id' => $choiceId,
+            'option_id' => $optionId,
+        );
+        return $this->insertLinker($table, $row); 
+    }
+    public function getChoicesByChildOptionId($optionId)
+    {
+        $linkerName = $this->getChildOptionLinkerTable()->getTableName();
+        $select = $this->newSelect();
+        $select->from($this->getTableName())
+            ->join($linkerName, $this->getTableName() . '.' . $this->getIdField() . ' = ' . $linkerName . '.' . $this->getIdField())
+            ->where(array('option_id' => $optionId));
+            //->order('sort_weight DESC');
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);  
     }
 
 
-    public function getChoicesByChildOptionId($choiceId)
+
+    //note: this was wrong!  look at the prop.
+    public function old_getChoicesByChildOptionId($choiceId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
@@ -108,4 +113,26 @@ class ChoiceMapper extends ModelMapperAbstract
     {
         return $this->deleteLinker('catalog_option_choice_linker', $linkerId);
     }     
+
+    public function getParentOptionLinkerTable()
+    {
+        return $this->parentOptionLinkerTable;
+    }
+
+    public function setParentOptionLinkerTable($parentOptionLinkerTable)
+    {
+        $this->parentOptionLinkerTable = $parentOptionLinkerTable;
+        return $this;
+    }
+
+    public function getChildOptionLinkerTable()
+    {
+        return $this->childOptionLinkerTable;
+    }
+
+    public function setChildOptionLinkerTable($childOptionLinkerTable)
+    {
+        $this->childOptionLinkerTable = $childOptionLinkerTable;
+        return $this;
+    }
 }

@@ -138,7 +138,9 @@ class ProductUom extends ModelAbstract
 
     public function __toString()
     {
-        return $this->getUom()->__toString() . ' ' . $this->getQuantity() . ' - $' . number_format($this->getPrice(), 2);
+        return $this->getUom()->__toString() 
+            . ' ' . $this->getQuantity() 
+            . ' - $' . number_format($this->getPrice(), 2);
     }
  
     public function getUoms()

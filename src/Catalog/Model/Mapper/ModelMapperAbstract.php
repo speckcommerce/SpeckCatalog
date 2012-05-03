@@ -50,20 +50,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     }
 
     /**
-     * newModel
-     *
-     * Instantiates a new model + record.
-     * 
-     * @param mixed $constructor 
-     * @access public
-     * @return void
-     */
-    public function newModel($constructor=null)
-    {
-        return $this->persist($this->getModel($constructor), 'insert');
-    }
-
-    /**
      * rowToModel
      *
      * Instantiates a new model, and populates from an array of data.
@@ -77,8 +63,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if(!$row){
             return false;
         }
-        
-        $model = $this->fromArray($row->getArrayCopy());
+        $model = $this->fromArray($row);
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
         return $model;
     }
@@ -137,7 +122,25 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $db = $this->getWriteAdapter();
         return $db->delete($table, 'linker_id = ' . $linkerId);
     }
-    
+
+    public function insertLinker($linkerTable, $row)
+    {
+        $select = $this->newSelect();
+        
+        $select->from($linkerTable->getTableName())
+               ->where($row);
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $linkerTable->selectWith($select);
+        if($rowset->current()){
+            die('already have one!');
+        }
+
+        $linkerTable->insert($row);
+        return $linkerTable->getLastInsertId(); 
+    }
+
+      
+
     /**
      * deleteById 
      *
@@ -165,7 +168,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getById($id)
     {
-        $select = new Select();
+        $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
                ->where(array($this->getIdField() => $id));
         $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
@@ -208,15 +211,15 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
     public function toArray($model)
     {
-        $vars = get_object_vars($model);
-        foreach($vars as $key => $val){
-            unset($vars[$key]);
-            $key = $this->fromCamelCase($key);
-            if(in_array($key, $this->getTableFields())){
-                $array[$key] = $val;
+        $fields = $this->getTableFields();
+        $return = array();
+        foreach($fields as $field){
+            $getterMethod = 'get' . $this->toCamelCase($field);
+            if(method_exists($model, $getterMethod)){
+                $return[$field] = $model->$getterMethod();
             }
         }
-        return $array;
+        return $return;
     }
 
     public function fromArray($array)
@@ -224,7 +227,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $model = $this->getModel();
         foreach($array as $key => $val){
             $setterMethod = 'set' . $this->toCamelCase($key);
-            if(method_exists($model,$setterMethod)){
+            if(method_exists($model, $setterMethod)){
                 $model->$setterMethod($val);
             }
         }
@@ -260,22 +263,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     }    
     
     /**
-     * prepareRow
-     *
-     * takes a model and returns a flat array object, to be used for insert/updates  
-     * 
-     * @param mixed $model 
-     * @access public
-     * @return void
-     */
-    protected function prepareRow($model)
-    {
-        return $this->toArray($model);
-        //$data['search_data'] = $model->getSearchData();
-        $this->events()->trigger(__FUNCTION__, $this, array('data' => $data));
-    }
-    
-    /**
      * persist 
      * 
      * this handles the writing to the database
@@ -287,18 +274,18 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function persist($model, $mode = 'insert')
     {
-        $row = $this->prepareRow($model);
+        $row = $this->toArray($model);
 
         $table = $this->getTable(); 
         if ('update' === $mode) {
-            $table->update( $data, array($this->getIdField => $model->getId()));
+            $result = $table->update($row, array($this->getIdField() => $model->getId()));
         } elseif ('insert' === $mode) {
-            $result = $table->insert($data);
-            if($result === 0){
-                var_dump("could not insert:", var_dump($data), "into table:", $this->getTableName());
-                throw new Exception('query returned no result - insert failed');
-            }
+            $result = $table->insert($row);
             $model->setId($table->getLastInsertId());
+        }
+        if($result === 0){
+            var_dump("didn't execute properly:",$this->getTableName(), $mode, $row);
+            throw new Exception('query returned no result - insert failed');
         }
         return $model;
     }

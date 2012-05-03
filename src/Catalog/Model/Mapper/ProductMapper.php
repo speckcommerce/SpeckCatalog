@@ -7,6 +7,9 @@ use Catalog\Model\Product,
 
 class ProductMapper extends ModelMapperAbstract
 {
+    protected $childOptionLinkerTable;
+    protected $parentCategoryLinkerTable;
+    
     public function getModel($constructor = null)
     {
         return new Product($constructor);
@@ -24,8 +27,20 @@ class ProductMapper extends ModelMapperAbstract
         
         return $this->rowsToModels($rows);
     } 
-
     public function getProductsByChildOptionId($optionId)
+    {
+        $linkerName = $this->getChildOptionLinkerTable()->getTableName();
+        $select = $this->newSelect();
+        $select->from($this->getTableName())
+            ->join($linkerName, $this->getTableName() . '.product_id = '. $linkerName .'.product_id')
+            ->where(array('option_id' => $optionId));
+            //->order('sort_weight DESC');
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
+
+        return $this->rowsetToModels($rowset);  
+    }
+    public function old_getProductsByChildOptionId($optionId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
@@ -57,8 +72,28 @@ class ProductMapper extends ModelMapperAbstract
                 var_dump($result);
                 die('something didnt work!');
             }
-            
         }
     }
 
+    public function getChildOptionLinkerTable()
+    {
+        return $this->childOptionLinkerTable;
+    }
+
+    public function setChildOptionLinkerTable($childOptionLinkerTable)
+    {
+        $this->childOptionLinkerTable = $childOptionLinkerTable;
+        return $this;
+    }
+
+    public function getParentCategoryLinkerTable()
+    {
+        return $this->parentCategoryLinkerTable;
+    }
+
+    public function setParentCategoryLinkerTable($parentCategoryLinkerTable)
+    {
+        $this->parentCategoryLinkerTable = $parentCategoryLinkerTable;
+        return $this;
+    }
 }

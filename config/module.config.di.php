@@ -6,6 +6,7 @@ return array(
             'CatalogManager\Controller\CatalogManagerController' => array(
                 'parameters' => array(
                     'catalogService'     => 'catalog_generic_service',
+                    'linkerService'  => 'catalog_model_linker_service',
                 ),
             ),
             'Catalog\Controller\CatalogController' => array(
@@ -29,6 +30,12 @@ return array(
                     'documentService'     => 'catalog_document_service',
                     'imageService'        => 'catalog_image_service',
                 ),
+            ),
+
+            'catalog_model_linker_service' => array(
+                'parameters' => array(
+                    'catalogService' => 'catalog_generic_service',
+                )
             ),
 
             'catalog_product_service' => array(
@@ -125,12 +132,15 @@ return array(
             'catalog_product_mapper' => array(
                 'parameters' => array(
                     'tableGateway' => 'catalog_product_tg',
+                    'childOptionLinkerTable' => 'catalog_product_option_linker_tg',
                 ),
             ),
 
             'catalog_option_mapper' => array(
                 'parameters' => array(
                     'tableGateway'  => 'catalog_option_tg',
+                    'parentProductLinkerTable' => 'catalog_product_option_linker_tg',
+                    'parentChoiceLinkerTable' => 'catalog_choice_option_linker_tg'
                 ),
             ),
             
@@ -143,6 +153,8 @@ return array(
             'catalog_choice_mapper' => array(
                 'parameters' => array(
                     'tableGateway'  => 'catalog_choice_tg',
+                    'parentOptionLinkerTable' => 'catalog_option_choice_linker_tg',
+                    'childOptionLinkerTable'  => 'catalog_choice_option_linker_tg',
                 ),
             ),
 
@@ -256,6 +268,41 @@ return array(
             'catalog_media_tg' => array(
                 'parameters' => array(
                     'tableName' => 'catalog_media',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_product_option_linker_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_product_option_linker',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_choice_option_linker_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_choice_option_linker',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_option_choice_linker_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_option_choice_linker',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_product_image_linker_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_product_image_linker',
+                    'adapter' => 'catalog_zend_db_adapter',
+                ),
+            ),
+
+            'catalog_product_document_linker_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'catalog_product_document_linker',
                     'adapter' => 'catalog_zend_db_adapter',
                 ),
             ),

@@ -47,22 +47,6 @@ class ChoiceService extends ServiceAbstract
         return $this->getModelMapper()->getChoicesByChildOptionId($optionId);
     }
     
-    public function newOptionChoice($optionId)
-    {
-        $choice = $this->newModel();
-        return $choice;
-    }
-
-    public function newOptionChoiceWithExistingProduct($optionId, $productId)
-    {
-        $choice = $this->newModel();
-        $choice->setProductId($productId);
-        $this->update($choice);
-        $choice->setProduct($this->getProductService()->getById($productId));
-
-        return $choice;
-    }
-
     public function updateSortOrder($parent, $order)
     {
         $this->getModelMapper()->updateOptionChoiceSortOrder($order);

@@ -15,9 +15,9 @@ class AvailabilityService extends ServiceAbstract
 
     public function newProductUomAvailability($parentId)
     {
-        $availability = $this->getModelMapper()->newModel();
+        $availability = $this->getModelMapper()->getModel();
         $availability->setParentProductUomId($parentId);
-        $this->update($availability);
+        $this->add($availability);
         $availability->setCompanies($this->getCompanyService()->getAll());
         return $availability;
     }

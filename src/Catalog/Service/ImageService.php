@@ -2,12 +2,6 @@
 namespace Catalog\Service;
 class ImageService extends MediaServiceAbstract
 {
-    
-    public function newProductImage($productId)
-    {
-        return $this->getModelMapper()->newModel();
-    }
-
     public function getImagesByProductId($productId)
     {
         $images = $this->getModelMapper()->getMediaByProductId($productId);

@@ -7,75 +7,16 @@ use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
 
 abstract class ModelAbstract implements ModelInterface
 {
-    private $isPopulated = false; //must remain private
+    protected $isPopulated = false;
     protected $revUserId;
     protected $revDateTime;
     protected $revParentId;
     protected $revId;
+    protected $searchData;
 
-    /**
-     * @var EventCollection
-     */
-    protected $events;
-
-    /**
-     * Set the event manager instance used by this context
-     * 
-     * @param  EventCollection $events 
-     * @return mixed
-     */
-    public function setEventManager(EventCollection $events)
+    public function getSearchData()
     {
-        $this->events = $events;
-        return $this;
-    }
-
-    private function arrToData($arr, $searchData){
-        foreach($arr as $val){
-            if(is_array($val)){
-                $searchData = $this->arrToData($val, $searchData);
-            }else{
-                if(strstr($val, ' ')){
-                    $searchData = $this->arrToData(explode(' ', $val),$searchData);
-                }else{
-                    if(strlen($val) > 1) $searchData[$val] = strtolower($val);
-                }   
-            }   
-        }
-        return $searchData;
-    }
-
-    public function getSearchData(){
-        $arr = $this->arrToData($this->toArray(), array());
-        return implode(' ', $arr);
-    }
-
-
-    /**
-     * Retrieve the event manager
-     *
-     * Lazy-loads an EventManager instance if none registered.
-     * 
-     * @return EventCollection
-     */
-    public function events()
-    {
-        if (!$this->events instanceof EventCollection) {
-            $identifiers = array(__CLASS__, get_class($this));
-            if (isset($this->eventIdentifier)) {
-                if ((is_string($this->eventIdentifier))
-                    || (is_array($this->eventIdentifier))
-                    || ($this->eventIdentifier instanceof Traversable)
-                ) {
-                    $identifiers = array_unique(array_merge($identifiers, (array) $this->eventIdentifier));
-                } elseif (is_object($this->eventIdentifier)) {
-                    $identifiers[] = $this->eventIdentifier;
-                }
-                // silently ignore invalid eventIdentifier types
-            }
-            $this->setEventManager(new EventManager($identifiers));
-        }
-        return $this->events;
+        return $this->searchData;
     }
 
     public function isPopulated($flag=null)

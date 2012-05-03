@@ -7,6 +7,8 @@ use Catalog\Model\Option,
 class OptionMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_option';
+    protected $parentProductLinkerTable;
+    protected $parentChoiceLinkerTable;
     protected $productLinkerTableName = 'catalog_product_option_linker';
     protected $choiceLinkerTableName = 'catalog_choice_option_linker';
 
@@ -27,8 +29,6 @@ class OptionMapper extends ModelMapperAbstract
 
         return $this->rowsetToModels($rowset);     
     }    
-    
-    
                        
     public function old_getOptionsByProductId($productId)
     {
@@ -46,54 +46,36 @@ class OptionMapper extends ModelMapperAbstract
 
     public function getOptionsByChoiceId($choiceId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from($this->getTableName())
-            ->join($this->getChoiceLinkerTableName(), $this->getChoiceLinkerTableName().'.option_id = '.$this->getTableName().'.option_id') 
-            ->where( $this->getChoiceLinkerTableName().'.choice_id = ?', $choiceId)
-            ->order('sort_weight DESC');
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $rows = $db->fetchAll($sql);
+        $linkerName = $this->getParentChoiceLinkerTable()->getTableName();
+        $select = $this->newSelect();
+        $select->from($this->getTableName())
+            ->join($linkerName, $this->getTableName() . '.' . $this->getIdField() . ' = ' . $linkerName . '.' . $this->getIdField())
+            ->where(array('choice_id' => $choiceId));
+        //->order('sort_weight DESC');
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $rowset = $this->getTable()->selectWith($select);
 
-        return $this->rowsToModels($rows);
+        return $this->rowsetToModels($rowset);  
     }  
 
     public function linkOptionToProduct($productId, $optionId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from($this->getProductLinkerTableName())
-            ->where('product_id = ?', $productId)
-            ->where('option_id = ?', $optionId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if(false === $row){
-            $data = new ArrayObject(array(
-                'product_id' => $productId,
-                'option_id'  => $optionId,
-            ));
-            $db->insert($this->getProductLinkerTableName(), (array) $data);
-        }
-        return $db->lastInsertId();
+        $table = $this->getParentProductLinkerTable();
+        $row = array(
+            'product_id' => $productId,
+            'option_id' => $optionId,
+        );
+        return $this->insertLinker($table, $row);
     }
     
     public function linkOptionToChoice($choiceId, $optionId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from($this->getChoiceLinkerTableName())
-            ->where('choice_id = ?', $choiceId)
-            ->where('option_id = ?', $optionId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if(false === $row){
-            $data = new ArrayObject(array(
-                'choice_id' => $choiceId,
-                'option_id'  => $optionId,
-            ));
-            $db->insert($this->getChoiceLinkerTableName(), (array) $data);
-        }
-        return $db->lastInsertId();
+        $table = $this->getParentChoiceLinkerTable();
+        $row = array(
+            'choice_id' => $choiceId,
+            'option_id' => $optionId,
+        );
+        return $this->insertLinker($table, $row);    
     }
 
     public function updateChoiceOptionSortOrder($order)
@@ -118,4 +100,26 @@ class OptionMapper extends ModelMapperAbstract
     {
         return $this->deleteLinker('catalog_product_option_linker', $linkerId);
     }   
+ 
+    public function getParentProductLinkerTable()
+    {
+        return $this->parentProductLinkerTable;
+    }
+ 
+    public function setParentProductLinkerTable($parentProductLinkerTable)
+    {
+        $this->parentProductLinkerTable = $parentProductLinkerTable;
+        return $this;
+    }
+ 
+    public function getParentChoiceLinkerTable()
+    {
+        return $this->parentChoiceLinkerTable;
+    }
+ 
+    public function setParentChoiceLinkerTable($parentChoiceLinkerTable)
+    {
+        $this->parentChoiceLinkerTable = $parentChoiceLinkerTable;
+        return $this;
+    }
 }

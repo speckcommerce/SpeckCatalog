@@ -18,6 +18,15 @@ class ProductUomService extends ServiceAbstract
         return $productUom;
     }
 
+    public function getModel($constructor=null)
+    {
+        $model = $this->getModelMapper()->getModel($constructor);
+        $model->setUom($this->uomService->getById($model->getUomCode()));
+        $model->setUoms($this->getUomService()->getAll());
+        
+        return $model;
+    }
+
     public function getProductUomsByParentProductId($id)
     {
         $productUoms = $this->modelMapper->getProductUomsByParentProductId($id);

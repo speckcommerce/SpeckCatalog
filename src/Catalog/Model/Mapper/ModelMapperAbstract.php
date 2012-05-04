@@ -68,7 +68,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $model;
     }
 
-
     public function rowsetToModels($rows=null)
     {
         $models = array();
@@ -139,8 +138,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $linkerTable->getLastInsertId(); 
     }
 
-      
-
     /**
      * deleteById 
      *
@@ -176,7 +173,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
         return $this->rowToModel($rowset->current());   
     }
-
 
     /**
      * getModelsBySearchData 
@@ -234,29 +230,11 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $model;   
     }           
 
-    /**
-     * add 
-     *
-     * adds a new record in the database
-     * 
-     * @param mixed $model 
-     * @access public
-     * @return void
-     */
     public function add($model)
     {
         return $this->persist($model);
     }
 
-    /**
-     * update 
-     * 
-     * updates an existing record in the database
-     *
-     * @param mixed $model 
-     * @access public
-     * @return void
-     */
     public function update($model)
     {
         return $this->persist($model, 'update');

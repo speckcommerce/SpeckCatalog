@@ -185,12 +185,14 @@ return array(
             'catalog_document_mapper' => array(
                 'parameters' => array(
                     'tableGateway'  => 'catalog_media_tg',
+                    'linkerTable'   => 'catalog_product_document_linker_tg',
                 ),
             ), 
 
             'catalog_image_mapper' => array(
                 'parameters' => array(
                     'tableGateway'  => 'catalog_media_tg',
+                    'linkerTable'   => 'catalog_product_image_linker_tg',
                 ),
             ), 
 

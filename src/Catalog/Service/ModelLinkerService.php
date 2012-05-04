@@ -40,7 +40,7 @@ class ModelLinkerService
             $this->model = $this->getExistingModel();
             return $this->createLinker($this->class, $this->id, $this->parentClassName, $this->parentId);
         }
-        $this->model = $this->getModelService()->getModelMapper()->getModel();
+        $this->model = $this->getModelService()->getModel();
         $this->model = $this->resolveAndStoreRelationship();
         if($this->childClassName && $this->childId){
             $this->createLinker($this->childClassName, $this->childId, $this->class, $model->getId());
@@ -50,12 +50,13 @@ class ModelLinkerService
 
     public function resolveAndStoreRelationship()
     {
+        // one/many children to one parent
         $setParentClassId = 'setParent' . ucfirst($this->parentClassName) . 'Id';
         if (is_callable(array($this->model, $setParentClassId))){
             $this->model->$setParentClassId($this->parentId);
             return $this->getModelService()->add($this->model);
         } 
-        
+        // one/many parents to one child
         $setChildClassId = 'set' . ucfirst($this->class) . 'Id';
         $parentModelService = $this->getModelService($this->parentClassName);
         $parentModel = $parentModelService->getById($this->parentId);
@@ -63,7 +64,7 @@ class ModelLinkerService
             $parentModelService->update($parentModel->$setChildClassId($id));
             return $this->model;
         }
-
+        // many parents to many children
         $this->getModelService()->add($this->model);
         return $this->createLinker($this->class, $this->model->getId(), $this->parentClassName, $this->parentId);
     }
@@ -71,12 +72,19 @@ class ModelLinkerService
     public function createLinker($className, $id, $parentClassName, $parentId)
     {
         $method = 'linkParent' . ucfirst($parentClassName);
-        if (is_callable(array($this->getModelService(), $method))){
+        if (is_callable(array($this->getModelService($className), $method))){
             $linkerId = $this->getModelService($className)->$method($parentId, $id);
             return $this->model->setLinkerId($linkerId);
         } 
-        throw new \Exception('uh oh');  
+        $exceptionMessage = "creation of linker failed, method not available" . get_class($this->getModelService($className)) . "::" . $method;
+        throw new \Exception($exceptionMessage);  
     }
+
+    public function removeLinker($class, $linkerId)
+    {
+        var_dump($this->getModelService($class)->removeLinker($linkerId));
+        //todo: check for orphan records....
+    }    
 
     public function getModelService($class=null)
     {

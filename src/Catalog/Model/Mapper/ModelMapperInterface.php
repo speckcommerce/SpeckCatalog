@@ -7,7 +7,7 @@ interface ModelMapperInterface
      *
      * returns a new model
      */
-    public function getModel();
+    public function getModel($constructor);
     
     /**
      * getAll 

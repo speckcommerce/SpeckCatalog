@@ -36,7 +36,6 @@ abstract class ServiceAbstract implements ServiceInterface
 
     public function populateModels($models)
     {
-        
         foreach($models as $i => $model){
             $models[$i] = $this->populateModel($model);
         }
@@ -49,9 +48,9 @@ abstract class ServiceAbstract implements ServiceInterface
         return $this->update($model);
     }    
     
-    public function newModel($constructor=null)
+    public function getModel($constructor=null)
     {
-        return $this->getModelMapper()->newModel($constructor);
+        return $this->getModelMapper()->getModel($constructor);
     }
 
     public function getModelsBySearchData($string)

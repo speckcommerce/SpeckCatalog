@@ -4,25 +4,21 @@ use ArrayObject;
 abstract class MediaMapperAbstract extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_media';
+    protected $linkerTable;
 
     public function getIdField()
     {
         return 'media_id';
     }   
-    
-    public function getLinkerTableName()
-    {
-        return $this->linkerTableName;
-    }
-    
+
     public function getMediaByProductId($productId)
     {
         $select = $this->newSelect();
         $select->from($this->getTableName())
             ->join(
-                $this->getLinkerTableName(), 
+                $this->getLinkerTable()->getTableName(), 
                 $this->getTableName() . '.' . $this->getIdField() 
-                    . ' = ' . $this->getLinkerTableName() . '.' . $this->getIdField()
+                    . ' = ' . $this->getLinkerTable()->getTableName() . '.' . $this->getIdField()
             )
             ->where(array('product_id' => $productId));
             //->order('sort_weight DESC');
@@ -31,4 +27,15 @@ abstract class MediaMapperAbstract extends ModelMapperAbstract
 
         return $this->rowsetToModels($rowset);     
     }    
+ 
+    public function getLinkerTable()
+    {
+        return $this->linkerTable;
+    }        
+
+    public function setLinkerTable($linkerTable)
+    {
+        $this->linkerTable = $linkerTable;
+        return $this;
+    }
 }

@@ -16,7 +16,6 @@ use ZfcBase\Mapper\DbMapperAbstract,
  */
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
-    protected $sqlFactory;
     protected $tableFields;
     
     public function getTable()
@@ -40,7 +39,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             $adapter = $this->getTable()->getAdapter();
             $sql = 'describe ' . $this->getTableName();
             $result = $adapter->query($sql)->execute();
-            $fields = array();
+            $fields = array();     
             foreach($result as $col){
                 $fields[] = $col['Field'];
             }
@@ -210,7 +209,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $return = array();
         foreach($fields as $field){
             $getterMethod = 'get' . $this->toCamelCase($field);
-            if(method_exists($model, $getterMethod)){
+            if(is_callable(array($model, $getterMethod))){
                 $return[$field] = $model->$getterMethod();
             }
         }
@@ -277,12 +276,10 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
     }      
 
-    //todo:: get the ui field from the tablegateway.
     public function getIdField()
     {
         $class = explode('\\', get_class($this->getModel()));
         $className = array_pop($class);
         return $this->fromCamelCase($className) . '_id';
     }
-
 }

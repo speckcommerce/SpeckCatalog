@@ -40,18 +40,6 @@ class ProductMapper extends ModelMapperAbstract
 
         return $this->rowsetToModels($rowset);  
     }
-    public function old_getProductsByChildOptionId($optionId)
-    {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from('catalog_product_option_linker')
-            ->join($this->getTableName(), 'catalog_product_option_linker.product_id = ' . $this->getTableName() . '.product_id')
-            ->where('option_id = ?', $optionId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $rows = $db->fetchAll($sql);
-
-        return $this->rowsToModels($rows);
-    }
 
     public function linkParentCategory($categoryId, $productId)
     {

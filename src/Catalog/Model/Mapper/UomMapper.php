@@ -17,8 +17,7 @@ class UomMapper extends ModelMapperAbstract
         return 'uom_code';
     }
 
-    //overrides abstract
-    //where enabled = 1
+    //overrides abstract , where enabled = 1
     public function getAll()
     {
         $select = $this->newSelect();
@@ -28,16 +27,4 @@ class UomMapper extends ModelMapperAbstract
 
         return $this->rowsetToModels($rowset);    
     }
-
-    public function old_getAll()
-    {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from($this->getTableName())
-                  ->where('enabled = ?', 1);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));   
-        $rows = $db->fetchAll($sql);
-
-        return $this->rowsToModels($rows);
-    }   
 }

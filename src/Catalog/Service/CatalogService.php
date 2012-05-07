@@ -56,11 +56,6 @@ class CatalogService
         return $this->getModelService($class)->getById($id);
     }
 
-    public function linkModel($data)
-    {
-        return $this->getModelLinkerService()->getAndLinkModel($data);
-    }
-
     public function newModel($class, $constructor=null)
     {
         $model = $this->getModelService($class)->getModelMapper()->getModel($constructor);

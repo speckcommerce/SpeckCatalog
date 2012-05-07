@@ -9,11 +9,6 @@ use ZfcBase\Mapper\DbMapperAbstract,
     ArrayObject,
     Exception;
 
-/**
- * DbMapperAbstract 
- * 
- * @uses ZfcDbMapperAbstract
- */
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
     protected $tableFields;
@@ -268,7 +263,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
     public static function toCamelCase($name)
     {
-        return implode('',array_map('ucfirst', explode('_',$name)));
+        return implode('', array_map('ucfirst', explode('_',$name)));
     }
 
     public static function fromCamelCase($name)

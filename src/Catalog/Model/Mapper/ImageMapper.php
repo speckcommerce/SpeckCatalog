@@ -10,7 +10,8 @@ class ImageMapper extends MediaMapperAbstract
     }
 
     public function linkParentProduct($productId, $imageId)
-    {        $table = $this->getLinkerTable();
+    {   
+        $table = $this->getLinkerTable();
         $row = array(
             'product_id' => $productId,
             'media_id' => $imageId,

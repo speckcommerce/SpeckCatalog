@@ -121,7 +121,7 @@ class CatalogManagerController extends ActionController
     {
         $type = $this->getEvent()->getRouteMatch()->getParam('type');
         $linkerId = $this->getEvent()->getRouteMatch()->getParam('linkerId');
-        die($this->getCatalogService()->removeLinker($type, $linkerId));
+        die($this->getLinkerService()->removeLinker($type, $linkerId));
     }
     
     public function getCatalogService()

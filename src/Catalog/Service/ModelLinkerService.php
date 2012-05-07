@@ -14,7 +14,7 @@ class ModelLinkerService
 
     public function setData($data)
     {
-        if(trim($data['new_class_name'])){
+        if (trim($data['new_class_name'])){
             $this->new = true;
             $this->class = $data['new_class_name'];
         }else{
@@ -36,13 +36,13 @@ class ModelLinkerService
     public function linkModel($data)
     {
         $this->setData($data);
-        if(false === $this->new){
+        if (false === $this->new){
             $this->model = $this->getExistingModel();
             return $this->createLinker($this->class, $this->id, $this->parentClassName, $this->parentId);
         }
         $this->model = $this->getModelService()->getModel();
         $this->model = $this->resolveAndStoreRelationship();
-        if($this->childClassName && $this->childId){
+        if ($this->childClassName && $this->childId){
             $this->createLinker($this->childClassName, $this->childId, $this->class, $model->getId());
         }   
         return $this->model;
@@ -76,8 +76,7 @@ class ModelLinkerService
             $linkerId = $this->getModelService($className)->$method($parentId, $id);
             return $this->model->setLinkerId($linkerId);
         } 
-        $exceptionMessage = "creation of linker failed, method not available" . get_class($this->getModelService($className)) . "::" . $method;
-        throw new \Exception($exceptionMessage);  
+        throw new \Exception('uh oh');  
     }
 
     public function removeLinker($class, $linkerId)
@@ -88,7 +87,7 @@ class ModelLinkerService
 
     public function getModelService($class=null)
     {
-        if(null === $class){
+        if (null === $class){
             $class = $this->class;
         }
         return $this->getCatalogService()->getModelService($class);

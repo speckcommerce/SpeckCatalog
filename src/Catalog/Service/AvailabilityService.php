@@ -9,18 +9,18 @@ class AvailabilityService extends ServiceAbstract
     public function _populateModel($availability)
     {
         $availability->setCompanies($this->getCompanyService()->getAll());
-        $availability->setDistributor($this->getCompanyService()->getById($availability->getDistributorCompanyId()));
+        $availability->setDistributor(
+            $this->getCompanyService()->getById($availability->getDistributorCompanyId())
+        );
         return $availability;
     }
 
-    public function newProductUomAvailability($parentId)
+    public function getModel($constructor=null)
     {
-        $availability = $this->getModelMapper()->getModel();
-        $availability->setParentProductUomId($parentId);
-        $this->add($availability);
-        $availability->setCompanies($this->getCompanyService()->getAll());
-        return $availability;
-    }
+        $model = $this->getModelMapper()->getModel($constructor);
+        $model->setCompanies($this->getCompanyService()->getAll());
+        return $model;
+    }       
 
     public function getAvailabilitiesByParentProductUomId($id)
     {

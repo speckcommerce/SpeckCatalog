@@ -118,8 +118,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
     public function deleteLinker($table, $linkerId)
     {
-        $db = $this->getWriteAdapter();
-        return $db->delete($table, 'linker_id = ' . $linkerId);
+        return $this->getTable()->delete('linker_id = ' . $linkerId);
     }
 
     public function insertLinker($linkerTable, $row)

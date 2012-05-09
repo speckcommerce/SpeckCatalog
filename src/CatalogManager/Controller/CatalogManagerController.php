@@ -11,6 +11,7 @@ class CatalogManagerController extends ActionController
 {
     protected $catalogService;
     protected $linkerService;
+    protected $testService;
     
     public function layout($layout=null)
     {
@@ -44,7 +45,7 @@ class CatalogManagerController extends ActionController
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
-        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
+        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getRecordId()));
     }
     
     public function productsAction()
@@ -143,6 +144,27 @@ class CatalogManagerController extends ActionController
     public function setLinkerService($linkerService)
     {
         $this->linkerService = $linkerService;
+        return $this;
+    }
+ 
+    /**
+     * Get testService.
+     *
+     * @return testService
+     */
+    public function getTestService()
+    {
+        return $this->testService;
+    }
+ 
+    /**
+     * Set testService.
+     *
+     * @param $testService the value to be set
+     */
+    public function setTestService($testService)
+    {
+        $this->testService = $testService;
         return $this;
     }
 }   

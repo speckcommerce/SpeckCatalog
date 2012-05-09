@@ -43,7 +43,7 @@
                             'ClassName'       => 'productUom',
                             'newClassName'    => 'productUom',
                             'parentClassName' => 'product',
-                            'parentId'        => $product->getProductId(),
+                            'parentId'        => $product->getRecordId(),
                             'partialName'     => 'product-uom',
                         ));?>
                     </div>
@@ -75,7 +75,7 @@
                         'function'        => 'add-button',
                         'newClassName'    => 'option',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'option',
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
@@ -83,7 +83,7 @@
                         'searchClassName' => 'option',
                         'className'       => 'option',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'option',
                     ));?>
                 </div>
@@ -107,7 +107,7 @@
                         'function'        => 'add-button',
                         'newClassName'    => 'spec',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'spec',
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
@@ -115,7 +115,7 @@
                         'searchClassName' => 'spec',
                         'className'       => 'spec',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'spec',
                     ));?>
                 </div>
@@ -139,7 +139,7 @@
                         'function'        => 'add-button',
                         'newClassName'    => 'document',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'document',
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
@@ -147,7 +147,7 @@
                         'searchClassName' => 'document',
                         'className'       => 'document',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'document',
                     ));?>
                 </div>
@@ -171,7 +171,7 @@
                         'function'        => 'add-button',
                         'newClassName'    => 'image',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'image',
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
@@ -179,7 +179,7 @@
                         'searchClassName' => 'image',
                         'className'       => 'image',
                         'parentClassName' => 'product',
-                        'parentId'        => $product->getProductId(),
+                        'parentId'        => $product->getRecordId(),
                         'partialName'     => 'image',
                     ));?>
                 </div>

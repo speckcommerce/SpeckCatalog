@@ -2,32 +2,11 @@
 namespace Catalog\Model;
 class Category extends ModelAbstract
 {
-    protected $categoryId;
     protected $name;
     protected $products = array();
     protected $categories = array();
 
-    public function getCategoryId()
-    {
-        return $this->categoryId;
-    }
- 
-    public function setCategoryId($categoryId)
-    {
-        $this->categoryId = $categoryId;
-        return $this;
-    }
 
-    public function getId()
-    {
-        return $this->getCategoryId();
-    }
-
-    public function setId($id)
-    {
-        return $this->setCategoryId($id);
-    }
- 
     public function getProducts()
     {
         return $this->products;

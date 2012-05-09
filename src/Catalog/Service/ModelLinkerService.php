@@ -66,7 +66,7 @@ class ModelLinkerService
         }
         // many parents to many children
         $this->getModelService()->add($this->model);
-        return $this->createLinker($this->class, $this->model->getId(), $this->parentClassName, $this->parentId);
+        return $this->createLinker($this->class, $this->model->getRecordId(), $this->parentClassName, $this->parentId);
     }
 
     public function createLinker($className, $id, $parentClassName, $parentId)

@@ -10,8 +10,7 @@ abstract class ModelAbstract implements ModelInterface
     protected $isPopulated = false;
     protected $revUserId;
     protected $revDateTime;
-    protected $revParentId;
-    protected $revId;
+    protected $recordId;
     protected $searchData;
 
     public function getSearchData()
@@ -59,15 +58,14 @@ abstract class ModelAbstract implements ModelInterface
         return $this;
     }
 
-    public function getRevId()
+    public function getRecordId()
     {
-        return $this->revId;
+        return $this->recordId;
     }
 
-    public function setRevId($revId)
+    public function setRecordId($recordId)
     {
-        $this->revId = $revId;
+        $this->recordId = $recordId;
         return $this;
     }
-
 }

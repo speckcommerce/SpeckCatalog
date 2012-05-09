@@ -4,9 +4,6 @@ namespace Catalog\Model;
 
 class Availability extends ModelAbstract
 {
-
-    protected $availabilityId;
-
     protected $distributorCompanyId;
     protected $distributor;
     protected $companies;
@@ -49,17 +46,6 @@ class Availability extends ModelAbstract
         return $this;
     }
  
-    public function setAvailabilityId($availabilityId)
-    {
-        $this->availabilityId = $availabilityId;
-        return $this;
-    }
- 
-    public function getAvailabilityId()
-    {
-        return $this->availabilityId;
-    }
-
     public function getParentProductUomId()
     {
         return $this->parentProductUomId;
@@ -101,15 +87,5 @@ class Availability extends ModelAbstract
             $string .= $company->getName() . ' - $' . number_format($this->getCost(),2);
         }
         return $string;
-    }
-
-    public function getId()
-    {
-        return $this->getAvailabilityId();
-    }    
-
-    public function setId($id)
-    {
-        return $this->setAvailabilityId($id);
     }
 }

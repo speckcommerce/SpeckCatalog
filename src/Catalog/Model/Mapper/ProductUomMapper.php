@@ -18,7 +18,7 @@ class ProductUomMapper extends ModelMapperAbstract
         $select->from($this->getTable()->getTableName())
             ->where(array('parent_product_id' => $productId));
             //->order('price ASC');
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $select = $this->revSelect($select);
         $rowset = $this->getTable()->selectWith($select);
 
         return $this->rowsetToModels($rowset);    

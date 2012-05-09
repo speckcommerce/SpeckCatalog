@@ -6,7 +6,7 @@ class Product extends ModelAbstract
 {
     //shell view        
     protected $type; 
-    protected $productId;
+    protected $recordId;
     protected $name;
     protected $description;
     protected $options;
@@ -74,12 +74,6 @@ class Product extends ModelAbstract
         $this->description = htmlentities($description, ENT_QUOTES, "UTF-8", false); 
         return $this;
     }
- 
-    public function setProductId($productId)
-    {
-        $this->productId = (int) $productId;
-        return $this;
-    }
 
     public function setPrice($price)
     {
@@ -100,11 +94,6 @@ class Product extends ModelAbstract
     public function getDescription()
     {
         return $this->description;
-    }
- 
-    public function getProductId()
-    {
-        return $this->productId;
     }
  
     public function getType()
@@ -209,16 +198,17 @@ class Product extends ModelAbstract
         $this->companies = $companies;
         return $this;
     }
-    public function getId()
-    {
-        return $this->getProductId();
-    }
-    
-    public function setId($id)
-    {
-        return $this->setProductId($id);
-    }    
 
+    public function getProductId()
+    {
+        return $this->getRecordId();
+    }
+
+    public function setProductId($id)
+    {
+        return $this->setRecordId($id);
+    }
+        
     public function getSpecs()
     {
         return $this->specs;

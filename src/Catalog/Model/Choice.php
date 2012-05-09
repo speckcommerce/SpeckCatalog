@@ -5,8 +5,6 @@ use Exception;
 
 class Choice extends ModelAbstract
 {
-    protected $choiceId;
-
     //field holds name for 'choice', override name for 'product'
     protected $overrideName;
  
@@ -74,20 +72,6 @@ class Choice extends ModelAbstract
         return $this;
     }
  
-    public function getChoiceId()
-    {
-        if (0 === $this->choiceId){
-            return false;
-        }
-        return $this->choiceId;
-    }
- 
-    public function setChoiceId($choiceId)
-    {
-        $this->choiceId = (int) $choiceId;
-        return $this;
-    }
-
     public function hasOptions()
     {
         if(!$this->getProduct() && $this->getOptions()){
@@ -221,15 +205,6 @@ class Choice extends ModelAbstract
             throw new Exception('invalid type - ' . $type);
         }
         return $this;
-    }
-    public function getId()
-    {
-        return $this->getChoiceId();
-    }
-
-    public function setId($id)
-    {
-        return $this->setChoiceId($id);
     }
 
     public function isShared()

@@ -15,7 +15,7 @@ class ChoiceService extends ServiceAbstract
                 $choice->setProduct($product); 
             }
         }
-        $choice->setOptions($this->getOptionService()->getOptionsByChoiceId($choice->getChoiceId()));
+        $choice->setOptions($this->getOptionService()->getOptionsByChoiceId($choice->getRecordId()));
 
         return $choice;
     }

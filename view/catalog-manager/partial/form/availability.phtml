@@ -1,7 +1,7 @@
 <? $pdir = '/catalog-manager/partial/'; ?>
-<form id="availability-<?=$availability->getAvailabilityId();?>" class="live-form">
+<form id="availability-<?=$availability->getRecordId();?>" class="live-form">
 
-    <input type="hidden" name="availability_id" value="<?=$availability->getAvailabilityId();?>"/>
+    <input type="hidden" name="record_id" value="<?=$availability->getRecordId();?>"/>
     <input type="hidden" name="parent_product_uom_id" value="<?=$availability->getParentProductUomId();?>"/>
     
     <div class="row">

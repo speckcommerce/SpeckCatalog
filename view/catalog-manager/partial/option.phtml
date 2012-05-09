@@ -33,14 +33,14 @@
                     'childClassName'  => 'product',
                     'newClassName'    => 'choice',
                     'parentClassName' => 'option',
-                    'parentId'        => $option->getOptionId(),
+                    'parentId'        => $option->getRecordId(),
                     'partialName'     => 'choice',
                 ));?>    
                 <?=$this->partial($pdir.'add.phtml', array(
                     'function' => 'add-button',
                     'newClassName'=>'choice',
                     'parentClassName' => 'option',
-                    'parentId' => $option->getOptionId(),
+                    'parentId'        => $option->getRecordId(),
                     'partialName'     => 'choice',
                 ));?>
                 <?=$this->partial($pdir.'add.phtml', array(
@@ -48,7 +48,7 @@
                     'searchClassName' => 'choice',
                     'className'       => 'choice',
                     'parentClassName' => 'option',
-                    'parentId'        => $option->getOptionId(),
+                    'parentId'        => $option->getRecordId(),
                     'partialName'     => 'choice',
                 ));?>    
             </div>

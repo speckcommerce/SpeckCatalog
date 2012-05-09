@@ -32,7 +32,7 @@ class ProductMapper extends ModelMapperAbstract
         $linkerName = $this->getChildOptionLinkerTable()->getTableName();
         $select = $this->newSelect();
         $select->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.product_id = '. $linkerName .'.product_id')
+            ->join($linkerName, $this->getTableName() . '.record_id = '. $linkerName .'.product_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
         $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   

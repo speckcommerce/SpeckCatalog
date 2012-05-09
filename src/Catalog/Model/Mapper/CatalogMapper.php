@@ -21,228 +21,298 @@ class CatalogMapper extends ModelMapperAbstract
 
     public function createCatalog()
     {
-        $db = $this->getWriteAdapter();
-        $availability = "
-            CREATE TABLE IF NOT EXISTS `catalog_availability` (
-              `availability_id` int(11) NOT NULL AUTO_INCREMENT,
-              `search_data` text NOT NULL,
-              `parent_product_uom_id` int(11) NOT NULL,
-              `distributor_company_id` int(11) DEFAULT NULL,
-              `cost` float NOT NULL,
-              PRIMARY KEY (`availability_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+echo "
+--
+-- Table structure for table `catalog_availability`
+--
 
-        $categoryHierarchy = "
-            CREATE TABLE IF NOT EXISTS `catalog_category_category_linker` (
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `parent_category_id` int(11) NOT NULL,
-              `child_category_id` int(11) NOT NULL,
-              PRIMARY KEY (`linker_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+CREATE TABLE IF NOT EXISTS `catalog_availability` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `search_data` text,
+  `parent_product_uom_id` int(11) NOT NULL,
+  `distributor_company_id` int(11) DEFAULT NULL,
+  `cost` float NOT NULL,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=146 ;
 
-        $categoryProduct = "
-            CREATE TABLE IF NOT EXISTS `catalog_category_product_linker` (
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `category_id` int(11) NOT NULL,
-              `product_id` int(11) NOT NULL,
-              PRIMARY KEY (`linker_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+-- --------------------------------------------------------
 
-        $category = "
-            CREATE TABLE IF NOT EXISTS `catalog_category` (
-              `name` varchar(255) NOT NULL,
-              `category_id` int(11) NOT NULL AUTO_INCREMENT,
-              `search_data` text NOT NULL,
-              PRIMARY KEY (`category_id`)
-          ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
-        
-        $choice = "
-            CREATE TABLE IF NOT EXISTS `catalog_choice` (
-              `choice_id` int(11) NOT NULL AUTO_INCREMENT,
-              `product_id` int(11) DEFAULT NULL,
-              `search_data` text NOT NULL,
-              `override_name` varchar(255) NOT NULL,
-              `default_choice_id` int(11) DEFAULT NULL,
-              `type` enum('choice','product') NOT NULL,
-              PRIMARY KEY (`choice_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+--
+-- Table structure for table `catalog_category`
+--
 
-        $choiceOptionLinker = "
-            CREATE TABLE IF NOT EXISTS `catalog_choice_option_linker` (
-              `choice_id` int(11) NOT NULL,
-              `option_id` int(11) NOT NULL,
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `sort_weight` int(11) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`linker_id`),
-              UNIQUE KEY `link` (`choice_id`,`option_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+CREATE TABLE IF NOT EXISTS `catalog_category` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `name` varchar(255) NOT NULL,
+  `search_data` text NOT NULL,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
-        $company = "
-            CREATE TABLE IF NOT EXISTS `catalog_company` (
-              `company_id` int(11) NOT NULL AUTO_INCREMENT,
-              `name` varchar(255) NOT NULL,
-              `search_data` text NOT NULL,
-              PRIMARY KEY (`company_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+-- --------------------------------------------------------
 
-        $option = "
-            CREATE TABLE IF NOT EXISTS `catalog_option` (
-              `option_id` int(11) NOT NULL AUTO_INCREMENT,
-              `name` varchar(255) NOT NULL,
-              `instruction` varchar(255) NOT NULL,
-              `search_data` text NOT NULL,
-              `required` tinyint(1) NOT NULL,
-              `list_type` enum('radio','checkbox','dropdown') NOT NULL DEFAULT 'radio',
-              PRIMARY KEY (`option_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+--
+-- Table structure for table `catalog_category_category_linker`
+--
 
-        $optionChoiceLinker = "
-            CREATE TABLE IF NOT EXISTS `catalog_option_choice_linker` (
-              `option_id` int(11) NOT NULL,
-              `choice_id` int(11) NOT NULL,
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `sort_weight` int(11) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`linker_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+CREATE TABLE IF NOT EXISTS `catalog_category_category_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `parent_category_id` int(11) NOT NULL,
+  `child_category_id` int(11) NOT NULL,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
-        $optionHelper = "
-            CREATE TABLE IF NOT EXISTS `catalog_option_helper` (
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `helper_name` varchar(255) DEFAULT NULL,
-              `product_uom_id` int(11) DEFAULT NULL,
-              `product_uom_fixed_discount` float DEFAULT NULL,
-              `product_uom_percent_discount` int(11) DEFAULT NULL,
-              `product_uom_fixed_price` float DEFAULT NULL,
-              PRIMARY KEY (`linker_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+-- --------------------------------------------------------
 
-        $product = "
-            CREATE TABLE IF NOT EXISTS `catalog_product` (
-              `product_id` int(11) NOT NULL AUTO_INCREMENT,
-              `name` varchar(255) DEFAULT NULL,
-              `description` text,
-              `type` enum('item','shell','builder') NOT NULL DEFAULT 'shell',
-              `item_number` varchar(255) DEFAULT NULL,
-              `manufacturer_company_id` int(11) DEFAULT NULL,
-              `search_data` text NOT NULL,
-              PRIMARY KEY (`product_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+--
+-- Table structure for table `catalog_category_product_linker`
+--
 
-        $productOptionLinker = "
-            CREATE TABLE IF NOT EXISTS `catalog_product_option_linker` (
-              `product_id` int(11) NOT NULL,
-              `option_id` int(11) NOT NULL,
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `sort_weight` int(11) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`linker_id`),
-              UNIQUE KEY `link` (`option_id`,`product_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+CREATE TABLE IF NOT EXISTS `catalog_category_product_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `category_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
-        $productUom = "
-            CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
-              `product_uom_id` int(11) NOT NULL AUTO_INCREMENT,
-              `parent_product_id` int(11) NOT NULL,
-              `search_data` text NOT NULL,
-              `price` float NOT NULL,
-              `retail` float NOT NULL,
-              `quantity` int(11) NOT NULL,
-              `uom_code` varchar(2) NOT NULL DEFAULT 'EA',
-              `sort_weight` int(11) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`product_uom_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+-- --------------------------------------------------------
 
-        $spec = "
-            CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
-              `spec_id` int(11) NOT NULL AUTO_INCREMENT,
-              `product_id` int(11) NOT NULL,
-              `label` varchar(255) NOT NULL,
-              `value` text NOT NULL,
-              `search_data` text NOT NULL,
-              PRIMARY KEY (`spec_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-        ";
+--
+-- Table structure for table `catalog_choice`
+--
 
-        $media = "
-            CREATE TABLE IF NOT EXISTS `catalog_media` (
-              `media_id` int(11) NOT NULL AUTO_INCREMENT,
-              `label` varchar(255) NOT NULL,
-              `file_name` varchar(255) NOT NULL,
-              `search_data` text NOT NULL,
-              PRIMARY KEY (`media_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+CREATE TABLE IF NOT EXISTS `catalog_choice` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `product_id` int(11) DEFAULT NULL,
+  `search_data` text,
+  `override_name` varchar(255) DEFAULT NULL,
+  `default_choice_id` int(11) DEFAULT NULL,
+  `type` enum('choice','product') NOT NULL,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
-        $image = "
-            CREATE TABLE IF NOT EXISTS `catalog_product_image_linker` (
-              `product_id` int(11) NOT NULL,
-              `media_id` int(11) NOT NULL,
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `sort_weight` int(11) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`linker_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+-- --------------------------------------------------------
 
-        $document = "
-            CREATE TABLE IF NOT EXISTS `catalog_product_document_linker` (
-              `product_id` int(11) NOT NULL,
-              `media_id` int(11) NOT NULL,
-              `linker_id` int(11) NOT NULL AUTO_INCREMENT,
-              `sort_weight` int(11) NOT NULL DEFAULT '0',
-              PRIMARY KEY (`linker_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-        ";
+--
+-- Table structure for table `catalog_choice_option_linker`
+--
 
-        $tables = array(
-            $choice, $choiceOptionLinker, $option, $optionChoiceLinker, 
-            $media, $image, $document,
-            $productUom, $availability,
-            $categoryHierarchy, $categoryProduct, $category, 
-            $company,  $spec, 
-            $optionHelper, $product, $productOptionLinker, 
-        );
-        
-        foreach($tables as $createStatement){
-            $db->exec($createStatement); 
-        }
+CREATE TABLE IF NOT EXISTS `catalog_choice_option_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `choice_id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rev_id`),
+  UNIQUE KEY `link` (`choice_id`,`option_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_company`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_company` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `name` varchar(255) NOT NULL,
+  `search_data` text NOT NULL,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_media`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_media` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `label` varchar(255) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `search_data` text,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=195 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_option`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_option` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `instruction` varchar(255) DEFAULT NULL,
+  `search_data` text,
+  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `list_type` enum('radio','checkbox','dropdown') DEFAULT 'radio',
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_option_choice_linker`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_option_choice_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,
+  `option_id` int(11) NOT NULL,
+  `choice_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+-- --------------------------------------------------------
+
+
+--
+-- Table structure for table `catalog_product`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `name` varchar(255) DEFAULT NULL,
+  `description` text,
+  `type` enum('item','shell','builder') NOT NULL DEFAULT 'shell',
+  `item_number` varchar(255) DEFAULT NULL,
+  `manufacturer_company_id` int(11) DEFAULT NULL,
+  `search_data` text,
+  PRIMARY KEY (`rev_id`),
+  KEY `rev_parent_id` (`record_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=193 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_document_linker`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_document_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `product_id` int(11) NOT NULL,
+  `media_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_image_linker`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_image_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `product_id` int(11) NOT NULL,
+  `media_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=105 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_option_linker`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_option_linker` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `product_id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rev_id`),
+  UNIQUE KEY `link` (`option_id`,`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_spec`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `product_id` int(11) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `value` text,
+  `search_data` text,
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=117 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_uom`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
+  `rev_id` int(11) NOT NULL AUTO_INCREMENT,
+  `record_id` int(11) DEFAULT NULL,
+  `rev_active` int(1) NOT NULL DEFAULT '1',
+  `rev_timestamp` bigint(20) NOT NULL,   
+  `parent_product_id` int(11) NOT NULL,
+  `search_data` text,
+  `price` float NOT NULL,
+  `retail` float NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `uom_code` varchar(2) NOT NULL DEFAULT 'EA',
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`rev_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=154 ;
+";
 
         $this->createAnsiUom();
 
-        return 'catalog tables should now exist!';
     }
-
-    public function dropCatalog()
-    {
-        $db = $this->getWriteAdapter();
-        $query = "
-drop table if exists catalog_availability;
-drop table if exists catalog_choice;
-drop table if exists catalog_option;
-drop table if exists catalog_product;
-drop table if exists catalog_product_option_linker;
-drop table if exists catalog_choice_option_linker;
-drop table if exists catalog_option_choice_linker;
-drop table if exists catalog_product_uom;
-drop table if exists catalog_company;
-";
-        $db->exec($query); die('tables dropped!');
-    }     
+  
 
     public function createAnsiUom(){
-        $db = $this->getWriteAdapter();
-        $query = "
+echo "
 CREATE TABLE IF NOT EXISTS `ansi_uom` (
   `uom_code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1046,7 +1116,6 @@ INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('ZP', 'Page', 0),
 ('ZZ', 'Mutually Defined', 0);
 ";
-        $db->exec($query);
     }
 
     public function getModel(){ /* play nice with interface */ }

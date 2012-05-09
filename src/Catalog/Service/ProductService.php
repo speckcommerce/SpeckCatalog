@@ -16,7 +16,7 @@ class ProductService extends ServiceAbstract
     {
         $productId = $product->getProductId();
         
-        $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($product->getProductId()))
+        $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($productId))
                 ->setOptions($this->getOptionService()->getOptionsByProductId($productId))
                 ->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId))
                 ->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()))

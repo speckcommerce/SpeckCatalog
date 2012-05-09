@@ -118,7 +118,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     public function insertLinker($linkerTable, $row)
     {
         $select = $this->newSelect();
-        
         $select->from($linkerTable->getTableName())
                ->where($row);
         $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
@@ -126,9 +125,12 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if($rowset->current()){
             die('already have one!');
         }
-
         $linkerTable->insert($row);
-        return $linkerTable->getLastInsertId(); 
+        $id = (int)$linkerTable->getLastInsertId();
+        $row['record_id'] = $id;
+        $row['rev_id'] = $id;
+        $linkerTable->update($row, array('rev_id' => $id));
+        return $id; 
     }
 
     /**
@@ -158,14 +160,21 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      */
     public function getById($id)
     {
+        if($id === 0){
+            return false;
+        }
         $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
-               ->where(array($this->getIdField() => $id));
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowToModel($rowset->current());   
-    }
+            ->where(array('record_id' => $id));
+        $select = $this->revSelect($select);
+        $row = $this->getTable()->selectWith($select)->current();
+        if($row){
+            return $this->rowToModel($row);  
+        }else{
+            var_dump(get_class($this->getModel()));
+            throw new \Exception('couldnt get that one');
+        }
+    }   
 
     /**
      * getModelsBySearchData 
@@ -232,7 +241,20 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     {
         return $this->persist($model, 'update');
     }    
-    
+
+    public function revSelect($select, $startDateTime=null, $endDateTime=null)
+    {
+        $raw = $select->getRawState();
+        $tables = array($raw['table']); 
+        foreach ($raw['joins'] as $join){ $tables[] = $join['name']; }
+        foreach ($tables as $table){
+            $select->where(array("{$table}.rev_active" => 1));
+        }
+        if(isset($username)){
+            $select->where(array('username' => $username));
+        }
+        return $select;
+    }      
     /**
      * persist 
      * 
@@ -246,20 +268,29 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     public function persist($model, $mode = 'insert')
     {
         $row = $this->toArray($model);
-
-        $table = $this->getTable(); 
+        $table = $this->getTable();
         if ('update' === $mode) {
-            $result = $table->update($row, array($this->getIdField() => $model->getId()));
+            $connection = $table->getAdapter()->getDriver()->getConnection();
+            try{
+                $connection->beginTransaction(); 
+                $table->update(array('rev_active' => 0), array('record_id' => $model->getRecordId()));
+                $table->insert($row);
+                $connection->commit();
+            }catch (Exception $e){
+                $connection->rollback();
+                throw new \Exception($e);
+
+            }
         } elseif ('insert' === $mode) {
-            $result = $table->insert($row);
-            $model->setId($table->getLastInsertId());
-        }
-        if($result === 0){
-            var_dump("didn't execute properly:",$this->getTableName(), $mode, $row);
-            throw new Exception('query returned no result - insert failed');
+            $table->insert($row);
+            $id = (int)$table->getLastInsertId();
+            $row['record_id'] = $id;
+            $row['rev_id'] = $id;
+            $table->update($row, array('rev_id' => $id));
+            $model->setRecordId($id);
         }
         return $model;
-    }
+    }      
 
     public static function toCamelCase($name)
     {
@@ -270,11 +301,4 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     {
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
     }      
-
-    public function getIdField()
-    {
-        $class = explode('\\', get_class($this->getModel()));
-        $className = array_pop($class);
-        return $this->fromCamelCase($className) . '_id';
-    }
 }

@@ -4,8 +4,6 @@ namespace Catalog\Model;
 
 class Company extends ModelAbstract
 {
-    protected $companyId;
-
     protected $name;
 
     protected $phone;
@@ -47,17 +45,6 @@ class Company extends ModelAbstract
     {
         $this->email = $email;
         return $this;
-    }
- 
-    public function setCompanyId($companyId)
-    {
-        $this->companyId = (int) $companyId;
-        return $this;
-    }
- 
-    public function getCompanyId()
-    {
-        return $this->companyId;
     }
  
     public function getProducts()

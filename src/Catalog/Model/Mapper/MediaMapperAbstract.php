@@ -6,23 +6,17 @@ abstract class MediaMapperAbstract extends ModelMapperAbstract
     protected $tableName = 'catalog_media';
     protected $linkerTable;
 
-    public function getIdField()
-    {
-        return 'media_id';
-    }   
-
     public function getMediaByProductId($productId)
     {
         $select = $this->newSelect();
         $select->from($this->getTableName())
             ->join(
                 $this->getLinkerTable()->getTableName(), 
-                $this->getTableName() . '.' . $this->getIdField() 
-                    . ' = ' . $this->getLinkerTable()->getTableName() . '.' . $this->getIdField()
+                $this->getTableName() . '.record_id = ' . $this->getLinkerTable()->getTableName() . '.media_id' 
             )
             ->where(array('product_id' => $productId));
-            //->order('sort_weight DESC');
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        //->order('sort_weight DESC');
+        $select = $this->revSelect($select);
         $rowset = $this->getTable()->selectWith($select);
 
         return $this->rowsetToModels($rowset);     

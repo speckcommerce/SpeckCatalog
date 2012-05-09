@@ -49,6 +49,4 @@ interface ModelMapperInterface
      * create/update a record.
      */
     public function persist($model, $mode);
-    
-    public function getIdField(); 
 }                       

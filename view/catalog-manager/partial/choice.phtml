@@ -36,7 +36,7 @@
                         'function' => 'add-button', 
                         'newClassName' => 'option',
                         'parentClassName' => 'choice',
-                        'parentId' => $choice->getChoiceId(),
+                        'parentId' => $choice->getRecordId(),
                         'partialName' => 'option',     
                     ));?>
                     <?=$this->partial($pdir.'add.phtml', array(
@@ -44,7 +44,7 @@
                         'searchClassName' => 'option',
                         'className' => 'option',
                         'parentClassName' => 'choice',
-                        'parentId' => $choice->getChoiceId(),     
+                        'parentId' => $choice->getRecordId(),     
                         'partialName' => 'option',     
                     ));?>
                 </div>             

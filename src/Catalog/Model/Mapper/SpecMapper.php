@@ -13,7 +13,7 @@ class SpecMapper extends ModelMapperAbstract
         $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
             ->where(array('product_id' => $productId));
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $select = $this->revSelect($select);
         $rowset = $this->getTable()->selectWith($select);
 
         return $this->rowsetToModels($rowset);   

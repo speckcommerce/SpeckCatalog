@@ -1,7 +1,7 @@
 <? $pdir = '/catalog-manager/partial/'; ?>
-<form id="productUom-<?=$productUom->getProductUomId();?>" class="live-form">
+<form id="productUom-<?=$productUom->getRecordId();?>" class="live-form">
     
-    <input type="hidden" name="product_uom_id" value="<?=$productUom->getProductUomId();?>"/>
+    <input type="hidden" name="record_id" value="<?=$productUom->getRecordId();?>"/>
     <input type="hidden" name="parent_product_id" value="<?=$productUom->getParentProductId();?>"/>
     
     <div class="row quarter-pad">

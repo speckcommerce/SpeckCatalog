@@ -66,7 +66,7 @@ abstract class ServiceAbstract implements ServiceInterface
     public function update($model)
     {
         $this->getModelMapper()->update($model);
-        return $this->getById($model->getId());  
+        return $this->getById($model->getRecordId());  
     }
 
     public function removeLinker($linkerId)

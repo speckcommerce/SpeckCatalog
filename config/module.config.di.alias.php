@@ -33,7 +33,7 @@ return array(
                 'catalog_spec_tg'              => 'Zend\Db\TableGateway\TableGateway',
                 'catalog_uom_tg'               => 'Zend\Db\TableGateway\TableGateway',
                 'catalog_category_tg'          => 'Zend\Db\TableGateway\TableGateway',
-                
+
                 'catalog_product_option_linker_tg'   => 'Zend\Db\TableGateway\TableGateway',
                 'catalog_choice_option_linker_tg'    => 'Zend\Db\TableGateway\TableGateway',
                 'catalog_option_choice_linker_tg'    => 'Zend\Db\TableGateway\TableGateway',

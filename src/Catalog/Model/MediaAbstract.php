@@ -2,7 +2,6 @@
 namespace Catalog\Model;
 abstract class MediaAbstract extends ModelAbstract
 {
-    protected $mediaId;
     protected $label;
     protected $fileName;
     protected $mediaType;
@@ -10,16 +9,6 @@ abstract class MediaAbstract extends ModelAbstract
 
     protected $sortWeight;
     protected $linkerId;
-
-    public function getId()
-    {
-        return $this->getMediaId();
-    }
-    
-    public function setId($id)
-    {
-        return $this->setMediaId( (int) $id);
-    }
 
     public function __toString()
     {

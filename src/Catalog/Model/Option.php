@@ -70,12 +70,6 @@ class Option extends ModelAbstract
         $this->name = $name;
         return $this;
     }
- 
-    public function setOptionId($optionId)
-    {
-        $this->optionId = (int) $optionId;
-        return $this;
-    }
     
     public function setInstruction($instruction)
     {
@@ -130,11 +124,6 @@ class Option extends ModelAbstract
         return $this->required;
     }
 
-    public function getOptionId()
-    {
-        return (int) $this->optionId;
-    }
-
     public function getListType()
     {
         return $this->listType;
@@ -164,16 +153,6 @@ class Option extends ModelAbstract
             return  '';
         }
     }
-    
-    public function getId()
-    {
-        return $this->getOptionId();
-    }
-
-    public function setId($id)
-    {
-        return $this->setOptionId($id);
-    }    
  
     public function getSlider()
     {

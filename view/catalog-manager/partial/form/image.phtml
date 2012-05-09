@@ -1,6 +1,6 @@
-<form id="image-<?=$image->getImageId();?>" class="live-form">
+<form id="image-<?=$image->getRecordId();?>" class="live-form">
 
-    <input type="hidden" name="image_id" value="<?=$image->getImageId();?>"/>
+    <input type="hidden" name="image_id" value="<?=$image->getRecordId();?>"/>
     <div class="row">
         <div class="span1">
         <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>

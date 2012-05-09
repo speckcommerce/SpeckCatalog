@@ -17,9 +17,8 @@ class AvailabilityMapper extends ModelMapperAbstract
         $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
             ->where(array('parent_product_uom_id' => $productUomId));
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $select = $this->revSelect($select);
         $rowset = $this->getTable()->selectWith($select);
-
         return $this->rowsetToModels($rowset);   
     }
 

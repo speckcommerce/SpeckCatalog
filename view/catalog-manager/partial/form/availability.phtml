@@ -12,7 +12,7 @@
                     <select name="distributor_company_id" class="span3">
                         <?=$this->partial($pdir.'form/select-options.phtml', array(
                             'data' => $availability->getCompanies(),
-                            'getIdMethod' => 'getCompanyId',
+                            'getIdMethod' => 'getRecordId',
                             'selectedId'  => $availability->getDistributorCompanyId(),
                             'getNameMethod' => 'getName',
                         ));?>

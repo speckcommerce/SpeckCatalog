@@ -17,7 +17,7 @@
                     <select name="manufacturer_company_id" class="span3">
                         <?=$this->partial($pdir.'form/select-options.phtml', array(
                             'data' => $product->getCompanies(),
-                            'getIdMethod' => 'getCompanyId',
+                            'getIdMethod' => 'getRecordId',
                             'selectedId'  => $product->getManufacturerCompanyId(),
                             'getNameMethod' => 'getName',
                         ));?>

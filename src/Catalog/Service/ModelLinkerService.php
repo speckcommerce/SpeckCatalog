@@ -52,12 +52,14 @@ class ModelLinkerService
     {
         // one/many children to one parent
         $setParentClassId = 'setParent' . ucfirst($this->parentClassName) . 'Id';
+        echo $setParentClassId;
         if (is_callable(array($this->model, $setParentClassId))){
             $this->model->$setParentClassId($this->parentId);
             return $this->getModelService()->add($this->model);
         } 
         // one/many parents to one child
         $setChildClassId = 'set' . ucfirst($this->class) . 'Id';
+        echo $setChildClassId;
         $parentModelService = $this->getModelService($this->parentClassName);
         $parentModel = $parentModelService->getById($this->parentId);
         if (is_callable(array($parentModel, $setChildClassId))){

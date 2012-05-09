@@ -12,7 +12,7 @@
                     <select name="uom_code" class="span2">
                         <?=$this->partial($pdir.'form/select-options.phtml', array(
                             'data' => $productUom->getUoms(),
-                            'getIdMethod' => 'getUomCode',
+                            'getIdMethod' => 'getRecordId',
                             'selectedId'  => $productUom->getUomCode(),
                             'getNameMethod' => 'getName',
                         ));?>

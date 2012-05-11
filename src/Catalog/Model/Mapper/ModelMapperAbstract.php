@@ -11,6 +11,7 @@ use ZfcBase\Mapper\DbMapperAbstract,
 
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
+    protected $userId = 99;
     protected $tableFields;
     
     public function getTable()
@@ -127,7 +128,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         }
         $linkerTable->insert($row);
         $id = (int)$linkerTable->getLastInsertId();
-        $row['record_id'] = $id;
+        $row['linker_id'] = $id;
         $row['rev_id'] = $id;
         $linkerTable->update($row, array('rev_id' => $id));
         return $id; 
@@ -166,7 +167,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
             ->where(array('record_id' => $id));
-        $select = $this->revSelect($select);
+        $select = $this->newRevSelect($select);
         $row = $this->getTable()->selectWith($select)->current();
         if($row){
             return $this->rowToModel($row);  
@@ -236,22 +237,75 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     {
         return $this->persist($model);
     }
-
+                                       
     public function update($model)
     {
         return $this->persist($model, 'update');
+    }
+
+    public function fieldsToString()
+    {
+        $tableFields = $this->getTableFields();
+        $fieldString = '';
+        foreach($tableFields as $i => $field){
+            if($field==='rev_active'){
+            }else{
+                $fieldString .= "{$this->getTableName()}.{$field}, \n ";
+            }
+        }
+        return substr($fieldString,0,-4);  
     }    
+
+    public function newRevSelect($select, $startDateTime=null, $endDateTime=null)
+    {
+        $tableName = $this->getTableName();
+        $whereString = "catalog_product.record_id = 205";
+        $linkerName = 'catalog_choice';
+        $joinLinker = $this->joinLinker($tableName, $linkerName);
+
+$select = "
+SELECT 
+ {$this->fieldsToString()}
+FROM(
+    SELECT max( rev_id ) AS max_rev_id, rev_user_id AS {$tableName}_rev_user_id, rev_eol_datetime as {$tableName}_eol_datetime
+    FROM {$tableName} as t1
+    WHERE (rev_user_id = {$this->userId} OR (rev_user_id IS NULL AND rev_eol_datetime IS NULL))
+    GROUP BY record_id, {$tableName}_rev_user_id
+) as t2
+JOIN {$tableName} ON t2.max_rev_id = {$tableName}.rev_id
+"
+{$joinLinker}
+WHERE({$whereString})
+";
+die($select.$joinLinker.$wheres);
+    }
+    
+    public function joinLinker($tableName, $linkerName)
+    {
+$sql = "
+    SELECT * FROM(
+        SELECT max( rev_id ) AS max_rev_id, rev_user_id AS {$linkerName}_rev_user_id, rev_eol_datetime as {$linkerName}_eol_datetime,
+        record_id as {$linkerName}_record_id2
+        FROM {$linkerName} as l1
+        WHERE (rev_user_id = {$this->userId} OR (rev_user_id IS NULL AND rev_eol_datetime IS NULL))
+        GROUP BY {$linkerName}_record_id2, {$linkerName}_rev_user_id
+    ) as l2
+    JOIN {$linkerName} ON l2.max_rev_id = {$linkerName}.rev_id
+";  
+        return "JOIN ({$sql}) as linker ON {$tableName}.record_id = linker.product_id";
+    }
 
     public function revSelect($select, $startDateTime=null, $endDateTime=null)
     {
-        $raw = $select->getRawState();
+        $raw = $select->where();
+        var_dump($raw);die();
         $tables = array($raw['table']); 
         foreach ($raw['joins'] as $join){ $tables[] = $join['name']; }
         foreach ($tables as $table){
             $select->where(array("{$table}.rev_active" => 1));
         }
-        if(isset($username)){
-            $select->where(array('username' => $username));
+        if(isset($this->userId)){
+            //$select->where(array('rev_user_id' => $this->userId));
         }
         return $select;
     }      
@@ -268,6 +322,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     public function persist($model, $mode = 'insert')
     {
         $row = $this->toArray($model);
+        $row['rev_user_id'] = $this->userId;
         $table = $this->getTable();
         if ('update' === $mode) {
             $connection = $table->getAdapter()->getDriver()->getConnection();

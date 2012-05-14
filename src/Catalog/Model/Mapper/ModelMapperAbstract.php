@@ -12,6 +12,7 @@ use ZfcBase\Mapper\DbMapperAbstract,
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
     protected $userId = 99;
+    protected $timer=true;
     protected $tableFields;
     
     public function getTable()
@@ -226,8 +227,21 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
     public function selectOne($select)
     {
-        $select = $this->revSelect($select);
-        $row = $this->getTable()->getAdapter()->query($select)->execute()->current();
+        $this->userId=99;
+        $revSelect = $this->revSelect($select);
+        if($this->timer) $time_start = microtime(true); 
+        $row = $this->getTable()->getAdapter()->query($revSelect)->execute()->current();
+        if($this->timer){
+            $time_end = microtime(true);
+            $time = number_format($time_end - $time_start,10);
+            $this->userId=null;
+            $revSelect = $this->revSelect($select);
+            $time_start = microtime(true); 
+            $row = $this->getTable()->getAdapter()->query($revSelect)->execute()->current();
+            $time_end = microtime(true);
+            $time2 = number_format($time_end - $time_start,10);
+            echo("{$this->getTableName()}<br>" . $time .' (subquery)<br>' . $time2 . " (\"active=1\")<br><br>");
+        }
         if($row){
             return $this->rowToModel($row);   
         }
@@ -235,8 +249,24 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
 
     public function selectMany($select)
     {
-        $select = $this->revSelect($select);
-        $rowset = $this->getTable()->getAdapter()->query($select)->execute();
+        $this->userId=99;
+        $revSelect = $this->revSelect($select);
+        if($this->timer) $time_start = microtime(true); 
+        $rowset = $this->getTable()->getAdapter()->query($revSelect)->execute();
+        if($this->timer){
+            $time_end = microtime(true);
+            $time = number_format($time_end - $time_start,10);
+            $count1 = count($rowset);
+
+            $this->userId=null;
+            $revSelect = $this->revSelect($select);
+            $time_start = microtime(true); 
+            $rowset = $this->getTable()->getAdapter()->query($revSelect)->execute();
+            $time_end = microtime(true);
+            $time2 = number_format($time_end - $time_start,10);
+            $count2 = count($rowset);
+            echo("{$this->getTableName()}<br>" . $time ."({$count1} records - subquery)<br>" . $time2 . "({$count2} records - \"active=1\")<br><br>");
+        }
         return $this->rowsetToModels($rowset);  
     }
     

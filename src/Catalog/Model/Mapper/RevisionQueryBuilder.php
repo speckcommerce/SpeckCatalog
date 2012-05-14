@@ -14,7 +14,10 @@ class RevisionQueryBuilder
     public function __construct($tableName, $fields, $select, $userId=null)
     {
         $this->tableName = $tableName;
-        //$this->userId = (int) $userId;
+        $this->userId = (int) $userId;
+        //no need to subquery on this table, as it doesnt change
+        if($this->tableName === 'ansi_uom') $this->userId = null;
+
         foreach ($fields as $field){
             $this->fields[] = array($this->tableName, $field);
         }

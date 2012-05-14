@@ -14,7 +14,9 @@ class ProductService extends ServiceAbstract
     
     public function _populateModel($product)
     {
+        
         $productId = $product->getProductId();
+
         
         $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($productId))
 

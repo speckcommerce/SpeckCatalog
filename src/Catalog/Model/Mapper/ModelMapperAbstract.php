@@ -168,7 +168,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $select->from($this->getTable()->getTableName())
             ->where(array('record_id' => $id));
         $select = $this->newRevSelect($select);
-        $row = $this->getTable()->selectWith($select)->current();
+        //$row = $this->getTable()->selectWith($select)->current();
+        $row = $this->getTable()->getAdapter()->query($select)->execute()->current();
         if($row){
             return $this->rowToModel($row);  
         }else{
@@ -243,63 +244,16 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $this->persist($model, 'update');
     }
 
-    public function fieldsToString()
-    {
-        $tableFields = $this->getTableFields();
-        $fieldString = '';
-        foreach($tableFields as $i => $field){
-            if($field==='rev_active'){
-            }else{
-                $fieldString .= "{$this->getTableName()}.{$field}, \n ";
-            }
-        }
-        return substr($fieldString,0,-4);  
-    }    
-
     public function newRevSelect($select, $startDateTime=null, $endDateTime=null)
     {
-        $tableName = $this->getTableName();
-        $whereString = "catalog_product.record_id = 205";
-        $linkerName = 'catalog_choice';
-        $joinLinker = $this->joinLinker($tableName, $linkerName);
-
-$select = "
-SELECT 
- {$this->fieldsToString()}
-FROM(
-    SELECT max( rev_id ) AS max_rev_id, rev_user_id AS {$tableName}_rev_user_id, rev_eol_datetime as {$tableName}_eol_datetime
-    FROM {$tableName} as t1
-    WHERE (rev_user_id = {$this->userId} OR (rev_user_id IS NULL AND rev_eol_datetime IS NULL))
-    GROUP BY record_id, {$tableName}_rev_user_id
-) as t2
-JOIN {$tableName} ON t2.max_rev_id = {$tableName}.rev_id
-"
-{$joinLinker}
-WHERE({$whereString})
-";
-die($select.$joinLinker.$wheres);
-    }
-    
-    public function joinLinker($tableName, $linkerName)
-    {
-$sql = "
-    SELECT * FROM(
-        SELECT max( rev_id ) AS max_rev_id, rev_user_id AS {$linkerName}_rev_user_id, rev_eol_datetime as {$linkerName}_eol_datetime,
-        record_id as {$linkerName}_record_id2
-        FROM {$linkerName} as l1
-        WHERE (rev_user_id = {$this->userId} OR (rev_user_id IS NULL AND rev_eol_datetime IS NULL))
-        GROUP BY {$linkerName}_record_id2, {$linkerName}_rev_user_id
-    ) as l2
-    JOIN {$linkerName} ON l2.max_rev_id = {$linkerName}.rev_id
-";  
-        return "JOIN ({$sql}) as linker ON {$tableName}.record_id = linker.product_id";
+        $sqlBuilder = new RevisionQueryBuilder($this->getTableName(), $this->getTableFields(), $select, $this->userId);
+        return $sqlBuilder->build();
     }
 
     public function revSelect($select, $startDateTime=null, $endDateTime=null)
     {
-        $raw = $select->where();
-        var_dump($raw);die();
-        $tables = array($raw['table']); 
+        $raw = $select->getRawState();
+        $tables = array($raw['table']);
         foreach ($raw['joins'] as $join){ $tables[] = $join['name']; }
         foreach ($tables as $table){
             $select->where(array("{$table}.rev_active" => 1));
@@ -328,7 +282,7 @@ $sql = "
             $connection = $table->getAdapter()->getDriver()->getConnection();
             try{
                 $connection->beginTransaction(); 
-                $table->update(array('rev_active' => 0), array('record_id' => $model->getRecordId()));
+                $table->update(array('rev_active' => 0, 'rev_eol_datetime' => 1), array('record_id' => $model->getRecordId()));
                 $table->insert($row);
                 $connection->commit();
             }catch (Exception $e){

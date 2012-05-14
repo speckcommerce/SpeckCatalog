@@ -16,10 +16,7 @@ abstract class MediaMapperAbstract extends ModelMapperAbstract
             )
             ->where(array('product_id' => $productId));
         //->order('sort_weight DESC');
-        $select = $this->revSelect($select);
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowsetToModels($rowset);     
+        return $this->selectMany($select);   
     }    
  
     public function getLinkerTable()

@@ -22,10 +22,7 @@ class ChoiceMapper extends ModelMapperAbstract
             ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.choice_id')
             ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
-        $select = $this->revSelect($select);
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowsetToModels($rowset);   
+        return $this->selectMany($select);
     }
 
     public function getChoicesByChildProductId($productId)
@@ -33,10 +30,7 @@ class ChoiceMapper extends ModelMapperAbstract
         $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
             ->where(array('product_id' => $productId));
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowsetToModels($rowset);  
+        return $this->selectMany($select);
     }
 
     public function linkParentOption($optionId, $choiceId)
@@ -56,10 +50,7 @@ class ChoiceMapper extends ModelMapperAbstract
             ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.choice_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowsetToModels($rowset);  
+        return $this->selectMany($select);
     }
 
     public function updateOptionChoiceSortOrder($order)

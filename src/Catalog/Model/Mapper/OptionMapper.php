@@ -23,11 +23,7 @@ class OptionMapper extends ModelMapperAbstract
         $select->from($this->getTableName())
             ->join('catalog_product_option_linker', $this->getTableName() . '.record_id = catalog_product_option_linker.option_id')
             ->where(array('product_id' => $productId));
-        //->order('sort_weight DESC');
-        $select = $this->revSelect($select);
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowsetToModels($rowset);     
+        return $this->selectMany($select);
     }    
                        
     public function getOptionsByChoiceId($choiceId)
@@ -38,10 +34,7 @@ class OptionMapper extends ModelMapperAbstract
             ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.option_id' )
             ->where(array('choice_id' => $choiceId));
         //->order('sort_weight DESC');
-        $select = $this->revSelect($select);
-        $rowset = $this->getTable()->selectWith($select);
-
-        return $this->rowsetToModels($rowset);  
+        return $this->selectMany($select);
     }  
 
     public function linkOptionToProduct($productId, $optionId)

@@ -65,6 +65,9 @@ abstract class ModelAbstract implements ModelInterface
 
     public function setRecordId($recordId)
     {
+        if(is_numeric($recordId)){
+            $recordId = (int) $recordId;
+        }
         $this->recordId = $recordId;
         return $this;
     }

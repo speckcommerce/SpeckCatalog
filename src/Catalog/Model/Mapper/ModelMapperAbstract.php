@@ -85,10 +85,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     public function getAll()
     {
         $select = $this->newSelect();
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
-        $rowset = $this->getTable()->select($select);
-
-        return $this->rowsetToModels($rowset);
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));
+        return $this->selectMany($select);   
     }  
 
     public function updateSort($table, $order, $idField = null)
@@ -167,15 +165,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $select = $this->newSelect();
         $select->from($this->getTable()->getTableName())
             ->where(array('record_id' => $id));
-        $select = $this->newRevSelect($select);
-        //$row = $this->getTable()->selectWith($select)->current();
-        $row = $this->getTable()->getAdapter()->query($select)->execute()->current();
-        if($row){
-            return $this->rowToModel($row);  
-        }else{
-            var_dump(get_class($this->getModel()));
-            throw new \Exception('couldnt get that one');
-        }
+        return $this->selectOne($select);
     }   
 
     /**
@@ -234,6 +224,22 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $model;   
     }           
 
+    public function selectOne($select)
+    {
+        $select = $this->revSelect($select);
+        $row = $this->getTable()->getAdapter()->query($select)->execute()->current();
+        if($row){
+            return $this->rowToModel($row);   
+        }
+    }
+
+    public function selectMany($select)
+    {
+        $select = $this->revSelect($select);
+        $rowset = $this->getTable()->getAdapter()->query($select)->execute();
+        return $this->rowsetToModels($rowset);  
+    }
+    
     public function add($model)
     {
         return $this->persist($model);
@@ -244,25 +250,12 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $this->persist($model, 'update');
     }
 
-    public function newRevSelect($select, $startDateTime=null, $endDateTime=null)
+    public function revSelect($select, $startDateTime=null, $endDateTime=null)
     {
         $sqlBuilder = new RevisionQueryBuilder($this->getTableName(), $this->getTableFields(), $select, $this->userId);
         return $sqlBuilder->build();
     }
 
-    public function revSelect($select, $startDateTime=null, $endDateTime=null)
-    {
-        $raw = $select->getRawState();
-        $tables = array($raw['table']);
-        foreach ($raw['joins'] as $join){ $tables[] = $join['name']; }
-        foreach ($tables as $table){
-            $select->where(array("{$table}.rev_active" => 1));
-        }
-        if(isset($this->userId)){
-            //$select->where(array('rev_user_id' => $this->userId));
-        }
-        return $select;
-    }      
     /**
      * persist 
      * 
@@ -277,6 +270,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     {
         $row = $this->toArray($model);
         $row['rev_user_id'] = $this->userId;
+        $row['rev_datetime'] = 1;
         $table = $this->getTable();
         if ('update' === $mode) {
             $connection = $table->getAdapter()->getDriver()->getConnection();
@@ -288,7 +282,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             }catch (Exception $e){
                 $connection->rollback();
                 throw new \Exception($e);
-
             }
         } elseif ('insert' === $mode) {
             $table->insert($row);

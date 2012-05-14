@@ -14,7 +14,7 @@ class RevisionQueryBuilder
     public function __construct($tableName, $fields, $select, $userId=null)
     {
         $this->tableName = $tableName;
-        $this->userId = (int) $userId;
+        //$this->userId = (int) $userId;
         foreach ($fields as $field){
             $this->fields[] = array($this->tableName, $field);
         }
@@ -23,7 +23,8 @@ class RevisionQueryBuilder
         
         foreach($raw['where']->getPredicates() as $predicate){
             $operator = $predicate[1];
-            $this->whereString .= " {$predicate[0]} ({$operator->getLeft()} {$operator->getOperator()} {$operator->getRight()})"; 
+            $right = (is_int($operator->getRight()) ? $operator->getRight() : '"' . $operator->getRight() . '"');
+            $this->whereString .= " {$predicate[0]} ({$operator->getLeft()} {$operator->getOperator()} {$right})"; 
         }   
 
         foreach($raw['joins'] as $join){
@@ -33,39 +34,48 @@ class RevisionQueryBuilder
     
     public function build()
     {    
-        return "SELECT\n {$this->getFieldString()} \n"
-             . "FROM(\n"
-             .    $this->groupingSelect('record_id', $this->tableName)
-             . ") as t2\n"
-             . "JOIN {$this->tableName} ON t2.max_rev_id = {$this->tableName}.rev_id"    
-             . $this->joinString
-             . $this->whereString;
-    }
-    
-    private function groupingSelect($groupByField, $tableName)
-    {
-        return "    SELECT max( rev_id ) AS max_rev_id\n"
-             . "    FROM {$tableName} as g1\n"
-             . "    WHERE (rev_user_id = {$this->userId} OR (rev_user_id IS NULL AND rev_eol_datetime IS NULL))\n"
-             . "    GROUP BY {$groupByField}, rev_user_id\n";
+        if(!$this->userId){
+            $ret = "SELECT\n {$this->getFieldString()} \n"
+                 . "FROM {$this->tableName}\n"
+                 . $this->joinString
+                 . $this->whereString . " AND ({$this->tableName}.rev_active = 1) \n";
+            //echo $ret;
+            return $ret;
+        }else{
+            $ret = "SELECT\n {$this->getFieldString()} \n"
+                 . "FROM(\n" . $this->subQuery('record_id', $this->tableName) . ") as t2\n"
+                 . "JOIN {$this->tableName} ON t2.max_rev_id = {$this->tableName}.rev_id\n"    
+                 . $this->joinString
+                 . $this->whereString
+                 . "\n";   
+            //echo $ret;
+            return $ret;
+        }
     }
 
     private function joinTable($table, $on)
     {
-        if(strstr('linker', $table)){
+        $groupfield='record_id'; 
+        if(strstr($table, 'linker')){
             $this->fields[] = array($table, 'linker_id');
             $groupField = 'linker_id';
-        }else{
-            $groupField = 'record_id';
         }
+        if(!$this->userId){
+            return "JOIN {$table} ON {$on}";   
+        }else{
+            return "JOIN (\n"
+                 . "  SELECT * FROM(\n" . $this->subQuery($groupField, $table) . "  ) as l2\n"
+                 . "  JOIN {$table} ON l2.max_rev_id = {$table}.rev_id\n"
+                 . ") as {$table} ON {$on}";
+        }
+    }
 
-        return "\n\n-- Joined table: '{$table}'\n"     
-             . "JOIN (\n"
-             . "  SELECT * FROM(\n"
-             .      $this->groupingSelect($groupField, $table)
-             . "  ) as l2\n"
-             . "  JOIN {$table} ON l2.max_rev_id = {$table}.rev_id\n"
-             . ") as {$table} ON {$on}";
+    private function subQuery($groupField, $tableName)
+    {
+        return "    SELECT max( rev_id ) AS max_rev_id\n"
+             . "    FROM {$tableName} as g1\n"
+             . "    WHERE (rev_user_id = {$this->userId} OR (rev_user_id IS NULL AND rev_eol_datetime IS NULL))\n"
+             . "    GROUP BY {$groupField}, rev_user_id\n";
     }
 
     private function getFieldString()

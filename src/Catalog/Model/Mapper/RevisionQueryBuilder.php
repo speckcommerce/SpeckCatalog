@@ -15,45 +15,31 @@ class RevisionQueryBuilder
     {
         $this->tableName = $tableName;
         $this->userId = (int) $userId;
-        //no need to subquery on this table, as it doesnt change
-        if($this->tableName === 'ansi_uom') $this->userId = null;
-
-        foreach ($fields as $field){
-            $this->fields[] = array($this->tableName, $field);
-        }
-
-        $raw = $select->getRawState();
+        foreach ($fields as $field) $this->fields[] = array($this->tableName, $field);
         
+        $raw = $select->getRawState();
         foreach($raw['where']->getPredicates() as $predicate){
             $operator = $predicate[1];
-            $right = (is_int($operator->getRight()) ? $operator->getRight() : '"' . $operator->getRight() . '"');
+            $right = (is_numeric($operator->getRight()) ? $operator->getRight() : '"' . $operator->getRight() . '"');
             $this->whereString .= " {$predicate[0]} ({$operator->getLeft()} {$operator->getOperator()} {$right})"; 
         }   
-
-        foreach($raw['joins'] as $join){
-            $this->joinString .= $this->joinTable($join['name'], $join['on']);
-        }
+        foreach ($raw['joins'] as $join) $this->joinString .= $this->joinTable($join['name'], $join['on']);
     }
     
     public function build()
-    {    
-        if(!$this->userId){
-            $ret = "SELECT\n {$this->getFieldString()} \n"
+    { 
+        if (null === $this->userId){
+            return "SELECT\n {$this->getFieldString()} \n"
                  . "FROM {$this->tableName}\n"
                  . $this->joinString
                  . $this->whereString . " AND ({$this->tableName}.rev_active = 1) \n";
-            //echo $ret;
-            return $ret;
-        }else{
-            $ret = "SELECT\n {$this->getFieldString()} \n"
-                 . "FROM(\n" . $this->subQuery('record_id', $this->tableName) . ") as t2\n"
-                 . "JOIN {$this->tableName} ON t2.max_rev_id = {$this->tableName}.rev_id\n"    
-                 . $this->joinString
-                 . $this->whereString
-                 . "\n";   
-            //echo $ret;
-            return $ret;
         }
+        return "SELECT\n {$this->getFieldString()} \n"
+             . "FROM(\n" . $this->subQuery('record_id', $this->tableName) . ") as t2\n"
+             . "JOIN {$this->tableName} ON t2.max_rev_id = {$this->tableName}.rev_id\n"    
+             . $this->joinString
+             . $this->whereString
+             . "\n";
     }
 
     private function joinTable($table, $on)
@@ -63,14 +49,11 @@ class RevisionQueryBuilder
             $this->fields[] = array($table, 'linker_id');
             $groupField = 'linker_id';
         }
-        if(!$this->userId){
-            return "JOIN {$table} ON {$on}";   
-        }else{
-            return "JOIN (\n"
-                 . "  SELECT * FROM(\n" . $this->subQuery($groupField, $table) . "  ) as l2\n"
-                 . "  JOIN {$table} ON l2.max_rev_id = {$table}.rev_id\n"
-                 . ") as {$table} ON {$on}";
-        }
+        if(null === $this->userId) return "JOIN {$table} ON {$on}";   
+        return "JOIN (\n"
+             . "  SELECT * FROM(\n" . $this->subQuery($groupField, $table) . "  ) as l2\n"
+             . "  JOIN {$table} ON l2.max_rev_id = {$table}.rev_id\n"
+             . ") as {$table} ON {$on}";
     }
 
     private function subQuery($groupField, $tableName)

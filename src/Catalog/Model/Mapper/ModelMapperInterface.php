@@ -37,13 +37,6 @@ interface ModelMapperInterface
     public function getById($id);
     
     /**
-     * getModelsBySearchData 
-     * 
-     * returns models where search_data LIKE %string%
-     */
-    public function getModelsBySearchData($string);
-    
-    /**
      * persist 
      * 
      * create/update a record.

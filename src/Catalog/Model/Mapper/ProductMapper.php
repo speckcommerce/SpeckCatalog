@@ -23,7 +23,8 @@ class ProductMapper extends ModelMapperAbstract
                   ->join($this->getTableName(), 'catalog_category_product_linker.product_id = '.$this->getTableName().'.product_id') 
                   ->where('category_id = ?', $categoryId);
         return $this->selectMany($select);
-    } 
+    }
+    
     public function getProductsByChildOptionId($optionId)
     {
         $linkerName = $this->getChildOptionLinkerTable()->getTableName();

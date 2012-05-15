@@ -12,7 +12,7 @@ use ZfcBase\Mapper\DbMapperAbstract,
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
     protected $userId = 99;
-    protected $timer=true;
+    protected $timer=false;
     protected $tableFields;
     
     public function getTable()
@@ -296,9 +296,10 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
      * @access public
      * @return void
      */
-    public function persist($model, $mode = 'insert')
+    public function persist($model, $mode = 'insert', $revId=null)
     {
         $row = $this->toArray($model);
+        $row['rev_id'] = $revId; //hack to import existing records
         $row['rev_user_id'] = $this->userId;
         $row['rev_datetime'] = 1;
         $table = $this->getTable();

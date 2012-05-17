@@ -126,10 +126,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             die('already have one!');
         }
         $linkerTable->insert($row);
-        $id = (int)$linkerTable->getLastInsertId();
-        $row['linker_id'] = $id;
-        $row['rev_id'] = $id;
-        $linkerTable->update($row, array('rev_id' => $id));
+        $id = (int) $linkerTable->getLastInsertId();
+        $linkerTable->getAdapter()->query("update {$linkerTable->getTableName()} set linker_id = {$id} where rev_id = {$id}")->execute();
         return $id; 
     }
 
@@ -299,7 +297,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     public function persist($model, $mode = 'insert', $revId=null)
     {
         $row = $this->toArray($model);
-        $row['rev_id'] = $revId; //hack to import existing records
+        if ($revId) $row['rev_id'] = $revId; //hack to import existing records
         $row['rev_user_id'] = $this->userId;
         $row['rev_datetime'] = 1;
         $table = $this->getTable();
@@ -316,10 +314,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             }
         } elseif ('insert' === $mode) {
             $table->insert($row);
-            $id = (int)$table->getLastInsertId();
-            $row['record_id'] = $id;
-            $row['rev_id'] = $id;
-            $table->update($row, array('rev_id' => $id));
+            $id = (int) $table->getLastInsertId();
+            $table->getAdapter()->query("update {$table->getTableName()} set record_id = {$id} where rev_id = {$id}")->execute();
             $model->setRecordId($id);
         }
         return $model;

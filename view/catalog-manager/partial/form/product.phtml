@@ -5,11 +5,19 @@
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
 
     <div class="row">
-        <div class="span8">
+        <div class="span2">
+            <? if ($product->hasImages()) : ?>
+                <? foreach($product->getImages() as $image) : ?>
+                    <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
+                    <? break; ?>
+                <? endforeach; ?>
+            <? endif; ?> 
+        </div>   
+        <div class="span6">
             <span class="smallcaps">name</span><br/>
-            <input name="name" class="span8" type="text" value="<?=$product->getName();?>"/><br/>
+            <input name="name" class="span6" type="text" value="<?=$product->getName();?>"/><br/>
             <span class="smallcaps">description</span><br/>
-            <textarea name="description" rows="4" class="span8"><?=$product->getDescription();?></textarea>
+            <textarea name="description" rows="4" class="span6"><?=$product->getDescription();?></textarea>
         </div>
         <div class="span3">
             <? if(isset($product) && $product->isItem()) : ?>
@@ -22,7 +30,6 @@
                             'getNameMethod' => 'getName',
                         ));?>
                     </select>
-
                     <span class="smallcaps">item/part number</span><br/>
                     <input name="item_number" class="span3" type="text" value="<?=$product->getItemNumber();?>"/>
                     <span class="smallcaps">hcpcs</span><br/>

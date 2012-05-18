@@ -17,7 +17,16 @@ class ImageMapper extends MediaMapperAbstract
             'media_id' => $imageId,
         );
         return $this->insertLinker($table, $row);    
-    }  
+    }
+    public function linkParentOption($optionId, $imageId)
+    {
+        $table = $this->getParentOptionLinkerTable();
+        $row = array(
+            'option_id' => $productId,
+            'media_id' => $imageId,
+        );
+        return $this->insertLinker($table, $row);     
+    }
 
     public function updateProductImageSortOrder($order)
     {

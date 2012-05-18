@@ -56,7 +56,8 @@ class CatalogManagerController extends ActionController
         if($page){
             $paginator->setCurrentPageNumber($page);
         }
-        return new ViewModel(array('products' => $paginator)); 
+        if((int)$page === 0)$page=1;
+        return new ViewModel(array('products' => $paginator, 'page' => (int)$page)); 
     }
 
     public function categoriesAction()

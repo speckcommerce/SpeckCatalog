@@ -1,6 +1,13 @@
 <? 
 $items = $products->getCurrentItems();
 foreach($items as $item){
-    echo "\" {$item} \"<br/>";
+    echo '<a href="/catalogmanager/product/' . $item->getRecordId() . '">' . $item->getType() . ' - ' .  $item . ' </a><br/>';
 }
 ?>
+    <hr>
+    <? $p = $page-1; $tag = '<a href="/catalogmanager/products/' . $p . '">'; ?>
+    <? if ($p > 1) echo $tag; ?>
+previous 
+    <? if ($p > 1) echo "</a>"; ?>
+||
+    <? $fp = $page+1; ?><a href="/catalogmanager/products/<?=$fp;?>">next</a>

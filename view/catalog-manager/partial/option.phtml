@@ -12,7 +12,42 @@
     </div>
 
     <div class="entity-content">   
-    <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
+        <?=$this->partial($pdir.'form/option.phtml', array('option' => $option));?>
+        <div class="list-wrap">
+            <div class="child-expand list-items-helper">
+                <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                <div class="expand-all"><i class="icon-arrow-down"></i></div>
+                <span class="smallcaps">&nbsp;images</span>
+            </div>   
+            <div class="list-items" type="image" parent="product">
+                <? if ($option->hasImages()) : ?>
+                    <? foreach ($option->getImages() as $image) : ?>
+                        <?=$this->partial(
+                            $pdir.'image.phtml', 
+                            array('image' => $image, 'bg' => 'whitebg', 'collapse' => true)
+                        );?>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </div>
+            <div class="row list-items-helper">
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'add-button',
+                    'newClassName'    => 'image',
+                    'parentClassName' => 'option',
+                    'parentId'        => $option->getRecordId(),
+                    'partialName'     => 'image',
+                ));?>
+                <?=$this->partial($pdir.'add.phtml', array(
+                    'function'        => 'import-search',
+                    'searchClassName' => 'image',
+                    'className'       => 'image',
+                    'parentClassName' => 'option',
+                    'parentId'        => $option->getRecordId(),
+                    'partialName'     => 'image',
+                ));?>
+            </div>
+        </div> 
+
         <div class="list-wrap half-pad">
             <div class="child-expand list-items-helper">
                 <div class="collapse-all"><i class="icon-arrow-up"></i></div>

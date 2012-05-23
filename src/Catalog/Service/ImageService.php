@@ -10,10 +10,23 @@ class ImageService extends MediaServiceAbstract
         }
         return $images;
     }
+
+    public function getImagesByOptionId($optionId)
+    {
+        $images = $this->getModelMapper()->getImagesByOptionId($optionId);
+        foreach($images as $i => $image){
+            $images[$i] = $this->populateModel($image);
+        }
+        return $images;
+    }
     
     public function updateSortOrder($parent, $order)
     {
         $this->getModelMapper()->updateProductImageSortOrder($order);
-    }   
+    }
 
+    public function linkParentOption($optionId, $recordId)
+    {
+        return $this->getModelMapper()->linkParentOption($optionId, $recordId);
+    }   
 }

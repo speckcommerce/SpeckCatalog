@@ -126,7 +126,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             die('already have one!');
         }
         $linkerTable->insert($row);
-        $id = (int) $linkerTable->getLastInsertId();
+        $id = (int) $linkerTable->getLastInsertValue();
         $linkerTable->getAdapter()->query("update {$linkerTable->getTableName()} set linker_id = {$id} where rev_id = {$id}")->execute();
         return $id; 
     }
@@ -162,7 +162,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             return false;
         }
         $select = $this->newSelect();
-        $select->from($this->getTable()->getTableName())
+        $select->from($this->getTableName())
             ->where(array('record_id' => $id));
         return $this->selectOne($select);
     }   
@@ -314,7 +314,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
             }
         } elseif ('insert' === $mode) {
             $table->insert($row);
-            $id = (int) $table->getLastInsertId();
+            $id = (int) $table->getLastInsertValue();
             $table->getAdapter()->query("update {$table->getTableName()} set record_id = {$id} where rev_id = {$id}")->execute();
             $model->setRecordId($id);
         }

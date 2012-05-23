@@ -2,23 +2,20 @@
 
 namespace SpeckCatalog;
 
-use Zend\Module\Manager,
-    Zend\EventManager\StaticEventManager,
-    Zend\Module\Consumer\AutoloaderProvider,
+use Zend\ModuleManager\ModuleManager,
     Zend\Navigation,
     Application\Extra\Page,
     Service\Installer;
 
-class Module implements AutoloaderProvider
+class Module
 {
     protected $view;
     protected $viewListener;
 
-    public function init(Manager $moduleManager)
+    public function init(ModuleManager $moduleManager)
     {
         $events       = $moduleManager->events();
-        $sharedEvents = $events->getSharedCollections();
-        $sharedEvents->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
+        $sharedEvents = $events->getSharedManager();
         $moduleManager->events()->attach('install', array($this, 'preInstall'));
         $moduleManager->events()->attach('install', array($this, 'install'));
         $moduleManager->events()->attach('navigation', array($this, 'navigation'));
@@ -61,12 +58,12 @@ class Module implements AutoloaderProvider
         return __DIR__ . '/public';
     }
 
-    public function initializeView($e)
+    public function onBootstrap($e)
     {
         $app          = $e->getParam('application');
-        $locator      = $app->getLocator();
+        $locator      = $app->getServiceManager();
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->plugin('url')->setRouter($app->getRouter());
+        $renderer->plugin('url')->setRouter($locator->get('Router'));
         $renderer->plugin('headScript')->appendFile('/js/jquery.js');
         $renderer->plugin('headScript')->appendFile('/js/jquery-ui.js');
         $renderer->plugin('headScript')->appendFile('/js/catalogmanager.js');

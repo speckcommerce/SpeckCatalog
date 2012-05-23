@@ -61,7 +61,7 @@ abstract class MediaAbstract extends ModelAbstract
 
     public function getFullPath()
     {
-        if($this->getBaseUrl() 
+        if ($this->getBaseUrl() 
             && $this->getFileName()
             && @fopen($this->getBaseUrl() . $this->getFileName(),'r') 
         ){
@@ -97,22 +97,12 @@ abstract class MediaAbstract extends ModelAbstract
         $this->sortWeight = $sortWeight;
         return $this;
     }
- 
-    /**
-     * Get linkerId.
-     *
-     * @return linkerId
-     */
+
     public function getLinkerId()
     {
         return $this->linkerId;
     }
- 
-    /**
-     * Set linkerId.
-     *
-     * @param $linkerId the value to be set
-     */
+
     public function setLinkerId($linkerId)
     {
         $this->linkerId = $linkerId;

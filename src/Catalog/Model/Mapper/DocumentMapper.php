@@ -12,7 +12,7 @@ class DocumentMapper extends MediaMapperAbstract
 
     public function linkParentProduct($productId, $documentId)
     {
-        $table = $this->getLinkerTable();
+        $table = $this->getParentProductLinkerTable();
         $row = array(
             'product_id' => $productId,
             'media_id' => $documentId,

@@ -6,6 +6,7 @@ class OptionService extends ServiceAbstract
 {
     protected $choiceService;
     protected $productService;
+    protected $imageService;
     
     public function _populateModel($option)
     {
@@ -14,6 +15,7 @@ class OptionService extends ServiceAbstract
         $option->setParentProducts($parentProducts);
         $parentChoices = $this->getChoiceService()->getChoicesByChildOptionId($optionId);
         $option->setParentChoices($parentChoices);
+        $option->setImages($this->getImageService()->getImagesByOptionId($optionId));
         
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($optionId);
         if($choices){
@@ -73,6 +75,17 @@ class OptionService extends ServiceAbstract
     public function setProductService($productService)
     {
         $this->productService = $productService;
+        return $this;
+    }
+
+    public function getImageService()
+    {
+        return $this->imageService;
+    }
+
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
         return $this;
     }
 }

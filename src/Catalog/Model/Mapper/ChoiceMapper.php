@@ -28,7 +28,7 @@ class ChoiceMapper extends ModelMapperAbstract
     public function getChoicesByChildProductId($productId)
     {
         $select = $this->newSelect();
-        $select->from($this->getTable()->getTableName())
+        $select->from($this->getTableName())
             ->where(array('product_id' => $productId));
         return $this->selectMany($select);
     }

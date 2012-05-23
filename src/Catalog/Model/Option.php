@@ -21,6 +21,8 @@ class Option extends ModelAbstract
     protected $instruction;
 
     protected $builderSegment;
+    
+    protected $images;
 
     protected $choices;
 
@@ -197,6 +199,24 @@ class Option extends ModelAbstract
     public function setParentChoices($parentChoices)
     {
         $this->parentChoices = $parentChoices;
+        return $this;
+    }
+
+    public function hasImages()
+    {
+        if(is_array($this->getImages()) && count($this->getImages()) > 0){
+            return true;
+        }
+    }
+
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    public function setImages($images)
+    {
+        $this->images = $images;
         return $this;
     }
 }

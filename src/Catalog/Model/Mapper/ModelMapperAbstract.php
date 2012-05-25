@@ -12,7 +12,6 @@ use ZfcBase\Mapper\DbMapperAbstract,
 abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
 {
     protected $userId = 99;
-    protected $timer=false;
     protected $tableFields;
     
     public function getTable()

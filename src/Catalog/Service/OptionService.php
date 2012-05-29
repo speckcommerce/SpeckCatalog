@@ -58,34 +58,26 @@ class OptionService extends ServiceAbstract
 
     public function getChoiceService()
     {
-        return $this->choiceService;
-    }
- 
-    public function setChoiceService($choiceService)
-    {
-        $this->choiceService = $choiceService;
-        return $this;
+        if(null === $this->choiceService){
+            $this->choiceService = $this->getServiceManager()->get('catalog_choice_service');
+        }
+        return $this->choiceService;  
     }
 
     public function getProductService()
     {
-        return $this->productService;
-    }
-
-    public function setProductService($productService)
-    {
-        $this->productService = $productService;
-        return $this;
+        if(null === $this->productService){
+            $this->productService = $this->getServiceManager()->get('catalog_product_service');
+        }
+        return $this->productService;   
     }
 
     public function getImageService()
     {
-        return $this->imageService;
+        if(null === $this->imageService){
+            $this->imageService = $this->getServiceManager()->get('catalog_image_service');
+        }
+        return $this->imageService;  
     }
 
-    public function setImageService($imageService)
-    {
-        $this->imageService = $imageService;
-        return $this;
-    }
 }

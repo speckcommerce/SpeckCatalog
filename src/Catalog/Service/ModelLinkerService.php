@@ -1,7 +1,12 @@
 <?php
 namespace Catalog\Service;
-class ModelLinkerService
+
+use Zend\ServiceManager\ServiceManagerAwareInterface,
+    Zend\ServiceManager\ServiceManager;    
+
+class ModelLinkerService implements ServiceManagerAwareInterface
 {
+    protected $serviceManager;
     protected $model;
     protected $class;
     protected $new = false;
@@ -97,12 +102,26 @@ class ModelLinkerService
 
     public function getCatalogService()
     {
-        return $this->catalogService;
+        if(null === $this->catalogService){
+            $this->catalogService = $this->getServiceManager()->get('catalog_generic_service');
+        }
+        return $this->catalogService;  
     }
 
     public function setCatalogService($catalogService)
     {
         $this->catalogService = $catalogService;
         return $this;
+    }
+ 
+    public function setServiceManager(ServiceManager $serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
+    }    
+ 
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
     }
 }

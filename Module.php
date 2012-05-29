@@ -118,4 +118,87 @@ class Module
         $e->getTarget()->addPage($sites);
     }
 
+    public function getServiceConfiguration()
+    {
+        return array(
+            'factories' => array(
+                'catalog_generic_service' => function ($sm) {
+                    return new \Catalog\Service\CatalogService;
+                },
+                'catalog_product_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\ProductService;
+                    $service->setModelMapper($di->get('catalog_product_mapper'));
+                    return $service;
+                },
+                'catalog_option_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\OptionService;
+                    $service->setModelMapper($di->get('catalog_option_mapper'));
+                    return $service;
+                },
+                'catalog_model_linker_service' => function ($sm) {
+                    $service = new \Catalog\Service\ModelLinkerService;
+                    return $service;
+                },
+                'catalog_image_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\ImageService;
+                    $service->setModelMapper($di->get('catalog_image_mapper'));
+                    return $service;
+                },
+                'catalog_document_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\DocumentService;
+                    $service->setModelMapper($di->get('catalog_document_mapper'));
+                    return $service;
+                },
+                'catalog_category_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\CategoryService;
+                    $service->setModelMapper($di->get('catalog_category_mapper'));
+                    return $service;
+                },
+                'catalog_choice_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\ChoiceService;
+                    $service->setModelMapper($di->get('catalog_choice_mapper'));
+                    return $service;
+                },
+                'catalog_product_uom_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\ProductUomService;
+                    $service->setModelMapper($di->get('catalog_product_uom_mapper'));
+                    return $service;
+                }, 
+                'catalog_uom_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\UomService;
+                    $service->setModelMapper($di->get('catalog_uom_mapper'));
+                    return $service;
+                },             
+                'catalog_availability_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\AvailabilityService;
+                    $service->setModelMapper($di->get('catalog_availability_mapper'));
+                    return $service;
+                },             
+                'catalog_company_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\CompanyService;
+                    $service->setModelMapper($di->get('catalog_company_mapper'));
+                    return $service;
+                },             
+                'catalog_spec_service' => function ($sm) {
+                    $di = $sm->get('Di');
+                    $service = new \Catalog\Service\SpecService;
+                    $service->setModelMapper($di->get('catalog_spec_mapper'));
+                    return $service;
+                },             
+
+            ),
+        );
+
+    }
+
 }

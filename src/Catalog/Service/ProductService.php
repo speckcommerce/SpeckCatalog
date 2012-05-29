@@ -14,9 +14,7 @@ class ProductService extends ServiceAbstract
     
     public function _populateModel($product)
     {
-        
         $productId = $product->getProductId();
-
         
         $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($productId))
 
@@ -48,78 +46,57 @@ class ProductService extends ServiceAbstract
 
     public function getOptionService()
     {
-        return $this->optionService;
-    }
-
-    public function setOptionService($optionService)
-    {
-        $this->optionService = $optionService;
-        return $this;
+        if(null === $this->optionService){
+            $this->optionService = $this->getServiceManager()->get('catalog_option_service');
+        }
+        return $this->optionService;    
     }
  
     public function getProductUomService()
     {
-        return $this->productUomService;
-    }
-
-    public function setProductUomService($productUomService)
-    {
-        $this->productUomService = $productUomService;
-        return $this;
+        if(null === $this->productUomService){
+            $this->productUomService = $this->getServiceManager()->get('catalog_product_uom_service');
+        }
+        return $this->productUomService;   
     }
  
     public function getCompanyService()
     {
-        return $this->companyService;
-    }
-
-    public function setCompanyService($companyService)
-    {
-        $this->companyService = $companyService;
-        return $this;
+        if(null === $this->companyService){
+            $this->companyService = $this->getServiceManager()->get('catalog_company_service');
+        }
+        return $this->companyService;  
     }
 
     public function getSpecService()
     {
-        return $this->specService;
-    }
-
-    public function setSpecService($specService)
-    {
-        $this->specService = $specService;
-        return $this;
+        if(null === $this->specService){
+            $this->specService = $this->getServiceManager()->get('catalog_spec_service');
+        }
+        return $this->specService; 
     }
 
     public function getDocumentService()
     {
-        return $this->documentService;
-    }
-
-    public function setDocumentService($documentService)
-    {
-        $this->documentService = $documentService;
-        return $this;
+        if(null === $this->documentService){
+            $this->documentService = $this->getServiceManager()->get('catalog_document_service');
+        }
+        return $this->documentService; 
     }
 
     public function getImageService()
     {
-        return $this->imageService;
-    }
-
-    public function setImageService($imageService)
-    {
-        $this->imageService = $imageService;
-        return $this;
+        if(null === $this->imageService){
+            $this->imageService = $this->getServiceManager()->get('catalog_image_service');
+        }
+        return $this->imageService; 
     }
 
     public function getChoiceService()
     {
-        return $this->choiceService;
-    }
-
-    public function setChoiceService($choiceService)
-    {
-        $this->choiceService = $choiceService;
-        return $this;
+        if(null === $this->choiceService){
+            $this->choiceService = $this->getServiceManager()->get('catalog_choice_service');
+        }
+        return $this->choiceService;  
     }
 }

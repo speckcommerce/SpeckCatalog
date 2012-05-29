@@ -1,15 +1,24 @@
 <?php
 
 namespace Catalog\Service;
-    use Exception;
+use Exception,
+    Zend\ServiceManager\ServiceManagerAwareInterface,
+    Zend\ServiceManager\ServiceManager;
 
 /**
  * ServiceAbstract 
  */
-abstract class ServiceAbstract implements ServiceInterface
+abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareInterface
 {
     protected $modelMapper;
     protected $user;
+    protected $serviceManager;
+    
+    public function setServiceManager(ServiceManager $serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
+    }
 
     public function populateModel($model)
     {
@@ -110,6 +119,11 @@ abstract class ServiceAbstract implements ServiceInterface
     {
         $this->user = $user;
         return $this;
+    }
+
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
     }
 
 }

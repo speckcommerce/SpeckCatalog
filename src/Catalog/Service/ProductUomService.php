@@ -21,7 +21,7 @@ class ProductUomService extends ServiceAbstract
     public function getModel($constructor=null)
     {
         $model = $this->getModelMapper()->getModel($constructor);
-        $model->setUom($this->uomService->getById($model->getUomCode()));
+        $model->setUom($this->getUomService()->getById($model->getUomCode()));
         $model->setUoms($this->getUomService()->getAll());
         
         return $model;
@@ -39,23 +39,18 @@ class ProductUomService extends ServiceAbstract
       
     public function getAvailabilityService()
     {
-        return $this->availabilityService;
-    }
- 
-    public function setAvailabilityService($availabilityService)
-    {
-        $this->availabilityService = $availabilityService;
-        return $this;
+        if(null === $this->availabilityService){
+            $this->availabilityService = $this->getServiceManager()->get('catalog_availability_service');
+        }
+        return $this->availabilityService;   
     }
 
     public function getUomService()
     {
-        return $this->uomService;
+        if(null === $this->uomService){
+            $this->uomService = $this->getServiceManager()->get('catalog_uom_service');
+        }
+        return $this->uomService;  
     }
- 
-    public function setUomService($uomService)
-    {
-        $this->uomService = $uomService;
-        return $this;
-    }
+
 }

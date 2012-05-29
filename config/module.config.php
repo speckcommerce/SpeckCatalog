@@ -3,6 +3,7 @@ $config = array();
 
 $configFiles = array(
     __DIR__ . '/module.config.di.php',
+    __DIR__ . '/module.config.controller.php',
     __DIR__ . '/module.config.di.alias.php',
     __DIR__ . '/module.config.di.routes.php',
 );

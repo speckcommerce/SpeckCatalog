@@ -29,7 +29,7 @@ class ProductUomService extends ServiceAbstract
 
     public function getProductUomsByParentProductId($id)
     {
-        $productUoms = $this->modelMapper->getProductUomsByParentProductId($id);
+        $productUoms = $this->getModelMapper()->getProductUomsByParentProductId($id);
         $return = array();
         foreach ($productUoms as $productUom){
             $return[] = $this->populateModel($productUom);
@@ -51,6 +51,14 @@ class ProductUomService extends ServiceAbstract
             $this->uomService = $this->getServiceManager()->get('catalog_uom_service');
         }
         return $this->uomService;  
+    }
+
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_product_uom_mapper');
+        }
+        return $this->modelMapper;         
     }
 
 }

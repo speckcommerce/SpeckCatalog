@@ -73,4 +73,23 @@ class ChoiceService extends ServiceAbstract
         return $this->optionService;    
     }
 
+    public function setProductService($productService)
+    {
+        $this->productService = $productService;
+        return $this;
+    }
+ 
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
+        return $this;
+    }
+    
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_choice_mapper');
+        }
+        return $this->modelMapper;         
+    }
 }

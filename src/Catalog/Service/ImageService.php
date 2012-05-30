@@ -29,4 +29,12 @@ class ImageService extends MediaServiceAbstract
     {
         return $this->getModelMapper()->linkParentOption($optionId, $recordId);
     }   
+    
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_image_mapper');
+        }
+        return $this->modelMapper;         
+    }    
 }

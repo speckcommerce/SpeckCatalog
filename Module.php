@@ -5,7 +5,8 @@ namespace SpeckCatalog;
 use Zend\ModuleManager\ModuleManager,
     Zend\Navigation,
     Application\Extra\Page,
-    Service\Installer;
+    Service\Installer,
+    Catalog\Model\Mapper;
 
 class Module
 {
@@ -16,7 +17,6 @@ class Module
     {
         $events       = $moduleManager->events();
         $sharedEvents = $events->getSharedManager();
-        $moduleManager->events()->attach('install', array($this, 'preInstall'));
         $moduleManager->events()->attach('install', array($this, 'install'));
         $moduleManager->events()->attach('navigation', array($this, 'navigation'));
     }
@@ -35,12 +35,6 @@ class Module
                 ),
             ),
         );
-    }
-
-    public function preInstall($e)
-    {
-        //all info needed to configure/update/install this module('SpeckCatalog') will be returned
-        return "SpeckCatalog";
     }
 
     public function install($e)
@@ -121,80 +115,70 @@ class Module
     public function getServiceConfiguration()
     {
         return array(
+            'invokables' => array(
+                'catalog_generic_service' => 'Catalog\Service\CatalogService',
+                'catalog_model_linker_service' => 'Catalog\Service\ModelLinkerService',
+                'catalog_product_service' => 'Catalog\Service\ProductService',
+                'catalog_option_service' => 'Catalog\Service\OptionService',
+                'catalog_image_service' => 'Catalog\Service\ImageService',
+                'catalog_document_service' => 'Catalog\Service\DocumentService',
+                'catalog_category_service' => 'Catalog\Service\CategoryService',
+                'catalog_choice_service' => 'Catalog\Service\ChoiceService',
+                'catalog_product_uom_service' => 'Catalog\Service\ProductUomService',
+                'catalog_uom_service' => 'Catalog\Service\UomService',
+                'catalog_availability_service' => 'Catalog\Service\AvailabilityService',
+                'catalog_company_service' => 'Catalog\Service\CompanyService',
+                'catalog_spec_service' => 'Catalog\Service\SpecService',
+                'table_gateway' => 'Catalog\Model\Mapper\TableGateway',
+            ),
             'factories' => array(
-                'catalog_generic_service' => function ($sm) {
-                    return new \Catalog\Service\CatalogService;
+
+                'catalog_product_mapper' => function ($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new Mapper\TableGateway('catalog_product', $adapter);
+                    $mapper = new Mapper\ProductMapper($tg);
+                    return $mapper;
                 },
-                'catalog_product_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\ProductService;
-                    $service->setModelMapper($di->get('catalog_product_mapper'));
-                    return $service;
+                'catalog_option_mapper' => function ($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new Mapper\TableGateway('catalog_option', $adapter);
+                    $mapper = new Mapper\OptionMapper($tg);   
+                    return $mapper;
+                    //$mapper->setParentProductLinkerTable($di->get('catalog_product_option_linker_tg'));
+                    //$mapper->setParentChoiceLinkerTable($di->get('catalog_choice_option_linker_tg'));
                 },
-                'catalog_option_service' => function ($sm) {
+                'catalog_category_mapper' => function ($sm) {
                     $di = $sm->get('Di');
-                    $service = new \Catalog\Service\OptionService;
-                    $service->setModelMapper($di->get('catalog_option_mapper'));
-                    return $service;
+                    $mapper = new \Catalog\Model\Mapper\CategoryMapper;
+                    $mapper->setTableGateway($di->get('catalog_category_tg'));
+                    return $mapper;             
                 },
-                'catalog_model_linker_service' => function ($sm) {
-                    $service = new \Catalog\Service\ModelLinkerService;
-                    return $service;
-                },
-                'catalog_image_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\ImageService;
-                    $service->setModelMapper($di->get('catalog_image_mapper'));
-                    return $service;
-                },
-                'catalog_document_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\DocumentService;
-                    $service->setModelMapper($di->get('catalog_document_mapper'));
-                    return $service;
-                },
-                'catalog_category_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\CategoryService;
-                    $service->setModelMapper($di->get('catalog_category_mapper'));
-                    return $service;
-                },
-                'catalog_choice_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\ChoiceService;
-                    $service->setModelMapper($di->get('catalog_choice_mapper'));
-                    return $service;
-                },
-                'catalog_product_uom_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\ProductUomService;
-                    $service->setModelMapper($di->get('catalog_product_uom_mapper'));
-                    return $service;
-                }, 
-                'catalog_uom_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\UomService;
-                    $service->setModelMapper($di->get('catalog_uom_mapper'));
-                    return $service;
-                },             
-                'catalog_availability_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\AvailabilityService;
-                    $service->setModelMapper($di->get('catalog_availability_mapper'));
-                    return $service;
-                },             
-                'catalog_company_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\CompanyService;
-                    $service->setModelMapper($di->get('catalog_company_mapper'));
-                    return $service;
-                },             
-                'catalog_spec_service' => function ($sm) {
-                    $di = $sm->get('Di');
-                    $service = new \Catalog\Service\SpecService;
-                    $service->setModelMapper($di->get('catalog_spec_mapper'));
-                    return $service;
-                },             
+                'catalog_choice_mapper' => function ($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new Mapper\TableGateway('catalog_choice', $adapter);
+                    $mapper = new Mapper\ChoiceMapper($tg);   
+                    return $mapper;  
+                    //$mapper->setParentOptionLinkerTable($di->get('catalog_option_choice_linker_tg'));
+                    //$mapper->setChildOptionLinkerTable($di->get('catalog_choice_option_linker_tg'));
+                },    
+                'catalog_product_uom_mapper' => function ($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new Mapper\TableGateway('catalog_product_uom', $adapter);
+                    $mapper = new Mapper\ProductUomMapper($tg);   
+                    return $mapper; 
+                },                       
+                'catalog_company_mapper' => function ($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new Mapper\TableGateway('catalog_company', $adapter);
+                    $mapper = new Mapper\CompanyMapper($tg);   
+                    return $mapper; 
+                },   
+                'catalog_spec_mapper' => function ($sm) {
+                    $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $tg = new Mapper\TableGateway('catalog_product_spec', $adapter);
+                    $mapper = new Mapper\SpecMapper($tg);   
+                    return $mapper; 
+                },   
 
             ),
         );

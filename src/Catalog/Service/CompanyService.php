@@ -8,4 +8,12 @@ class CompanyService extends ServiceAbstract
     {
         return $company;
     }
+
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_company_mapper');
+        }
+        return $this->modelMapper;         
+    }      
 }

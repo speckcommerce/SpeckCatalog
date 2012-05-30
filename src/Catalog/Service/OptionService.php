@@ -80,4 +80,12 @@ class OptionService extends ServiceAbstract
         return $this->imageService;  
     }
 
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_option_mapper');
+        }
+        return $this->modelMapper;         
+    }
+
 }

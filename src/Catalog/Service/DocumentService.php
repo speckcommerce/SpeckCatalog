@@ -15,4 +15,13 @@ class DocumentService extends MediaServiceAbstract
     {
         $this->getModelMapper()->updateProductDocumentSortOrder($order);
     }   
+
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_document_mapper');
+        }
+        return $this->modelMapper;         
+    }
+
 }

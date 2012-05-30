@@ -168,4 +168,58 @@ class CatalogService implements ServiceManagerAwareInterface
     {
         return $this->serviceManager;
     }
+ 
+    public function setProductService($productService)
+    {
+        $this->productService = $productService;
+        return $this;
+    }
+ 
+    public function setProductUomService($productUomService)
+    {
+        $this->productUomService = $productUomService;
+        return $this;
+    }
+ 
+    public function setAvailabilityService($availabilityService)
+    {
+        $this->availabilityService = $availabilityService;
+        return $this;
+    }
+ 
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
+        return $this;
+    }
+ 
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
+        return $this;
+    }
+ 
+    public function setCategoryService($categoryService)
+    {
+        $this->categoryService = $categoryService;
+        return $this;
+    }
+ 
+    public function setSpecService($specService)
+    {
+        $this->specService = $specService;
+        return $this;
+    }
+ 
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
+        return $this;
+    }
+ 
+    public function setDocumentService($documentService)
+    {
+        $this->documentService = $documentService;
+        return $this;
+    }
 }

@@ -18,4 +18,12 @@ class SpecService extends ServiceAbstract
     {
         return $this->getModelMapper()->getByProductId($productId);
     }
+    
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_spec_mapper');
+        }
+        return $this->modelMapper;         
+    }     
 }

@@ -14,46 +14,7 @@ return array(
             /**
              * Mappers 
              */
-            'catalog_product_mapper' => array(
-                'parameters' => array(
-                    'tableGateway' => 'catalog_product_tg',
-                    'childOptionLinkerTable' => 'catalog_product_option_linker_tg',
-                ),
-            ),
 
-            'catalog_option_mapper' => array(
-                'parameters' => array(
-                    'tableGateway'  => 'catalog_option_tg',
-                    'parentProductLinkerTable' => 'catalog_product_option_linker_tg',
-                    'parentChoiceLinkerTable' => 'catalog_choice_option_linker_tg'
-                ),
-            ),
-            
-            'catalog_category_mapper' => array(
-                'parameters' => array(
-                    'tableGateway'  => 'catalog_category_tg',
-                ),
-            ),
-
-            'catalog_choice_mapper' => array(
-                'parameters' => array(
-                    'tableGateway'  => 'catalog_choice_tg',
-                    'parentOptionLinkerTable' => 'catalog_option_choice_linker_tg',
-                    'childOptionLinkerTable'  => 'catalog_choice_option_linker_tg',
-                ),
-            ),
-
-            'catalog_product_uom_mapper' => array(
-                'parameters' => array(
-                    'tableGateway'  => 'catalog_product_uom_tg',
-                ),
-            ),
-
-            'catalog_uom_mapper' => array(
-                'parameters' => array(
-                    'tableGateway'  => 'catalog_uom_tg',
-                ),
-            ),
 
             'catalog_availability_mapper' => array(
                 'parameters' => array(

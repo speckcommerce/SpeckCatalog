@@ -99,4 +99,54 @@ class ProductService extends ServiceAbstract
         }
         return $this->choiceService;  
     }
+ 
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
+        return $this;
+    }
+ 
+    public function setProductUomService($productUomService)
+    {
+        $this->productUomService = $productUomService;
+        return $this;
+    }
+ 
+    public function setCompanyService($companyService)
+    {
+        $this->companyService = $companyService;
+        return $this;
+    }
+ 
+    public function setSpecService($specService)
+    {
+        $this->specService = $specService;
+        return $this;
+    }
+ 
+    public function setDocumentService($documentService)
+    {
+        $this->documentService = $documentService;
+        return $this;
+    }
+ 
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
+        return $this;
+    }
+ 
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_product_mapper');
+        }
+        return $this->modelMapper;         
+    }
 }

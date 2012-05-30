@@ -5,7 +5,8 @@ $configFiles = array(
     __DIR__ . '/module.config.di.php',
     __DIR__ . '/module.config.controller.php',
     __DIR__ . '/module.config.di.alias.php',
-    __DIR__ . '/module.config.di.routes.php',
+    __DIR__ . '/module.config.routes.php',
+    __DIR__ . '/module.config.db.php',
 );
 
 foreach($configFiles as $configFile) {

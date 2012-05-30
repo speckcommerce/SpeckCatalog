@@ -91,16 +91,6 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
     public function setModelMapper($modelMapper)
     {
         $this->modelMapper = $modelMapper;
-        return $this;
-    }
-
-    public function getModelMapper()
-    {
-        if($this->modelMapper InstanceOf \Catalog\Model\Mapper\ModelMapperAbstract){
-            return $this->modelMapper;
-        }else{
-            throw new Exception('not instance of ModelMapperAbstract -- ' . $this->dumpVarToString($this->modelMapper));
-        }
     }
 
     public function dumpVarToString($var)

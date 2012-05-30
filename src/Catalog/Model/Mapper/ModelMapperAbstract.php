@@ -6,6 +6,7 @@ use ZfcBase\Mapper\DbMapperAbstract,
     Zend\Db\Sql\Where,
     Zend\Db\Sql\Update,
     Zend\Db\Sql\Insert,
+    Catalog\Model\Mapper\TableGateway,
     ArrayObject,
     Exception;
 
@@ -14,14 +15,30 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     protected $userId = 99;
     protected $tableFields;
     
+    //todo: make the tableGateway required after everything is refactored
+    public function __construct($tableGateway=null)
+    {
+        if($tableGateway){
+            $this->setTableGateway($tableGateway);
+        }
+    }
+    
     public function getTable()
     {
-        return $this->getTableGateway();
+        if($this->getTableGateway() instanceof TableGateway){
+            return $this->getTableGateway();
+        }
+        die('table gateway not set for - ' . get_class($this));
     }
 
     public function getTableName()
     {
-        return $this->getTable()->getTableName();
+        if(!$this->getTable()){
+            echo 'no table gateway here - '.get_class($this); die();
+        }if($this->getTable() instanceof TableGateway){
+            return $this->getTable()->getTableName();
+        }
+        var_dump($this->getTable()); die();
     }
 
     public function newSelect()
@@ -34,6 +51,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if(!$this->tableFields){
             $adapter = $this->getTable()->getAdapter();
             $sql = 'describe ' . $this->getTableName();
+            var_dump($sql);
             $result = $adapter->query($sql)->execute();
             $fields = array();     
             foreach($result as $col){

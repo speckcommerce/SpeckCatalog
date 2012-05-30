@@ -34,12 +34,13 @@ class RevisionQueryBuilder
                  . $this->joinString
                  . $this->whereString . " AND ({$this->tableName}.rev_active = 1) \n";
         }
-        return "SELECT\n {$this->getFieldString()} \n"
+        $ret = "SELECT\n {$this->getFieldString()} \n"
              . "FROM(\n" . $this->subQuery('record_id', $this->tableName) . ") as t2\n"
              . "JOIN {$this->tableName} ON t2.max_rev_id = {$this->tableName}.rev_id\n"    
              . $this->joinString
              . $this->whereString
              . "\n";
+        return $ret;
     }
 
     private function joinTable($table, $on)

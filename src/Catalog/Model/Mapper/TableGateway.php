@@ -5,6 +5,9 @@ class TableGateway extends ZfTableGateway
 {
     public function getTableName()
     {
+        if(!$this->getTable()){
+            die('fail');
+        }
         return (string) $this->getTable();
     }
 }

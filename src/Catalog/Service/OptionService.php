@@ -32,7 +32,7 @@ class OptionService extends ServiceAbstract
 
     public function getOptionsByChoiceId($choiceId)
     {
-        $options = $this->modelMapper->getOptionsByChoiceId($choiceId);
+        $options = $this->getModelMapper()->getOptionsByChoiceId($choiceId);
         return $this->populateModels($options);
     }
 
@@ -88,4 +88,21 @@ class OptionService extends ServiceAbstract
         return $this->modelMapper;         
     }
 
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    public function setProductService($productService)
+    {
+        $this->productService = $productService;
+        return $this;
+    }
+
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
+        return $this;
+    }
 }

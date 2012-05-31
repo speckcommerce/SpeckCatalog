@@ -125,22 +125,23 @@ class Module
                 'catalog_spec_service'         => 'Catalog\Service\SpecService',
             ),
             'factories' => array(
-                'catalog_db'                 => function ($sm) {
+                'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');
                 },
-                'catalog_product_mapper'     => function ($sm) {
+                //model mappers
+                'catalog_product_mapper' => function ($sm) {
                     $tg = new \Catalog\Model\Mapper\TableGateway('catalog_product', $sm->get('catalog_db'));
                     return new \Catalog\Model\Mapper\ProductMapper($tg);
                 },
-                'catalog_option_mapper'      => function ($sm) {
+                'catalog_option_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_option', $sm->get('catalog_db')); 
                     return new Mapper\OptionMapper($tg);   
                 },
-                'catalog_category_mapper'    => function ($sm) {
+                'catalog_category_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_category', $sm->get('catalog_db'));
                     return new Mapper\categoryMapper($tg);   
                 },
-                'catalog_choice_mapper'      => function ($sm) {
+                'catalog_choice_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_choice', $sm->get('catalog_db'));
                     return new Mapper\ChoiceMapper($tg);   
                 },    
@@ -152,27 +153,27 @@ class Module
                     $tg = new Mapper\TableGateway('catalog_product_uom', $sm->get('catalog_db'));
                     return new Mapper\ProductUomMapper($tg);   
                 },                       
-                'catalog_image_mapper'     => function ($sm) {
+                'catalog_image_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_media', $sm->get('catalog_db'));
                     return new Mapper\ImageMapper($tg);   
                 },   
-                'catalog_document_mapper'     => function ($sm) {
+                'catalog_document_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_media', $sm->get('catalog_db'));
                     return new Mapper\DocumentMapper($tg);   
                 },   
-                'catalog_company_mapper'     => function ($sm) {
+                'catalog_company_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_company', $sm->get('catalog_db'));
                     return new Mapper\CompanyMapper($tg);   
                 },   
-                'catalog_spec_mapper'        => function ($sm) {
+                'catalog_spec_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_product_spec', $sm->get('catalog_db'));
                     return new Mapper\SpecMapper($tg);   
                 },
-                'catalog_uom_mapper'        => function ($sm) {
+                'catalog_uom_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('ansi_uom', $sm->get('catalog_db'));
                     return new Mapper\UomMapper($tg);   
                 },
-
+                //linker table gateways
                 'catalog_option_choice_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_option_choice_linker', $sm->get('catalog_db'));
                 },   

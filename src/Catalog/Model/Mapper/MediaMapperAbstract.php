@@ -17,11 +17,6 @@ abstract class MediaMapperAbstract extends ModelMapperAbstract
         return $this->selectMany($select);   
     }    
  
-    public function getParentProductLinkerTable()
-    {
-        return $this->parentProductLinkerTable;
-    }
- 
     public function setParentProductLinkerTable($parentProductLinkerTable)
     {
         $this->parentProductLinkerTable = $parentProductLinkerTable;

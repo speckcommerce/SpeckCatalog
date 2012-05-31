@@ -60,6 +60,9 @@ class ProductMapper extends ModelMapperAbstract
 
     public function getChildOptionLinkerTable()
     {
+        if(null === $this->childOptionLinkerTable){
+            $this->childOptionLinkerTable = $this->getServiceManager()->get('catalog_product_option_linker_tg');
+        }
         return $this->childOptionLinkerTable;
     }
 
@@ -71,6 +74,9 @@ class ProductMapper extends ModelMapperAbstract
 
     public function getParentCategoryLinkerTable()
     {
+        if(null === $this->parentCategoryLinkerTable){
+            $this->parentCategoryLinkerTable = $this->getServiceManager()->get('catalog_category_product_linker_tg');
+        }
         return $this->parentCategoryLinkerTable;
     }
 

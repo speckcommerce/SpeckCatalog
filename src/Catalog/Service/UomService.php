@@ -8,4 +8,12 @@ class UomService extends ServiceAbstract
     {
         return $uom;
     }
+
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_uom_mapper');
+        }
+        return $this->modelMapper;         
+    }  
 }

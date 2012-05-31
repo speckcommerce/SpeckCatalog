@@ -128,7 +128,7 @@ class CatalogManagerController extends ActionController
     
     public function getCatalogService()
     {
-        return $this->catalogService;
+        return $this->getServiceLocator()->get('catalog_generic_service'); 
     }
  
     public function setCatalogService($catalogService)
@@ -139,8 +139,8 @@ class CatalogManagerController extends ActionController
  
     public function getLinkerService()
     {
-        return $this->linkerService;
-    }
+        return $this->getServiceLocator()->get('catalog_model_linker_service'); 
+    }   
  
     public function setLinkerService($linkerService)
     {

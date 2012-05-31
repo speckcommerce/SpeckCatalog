@@ -53,7 +53,10 @@ class ImageMapper extends MediaMapperAbstract
  
     public function getParentOptionLinkerTable()
     {
-        return $this->parentOptionLinkerTable;
+        if(null === $this->parentOptionLinkerTable){
+            $this->parentOptionLinkerTable = $this->getServiceManager()->get('catalog_option_image_linker_tg');
+        }
+        return $this->parentOptionLinkerTable;  
     }
  
     public function setParentOptionLinkerTable($parentOptionLinkerTable)
@@ -61,5 +64,9 @@ class ImageMapper extends MediaMapperAbstract
         $this->parentOptionLinkerTable = $parentOptionLinkerTable;
         return $this;
     }
+    public function getParentProductLinkerTable()
+    {
+        return $this->getServiceManager()->get('catalog_product_image_linker_tg');
+    }     
 }
 

@@ -82,6 +82,9 @@ class OptionMapper extends ModelMapperAbstract
  
     public function getParentProductLinkerTable()
     {
+        if(null === $this->parentProductLinkerTable){
+            $this->parentProductLinkerTable = $this->getServiceManager()->get('catalog_product_option_linker_tg');
+        }
         return $this->parentProductLinkerTable;
     }
  
@@ -93,7 +96,10 @@ class OptionMapper extends ModelMapperAbstract
  
     public function getParentChoiceLinkerTable()
     {
-        return $this->parentChoiceLinkerTable;
+        if(null === $this->parentChoiceLinkerTable){
+            $this->parentChoiceLinkerTable = $this->getServiceManager()->get('catalog_choice_option_linker_tg');
+        }
+        return $this->parentChoiceLinkerTable;  
     }
  
     public function setParentChoiceLinkerTable($parentChoiceLinkerTable)

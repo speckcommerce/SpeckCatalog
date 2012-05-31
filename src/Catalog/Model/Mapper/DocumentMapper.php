@@ -30,4 +30,8 @@ class DocumentMapper extends MediaMapperAbstract
         return $this->deleteLinker('catalog_product_document_linker', $linkerId);
     }
 
+    public function getParentProductLinkerTable()
+    {
+        return $this->getServiceManager()->get('catalog_product_document_linker_tg');
+    }    
 }

@@ -3,23 +3,33 @@
 namespace Catalog\Model\Mapper;
 use ZfcBase\Mapper\DbMapperAbstract,
     Zend\Db\Sql\Select,
-    Zend\Db\Sql\Where,
-    Zend\Db\Sql\Update,
-    Zend\Db\Sql\Insert,
+    Zend\ServiceManager\ServiceManagerAwareInterface,
+    Zend\ServiceManager\ServiceManager,
     Catalog\Model\Mapper\TableGateway,
     ArrayObject,
     Exception;
 
-abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapperInterface
+abstract class ModelMapperAbstract 
+extends DbMapperAbstract 
+implements ModelMapperInterface, ServiceManagerAwareInterface
 {
     protected $userId = 99;
     protected $tableFields;
+    protected $serviceManager;
     
-    //todo: make the tableGateway required after everything is refactored
-    public function __construct($tableGateway=null)
+    public function setServiceManager(ServiceManager $serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
+    }  
+    
+    public function __construct(TableGateway $tableGateway=null)
     {
         if($tableGateway){
             $this->setTableGateway($tableGateway);
+        }else{
+            var_dump($this);
+            die('didnt get a gateway');
         }
     }
     
@@ -28,7 +38,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if($this->getTableGateway() instanceof TableGateway){
             return $this->getTableGateway();
         }
-        die('table gateway not set for - ' . get_class($this));
+        var_dump($this->getTableGateway());
+        die(get_class($this));
     }
 
     public function getTableName()
@@ -51,7 +62,6 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         if(!$this->tableFields){
             $adapter = $this->getTable()->getAdapter();
             $sql = 'describe ' . $this->getTableName();
-            var_dump($sql);
             $result = $adapter->query($sql)->execute();
             $fields = array();     
             foreach($result as $col){
@@ -69,6 +79,8 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         $row = $this->getTable()->getAdapter()->query($revSelect)->execute()->current();
         if($row){
             return $this->rowToModel($row);   
+        }else{
+            throw new \Exception('didnt happen');
         }
     }
 
@@ -151,7 +163,7 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
         return $this->getTable()->delete('linker_id = ' . $linkerId);
     }
 
-    public function insertLinker($linkerTable, $row)
+    public function insertLinker(TableGateway $linkerTable, $row)
     {
         $select = $this->newSelect();
         $select->from($linkerTable->getTableName())
@@ -321,4 +333,9 @@ abstract class ModelMapperAbstract extends DbMapperAbstract implements ModelMapp
     {
         return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
     }      
+
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
 }

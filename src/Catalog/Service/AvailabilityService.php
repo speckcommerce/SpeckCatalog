@@ -34,7 +34,10 @@ class AvailabilityService extends ServiceAbstract
 
     public function getCompanyService()
     {
-        return $this->companyService;
+        if(null === $this->companyService){
+            $this->companyService = $this->getServiceManager()->get('catalog_company_service');
+        }
+        return $this->companyService;         
     }
  
     public function setCompanyService($companyService)

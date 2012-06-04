@@ -40,11 +40,6 @@ class Module
     {
         return include __DIR__ . '/config/module.config.php';
     }
-    
-    public function getAssetPath()
-    {
-        return __DIR__ . '/public';
-    }
 
     public function onBootstrap($e)
     {

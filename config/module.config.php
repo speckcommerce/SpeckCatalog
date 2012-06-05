@@ -9,7 +9,6 @@ $config = array(
 
 $configFiles = array(
     __DIR__ . '/module.config.routes.php',
-    __DIR__ . '/module.config.db.php',
 );
 
 foreach($configFiles as $configFile) {

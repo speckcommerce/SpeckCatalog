@@ -48,7 +48,10 @@ class AvailabilityService extends ServiceAbstract
  
     public function getProductUomService()
     {
-        return $this->productUomService;
+        if(null === $this->productUomService){
+            $this->productUomService = $this->getServiceManager()->get('catalog_product_uom_service');
+        }
+        return $this->productUomService;   
     }
 
     public function getModelMapper()

@@ -7,6 +7,9 @@ return array(
                 'priority' => -1000,
                 'options' => array(
                     'route' => '/:id',
+                    'constraints' => array(
+                        'id' => '\d+',
+                    ),
                     'defaults' => array(
                         'controller' => 'Catalog\Controller\CatalogController',
                         'action' => 'productRedirect',
@@ -43,7 +46,7 @@ return array(
                 'options' => array(
                     'route' => '/catalogmanager',
                     'defaults' => array(
-                        'controller' => 'CatalogManager\Controller\CatalogManagerController',
+                        'controller' => 'catalogmanager',
                         'action' => 'index',
                     ),
                 ),

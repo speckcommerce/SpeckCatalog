@@ -79,8 +79,6 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $row = $this->getTable()->getAdapter()->query($revSelect)->execute()->current();
         if($row){
             return $this->rowToModel($row);   
-        }else{
-            throw new \Exception('didnt happen');
         }
     }
 

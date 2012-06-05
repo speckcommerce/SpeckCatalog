@@ -6,6 +6,7 @@ class Spec extends ModelAbstract
     protected $productId;
     protected $label;
     protected $value;
+    protected $tabDelimited;
  
     /**
      * Get label.
@@ -102,5 +103,26 @@ class Spec extends ModelAbstract
     public function setParentProductId($productId)
     {
         return $this->setProductId($productId);
+    }
+ 
+    /**
+     * Get tabDelimited.
+     *
+     * @return tabDelimited
+     */
+    public function getTabDelimited()
+    {
+        return $this->tabDelimited;
+    }
+ 
+    /**
+     * Set tabDelimited.
+     *
+     * @param $tabDelimited the value to be set
+     */
+    public function setTabDelimited($tabDelimited)
+    {
+        $this->tabDelimited = $tabDelimited;
+        return $this;
     }
 }

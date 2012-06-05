@@ -10,7 +10,7 @@ class ChoiceService extends ServiceAbstract
     public function _populateModel($choice)
     {
         if($choice->getProductId()){
-            $product = $this->productService->getById($choice->getProductId());
+            $product = $this->getProductService()->getById($choice->getProductId());
             if($product){ 
                 $choice->setProduct($product); 
             }
@@ -22,7 +22,7 @@ class ChoiceService extends ServiceAbstract
 
     public function getChoicesByParentOptionId($id)
     {
-        $choices = $this->modelMapper->getChoicesByParentOptionId($id);
+        $choices = $this->getModelMapper()->getChoicesByParentOptionId($id);
         $return = array();
         foreach ($choices as $choice){
             $return[] = $this->populateModel($choice);

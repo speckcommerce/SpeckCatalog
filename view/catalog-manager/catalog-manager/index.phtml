@@ -1,4 +1,4 @@
-
+ <? $pdir = '/catalog-manager/partial/'; ?>
 
 
 <h3>Products</h3>
@@ -11,8 +11,8 @@
 </form>
 
 <? if(isset($products)) :?>
-    
+    <?=count($products);?> Products
     <? foreach($products as $product) : ?>
-    <a href="/catalogmanager/product/<?=$product->getId();?>">"<?=$product;?>"</a><br/>
-<? endforeach; ?>
+            <?=$this->partial($pdir.'product.phtml', array('product' => $product));?>
+    <? endforeach; ?>
 <? endif; ?>

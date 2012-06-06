@@ -1,7 +1,6 @@
 {
     "name": "SpeckCatalog Module",
-    "description": "catalog + manager module for the ecommerce platform
-    SpeckCommerce",
+    "description": "catalog + manager module for the ecommerce platform SpeckCommerce",
     "type": "library",
     "keywords": [
         "zf2"
@@ -12,8 +11,7 @@
             "name": "Nigel Lundsten",
             "email": "nigel.lundsten*at*gmail.com",
             "homepage": ""
-        },
-
+        }
     ],
     "require": {
         "php": ">=5.3.3",
@@ -21,11 +19,11 @@
     },
     "autoload": {
         "psr-0": {
-            "Catalog": "src/"
+            "Catalog": "src/",
             "CatalogManager": "src/"
         },
         "classmap": [
             "./"
         ]
     }
-}
+}            

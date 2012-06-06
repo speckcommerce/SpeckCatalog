@@ -1,0 +1,15 @@
+<? $pdir = '/catalog-manager/partial/'; ?>
+
+<div class="boundary contrastbg2">
+    <div class="entity-header">
+        <div> 
+            <div><i class="icon-tag"></i></div>
+            <div><a class="icon-pencil" href="/catalogmanager/product/<?=$product->getProductId();?>" title="edit this"></a></div>
+            &nbsp; <?=$product; ?>
+            <?=$product->getItemNumber(); ?>
+            <? if($product->hasUoms()) : ?>
+                <? foreach($product->getUoms() as $uom) : ?>(<?=$uom;?>)<? endforeach;?>
+            <? endif; ?>
+        </div>
+    </div>
+</div>

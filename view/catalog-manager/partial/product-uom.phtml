@@ -1,0 +1,40 @@
+<? $pdir = '/catalog-manager/partial/'; ?>
+<div class="existing contrastbg boundary" id="<?=$productUom->getRecordId();?>">
+<div class="entity-header">
+    <div class="collapser"><i class="icon-chevron-down"></i></div>
+    <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
+    <div class="title collapser">&nbsp;<?=$productUom;?></div>
+</div>  
+    <div class="entity-content">
+        <div class="row">
+            <div class="span4">
+                <?=$this->partial($pdir.'form/product-uom.phtml', array('productUom' => $productUom));?>
+            </div>
+            <div class="span6">
+                <div class="list-wrap">
+                    <div class="child-expand list-items-helper">
+                        <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                        <div class="expand-all"><i class="icon-arrow-down"></i></div>   
+                        <span class="smallcaps">&nbsp;availabilities</span><br/>
+                    </div>  
+                    <div class="list-items">
+                        <? if ($productUom->hasAvailabilities()) : ?>
+                            <? foreach($productUom->getAvailabilities() as $availability) : ?>
+                                <?=$this->partial($pdir.'availability.phtml', array('availability' => $availability));?>
+                            <? endforeach; ?>
+                        <? endif; ?>
+                    </div>
+                    <div class="row list-items-helper">
+                        <?=$this->partial($pdir.'add.phtml', array(
+                            'function'        => 'add-button',
+                            'newClassName'    => 'availability',
+                            'parentClassName' => 'productUom',
+                            'parentId'        => $productUom->getRecordId(),
+                            'partialName'     => 'availability',
+                        ));?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

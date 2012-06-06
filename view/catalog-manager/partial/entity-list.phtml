@@ -1,0 +1,19 @@
+<table class='bordered-table'>
+    <thead>
+        <tr><th>Entity</th><th></th></tr>
+    </thead>
+    <tbody>
+        <?php if (count($paginator)): ?>
+            <?php foreach ($paginator as $i => $item): ?>
+                <? $class = explode('\\', get_class($item)); $className = array_pop($class);  ?>
+                <tr>
+                    <td><?=$className;?></td>
+                    <td><a href="/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>&parent_id=<?=$parentId;?>"><?=$item;?></a></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>  
+    </tbody>
+</table>    
+<? if(count($paginator) > 1) :?>
+    <?=$paginator->setView($this);?>
+<? endif; ?>        

@@ -1,0 +1,12 @@
+<form id="category-<?=$category->getCategoryId();?>" class="live-form">
+
+    <input type="hidden" name="category_id" value="<?=$category->getCategoryId();?>"/>
+
+    <div class="row">
+        <div class="span3">
+            <span class="smallcaps">name</span><br/>
+            <input name="name" class="span3" type="text" value="<?=$category->getName();?>"/>
+        </div>  
+    </div>
+
+</form><br/>  

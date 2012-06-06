@@ -1,0 +1,14 @@
+<? if(isset($results)) : ?>
+    <? foreach($results as $entity) : ?>
+        <? $class = explode('\\', get_class($entity)); $className = array_pop($class);?>
+        <? $method = 'get'.ucfirst($className).'Id'; ?>
+        <? $entityId = $entity->$method(); ?>
+        <? $title = ''; ?>
+        <? foreach($entity->toArray() as $key => $val){$title.="| {$key}: {$val} |";}; ?>
+        <?=$className;?> - <a href="/catalogmanager/<?=strtolower($className);?>?id=<?=$entityId;?>" data-content="<?=$title;?>" rel="popover" data-placement="below">"<?=$entity;?>"</a><br/>
+
+    <? endforeach; ?>
+
+<? else: ?>
+    No Results
+<? endif; ?>

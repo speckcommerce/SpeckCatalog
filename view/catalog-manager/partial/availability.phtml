@@ -1,0 +1,11 @@
+<? $pdir = '/catalog-manager/partial/'; ?>
+<div class="boundary whitebg" id="<?=$availability->getRecordId();?>">
+    <div class="entity-header">
+        <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
+        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
+        <div class="title collapser">&nbsp; <?=$availability;?></div>
+    </div>
+    <div class="entity-content">   
+            <?=$this->partial($pdir.'form/availability.phtml', array('availability' => $availability));?>
+    </div>
+</div>

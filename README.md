@@ -4,12 +4,13 @@ Steps to get this module running:
 - copy all files from /vendor/speckcommerce/SpeckCatalog/public, into /public
 
 Parts that work right now:
-create + edit a new product - catalogmanger/new/product/item
-view all products - catalogmanager/products
+- create + edit a new product - catalogmanger/new/product/item
+- view all products - catalogmanager/products
 
 Parts that dont work:
-searching for reusable products/options, from the manager/editor.
+- searching for reusable products/options, from the manager/editor.
 
-Coming soon: zfcuser + zfcuseracl integration.
+Coming soon: 
+- zfcuser + zfcuseracl integration.
 
-come visit us via irc.freenode.net #SpeckCommerce
+Come visit us via irc.freenode.net #SpeckCommerce

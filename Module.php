@@ -47,13 +47,9 @@ class Module
         $locator      = $app->getServiceManager();
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($locator->get('Router'));
-        $renderer->plugin('headScript')->appendFile('/js/jquery.js');
-        $renderer->plugin('headScript')->appendFile('/js/jquery-ui.js');
         $renderer->plugin('headScript')->appendFile('/js/catalogmanager.js');
-        $renderer->plugin('headScript')->appendFile('/js/bootstrap-dropdown.js');
-        $renderer->plugin('headScript')->appendFile('/js/bootstrap-modal.js');
-        $renderer->plugin('headScript')->appendFile('/js/bootstrap-scrollspy.js');
-        $renderer->plugin('headScript')->appendFile('/js/bootstrap-tab.js');
+        $renderer->plugin('headScript')->appendFile('/js/bootstrap-modal.js'); // need to move into speck repo 
+        $renderer->plugin('headScript')->appendFile('/js/bootstrap-tab.js');   // need to move into speck repo
         $renderer->plugin('headLink')->appendStylesheet('/css/catman.css');
     }
 

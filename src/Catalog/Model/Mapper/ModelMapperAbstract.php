@@ -7,16 +7,20 @@ use ZfcBase\Mapper\DbMapperAbstract,
     Zend\ServiceManager\ServiceManager,
     Catalog\Model\Mapper\TableGateway,
     ArrayObject,
-    Exception;
+    Exception;                                                      
 
 abstract class ModelMapperAbstract 
-extends DbMapperAbstract 
+//extends DbMapperAbstract 
 implements ModelMapperInterface, ServiceManagerAwareInterface
 {
     protected $userId = 99;
     protected $tableFields;
     protected $serviceManager;
-    
+    protected $tableGateway;
+
+    public function events(){return $this;}
+    public function trigger(){}
+
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
@@ -335,5 +339,26 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     public function getServiceManager()
     {
         return $this->serviceManager;
+    }
+ 
+    /**
+     * Get tableGateway.
+     *
+     * @return tableGateway
+     */
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
+    }
+ 
+    /**
+     * Set tableGateway.
+     *
+     * @param $tableGateway the value to be set
+     */
+    public function setTableGateway($tableGateway)
+    {
+        $this->tableGateway = $tableGateway;
+        return $this;
     }
 }

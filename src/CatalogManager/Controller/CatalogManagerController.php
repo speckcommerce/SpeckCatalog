@@ -14,6 +14,15 @@ class CatalogManagerController extends ActionController
     protected $testService;
     protected $userAuth;
 
+
+    public function __construct($userAuth)
+    {
+        if (false === $userAuth->hasIdentity()) {
+            $this->redirect()->toRoute('zfcuser');
+        }
+        $this->userAuth = $userAuth;
+    }
+
     public function layout($layout=null)
     {
         if(null === $layout){
@@ -152,14 +161,7 @@ class CatalogManagerController extends ActionController
  
     public function getUserAuth()
     {
-        if (null === $this->userAuth) {
-            $userAuth = $this->getServiceLocator()->get('zfcUserAuthentication'); 
-            if (false === $userAuth->hasIdentity()) {
-                $this->redirect()->toRoute('zfcuser');
-            }
-            $this->userAuth = $userAuth;
-        }
-        return $userAuth;
+        return $this->userAuth;
     }
 
     public function setUserAuth($userAuth)

@@ -12,7 +12,8 @@ class CatalogManagerController extends ActionController
     protected $catalogService;
     protected $linkerService;
     protected $testService;
-    
+    protected $userAuth;
+
     public function layout($layout=null)
     {
         if(null === $layout){
@@ -36,6 +37,7 @@ class CatalogManagerController extends ActionController
 
     public function indexAction()
     {
+        $this->getUserAuth();
         $products = $this->getCatalogService()->getAll('product');
         return new ViewModel(array('products' => $products));
     }
@@ -128,7 +130,7 @@ class CatalogManagerController extends ActionController
     
     public function getCatalogService()
     {
-        return $this->getServiceLocator()->get('catalog_generic_service'); 
+        return $this->getServiceLocator()->get('catalog_generic_service');
     }
  
     public function setCatalogService($catalogService)
@@ -148,24 +150,21 @@ class CatalogManagerController extends ActionController
         return $this;
     }
  
-    /**
-     * Get testService.
-     *
-     * @return testService
-     */
-    public function getTestService()
+    public function getUserAuth()
     {
-        return $this->testService;
+        if (null === $this->userAuth) {
+            $userAuth = $this->getServiceLocator()->get('zfcUserAuthentication'); 
+            if (false === $userAuth->hasIdentity()) {
+                $this->redirect()->toRoute('zfcuser');
+            }
+            $this->userAuth = $userAuth;
+        }
+        return $userAuth;
     }
- 
-    /**
-     * Set testService.
-     *
-     * @param $testService the value to be set
-     */
-    public function setTestService($testService)
+
+    public function setUserAuth($userAuth)
     {
-        $this->testService = $testService;
+        $this->userService = $userService;
         return $this;
     }
 }   

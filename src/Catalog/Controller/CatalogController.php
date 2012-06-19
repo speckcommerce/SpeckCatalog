@@ -18,15 +18,10 @@ class CatalogController extends ActionController
 
     public function productAction()
     {
-        $translateThis = "°™";
-        $var = htmlentities($translateThis, ENT_QUOTES, "UTF-8", true, false);
-        //die($var);
-
-        
-        
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
         $product = $this->getCatalogService()->getModel('product', $id);
-        var_dump($product);
+        
+        return new ViewModel(array('product' => $product));
     }
     
     public function productRedirectAction()
@@ -44,6 +39,9 @@ class CatalogController extends ActionController
     
     public function getCatalogService()
     {
+        if(null === $this->catalogService){
+            $this->catalogService = $this->getServiceLocator()->get('catalog_generic_service');
+        }
         return $this->catalogService;
     }
  

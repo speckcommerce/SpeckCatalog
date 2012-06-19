@@ -1,9 +1,9 @@
 <?php
 $config = array(
     'controller' => array(
-        //'classes' => array(
-        //    'catalogmanager' => 'CatalogManager\Controller\CatalogManagerController'
-        //),
+        'classes' => array(
+            'catalog' => 'Catalog\Controller\CatalogController'
+        ),
         'factories' => array(
             'catalogmanager' => function ($sm) {
                 $userAuth = $sm->get('zfcUserAuthentication');

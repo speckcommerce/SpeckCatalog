@@ -17,9 +17,9 @@ class CatalogManagerController extends ActionController
 
     public function __construct($userAuth)
     {
-        if (false === $userAuth->hasIdentity()) {
-            $this->redirect()->toRoute('zfcuser');
-        }
+        //if (false === $userAuth->hasIdentity()) {
+        //    $this->redirect()->toRoute('zfcuser');
+        //}
         $this->userAuth = $userAuth;
     }
 
@@ -32,16 +32,6 @@ class CatalogManagerController extends ActionController
         }else{
             $this->getEvent()->getViewModel()->setTemplate('layout/' . $layout);
         }
-    }
-
-    public function optionSliderTestAction()
-    {
-        $slider = new \Catalog\Model\OptionSlider;
-        $slider->setStart(1)
-               ->setEnd(25)
-               ->setIncriment(.5);
-        var_dump($slider->__toArray());
-        die();
     }
 
     public function indexAction()

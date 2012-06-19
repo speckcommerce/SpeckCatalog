@@ -11,7 +11,7 @@ return array(
                         'id' => '\d+',
                     ),
                     'defaults' => array(
-                        'controller' => 'Catalog\Controller\CatalogController',
+                        'controller' => 'catalog',
                         'action' => 'productRedirect',
                     ),
                 ),
@@ -22,7 +22,7 @@ return array(
                 'options' => array(
                     'route' => '/catalog',
                     'defaults' => array(
-                        'controller' => 'Catalog\Controller\CatalogController',
+                        'controller' => 'catalog',
                         'action' => 'index',
                     ),
                 ),
@@ -33,7 +33,6 @@ return array(
                         'options' => array(
                             'route' => '/product/:id',
                             'defaults' => array(
-                                'controller' => 'Catalog\Controller\CatalogController',
                                 'action' => 'product',
                             ),
                         ),

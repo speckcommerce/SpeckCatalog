@@ -2,7 +2,6 @@
 
 namespace Catalog\Model\Mapper;
 use ZfcBase\Mapper\DbMapperAbstract,
-    Zend\Stdlib\Hydrator\ClassMethods as Hydrator,
     Zend\Db\Sql\Select,
     Zend\ServiceManager\ServiceManagerAwareInterface,
     Zend\ServiceManager\ServiceManager,
@@ -64,17 +63,14 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
 
     public function getTableFields()
     {
-        if(!$this->tableFields){
-            $adapter = $this->getTable()->getAdapter();
-            $sql = 'describe ' . $this->getTableName();
-            $result = $adapter->query($sql)->execute();
-            $fields = array();     
-            foreach($result as $col){
-                $fields[] = $col['Field'];
-            }
-            $this->tableFields = $fields;
+        $adapter = $this->getTable()->getAdapter();
+        $sql = 'describe ' . $this->getTableName();
+        $result = $adapter->query($sql)->execute();
+        $fields = array();     
+        foreach($result as $col){
+            $fields[] = $col['Field'];
         }
-        return $this->tableFields;
+        return $fields;
     }
 
     public function selectOne($select)
@@ -107,7 +103,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
      */
     public function rowToModel($row=null)
     {
-        if(!$row){
+        if(null === $row){
             return false;
         }
         $model = $this->getHydrator()->hydrate($row, $this->getModel());
@@ -302,63 +298,33 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         return $model;
     }      
 
-    public static function toCamelCase($name)
-    {
-        return implode('', array_map('ucfirst', explode('_',$name)));
-    }
-
-    public static function fromCamelCase($name)
-    {
-        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
-    }      
-
     public function getServiceManager()
     {
         return $this->serviceManager;
     }
- 
-    /**
-     * Get tableGateway.
-     *
-     * @return tableGateway
-     */
+
     public function getTableGateway()
     {
         return $this->tableGateway;
     }
- 
-    /**
-     * Set tableGateway.
-     *
-     * @param $tableGateway the value to be set
-     */
+
     public function setTableGateway($tableGateway)
     {
         $this->tableGateway = $tableGateway;
         return $this;
     }
- 
-    /**
-     * Get hydrator.
-     *
-     * @return hydrator
-     */
+
     public function getHydrator()
     {
         if(null === $this->hydrator){
-            $this->hydrator = new Hydrator;
+            $this->hydrator = new Hydrator($this->getTableFields());
         }
         return $this->hydrator;
     }
- 
-    /**
-     * Set hydrator.
-     *
-     * @param $hydrator the value to be set
-     */
+
     public function setHydrator($hydrator)
     {
-        $this->hydrator = $hydrator;
+        $this->hydrator = $hydrator();
         return $this;
     }
 }

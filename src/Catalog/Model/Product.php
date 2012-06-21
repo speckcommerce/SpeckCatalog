@@ -6,7 +6,6 @@ class Product extends ModelAbstract
 {
     //shell view        
     protected $type; 
-    protected $recordId;
     protected $name;
     protected $description;
     protected $options;
@@ -74,12 +73,6 @@ class Product extends ModelAbstract
         return $this;
     }
 
-    public function setPrice($price)
-    {
-        $this->price = $price;
-        return $this;
-    }
-
     public function getOptions()
     {
         return $this->options;
@@ -98,11 +91,6 @@ class Product extends ModelAbstract
     public function getType()
     {
         return $this->type;
-    }
-
-    public function getPrice()
-    {
-        return $this->price;
     }
 
     public function getParentChoices()
@@ -241,6 +229,14 @@ class Product extends ModelAbstract
         }
     }
 
+    public function getFirstImage()
+    {
+        if($this->hasImages()){
+            $images = $this->getImages();
+            return $images[0];
+        }
+    }
+
     public function getImages()
     {
         return $this->images;
@@ -251,5 +247,25 @@ class Product extends ModelAbstract
         $this->images = $images;
         return $this;
     }
- 
+
+    public function getPrice($uomCode = null)
+    {
+        if($uomCode){
+            if($this->hasUoms()){
+                foreach($this->getUoms as $uom){
+                    if($uomCode === $uom->getUomCode){
+                        return $uom->getPrice();
+                    }
+                }
+            }
+        }
+        if(isset($this->uomForPrice)){
+            return $this->uomForPrice->getPrice();
+        }
+        //temporary
+        if($this->hasUoms()){
+            $uoms = $this->getUoms();
+            return $uoms[0]->getPrice();
+        }
+    }
 }

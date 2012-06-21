@@ -11,7 +11,7 @@ class Hydrator
         $this->fields = $fields;
     }
 
-    public function hydrate(array $row, $model)
+    public function hydrate($row, $model)
     {
         foreach($row as $key => $val){
             $setterMethod = 'set' . $this->toCamelCase($key);

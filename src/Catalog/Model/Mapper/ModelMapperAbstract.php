@@ -2,6 +2,7 @@
 
 namespace Catalog\Model\Mapper;
 use ZfcBase\Mapper\DbMapperAbstract,
+    Zend\Stdlib\Hydrator\ClassMethods as Hydrator,
     Zend\Db\Sql\Select,
     Zend\ServiceManager\ServiceManagerAwareInterface,
     Zend\ServiceManager\ServiceManager,
@@ -10,13 +11,13 @@ use ZfcBase\Mapper\DbMapperAbstract,
     Exception;                                                      
 
 abstract class ModelMapperAbstract 
-//extends DbMapperAbstract 
 implements ModelMapperInterface, ServiceManagerAwareInterface
 {
     protected $userId = 99;
     protected $tableFields;
     protected $serviceManager;
     protected $tableGateway;
+    protected $hydrator;
 
     public function events(){return $this;}
     public function trigger(){}
@@ -109,7 +110,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         if(!$row){
             return false;
         }
-        $model = $this->fromArray($row);
+        $model = $this->getHydrator()->hydrate($row, $this->getModel());
         $this->events()->trigger(__FUNCTION__, $this, array('model' => $model));
         return $model;
     }
@@ -248,31 +249,6 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         return $this->rowsToModels($rows); 
     }  
 
-    public function toArray($model)
-    {
-        $fields = $this->getTableFields();
-        $return = array();
-        foreach($fields as $field){
-            $getterMethod = 'get' . $this->toCamelCase($field);
-            if(is_callable(array($model, $getterMethod))){
-                $return[$field] = $model->$getterMethod();
-            }
-        }
-        return $return;
-    }
-
-    public function fromArray($array)
-    {
-        $model = $this->getModel();
-        foreach($array as $key => $val){
-            $setterMethod = 'set' . $this->toCamelCase($key);
-            if(method_exists($model, $setterMethod)){
-                $model->$setterMethod($val);
-            }
-        }
-        return $model;   
-    }           
-    
     public function add($model)
     {
         return $this->persist($model);
@@ -301,7 +277,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
      */
     public function persist($model, $mode = 'insert', $revId=null)
     {
-        $row = $this->toArray($model);
+        $row = $this->getHydrator()->extract($model);
         if ($revId) $row['rev_id'] = $revId; //hack to import existing records
         $row['rev_user_id'] = $this->userId;
         $row['rev_datetime'] = 1;
@@ -359,6 +335,30 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     public function setTableGateway($tableGateway)
     {
         $this->tableGateway = $tableGateway;
+        return $this;
+    }
+ 
+    /**
+     * Get hydrator.
+     *
+     * @return hydrator
+     */
+    public function getHydrator()
+    {
+        if(null === $this->hydrator){
+            $this->hydrator = new Hydrator;
+        }
+        return $this->hydrator;
+    }
+ 
+    /**
+     * Set hydrator.
+     *
+     * @param $hydrator the value to be set
+     */
+    public function setHydrator($hydrator)
+    {
+        $this->hydrator = $hydrator;
         return $this;
     }
 }

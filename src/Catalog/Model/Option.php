@@ -5,8 +5,6 @@ use Exception;
 
 class Option extends ModelAbstract
 {
-    protected $optionId;
-
     protected $parentProducts;
     protected $parentChoices;
     

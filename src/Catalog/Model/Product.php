@@ -23,7 +23,6 @@ class Product extends ModelAbstract
     protected $companies;
     protected $uoms;
 
-
     public function setType($type = null)
     {
         if($type === null) {
@@ -199,16 +198,6 @@ class Product extends ModelAbstract
         return $this;
     }
 
-    public function getProductId()
-    {
-        return $this->getRecordId();
-    }
-
-    public function setProductId($id)
-    {
-        return $this->setRecordId($id);
-    }
-        
     public function getSpecs()
     {
         return $this->specs;
@@ -262,4 +251,5 @@ class Product extends ModelAbstract
         $this->images = $images;
         return $this;
     }
+ 
 }

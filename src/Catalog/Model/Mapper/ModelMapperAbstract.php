@@ -2,7 +2,6 @@
 
 namespace Catalog\Model\Mapper;
 use ZfcBase\Mapper\DbMapperAbstract,
-    Zend\Stdlib\Hydrator\ClassMethods as Hydrator,
     Zend\Db\Sql\Select,
     Zend\ServiceManager\ServiceManagerAwareInterface,
     Zend\ServiceManager\ServiceManager,
@@ -107,7 +106,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
      */
     public function rowToModel($row=null)
     {
-        if(!$row){
+        if(null === $row){
             return false;
         }
         $model = $this->getHydrator()->hydrate($row, $this->getModel());
@@ -316,33 +315,18 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     {
         return $this->serviceManager;
     }
- 
-    /**
-     * Get tableGateway.
-     *
-     * @return tableGateway
-     */
+
     public function getTableGateway()
     {
         return $this->tableGateway;
     }
- 
-    /**
-     * Set tableGateway.
-     *
-     * @param $tableGateway the value to be set
-     */
+
     public function setTableGateway($tableGateway)
     {
         $this->tableGateway = $tableGateway;
         return $this;
     }
- 
-    /**
-     * Get hydrator.
-     *
-     * @return hydrator
-     */
+
     public function getHydrator()
     {
         if(null === $this->hydrator){
@@ -350,12 +334,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         }
         return $this->hydrator;
     }
- 
-    /**
-     * Set hydrator.
-     *
-     * @param $hydrator the value to be set
-     */
+
     public function setHydrator($hydrator)
     {
         $this->hydrator = $hydrator;

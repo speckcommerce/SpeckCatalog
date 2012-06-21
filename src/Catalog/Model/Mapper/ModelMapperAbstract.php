@@ -63,17 +63,14 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
 
     public function getTableFields()
     {
-        if(!$this->tableFields){
-            $adapter = $this->getTable()->getAdapter();
-            $sql = 'describe ' . $this->getTableName();
-            $result = $adapter->query($sql)->execute();
-            $fields = array();     
-            foreach($result as $col){
-                $fields[] = $col['Field'];
-            }
-            $this->tableFields = $fields;
+        $adapter = $this->getTable()->getAdapter();
+        $sql = 'describe ' . $this->getTableName();
+        $result = $adapter->query($sql)->execute();
+        $fields = array();     
+        foreach($result as $col){
+            $fields[] = $col['Field'];
         }
-        return $this->tableFields;
+        return $fields;
     }
 
     public function selectOne($select)
@@ -301,16 +298,6 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         return $model;
     }      
 
-    public static function toCamelCase($name)
-    {
-        return implode('', array_map('ucfirst', explode('_',$name)));
-    }
-
-    public static function fromCamelCase($name)
-    {
-        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
-    }      
-
     public function getServiceManager()
     {
         return $this->serviceManager;
@@ -330,14 +317,14 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     public function getHydrator()
     {
         if(null === $this->hydrator){
-            $this->hydrator = new Hydrator;
+            $this->hydrator = new Hydrator($this->getTableFields());
         }
         return $this->hydrator;
     }
 
     public function setHydrator($hydrator)
     {
-        $this->hydrator = $hydrator;
+        $this->hydrator = $hydrator();
         return $this;
     }
 }

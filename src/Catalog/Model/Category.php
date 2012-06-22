@@ -1,11 +1,32 @@
 <?php
+
 namespace Catalog\Model;
+
 class Category extends ModelAbstract
 {
+    /**
+     * name 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $name;
-    protected $products = array();
-    protected $categories = array();
 
+    /**
+     * products 
+     * 
+     * @var array
+     * @access protected
+     */
+    protected $products;
+
+    /**
+     * categories 
+     * 
+     * @var array
+     * @access protected
+     */
+    protected $categories;
 
     public function getProducts()
     {
@@ -53,6 +74,7 @@ class Category extends ModelAbstract
         $this->categories = $categories;
         return $this;
     }
+
     public function __toString()
     {
         return '' . $this->getName();

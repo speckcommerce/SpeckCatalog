@@ -4,22 +4,84 @@ namespace Catalog\Model;
 
 class ProductUom extends ModelAbstract
 {
+    /**
+     * productUomId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $productUomId;
 
+    /**
+     * uom 
+     * 
+     * @var object Catalog\Model\Uom
+     * @access protected
+     */
     protected $uom;
+
+    /**
+     * uomCode 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $uomCode = 'EA';
 
+    /**
+     * uoms 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $uoms;
     
+    /**
+     * parentProduct 
+     * 
+     * @var object Catalog\Model\Product
+     * @access protected
+     */
     protected $parentProduct;
+
+    /**
+     * parentProductId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $parentProductId;
     
+    /**
+     * quantity 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $quantity = 1;
 
+    /**
+     * price 
+     * 
+     * @var float
+     * @access protected
+     */
     protected $price = 0;
 
+    /**
+     * retail 
+     * 
+     * @var float
+     * @access protected
+     */
     protected $retail = 0;
 
+    /**
+     * availabilities 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $availabilities;
 
     public function addAvailability(Availability $availability)
@@ -162,5 +224,4 @@ class ProductUom extends ModelAbstract
     {
         return $this->setProductUomId($id);
     }   
-
 }

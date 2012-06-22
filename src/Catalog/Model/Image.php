@@ -1,5 +1,7 @@
 <?php
+
 namespace Catalog\Model;
+
 class Image extends MediaAbstract
 {
     public function noFile()

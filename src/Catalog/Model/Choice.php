@@ -1,17 +1,43 @@
 <?php
 
 namespace Catalog\Model;
+
 use Exception;
 
-class Choice extends ModelAbstract
+class Choice extends LinkedModelAbstract
 {
     //field holds name for 'choice', override name for 'product'
+    /**
+     * overrideName 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $overrideName;
  
+    /**
+     * product 
+     * 
+     * @var object Catalog\Model\Product
+     * @access protected
+     */
     protected $product;
+    
+    /**
+     * productId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $productId;
 
-    protected $type = 'choice';
+    /**
+     * type 
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $type = 'choice';  // choice or product
 
     //only when type is product
     //protected $priceDiscountFixed;
@@ -29,14 +55,30 @@ class Choice extends ModelAbstract
 
     protected $allUomsDiscount;
    
+    /**
+     * options 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $options;
 
+    /**
+     * parentOptions 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $parentOptions;
 
-    protected $naChoices = array();
+    /**
+     * naChoices 
+     * 
+     * @var array
+     * @access protected
+     */
+    protected $naChoices;
 
-    protected $linkerId;
-    protected $sortWeight;
 
     public function getProduct()
     {
@@ -221,28 +263,6 @@ class Choice extends ModelAbstract
     public function setParentOptions($parentOptions)
     {
         $this->parentOptions = $parentOptions;
-        return $this;
-    }
-
-    public function getLinkerId()
-    {
-        return $this->linkerId;
-    }
-
-    public function setLinkerId($linkerId)
-    {
-        $this->linkerId = $linkerId;
-        return $this;
-    }
-
-    public function getSortWeight()
-    {
-        return $this->sortWeight;
-    }
-
-    public function setSortWeight($sortWeight)
-    {
-        $this->sortWeight = $sortWeight;
         return $this;
     }
 }

@@ -4,13 +4,53 @@ namespace Catalog\Model;
 
 class Availability extends ModelAbstract
 {
+    /**
+     * distributorCompanyId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $distributorCompanyId;
+
+    /**
+     * distributor 
+     * 
+     * @var model Catalog\Model\Distributor
+     * @access protected
+     */
     protected $distributor;
+    
+    
+    /**
+     * companies 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $companies;
 
+    /**
+     * cost 
+     * 
+     * @var float
+     * @access protected
+     */
     protected $cost = 0;
     
+    /**
+     * parentProductUomId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $parentProductUomId;
+    
+    /**
+     * parentProductUom 
+     * 
+     * @var model Catalog\Model\ProductUom
+     * @access protected
+     */
     protected $parentProductUom;
 
     public function getQuantity()

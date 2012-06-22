@@ -3,36 +3,80 @@
 namespace Catalog\Model;
 use Exception;
 
-class Option extends ModelAbstract
+class Option extends LinkedModelAbstract
 {
+    /**
+     * parentProducts 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $parentProducts;
+
+    /**
+     * parentChoices 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $parentChoices;
     
+    /**
+     * name 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $name;
     
+    /**
+     * listType 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $listType = 'radio'; //radio, checkbox, dropdown, slider
 
     protected $slider;
     
+    /**
+     * required 
+     * 
+     * @var bool
+     * @access protected
+     */
     protected $required = false;
 
+    /**
+     * instruction 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $instruction;
 
     protected $builderSegment;
     
+    /**
+     * images 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $images;
 
+    /**
+     * choices 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $choices;
 
     protected $priceMap;
 
     protected $choiceUomAdjustments;
     
-    /* Linker */
-    protected $linkerId;
-    protected $sortWeight; 
-
-
     public function addChoice(Choice $choice)
     {
         $this->choices[] = $choice;
@@ -164,28 +208,6 @@ class Option extends ModelAbstract
         if('slider' === $this->getType()){
             $this->slider = $slider;
         }
-        return $this;
-    }
- 
-    public function getLinkerId()
-    {
-        return $this->linkerId;
-    }
- 
-    public function setLinkerId($linkerId)
-    {
-        $this->linkerId = $linkerId;
-        return $this;
-    }
-
-    public function getSortWeight()
-    {
-        return $this->sortWeight;
-    }
-
-    public function setSortWeight($sortWeight)
-    {
-        $this->sortWeight = $sortWeight;
         return $this;
     }
  

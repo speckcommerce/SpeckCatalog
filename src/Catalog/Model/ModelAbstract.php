@@ -1,31 +1,34 @@
 <?php
+
 namespace Catalog\Model;
-use ZfcBase\Model\ModelAbstract as ZfcModelAbstract,
-    Traversable,
-    Zend\EventManager\EventManager,
-    Zend\EventManager\EventCollection;
 
 abstract class ModelAbstract implements ModelInterface
 {
-    protected $isPopulated = false;
+    /**
+     * revUserId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $revUserId;
+
+    /**
+     * revDateTime 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $revDateTime;
+
+    /**
+     * recordId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $recordId;
-    protected $searchData;
-
-    public function getSearchData()
-    {
-        return $this->searchData;
-    }
-
-    public function isPopulated($flag=null)
-    {
-        if($flag){
-            $this->isPopulated = true;
-        }
-        return $this->isPopulated;
-    }     public function getRevUserId()
-
+    
+    public function getRevUserId()
     {
         return $this->revUserId;
     }

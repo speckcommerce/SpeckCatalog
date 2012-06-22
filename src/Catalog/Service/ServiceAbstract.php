@@ -23,7 +23,6 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
     public function populateModel($model)
     {
         $model = $this->_populateModel($model);
-        $model->isPopulated(true);
         return $model;
     } 
     

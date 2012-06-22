@@ -1,14 +1,40 @@
 <?php
-namespace Catalog\Model;
-abstract class MediaAbstract extends ModelAbstract
-{
-    protected $label;
-    protected $fileName;
-    protected $mediaType;
-    protected $baseUrl;
 
-    protected $sortWeight;
-    protected $linkerId;
+namespace Catalog\Model;
+
+abstract class MediaAbstract extends LinkedModelAbstract
+{
+    /**
+     * label 
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $label;
+
+    /**
+     * fileName
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $fileName;
+
+    /**
+     * mediaType 
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $mediaType;
+    
+    /**
+     * baseUrl 
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $baseUrl;
 
     public function __toString()
     {
@@ -84,28 +110,6 @@ abstract class MediaAbstract extends ModelAbstract
     public function setBaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
-        return $this;
-    }
-
-    public function getSortWeight()
-    {
-        return $this->sortWeight;
-    }
-
-    public function setSortWeight($sortWeight)
-    {
-        $this->sortWeight = $sortWeight;
-        return $this;
-    }
-
-    public function getLinkerId()
-    {
-        return $this->linkerId;
-    }
-
-    public function setLinkerId($linkerId)
-    {
-        $this->linkerId = $linkerId;
         return $this;
     }
 }

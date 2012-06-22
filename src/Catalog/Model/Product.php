@@ -4,22 +4,108 @@ namespace Catalog\Model;
 
 class Product extends ModelAbstract
 {
-    //shell view        
-    protected $type; 
+    /**
+     * type 
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $type; // shell, item, builder
+
+    /**
+     * name 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $name;
+
+    /**
+     * description 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $description;
+
+    /**
+     * options 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $options;
+
+    /**
+     * parentChoices 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $parentChoices;
+
+    /**
+     * specs 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $specs;
+    
+    /**
+     * documents 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $documents;
+    
+    /**
+     * images 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $images;
+
+    /**
+     * itemNumber 
+     * 
+     * @var string
+     * @access protected
+     */
     protected $itemNumber;
     
-    //item view
+    /**
+     * manufacturer 
+     * 
+     * @var object Catalog\Model\Company
+     * @access protected
+     */
     protected $manufacturer;
+
+    /**
+     * manufacturerCompanyId 
+     * 
+     * @var int
+     * @access protected
+     */
     protected $manufacturerCompanyId;
 
+    /**
+     * companies 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $companies;
+
+    /**
+     * uoms 
+     * 
+     * @var array
+     * @access protected
+     */
     protected $uoms;
 
     public function setType($type = null)
@@ -168,11 +254,7 @@ class Product extends ModelAbstract
     }
     public function __toString()
     {
-        if($this->getName()){
-            return $this->getName();
-        }else{
-            return '';
-        }
+        return '' . $this->getName();
     }
  
     public function getCompanies()

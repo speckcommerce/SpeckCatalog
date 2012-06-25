@@ -2,12 +2,12 @@
 
 <div class="boundary contrastbg2">
     <div class="entity-header">
-        <div> 
+        <div>
             <div><i class="icon-tag"></i></div>
             <div><a class="icon-pencil" href="/catalogmanager/product/<?=$product->getRecordId();?>" title="edit this"></a></div>
             &nbsp; <?=$product; ?>
             <?=$product->getItemNumber(); ?>
-            <? if($product->hasUoms()) : ?>
+            <? if($product->has('uoms')) : ?>
                 <? foreach($product->getUoms() as $uom) : ?>(<?=$uom;?>)<? endforeach;?>
             <? endif; ?>
         </div>

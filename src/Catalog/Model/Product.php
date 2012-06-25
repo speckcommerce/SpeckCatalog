@@ -110,10 +110,6 @@ class Product extends ModelAbstract
 
     public function setType($type = null)
     {
-        if($type === null) {
-            throw new \RuntimeException("no type specified!");
-        }
-
         if($type !== 'shell' && $type !== 'item' && $type !== 'builder'){
             throw new \InvalidArgumentException("invalid type, must be 'shell', 'item', or 'builder'");
         }
@@ -277,7 +273,7 @@ class Product extends ModelAbstract
     }
     public function getFirstImage()
     {
-        if($this->hasImages()){
+        if($this->has('images')){
             $images = $this->getImages();
             return $images[0];
         }

@@ -31,8 +31,12 @@ abstract class ModelAbstract implements ModelInterface
     public function has($prop)
     {
         $getter = 'get' . ucfirst($prop);
-        if(is_callable($this, $getter) && is_array($this->$getter())){
-            return true;
+        if(method_exists($this, $getter)){
+            if('s' === substr($prop, -1) && is_array($this->$getter())){
+                return true;
+            }elseif($this->$getter()){
+                return true;
+            }
         }
     }
 

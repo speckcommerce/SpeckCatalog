@@ -5,104 +5,104 @@ namespace Catalog\Model;
 class Product extends ModelAbstract
 {
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      * @access protected
      */
     protected $type; // shell, item, builder
 
     /**
-     * name 
-     * 
+     * name
+     *
      * @var string
      * @access protected
      */
     protected $name;
 
     /**
-     * description 
-     * 
+     * description
+     *
      * @var string
      * @access protected
      */
     protected $description;
 
     /**
-     * options 
-     * 
+     * options
+     *
      * @var array
      * @access protected
      */
     protected $options;
 
     /**
-     * parentChoices 
-     * 
+     * parentChoices
+     *
      * @var array
      * @access protected
      */
     protected $parentChoices;
 
     /**
-     * specs 
-     * 
+     * specs
+     *
      * @var array
      * @access protected
      */
     protected $specs;
-    
+
     /**
-     * documents 
-     * 
+     * documents
+     *
      * @var array
      * @access protected
      */
     protected $documents;
-    
+
     /**
-     * images 
-     * 
+     * images
+     *
      * @var array
      * @access protected
      */
     protected $images;
 
     /**
-     * itemNumber 
-     * 
+     * itemNumber
+     *
      * @var string
      * @access protected
      */
     protected $itemNumber;
-    
+
     /**
-     * manufacturer 
-     * 
+     * manufacturer
+     *
      * @var object Catalog\Model\Company
      * @access protected
      */
     protected $manufacturer;
 
     /**
-     * manufacturerCompanyId 
-     * 
+     * manufacturerCompanyId
+     *
      * @var int
      * @access protected
      */
     protected $manufacturerCompanyId;
 
     /**
-     * companies 
-     * 
+     * companies
+     *
      * @var array
      * @access protected
      */
     protected $companies;
 
     /**
-     * uoms 
-     * 
+     * uoms
+     *
      * @var array
      * @access protected
      */
@@ -111,13 +111,13 @@ class Product extends ModelAbstract
     public function setType($type = null)
     {
         if($type === null) {
-            throw new \RuntimeException("no type specified!");  
+            throw new \RuntimeException("no type specified!");
         }
 
         if($type !== 'shell' && $type !== 'item' && $type !== 'builder'){
             throw new \InvalidArgumentException("invalid type, must be 'shell', 'item', or 'builder'");
         }
-        
+
         $this->type = $type;
         return $this;
     }
@@ -146,16 +146,16 @@ class Product extends ModelAbstract
         }
         return $this;
     }
- 
+
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
-    
+
     public function setDescription($description)
     {
-        $this->description = htmlentities($description, ENT_QUOTES, "UTF-8", false); 
+        $this->description = htmlentities($description, ENT_QUOTES, "UTF-8", false);
         return $this;
     }
 
@@ -163,17 +163,17 @@ class Product extends ModelAbstract
     {
         return $this->options;
     }
- 
+
     public function getName()
     {
         return $this->name;
     }
- 
+
     public function getDescription()
     {
         return $this->description;
     }
- 
+
     public function getType()
     {
         return $this->type;
@@ -183,7 +183,7 @@ class Product extends ModelAbstract
     {
         return $this->parentChoices;
     }
- 
+
     public function setParentChoices($parentChoices)
     {
         $this->parentChoices = $parentChoices;
@@ -196,57 +196,44 @@ class Product extends ModelAbstract
         }
     }
 
-    public function hasUoms()
-    {
-        if(is_array($this->getUoms()) && count($this->getUoms()) > 0){
-            return true;
-        }
-    }
-    public function hasOptions()
-    {
-        if($this->getOptions() && count($this->getOptions()) > 0){
-            return true;
-        }
-    }
-    
     public function getManufacturer()
     {
         return $this->manufacturer;
     }
- 
+
     public function setManufacturer($manufacturer)
     {
         $this->manufacturer = $manufacturer;
         return $this;
     }
- 
+
     public function getManufacturerCompanyId()
     {
         return $this->manufacturerCompanyId;
     }
- 
+
     public function setManufacturerCompanyId($companyId)
     {
         $this->manufacturerCompanyId = (int) $companyId;
         return $this;
     }
- 
+
     public function getItemNumber()
     {
         return $this->itemNumber;
     }
- 
+
     public function setItemNumber($itemNumber)
     {
         $this->itemNumber = $itemNumber;
         return $this;
     }
- 
+
     public function getUoms()
     {
         return $this->uoms;
     }
- 
+
     public function setUoms($uoms)
     {
         $this->uoms = $uoms;
@@ -256,7 +243,7 @@ class Product extends ModelAbstract
     {
         return '' . $this->getName();
     }
- 
+
     public function getCompanies()
     {
         return $this->companies;
@@ -278,21 +265,6 @@ class Product extends ModelAbstract
         $this->specs = $specs;
         return $this;
     }
-
-    public function hasSpecs()
-    {
-        if ($this->getSpecs()){
-            return true;
-        }
-    }
-
-    public function hasDocuments()
-    {
-        if($this->getDocuments()){
-            return true;
-        }
-    }
-
     public function getDocuments()
     {
         return $this->documents;
@@ -303,14 +275,6 @@ class Product extends ModelAbstract
         $this->documents = $documents;
         return $this;
     }
- 
-    public function hasImages()
-    {
-        if($this->getImages()){
-            return true;
-        }
-    }
-
     public function getFirstImage()
     {
         if($this->hasImages()){
@@ -345,7 +309,7 @@ class Product extends ModelAbstract
             return $this->uomForPrice->getPrice();
         }
         //temporary
-        if($this->hasUoms()){
+        if($this->has('uoms')){
             $uoms = $this->getUoms();
             return $uoms[0]->getPrice();
         }

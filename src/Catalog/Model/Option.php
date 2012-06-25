@@ -6,68 +6,68 @@ use Exception;
 class Option extends LinkedModelAbstract
 {
     /**
-     * parentProducts 
-     * 
+     * parentProducts
+     *
      * @var array
      * @access protected
      */
     protected $parentProducts;
 
     /**
-     * parentChoices 
-     * 
+     * parentChoices
+     *
      * @var array
      * @access protected
      */
     protected $parentChoices;
-    
+
     /**
-     * name 
-     * 
+     * name
+     *
      * @var string
      * @access protected
      */
     protected $name;
-    
+
     /**
-     * listType 
-     * 
+     * listType
+     *
      * @var string
      * @access protected
      */
     protected $listType = 'radio'; //radio, checkbox, dropdown, slider
 
     protected $slider;
-    
+
     /**
-     * required 
-     * 
+     * required
+     *
      * @var bool
      * @access protected
      */
     protected $required = false;
 
     /**
-     * instruction 
-     * 
+     * instruction
+     *
      * @var string
      * @access protected
      */
     protected $instruction;
 
     protected $builderSegment;
-    
+
     /**
-     * images 
-     * 
+     * images
+     *
      * @var array
      * @access protected
      */
     protected $images;
 
     /**
-     * choices 
-     * 
+     * choices
+     *
      * @var array
      * @access protected
      */
@@ -76,7 +76,7 @@ class Option extends LinkedModelAbstract
     protected $priceMap;
 
     protected $choiceUomAdjustments;
-    
+
     public function addChoice(Choice $choice)
     {
         $this->choices[] = $choice;
@@ -93,13 +93,13 @@ class Option extends LinkedModelAbstract
         }
         return $this;
     }
- 
+
     public function setRequired($required)
     {
         $this->required = $required;
         return $this;
     }
- 
+
     public function setListType($listType=null)
     {
         if($listType !== 'radio' && $listType !== 'dropdown' && $listType !== 'checkbox'){
@@ -108,24 +108,17 @@ class Option extends LinkedModelAbstract
         $this->listType = $listType;
         return $this;
     }
-    
+
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
-    
+
     public function setInstruction($instruction)
     {
         $this->instruction = $instruction;
         return $this;
-    }
-
-    public function hasChoices()
-    {
-        if($this->getChoices() && count($this->getChoices()) > 0){
-            return true;
-        }
     }
 
     public function isShared()
@@ -197,12 +190,12 @@ class Option extends LinkedModelAbstract
             return  '';
         }
     }
- 
+
     public function getSlider()
     {
         return $this->slider;
     }
- 
+
     public function setSlider($slider)
     {
         if('slider' === $this->getType()){
@@ -210,23 +203,16 @@ class Option extends LinkedModelAbstract
         }
         return $this;
     }
- 
+
     public function getParentChoices()
     {
         return $this->parentChoices;
     }
-    
+
     public function setParentChoices($parentChoices)
     {
         $this->parentChoices = $parentChoices;
         return $this;
-    }
-
-    public function hasImages()
-    {
-        if(is_array($this->getImages()) && count($this->getImages()) > 0){
-            return true;
-        }
     }
 
     public function getImages()

@@ -5,80 +5,80 @@ namespace Catalog\Model;
 class ProductUom extends ModelAbstract
 {
     /**
-     * productUomId 
-     * 
+     * productUomId
+     *
      * @var int
      * @access protected
      */
     protected $productUomId;
 
     /**
-     * uom 
-     * 
+     * uom
+     *
      * @var object Catalog\Model\Uom
      * @access protected
      */
     protected $uom;
 
     /**
-     * uomCode 
-     * 
+     * uomCode
+     *
      * @var string
      * @access protected
      */
     protected $uomCode = 'EA';
 
     /**
-     * uoms 
-     * 
+     * uoms
+     *
      * @var array
      * @access protected
      */
     protected $uoms;
-    
+
     /**
-     * parentProduct 
-     * 
+     * parentProduct
+     *
      * @var object Catalog\Model\Product
      * @access protected
      */
     protected $parentProduct;
 
     /**
-     * parentProductId 
-     * 
+     * parentProductId
+     *
      * @var int
      * @access protected
      */
     protected $parentProductId;
-    
+
     /**
-     * quantity 
-     * 
+     * quantity
+     *
      * @var int
      * @access protected
      */
     protected $quantity = 1;
 
     /**
-     * price 
-     * 
+     * price
+     *
      * @var float
      * @access protected
      */
     protected $price = 0;
 
     /**
-     * retail 
-     * 
+     * retail
+     *
      * @var float
      * @access protected
      */
     protected $retail = 0;
 
     /**
-     * availabilities 
-     * 
+     * availabilities
+     *
      * @var array
      * @access protected
      */
@@ -98,7 +98,7 @@ class ProductUom extends ModelAbstract
         }
         return $this;
     }
- 
+
     public function setPrice($price)
     {
         $this->price = (float) $price;
@@ -111,7 +111,7 @@ class ProductUom extends ModelAbstract
         $this->retail = (float) $retail;
         return $this;
     }
- 
+
     public function getRetail()
     {
         return $this->retail;
@@ -125,40 +125,33 @@ class ProductUom extends ModelAbstract
         return $this->availabilities;
     }
 
-    public function hasAvailabilities()
-    {
-        if($this->getAvailabilities() && count($this->getAvailabilities()) > 0){
-            return true;
-        }
-    }
-
     public function getQuantity()
     {
         return $this->quantity;
     }
- 
+
     public function setQuantity($quantity)
     {
         $this->quantity = (int) $quantity;
         return $this;
     }
- 
+
     public function getUom()
     {
         return $this->uom;
     }
- 
+
     public function setUom(Uom $uom)
     {
         $this->uom = $uom;
         return $this;
     }
- 
+
     public function getParentProduct()
     {
         return $this->parentProduct;
     }
- 
+
     public function setParentProduct(Product $parentProduct=null)
     {
         $this->parentProduct = $parentProduct;
@@ -169,7 +162,7 @@ class ProductUom extends ModelAbstract
     {
         return $this->productUomId;
     }
- 
+
     public function setProductUomId($productUomId)
     {
         $this->productUomId = (int)$productUomId;
@@ -192,24 +185,24 @@ class ProductUom extends ModelAbstract
         $this->uomCode = $uomCode;
         return $this;
     }
- 
+
     public function getUomCode()
     {
         return $this->uomCode;
-    } 
+    }
 
     public function __toString()
     {
-        return $this->getUom()->__toString() 
-            . ' ' . $this->getQuantity() 
+        return $this->getUom()->__toString()
+            . ' ' . $this->getQuantity()
             . ' - $' . number_format($this->getPrice(), 2);
     }
- 
+
     public function getUoms()
     {
         return $this->uoms;
     }
- 
+
     public function setUoms($uoms)
     {
         $this->uoms = $uoms;
@@ -223,5 +216,5 @@ class ProductUom extends ModelAbstract
     public function setId($id)
     {
         return $this->setProductUomId($id);
-    }   
+    }
 }

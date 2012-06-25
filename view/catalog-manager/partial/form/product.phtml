@@ -1,18 +1,18 @@
 <? $pdir = '/catalog-manager/partial/'; ?>
 <form id="product-<?=$product->getRecordId();?>" class="live-form">
-            
+
     <input type="hidden" name="record_id" value="<?=$product->getRecordId();?>"/>
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
 
     <div class="row">
         <div class="span2">
-            <? if ($product->hasImages()) : ?>
+            <? if ($product->has('images')) : ?>
                 <? foreach($product->getImages() as $image) : ?>
                     <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
                     <? break; ?>
                 <? endforeach; ?>
-            <? endif; ?> 
-        </div>   
+            <? endif; ?>
+        </div>
         <div class="span6">
             <span class="smallcaps">name</span><br/>
             <input name="name" class="span6" type="text" value="<?=$product->getName();?>"/><br/>
@@ -34,8 +34,8 @@
                     <input name="item_number" class="span3" type="text" value="<?=$product->getItemNumber();?>"/>
                     <span class="smallcaps">hcpcs</span><br/>
                     <input name="hcpcs" class="span3" type="text" value=""/>
-            <? endif; ?>    
-        </div> 
-    </div>            
+            <? endif; ?>
+        </div>
+    </div>
 
 </form>

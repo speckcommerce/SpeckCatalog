@@ -5,34 +5,42 @@ namespace Catalog\Model;
 abstract class ModelAbstract implements ModelInterface
 {
     /**
-     * revUserId 
-     * 
+     * revUserId
+     *
      * @var int
      * @access protected
      */
     protected $revUserId;
 
     /**
-     * revDateTime 
-     * 
+     * revDateTime
+     *
      * @var string
      * @access protected
      */
     protected $revDateTime;
 
     /**
-     * recordId 
-     * 
+     * recordId
+     *
      * @var int
      * @access protected
      */
     protected $recordId;
-    
+
+    public function has($prop)
+    {
+        $getter = 'get' . ucfirst($prop);
+        if(is_callable($this, $getter) && is_array($this->$getter())){
+            return true;
+        }
+    }
+
     public function getRevUserId()
     {
         return $this->revUserId;
     }
- 
+
     public function setRevUserId($revUserId)
     {
         $this->revUserId = $revUserId;

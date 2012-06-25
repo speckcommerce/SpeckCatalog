@@ -8,32 +8,32 @@ class Choice extends LinkedModelAbstract
 {
     //field holds name for 'choice', override name for 'product'
     /**
-     * overrideName 
-     * 
+     * overrideName
+     *
      * @var string
      * @access protected
      */
     protected $overrideName;
- 
+
     /**
-     * product 
-     * 
+     * product
+     *
      * @var object Catalog\Model\Product
      * @access protected
      */
     protected $product;
-    
+
     /**
-     * productId 
-     * 
+     * productId
+     *
      * @var int
      * @access protected
      */
     protected $productId;
 
     /**
-     * type 
-     * 
+     * type
+     *
      * @var string
      * @access protected
      */
@@ -41,39 +41,39 @@ class Choice extends LinkedModelAbstract
 
     //only when type is product
     //protected $priceDiscountFixed;
-    
+
     //only when type is product
     //protected $priceNoCharge = false;
-    
+
     //only when type is product
     //protected $priceDiscountPercent;
 
     //only when type is product
     //protected $priceOverrideFixed;
-    
+
     protected $targetUomDiscount;
 
     protected $allUomsDiscount;
-   
+
     /**
-     * options 
-     * 
+     * options
+     *
      * @var array
      * @access protected
      */
     protected $options;
 
     /**
-     * parentOptions 
-     * 
+     * parentOptions
+     *
      * @var array
      * @access protected
      */
     protected $parentOptions;
 
     /**
-     * naChoices 
-     * 
+     * naChoices
+     *
      * @var array
      * @access protected
      */
@@ -84,10 +84,10 @@ class Choice extends LinkedModelAbstract
     {
         return $this->product;
     }
- 
+
     public function setProduct(Product $product)
     {
-        $this->targetUom = null; //keep this, if the product changes, the targetuom must be reset. 
+        $this->targetUom = null; //keep this, if the product changes, the targetuom must be reset.
         $this->product = $product;
         return $this;
     }
@@ -96,7 +96,7 @@ class Choice extends LinkedModelAbstract
     {
         return $this->targetUom;
     }
-    
+
     public function setTargetUom(ProductUom $targetUom)
     {
         $shell = $this->getShell();
@@ -113,36 +113,29 @@ class Choice extends LinkedModelAbstract
         $this->targetUom = $targetUom;
         return $this;
     }
- 
-    public function hasOptions()
-    {
-        if(!$this->getProduct() && $this->getOptions()){
-            return true;
-        }
-    }
 
     public function getNaChoices()
     {
         return $this->naChoices;
     }
- 
+
     public function setNaChoices(Choice $naChoices)
     {
         $this->naChoices = $naChoices;
         return $this;
     }
- 
+
     public function getOverrideName()
     {
         return $this->overrideName;
     }
- 
+
     public function setOverrideName($overrideName)
     {
         $this->overrideName = $overrideName;
         return $this;
     }
- 
+
     public function __toString()
     {
         if($this->getOverrideName()){
@@ -153,81 +146,67 @@ class Choice extends LinkedModelAbstract
             return '';
         }
     }
- 
+
     public function getProductId()
     {
         return $this->productId;
     }
- 
+
     public function setProductId($productId)
     {
         $this->productId = $productId;
         return $this;
     }
 
-    public function hasProduct()
-    {
-        if($this->getProduct()){
-            return true;
-        }
-    }
-
-    public function hasProductUoms()
-    {
-        if($this->hasProduct() && $this->getProduct()->hasUoms()){
-            return true;
-        }
-    }
- 
     public function getOptions()
     {
         return $this->options;
     }
- 
+
     public function setOptions($options)
     {
         $this->options = $options;
         return $this;
     }
- 
+
     public function getPriceDiscountFixed()
     {
         return $this->priceDiscountFixed;
     }
- 
+
     public function setPriceDiscountFixed($priceDiscountFixed)
     {
         $this->priceDiscountFixed = $priceDiscountFixed;
         return $this;
     }
- 
+
     public function getPriceNoCharge()
     {
         return $this->priceNoCharge;
     }
- 
+
     public function setPriceNoCharge($priceNoCharge)
     {
         $this->priceNoCharge = $priceNoCharge;
         return $this;
     }
- 
+
     public function getPriceDiscountPercent()
     {
         return $this->priceDiscountPercent;
     }
- 
+
     public function setPriceDiscountPercent($priceDiscountPercent)
     {
         $this->priceDiscountPercent = $priceDiscountPercent;
         return $this;
     }
- 
+
     public function getPriceOverrideFixed()
     {
         return $this->priceOverrideFixed;
     }
- 
+
     public function setPriceOverrideFixed($priceOverrideFixed)
     {
         $this->priceOverrideFixed = $priceOverrideFixed;
@@ -238,7 +217,7 @@ class Choice extends LinkedModelAbstract
     {
         return $this->type;
     }
- 
+
     public function setType($type)
     {
         if($type === 'choice' || $type === 'product'){
@@ -252,7 +231,7 @@ class Choice extends LinkedModelAbstract
     public function isShared()
     {
         //todo: get parent options and count
-        return false;    
+        return false;
     }
 
     public function getParentOptions()

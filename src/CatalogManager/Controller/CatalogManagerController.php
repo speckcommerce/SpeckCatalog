@@ -48,7 +48,7 @@ class CatalogManagerController extends ActionController
         $model = $this->getCatalogService()->newModel($class, $constructor);
         return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getRecordId()));
     }
-    
+
     public function productsAction()
     {
         $products = $this->getCatalogService()->getAll('product');
@@ -58,13 +58,20 @@ class CatalogManagerController extends ActionController
             $paginator->setCurrentPageNumber($page);
         }
         if((int)$page === 0)$page=1;
-        return new ViewModel(array('products' => $paginator, 'page' => (int)$page)); 
+        return new ViewModel(array('products' => $paginator, 'page' => (int)$page));
     }
 
     public function categoriesAction()
     {
         $categories = $this->getCatalogService()->getCategories();
-        return new ViewModel(array('categories' => $categories)); 
+        return new ViewModel(array('categories' => $categories));
+    }
+
+    public function companyAction()
+    {
+        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        $company = $this->getCatalogService()->getModel('company', $id);
+        return new ViewModel(array('company' => $company));
     }
 
     public function categoryAction()
@@ -75,7 +82,7 @@ class CatalogManagerController extends ActionController
     }
 
     public function searchClassAction()
-    {   
+    {
         $this->layout(false);
         $class = $_POST['search_class_name'];
         $value = trim($_POST['value']);
@@ -83,16 +90,16 @@ class CatalogManagerController extends ActionController
             'results' => $this->getCatalogService()->searchClass($class, $value),
             'data'    => $_POST,
         ));
-    }     
-   
+    }
+
     public function productAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
         $product = $this->getCatalogService()->getModel('product', $id);
-        
+
         return new ViewModel(array('product' => $product));
     }
-    
+
     public function fetchPartialAction()
     {
         $this->layout(false);
@@ -126,29 +133,29 @@ class CatalogManagerController extends ActionController
         $linkerId = $this->getEvent()->getRouteMatch()->getParam('linkerId');
         die($this->getLinkerService()->removeLinker($type, $linkerId));
     }
-    
+
     public function getCatalogService()
     {
         return $this->getServiceLocator()->get('catalog_generic_service');
     }
- 
+
     public function setCatalogService($catalogService)
     {
         $this->catalogService = $catalogService;
         return $this;
     }
- 
+
     public function getLinkerService()
     {
-        return $this->getServiceLocator()->get('catalog_model_linker_service'); 
-    }   
- 
+        return $this->getServiceLocator()->get('catalog_model_linker_service');
+    }
+
     public function setLinkerService($linkerService)
     {
         $this->linkerService = $linkerService;
         return $this;
     }
- 
+
     public function getUserAuth()
     {
         return $this->userAuth;
@@ -159,4 +166,4 @@ class CatalogManagerController extends ActionController
         $this->userService = $userService;
         return $this;
     }
-}   
+}

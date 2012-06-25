@@ -3,19 +3,19 @@ namespace Catalog\Service;
 use Exception,
     RuntimeException,
     Zend\ServiceManager\ServiceManagerAwareInterface,
-    Zend\ServiceManager\ServiceManager;     
+    Zend\ServiceManager\ServiceManager;
 
 /**
- * CatalogService 
- * 
+ * CatalogService
+ *
  * this is a generic wrapper service for all the other services
- * 
+ *
  * First parameter of all methods (lowercase, underscore_separated)
- * will be used to fetch the correct model service, one exception is the 'linkModel' 
- * method. 
+ * will be used to fetch the correct model service, one exception is the 'linkModel'
+ * method.
  *
  */
-class CatalogService implements ServiceManagerAwareInterface 
+class CatalogService implements ServiceManagerAwareInterface
 {
     protected $productService;
     protected $productUomService;
@@ -26,8 +26,9 @@ class CatalogService implements ServiceManagerAwareInterface
     protected $specService;
     protected $imageService;
     protected $documentService;
+    protected $companyService;
     protected $serviceManager;
-    
+
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
@@ -59,7 +60,7 @@ class CatalogService implements ServiceManagerAwareInterface
     {
         return $this->getModelService($class)->updateSortOrder($parent, $order);
     }
-   
+
     public function getModel($class, $id)
     {
         return $this->getModelService($class)->getById($id);
@@ -75,7 +76,7 @@ class CatalogService implements ServiceManagerAwareInterface
     {
         var_dump($this->getModelService($class)->removeLinker($linkerId));
         //todo: check for orphan records....
-    }   
+    }
 
     public function getCategories()
     {
@@ -91,21 +92,21 @@ class CatalogService implements ServiceManagerAwareInterface
     {
         return $this->getMapper()->dropCatalog();
     }
- 
+
     public function getProductService()
     {
         if(null === $this->productService){
             $this->productService = $this->getServiceManager()->get('catalog_product_service');
         }
-        return $this->productService;     
+        return $this->productService;
     }
- 
+
     public function getOptionService()
     {
         if(null === $this->optionService){
             $this->optionService = $this->getServiceManager()->get('catalog_option_service');
         }
-        return $this->optionService;     
+        return $this->optionService;
     }
 
     public function getChoiceService()
@@ -113,7 +114,7 @@ class CatalogService implements ServiceManagerAwareInterface
         if(null === $this->choiceService){
             $this->choiceService = $this->getServiceManager()->get('catalog_choice_service');
         }
-        return $this->choiceService;  
+        return $this->choiceService;
     }
 
     public function getProductUomService()
@@ -121,7 +122,7 @@ class CatalogService implements ServiceManagerAwareInterface
         if(null === $this->productUomService){
             $this->productUomService = $this->getServiceManager()->get('catalog_product_uom_service');
         }
-        return $this->productUomService;  
+        return $this->productUomService;
     }
 
     public function getAvailabilityService()
@@ -129,7 +130,7 @@ class CatalogService implements ServiceManagerAwareInterface
         if(null === $this->availabilityService){
             $this->availabilityService = $this->getServiceManager()->get('catalog_availability_service');
         }
-        return $this->availabilityService;  
+        return $this->availabilityService;
     }
 
     public function getCategoryService()
@@ -137,7 +138,7 @@ class CatalogService implements ServiceManagerAwareInterface
         if(null === $this->categoryService){
             $this->categoryService = $this->getServiceManager()->get('catalog_category_service');
         }
-        return $this->categoryService;   
+        return $this->categoryService;
     }
 
     public function getSpecService()
@@ -145,7 +146,7 @@ class CatalogService implements ServiceManagerAwareInterface
         if(null === $this->specService){
             $this->specService = $this->getServiceManager()->get('catalog_spec_service');
         }
-        return $this->specService;  
+        return $this->specService;
     }
 
     public function getImageService()
@@ -153,70 +154,88 @@ class CatalogService implements ServiceManagerAwareInterface
         if(null === $this->imageService){
             $this->imageService = $this->getServiceManager()->get('catalog_image_service');
         }
-        return $this->imageService; 
+        return $this->imageService;
     }
-    
+
     public function getDocumentService()
     {
         if(null === $this->documentService){
             $this->documentService = $this->getServiceManager()->get('catalog_document_service');
         }
-        return $this->documentService; 
+        return $this->documentService;
     }
-    
+
     public function getServiceManager()
     {
         return $this->serviceManager;
     }
- 
+
+    public function getCompanyService()
+    {
+        if(null === $this->companyService){
+            $this->companyService = $this->getServiceManager()->get('catalog_company_service');
+        }
+        return $this->companyService;
+    }
+
+    public function setCompanyService($companyService)
+    {
+        $this->companySerice = $companyService;
+        return $this;
+    }
+
+
+
+
+
     public function setProductService($productService)
     {
         $this->productService = $productService;
         return $this;
     }
- 
+
     public function setProductUomService($productUomService)
     {
         $this->productUomService = $productUomService;
         return $this;
     }
- 
+
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;
         return $this;
     }
- 
+
     public function setOptionService($optionService)
     {
         $this->optionService = $optionService;
         return $this;
     }
- 
+
     public function setChoiceService($choiceService)
     {
         $this->choiceService = $choiceService;
         return $this;
     }
- 
+
     public function setCategoryService($categoryService)
     {
         $this->categoryService = $categoryService;
         return $this;
     }
- 
+
     public function setSpecService($specService)
     {
         $this->specService = $specService;
         return $this;
     }
- 
+
     public function setImageService($imageService)
     {
         $this->imageService = $imageService;
         return $this;
     }
- 
+
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;

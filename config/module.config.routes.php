@@ -27,7 +27,7 @@ return array(
                     ),
                 ),
                 'may_terminate' => false,
-                'child_routes' => array(  
+                'child_routes' => array(
                     'product' => array(
                         'type' => 'Segment',
                         'options' => array(
@@ -38,7 +38,7 @@ return array(
                         ),
                     ),
                 ),
-            ), 
+            ),
             'catalogmanager' => array(
                 'type' => 'Segment',
                 'priority' => 1000,
@@ -96,6 +96,15 @@ return array(
                             ),
                         ),
                     ),
+                    'company' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/company/:id',
+                            'defaults' => array(
+                                'action' => 'company',
+                            ),
+                        ),
+                    ),
                     'product' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -139,6 +148,6 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view'
-        ), 
+        ),
     ),
-);      
+);

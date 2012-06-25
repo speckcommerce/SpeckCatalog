@@ -1,0 +1,12 @@
+<form id="company-<?=$company->getRecordId();?>" class="live-form">
+
+    <input type="hidden" name="company_id" value="<?=$company->getRecordId();?>"/>
+
+    <div class="row">
+        <div class="span3">
+            <span class="smallcaps">name</span><br/>
+            <input name="name" class="span3" type="text" value="<?=$company->getName();?>"/>
+        </div>
+    </div>
+
+</form><br/>

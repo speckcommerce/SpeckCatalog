@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `catalog_company` (
   `rev_datetime` datetime NOT NULL,
   `rev_eol_datetime` datetime DEFAULT NULL,
   `rev_user_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `search_data` text NOT NULL,
   PRIMARY KEY (`rev_id`),
   KEY `record_id` (`record_id`,`rev_active`)

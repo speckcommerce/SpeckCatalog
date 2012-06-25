@@ -61,6 +61,12 @@ class CatalogManagerController extends ActionController
         return new ViewModel(array('products' => $paginator, 'page' => (int)$page));
     }
 
+    public function companiesAction()
+    {
+        $companies = $this->getCatalogService()->getCompanies();
+        return new ViewModel(array('companies' => $companies));
+    }
+
     public function categoriesAction()
     {
         $categories = $this->getCatalogService()->getCategories();

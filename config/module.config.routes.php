@@ -105,6 +105,15 @@ return array(
                             ),
                         ),
                     ),
+                    'companies' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/companies[/:page]',
+                            'defaults' => array(
+                                'action' => 'companies',
+                            ),
+                        ),
+                    ),
                     'product' => array(
                         'type'    => 'Segment',
                         'options' => array(

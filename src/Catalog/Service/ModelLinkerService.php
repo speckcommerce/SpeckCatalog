@@ -2,7 +2,7 @@
 namespace Catalog\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface,
-    Zend\ServiceManager\ServiceManager;    
+    Zend\ServiceManager\ServiceManager;
 
 class ModelLinkerService implements ServiceManagerAwareInterface
 {
@@ -49,7 +49,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
         $this->model = $this->resolveAndStoreRelationship();
         if ($this->childClassName && $this->childId){
             $this->createLinker($this->childClassName, $this->childId, $this->class, $model->getId());
-        }   
+        }
         return $this->model;
     }
 
@@ -61,7 +61,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
         if (is_callable(array($this->model, $setParentClassId))){
             $this->model->$setParentClassId($this->parentId);
             return $this->getModelService()->add($this->model);
-        } 
+        }
         // one/many parents to one child
         $setChildClassId = 'set' . ucfirst($this->class) . 'Id';
         echo $setChildClassId;
@@ -82,15 +82,14 @@ class ModelLinkerService implements ServiceManagerAwareInterface
         if (is_callable(array($this->getModelService($className), $method))){
             $linkerId = $this->getModelService($className)->$method($parentId, $id);
             return $this->model->setLinkerId($linkerId);
-        } 
-        throw new \Exception('uh oh');  
+        }
     }
 
     public function removeLinker($class, $linkerId)
     {
         var_dump($this->getModelService($class)->removeLinker($linkerId));
         //todo: check for orphan records....
-    }    
+    }
 
     public function getModelService($class=null)
     {
@@ -105,7 +104,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
         if(null === $this->catalogService){
             $this->catalogService = $this->getServiceManager()->get('catalog_generic_service');
         }
-        return $this->catalogService;  
+        return $this->catalogService;
     }
 
     public function setCatalogService($catalogService)
@@ -113,13 +112,13 @@ class ModelLinkerService implements ServiceManagerAwareInterface
         $this->catalogService = $catalogService;
         return $this;
     }
- 
+
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
         return $this;
-    }    
- 
+    }
+
     public function getServiceManager()
     {
         return $this->serviceManager;

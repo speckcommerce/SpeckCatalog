@@ -83,6 +83,11 @@ class CatalogService implements ServiceManagerAwareInterface
         return $this->getCategoryService()->getChildCategories(0);
     }
 
+    public function getCompanies()
+    {
+        return $this->getCompanyService()->getAll(0);
+    }
+
     public function truncateCatalog()
     {
         return $this->getMapper()->truncateCatalog();

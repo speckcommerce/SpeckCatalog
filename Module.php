@@ -23,9 +23,6 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
-            //'Zend\Loader\ClassMapAutoloader' => array(
-            //    __DIR__ . '/autoload_classmap.php',
-            //),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
@@ -49,50 +46,6 @@ class Module
         $renderer->plugin('url')->setRouter($locator->get('Router'));
         $renderer->plugin('headScript')->appendFile('/speck-catalog/js/speck-catalog-manager.js');
         $renderer->plugin('headLink')->appendStylesheet('/speck-catalog/css/speck-catalog.css');
-    }
-
-    public function navigation($e)
-    {
-        $catMgr = new Page(array('title' => 'Catalog Manager <b class="caret"></b>'));
-        $catMgr->setAttributes(array(
-            'wrap' => array('class' => 'dropdown'),
-            'page' => array('href' =>'#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'),
-            'container' => array('class'=>'dropdown-menu'),
-        ));
-
-        $home = new Page();
-        $home->setTitle('<b>Home</b>')->setUrl('/catalogmanager');
-        $divider = new Page(array('pageTag'=>false));
-        $divider ->setAttributes(array(
-            'wrap' => array('class' => 'divider'),
-        ));
-        $products = new Page();
-        $products->setTitle('<b>Products</b>')->setUrl('/catalogmanager/products');
-        $productItem = new Page();
-        $productItem->setTitle('+ New Product (item)')->setUrl('/catalogmanager/new/product/item');
-        $productShell = new Page();
-        $productShell->setTitle(' + New Product (shell)')->setUrl('/catalogmanager/new/product/shell');
-        $categories = new Page();
-        $categories->setTitle('<b>Categories</b>')->setUrl('/catalogmanager/categories');
-        $catMgr->addPages(array(
-            $home,
-            $divider, 
-            $products,
-            $productItem, 
-            $productShell,
-            $divider,
-            $categories,
-        ));
-
-        $sites = new Page(array('title' => 'Site <b class="caret"></b>'));
-        $sites->setAttributes(array(
-            'wrap' => array('class' => 'dropdown'),
-            'page' => array('href' =>'#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'),
-            'container' => array('class'=>'dropdown-menu'),
-        ));
-
-        $e->getTarget()->addPage($catMgr);
-        $e->getTarget()->addPage($sites);
     }
 
     public function getServiceConfiguration()
@@ -123,64 +76,64 @@ class Module
                     return new \Catalog\Model\Mapper\ProductMapper($tg);
                 },
                 'catalog_option_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_option', $sm->get('catalog_db')); 
-                    return new Mapper\OptionMapper($tg);   
+                    $tg = new Mapper\TableGateway('catalog_option', $sm->get('catalog_db'));
+                    return new Mapper\OptionMapper($tg);
                 },
                 'catalog_category_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_category', $sm->get('catalog_db'));
-                    return new Mapper\categoryMapper($tg);   
+                    return new Mapper\categoryMapper($tg);
                 },
                 'catalog_choice_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_choice', $sm->get('catalog_db'));
-                    return new Mapper\ChoiceMapper($tg);   
-                },    
+                    return new Mapper\ChoiceMapper($tg);
+                },
                 'catalog_availability_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_availability', $sm->get('catalog_db'));
-                    return new Mapper\AvailabilityMapper($tg);   
-                },                       
+                    return new Mapper\AvailabilityMapper($tg);
+                },
                 'catalog_product_uom_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_product_uom', $sm->get('catalog_db'));
-                    return new Mapper\ProductUomMapper($tg);   
-                },                       
+                    return new Mapper\ProductUomMapper($tg);
+                },
                 'catalog_image_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_media', $sm->get('catalog_db'));
-                    return new Mapper\ImageMapper($tg);   
-                },   
+                    return new Mapper\ImageMapper($tg);
+                },
                 'catalog_document_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_media', $sm->get('catalog_db'));
-                    return new Mapper\DocumentMapper($tg);   
-                },   
+                    return new Mapper\DocumentMapper($tg);
+                },
                 'catalog_company_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_company', $sm->get('catalog_db'));
-                    return new Mapper\CompanyMapper($tg);   
-                },   
+                    return new Mapper\CompanyMapper($tg);
+                },
                 'catalog_spec_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('catalog_product_spec', $sm->get('catalog_db'));
-                    return new Mapper\SpecMapper($tg);   
+                    return new Mapper\SpecMapper($tg);
                 },
                 'catalog_uom_mapper' => function ($sm) {
                     $tg = new Mapper\TableGateway('ansi_uom', $sm->get('catalog_db'));
-                    return new Mapper\UomMapper($tg);   
+                    return new Mapper\UomMapper($tg);
                 },
                 //linker table gateways
                 'catalog_option_choice_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_option_choice_linker', $sm->get('catalog_db'));
-                },   
+                },
                 'catalog_choice_option_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_choice_option_linker', $sm->get('catalog_db'));
-                },   
+                },
                 'catalog_product_option_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_product_option_linker', $sm->get('catalog_db'));
-                },   
+                },
                 'catalog_product_image_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_product_image_linker', $sm->get('catalog_db'));
-                },   
+                },
                 'catalog_option_image_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_option_image_linker', $sm->get('catalog_db'));
-                },   
+                },
                 'catalog_product_document_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_product_document_linker', $sm->get('catalog_db'));
-                },   
+                },
             ),
         );
     }

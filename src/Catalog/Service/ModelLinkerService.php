@@ -83,6 +83,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
             $linkerId = $this->getModelService($className)->$method($parentId, $id);
             return $this->model->setLinkerId($linkerId);
         }
+        return $this->model;
     }
 
     public function removeLinker($class, $linkerId)

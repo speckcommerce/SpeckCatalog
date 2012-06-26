@@ -38,7 +38,11 @@ class CatalogManagerController extends ActionController
     {
         $this->getUserAuth();
         $products = $this->getCatalogService()->getAll('product');
-        return new ViewModel(array('products' => $products));
+        $companies = $this->getCatalogService()->getAll('company');
+        return new ViewModel(array(
+            'products' => $products,
+            'companies' => $companies
+        ));
     }
 
     public function newAction()

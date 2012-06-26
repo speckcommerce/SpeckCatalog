@@ -5,40 +5,40 @@ namespace Catalog\Model;
 class Company extends ModelAbstract
 {
     /**
-     * name 
-     * 
+     * name
+     *
      * @var string
      * @access protected
      */
     protected $name;
 
     /**
-     * phone 
-     * 
+     * phone
+     *
      * @var string
      * @access protected
      */
     protected $phone;
-    
+
     /**
-     * email 
-     * 
+     * email
+     *
      * @var string
      * @access protected
      */
     protected $email;
 
     /**
-     * products 
-     * 
+     * products
+     *
      * @var array
      * @access protected
      */
     protected $products;
 
     /**
-     * availabilities 
-     * 
+     * availabilities
+     *
      * @var array
      * @access protected
      */
@@ -48,51 +48,51 @@ class Company extends ModelAbstract
     {
         return $this->name;
     }
- 
+
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
- 
+
     public function getPhone()
     {
         return $this->phone;
     }
- 
+
     public function setPhone($phone)
     {
         $this->phone = $phone;
         return $this;
     }
- 
+
     public function getEmail()
     {
         return $this->email;
     }
- 
+
     public function setEmail($email)
     {
         $this->email = $email;
         return $this;
     }
- 
+
     public function getProducts()
     {
         return $this->products;
     }
- 
+
     public function setProducts($products)
     {
         $this->products = $products;
         return $this;
     }
- 
+
     public function getAvailabilities()
     {
         return $this->availabilities;
     }
- 
+
     public function setAvailabilities($availabilities)
     {
         $this->availabilities = $availabilities;
@@ -102,5 +102,5 @@ class Company extends ModelAbstract
     public function __toString()
     {
         return '';
-    }    
+    }
 }

@@ -154,10 +154,12 @@ CREATE TABLE IF NOT EXISTS `catalog_company` (
   `rev_eol_datetime` datetime DEFAULT NULL,
   `rev_user_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `search_data` text NOT NULL,
   PRIMARY KEY (`rev_id`),
   KEY `record_id` (`record_id`,`rev_active`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

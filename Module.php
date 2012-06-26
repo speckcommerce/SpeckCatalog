@@ -13,13 +13,6 @@ class Module
     protected $view;
     protected $viewListener;
 
-    public function init(ModuleManager $moduleManager)
-    {
-        $events       = $moduleManager->events();
-        $sharedEvents = $events->getSharedManager();
-        $moduleManager->events()->attach('navigation', array($this, 'navigation'));
-    }
-
     public function getAutoloaderConfig()
     {
         return array(

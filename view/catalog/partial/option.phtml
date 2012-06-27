@@ -1,4 +1,5 @@
-<strong><?=$option; ?>:</strong>
+<strong><?=$option; ?><?=($option->getRequired() ? '*' : ''); ?>:</strong>
+<? if($option->has('instruction')):?><br/>&nbsp;&nbsp;&nbsp;(<?=$option->getInstruction();?>)<? endif; ?>
 <? $listType = $option->getListType(); ?>
 <? $choices = $option->getChoices(); ?>
 <? if('radio' === $listType): ?>

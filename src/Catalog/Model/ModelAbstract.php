@@ -32,7 +32,7 @@ abstract class ModelAbstract implements ModelInterface
     {
         $getter = 'get' . ucfirst($prop);
         if(method_exists($this, $getter)){
-            if('s' === substr($prop, -1) && is_array($this->$getter())){
+            if('s' === substr($prop, 0, -1) && is_array($this->$getter())){
                 return true;
             }elseif($this->$getter()){
                 return true;

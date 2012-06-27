@@ -8,7 +8,7 @@
         <? endif; ?>
         <? if ($choice->has('options')) : ?>
             <div><span class="icon-list" title="has options"></span></div>
-        <? elseif($choice->hasProduct()) : ?>
+        <? elseif($choice->has('product')) : ?>
             <div><span class="icon-tag"></span></div>
         <? endif; ?>
         <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>

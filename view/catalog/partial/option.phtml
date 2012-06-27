@@ -1,0 +1,13 @@
+<strong><?=$option; ?>:</strong>
+<? $listType = $option->getListType(); ?>
+<? $choices = $option->getChoices(); ?>
+<? if('radio' === $listType): ?>
+    <?=$this->partial('catalog/partial/product/option/radio.phtml', array('option' => $option)); ?>
+<? endif; ?>
+<? if('checkbox' === $listType): ?>
+    <?=$this->partial('catalog/partial/product/option/checkbox.phtml', array('option' => $option)); ?>
+<? endif; ?>
+<? if('dropdown' === $listType): ?>
+    <?=$this->partial('catalog/partial/product/option/select.phtml', array('option' => $option)); ?>
+<? endif; ?>
+<hr/>

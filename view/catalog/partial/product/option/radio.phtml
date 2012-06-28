@@ -1,3 +1,10 @@
 <? foreach ($option->getChoices() as $choice): ?>
-<br/><input name="option-<?=$option->getRecordId();?>" value="choice-<?=$choice->getRecordId();?>" type="radio">&nbsp;<?=$choice->__toString();?>
+    <input name="option-<?=$option->getRecordId();?>" value="choice-<?=$choice->getRecordId();?>" type="radio">&nbsp;<?=$choice->__toString();?>
+    <? if($choice->has('options')) : ?>
+        <? foreach($choice->getOptions() as $option) : ?>
+            <br/><?=$this->partial('catalog/partial/option.phtml', array('option' => $option)); ?>
+        <? endforeach; ?>
+    <? else: ?>
+        <br/>
+    <? endif; ?>
 <? endforeach; ?>

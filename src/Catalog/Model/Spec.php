@@ -7,7 +7,7 @@ class Spec extends ModelAbstract
     protected $label;
     protected $value;
     protected $tabDelimited;
- 
+
     /**
      * Get label.
      *
@@ -17,7 +17,7 @@ class Spec extends ModelAbstract
     {
         return $this->label;
     }
- 
+
     /**
      * Set label.
      *
@@ -28,7 +28,7 @@ class Spec extends ModelAbstract
         $this->label = $label;
         return $this;
     }
- 
+
     /**
      * Get value.
      *
@@ -38,7 +38,7 @@ class Spec extends ModelAbstract
     {
         return $this->value;
     }
- 
+
     /**
      * Set value.
      *
@@ -49,7 +49,7 @@ class Spec extends ModelAbstract
         $this->value = $value;
         return $this;
     }
- 
+
     /**
      * Get specId.
      *
@@ -59,7 +59,7 @@ class Spec extends ModelAbstract
     {
         return $this->specId;
     }
- 
+
     /**
      * Set specId.
      *
@@ -104,7 +104,7 @@ class Spec extends ModelAbstract
     {
         return $this->setProductId($productId);
     }
- 
+
     /**
      * Get tabDelimited.
      *
@@ -114,7 +114,7 @@ class Spec extends ModelAbstract
     {
         return $this->tabDelimited;
     }
- 
+
     /**
      * Set tabDelimited.
      *

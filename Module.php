@@ -37,8 +37,8 @@ class Module
         $locator      = $app->getServiceManager();
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($locator->get('Router'));
-        $renderer->plugin('headScript')->appendFile('/speck-catalog/js/speck-catalog-manager.js');
-        $renderer->plugin('headLink')->appendStylesheet('/speck-catalog/css/speck-catalog.css');
+        $renderer->plugin('headScript')->appendFile('/assets/speck-catalog/js/speck-catalog-manager.js');
+        $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
     }
 
     public function getServiceConfiguration()

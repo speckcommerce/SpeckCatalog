@@ -62,17 +62,6 @@ abstract class ModelAbstract implements ModelInterface
         return $this;
     }
 
-    public function getRevParentId()
-    {
-        return $this->revParentId;
-    }
-
-    public function setRevParentId($revParentId)
-    {
-        $this->revParentId = $revParentId;
-        return $this;
-    }
-
     public function getRecordId()
     {
         return $this->recordId;

@@ -17,9 +17,10 @@
             <div class="entity-header hide"><div class="title"></div></div>
 
             <div class="entity-content">
-            <?=$this->partial(
-                $pdir.'form/product.phtml',
-                array('product' => $product)
+            <?=$this->partial($pdir.'form/product.phtml', array(
+                    'form' => $productForm,
+                    'product' => $product
+                )
             );?>
 
             <? if($product->isItem()) :?>

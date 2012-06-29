@@ -58,6 +58,8 @@ class Module
                 'catalog_availability_service' => 'Catalog\Service\AvailabilityService',
                 'catalog_company_service'      => 'Catalog\Service\CompanyService',
                 'catalog_spec_service'         => 'Catalog\Service\SpecService',
+
+                'catalogmanager_form_service'  => 'CatalogManager\Service\FormService',
             ),
             'factories' => array(
                 'catalog_db' => function ($sm) {
@@ -127,6 +129,17 @@ class Module
                 'catalog_product_document_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_product_document_linker', $sm->get('catalog_db'));
                 },
+
+
+
+                'catalogmanager_product_form' => function ($sm) {
+                    return new \CatalogManager\Form\Product();
+                },
+
+
+
+
+
             ),
         );
     }

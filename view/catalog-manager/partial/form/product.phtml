@@ -1,4 +1,20 @@
 <? $pdir = '/catalog-manager/partial/'; ?>
+
+<?
+
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'asdf');
+
+echo $this->form()->openTag($form);
+?>
+<dl class="zend_form">
+    <dt><?php echo $this->formLabel($form->get('name')); ?></dt>
+    <dd><?php echo $this->formInput($form->get('name')); ?></dd>
+    <dt><?php echo $this->formLabel($form->get('description')); ?></dt>
+    <dd><?php echo $this->formInput($form->get('description')); ?></dd>
+
+</dl>
 <form id="product-<?=$product->getRecordId();?>" class="live-form">
 
     <input type="hidden" name="record_id" value="<?=$product->getRecordId();?>"/>

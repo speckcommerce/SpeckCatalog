@@ -5,7 +5,8 @@ namespace CatalogManager\Controller;
 use Zend\Mvc\Controller\ActionController,
     Zend\View\Model\ViewModel,
     Zend\Paginator\Paginator,
-    Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter;
+    Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter,
+    CatalogManager\Service\FormService;
 
 class CatalogManagerController extends ActionController
 {
@@ -13,7 +14,7 @@ class CatalogManagerController extends ActionController
     protected $linkerService;
     protected $testService;
     protected $userAuth;
-
+    protected $formService;
 
     public function __construct($userAuth)
     {
@@ -106,8 +107,12 @@ class CatalogManagerController extends ActionController
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
         $product = $this->getCatalogService()->getModel('product', $id);
+        $productForm = $this->getFormService()->getForm('product', $product);
 
-        return new ViewModel(array('product' => $product));
+        return new ViewModel(array(
+            'product' => $product,
+            'productForm' => $productForm
+        ));
     }
 
     public function fetchPartialAction()
@@ -174,6 +179,20 @@ class CatalogManagerController extends ActionController
     public function setUserAuth($userAuth)
     {
         $this->userService = $userService;
+        return $this;
+    }
+
+    public function getFormService()
+    {
+        if(null === $this->formService){
+            $this->formService = $this->getServiceLocator()->get('catalogmanager_form_service');
+        }
+        return $this->formService;
+    }
+
+    public function setFormService($formService)
+    {
+        $this->formService = $formService;
         return $this;
     }
 }

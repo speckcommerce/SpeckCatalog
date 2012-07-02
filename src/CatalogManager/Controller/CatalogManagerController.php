@@ -10,7 +10,7 @@ use Zend\Mvc\Controller\ActionController,
 
 class CatalogManagerController extends ActionController
 {
-    protected $catalogService;
+    protected $catalogManagerService;
     protected $linkerService;
     protected $testService;
     protected $userAuth;
@@ -106,12 +106,12 @@ class CatalogManagerController extends ActionController
     public function productAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $product = $this->getCatalogService()->getModel('product', $id);
-        $productForm = $this->getFormService()->getForm('product', $product);
+        $product = $this->getCatalogManagerService()->getModel('product', $id);
+        $productForm = $this->getCatalogManagerService()->getCatalogManagerForm('product', $product);
 
         return new ViewModel(array(
             'product' => $product,
-            'productForm' => $productForm
+            'productForm' => $productForm,
         ));
     }
 
@@ -131,7 +131,7 @@ class CatalogManagerController extends ActionController
     {
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        return $this->getCatalogService()->update($class, $id, $_POST);
+        return $this->getCatalogManagerService()->update($class, $id, $_POST);
     }
 
     public function sortAction()
@@ -149,14 +149,14 @@ class CatalogManagerController extends ActionController
         die($this->getLinkerService()->removeLinker($type, $linkerId));
     }
 
-    public function getCatalogService()
+    public function getCatalogManagerService()
     {
-        return $this->getServiceLocator()->get('catalog_generic_service');
+        return $this->getServiceLocator()->get('catalogmanager_generic_service');
     }
 
-    public function setCatalogService($catalogService)
+    public function setCatalogManagerService($catalogManagerService)
     {
-        $this->catalogService = $catalogService;
+        $this->catalogManagerService = $catalogManagerService;
         return $this;
     }
 

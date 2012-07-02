@@ -59,7 +59,13 @@ class Module
                 'catalog_company_service'      => 'Catalog\Service\CompanyService',
                 'catalog_spec_service'         => 'Catalog\Service\SpecService',
 
+                'catalogmanager_generic_service' => 'CatalogManager\Service\CatalogManagerService',
                 'catalogmanager_form_service'  => 'CatalogManager\Service\FormService',
+                'catalogmanager_product_service' => 'CatalogManager\Service\ProductService',
+                'catalogmanager_option_service' => 'CatalogManager\Service\OptionService',
+
+                'catalogmanager_product_form' => 'CatalogManager\Form\Product',
+                'catalogmanager_option_form' => 'CatalogManager\Form\Option',
             ),
             'factories' => array(
                 'catalog_db' => function ($sm) {
@@ -132,9 +138,6 @@ class Module
 
 
 
-                'catalogmanager_product_form' => function ($sm) {
-                    return new \CatalogManager\Form\Product();
-                },
 
 
 

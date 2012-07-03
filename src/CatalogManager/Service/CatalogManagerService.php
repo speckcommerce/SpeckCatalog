@@ -13,30 +13,32 @@ class CatalogManagerService implements ServiceManagerAwareInterface
 
     protected $optionService;
 
+    protected $companyService;
+
     public function getModel($className, $id)
     {
-        return $this->getModelService($className)->getById($id);
+        return $this->getService($className)->getById($id);
     }
 
     public function getAll($class)
     {
-        return $this->getModelService($class)->getAll();
+        return $this->getService($class)->getAll();
     }
 
-    public function getModelService($class)
+    public function getService($class)
     {
-        $getModelService = 'get' . ucfirst($class) . 'Service';
-        return $this->$getModelService();
+        $getService = 'get' . ucfirst($class) . 'Service';
+        return $this->$getService();
     }
 
     public function update($class, $id, $post)
     {
-        echo $this->getModelService($class)->updateModelFromArray($post); die();
+        echo $this->getService($class)->updateModelFromArray($post); die();
     }
 
     public function getCatalogManagerForm($className, $model)
     {
-        return $this->getModelService($className)->getCatalogManagerForm($model);
+        return $this->getService($className)->getCatalogManagerForm($model);
     }
 
     public function getProductService()
@@ -68,5 +70,18 @@ class CatalogManagerService implements ServiceManagerAwareInterface
             $this->optionService = $this->getServiceManager()->get('catalogmanager_option_service');
         }
         return $this->optionService;
+    }
+
+    public function setCompanyService($companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
+    public function getCompanyService()
+    {
+        if(null === $this->companyService){
+            $this->companyService = $this->getServiceManager()->get('catalogmanager_company_service');
+        }
+        return $this->companyService;
     }
 }

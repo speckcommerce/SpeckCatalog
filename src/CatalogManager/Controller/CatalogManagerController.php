@@ -38,8 +38,9 @@ class CatalogManagerController extends ActionController
     public function indexAction()
     {
         $this->getUserAuth();
-        $products = $this->getCatalogService()->getAll('product');
-        $companies = $this->getCatalogService()->getAll('company');
+
+        $products = $this->getCatalogManagerService()->getAll('product');
+        $companies = $this->getCatalogManagerService()->getAll('company');
         return new ViewModel(array(
             'products' => $products,
             'companies' => $companies

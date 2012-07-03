@@ -4,7 +4,7 @@ namespace CatalogManager\Form;
 
 use Zend\Form\Form as ZendForm;
 
-class Option extends ZendForm
+class ProductUom extends ZendForm
 {
     public function __construct()
     {

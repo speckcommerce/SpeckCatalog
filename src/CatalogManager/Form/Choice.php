@@ -4,7 +4,7 @@ namespace CatalogManager\Form;
 
 use Zend\Form\Form as ZendForm;
 
-class Product extends ZendForm
+class Choice extends ZendForm
 {
     public function __construct()
     {
@@ -14,20 +14,27 @@ class Product extends ZendForm
             'name' => 'record_id',
             'attributes' => array(
                 'label' => 'Record Id',
-                'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
-            'name' => 'name',
-            'attributes' => array(
-                'label' => 'Name',
                 'type' => 'text'
             ),
         ));
         $this->add(array(
-            'name' => 'description',
+            'name' => 'product_id',
             'attributes' => array(
-                'label' => 'Description',
+                'label' => 'Product Id',
+                'type' => 'text'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'override_name',
+            'attributes' => array(
+                'label' => 'Override Name',
+                'type' => 'text'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'type',
+            'attributes' => array(
+                'label' => 'Type',
                 'type' => 'text'
             ),
         ));

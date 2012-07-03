@@ -60,12 +60,27 @@ class Module
                 'catalog_spec_service'         => 'Catalog\Service\SpecService',
 
                 'catalogmanager_generic_service' => 'CatalogManager\Service\CatalogManagerService',
-                'catalogmanager_form_service'  => 'CatalogManager\Service\FormService',
                 'catalogmanager_product_service' => 'CatalogManager\Service\ProductService',
                 'catalogmanager_option_service' => 'CatalogManager\Service\OptionService',
+                'catalogmanager_choice_service' => 'CatalogManager\Service\ChoiceService',
+                'catalogmanager_availability_service' => 'CatalogManager\Service\AvailabilityService',
+                'catalogmanager_product_uom_service' => 'CatalogManager\Service\ProductUomService',
+                'catalogmanager_uom_service' => 'CatalogManager\Service\UomService',
+                'catalogmanager_company_service' => 'CatalogManager\Service\CompanyService',
+                'catalogmanager_spec_service' => 'CatalogManager\Service\SpecService',
+                'catalogmanager_image_service' => 'CatalogManager\Service\ImageService',
+                'catalogmanager_document_service' => 'CatalogManager\Service\DocumentService',
 
                 'catalogmanager_product_form' => 'CatalogManager\Form\Product',
                 'catalogmanager_option_form' => 'CatalogManager\Form\Option',
+                'catalogmanager_choice_form' => 'CatalogManager\Form\Choice',
+                'catalogmanager_availability_form' => 'CatalogManager\Form\Availability',
+                'catalogmanager_product_uom_form' => 'CatalogManager\Form\ProductUom',
+                'catalogmanager_uom_form' => 'CatalogManager\Form\Uom',
+                'catalogmanager_company_form' => 'CatalogManager\Form\Company',
+                'catalogmanager_spec_form' => 'CatalogManager\Form\Spec',
+                'catalogmanager_image_form' => 'CatalogManager\Form\Image',
+                'catalogmanager_document_form' => 'CatalogManager\Form\Document',
             ),
             'factories' => array(
                 'catalog_db' => function ($sm) {

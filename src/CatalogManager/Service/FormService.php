@@ -73,6 +73,4 @@ class FormService implements ServiceManagerAwareInterface
         $this->catalogService = $catalogService;
         return $this;
     }
-
-
 }

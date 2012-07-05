@@ -1,9 +1,9 @@
-<? $pdir = '/catalog-manager/partial/'; ?>
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
 <form id="availability-<?=$availability->getRecordId();?>" class="live-form">
 
     <input type="hidden" name="record_id" value="<?=$availability->getRecordId();?>"/>
     <input type="hidden" name="parent_product_uom_id" value="<?=$availability->getParentProductUomId();?>"/>
-    
+
     <div class="row">
         <div class="span5">
             <div class="row">
@@ -24,7 +24,7 @@
                     <input name="cost" class="span1" value="<?=$availability->getCost();?>" type="text"/>
                 </div>
             </div>
-        </div> 
-    </div> 
+        </div>
+    </div>
 
-</form></br>                                                                              
+</form></br>

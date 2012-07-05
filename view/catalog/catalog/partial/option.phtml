@@ -1,16 +1,17 @@
+<? $pdir = '/catalog/catalog/partial/'; ?>
 <? if($option->has('choices')): ?>
     <div class="option" style="margin-left:25px; border:1px solid #ddd; margin-bottom:5px; margin-right:25px; padding:10px">
         <strong><?=$option; ?><?=($option->getRequired() ? '*' : ''); ?>:</strong><br/>
         <? if($option->has('instruction')):?>&nbsp;&nbsp;&nbsp;(<?=$option->getInstruction();?>)<br/><? endif; ?>
         <? $listType = $option->getListType(); ?>
         <? if('radio' === $listType): ?>
-            <?=$this->partial('catalog/partial/product/option/radio.phtml', array('option' => $option)); ?>
+            <?=$this->partial($pdir . 'product/option/radio.phtml', array('option' => $option)); ?>
         <? endif; ?>
         <? if('checkbox' === $listType): ?>
-            <?=$this->partial('catalog/partial/product/option/checkbox.phtml', array('option' => $option)); ?>
+            <?=$this->partial($pdir . 'product/option/checkbox.phtml', array('option' => $option)); ?>
         <? endif; ?>
         <? if('dropdown' === $listType): ?>
-            <?=$this->partial('catalog/partial/product/option/select.phtml', array('option' => $option)); ?>
+            <?=$this->partial($pdir . 'product/option/select.phtml', array('option' => $option)); ?>
         <? endif; ?>
     </div>
 <? endif; ?>

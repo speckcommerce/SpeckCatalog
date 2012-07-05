@@ -1,31 +1,45 @@
 <?php
 
 namespace Catalog\Service;
-use Exception,
-    Zend\ServiceManager\ServiceManagerAwareInterface,
-    Zend\ServiceManager\ServiceManager;
+use Exception;
+use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
 /**
- * ServiceAbstract 
+ * ServiceAbstract
  */
 abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareInterface
 {
     protected $modelMapper;
     protected $user;
     protected $serviceManager;
-    
+
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
         return $this;
     }
 
+    public function getForm($className = null, $model)
+    {
+        $formName = 'catalog_' . $className . '_form';
+        $form = $this->getServiceManager()->get($formName);
+        $hydrator = new Hydrator();
+        $data = $hydrator->extract($model);
+        $form->setHydrator($hydrator);
+        $form->bind($model);
+        $form->setData($data);
+
+        return $form;
+    }
+
     public function populateModel($model)
     {
         $model = $this->_populateModel($model);
         return $model;
-    } 
-    
+    }
+
     public function getAll()
     {
         return $this->getModelMapper()->getAll();
@@ -48,14 +62,14 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
             $models[$i] = $this->populateModel($model);
         }
         return $models;
-    } 
-    
+    }
+
     public function updateModelFromArray($arr)
     {
         $model = $this->getModelMapper()->rowToModel($arr);
         return $this->update($model);
-    }    
-    
+    }
+
     public function getModel($constructor=null)
     {
         return $this->getModelMapper()->getModel($constructor);
@@ -70,11 +84,11 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
     {
         return $this->getModelMapper()->add($model);
     }
-    
+
     public function update($model)
     {
         $this->getModelMapper()->update($model);
-        return $this->getById($model->getRecordId());  
+        return $this->getById($model->getRecordId());
     }
 
     public function removeLinker($linkerId)
@@ -97,13 +111,13 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
         ob_start();
         var_dump($var);
         return ob_get_clean();
-    }    
- 
+    }
+
     public function getUser()
     {
         return $this->user;
     }
- 
+
     public function setUser($user)
     {
         $this->user = $user;

@@ -1,0 +1,46 @@
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
+
+<?
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'product-' . $product->getRecordId());
+$form->setAttribute('class', 'live-form');
+
+?>
+<?=$this->form()->openTag($form);?>
+    <?php echo $this->formInput($form->get('record_id')); ?>
+    <input type="hidden" name="type" value="<?=$product->getType();?>"/>
+
+    <div class="row">
+        <div class="span2">
+            <? if ($product->has('images')) : ?>
+                <? foreach($product->getImages() as $image) : ?>
+                    <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
+                    <? break; ?>
+                <? endforeach; ?>
+            <? endif; ?>
+        </div>
+        <div class="span6">
+            <dt><?php echo $this->formLabel($form->get('name')); ?></dt>
+            <dd><?php echo $this->formInput($form->get('name')); ?></dd>
+            <dt><?php echo $this->formLabel($form->get('description')); ?></dt>
+            <dd><?php echo $this->formTextArea($form->get('description')); ?></dd>
+        </div>
+        <div class="span3">
+            <? if(isset($product) && $product->isItem()) : ?>
+                <span class="smallcaps">manufacturer</span><br/>
+                <select name="manufacturer_company_id" class="span3">
+                    <?=$this->partial($pdir.'form/select-options.phtml', array(
+                        'data' => $product->getCompanies(),
+                        'getIdMethod' => 'getRecordId',
+                        'selectedId'  => $product->getManufacturerCompanyId(),
+                        'getNameMethod' => 'getName',
+                    ));?>
+                </select>
+                <dt><?php echo $this->formLabel($form->get('item_number')); ?></dt>
+                <dd><?php echo $this->formInput($form->get('item_number')); ?></dd>
+            <? endif; ?>
+        </div>
+    </div>
+
+</form>

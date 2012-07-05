@@ -1,10 +1,10 @@
-<? $pdir = '/catalog-manager/partial/'; ?>
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
 <form id="option-<?=$option->getRecordId();?>" class="live-form">
-    
+
     <input type="hidden" name="record_id" value="<?=$option->getRecordId();?>"/>
 
     <div class="row offset0">
-       
+
         <div class="span2">
             <span class="smallcaps">list type</span><br/>
             <select name="list_type" class="span2">
@@ -12,14 +12,14 @@
                     'data' => $option->getListTypes(),
                     'selectedId'  => $option->getListType(),
                 ));?>
-            </select> 
+            </select>
         </div>
-        
+
         <div class="span3">
             <span class="smallcaps">name</span><br/>
             <input name="name" class="span3" type="text" value="<?=$option->getName();?>"/>
         </div>
-          
+
         <div class="span3">
             <span class="smallcaps">instruction</span><br/>
             <input name="instruction" class="span3" type="text" value="<?=$option->getInstruction();?>"/>
@@ -28,4 +28,4 @@
 
     </div>
 
-</form><br/>  
+</form><br/>

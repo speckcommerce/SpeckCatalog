@@ -1,4 +1,4 @@
-<? $pdir = '/catalog-manager/partial/'; ?>
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
 
 <? if(isset($bg)){ $bg=$bg; }else{ $bg='contrastbg'; } ?>
 <? if(isset($collapse)){ $collapse='initialCollapse';} else { $collapse='';} ?>
@@ -11,5 +11,5 @@
     </div>
     <div class="entity-content initialcol">
         <?=$this->partial($pdir.'form/image.phtml', array('image' => $image));?>
-    </div>   
+    </div>
 </div>

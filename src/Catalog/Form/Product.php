@@ -1,6 +1,6 @@
 <?php
 
-namespace CatalogManager\Form;
+namespace Catalog\Form;
 
 use Zend\Form\Form as ZendForm;
 
@@ -28,6 +28,13 @@ class Product extends ZendForm
             'name' => 'description',
             'attributes' => array(
                 'label' => 'Description',
+                'type' => 'textarea'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'item_number',
+            'attributes' => array(
+                'label' => 'Item Number',
                 'type' => 'text'
             ),
         ));

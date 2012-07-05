@@ -7,11 +7,11 @@ $config = array(
         'factories' => array(
             'catalogmanager' => function ($sm) {
                 $userAuth = $sm->get('zfcUserAuthentication');
-                $controller = new \CatalogManager\Controller\CatalogManagerController($userAuth);
+                $controller = new \Catalog\Controller\CatalogManagerController($userAuth);
                 return $controller;
             },
         ),
-    ), 
+    ),
 );
 
 $configFiles = array(

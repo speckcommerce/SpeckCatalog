@@ -1,3 +1,4 @@
+<? $pdir = '/catalog/catalog/partial/'; ?>
 <h2><?=$product->getName();?></h2>
 
 <form method="submit" action="/cart/add-product">
@@ -43,7 +44,7 @@
             <? if($product->has('options')) : ?>
                 <div class="boundary tab-pane" id="options">
                     <? foreach($product->getOptions() as $option) : ?>
-                        <?=$this->partial('catalog/partial/option.phtml', array('option' => $option)); ?>
+                        <?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>
                     <? endforeach; ?>
                     <input type="submit" value="Add To Cart"/>
                 </div>
@@ -51,14 +52,14 @@
             <? if($product->has('specs')) : ?>
                 <div class="boundary tab-pane" id="specs">
                     <? foreach($product->getSpecs() as $spec) : ?>
-                        <?=$this->partial('catalog/partial/spec.phtml', array('spec' => $spec)); ?>
+                        <?=$this->partial($pdir . 'spec.phtml', array('spec' => $spec)); ?>
                     <? endforeach; ?>
                 </div>
             <? endif; ?>
             <? if($product->has('documents')) : ?>
                 <div class="boundary tab-pane" id="documents">
                     <? foreach($product->getDocuments() as $document) : ?>
-                        <?=$this->partial('catalog/partial/document.phtml', array('document' => $document)); ?>
+                        <?=$this->partial($pdir . 'document.phtml', array('document' => $document)); ?>
                     <? endforeach; ?>
                 </div>
             <? endif; ?>

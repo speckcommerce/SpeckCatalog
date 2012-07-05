@@ -1,9 +1,9 @@
 <?php
 namespace Catalog\Service;
-use Exception,
-    RuntimeException,
-    Zend\ServiceManager\ServiceManagerAwareInterface,
-    Zend\ServiceManager\ServiceManager;
+use Exception;
+use RuntimeException;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * CatalogService
@@ -28,6 +28,11 @@ class CatalogService implements ServiceManagerAwareInterface
     protected $documentService;
     protected $companyService;
     protected $serviceManager;
+
+    public function getForm($className, $model)
+    {
+        return $this->getService($className)->getForm($className, $model);
+    }
 
     public function setServiceManager(ServiceManager $serviceManager)
     {

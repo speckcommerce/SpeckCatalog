@@ -97,7 +97,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
         if (null === $class){
             $class = $this->class;
         }
-        return $this->getCatalogService()->getModelService($class);
+        return $this->getCatalogService()->getService($class);
     }
 
     public function getCatalogService()

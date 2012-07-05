@@ -1,6 +1,6 @@
 <?php
 
-namespace CatalogManager\Controller;
+namespace Catalog\Controller;
 
 use Zend\Mvc\Controller\ActionController,
     Zend\View\Model\ViewModel,
@@ -10,7 +10,7 @@ use Zend\Mvc\Controller\ActionController,
 
 class CatalogManagerController extends ActionController
 {
-    protected $catalogManagerService;
+    protected $catalogService;
     protected $linkerService;
     protected $testService;
     protected $userAuth;
@@ -39,8 +39,8 @@ class CatalogManagerController extends ActionController
     {
         $this->getUserAuth();
 
-        $products = $this->getCatalogManagerService()->getAll('product');
-        $companies = $this->getCatalogManagerService()->getAll('company');
+        $products = $this->getCatalogService()->getAll('product');
+        $companies = $this->getCatalogService()->getAll('company');
         return new ViewModel(array(
             'products' => $products,
             'companies' => $companies
@@ -107,8 +107,8 @@ class CatalogManagerController extends ActionController
     public function productAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $product = $this->getCatalogManagerService()->getModel('product', $id);
-        $productForm = $this->getCatalogManagerService()->getCatalogManagerForm('product', $product);
+        $product = $this->getCatalogService()->getModel('product', $id);
+        $productForm = $this->getCatalogService()->getForm('product', $product);
 
         return new ViewModel(array(
             'product' => $product,
@@ -132,7 +132,7 @@ class CatalogManagerController extends ActionController
     {
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        return $this->getCatalogManagerService()->update($class, $id, $_POST);
+        return $this->getCatalogService()->update($class, $id, $_POST);
     }
 
     public function sortAction()
@@ -150,14 +150,14 @@ class CatalogManagerController extends ActionController
         die($this->getLinkerService()->removeLinker($type, $linkerId));
     }
 
-    public function getCatalogManagerService()
+    public function getCatalogService()
     {
-        return $this->getServiceLocator()->get('catalogmanager_generic_service');
+        return $this->getServiceLocator()->get('catalog_generic_service');
     }
 
-    public function setCatalogManagerService($catalogManagerService)
+    public function setCatalogService($catalogService)
     {
-        $this->catalogManagerService = $catalogManagerService;
+        $this->catalogService = $catalogService;
         return $this;
     }
 

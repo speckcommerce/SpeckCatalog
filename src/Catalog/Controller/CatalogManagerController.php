@@ -116,6 +116,8 @@ class CatalogManagerController extends ActionController
         ));
     }
 
+
+
     public function fetchPartialAction()
     {
         $this->layout(false);

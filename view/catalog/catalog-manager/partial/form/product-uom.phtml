@@ -1,6 +1,11 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 
-<form id="productUom-<?=$productUom->getRecordId();?>" class="live-form">
+<?
+$form->prepare();
+$form->setAttribute('id', 'productUom-' . $product->getRecordId());
+$form->setAttribute('class', 'live-form');
+?>
+<?=$this->form()->openTag($form);?>
 
     <input type="hidden" name="record_id" value="<?=$productUom->getRecordId();?>"/>
     <input type="hidden" name="parent_product_id" value="<?=$productUom->getParentProductId();?>"/>

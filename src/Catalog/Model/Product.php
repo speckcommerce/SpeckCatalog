@@ -93,14 +93,6 @@ class Product extends ModelAbstract
     protected $manufacturerCompanyId;
 
     /**
-     * companies
-     *
-     * @var array
-     * @access protected
-     */
-    protected $companies;
-
-    /**
      * uoms
      *
      * @var array
@@ -238,17 +230,6 @@ class Product extends ModelAbstract
     public function __toString()
     {
         return '' . $this->getName();
-    }
-
-    public function getCompanies()
-    {
-        return $this->companies;
-    }
-
-    public function setCompanies($companies)
-    {
-        $this->companies = $companies;
-        return $this;
     }
 
     public function getSpecs()

@@ -7,9 +7,9 @@ use ZfcBase\Mapper\DbMapperAbstract,
     Zend\ServiceManager\ServiceManager,
     Catalog\Model\Mapper\TableGateway,
     ArrayObject,
-    Exception;                                                      
+    Exception;
 
-abstract class ModelMapperAbstract 
+abstract class ModelMapperAbstract
 implements ModelMapperInterface, ServiceManagerAwareInterface
 {
     protected $userId = 99;
@@ -25,8 +25,8 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     {
         $this->serviceManager = $serviceManager;
         return $this;
-    }  
-    
+    }
+
     public function __construct(TableGateway $tableGateway=null)
     {
         if($tableGateway){
@@ -36,7 +36,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
             die('didnt get a gateway');
         }
     }
-    
+
     public function getTable()
     {
         if($this->getTableGateway() instanceof TableGateway){
@@ -66,7 +66,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $adapter = $this->getTable()->getAdapter();
         $sql = 'describe ' . $this->getTableName();
         $result = $adapter->query($sql)->execute();
-        $fields = array();     
+        $fields = array();
         foreach($result as $col){
             $fields[] = $col['Field'];
         }
@@ -79,7 +79,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $revSelect = $this->revSelect($select);
         $row = $this->getTable()->getAdapter()->query($revSelect)->execute()->current();
         if($row){
-            return $this->rowToModel($row);   
+            return $this->rowToModel($row);
         }
     }
 
@@ -89,15 +89,15 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $revSelect = $this->revSelect($select);
         $rowset = $this->getTable()->getAdapter()->query($revSelect)->execute();
 
-        return $this->rowsetToModels($rowset);  
-    }    
+        return $this->rowsetToModels($rowset);
+    }
 
     /**
      * rowToModel
      *
      * Instantiates a new model, and populates from an array of data.
      *
-     * @param mixed $row 
+     * @param mixed $row
      * @access public
      * @return void
      */
@@ -121,12 +121,12 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         }
         return $models;
     }
-    
+
     /**
-     * getAll 
-     * 
+     * getAll
+     *
      * Fetches all records in a table, does not get child/parent models (populateModel)
-     * 
+     *
      * @access public
      * @return void
      */
@@ -134,14 +134,14 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     {
         $select = $this->newSelect();
         $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));
-        return $this->selectMany($select);   
-    }  
+        return $this->selectMany($select);
+    }
 
     public function updateSort($table, $order, $idField = null)
     {
         $db = $this->getWriteAdapter();
         $weight = count($order);
-      
+
         foreach($order as $linkerId){
             $row = array(
                 'sort_weight' => $weight,
@@ -167,7 +167,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $select = $this->newSelect();
         $select->from($linkerTable->getTableName())
                ->where($row);
-        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));   
+        $this->events()->trigger(__FUNCTION__, $this, array('select' => $select));
         $rowset = $linkerTable->selectWith($select);
         if($rowset->current()){
             die('already have one!');
@@ -175,15 +175,15 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $linkerTable->insert($row);
         $id = (int) $linkerTable->getLastInsertValue();
         $linkerTable->getAdapter()->query("update {$linkerTable->getTableName()} set linker_id = {$id} where rev_id = {$id}")->execute();
-        return $id; 
+        return $id;
     }
 
     /**
-     * deleteById 
+     * deleteById
      *
      * Deletes a row, this will soon be replaced with an insert/update to make it 'appear' deleted
-     * 
-     * @param mixed $id 
+     *
+     * @param mixed $id
      * @access public
      * @return void
      */
@@ -195,11 +195,11 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     }
 
     /**
-     * getById 
+     * getById
      *
      * Get a single row by the primary key
-     * 
-     * @param mixed $id 
+     *
+     * @param mixed $id
      * @access public
      * @return void
      */
@@ -212,15 +212,15 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $select->from($this->getTableName())
             ->where(array('record_id' => $id));
         return $this->selectOne($select);
-    }   
+    }
 
     /**
-     * getModelsBySearchData 
-     * 
-     * All catalog tables have a search_data field, this is used for quick 
+     * getModelsBySearchData
+     *
+     * All catalog tables have a search_data field, this is used for quick
      * searching of records to link.
      *
-     * @param mixed $string 
+     * @param mixed $string
      * @access public
      * @return void
      */
@@ -229,7 +229,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
-        
+
         if(strstr($string, ' ')){
             $string = explode(' ', $string);
             foreach($string as $word){
@@ -241,15 +241,15 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
 
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
-        
-        return $this->rowsToModels($rows); 
-    }  
+
+        return $this->rowsToModels($rows);
+    }
 
     public function add($model)
     {
         return $this->persist($model);
     }
-                                       
+
     public function update($model)
     {
         return $this->persist($model, 'update');
@@ -262,12 +262,12 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
     }
 
     /**
-     * persist 
-     * 
+     * persist
+     *
      * this handles the writing to the database
      *
-     * @param mixed $model 
-     * @param string $mode 
+     * @param mixed $model
+     * @param string $mode
      * @access public
      * @return void
      */
@@ -278,10 +278,12 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
         $row['rev_user_id'] = $this->userId;
         $row['rev_datetime'] = 1;
         $table = $this->getTable();
+
         if ('update' === $mode) {
             $connection = $table->getAdapter()->getDriver()->getConnection();
+            var_dump($model->getRecordId());
             try{
-                $connection->beginTransaction(); 
+                $connection->beginTransaction();
                 $table->update(array('rev_active' => 0, 'rev_eol_datetime' => 1), array('record_id' => $model->getRecordId()));
                 $table->insert($row);
                 $connection->commit();
@@ -296,7 +298,7 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
             $model->setRecordId($id);
         }
         return $model;
-    }      
+    }
 
     public function getServiceManager()
     {

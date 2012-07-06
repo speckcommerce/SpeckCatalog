@@ -58,11 +58,9 @@ class Module
                 'catalog_company_service'      => 'Catalog\Service\CompanyService',
                 'catalog_spec_service'         => 'Catalog\Service\SpecService',
 
-                'catalog_product_form' => 'Catalog\Form\Product',
                 'catalog_option_form' => 'Catalog\Form\Option',
                 'catalog_choice_form' => 'Catalog\Form\Choice',
                 'catalog_availability_form' => 'Catalog\Form\Availability',
-                'catalog_product_uom_form' => 'Catalog\Form\ProductUom',
                 'catalog_uom_form' => 'Catalog\Form\Uom',
                 'catalog_company_form' => 'Catalog\Form\Company',
                 'catalog_spec_form' => 'Catalog\Form\Spec',
@@ -70,6 +68,16 @@ class Module
                 'catalog_document_form' => 'Catalog\Form\Document',
             ),
             'factories' => array(
+                'catalog_product_form' => function ($sm) {
+                    $form = new \Catalog\Form\Product;
+                    $form->setCompanyService($sm->get('catalog_company_service'));
+                    return $form->init();
+                },
+                'catalog_product_uom_form' => function ($sm) {
+                    $form = new \Catalog\Form\ProductUom;
+                    $form->setUomService($sm->get('catalog_uom_service'));
+                    return $form->init();
+                },
                 'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');
                 },
@@ -137,14 +145,6 @@ class Module
                 'catalog_product_document_linker_tg' => function ($sm) {
                     return new Mapper\TableGateway('catalog_product_document_linker', $sm->get('catalog_db'));
                 },
-
-
-
-
-
-
-
-
             ),
         );
     }

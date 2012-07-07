@@ -1,0 +1,4 @@
+choices!
+<? foreach($this->viewModel()->getCurrent() as $child) : ?>
+    <?=$this->renderChildModel($child->captureTo()); ?>
+<? endforeach; ?>

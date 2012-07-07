@@ -1,13 +1,19 @@
 <?php
 $config = array(
-    'controller' => array(
-        'classes' => array(
+    'view_helpers' => array(
+        'invokables' => array(
+            'renderOptions' => 'Catalog\View\Helper\RenderOptions',
+        )
+    ),
+    'controllers' => array(
+        'invokables' => array(
             'catalog' => 'Catalog\Controller\CatalogController'
         ),
         'factories' => array(
             'catalogmanager' => function ($sm) {
-                $userAuth = $sm->get('zfcUserAuthentication');
-                $controller = new \Catalog\Controller\CatalogManagerController($userAuth);
+                //$userAuth = $sm->get('zfcUserAuthentication');
+                //$controller = new \Catalog\Controller\CatalogManagerReduxController($userAuth);
+                $controller = new \Catalog\Controller\CatalogManagerReduxController();
                 return $controller;
             },
         ),

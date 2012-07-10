@@ -2,7 +2,6 @@
 
 namespace Catalog\Service;
 use Exception;
-use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -19,19 +18,6 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
     {
         $this->serviceManager = $serviceManager;
         return $this;
-    }
-
-    public function getForm($className = null, $model)
-    {
-        $formName = 'catalog_' . $className . '_form';
-        $form = $this->getServiceManager()->get($formName);
-        $hydrator = new Hydrator();
-        $data = $hydrator->extract($model);
-        $form->setHydrator($hydrator);
-        $form->bind($model);
-        $form->setData($data);
-
-        return $form;
     }
 
     public function populateModel($model)

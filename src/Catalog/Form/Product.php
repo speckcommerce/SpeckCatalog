@@ -15,33 +15,41 @@ class Product extends ZendForm
         $this->add(array(
             'name' => 'recordId',
             'attributes' => array(
-                'label' => 'Record Id',
                 'type' => 'hidden'
+            ),
+            'options' => array(
+                'label' => 'Record Id',
             ),
         ));
         $this->add(array(
             'name' => 'name',
             'attributes' => array(
-                'label' => 'Name',
                 'type' => 'text',
                 'class' => 'span6',
+            ),
+            'options' => array(
+                'label' => 'Name',
             ),
         ));
         $this->add(array(
             'name' => 'description',
             'attributes' => array(
-                'label' => 'Description',
                 'type' => 'textarea',
                 'rows' => 5,
                 'class' => 'span6',
+            ),
+            'options' => array(
+                'label' => 'Description',
             ),
         ));
         $this->add(array(
             'name' => 'itemNumber',
             'attributes' => array(
-                'label' => 'Item Number',
                 'type' => 'text',
                 'class' => 'span3',
+            ),
+            'options' => array(
+                'label' => 'Item Number',
             ),
         ));
     }
@@ -55,10 +63,12 @@ class Product extends ZendForm
         $this->add(array(
             'name' => 'manufacturerCompanyId',
             'attributes' => array(
-                'label' => 'Manufacturer',
                 'type' => 'select',
                 'options' => $options,
                 'class' => 'span3',
+            ),
+            'options' => array(
+                'label' => 'Manufacturer',
             ),
         ));
         return $this;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CatalogManager\Form;
+namespace Catalog\Form;
 
 use Zend\Form\Form as ZendForm;
 

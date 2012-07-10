@@ -1,10 +1,5 @@
 <?php
 $config = array(
-    'view_helpers' => array(
-        'invokables' => array(
-            'renderOptions' => 'Catalog\View\Helper\RenderOptions',
-        )
-    ),
     'controllers' => array(
         'invokables' => array(
             'catalog' => 'Catalog\Controller\CatalogController'

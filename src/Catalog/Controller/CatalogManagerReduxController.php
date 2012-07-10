@@ -20,7 +20,9 @@ class CatalogManagerReduxController extends AbstractActionController
     public function productAction()
     {
         $product = $this->getCatalogService()->getById('product', $this->params('id'));
-        $view = new ViewModel(array('product' => $product));
+        $form = $this->getServiceLocator()->get('catalog_form_service')->getForm('product', $product);
+        $view = new ViewModel(array('product' => $product, 'form' => $form));
+
         return $view;
     }
 

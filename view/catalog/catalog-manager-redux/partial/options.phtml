@@ -1,4 +1,3 @@
-Options!
 <? foreach($this->viewModel()->getCurrent() as $child) : ?>
-    <?=$this->renderChildModel($child->captureTo()); ?>
+    <?=$this->render($child); ?>
 <? endforeach; ?>

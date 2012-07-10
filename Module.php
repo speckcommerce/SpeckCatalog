@@ -40,6 +40,28 @@ class Module
         $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
     }
 
+    public function getViewHelperConfiguration()
+    {
+        return array(
+            'factories' => array(
+                'speckCatalogRenderOptions' => function ($sm) {
+                    $sm = $sm->getServiceLocator();
+                    $renderer = new \Catalog\View\Helper\RenderOptions();
+                    $formService = $sm->get('catalog_form_service');
+                    $renderer->setFormService($formService);
+                    return $renderer;
+                },
+                'speckCatalogRenderChoices' => function ($sm) {
+                    $sm = $sm->getServiceLocator();
+                    $renderer = new \Catalog\View\Helper\RenderChoices;
+                    $formService = $sm->get('catalog_form_service');
+                    $renderer->setFormService($formService);
+                    return $renderer;
+                },
+            ),
+        );
+    }
+
     public function getServiceConfiguration()
     {
         return array(
@@ -58,6 +80,7 @@ class Module
                 'catalog_company_service'      => 'Catalog\Service\CompanyService',
                 'catalog_spec_service'         => 'Catalog\Service\SpecService',
 
+                'catalog_form_service' => 'Catalog\Service\FormService',
                 'catalog_option_form' => 'Catalog\Form\Option',
                 'catalog_choice_form' => 'Catalog\Form\Choice',
                 'catalog_availability_form' => 'Catalog\Form\Availability',

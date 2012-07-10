@@ -40,16 +40,18 @@ class Choice extends LinkedModelAbstract
     protected $type = 'choice';  // choice or product
 
     //only when type is product
-    //protected $priceDiscountFixed;
+    protected $priceDiscountFixed;
 
     //only when type is product
-    //protected $priceNoCharge = false;
+    protected $priceNoCharge = false;
 
     //only when type is product
-    //protected $priceDiscountPercent;
+    protected $priceDiscountPercent;
 
     //only when type is product
-    //protected $priceOverrideFixed;
+    protected $priceOverrideFixed;
+
+    protected $targetUom;
 
     protected $targetUomDiscount;
 

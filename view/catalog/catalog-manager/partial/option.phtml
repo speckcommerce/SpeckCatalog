@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 <div id="<?=$option->getLinkerId();?>" class="option contrastbg boundary">
 
@@ -55,11 +61,7 @@
                 <span class="smallcaps">&nbsp;choices</span>
             </div>
             <div class="list-items" type="choice" parent="option">
-                <? if ($option->has('choices')) : ?>
-                    <? foreach($option->getChoices() as $choice) : ?>
-                        <?=$this->partial($pdir.'choice.phtml', array('choice' => $choice));?>
-                    <? endforeach; ?>
-                <? endif; ?>
+                <?=$this->speckCatalogRenderChoices($option->getChoices()); ?>
             </div>
             <div class="row list-items-helper">
                 <?=$this->partial($pdir.'add.phtml', array(
@@ -91,3 +93,4 @@
     </div>
 
 </div>
+

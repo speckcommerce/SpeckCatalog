@@ -25,11 +25,7 @@
                     <span class="smallcaps">&nbsp;options</span><br/>
                 </div>
                 <div class="list-items" type="option" parent="choice">
-                    <? if ($choice->has('options')) : ?>
-                        <? foreach($choice->getOptions() as $option) : ?>
-                            <?=$this->partial($pdir.'option.phtml', array('option' => $option));?>
-                        <? endforeach; ?>
-                    <? endif; ?>
+                    <?=$this->speckCatalogRenderOptions($choice->getOptions());?>
                 </div>
                 <div class="row list-items-helper">
                     <?=$this->partial($pdir.'add.phtml', array(

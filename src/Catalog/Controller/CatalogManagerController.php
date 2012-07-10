@@ -2,13 +2,13 @@
 
 namespace Catalog\Controller;
 
-use Zend\Mvc\Controller\ActionController,
+use Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ViewModel,
     Zend\Paginator\Paginator,
     Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter,
-    CatalogManager\Service\FormService;
+    Catalog\Service\FormServiceAwareInterface;
 
-class CatalogManagerController extends ActionController
+class CatalogManagerController extends AbstractActionController implements FormServiceAwareInterface
 {
     protected $catalogService;
     protected $linkerService;
@@ -16,19 +16,17 @@ class CatalogManagerController extends ActionController
     protected $userAuth;
     protected $formService;
 
-    public function __construct($userAuth)
+    public function __construct($userAuth = null)
     {
         //if (false === $userAuth->hasIdentity()) {
         //    $this->redirect()->toRoute('zfcuser');
         //}
-        $this->userAuth = $userAuth;
+        //$this->userAuth = $userAuth;
     }
 
-    public function layout($layout=null)
+    public function layout($layout)
     {
-        if(null === $layout){
-            $this->getEvent()->getViewModel()->setTemplate('layout/catalogmanager');
-        }elseif(false === $layout){
+        if(false === $layout){
             $this->getEvent()->getViewModel()->setTemplate('layout/nolayout');
         }else{
             $this->getEvent()->getViewModel()->setTemplate('layout/' . $layout);
@@ -106,17 +104,12 @@ class CatalogManagerController extends ActionController
 
     public function productAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $product = $this->getCatalogService()->getModel('product', $id);
-        $productForm = $this->getCatalogService()->getForm('product', $product);
+        $product = $this->getCatalogService()->getById('product', $this->params('id'));
+        $form = $this->getFormService()->getForm('product', $product);
+        $view = new ViewModel(array('product' => $product, 'form' => $form));
 
-        return new ViewModel(array(
-            'product' => $product,
-            'productForm' => $productForm,
-        ));
+        return $view;
     }
-
-
 
     public function fetchPartialAction()
     {
@@ -187,9 +180,6 @@ class CatalogManagerController extends ActionController
 
     public function getFormService()
     {
-        if(null === $this->formService){
-            $this->formService = $this->getServiceLocator()->get('catalogmanager_form_service');
-        }
         return $this->formService;
     }
 

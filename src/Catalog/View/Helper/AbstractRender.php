@@ -3,12 +3,13 @@ namespace Catalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
+use Catalog\Service\FormServiceAwareInterface;
 
-abstract class AbstractRender extends AbstractHelper
+abstract class AbstractRender extends AbstractHelper implements FormServiceAwareInterface
 {
     protected $formService;
 
-    protected $partialDir = "catalog/catalog-manager-redux/partial/";
+    protected $partialDir = "catalog/catalog-manager/partial/";
 
     protected $name;
 
@@ -49,46 +50,23 @@ abstract class AbstractRender extends AbstractHelper
         return $this->pluralName;
     }
 
+    /**
+     * Get formService.
+     *
+     * @return formService.
+     */
+    function getFormService()
+    {
+        return $this->formService;
+    }
 
-
-
- /**
-  * Get serviceManager.
-  *
-  * @return serviceManager.
-  */
- function getServiceManager()
- {
-     return $this->serviceManager;
- }
-
- /**
-  * Set serviceManager.
-  *
-  * @param serviceManager the value to set.
-  */
- function setServiceManager(ServiceManager $serviceManager)
- {
-     $this->serviceManager = $serviceManager;
- }
-
- /**
-  * Get formService.
-  *
-  * @return formService.
-  */
- function getFormService()
- {
-     return $this->formService;
- }
-
- /**
-  * Set formService.
-  *
-  * @param formService the value to set.
-  */
- function setFormService($formService)
- {
-     $this->formService = $formService;
- }
+    /**
+     * Set formService.
+     *
+     * @param formService the value to set.
+     */
+    function setFormService($formService)
+    {
+        $this->formService = $formService;
+    }
 }

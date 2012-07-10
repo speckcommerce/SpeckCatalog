@@ -1,4 +1,7 @@
 <?php
+
+use Catalog\Service\FormServiceAwareInterface;
+
 $config = array(
     'controllers' => array(
         'invokables' => array(
@@ -7,9 +10,18 @@ $config = array(
         'factories' => array(
             'catalogmanager' => function ($sm) {
                 //$userAuth = $sm->get('zfcUserAuthentication');
-                //$controller = new \Catalog\Controller\CatalogManagerReduxController($userAuth);
-                $controller = new \Catalog\Controller\CatalogManagerReduxController();
+                //$controller = new \Catalog\Controller\CatalogManagerController($userAuth);
+                $controller = new \Catalog\Controller\CatalogManagerController();
                 return $controller;
+            },
+
+        ),
+        'initializers' => array(
+            function($instance, $sm){
+                if($instance instanceof FormServiceAwareInterface){
+                    $formService = $sm->get('catalog_form_service');
+                    $instance->setFormService($formService);
+                }
             },
         ),
     ),

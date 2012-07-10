@@ -5,8 +5,8 @@ namespace Catalog\Model;
 abstract class MediaAbstract extends LinkedModelAbstract
 {
     /**
-     * label 
-     * 
+     * label
+     *
      * @var string
      * @access protected
      */
@@ -14,23 +14,23 @@ abstract class MediaAbstract extends LinkedModelAbstract
 
     /**
      * fileName
-     * 
+     *
      * @var string
      * @access protected
      */
     protected $fileName;
 
     /**
-     * mediaType 
-     * 
+     * mediaType
+     *
      * @var string
      * @access protected
      */
     protected $mediaType;
-    
+
     /**
-     * baseUrl 
-     * 
+     * baseUrl
+     *
      * @var string
      * @access protected
      */
@@ -39,17 +39,6 @@ abstract class MediaAbstract extends LinkedModelAbstract
     public function __toString()
     {
         return '';
-    }
-
-    public function getMediaId()
-    {
-        return (int) $this->mediaId;
-    }
-
-    public function setMediaId($mediaId)
-    {
-        $this->mediaId = $mediaId;
-        return $this;
     }
 
     public function getLabel()
@@ -87,26 +76,26 @@ abstract class MediaAbstract extends LinkedModelAbstract
 
     public function getFullPath()
     {
-        if ($this->getBaseUrl() 
+        if ($this->getBaseUrl()
             && $this->getFileName()
-            && @fopen($this->getBaseUrl() . $this->getFileName(),'r') 
+            && @fopen($this->getBaseUrl() . $this->getFileName(),'r')
         ){
             return $this->getBaseUrl() . $this->getFileName();
         }else{
             return $this->noFile();
         }
     }
-    
+
     public function noFile()
     {
         return '';
-    }  
- 
+    }
+
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
- 
+
     public function setBaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;

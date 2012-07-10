@@ -2,11 +2,11 @@
 
 namespace Catalog\Controller;
 
-use Zend\Mvc\Controller\ActionController,
+use Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ViewModel,
     Exception;
 
-class CatalogController extends ActionController
+class CatalogController extends AbstractActionController
 {
     protected $catalogService;
     protected $modelLinkerService;
@@ -19,7 +19,7 @@ class CatalogController extends ActionController
     public function productAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $product = $this->getCatalogService()->getModel('product', $id);
+        $product = $this->getCatalogService()->getById('product', $id);
 
         return new ViewModel(array('product' => $product));
     }

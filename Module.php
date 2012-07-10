@@ -6,7 +6,8 @@ use Zend\ModuleManager\ModuleManager,
     Zend\Navigation,
     Application\Extra\Page,
     Service\Installer,
-    Catalog\Model\Mapper;
+    Catalog\Model\Mapper,
+    Catalog\Service\FormServiceAwareInterface;
 
 class Module
 {
@@ -43,20 +44,17 @@ class Module
     public function getViewHelperConfiguration()
     {
         return array(
-            'factories' => array(
-                'speckCatalogRenderOptions' => function ($sm) {
-                    $sm = $sm->getServiceLocator();
-                    $renderer = new \Catalog\View\Helper\RenderOptions();
-                    $formService = $sm->get('catalog_form_service');
-                    $renderer->setFormService($formService);
-                    return $renderer;
-                },
-                'speckCatalogRenderChoices' => function ($sm) {
-                    $sm = $sm->getServiceLocator();
-                    $renderer = new \Catalog\View\Helper\RenderChoices;
-                    $formService = $sm->get('catalog_form_service');
-                    $renderer->setFormService($formService);
-                    return $renderer;
+            'invokables' => array(
+                'speckCatalogRenderOptions' => 'Catalog\View\Helper\RenderOptions',
+                'speckCatalogRenderChoices' => 'Catalog\View\Helper\RenderChoices',
+            ),
+            'initializers' => array(
+                function($instance, $sm){
+                    if($instance instanceof FormServiceAwareInterface){
+                        $sm = $sm->getServiceLocator();
+                        $formService = $sm->get('catalog_form_service');
+                        $instance->setFormService($formService);
+                    }
                 },
             ),
         );

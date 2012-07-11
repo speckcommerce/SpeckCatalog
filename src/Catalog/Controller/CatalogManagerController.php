@@ -105,8 +105,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
     public function productAction()
     {
         $product = $this->getCatalogService()->getById('product', $this->params('id'));
-        $form = $this->getFormService()->getForm('product', $product);
-        $view = new ViewModel(array('product' => $product, 'form' => $form));
+        $view = new ViewModel(array('product' => $product));
 
         return $view;
     }

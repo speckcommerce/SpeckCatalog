@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 <div id="<?=$option->getLinkerId();?>" class="option contrastbg boundary">
 
@@ -27,30 +21,12 @@
             </div>
             <div class="list-items" type="image" parent="product">
                 <? if ($option->has('images')) : ?>
-                    <? foreach ($option->getImages() as $image) : ?>
-                        <?=$this->partial(
-                            $pdir.'image.phtml',
-                            array('image' => $image, 'bg' => 'whitebg', 'collapse' => true)
-                        );?>
-                    <? endforeach; ?>
+                    <?=$this->speckCatalogRenderChildren($option->getImages()); ?>
                 <? endif; ?>
             </div>
             <div class="row list-items-helper">
-                <?=$this->partial($pdir.'add.phtml', array(
-                    'function'        => 'add-button',
-                    'newClassName'    => 'image',
-                    'parentClassName' => 'option',
-                    'parentId'        => $option->getRecordId(),
-                    'partialName'     => 'image',
-                ));?>
-                <?=$this->partial($pdir.'add.phtml', array(
-                    'function'        => 'import-search',
-                    'searchClassName' => 'image',
-                    'className'       => 'image',
-                    'parentClassName' => 'option',
-                    'parentId'        => $option->getRecordId(),
-                    'partialName'     => 'image',
-                ));?>
+                <?=$this->speckCatalogAdderHelper('addButton', 'image', $option); ?>
+                <?=$this->speckCatalogAdderHelper('importSearch', 'image', $option); ?>
             </div>
         </div>
 
@@ -61,33 +37,12 @@
                 <span class="smallcaps">&nbsp;choices</span>
             </div>
             <div class="list-items" type="choice" parent="option">
-                <?=$this->speckCatalogRenderChoices($option->getChoices()); ?>
+                <?=$this->speckCatalogRenderChildren($option->getChoices()); ?>
             </div>
             <div class="row list-items-helper">
-                <?=$this->partial($pdir.'add.phtml', array(
-                    'function'        => 'import-search',
-                    'searchClassName' => 'product',
-                    'childClassName'  => 'product',
-                    'newClassName'    => 'choice',
-                    'parentClassName' => 'option',
-                    'parentId'        => $option->getRecordId(),
-                    'partialName'     => 'choice',
-                ));?>
-                <?=$this->partial($pdir.'add.phtml', array(
-                    'function' => 'add-button',
-                    'newClassName'=>'choice',
-                    'parentClassName' => 'option',
-                    'parentId'        => $option->getRecordId(),
-                    'partialName'     => 'choice',
-                ));?>
-                <?=$this->partial($pdir.'add.phtml', array(
-                    'function'        => 'import-search',
-                    'searchClassName' => 'choice',
-                    'className'       => 'choice',
-                    'parentClassName' => 'option',
-                    'parentId'        => $option->getRecordId(),
-                    'partialName'     => 'choice',
-                ));?>
+                <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option, 'product'); ?>
+                <?=$this->speckCatalogAdderHelper('addButton', 'choice', $option); ?>
+                <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option); ?>
             </div>
         </div>
     </div>

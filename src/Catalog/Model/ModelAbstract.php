@@ -75,4 +75,15 @@ abstract class ModelAbstract implements ModelInterface
         $this->recordId = $recordId;
         return $this;
     }
+
+    public function get($switch)
+    {
+        switch($switch){
+        case 'class_name':
+            return join('', array_slice(explode('\\', get_class($this)), -1));
+        case 'dashed_class_name':
+            $dasher = function($m){ return '-'.strtolower($m[1]); };
+            return preg_replace_callback('/([A-Z])/', $dasher, lcfirst($this->get('class_name')));
+        }
+    }
 }

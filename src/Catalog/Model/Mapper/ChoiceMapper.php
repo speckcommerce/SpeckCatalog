@@ -8,7 +8,7 @@ class ChoiceMapper extends ModelMapperAbstract
 {
     protected $parentOptionLinkerTable;
     protected $childOptionLinkerTable;
-    
+
     public function getModel($constructor = null)
     {
         return new Choice($constructor);
@@ -40,7 +40,7 @@ class ChoiceMapper extends ModelMapperAbstract
             'choice_id' => $choiceId,
             'option_id' => $optionId,
         );
-        return $this->insertLinker($table, $row); 
+        return $this->insertLinker($table, $row);
     }
     public function getChoicesByChildOptionId($optionId)
     {
@@ -56,19 +56,19 @@ class ChoiceMapper extends ModelMapperAbstract
     public function updateOptionChoiceSortOrder($order)
     {
         return $this->updateSort('catalog_option_choice_linker', $order);
-    }   
+    }
 
     public function removeLinker($linkerId)
     {
         return $this->deleteLinker('catalog_option_choice_linker', $linkerId);
-    }     
+    }
 
     public function getParentOptionLinkerTable()
     {
         if(null === $this->parentOptionLinkerTable){
             $this->parentOptionLinkerTable = $this->getServiceManager()->get('catalog_option_choice_linker_tg');
         }
-        return $this->parentOptionLinkerTable;  
+        return $this->parentOptionLinkerTable;
     }
 
     public function setParentOptionLinkerTable($parentOptionLinkerTable)
@@ -82,7 +82,7 @@ class ChoiceMapper extends ModelMapperAbstract
         if(null === $this->childOptionLinkerTable){
             $this->childOptionLinkerTable = $this->getServiceManager()->get('catalog_choice_option_linker_tg');
         }
-        return $this->childOptionLinkerTable; 
+        return $this->childOptionLinkerTable;
     }
 
     public function setChildOptionLinkerTable($childOptionLinkerTable)

@@ -1,15 +1,31 @@
 <?php
-    if (!isset($searchClassName)){ $searchClassName = null; }
-    if (!isset($childClassName)){ $childClassName = null; }
-    if (!isset($childId)){ $childId = null; }
-    if (!isset($className)){ $className = null; }
-    if (!isset($newClassName)){ $newClassName = null; }
-    if (!isset($parentClassName)){ $parentClassName = null; }
-    if (!isset($parentId)){ $parentId = null; }
-    if (!isset($partialName)){ $partialName = null; }
+namespace Catalog\View\Helper;
+use Zend\View\Helper\HelperInterface;
+use Zend\View\Model\ViewModel;
+use Zend\View\Helper\AbstractHelper;
+use Catalog\Service\FormServiceAwareInterface;
 
-    switch($function){
-    case 'add-button':
+class AdderHelper extends AbstractHelper
+{
+    public function __invoke($type, $className, $parent, $childName=null)
+    {
+        $data = array(
+            'searchClassName' => $className,
+            'className'       => $className,
+            'newClassName'    => $className,
+            'parentClassName' => lcfirst($parent->get('class_name')),
+            'parentId'        => $parent->getRecordId(),
+            'partialName'     => $parent->get('dashed_class_name'),
+            'childId'         => null,
+            'childClassName'  => $childName?:null
+        );
+
+        return $this->$type($data);
+    }
+
+    public function addButton($data)
+    {
+        extract($data);
         echo '
         <div class="span1 add-element">
             <form action="" class="add-partial">
@@ -22,8 +38,10 @@
             </form>
         </div>
         ';
-        break;
-    case 'import-search':
+    }
+    public function importSearch($data)
+    {
+        extract($data);
         echo '
         <div class="span2 add-element">
             <form action="" class="import-search">
@@ -39,8 +57,10 @@
             </form>
         </div>
         ';
-        break;
-    case 'import-file':
+    }
+    public function importFile($data)
+    {
+        extract($data);
         echo '
         <div class="span2 add-element">
             <form action="">
@@ -48,6 +68,5 @@
             </form>
         </div>
         ';
-        break;
     }
- ?>
+}

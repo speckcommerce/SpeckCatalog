@@ -23,19 +23,19 @@ class ProductUom extends ZendForm
 
     public function init()
     {
-        $options = array();
-        foreach($this->getUomService()->getAll() as $uom){
-            $options[$company->getRecordId()] = $uom->getRecordId();
-        }
-        $this->add(array(
-            'name' => 'manufacturerCompanyId',
-            'attributes' => array(
-                'label' => 'Manufacturer',
-                'type' => 'select',
-                'options' => $options,
-                'class' => 'span3',
-            ),
-        ));
+        //$options = array();
+        //foreach($this->getUomService()->getAll() as $uom){
+        //    $options[$company->getRecordId()] = $uom->getRecordId();
+        //}
+        //$this->add(array(
+        //    'name' => 'manufacturerCompanyId',
+        //    'attributes' => array(
+        //        'label' => 'Manufacturer',
+        //        'type' => 'select',
+        //        'options' => $options,
+        //        'class' => 'span3',
+        //    ),
+        //));
         return $this;
     }
 

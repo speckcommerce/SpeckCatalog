@@ -13,7 +13,7 @@ class Product extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'recordId',
+            'name' => 'record_id',
             'attributes' => array(
                 'type' => 'hidden'
             ),
@@ -43,7 +43,7 @@ class Product extends ZendForm
             ),
         ));
         $this->add(array(
-            'name' => 'itemNumber',
+            'name' => 'item_number',
             'attributes' => array(
                 'type' => 'text',
                 'class' => 'span3',
@@ -61,7 +61,7 @@ class Product extends ZendForm
             $options[$company->getName()] = $company->getRecordId();
         }
         $this->add(array(
-            'name' => 'manufacturerCompanyId',
+            'name' => 'manufacturer_company_id',
             'attributes' => array(
                 'type' => 'select',
                 'options' => $options,

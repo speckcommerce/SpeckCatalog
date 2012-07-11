@@ -8,7 +8,8 @@
     <div class="entity-content">
         <div class="row">
             <div class="span4">
-                <?=$this->partial($pdir.'form/product-uom.phtml', array('productUom' => $productUom));?>
+                <?//=$this->partial($pdir.'form/product-uom.phtml', array('productUom' => $productUom));?>
+                <?=$this->speckCatalogRenderForm($productUom); ?>
             </div>
             <div class="span6">
                 <div class="list-wrap">

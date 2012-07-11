@@ -45,8 +45,9 @@ class Module
     {
         return array(
             'invokables' => array(
-                'speckCatalogRenderOptions' => 'Catalog\View\Helper\RenderOptions',
-                'speckCatalogRenderChoices' => 'Catalog\View\Helper\RenderChoices',
+                'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
+                'speckCatalogRenderForm' => 'Catalog\View\Helper\RenderForm',
+                'speckCatalogAdderHelper' => 'Catalog\View\Helper\AdderHelper',
             ),
             'initializers' => array(
                 function($instance, $sm){

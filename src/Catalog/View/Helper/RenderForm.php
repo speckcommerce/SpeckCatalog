@@ -13,20 +13,12 @@ class RenderForm extends AbstractHelper implements FormServiceAwareInterface
 
     public function __invoke($model)
     {
-        $className = explode('\\', get_class($model));
-        $modelName = lcfirst(array_pop($className));
-        $name = $this->camelCaseToDashed($modelName);
-        $form = $this->getFormService()->getForm($name, $model);
+        $form = $this->getFormService()->getForm($model->get('dashed_class_name'), $model);
 
-        $viewContainer = new ViewModel(array($modelName => $model, 'form' => $form));
-        $viewContainer->setTemplate($this->partialDir . $name . '.phtml');
+        $viewContainer = new ViewModel(array(lcfirst($model->get('class_name')) => $model, 'form' => $form));
+        $viewContainer->setTemplate($this->partialDir . $model->get('dashed_class_name') . '.phtml');
 
         return $this->getView()->render($viewContainer);
-    }
-
-    public static function camelCasetoDashed($name)
-    {
-        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '-'.strtolower($c[1]); }, $name),'-');
     }
 
     /**

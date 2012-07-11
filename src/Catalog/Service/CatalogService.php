@@ -29,11 +29,6 @@ class CatalogService implements ServiceManagerAwareInterface
     protected $companyService;
     protected $serviceManager;
 
-    public function getForm($className, $model)
-    {
-        return $this->getService($className)->getForm($className, $model);
-    }
-
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
@@ -193,10 +188,6 @@ class CatalogService implements ServiceManagerAwareInterface
         $this->companySerice = $companyService;
         return $this;
     }
-
-
-
-
 
     public function setProductService($productService)
     {

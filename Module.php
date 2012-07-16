@@ -88,6 +88,9 @@ class Module
                 'catalog_spec_form' => 'Catalog\Form\Spec',
                 'catalog_image_form' => 'Catalog\Form\Image',
                 'catalog_document_form' => 'Catalog\Form\Document',
+
+                'catalog_product_uom_form_filter' => 'Catalog\Form\FilterProductUom',
+                'catalog_product_form_filter' => 'Catalog\Form\FilterProduct',
             ),
             'factories' => array(
                 'catalog_product_form' => function ($sm) {

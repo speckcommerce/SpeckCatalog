@@ -16,6 +16,7 @@
     .menuitem{ cursor:hand; cursor:pointer;}
     .entity-content{ margin-left:25px;}
     .live-form{ opacity:0.7; margin-bottom:0px}
+    .live-form li{color:#ff0000; font-weight:bold}
     .list-wrap{ min-height:30px; margin-bottom:5px }
     .whitebg { background:#ffffff; border-left:1px solid #AAA}
     .contrastbg{ background: url('/assets/speck-catalog/img/gradient.jpg'); background-repeat: repeat-y; border-left:1px solid #aaa}

@@ -124,9 +124,14 @@ class CatalogManagerController extends AbstractActionController implements FormS
 
     public function updateRecordAction()
     {
-        $class = $this->getEvent()->getRouteMatch()->getParam('class');
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        return $this->getCatalogService()->update($class, $id, $_POST);
+        $this->layout(false);
+
+        $form = $this->getFormService()->validate($this->params('class'), $_POST);
+        $model = $this->getCatalogService()->getById($this->params('class'), $this->params('id'));
+        $view = new ViewModel(array('form' => $form, $this->params('class') => $model));
+        $view->setTemplate("catalog/catalog-manager/partial/form/" . $this->params('class') . '.phtml');
+
+        return $view;
     }
 
     public function sortAction()

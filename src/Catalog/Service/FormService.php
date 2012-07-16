@@ -10,15 +10,34 @@ class FormService implements ServiceManagerAwareInterface
 {
     protected $serviceManager;
 
+    protected $form;
 
-    public function getForm($className = null, $model)
+    protected $catalogService;
+
+    public function getForm($className = null, $model = null, $bind=true)
     {
-        $formName = 'catalog_' . $className . '_form';
+        if(!$model){
+            $model = $this->getCatalogService()->getModel($className);
+        }
+
+        $formName = 'catalog_' . $model->get('underscore_class_name') . '_form';
         $form = $this->getServiceManager()->get($formName);
-        $hydrator = new Hydrator();
-        $data = $hydrator->extract($model);
-        $form->setHydrator($hydrator);
-        $form->bind($model);
+
+        $filterName = 'catalog_' . $model->get('underscore_class_name') . '_form_filter';
+        $filter = $this->getServiceManager()->get($filterName);
+        $form->setInputFilter($filter);
+
+        $form->setHydrator(new Hydrator);
+        if($bind){
+            $form->bind($model);
+        }
+
+        return $form;
+    }
+
+    public function validate($className, $data)
+    {
+        $form = $this->getForm($className, null, false);
         $form->setData($data);
 
         return $form;
@@ -42,5 +61,28 @@ class FormService implements ServiceManagerAwareInterface
     function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
+    }
+
+    /**
+     * Get catalogService.
+     *
+     * @return catalogService.
+     */
+    function getCatalogService()
+    {
+        if(null === $this->catalogService){
+            $this->catalogService = $this->getServiceManager()->get('catalog_generic_service');
+        }
+        return $this->catalogService;
+    }
+
+    /**
+     * Set catalogService.
+     *
+     * @param catalogService the value to set.
+     */
+    function setCatalogService($catalogService)
+    {
+        $this->catalogService = $catalogService;
     }
 }

@@ -23,6 +23,11 @@
         getBoundary(ele).find('.title').first().addClass('target')
     }
 
+    function targetForm(ele){
+        clearTarget()
+        getForm(ele).parent().addClass('target')
+    }
+
     function getCollapser(ele){
         return getBoundary(ele).find('div.collapser').first().children()
     }
@@ -82,11 +87,13 @@
  *  auto-save
  */
     $('.live-form input, .live-form textarea, .live-form select').live('change', function(){
-        targetTitle(this);
+        targetForm(this);
         var form = getForm(this)
+        console.log(form);
         var parts = form.attr('id').split('-')
-        $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(title){
-            $('.target').html('&nbsp; '+title)
+        $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(formHtml){
+            $('.target').html(formHtml)
+            clearTarget()
         })
     })
     $('.live-form').live('submit', function(e){

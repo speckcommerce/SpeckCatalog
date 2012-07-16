@@ -61,6 +61,11 @@ class CatalogService implements ServiceManagerAwareInterface
         return $this->getService($class)->updateSortOrder($parent, $order);
     }
 
+    public function getModel($class)
+    {
+        return $this->getService($class)->getModel();
+    }
+
     public function getById($class, $id)
     {
         return $this->getService($class)->getById($id);

@@ -10,6 +10,13 @@ $form->setAttribute('class', 'live-form');
 <?=$this->form()->openTag($form);?>
     <?php echo $this->formInput($form->get('record_id')); ?>
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
+    <? if(false === $form->isValid()) : ?>
+        <div class="alert alert-error">
+        <button class="close" data-dismiss="alert" type="button">×</button>
+        <strong>Oh snap!</strong>
+        Change a few things up and try submitting again.
+        </div>
+    <? endif; ?>
 
     <div class="row">
         <div class="span2">
@@ -18,10 +25,9 @@ $form->setAttribute('class', 'live-form');
             <? endif; ?>
         </div>
         <div class="span6">
-            <dt><?php echo $this->formLabel($form->get('name')); ?></dt>
-            <dd><?php echo $this->formInput($form->get('name')); ?></dd>
-            <dt><?php echo $this->formLabel($form->get('description')); ?></dt>
-            <dd><?php echo $this->formTextArea($form->get('description')); ?></dd>
+            <?=$this->formRow($form->get('name')); ?>
+            <?=$this->formRow($form->get('description')); ?>
+
         </div>
         <div class="span3">
             <dt><?php echo $this->formLabel($form->get('manufacturer_company_id')); ?></dt>

@@ -13,8 +13,28 @@ class Option extends ZendForm
         $this->add(array(
             'name' => 'record_id',
             'attributes' => array(
+                'type' => 'hidden'
+            ),
+            'options' => array(
                 'label' => 'Record Id',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'name',
+            'attributes' => array(
                 'type' => 'text'
+            ),
+            'options' => array(
+                'label' => 'Name',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'instruction',
+            'attributes' => array(
+                'type' => 'text'
+            ),
+            'options' => array(
+                'label' => 'Instruction',
             ),
         ));
     }

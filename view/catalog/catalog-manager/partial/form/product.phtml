@@ -8,7 +8,7 @@ $form->setAttribute('class', 'live-form');
 
 ?>
 <?=$this->form()->openTag($form);?>
-    <?php echo $this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('record_id')); ?>
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
     <? if(false === $form->isValid()) : ?>
         <div class="alert alert-error">
@@ -30,11 +30,9 @@ $form->setAttribute('class', 'live-form');
 
         </div>
         <div class="span3">
-            <dt><?php echo $this->formLabel($form->get('manufacturer_company_id')); ?></dt>
-            <dd><?php echo $this->formSelect($form->get('manufacturer_company_id')); ?></dd>
+            <?=$this->formRow($form->get('manufacturer_company_id')); ?>
             <? if(isset($product) && $product->isItem()) : ?>
-                <dt><?php echo $this->formLabel($form->get('item_number')); ?></dt>
-                <dd><?php echo $this->formInput($form->get('item_number')); ?></dd>
+                <?=$this->formRow($form->get('item_number')); ?>
             <? endif; ?>
         </div>
     </div>

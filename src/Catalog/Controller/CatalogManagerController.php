@@ -129,7 +129,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
         $form = $this->getFormService()->validate($this->params('class'), $_POST);
         $model = $this->getCatalogService()->getById($this->params('class'), $this->params('id'));
         $view = new ViewModel(array('form' => $form, $this->params('class') => $model));
-        $view->setTemplate("catalog/catalog-manager/partial/form/" . $this->params('class') . '.phtml');
+        $view->setTemplate("catalog/catalog-manager/partial/form/" . $model->get('dashed_class_name') . '.phtml');
 
         return $view;
     }

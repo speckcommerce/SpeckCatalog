@@ -61,6 +61,11 @@ class Module
         );
     }
 
+   //      ,,,,,,,,,,,,,,
+   //    <{ blahblahblah }
+   //      ''''''''''''''
+
+
     public function getServiceConfiguration()
     {
         return array(

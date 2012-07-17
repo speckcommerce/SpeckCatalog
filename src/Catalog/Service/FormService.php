@@ -35,10 +35,14 @@ class FormService implements ServiceManagerAwareInterface
         return $form;
     }
 
-    public function validate($className, $data)
+    public function prepare($className, $data)
     {
         $form = $this->getForm($className, null, false);
         $form->setData($data);
+
+        $form->isValid();
+
+        var_dump($form->getData()); die();
 
         return $form;
     }

@@ -37,5 +37,23 @@ class Option extends ZendForm
                 'label' => 'Instruction',
             ),
         ));
+        $this->add(array(
+            'name' => 'list_type',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => array(
+                    'radio' => 'radio',
+                    'checkbox' => 'checkbox',
+                    'dropdown' => 'dropdown'
+                ),
+                'class' => 'span2',
+            ),
+            'options' => array(
+                'label' => 'List Type',
+            ),
+        ));
+
+
+
     }
 }

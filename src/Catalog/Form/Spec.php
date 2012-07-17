@@ -13,8 +13,27 @@ class Spec extends ZendForm
         $this->add(array(
             'name' => 'record_id',
             'attributes' => array(
-                'label' => 'Record Id',
                 'type' => 'text'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'label',
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'span3',
+            ),
+            'options' => array(
+                'label' => 'Label',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'value',
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'span3',
+            ),
+            'options' => array(
+                'label' => 'Value',
             ),
         ));
     }

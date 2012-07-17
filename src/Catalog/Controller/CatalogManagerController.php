@@ -125,7 +125,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
     public function updateRecordAction()
     {
         $this->layout(false);
-        $form = $this->getFormService()->validate($this->params('class'), $_POST);
+        $form = $this->getFormService()->prepare($this->params('class'), $_POST);
         if($form->isValid()){
             $this->getCatalogService()->update($this->params('class'), $this->params('id'), $_POST);
         }

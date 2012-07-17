@@ -12,7 +12,6 @@ class ProductUomService extends ServiceAbstract
         $productUom->setAvailabilities(
             $this->getAvailabilityService()->getAvailabilitiesByParentProductUomId($productUom->getRecordId())
         );
-        $productUom->setUoms($this->getUomService()->getAll());
         $productUom->setUom($this->getUomService()->getById($productUom->getUomCode()));
 
         return $productUom;
@@ -22,8 +21,7 @@ class ProductUomService extends ServiceAbstract
     {
         $model = $this->getModelMapper()->getModel($constructor);
         $model->setUom($this->getUomService()->getById($model->getUomCode()));
-        $model->setUoms($this->getUomService()->getAll());
-        
+
         return $model;
     }
 
@@ -36,13 +34,13 @@ class ProductUomService extends ServiceAbstract
         }
         return $return;
     }
-      
+
     public function getAvailabilityService()
     {
         if(null === $this->availabilityService){
             $this->availabilityService = $this->getServiceManager()->get('catalog_availability_service');
         }
-        return $this->availabilityService;   
+        return $this->availabilityService;
     }
 
     public function getUomService()
@@ -50,7 +48,7 @@ class ProductUomService extends ServiceAbstract
         if(null === $this->uomService){
             $this->uomService = $this->getServiceManager()->get('catalog_uom_service');
         }
-        return $this->uomService;  
+        return $this->uomService;
     }
 
     public function getModelMapper()
@@ -58,7 +56,7 @@ class ProductUomService extends ServiceAbstract
         if(null === $this->modelMapper){
             $this->modelMapper = $this->getServiceManager()->get('catalog_product_uom_mapper');
         }
-        return $this->modelMapper;         
+        return $this->modelMapper;
     }
 
 }

@@ -13,29 +13,67 @@ class ProductUom extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'recordId',
+            'name' => 'record_id',
             'attributes' => array(
-                'label' => 'Record Id',
+                'type' => 'hidden',
+                'required' => true,
+            ),
+        ));
+        $this->add(array(
+            'name' => 'parent_product_id',
+            'attributes' => array(
                 'type' => 'hidden'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'quantity',
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'span1',
+            ),
+            'options' => array(
+                'label' => 'Quantity',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'price',
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'span1',
+            ),
+            'options' => array(
+                'label' => 'Price',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'retail',
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'span1',
+            ),
+            'options' => array(
+                'label' => 'Retail',
             ),
         ));
     }
 
     public function init()
     {
-        //$options = array();
-        //foreach($this->getUomService()->getAll() as $uom){
-        //    $options[$company->getRecordId()] = $uom->getRecordId();
-        //}
-        //$this->add(array(
-        //    'name' => 'manufacturerCompanyId',
-        //    'attributes' => array(
-        //        'label' => 'Manufacturer',
-        //        'type' => 'select',
-        //        'options' => $options,
-        //        'class' => 'span3',
-        //    ),
-        //));
+        $uoms = array();
+        foreach($this->getUomService()->getAll() as $uom){
+            $uoms[$uom->getName()] = $uom->getRecordId();
+        }
+        $this->add(array(
+            'name' => 'uom_code',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => $uoms,
+                'class' => 'span2',
+            ),
+            'options' => array(
+                'label' => 'Unit of Measure',
+            ),
+        ));
         return $this;
     }
 

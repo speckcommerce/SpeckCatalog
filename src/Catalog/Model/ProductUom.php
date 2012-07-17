@@ -198,16 +198,6 @@ class ProductUom extends ModelAbstract
             . ' - $' . number_format($this->getPrice(), 2);
     }
 
-    public function getUoms()
-    {
-        return $this->uoms;
-    }
-
-    public function setUoms($uoms)
-    {
-        $this->uoms = $uoms;
-        return $this;
-    }
     public function getId()
     {
         return $this->getProductUomId();

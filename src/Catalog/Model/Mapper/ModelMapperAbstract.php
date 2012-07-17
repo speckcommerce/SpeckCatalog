@@ -281,7 +281,6 @@ implements ModelMapperInterface, ServiceManagerAwareInterface
 
         if ('update' === $mode) {
             $connection = $table->getAdapter()->getDriver()->getConnection();
-            var_dump($model->getRecordId());
             try{
                 $connection->beginTransaction();
                 $table->update(array('rev_active' => 0, 'rev_eol_datetime' => 1), array('record_id' => $model->getRecordId()));

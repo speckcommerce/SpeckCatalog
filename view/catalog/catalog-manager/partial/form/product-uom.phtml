@@ -7,41 +7,34 @@ $form->setAttribute('class', 'live-form');
 ?>
 <?=$this->form()->openTag($form);?>
 
-    <input type="hidden" name="record_id" value="<?=$productUom->getRecordId();?>"/>
-    <input type="hidden" name="parent_product_id" value="<?=$productUom->getParentProductId();?>"/>
+    <?=$this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('parent_product_id')); ?>
 
     <div class="row quarter-pad">
         <div class="span4">
             <div class="row">
                 <div class="span2">
-                    <span class="smallcaps">uom</span><br/>
-                    <select name="uom_code" class="span2">
-                        <?=$this->partial($pdir.'form/select-options.phtml', array(
-                            'data' => $productUom->getUoms(),
-                            'getIdMethod' => 'getRecordId',
-                            'selectedId'  => $productUom->getUomCode(),
-                            'getNameMethod' => 'getName',
-                        ));?>
-                    </select>
+                    <?=$this->formRow($form->get('uom_code')); ?>
                 </div>
                 <div class="span1">
-                    <span class="smallcaps">qty</span><br/>
-                    <input class="span1" type="text" name="quantity" value="<?=$productUom->getQuantity();?>"/>
+                    <?=$this->formRow($form->get('quantity')); ?>
                 </div>
             </div>
             <div class="row">
                 <div class="span2 input-prepend">
-                    <span class="smallcaps">retail</span><br/>
+                    <?=$this->formLabel($form->get('retail')); ?>
                     <span class="add-on">$</span>
-                    <input class="span1" type="text" name="retail" value="<?=$productUom->getRetail();?>"/>
+                    <?=$this->formElement($form->get('retail')); ?>
+                    <?=$this->formElementErrors($form->get('retail')); ?>
                 </div>
                 <div class="span2 input-prepend">
-                    <span class="smallcaps">price</span><br/>
+                    <?=$this->formLabel($form->get('price')); ?>
                     <span class="add-on">$</span>
-                    <input class="span1" type="text" name="price" value="<?=$productUom->getPrice();?>"/>
+                    <?=$this->formElement($form->get('price')); ?>
+                    <?=$this->formElementErrors($form->get('price')); ?>
                 </div>
             </div>
         </div>
     </div>
 
-</form><br/>
+</form>

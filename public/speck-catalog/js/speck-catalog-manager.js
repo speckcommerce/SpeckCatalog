@@ -25,7 +25,7 @@
 
     function targetForm(ele){
         clearTarget()
-        getForm(ele).parent().addClass('target')
+        getForm(ele).addClass('target')
     }
 
     function getCollapser(ele){
@@ -92,7 +92,7 @@
         console.log(form);
         var parts = form.attr('id').split('-')
         $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(formHtml){
-            $('.target').html(formHtml)
+            $('.target').replaceWith(formHtml)
             clearTarget()
         })
     })

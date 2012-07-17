@@ -9,8 +9,7 @@ $config = array(
         ),
         'factories' => array(
             'catalogmanager' => function ($sm) {
-                //$userAuth = $sm->get('zfcUserAuthentication');
-                //$controller = new \Catalog\Controller\CatalogManagerController($userAuth);
+                //$controller = new \Catalog\Controller\CatalogManagerController($sm->get('zfcUserAuthentication'));
                 $controller = new \Catalog\Controller\CatalogManagerController();
                 return $controller;
             },

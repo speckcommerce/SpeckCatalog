@@ -1,0 +1,23 @@
+<?php
+$imagePaths = array(
+    'documents' => 'http://cdn.yoursite.com/images/',
+    'images'    => 'http://cdn.yoursite.com/documents/',
+);
+
+// do not edit below this line
+return array(
+    'service_manager' => array(
+        'factories' => array(
+            'catalog_image_service' => function($sm) use ($imagePaths){
+                $service = new \Catalog\Service\ImageService();
+                $service->setBasePath($imagePaths['images']);
+                return $service;
+            },
+            'catalog_document_service' => function($sm) use ($imagePaths){
+                $service = new \Catalog\Service\DocumentService();
+                $service->setBasePath($imagePaths['documents']);
+                return $service;
+            },
+        ),
+    ),
+);      

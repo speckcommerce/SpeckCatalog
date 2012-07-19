@@ -14,10 +14,10 @@ return array(
                 return $service;
             },
             'catalog_document_service' => function($sm) use ($imagePaths){
-                $service = new \Catalog\Service\DocumentService();
+                $service = new \Catalog\Service\ImageService();
                 $service->setBasePath($imagePaths['documents']);
                 return $service;
             },
         ),
     ),
-);      
+);

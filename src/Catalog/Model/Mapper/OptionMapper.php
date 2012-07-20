@@ -2,7 +2,7 @@
 
 namespace Catalog\Model\Mapper;
 use Catalog\Model\Option,
-    ArrayObject; 
+    ArrayObject;
 
 class OptionMapper extends ModelMapperAbstract
 {
@@ -19,13 +19,12 @@ class OptionMapper extends ModelMapperAbstract
 
     public function getOptionsByProductId($productId)
     {
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
-            ->join('catalog_product_option_linker', $this->getTableName() . '.record_id = catalog_product_option_linker.option_id')
+        $select = $this->select()->from($this->tableName)
+            ->join($this->productLinkerTableName, $this->tableName . '.record_id = ' . $this->productLinkerTableName . '.option_id')
             ->where(array('product_id' => $productId));
-        return $this->selectMany($select);
-    }    
-                       
+        return $this->selectWith($select);
+    }
+
     public function getOptionsByChoiceId($choiceId)
     {
         $linkerName = $this->getParentChoiceLinkerTable()->getTableName();
@@ -34,8 +33,8 @@ class OptionMapper extends ModelMapperAbstract
             ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.option_id' )
             ->where(array('choice_id' => $choiceId));
         //->order('sort_weight DESC');
-        return $this->selectMany($select);
-    }  
+        return $this->selectWith($select);
+    }
 
     public function linkOptionToProduct($productId, $optionId)
     {
@@ -46,7 +45,7 @@ class OptionMapper extends ModelMapperAbstract
         );
         return $this->insertLinker($table, $row);
     }
-    
+
     public function linkOptionToChoice($choiceId, $optionId)
     {
         $table = $this->getParentChoiceLinkerTable();
@@ -54,7 +53,7 @@ class OptionMapper extends ModelMapperAbstract
             'choice_id' => $choiceId,
             'option_id' => $optionId,
         );
-        return $this->insertLinker($table, $row);    
+        return $this->insertLinker($table, $row);
     }
 
     public function updateChoiceOptionSortOrder($order)
@@ -78,33 +77,5 @@ class OptionMapper extends ModelMapperAbstract
     public function removeLinker($linkerId)
     {
         return $this->deleteLinker('catalog_product_option_linker', $linkerId);
-    }   
- 
-    public function getParentProductLinkerTable()
-    {
-        if(null === $this->parentProductLinkerTable){
-            $this->parentProductLinkerTable = $this->getServiceManager()->get('catalog_product_option_linker_tg');
-        }
-        return $this->parentProductLinkerTable;
-    }
- 
-    public function setParentProductLinkerTable($parentProductLinkerTable)
-    {
-        $this->parentProductLinkerTable = $parentProductLinkerTable;
-        return $this;
-    }
- 
-    public function getParentChoiceLinkerTable()
-    {
-        if(null === $this->parentChoiceLinkerTable){
-            $this->parentChoiceLinkerTable = $this->getServiceManager()->get('catalog_choice_option_linker_tg');
-        }
-        return $this->parentChoiceLinkerTable;  
-    }
- 
-    public function setParentChoiceLinkerTable($parentChoiceLinkerTable)
-    {
-        $this->parentChoiceLinkerTable = $parentChoiceLinkerTable;
-        return $this;
     }
 }

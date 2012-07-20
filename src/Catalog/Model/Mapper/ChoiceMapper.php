@@ -6,8 +6,9 @@ use Catalog\Model\Choice,
 
 class ChoiceMapper extends ModelMapperAbstract
 {
-    protected $parentOptionLinkerTable;
-    protected $childOptionLinkerTable;
+    protected $childOptionLinkerTableName = 'catalog_choice_option_linker';
+    protected $parentOptionLinkerTableName = 'catalog_option_choice_linker';
+    protected $tableName = 'catalog_choice';
 
     public function getModel($constructor = null)
     {
@@ -16,21 +17,20 @@ class ChoiceMapper extends ModelMapperAbstract
 
     public function getChoicesByParentOptionId($optionId)
     {
-        $linkerName = $this->getParentOptionLinkerTable()->getTableName();
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
+        $linkerName = $this->parentOptionLinkerTableName;
+        $select = $this->select()->from($this->getTableName())
             ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.choice_id')
             ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
-        return $this->selectMany($select);
+
+        return $this->selectWith($select);
     }
 
     public function getChoicesByChildProductId($productId)
     {
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
+        $select = $this->select()->from($this->getTableName())
             ->where(array('product_id' => $productId));
-        return $this->selectMany($select);
+        return $this->selectWith($select);
     }
 
     public function linkParentOption($optionId, $choiceId)
@@ -63,31 +63,4 @@ class ChoiceMapper extends ModelMapperAbstract
         return $this->deleteLinker('catalog_option_choice_linker', $linkerId);
     }
 
-    public function getParentOptionLinkerTable()
-    {
-        if(null === $this->parentOptionLinkerTable){
-            $this->parentOptionLinkerTable = $this->getServiceManager()->get('catalog_option_choice_linker_tg');
-        }
-        return $this->parentOptionLinkerTable;
-    }
-
-    public function setParentOptionLinkerTable($parentOptionLinkerTable)
-    {
-        $this->parentOptionLinkerTable = $parentOptionLinkerTable;
-        return $this;
-    }
-
-    public function getChildOptionLinkerTable()
-    {
-        if(null === $this->childOptionLinkerTable){
-            $this->childOptionLinkerTable = $this->getServiceManager()->get('catalog_choice_option_linker_tg');
-        }
-        return $this->childOptionLinkerTable;
-    }
-
-    public function setChildOptionLinkerTable($childOptionLinkerTable)
-    {
-        $this->childOptionLinkerTable = $childOptionLinkerTable;
-        return $this;
-    }
 }

@@ -5,6 +5,7 @@ namespace Catalog\Model\Mapper;
 use ZfcBase\Mapper\AbstractDbMapper;
 use Catalog\Model\Mapper\Hydrator;
 use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Db\Sql\Select;
 
 class ModelMapperAbstract extends AbstractDbMapper
 {
@@ -26,9 +27,11 @@ class ModelMapperAbstract extends AbstractDbMapper
         $select = $this->select()
                        ->from($this->getTablename());
 
-        $entity = $this->selectwith($select)->current();
-        $this->geteventmanager()->trigger('find', $this, array('entity' => $entity));
-        return $entity;
+        $result = $this->selectwith($select);
+        if(null === $result){
+            $result = array();
+        }
+        return $result;
     }
 
     public function findById($id)
@@ -36,10 +39,7 @@ class ModelMapperAbstract extends AbstractDbMapper
         $select = $this->select()
                        ->from($this->getTablename())
                        ->where(array('record_id' => $id));
-
-        $entity = $this->selectwith($select)->current();
-        $this->geteventmanager()->trigger('find', $this, array('entity' => $entity));
-        return $entity;
+        return $this->selectwith($select);
     }
 
     public function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
@@ -61,5 +61,28 @@ class ModelMapperAbstract extends AbstractDbMapper
     public function getTableName()
     {
         return $this->tableName;
+    }
+
+    public function selectWith(Select $select, $entityPrototype = null, HydratorInterface $hydrator = null)
+    {
+        $result = parent::selectWith($select, $entityPrototype, $hydrator);
+
+        if(count($result) === 1){
+            return $result->current();
+        }
+    }
+
+    public function selectMany(Select $select, $entityPrototype = null, HydratorInterface $hydrator = null)
+    {
+        $result = parent::selectWith($select, $entityPrototype, $hydrator);
+
+        if(count($result) > 0){
+            $return = array();
+            foreach($result as $res){
+                $return[] = $res;
+            }
+            return $return;
+        }
+        return array();
     }
 }

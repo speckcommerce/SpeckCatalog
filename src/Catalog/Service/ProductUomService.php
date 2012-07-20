@@ -27,7 +27,7 @@ class ProductUomService extends ServiceAbstract
 
     public function getProductUomsByParentProductId($id)
     {
-        $productUoms = $this->getModelMapper()->getProductUomsByParentProductId($id);
+        $productUoms = $this->getModelMapper()->getProductUomsByParentProductId($id)?:array();
         $return = array();
         foreach ($productUoms as $productUom){
             $return[] = $this->populateModel($productUom);

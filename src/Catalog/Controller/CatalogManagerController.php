@@ -50,7 +50,6 @@ class CatalogManagerController extends AbstractActionController implements FormS
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
-        var_dump($model); die();
 
         return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getRecordId()));
     }
@@ -129,7 +128,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
         $this->layout(false);
         $form = $this->getFormService()->prepare($this->params('class'), $_POST);
         if($form->isValid()){
-            $this->getCatalogService()->update($this->params('class'), $this->params('id'), $_POST);
+            $this->getCatalogService()->update($this->params('class'), $this->params('id'), $form->getData());
         }
         $model = $this->getCatalogService()->getById($this->params('class'), $this->params('id'));
         $view = new ViewModel(array('form' => $form, $this->params('class') => $model));

@@ -58,7 +58,7 @@ class Product extends ZendForm
     {
         $options = array();
         foreach($this->getCompanyService()->getAll() as $company){
-            $options[$company->getName()] = $company->getRecordId();
+            $options[$company->getRecordId()] = $company->getName();
         }
         $this->add(array(
             'name' => 'manufacturer_company_id',

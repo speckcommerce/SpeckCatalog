@@ -40,10 +40,6 @@ class FormService implements ServiceManagerAwareInterface
         $form = $this->getForm($className, null, false);
         $form->setData($data);
 
-        $form->isValid();
-
-        var_dump($form->getData()); die();
-
         return $form;
     }
 

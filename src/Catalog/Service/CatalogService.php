@@ -48,7 +48,7 @@ class CatalogService implements ServiceManagerAwareInterface
 
     public function update($class, $id, $post)
     {
-        return $this->getService($class)->updateModelFromArray($post);
+        return $this->getService($class)->update($post);
     }
 
     public function searchClass($class, $value)

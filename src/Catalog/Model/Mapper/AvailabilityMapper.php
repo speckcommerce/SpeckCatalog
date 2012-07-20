@@ -2,11 +2,13 @@
 
 namespace Catalog\Model\Mapper;
 
-use Catalog\Model\Availability, 
+use Catalog\Model\Availability,
     ArrayObject;
 
 class AvailabilityMapper extends ModelMapperAbstract
 {
+    protected $tableName = "catalog_availability";
+
     public function getModel($constructor = null)
     {
         return new Availability($constructor);
@@ -14,15 +16,14 @@ class AvailabilityMapper extends ModelMapperAbstract
 
     public function getByParentProductUomId($productUomId)
     {
-        $select = $this->newSelect();
-        $select->from($this->getTable()->getTableName())
+        $select = $this->select()->from($this->tableName)
             ->where(array('parent_product_uom_id' => $productUomId));
-        return $this->selectMany($select);
+        return $this->selectWith($select);
     }
 
     public function removeLinker($id)
     {
         //no linker, delete the actual record!
         return $this->deleteById($id);
-    }   
+    }
 }

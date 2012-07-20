@@ -114,67 +114,48 @@ class Module
                 },
                 //model mappers
                 'catalog_product_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new \Catalog\Model\Mapper\ProductMapper($sm->get('catalog_db'));
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\ProductMapper($adapter);
                 },
                 'catalog_option_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\OptionMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\OptionMapper($adapter);
                 },
                 'catalog_category_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\CategoryMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\CategoryMapper($adapter);
                 },
                 'catalog_choice_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\ChoiceMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\ChoiceMapper($adapter);
                 },
                 'catalog_availability_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\AvailabilityMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\AvailabilityMapper($adapter);
                 },
                 'catalog_product_uom_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\ProductUomMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\ProductUomMapper($adapter);
                 },
                 'catalog_image_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\ImageMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\ImageMapper($adapter);
                 },
                 'catalog_document_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\DocumentMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\DocumentMapper($adapter);
                 },
                 'catalog_company_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\CompanyMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\CompanyMapper($adapter);
                 },
                 'catalog_spec_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\SpecMapper($tg);
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\SpecMapper($adapter);
                 },
                 'catalog_uom_mapper' => function ($sm) {
-                    $tg = $sm->get('catalog_db');
-                    return new Mapper\UomMapper($tg);
-                },
-                //linker table gateways
-                'catalog_option_choice_linker_tg' => function ($sm) {
-                    return new Mapper\TableGateway('catalog_option_choice_linker', $sm->get('catalog_db'));
-                },
-                'catalog_choice_option_linker_tg' => function ($sm) {
-                    return new Mapper\TableGateway('catalog_choice_option_linker', $sm->get('catalog_db'));
-                },
-                'catalog_product_option_linker_tg' => function ($sm) {
-                    return new Mapper\TableGateway('catalog_product_option_linker', $sm->get('catalog_db'));
-                },
-                'catalog_product_image_linker_tg' => function ($sm) {
-                    return new Mapper\TableGateway('catalog_product_image_linker', $sm->get('catalog_db'));
-                },
-                'catalog_option_image_linker_tg' => function ($sm) {
-                    return new Mapper\TableGateway('catalog_option_image_linker', $sm->get('catalog_db'));
-                },
-                'catalog_product_document_linker_tg' => function ($sm) {
-                    return new Mapper\TableGateway('catalog_product_document_linker', $sm->get('catalog_db'));
+                    $adapter = $sm->get('catalog_db');
+                    return new Mapper\UomMapper($adapter);
                 },
             ),
         );

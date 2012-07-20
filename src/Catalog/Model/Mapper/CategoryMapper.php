@@ -1,7 +1,7 @@
 <?php
 namespace Catalog\Model\Mapper;
 
-use Catalog\Model\Category, 
+use Catalog\Model\Category,
     ArrayObject;
 
 class CategoryMapper extends ModelMapperAbstract
@@ -18,7 +18,7 @@ class CategoryMapper extends ModelMapperAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from($this->getTableName())
-                  ->join('catalog_category_category_linker', 'catalog_category_category_linker'.'.child_category_id = '.$this->getTableName().'.category_id') 
+                  ->join('catalog_category_category_linker', 'catalog_category_category_linker'.'.child_category_id = '.$this->getTableName().'.category_id')
                   ->where('parent_category_id = ?', $categoryId);
         $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
         $rows = $db->fetchAll($sql);
@@ -52,7 +52,7 @@ class CategoryMapper extends ModelMapperAbstract
     {
         return $this->tableName;
     }
- 
+
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;

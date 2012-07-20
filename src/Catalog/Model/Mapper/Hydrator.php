@@ -2,45 +2,41 @@
 
 namespace Catalog\Model\Mapper;
 
-class Hydrator
+use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Stdlib\Hydrator\ClassMethods;
+
+class Hydrator extends ClassMethods implements HydratorInterface
 {
-    protected $fields;
+    protected $unsetFields;
 
-    public function __construct($fields)
+    public function __construct($unsetFields)
     {
-        $this->fields = $fields;
+        parent::__construct(true);
+        $this->unsetFields = $unsetFields;
     }
 
-    public function hydrate($row, $model)
+    public function extract($object)
     {
-        foreach($row as $key => $val){
-            $setterMethod = 'set' . $this->toCamelCase($key);
-            if(method_exists($model, $setterMethod)){
-                $model->$setterMethod($val);
+        $data = parent::extract($object);
+        $data = $this->unsetKeys($data);
+
+        return $data;
+    }
+
+    public function hydrate(array $data, $object)
+    {
+        $data = $this->unsetKeys($data);
+        return parent::hydrate($data, $object);
+    }
+
+    public function unsetKeys(array $data)
+    {
+        foreach($this->unsetFields as $key){
+            if(array_key_exists($key, $data)){
+                unset($data[$key]);
             }
         }
-        return $model;   
+        return $data;
     }
 
-    public function extract($model)
-    {
-        $return = array();
-        foreach($this->fields as $field){
-            $getterMethod = 'get' . $this->toCamelCase($field);
-            if(is_callable(array($model, $getterMethod))){
-                $return[$field] = $model->$getterMethod();
-            }
-        }
-        return $return;   
-    }
-
-    public static function toCamelCase($name)
-    {
-        return implode('', array_map('ucfirst', explode('_',$name)));
-    }
-
-    public static function fromCamelCase($name)
-    {
-        return trim(preg_replace_callback('/([A-Z])/', function($c){ return '_'.strtolower($c[1]); }, $name),'_');
-    }    
 }

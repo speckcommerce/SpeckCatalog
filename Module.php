@@ -41,7 +41,7 @@ class Module
         $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
     }
 
-    public function getViewHelperConfiguration()
+    public function getViewHelperConfig()
     {
         return array(
             'invokables' => array(
@@ -65,8 +65,7 @@ class Module
    //    <{ blahblahblah }
    //      ''''''''''''''
 
-
-    public function getServiceConfiguration()
+    public function getServiceConfig()
     {
         return array(
             'invokables' => array(
@@ -115,47 +114,47 @@ class Module
                 },
                 //model mappers
                 'catalog_product_mapper' => function ($sm) {
-                    $tg = new \Catalog\Model\Mapper\TableGateway('catalog_product', $sm->get('catalog_db'));
-                    return new \Catalog\Model\Mapper\ProductMapper($tg);
+                    $tg = $sm->get('catalog_db');
+                    return new \Catalog\Model\Mapper\ProductMapper($sm->get('catalog_db'));
                 },
                 'catalog_option_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_option', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\OptionMapper($tg);
                 },
                 'catalog_category_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_category', $sm->get('catalog_db'));
-                    return new Mapper\categoryMapper($tg);
+                    $tg = $sm->get('catalog_db');
+                    return new Mapper\CategoryMapper($tg);
                 },
                 'catalog_choice_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_choice', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\ChoiceMapper($tg);
                 },
                 'catalog_availability_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_availability', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\AvailabilityMapper($tg);
                 },
                 'catalog_product_uom_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_product_uom', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\ProductUomMapper($tg);
                 },
                 'catalog_image_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_media', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\ImageMapper($tg);
                 },
                 'catalog_document_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_media', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\DocumentMapper($tg);
                 },
                 'catalog_company_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_company', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\CompanyMapper($tg);
                 },
                 'catalog_spec_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('catalog_product_spec', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\SpecMapper($tg);
                 },
                 'catalog_uom_mapper' => function ($sm) {
-                    $tg = new Mapper\TableGateway('ansi_uom', $sm->get('catalog_db'));
+                    $tg = $sm->get('catalog_db');
                     return new Mapper\UomMapper($tg);
                 },
                 //linker table gateways

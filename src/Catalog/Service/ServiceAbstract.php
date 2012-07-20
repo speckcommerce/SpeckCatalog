@@ -33,7 +33,7 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
 
     public function getById($id, $populate=true)
     {
-        $model = $this->getModelMapper()->getById($id);
+        $model = $this->getModelMapper()->findById($id);
         if($model){
             if(true === $populate){
                 $model = $this->populateModel($model);

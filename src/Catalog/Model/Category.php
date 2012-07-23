@@ -2,27 +2,27 @@
 
 namespace Catalog\Model;
 
-class Category extends ModelAbstract
+class Category extends LinkedModelAbstract
 {
     /**
-     * name 
-     * 
+     * name
+     *
      * @var string
      * @access protected
      */
     protected $name;
 
     /**
-     * products 
-     * 
+     * products
+     *
      * @var array
      * @access protected
      */
     protected $products;
 
     /**
-     * categories 
-     * 
+     * categories
+     *
      * @var array
      * @access protected
      */
@@ -32,7 +32,7 @@ class Category extends ModelAbstract
     {
         return $this->products;
     }
- 
+
     public function setProducts($products)
     {
         $this->products = $products;
@@ -50,7 +50,7 @@ class Category extends ModelAbstract
     {
         return $this->name;
     }
- 
+
     public function setName($name)
     {
         $this->name = $name;
@@ -68,7 +68,7 @@ class Category extends ModelAbstract
     {
         return $this->categories;
     }
- 
+
     public function setCategories($categories)
     {
         $this->categories = $categories;

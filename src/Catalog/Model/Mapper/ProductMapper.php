@@ -9,7 +9,7 @@ class ProductMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_product';
     protected $childOptionLinkerTableName = 'catalog_product_option_linker';
-    protected $parentCategoryLinkerTable;
+    protected $parentCategoryLinkerTableName = 'catalog_category_product_linker';
 
     public function __construct($adapter)
     {
@@ -24,11 +24,11 @@ class ProductMapper extends ModelMapperAbstract
 
     public function getProductsByCategoryId($categoryId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from('catalog_category_product_linker')
-                  ->join($this->getTableName(), 'catalog_category_product_linker.product_id = '.$this->getTableName().'.product_id')
-                  ->where('category_id = ?', $categoryId);
+        $linker = $this->parentCategoryLinkerTableName;
+        $select = $this->select()
+                  ->from($this->tableName)
+                  ->join($linker, $linker . '.product_id = '.$this->tableName.'.record_id')
+                  ->where(array($linker . '.category_id' => $categoryId));
         return $this->selectMany($select);
     }
 

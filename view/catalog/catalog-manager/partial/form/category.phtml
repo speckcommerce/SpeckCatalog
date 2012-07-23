@@ -1,12 +1,18 @@
-<form id="category-<?=$category->getCategoryId();?>" class="live-form">
+<?
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'category-' . $category->getRecordId());
+$form->setAttribute('class', 'live-form');
 
-    <input type="hidden" name="category_id" value="<?=$category->getCategoryId();?>"/>
+?>
+
+<?=$this->form()->openTag($form);?>
+    <?=$this->formInput($form->get('record_id')); ?>
 
     <div class="row">
         <div class="span3">
-            <span class="smallcaps">name</span><br/>
-            <input name="name" class="span3" type="text" value="<?=$category->getName();?>"/>
-        </div>  
+            <?=$this->formRow($form->get('name')); ?>
+        </div>
     </div>
 
-</form><br/>  
+</form>

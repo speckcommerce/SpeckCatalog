@@ -8,6 +8,14 @@ class CategoryMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_category';
 
+    protected $categoryLinkerTableName = 'catalog_category_category_linker';
+
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('products', 'categories', 'parent_category_id');
+        parent::__construct($adapter, $unsetKeys);
+    }
+
     public function getModel($constructor = null)
     {
         return new Category($constructor);
@@ -15,47 +23,20 @@ class CategoryMapper extends ModelMapperAbstract
 
     public function getChildCategories($categoryId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from($this->getTableName())
-                  ->join('catalog_category_category_linker', 'catalog_category_category_linker'.'.child_category_id = '.$this->getTableName().'.category_id')
-                  ->where('parent_category_id = ?', $categoryId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $rows = $db->fetchAll($sql);
+        $linker = $this->categoryLinkerTableName;
+        $select = $this->select()->from($this->tableName)
+                  ->join($linker, $linker . '.child_category_id = ' . $this->tableName . '.record_id')
+                  ->where(array($linker . '.parent_category_id' => $categoryId));
 
-        return $this->rowsToModels($rows);
+        return $this->selectMany($select);
     }
 
     public function linkParentCategory($parentCategoryId, $categoryId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from('catalog_category_category_linker')
-            ->where('parent_category_id = ?', $parentCategoryId)
-            ->where('child_category_id = ?', $categoryId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if(false === $row){
-            $data = new ArrayObject(array(
-                'parent_category_id'  => $parentCategoryId,
-                'child_category_id' => $categoryId,
-            ));
-            $result = $db->insert('catalog_category_category_linker', (array) $data);
-            if($result !== 1){
-                var_dump($result);
-                die('something didnt work!');
-            }
-        }
-    }
-
-    public function getTableName()
-    {
-        return $this->tableName;
-    }
-
-    public function setTableName($tableName)
-    {
-        $this->tableName = $tableName;
-        return $this;
+        $row = array(
+            'parent_category_id' => $parentCategoryId,
+            'child_category_id' => $categoryId,
+        );
+        return $this->add($row, $this->categoryLinkerTableName);
     }
 }

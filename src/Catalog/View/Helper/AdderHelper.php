@@ -7,14 +7,14 @@ use Catalog\Service\FormServiceAwareInterface;
 
 class AdderHelper extends AbstractHelper
 {
-    public function __invoke($type, $className, $parent, $childName=null)
+    public function __invoke($type, $className, $parent=null, $childName=null)
     {
         $data = array(
             'searchClassName' => $className,
             'className'       => $className,
             'newClassName'    => $className,
-            'parentClassName' => lcfirst($parent->get('class_name')),
-            'parentId'        => $parent->getRecordId(),
+            'parentClassName' => ($parent ? lcfirst($parent->get('class_name')) : $className) ,
+            'parentId'        => ($parent ? $parent->getRecordId() : 0),
             'partialName'     => $className,
             'childId'         => null,
             'childClassName'  => $childName?:null

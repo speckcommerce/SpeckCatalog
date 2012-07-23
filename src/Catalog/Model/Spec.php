@@ -2,7 +2,6 @@
 namespace Catalog\Model;
 class Spec extends ModelAbstract
 {
-    protected $specId;
     protected $productId;
     protected $label;
     protected $value;
@@ -48,37 +47,6 @@ class Spec extends ModelAbstract
     {
         $this->value = $value;
         return $this;
-    }
-
-    /**
-     * Get specId.
-     *
-     * @return specId
-     */
-    public function getSpecId()
-    {
-        return $this->specId;
-    }
-
-    /**
-     * Set specId.
-     *
-     * @param $specId the value to be set
-     */
-    public function setSpecId($specId)
-    {
-        $this->specId = $specId;
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->getSpecId();
-    }
-
-    public function setId($id)
-    {
-        return $this->setSpecId($id);
     }
 
     public function __toString()

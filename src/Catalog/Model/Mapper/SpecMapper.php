@@ -14,7 +14,7 @@ class SpecMapper extends ModelMapperAbstract
     {
         $select = $this->select()->from($this->tableName)
             ->where(array('product_id' => $productId));
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function removeLinker($id)

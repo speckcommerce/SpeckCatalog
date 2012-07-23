@@ -9,6 +9,12 @@ class AvailabilityMapper extends ModelMapperAbstract
 {
     protected $tableName = "catalog_availability";
 
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('distributor','companies');
+        parent::__construct($adapter, $unsetKeys);
+    }
+
     public function getModel($constructor = null)
     {
         return new Availability($constructor);
@@ -18,7 +24,7 @@ class AvailabilityMapper extends ModelMapperAbstract
     {
         $select = $this->select()->from($this->tableName)
             ->where(array('parent_product_uom_id' => $productUomId));
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function removeLinker($id)

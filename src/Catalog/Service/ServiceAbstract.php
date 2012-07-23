@@ -71,10 +71,11 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
         return $this->getModelMapper()->add($model);
     }
 
+    //array or model
     public function update($model)
     {
-        $this->getModelMapper()->update($model);
-        return $this->getById($model->getRecordId());
+        $id = $this->getModelMapper()->update($model);
+        return $this->getById($id);
     }
 
     public function removeLinker($linkerId)

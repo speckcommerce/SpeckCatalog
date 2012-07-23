@@ -7,10 +7,15 @@ use Catalog\Model\Option,
 class OptionMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_option';
-    protected $parentProductLinkerTable;
-    protected $parentChoiceLinkerTable;
     protected $productLinkerTableName = 'catalog_product_option_linker';
-    protected $choiceLinkerTableName = 'catalog_choice_option_linker';
+    protected $childChoiceLinkerTableName = 'catalog_option_choice_linker';
+    protected $parentChoiceLinkerTableName = 'catalog_choice_option_linker';
+
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('choices', 'parent_choices', 'slider', 'builder_segment', 'images', 'choice_uom_adjustments', 'price_map', 'parent_products');
+        parent::__construct($adapter, $unsetKeys);
+    }
 
     public function getModel($constructor = null)
     {
@@ -22,38 +27,35 @@ class OptionMapper extends ModelMapperAbstract
         $select = $this->select()->from($this->tableName)
             ->join($this->productLinkerTableName, $this->tableName . '.record_id = ' . $this->productLinkerTableName . '.option_id')
             ->where(array('product_id' => $productId));
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function getOptionsByChoiceId($choiceId)
     {
-        $linkerName = $this->getParentChoiceLinkerTable()->getTableName();
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.option_id' )
+        $linkerName = $this->parentChoiceLinkerTableName;
+        $select = $this->select()->from($this->tableName)
+            ->join($linkerName, $this->tableName . '.record_id = ' . $linkerName . '.option_id' )
             ->where(array('choice_id' => $choiceId));
         //->order('sort_weight DESC');
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function linkOptionToProduct($productId, $optionId)
     {
-        $table = $this->getParentProductLinkerTable();
         $row = array(
             'product_id' => $productId,
             'option_id' => $optionId,
         );
-        return $this->insertLinker($table, $row);
+        return $this->add($row, $this->productLinkerTableName);
     }
 
     public function linkOptionToChoice($choiceId, $optionId)
     {
-        $table = $this->getParentChoiceLinkerTable();
         $row = array(
             'choice_id' => $choiceId,
             'option_id' => $optionId,
         );
-        return $this->insertLinker($table, $row);
+        return $this->add($row, $this->parentChoiceLinkerTableName);
     }
 
     public function updateChoiceOptionSortOrder($order)

@@ -10,6 +10,12 @@ class ChoiceMapper extends ModelMapperAbstract
     protected $parentOptionLinkerTableName = 'catalog_option_choice_linker';
     protected $tableName = 'catalog_choice';
 
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('product', 'target_uom', 'na_choices', 'options', 'parent_options', 'linker_id', 'sort_weight');
+        parent::__construct($adapter, $unsetKeys);
+    }
+
     public function getModel($constructor = null)
     {
         return new Choice($constructor);
@@ -23,7 +29,7 @@ class ChoiceMapper extends ModelMapperAbstract
             ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
 
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function getChoicesByChildProductId($productId)
@@ -35,19 +41,18 @@ class ChoiceMapper extends ModelMapperAbstract
 
     public function linkParentOption($optionId, $choiceId)
     {
-        $table = $this->getParentOptionLinkerTable();
         $row = array(
             'choice_id' => $choiceId,
             'option_id' => $optionId,
         );
-        return $this->insertLinker($table, $row);
+        return $this->add($row, $this->parentOptionLinkerTableName);
     }
+
     public function getChoicesByChildOptionId($optionId)
     {
-        $linkerName = $this->getChildOptionLinkerTable()->getTableName();
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.choice_id')
+        $linkerName = $this->childOptionLinkerTableName;
+        $select = $this->select()->from($this->tableName)
+            ->join($linkerName, $this->tableName . '.record_id = ' . $linkerName . '.choice_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
         return $this->selectMany($select);

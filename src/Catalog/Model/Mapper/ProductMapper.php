@@ -8,7 +8,7 @@ use Catalog\Model\Product,
 class ProductMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_product';
-    protected $childOptionLinkerTable;
+    protected $childOptionLinkerTableName = 'catalog_product_option_linker';
     protected $parentCategoryLinkerTable;
 
     public function __construct($adapter)
@@ -34,10 +34,9 @@ class ProductMapper extends ModelMapperAbstract
 
     public function getProductsByChildOptionId($optionId)
     {
-        $linkerName = $this->getChildOptionLinkerTable()->getTableName();
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.record_id = '. $linkerName .'.product_id')
+        $linkerName = $this->childOptionLinkerTableName;
+        $select = $this->select()->from($this->tableName)
+            ->join($linkerName, $this->tableName . '.record_id = '. $linkerName .'.product_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
         return $this->selectMany($select);
@@ -65,13 +64,6 @@ class ProductMapper extends ModelMapperAbstract
         }
     }
 
-    public function getChildOptionLinkerTable()
-    {
-        if(null === $this->childOptionLinkerTable){
-            $this->childOptionLinkerTable = $this->getServiceManager()->get('catalog_product_option_linker_tg');
-        }
-        return $this->childOptionLinkerTable;
-    }
 
     public function setChildOptionLinkerTable($childOptionLinkerTable)
     {

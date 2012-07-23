@@ -13,12 +13,11 @@ class DocumentMapper extends MediaMapperAbstract
 
     public function linkParentProduct($productId, $documentId)
     {
-        $table = $this->parentProductLinkerTableName;
         $row = array(
             'product_id' => $productId,
             'media_id' => $documentId,
         );
-        return $this->insertLinker($table, $row);
+        return $this->add($row, $this->parentProductLinkerTableName);
     }
 
     public function updateProductDocumentSortOrder($order)

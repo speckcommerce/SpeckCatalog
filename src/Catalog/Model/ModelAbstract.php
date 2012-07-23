@@ -4,21 +4,21 @@ namespace Catalog\Model;
 
 abstract class ModelAbstract implements ModelInterface
 {
-    /**
-     * revUserId
-     *
-     * @var int
-     * @access protected
-     */
-    protected $revUserId;
+    ///**
+    // * revUserId
+    // *
+    // * @var int
+    // * @access protected
+    // */
+    //protected $revUserId;
 
-    /**
-     * revDateTime
-     *
-     * @var string
-     * @access protected
-     */
-    protected $revDateTime;
+    ///**
+    // * revDateTime
+    // *
+    // * @var string
+    // * @access protected
+    // */
+    //protected $revDateTime;
 
     /**
      * recordId
@@ -40,27 +40,27 @@ abstract class ModelAbstract implements ModelInterface
         }
     }
 
-    public function getRevUserId()
-    {
-        return $this->revUserId;
-    }
+    //public function getRevUserId()
+    //{
+    //    return $this->revUserId;
+    //}
 
-    public function setRevUserId($revUserId)
-    {
-        $this->revUserId = $revUserId;
-        return $this;
-    }
+    //public function setRevUserId($revUserId)
+    //{
+    //    $this->revUserId = $revUserId;
+    //    return $this;
+    //}
 
-    public function getRevDateTime()
-    {
-        return $this->revDateTime;
-    }
+    //public function getRevDateTime()
+    //{
+    //    return $this->revDateTime;
+    //}
 
-    public function setRevDateTime($revDateTime)
-    {
-        $this->revDateTime = $revDateTime;
-        return $this;
-    }
+    //public function setRevDateTime($revDateTime)
+    //{
+    //    $this->revDateTime = $revDateTime;
+    //    return $this;
+    //}
 
     public function getRecordId()
     {
@@ -88,5 +88,9 @@ abstract class ModelAbstract implements ModelInterface
                 $underscore = function($m){ return '_'.strtolower($m[1]); };
                 return preg_replace_callback('/([A-Z])/', $underscore, lcfirst($this->get('class_name')));
         }
+    }
+    public function getId()
+    {
+        return $this->getRecordId();
     }
 }

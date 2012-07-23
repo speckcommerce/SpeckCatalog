@@ -9,6 +9,12 @@ class ProductUomMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_product_uom';
 
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('availabilities','uom','parent_product');
+        parent::__construct($adapter, $unsetKeys);
+    }
+
     public function getModel($constructor = null)
     {
         return new ProductUom($constructor);
@@ -19,7 +25,7 @@ class ProductUomMapper extends ModelMapperAbstract
         $select = $this->select()->from($this->tableName)
             ->where(array('parent_product_id' => $productId));
             //->order('price ASC');
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function removeLinker($id)

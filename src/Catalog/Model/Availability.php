@@ -20,8 +20,6 @@ class Availability extends ModelAbstract
      */
     protected $distributor;
 
-    protected $quantity;
-
     /**
      * companies
      *
@@ -53,17 +51,6 @@ class Availability extends ModelAbstract
      * @access protected
      */
     protected $parentProductUom;
-
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-        return $this;
-    }
 
     public function getCost()
     {

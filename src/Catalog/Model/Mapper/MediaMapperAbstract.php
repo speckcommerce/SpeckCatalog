@@ -5,6 +5,12 @@ abstract class MediaMapperAbstract extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_media';
 
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('media_type', 'base_url');
+        parent::__construct($adapter, $unsetKeys);
+    }
+
     public function getMediaByProductId($productId)
     {
         $linkerName = $this->getParentProductLinkerTableName();

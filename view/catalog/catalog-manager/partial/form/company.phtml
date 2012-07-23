@@ -1,20 +1,24 @@
-<form id="company-<?=$company->getRecordId();?>" class="live-form">
+<?
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'company-' . $company->getRecordId());
+$form->setAttribute('class', 'live-form');
 
-    <input type="hidden" name="record_id" value="<?=$company->getRecordId();?>"/>
+?>
+
+<?=$this->form()->openTag($form);?>
+    <?=$this->formInput($form->get('record_id')); ?>
 
     <div class="row">
         <div class="span3">
-            <span class="smallcaps">name</span><br/>
-            <input name="name" class="span3" type="text" value="<?=$company->getName();?>"/>
+            <?=$this->formRow($form->get('name')); ?>
         </div>
         <div class="span3">
-            <span class="smallcaps">phone</span><br/>
-            <input name="phone" class="span3" type="text" value="<?=$company->getPhone();?>"/>
+            <?=$this->formRow($form->get('phone')); ?>
         </div>
         <div class="span3">
-            <span class="smallcaps">email</span><br/>
-            <input name="email" class="span3" type="text" value="<?=$company->getEmail();?>"/>
+            <?=$this->formRow($form->get('email')); ?>
         </div>
     </div>
 
-</form><br/>
+</form>

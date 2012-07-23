@@ -114,12 +114,11 @@ class CatalogManagerController extends AbstractActionController implements FormS
     public function fetchPartialAction()
     {
         $this->layout(false);
-        $partialName = $_POST['partial_name'];
         $class = ($_POST['class_name'] ? $_POST['class_name'] : $_POST['new_class_name']);
         $model = $this->getLinkerService()->linkModel($_POST);
         return new ViewModel(array(
             $class => $model,
-            'partial' => $_POST['partial_name'],
+            'partial' => $model->get('dashed_class_name'),
         ));
     }
 

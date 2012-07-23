@@ -97,6 +97,7 @@ class Module
                 'catalog_product_form_filter' => 'Catalog\Form\FilterProduct',
                 'catalog_option_form_filter' => 'Catalog\Form\FilterOption',
                 'catalog_spec_form_filter' => 'Catalog\Form\FilterSpec',
+                'catalog_company_form_filter' => 'Catalog\Form\FilterCompany',
             ),
             'factories' => array(
                 'catalog_product_form' => function ($sm) {

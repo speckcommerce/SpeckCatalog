@@ -1,9 +1,9 @@
 <?php
 namespace Catalog\Service;
-use Exception,
-    RuntimeException,
-    Zend\ServiceManager\ServiceManagerAwareInterface,
-    Zend\ServiceManager\ServiceManager;
+use Exception;
+use RuntimeException;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * CatalogService
@@ -35,46 +35,51 @@ class CatalogService implements ServiceManagerAwareInterface
         return $this;
     }
 
-    public function getModelService($class)
+    public function getService($class)
     {
-        $getModelService = 'get' . ucfirst($class) . 'Service';
-        return $this->$getModelService();
+        $getService = 'get' . ucfirst($class) . 'Service';
+        return $this->$getService();
     }
 
     public function getAll($class)
     {
-        return $this->getModelService($class)->getAll();
+        return $this->getService($class)->getAll();
     }
 
     public function update($class, $id, $post)
     {
-        echo $this->getModelService($class)->updateModelFromArray($post); die();
+        return $this->getService($class)->update($post);
     }
 
     public function searchClass($class, $value)
     {
-        return $this->getModelService($class)->getModelsBySearchData($value);
+        return $this->getService($class)->getModelsBySearchData($value);
     }
 
     public function updateSortOrder($class, $parent, $order)
     {
-        return $this->getModelService($class)->updateSortOrder($parent, $order);
+        return $this->getService($class)->updateSortOrder($parent, $order);
     }
 
-    public function getModel($class, $id)
+    public function getModel($class)
     {
-        return $this->getModelService($class)->getById($id);
+        return $this->getService($class)->getModel();
+    }
+
+    public function getById($class, $id)
+    {
+        return $this->getService($class)->getById($id);
     }
 
     public function newModel($class, $constructor=null)
     {
-        $model = $this->getModelService($class)->getModelMapper()->getModel($constructor);
-        return $this->getModelService($class)->add($model);
+        $model = $this->getService($class)->getModelMapper()->getModel($constructor);
+        return $this->getService($class)->add($model);
     }
 
     public function removeLinker($class, $linkerId)
     {
-        var_dump($this->getModelService($class)->removeLinker($linkerId));
+        var_dump($this->getService($class)->removeLinker($linkerId));
         //todo: check for orphan records....
     }
 
@@ -188,10 +193,6 @@ class CatalogService implements ServiceManagerAwareInterface
         $this->companySerice = $companyService;
         return $this;
     }
-
-
-
-
 
     public function setProductService($productService)
     {

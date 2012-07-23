@@ -1,0 +1,5 @@
+<select name="option-<?=$option->getRecordId();?>">
+    <? foreach ($option->getChoices() as $choice): ?>
+    <option value="choice-<?=$choice->getRecordId();?>"><?=$choice->__toString();?></option>
+    <? endforeach; ?>
+</select>

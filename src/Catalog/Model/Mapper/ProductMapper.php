@@ -2,35 +2,41 @@
 
 namespace Catalog\Model\Mapper;
 
-use Catalog\Model\Product, 
+use Catalog\Model\Product,
     ArrayObject;
 
 class ProductMapper extends ModelMapperAbstract
 {
-    protected $childOptionLinkerTable;
+    protected $tableName = 'catalog_product';
+    protected $childOptionLinkerTableName = 'catalog_product_option_linker';
     protected $parentCategoryLinkerTable;
-    
+
+    public function __construct($adapter)
+    {
+        $unsetKeys = array('options', 'parent_choices', 'manufacturer', 'uoms', 'specs', 'documents', 'images', 'rev_date_time' );
+        parent::__construct($adapter, $unsetKeys);
+    }
+
     public function getModel($constructor = null)
     {
         return new Product($constructor);
     }
-    
+
     public function getProductsByCategoryId($categoryId)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
                   ->from('catalog_category_product_linker')
-                  ->join($this->getTableName(), 'catalog_category_product_linker.product_id = '.$this->getTableName().'.product_id') 
+                  ->join($this->getTableName(), 'catalog_category_product_linker.product_id = '.$this->getTableName().'.product_id')
                   ->where('category_id = ?', $categoryId);
         return $this->selectMany($select);
     }
-    
+
     public function getProductsByChildOptionId($optionId)
     {
-        $linkerName = $this->getChildOptionLinkerTable()->getTableName();
-        $select = $this->newSelect();
-        $select->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.record_id = '. $linkerName .'.product_id')
+        $linkerName = $this->childOptionLinkerTableName;
+        $select = $this->select()->from($this->tableName)
+            ->join($linkerName, $this->tableName . '.record_id = '. $linkerName .'.product_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
         return $this->selectMany($select);
@@ -58,13 +64,6 @@ class ProductMapper extends ModelMapperAbstract
         }
     }
 
-    public function getChildOptionLinkerTable()
-    {
-        if(null === $this->childOptionLinkerTable){
-            $this->childOptionLinkerTable = $this->getServiceManager()->get('catalog_product_option_linker_tg');
-        }
-        return $this->childOptionLinkerTable;
-    }
 
     public function setChildOptionLinkerTable($childOptionLinkerTable)
     {

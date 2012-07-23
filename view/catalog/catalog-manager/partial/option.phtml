@@ -1,0 +1,50 @@
+<div id="<?=$option->getLinkerId();?>" class="option contrastbg boundary">
+
+    <div class="entity-header">
+        <div class="collapser"><i class="icon-chevron-down"></i></div>
+        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
+        <? if(1===1 || $option->isShared()) : ?>
+            <? $count = count($option->getParentProducts()); ?>
+            <div><i class="icon-eye-open" title="This option is shared <?=$count;?> times"></i></div>
+        <? endif; ?>
+        <div class="title sort-handle collapser">&nbsp; <?=$option;?></div>
+    </div>
+
+    <div class="entity-content">
+        <?=$this->speckCatalogRenderForm($option);?>
+        <div class="list-wrap">
+            <div class="child-expand list-items-helper">
+                <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                <div class="expand-all"><i class="icon-arrow-down"></i></div>
+                <span class="smallcaps">&nbsp;images</span>
+            </div>
+            <div class="list-items" type="image" parent="product">
+                <? if ($option->has('images')) : ?>
+                    <?=$this->speckCatalogRenderChildren($option->getImages()); ?>
+                <? endif; ?>
+            </div>
+            <div class="row list-items-helper">
+                <?=$this->speckCatalogAdderHelper('addButton', 'image', $option); ?>
+                <?=$this->speckCatalogAdderHelper('importSearch', 'image', $option); ?>
+            </div>
+        </div>
+
+        <div class="list-wrap half-pad">
+            <div class="child-expand list-items-helper">
+                <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                <div class="expand-all"><i class="icon-arrow-down"></i></div>
+                <span class="smallcaps">&nbsp;choices</span>
+            </div>
+            <div class="list-items" type="choice" parent="option">
+                <?=$this->speckCatalogRenderChildren($option->getChoices()); ?>
+            </div>
+            <div class="row list-items-helper">
+                <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option, 'product'); ?>
+                <?=$this->speckCatalogAdderHelper('addButton', 'choice', $option); ?>
+                <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option); ?>
+            </div>
+        </div>
+    </div>
+
+</div>
+

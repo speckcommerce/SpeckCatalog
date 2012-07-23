@@ -3,15 +3,15 @@ namespace Catalog\Model\Mapper;
 interface ModelMapperInterface
 {
     /**
-     * getModel 
+     * getModel
      *
      * returns a new model
      */
     public function getModel($constructor);
-    
+
     /**
-     * getAll 
-     * 
+     * getAll
+     *
      * simple, fetches all rows, and returns matching models from the appropriate table.
      */
     public function getAll();
@@ -19,27 +19,27 @@ interface ModelMapperInterface
     /**
      * rowToModel
      *
-     * takes a row as an array, and returns a matching model. 
+     * takes a row as an array, and returns a matching model.
      */
     public function rowToModel($row);
 
     /**
-     * deleteById 
-     * 
+     * deleteById
+     *
      */
     public function deleteById($id);
-    
+
     /**
-     * getById 
-     * 
+     * getById
+     *
      * returns model of matching id
      */
     public function getById($id);
-    
+
     /**
-     * persist 
-     * 
+     * persist
+     *
      * create/update a record.
      */
     public function persist($model, $mode);
-}                       
+}

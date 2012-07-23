@@ -1,16 +1,16 @@
 /**
  * targeting
  */
-    function getBoundary(ele){ 
-        return $(ele).parentsUntil('.boundary').parent().first() 
+    function getBoundary(ele){
+        return $(ele).parentsUntil('.boundary').parent().first()
     }
-    
+
     function getLinkerId(ele){
         return getBoundary(ele).attr('id');
     }
 
-    function getForm(ele){ 
-        return getBoundary(ele).find('form').first() 
+    function getForm(ele){
+        return getBoundary(ele).find('form').first()
     }
 
     function targetListItems(trigger){
@@ -23,6 +23,11 @@
         getBoundary(ele).find('.title').first().addClass('target')
     }
 
+    function targetForm(ele){
+        clearTarget()
+        getForm(ele).addClass('target')
+    }
+
     function getCollapser(ele){
         return getBoundary(ele).find('div.collapser').first().children()
     }
@@ -31,23 +36,23 @@
         return getBoundary(ele).find('.entity-content').first()
     }
 
-    function clearTarget(){ 
-        $('.target').removeClass('target') 
+    function clearTarget(){
+        $('.target').removeClass('target')
     }
 
 
 /**
- * modals 
+ * modals
  */
-    function goModal(html, title){ 
-        $('.modal-header h3').text(title) 
+    function goModal(html, title){
+        $('.modal-header h3').text(title)
         $('.modal-body').html(html)
         $('#modal-box').modal('show')
     }
 
-    function hideModal(){ 
-        $('#modal-box').modal('hide') 
-    }  
+    function hideModal(){
+        $('#modal-box').modal('hide')
+    }
 
 
 /**
@@ -56,19 +61,19 @@
     // search one class
     $('.import-search').live("submit", function(e){
         e.preventDefault();
-        targetListItems(this); 
+        targetListItems(this);
         $.post("/catalogmanager/search-class", $(this).serializeArray(), function(html) {
             goModal(html, 'Results')
-        })  
+        })
     })
-    
+
     // search many classes (catalog search)
     $('#catalog-search').live("submit", function(e){
         e.preventDefault()
         $.post("/catalogmanager/search-classes", $(this).serializeArray(), function(html) {
             goModal(html, 'Results')
         })
-    })  
+    })
 
     $('.search-result').live("click", function(e){
         e.preventDefault();
@@ -82,12 +87,14 @@
  *  auto-save
  */
     $('.live-form input, .live-form textarea, .live-form select').live('change', function(){
-        targetTitle(this);
+        targetForm(this);
         var form = getForm(this)
+        console.log(form);
         var parts = form.attr('id').split('-')
-        $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(title){
-            $('.target').html('&nbsp; '+title)
-        })    
+        $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(formHtml){
+            $('.target').replaceWith(formHtml)
+            clearTarget()
+        })
     })
     $('.live-form').live('submit', function(e){
         e.preventDefault();
@@ -99,30 +106,30 @@
  */
     $('.add-partial').live("submit",function(e){
         e.preventDefault();
-        targetListItems(this); 
+        targetListItems(this);
         getPartial($(this).serializeArray());
     })
 
     function doSort(){
-        $('.list-items').sortable({ 
-            opacity: 0.6, 
-            placeholder: 'sortable-placeholder', 
-            handle: '.sort-handle', 
-            axis: 'y',          
+        $('.list-items').sortable({
+            opacity: 0.6,
+            placeholder: 'sortable-placeholder',
+            handle: '.sort-handle',
+            axis: 'y',
             forcePlaceholderSize: true,
             update: function() {
                 var data = {
                     order : $(this).sortable("toArray").toString(),
                 }
                 $.post(
-                    "/catalogmanager/sort/" + $(this).attr('type') + '/' + $(this).attr('parent'), 
+                    "/catalogmanager/sort/" + $(this).attr('type') + '/' + $(this).attr('parent'),
                     data, function(res){
                         console.log(res);
                     }
-                ) 								 
+                )
             }
         })
-    }       
+    }
 
     function getPartial(data){
         hideModal()
@@ -137,9 +144,9 @@
                 $(this).removeClass('appearing', 200)
             })
             clearTarget()
-            doSort()  
-        }) 
-    }  
+            doSort()
+        })
+    }
 
     $('.remover').live("dblclick", function(){
         var parts = getForm($(this)).attr('id').split('-')
@@ -152,11 +159,11 @@
         }else{
             alert('does not have a linkerId ?!');
         }
-    })  
+    })
 
 
 /**
- * make it easier on the eyes  
+ * make it easier on the eyes
  */
     $('.entity-header').live({
         mouseenter:function(){$(this).children('.remover').children().removeClass('hide')},
@@ -174,15 +181,15 @@
     })
 
 /**
- * collapse/expand stuff 
+ * collapse/expand stuff
  */
     $('.expand-all').live('click', function(){
-        collapseRecursively(this, 'expand')    
+        collapseRecursively(this, 'expand')
     })
 
     $('.collapse-all').live('click', function(){
-        collapseRecursively(this)    
-    }) 
+        collapseRecursively(this)
+    })
 
     function collapseRecursively(ele, action){
         var headers = getBoundary(ele).children().find('.entity-header')
@@ -214,7 +221,7 @@
             $('.initialCollapse').toggleClass('icon-chevron-down icon-chevron-right')
                 .removeClass('initialCollapse').parent().parent().siblings().hide()
         }
-    }     
+    }
 
 $(document).ready(function(){
     initialCollapse()

@@ -1,0 +1,11 @@
+<? $pdir = '/catalog/catalog/partial/'; ?>
+<? foreach ($option->getChoices() as $choice): ?>
+<input name="option-<?=$option->getRecordId();?>" value="choice-<?=$choice->getRecordId();?>" type="checkbox">&nbsp;<?=$choice->__toString();?>
+    <? if($choice->has('options')) : ?>
+        <? foreach($choice->getOptions() as $option) : ?>
+            <?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>
+        <? endforeach; ?>
+    <? else: ?>
+        <br/>
+    <? endif; ?>
+<? endforeach; ?>

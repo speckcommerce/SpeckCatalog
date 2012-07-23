@@ -1,0 +1,12 @@
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
+
+<div class="boundary contrastbg" id="<?=$document->getLinkerId();?>">
+    <div class="entity-header">
+        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
+        <div><i class="icon-file"></i></div>
+        <div class="title sort-handle">&nbsp; <?=$document;?></div>
+    </div>
+    <div class="entity-content initialcol">
+        <?=$this->partial($pdir.'form/document.phtml', array('document' => $document));?>
+    </div>
+</div>

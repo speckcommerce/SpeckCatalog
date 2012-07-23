@@ -2,12 +2,11 @@
 namespace Catalog\Model;
 class Spec extends ModelAbstract
 {
-    protected $specId;
     protected $productId;
     protected $label;
     protected $value;
     protected $tabDelimited;
- 
+
     /**
      * Get label.
      *
@@ -17,7 +16,7 @@ class Spec extends ModelAbstract
     {
         return $this->label;
     }
- 
+
     /**
      * Set label.
      *
@@ -28,7 +27,7 @@ class Spec extends ModelAbstract
         $this->label = $label;
         return $this;
     }
- 
+
     /**
      * Get value.
      *
@@ -38,7 +37,7 @@ class Spec extends ModelAbstract
     {
         return $this->value;
     }
- 
+
     /**
      * Set value.
      *
@@ -48,37 +47,6 @@ class Spec extends ModelAbstract
     {
         $this->value = $value;
         return $this;
-    }
- 
-    /**
-     * Get specId.
-     *
-     * @return specId
-     */
-    public function getSpecId()
-    {
-        return $this->specId;
-    }
- 
-    /**
-     * Set specId.
-     *
-     * @param $specId the value to be set
-     */
-    public function setSpecId($specId)
-    {
-        $this->specId = $specId;
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->getSpecId();
-    }
-
-    public function setId($id)
-    {
-        return $this->setSpecId($id);
     }
 
     public function __toString()
@@ -104,7 +72,7 @@ class Spec extends ModelAbstract
     {
         return $this->setProductId($productId);
     }
- 
+
     /**
      * Get tabDelimited.
      *
@@ -114,7 +82,7 @@ class Spec extends ModelAbstract
     {
         return $this->tabDelimited;
     }
- 
+
     /**
      * Set tabDelimited.
      *

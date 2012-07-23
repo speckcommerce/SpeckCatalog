@@ -5,14 +5,6 @@ namespace Catalog\Model;
 class ProductUom extends ModelAbstract
 {
     /**
-     * productUomId
-     *
-     * @var int
-     * @access protected
-     */
-    protected $productUomId;
-
-    /**
      * uom
      *
      * @var object Catalog\Model\Uom
@@ -158,17 +150,6 @@ class ProductUom extends ModelAbstract
         return $this;
     }
 
-    public function getProductUomId()
-    {
-        return $this->productUomId;
-    }
-
-    public function setProductUomId($productUomId)
-    {
-        $this->productUomId = (int)$productUomId;
-        return $this;
-    }
-
     public function getParentProductId()
     {
         return $this->parentProductId;
@@ -198,23 +179,4 @@ class ProductUom extends ModelAbstract
             . ' - $' . number_format($this->getPrice(), 2);
     }
 
-    public function getUoms()
-    {
-        return $this->uoms;
-    }
-
-    public function setUoms($uoms)
-    {
-        $this->uoms = $uoms;
-        return $this;
-    }
-    public function getId()
-    {
-        return $this->getProductUomId();
-    }
-
-    public function setId($id)
-    {
-        return $this->setProductUomId($id);
-    }
 }

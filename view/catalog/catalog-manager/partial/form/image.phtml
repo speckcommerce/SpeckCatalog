@@ -1,0 +1,19 @@
+<form id="image-<?=$image->getRecordId();?>" class="live-form">
+
+    <input type="hidden" name="record_id" value="<?=$image->getRecordId();?>"/>
+    <div class="row">
+        <div class="span1">
+        <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
+        </div>
+        <div class="span3">
+            <span class="smallcaps">label</span><br/>
+            <input name="label" class="span3" type="text" value="<?=$image->getLabel();?>"/>
+        </div>
+        <div class="span3">
+            <span class="smallcaps">filename</span><br/>
+            <input name="file_name" class="span3" type="text" value="<?=$image->getFilename();?>"/>
+        </div>
+        <?=$image->getFullPath();?>
+    </div>
+
+</form><br/>

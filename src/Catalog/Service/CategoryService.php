@@ -19,7 +19,7 @@ class CategoryService extends ServiceAbstract
         if($products){
             $category->setProducts($products);
         }
-        return $category;   
+        return $category;
     }
 
     public function getChildCategories($categoryId)
@@ -29,7 +29,7 @@ class CategoryService extends ServiceAbstract
             $categories[$i] = $this->populateModel($category);
         }
         return $categories;
-    } 
+    }
 
     public function getAll()
     {
@@ -44,8 +44,8 @@ class CategoryService extends ServiceAbstract
     {
         $category = $this->newModel();
         $this->linkParentCategory($parentCategoryId, $category->getCategoryId());
-        
-        return $category;  
+
+        return $category;
     }
 
     public function linkParentCategory($parentId, $childId)
@@ -63,4 +63,15 @@ class CategoryService extends ServiceAbstract
         $this->productService = $productService;
         return $this;
     }
+
+    public function getModelMapper()
+    {
+        if(null === $this->modelMapper){
+            $this->modelMapper = $this->getServiceManager()->get('catalog_category_mapper');
+        }
+        return $this->modelMapper;
+    }
+
+
+
 }

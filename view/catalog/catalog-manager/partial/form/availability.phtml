@@ -1,0 +1,30 @@
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
+<form id="availability-<?=$availability->getRecordId();?>" class="live-form">
+
+    <input type="hidden" name="record_id" value="<?=$availability->getRecordId();?>"/>
+    <input type="hidden" name="parent_product_uom_id" value="<?=$availability->getParentProductUomId();?>"/>
+
+    <div class="row">
+        <div class="span5">
+            <div class="row">
+                <div class="span3">
+                    <span class="smallcaps">distributor</span><br/>
+                    <select name="distributor_company_id" class="span3">
+                        <?=$this->partial($pdir.'form/select-options.phtml', array(
+                            'data' => $availability->getCompanies(),
+                            'getIdMethod' => 'getRecordId',
+                            'selectedId'  => $availability->getDistributorCompanyId(),
+                            'getNameMethod' => 'getName',
+                        ));?>
+                    </select>
+                </div>
+                <div class="span2 input-prepend">
+                    <span class="smallcaps">cost</span><br/>
+                    <span class="add-on">$</span>
+                    <input name="cost" class="span1" value="<?=$availability->getCost();?>" type="text"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form></br>

@@ -7,7 +7,7 @@ class OptionService extends ServiceAbstract
     protected $choiceService;
     protected $productService;
     protected $imageService;
-    
+
     public function _populateModel($option)
     {
         $optionId = $option->getRecordId();
@@ -16,14 +16,14 @@ class OptionService extends ServiceAbstract
         $parentChoices = $this->getChoiceService()->getChoicesByChildOptionId($optionId);
         $option->setParentChoices($parentChoices);
         $option->setImages($this->getImageService()->getImagesByOptionId($optionId));
-        
+
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($optionId);
         if($choices){
             $option->setChoices($choices);
         }
         return $option;
     }
-    
+
     public function getOptionsByProductId($productId)
     {
         $options = $this->getModelMapper()->getOptionsByProductId($productId);
@@ -50,18 +50,18 @@ class OptionService extends ServiceAbstract
     {
         return $this->getModelMapper()->linkOptionToChoice($choiceId, $optionId);
     }
-    
+
     public function linkParentProduct($productId, $optionId)
     {
         return $this->getModelMapper()->linkOptionToProduct($productId, $optionId);
-    }    
+    }
 
     public function getChoiceService()
     {
         if(null === $this->choiceService){
             $this->choiceService = $this->getServiceManager()->get('catalog_choice_service');
         }
-        return $this->choiceService;  
+        return $this->choiceService;
     }
 
     public function getProductService()
@@ -69,7 +69,7 @@ class OptionService extends ServiceAbstract
         if(null === $this->productService){
             $this->productService = $this->getServiceManager()->get('catalog_product_service');
         }
-        return $this->productService;   
+        return $this->productService;
     }
 
     public function getImageService()
@@ -77,7 +77,7 @@ class OptionService extends ServiceAbstract
         if(null === $this->imageService){
             $this->imageService = $this->getServiceManager()->get('catalog_image_service');
         }
-        return $this->imageService;  
+        return $this->imageService;
     }
 
     public function getModelMapper()
@@ -85,7 +85,7 @@ class OptionService extends ServiceAbstract
         if(null === $this->modelMapper){
             $this->modelMapper = $this->getServiceManager()->get('catalog_option_mapper');
         }
-        return $this->modelMapper;         
+        return $this->modelMapper;
     }
 
     public function setChoiceService($choiceService)

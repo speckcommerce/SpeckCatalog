@@ -1,0 +1,40 @@
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
+
+<?
+$form->prepare();
+$form->setAttribute('id', 'productUom-' . $productUom->getRecordId());
+$form->setAttribute('class', 'live-form');
+?>
+<?=$this->form()->openTag($form);?>
+
+    <?=$this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('parent_product_id')); ?>
+
+    <div class="row quarter-pad">
+        <div class="span4">
+            <div class="row">
+                <div class="span2">
+                    <?=$this->formRow($form->get('uom_code')); ?>
+                </div>
+                <div class="span1">
+                    <?=$this->formRow($form->get('quantity')); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span2 input-prepend">
+                    <?=$this->formLabel($form->get('retail')); ?>
+                    <span class="add-on">$</span>
+                    <?=$this->formElement($form->get('retail')); ?>
+                    <?=$this->formElementErrors($form->get('retail')); ?>
+                </div>
+                <div class="span2 input-prepend">
+                    <?=$this->formLabel($form->get('price')); ?>
+                    <span class="add-on">$</span>
+                    <?=$this->formElement($form->get('price')); ?>
+                    <?=$this->formElementErrors($form->get('price')); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

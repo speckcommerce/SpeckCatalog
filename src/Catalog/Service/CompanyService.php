@@ -14,6 +14,6 @@ class CompanyService extends ServiceAbstract
         if(null === $this->modelMapper){
             $this->modelMapper = $this->getServiceManager()->get('catalog_company_mapper');
         }
-        return $this->modelMapper;         
-    }      
+        return $this->modelMapper;
+    }
 }

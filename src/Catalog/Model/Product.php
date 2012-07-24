@@ -2,7 +2,7 @@
 
 namespace Catalog\Model;
 
-class Product extends ModelAbstract
+class Product extends LinkedModelAbstract
 {
     /**
      * type

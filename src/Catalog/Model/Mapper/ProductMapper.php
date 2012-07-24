@@ -9,7 +9,7 @@ class ProductMapper extends ModelMapperAbstract
 {
     protected $tableName = 'catalog_product';
     protected $childOptionLinkerTableName = 'catalog_product_option_linker';
-    protected $parentCategoryLinkerTable;
+    protected $parentCategoryLinkerTableName = 'catalog_category_product_linker';
 
     public function __construct($adapter)
     {
@@ -24,11 +24,11 @@ class ProductMapper extends ModelMapperAbstract
 
     public function getProductsByCategoryId($categoryId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-                  ->from('catalog_category_product_linker')
-                  ->join($this->getTableName(), 'catalog_category_product_linker.product_id = '.$this->getTableName().'.product_id')
-                  ->where('category_id = ?', $categoryId);
+        $linker = $this->parentCategoryLinkerTableName;
+        $select = $this->select()
+                  ->from($this->tableName)
+                  ->join($linker, $linker . '.product_id = '.$this->tableName.'.record_id')
+                  ->where(array($linker . '.category_id' => $categoryId));
         return $this->selectMany($select);
     }
 
@@ -44,24 +44,11 @@ class ProductMapper extends ModelMapperAbstract
 
     public function linkParentCategory($categoryId, $productId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from('catalog_category_product_linker')
-            ->where('category_id = ?', $categoryId)
-            ->where('product_id = ?', $productId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if(false === $row){
-            $data = new ArrayObject(array(
-                'category_id'  => $categoryId,
-                'product_id' => $productId,
-            ));
-            $result = $db->insert('catalog_category_product_linker', (array) $data);
-            if($result !== 1){
-                var_dump($result);
-                die('something didnt work!');
-            }
-        }
+        $row = array(
+            'product_id' => $productId,
+            'category_id' => $categoryId,
+        );
+        return $this->add($row, $this->parentCategoryLinkerTableName);
     }
 
 

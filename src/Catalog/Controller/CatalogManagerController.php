@@ -78,6 +78,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
         return new ViewModel(array('categories' => $categories));
     }
 
+
     public function companyAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -87,8 +88,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
 
     public function categoryAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $category = $this->getCatalogService()->getModel('category', $id);
+        $category = $this->getCatalogService()->getModel('category', $this->params('id'));
         return new ViewModel(array('category' => $category));
     }
 

@@ -12,16 +12,19 @@ class FilterProduct extends AbstractFilter
 
         $this->add(array(
             'name' => 'name',
+            'allow_empty' => 'true',
         ));
         $this->add(array(
             'name' => 'description',
+            'allow_empty' => 'true',
         ));
         $this->add(array(
             'name' => 'manufacturer_company_id',
-            'required' => true,
+            'required' => 'false',
         ));
         $this->add(array(
             'name' => 'item_number',
+            'allow_empty' => 'true',
         ));
     }
 }

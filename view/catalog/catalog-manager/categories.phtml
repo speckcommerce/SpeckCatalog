@@ -1,32 +1,16 @@
-<? $pdir = '/catalog-manager/partial/'; ?>
+<? $pdir = '/catalog/catalog-manager/partial/'; ?>
 <div class="list-wrap half-pad">
     <div class="child-expand list-items-helper">
         <div class="collapse-all"><i class="icon-arrow-up"></i></div>
         <div class="expand-all"><i class="icon-arrow-down"></i></div>
-        <span class="smallcaps">&nbsp;categories</span>
+        <span class="smallcaps">&nbsp;categories</span><br/>
     </div>
     <div class="list-items">
-        <? foreach($categories as $category) : ?>
-            <?=$this->partial($pdir.'category.phtml', array('category' => $category, 'contrastbg' => 'contrastbg'));?>
-        <? endforeach; ?>
-    </div> 
+        <?=$this->speckCatalogRenderChildren($categories); ?>
+    </div>
     <div class="row list-items-helper">
-        <?=$this->partial($pdir.'add.phtml', array(
-            'function' => 'add-button', 
-            'newClassName' => 'category',
-            'parentClassName' => 'category',
-            'parentId' => 0,
-            'partialName' => 'category',     
-        ));?>
-        <?=$this->partial($pdir.'add.phtml', array(
-            'function'  => 'import-search', 
-            'searchClassName' => 'category',
-            'className' => 'category',
-            'parentClassName' => 'category',
-            'parentId' => 0,     
-            'partialName' => 'category',     
-        ));?>
-    </div> 
+        <?=$this->speckCatalogAdderHelper('addButton', 'category'); ?>
+    </div>
 </div>
 
 <?=$this->render($pdir.'modal.phtml'); ?>

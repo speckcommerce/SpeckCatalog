@@ -89,6 +89,7 @@ class Module
                 'catalog_availability_form' => 'Catalog\Form\Availability',
                 'catalog_uom_form' => 'Catalog\Form\Uom',
                 'catalog_company_form' => 'Catalog\Form\Company',
+                'catalog_category_form' => 'Catalog\Form\Category',
                 'catalog_spec_form' => 'Catalog\Form\Spec',
                 'catalog_image_form' => 'Catalog\Form\Image',
                 'catalog_document_form' => 'Catalog\Form\Document',
@@ -98,6 +99,7 @@ class Module
                 'catalog_option_form_filter' => 'Catalog\Form\FilterOption',
                 'catalog_spec_form_filter' => 'Catalog\Form\FilterSpec',
                 'catalog_company_form_filter' => 'Catalog\Form\FilterCompany',
+                'catalog_category_form_filter' => 'Catalog\Form\FilterCategory',
             ),
             'factories' => array(
                 'catalog_product_form' => function ($sm) {

@@ -44,24 +44,11 @@ class ProductMapper extends ModelMapperAbstract
 
     public function linkParentCategory($categoryId, $productId)
     {
-        $db = $this->getReadAdapter();
-        $sql = $db->select()
-            ->from('catalog_category_product_linker')
-            ->where('category_id = ?', $categoryId)
-            ->where('product_id = ?', $productId);
-        $this->events()->trigger(__FUNCTION__, $this, array('query' => $sql));
-        $row = $db->fetchRow($sql);
-        if(false === $row){
-            $data = new ArrayObject(array(
-                'category_id'  => $categoryId,
-                'product_id' => $productId,
-            ));
-            $result = $db->insert('catalog_category_product_linker', (array) $data);
-            if($result !== 1){
-                var_dump($result);
-                die('something didnt work!');
-            }
-        }
+        $row = array(
+            'product_id' => $productId,
+            'category_id' => $categoryId,
+        );
+        return $this->add($row, $this->parentCategoryLinkerTableName);
     }
 
 

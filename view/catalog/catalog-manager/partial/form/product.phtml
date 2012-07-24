@@ -11,6 +11,7 @@ $form->setAttribute('class', 'live-form');
     <?=$this->formInput($form->get('record_id')); ?>
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
     <? if(false === $form->isValid()) : ?>
+        <? var_dump($form->getData()); ?>
         <div class="alert alert-error">
         <button class="close" data-dismiss="alert" type="button">×</button>
         <strong>Oh snap!</strong>

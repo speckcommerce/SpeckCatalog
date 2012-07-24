@@ -8,7 +8,7 @@ class CategoryService extends ServiceAbstract
 
     public function _populateModel($category)
     {
-        $categories = $this->getModelMapper()->getChildCategories($category->getRecordId());
+        $categories = $this->getChildCategories($category->getRecordId());
         if($categories){
             foreach($categories as $i => $childCategory){
                 $childCategories[$i] = $this->populateModel($childCategory);

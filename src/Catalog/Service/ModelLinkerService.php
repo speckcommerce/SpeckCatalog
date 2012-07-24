@@ -26,7 +26,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
             $this->class = $data['class_name'];
         }
         $this->parentClassName = $data['parent_class_name'];
-        $this->parentId        = $data['parent_id'];
+        $this->parentId        = (int) $data['parent_id'];
         if (isset($data['id']) && trim($data['id'])){
             $this->id =  $data['id'];
         }
@@ -57,21 +57,22 @@ class ModelLinkerService implements ServiceManagerAwareInterface
     {
         // one/many children to one parent
         $setParentClassId = 'setParent' . ucfirst($this->parentClassName) . 'Id';
-        echo $setParentClassId;
         if (is_callable(array($this->model, $setParentClassId))){
+            echo '"' . $setParentClassId . '"';
             $this->model->$setParentClassId($this->parentId);
             return $this->getModelService()->add($this->model);
         }
         // one/many parents to one child
         $setChildClassId = 'set' . ucfirst($this->class) . 'Id';
-        echo $setChildClassId;
         $parentModelService = $this->getModelService($this->parentClassName);
         $parentModel = $parentModelService->getById($this->parentId);
         if (is_callable(array($parentModel, $setChildClassId))){
+            echo '"' . $setChildClassId . '"';
             $parentModelService->update($parentModel->$setChildClassId($id));
             return $this->model;
         }
         // many parents to many children
+
         $this->getModelService()->add($this->model);
         return $this->createLinker($this->class, $this->model->getRecordId(), $this->parentClassName, $this->parentId);
     }
@@ -80,10 +81,12 @@ class ModelLinkerService implements ServiceManagerAwareInterface
     {
         $method = 'linkParent' . ucfirst($parentClassName);
         if (is_callable(array($this->getModelService($className), $method))){
+            echo '"' . $method . '"';
             $linkerId = $this->getModelService($className)->$method($parentId, $id);
             return $this->model->setLinkerId($linkerId);
         }
         return $this->model;
+
     }
 
     public function removeLinker($class, $linkerId)

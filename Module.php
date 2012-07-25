@@ -2,12 +2,13 @@
 
 namespace SpeckCatalog;
 
-use Zend\ModuleManager\ModuleManager,
-    Zend\Navigation,
-    Application\Extra\Page,
-    Service\Installer,
-    Catalog\Model\Mapper,
-    Catalog\Service\FormServiceAwareInterface;
+use Zend\ModuleManager\ModuleManager;
+use Zend\Navigation;
+use Application\Extra\Page;
+use Service\Installer;
+use Catalog\Model\Mapper;
+use Catalog\Service\FormServiceAwareInterface;
+use Catalog\Service\CatalogServiceAwareInterface;
 
 class Module
 {
@@ -55,6 +56,13 @@ class Module
                         $sm = $sm->getServiceLocator();
                         $formService = $sm->get('catalog_form_service');
                         $instance->setFormService($formService);
+                    }
+                },
+                function($instance, $sm){
+                    if($instance instanceof CatalogServiceAwareInterface){
+                        $sm = $sm->getServiceLocator();
+                        $catalogService = $sm->get('catalog_generic_service');
+                        $instance->setCatalogService($catalogService);
                     }
                 },
             ),

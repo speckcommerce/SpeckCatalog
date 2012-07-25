@@ -37,6 +37,40 @@ return array(
                             ),
                         ),
                     ),
+                    'category' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/category/:id',
+                            'defaults' => array(
+                                'controller' => 'category',
+                                'action' => 'index',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'cart' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/cart',
+                    'defaults' => array(
+                        'controller' => 'catalogcart',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add-item' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/add-item',
+                            'defaults' => array(
+                                'controller' => 'catalogcart',
+                                'action' => 'addItem',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'catalogmanager' => array(

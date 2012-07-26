@@ -12,11 +12,8 @@ class ModelMapperAbstract extends AbstractDbMapper
     protected $tableName;
     protected $hydrator;
 
-    public function __construct($adapter, $unsetFields=null)
+    public function __construct($adapter, $unsetFields=array())
     {
-        if(null === $unsetFields){
-            $unsetFields = array();
-        }
         $abstractFields = array('sort_weight', 'linker_id');
         $unsetFields = array_merge($unsetFields, $abstractFields);
         $this->setDbAdapter($adapter);
@@ -81,7 +78,7 @@ class ModelMapperAbstract extends AbstractDbMapper
         if(count($result) === 1){
             return $result->current();
         }elseif(count($result) > 1){
-            throw new \Exception('returned more than one result, use selectMany');
+            throw new \Exception('returned more than one result');
         }
     }
 

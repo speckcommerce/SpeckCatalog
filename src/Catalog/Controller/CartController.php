@@ -59,7 +59,7 @@ class CartController extends AbstractActionController
         if(isset($_POST['product_branch'])){
             $this->addChildrenToCart($_POST['product_branch'], $cartItem->getCartItemId());
         }
-        echo '<a href="/cart">your cart</a>';
+        return $this->_redirect()->toUrl('/cart');
     }
 
     public function addChildrenToCart($children, $parentId)
@@ -74,7 +74,6 @@ class CartController extends AbstractActionController
             $cartItem = $this->createCartItem($arr)->setParentItemId($parentId);
             $this->cartService->addItemToCart($cartItem);
         }
-
     }
 
     public function createCartItem($arr)
@@ -85,6 +84,4 @@ class CartController extends AbstractActionController
         $cartItem->setPrice(99.99);
         return $cartItem;
     }
-
-
 }

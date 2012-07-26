@@ -17,6 +17,9 @@ class CategoryService extends ServiceAbstract
         }
         $products = $this->getProductService()->getProductsByCategoryId($category->getRecordId());
         if($products){
+            foreach($products as $i => $product){
+                $products[$i] = $this->getProductService()->populateModel($product);
+            }
             $category->setProducts($products);
         }
         return $category;

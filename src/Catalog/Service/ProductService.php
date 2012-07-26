@@ -17,12 +17,12 @@ class ProductService extends ServiceAbstract
         $productId = $product->getRecordId();
 
         $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($productId));
-        $options = $this->getOptionService()->getOptionsByProductId($productId);
-        $product->setOptions($options);
-        $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
-        $product->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()));
-        $product->setSpecs($this->getSpecService()->getByProductId($productId));
-        $product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
+        //$options = $this->getOptionService()->getOptionsByProductId($productId);
+        //$product->setOptions($options);
+        //$product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
+        //$product->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()));
+        //$product->setSpecs($this->getSpecService()->getByProductId($productId));
+        //$product->setDocuments($this->getDocumentService()->getDocumentsByProductId($productId));
         $product->setImages($this->getImageService()->getImagesByProductId($productId));
 
         return $product;

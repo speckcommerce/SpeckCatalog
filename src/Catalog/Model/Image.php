@@ -33,6 +33,10 @@ class Image extends MediaAbstract
             sLgZopau/3qDlJzs8vH13h5Ip9PSU3k+H89ms19pR6+MDhMX9QRaS6ooTTVgb96chYWF
             39lFEKnazp51Sm2mrxBYVy6Xc9pstvv/CDAAcDiWuIwmxr4AAAAASUVORK5CYII=
         ";
-    }  
+    }
+
+    public function __toString(){
+        return '' . $this->getLabel();
+    }
 
 }

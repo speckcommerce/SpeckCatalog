@@ -13,7 +13,7 @@ class ProductMapper extends ModelMapperAbstract
 
     public function __construct($adapter)
     {
-        $unsetKeys = array('options', 'parent_choices', 'manufacturer', 'uoms', 'specs', 'documents', 'images', 'rev_date_time' );
+        $unsetKeys = array('options', 'parent_choices', 'manufacturer', 'uoms', 'specs', 'documents', 'images');
         parent::__construct($adapter, $unsetKeys);
     }
 
@@ -49,26 +49,5 @@ class ProductMapper extends ModelMapperAbstract
             'category_id' => $categoryId,
         );
         return $this->add($row, $this->parentCategoryLinkerTableName);
-    }
-
-
-    public function setChildOptionLinkerTable($childOptionLinkerTable)
-    {
-        $this->childOptionLinkerTable = $childOptionLinkerTable;
-        return $this;
-    }
-
-    public function getParentCategoryLinkerTable()
-    {
-        if(null === $this->parentCategoryLinkerTable){
-            $this->parentCategoryLinkerTable = $this->getServiceManager()->get('catalog_category_product_linker_tg');
-        }
-        return $this->parentCategoryLinkerTable;
-    }
-
-    public function setParentCategoryLinkerTable($parentCategoryLinkerTable)
-    {
-        $this->parentCategoryLinkerTable = $parentCategoryLinkerTable;
-        return $this;
     }
 }

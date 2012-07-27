@@ -11,9 +11,8 @@ class Availability extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'availability_id',
             'attributes' => array(
-                'label' => 'Record Id',
                 'type' => 'text'
             ),
         ));

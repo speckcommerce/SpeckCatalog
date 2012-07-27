@@ -14,7 +14,7 @@ class AdderHelper extends AbstractHelper
             'className'       => $className,
             'newClassName'    => $className,
             'parentClassName' => ($parent ? lcfirst($parent->get('class_name')) : $className) ,
-            'parentId'        => ($parent ? $parent->getRecordId() : 0),
+            'parentId'        => ($parent ? $parent->getId() : 0),
             'partialName'     => $className,
             'childId'         => null,
             'childClassName'  => $childName?:null

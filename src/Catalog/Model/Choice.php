@@ -6,6 +6,8 @@ use Exception;
 
 class Choice extends LinkedModelAbstract
 {
+    protected $choiceId;
+
     //field holds name for 'choice', override name for 'product'
     /**
      * overrideName
@@ -245,5 +247,33 @@ class Choice extends LinkedModelAbstract
     {
         $this->parentOptions = $parentOptions;
         return $this;
+    }
+
+ /**
+  * Get choiceId.
+  *
+  * @return choiceId.
+  */
+ function getChoiceId()
+ {
+     return $this->choiceId;
+ }
+
+ /**
+  * Set choiceId.
+  *
+  * @param choiceId the value to set.
+  */
+ function setChoiceId($choiceId)
+ {
+     $this->choiceId = $choiceId;
+ }
+    public function getId()
+    {
+        return $this->choiceId;
+    }
+    public function setId($id)
+    {
+        return $this->setChoiceId($id);
     }
 }

@@ -11,9 +11,9 @@ class Spec extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'spec_id',
             'attributes' => array(
-                'type' => 'text'
+                'type' => 'hidden'
             ),
         ));
         $this->add(array(

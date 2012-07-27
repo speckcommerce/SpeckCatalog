@@ -7,6 +7,7 @@ use Catalog\Model\Uom,
 
 class UomMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'uom_code';
     protected $tableName = 'ansi_uom';
 
     public function getModel($constructor = null)

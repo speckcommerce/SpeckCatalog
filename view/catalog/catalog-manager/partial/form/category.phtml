@@ -1,13 +1,13 @@
 <?
 $form->prepare();
 $form->setAttribute('method', 'post');
-$form->setAttribute('id', 'category-' . $category->getRecordId());
+$form->setAttribute('id', 'category-' . $category->getCategoryId());
 $form->setAttribute('class', 'live-form');
 
 ?>
 
 <?=$this->form()->openTag($form);?>
-    <?=$this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('category_id')); ?>
 
     <div class="row">
         <div class="span3">

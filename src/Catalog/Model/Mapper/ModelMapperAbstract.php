@@ -9,15 +9,13 @@ use Zend\Db\Sql\Select;
 
 class ModelMapperAbstract extends AbstractDbMapper
 {
+    protected $primaryKey;
     protected $tableName;
     protected $hydrator;
 
-    public function __construct($adapter, $unsetFields=null)
+    public function __construct($adapter, $unsetFields=array())
     {
-        if(null === $unsetFields){
-            $unsetFields = array();
-        }
-        $abstractFields = array('sort_weight', 'linker_id');
+        $abstractFields = array('sort_weight', 'linker_id', 'id');
         $unsetFields = array_merge($unsetFields, $abstractFields);
         $this->setDbAdapter($adapter);
         $this->setEntityPrototype($this->getModel());
@@ -37,7 +35,7 @@ class ModelMapperAbstract extends AbstractDbMapper
     {
         $select = $this->select()
                        ->from($this->getTablename())
-                       ->where(array('record_id' => $id));
+                       ->where(array($this->getPrimaryKey() => $id));
         return $this->selectwith($select);
     }
 
@@ -45,11 +43,11 @@ class ModelMapperAbstract extends AbstractDbMapper
     {
         if (!$where) {
             if(is_array($entity)){
-                $id = $entity['record_id'];
+                $id = $entity[$this->getPrimaryKey()];
             }else{
-                $id = $entity->getRecordId();
+                $id = $entity->getId();
             }
-            $where = 'record_id = ' . $entity['record_id'];
+            $where = $this->getPrimaryKey() . ' = ' . $entity[$this->getPrimaryKey()];
         }
 
         parent::update($entity, $where, $tableName, $hydrator);
@@ -66,7 +64,7 @@ class ModelMapperAbstract extends AbstractDbMapper
         if(is_array($model)){
             return;
         }
-        $model->setRecordId($result->getGeneratedValue());
+        $model->setId($result->getGeneratedValue());
         return $model;
     }
 
@@ -81,7 +79,7 @@ class ModelMapperAbstract extends AbstractDbMapper
         if(count($result) === 1){
             return $result->current();
         }elseif(count($result) > 1){
-            throw new \Exception('returned more than one result, use selectMany');
+            throw new \Exception('returned more than one result');
         }
     }
 
@@ -97,4 +95,24 @@ class ModelMapperAbstract extends AbstractDbMapper
         }
         return $return;
     }
+
+ /**
+  * Get primaryKey.
+  *
+  * @return primaryKey.
+  */
+ function getPrimaryKey()
+ {
+     return $this->primaryKey;
+ }
+
+ /**
+  * Set primaryKey.
+  *
+  * @param primaryKey the value to set.
+  */
+ function setPrimaryKey($primaryKey)
+ {
+     $this->primaryKey = $primaryKey;
+ }
 }

@@ -3,12 +3,12 @@
 <?
 $form->prepare();
 $form->setAttribute('method', 'post');
-$form->setAttribute('id', 'product-' . $product->getRecordId());
+$form->setAttribute('id', 'product-' . $product->getProductId());
 $form->setAttribute('class', 'live-form');
 
 ?>
 <?=$this->form()->openTag($form);?>
-    <?=$this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('product_id')); ?>
     <input type="hidden" name="type" value="<?=$product->getType();?>"/>
     <? if(false === $form->isValid()) : ?>
         <? var_dump($form->getData()); ?>
@@ -28,7 +28,6 @@ $form->setAttribute('class', 'live-form');
         <div class="span6">
             <?=$this->formRow($form->get('name')); ?>
             <?=$this->formRow($form->get('description')); ?>
-
         </div>
         <div class="span3">
             <?=$this->formRow($form->get('manufacturer_company_id')); ?>

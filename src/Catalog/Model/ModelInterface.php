@@ -4,9 +4,7 @@ namespace Catalog\Model;
 
 interface ModelInterface
 {
-    public function getRecordId();
-
-    public function setRecordId($id);
-
+    public function getId();
+    public function setId($id);
     public function __toString();
 }

@@ -16,7 +16,7 @@ class ImageMapper extends MediaMapperAbstract
     {
         $linkerName = $this->parentOptionLinkerTableName;
         $select = $this->select()->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.media_id')
+            ->join($linkerName, $this->getTableName() . '.media_id = ' . $linkerName . '.media_id')
             ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
         return $this->selectMany($select);

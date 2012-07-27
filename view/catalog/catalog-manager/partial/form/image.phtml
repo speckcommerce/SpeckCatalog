@@ -1,6 +1,6 @@
-<form id="image-<?=$image->getRecordId();?>" class="live-form">
+<form id="image-<?=$image->getMediaId();?>" class="live-form">
 
-    <input type="hidden" name="record_id" value="<?=$image->getRecordId();?>"/>
+    <input type="hidden" name="media_id" value="<?=$image->getMediaId();?>"/>
     <div class="row">
         <div class="span1">
         <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
@@ -13,7 +13,7 @@
             <span class="smallcaps">filename</span><br/>
             <input name="file_name" class="span3" type="text" value="<?=$image->getFilename();?>"/>
         </div>
-        <?=$image->getFullPath();?>
     </div>
+    <?=$image->getBaseUrl();?><?=$image->getFileName();?>
 
 </form><br/>

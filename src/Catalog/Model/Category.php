@@ -4,6 +4,8 @@ namespace Catalog\Model;
 
 class Category extends LinkedModelAbstract
 {
+    protected $categoryId;
+
     /**
      * name
      *
@@ -78,5 +80,34 @@ class Category extends LinkedModelAbstract
     public function __toString()
     {
         return '' . $this->getName();
+    }
+
+ /**
+  * Get categoryId.
+  *
+  * @return categoryId.
+  */
+ function getCategoryId()
+ {
+     return $this->categoryId;
+ }
+
+ /**
+  * Set categoryId.
+  *
+  * @param categoryId the value to set.
+  */
+ function setCategoryId($categoryId)
+ {
+     $this->categoryId = $categoryId;
+ }
+
+    public function getId()
+    {
+        return $this->categoryId();
+    }
+    public function setId($id)
+    {
+        return $this->setCategoryId($id);
     }
 }

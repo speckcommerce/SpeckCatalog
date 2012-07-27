@@ -4,6 +4,8 @@ namespace Catalog\Model;
 
 class Company extends ModelAbstract
 {
+    protected $companyId;
+
     /**
      * name
      *
@@ -102,5 +104,33 @@ class Company extends ModelAbstract
     public function __toString()
     {
         return '';
+    }
+
+ /**
+  * Get companyId.
+  *
+  * @return companyId.
+  */
+ function getCompanyId()
+ {
+     return $this->companyId;
+ }
+
+ /**
+  * Set companyId.
+  *
+  * @param companyId the value to set.
+  */
+ function setCompanyId($companyId)
+ {
+     $this->companyId = $companyId;
+ }
+    public function getId()
+    {
+        return $this->companyId;
+    }
+    public function setId($id)
+    {
+        return $this->setCompanyId($id);
     }
 }

@@ -11,12 +11,9 @@ class Company extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'company_id',
             'attributes' => array(
                 'type' => 'hidden'
-            ),
-            'options' => array(
-                'label' => 'Record Id',
             ),
         ));
         $this->add(array(

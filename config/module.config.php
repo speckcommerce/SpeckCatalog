@@ -1,25 +1,28 @@
 <?php
 
 use Catalog\Service\FormServiceAwareInterface;
+use Catalog\Service\CatalogServiceAwareInterface;
 
 $config = array(
     'controllers' => array(
         'invokables' => array(
-            'catalog' => 'Catalog\Controller\CatalogController'
-        ),
-        'factories' => array(
-            'catalogmanager' => function ($sm) {
-                //$controller = new \Catalog\Controller\CatalogManagerController($sm->get('zfcUserAuthentication'));
-                $controller = new \Catalog\Controller\CatalogManagerController();
-                return $controller;
-            },
-
+            'catalog'         => 'Catalog\Controller\CatalogController',
+            'catalogManager'  => 'Catalog\Controller\CatalogManagerController',
+            'category'        => 'Catalog\Controller\CategoryController',
+            'catalogcart'        => 'Catalog\Controller\CartController',
+            'manage-category' => 'Catalog\Controller\ManageCategoryController',
         ),
         'initializers' => array(
             function($instance, $sm){
                 if($instance instanceof FormServiceAwareInterface){
                     $formService = $sm->get('catalog_form_service');
                     $instance->setFormService($formService);
+                }
+            },
+            function($instance, $sm){
+                if($instance instanceof CatalogServiceAwareInterface){
+                    $catalogService = $sm->get('catalog_generic_service');
+                    $instance->setCatalogService($catalogService);
                 }
             },
         ),

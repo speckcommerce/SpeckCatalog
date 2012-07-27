@@ -4,12 +4,13 @@ namespace Catalog\Form;
 
 use Zend\InputFilter\InputFilter;
 
-class FilterOption extends AbstractFilter
+class FilterOption extends InputFilter
 {
     public function __construct()
     {
-        parent::__construct();
-
+        $this->add(array(
+            'name' => 'option_id',
+        ));
         $this->add(array(
             'name' => 'name',
         ));

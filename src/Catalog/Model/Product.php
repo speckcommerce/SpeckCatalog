@@ -4,6 +4,8 @@ namespace Catalog\Model;
 
 class Product extends LinkedModelAbstract
 {
+    protected $productId;
+
     /**
      * type
      *
@@ -290,5 +292,33 @@ class Product extends LinkedModelAbstract
             $uoms = $this->getUoms();
             return $uoms[0]->getPrice();
         }
+    }
+
+ /**
+  * Get productId.
+  *
+  * @return productId.
+  */
+ function getProductId()
+ {
+     return $this->productId;
+ }
+
+ /**
+  * Set productId.
+  *
+  * @param productId the value to set.
+  */
+ function setProductId($productId)
+ {
+     $this->productId = $productId;
+ }
+    public function getId()
+    {
+        return $this->productId;
+    }
+    public function setId($id)
+    {
+        return $this->setProductId($id);
     }
 }

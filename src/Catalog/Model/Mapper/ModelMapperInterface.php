@@ -2,6 +2,9 @@
 namespace Catalog\Model\Mapper;
 interface ModelMapperInterface
 {
+    public function getTableName();
+
+    public function getPrimaryKey();
     /**
      * getModel
      *

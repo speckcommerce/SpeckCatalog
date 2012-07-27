@@ -5,6 +5,8 @@ use Exception;
 
 class Option extends LinkedModelAbstract
 {
+    protected $optionId;
+
     /**
      * parentProducts
      *
@@ -224,5 +226,33 @@ class Option extends LinkedModelAbstract
     {
         $this->images = $images;
         return $this;
+    }
+
+ /**
+  * Get optionId.
+  *
+  * @return optionId.
+  */
+ function getOptionId()
+ {
+     return $this->optionId;
+ }
+
+ /**
+  * Set optionId.
+  *
+  * @param optionId the value to set.
+  */
+ function setOptionId($optionId)
+ {
+     $this->optionId = $optionId;
+ }
+    public function getId()
+    {
+        return $this->optionId;
+    }
+    public function setId($id)
+    {
+        return $this->setOptionId($id);
     }
 }

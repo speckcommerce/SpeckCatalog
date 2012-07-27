@@ -13,12 +13,9 @@ class Product extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'product_id',
             'attributes' => array(
                 'type' => 'hidden'
-            ),
-            'options' => array(
-                'label' => 'Record Id',
             ),
         ));
         $this->add(array(
@@ -58,7 +55,7 @@ class Product extends ZendForm
     {
         $options = array();
         foreach($this->getCompanyService()->getAll() as $company){
-            $options[$company->getRecordId()] = $company->getName();
+            $options[$company->getCompanyId()] = $company->getName();
         }
         $this->add(array(
             'name' => 'manufacturer_company_id',

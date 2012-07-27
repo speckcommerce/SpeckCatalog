@@ -6,6 +6,7 @@ use Catalog\Model\Category,
 
 class CategoryMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'category_id';
     protected $tableName = 'catalog_category';
 
     protected $categoryLinkerTableName = 'catalog_category_category_linker';
@@ -25,7 +26,7 @@ class CategoryMapper extends ModelMapperAbstract
     {
         $linker = $this->categoryLinkerTableName;
         $select = $this->select()->from($this->tableName)
-                  ->join($linker, $linker . '.child_category_id = ' . $this->tableName . '.record_id')
+                  ->join($linker, $linker . '.child_category_id = ' . $this->tableName . 'category_id')
                   ->where(array($linker . '.parent_category_id' => $categoryId));
 
         return $this->selectMany($select);

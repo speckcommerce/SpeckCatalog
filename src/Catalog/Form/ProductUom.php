@@ -13,10 +13,9 @@ class ProductUom extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'product_uom_id',
             'attributes' => array(
                 'type' => 'hidden',
-                'required' => true,
             ),
         ));
         $this->add(array(
@@ -61,7 +60,7 @@ class ProductUom extends ZendForm
     {
         $uoms = array();
         foreach($this->getUomService()->getAll() as $uom){
-            $uoms[$uom->getName()] = $uom->getRecordId();
+            $uoms[$uom->getName()] = $uom->getUomCode();
         }
         $this->add(array(
             'name' => 'uom_code',

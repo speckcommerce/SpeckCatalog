@@ -11,10 +11,9 @@ class Choice extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'choice_id',
             'attributes' => array(
-                'label' => 'Record Id',
-                'type' => 'text'
+                'type' => 'hidden'
             ),
         ));
         $this->add(array(

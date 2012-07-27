@@ -10,7 +10,7 @@ class OptionService extends ServiceAbstract
 
     public function _populateModel($option)
     {
-        $optionId = $option->getRecordId();
+        $optionId = $option->getOptionId();
         $parentProducts = $this->getProductService()->getProductsByChildOptionId($optionId);
         $option->setParentProducts($parentProducts);
         $parentChoices = $this->getChoiceService()->getChoicesByChildOptionId($optionId);

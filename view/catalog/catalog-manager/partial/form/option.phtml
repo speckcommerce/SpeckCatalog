@@ -3,14 +3,14 @@
 <?
 $form->prepare();
 $form->setAttribute('method', 'post');
-$form->setAttribute('id', 'option-' . $option->getRecordId());
+$form->setAttribute('id', 'option-' . $option->getOptionId());
 $form->setAttribute('class', 'live-form');
 
 ?>
 
 <?=$this->form()->openTag($form);?>
 
-    <?=$this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('option_id')); ?>
 
     <div class="row offset0">
 

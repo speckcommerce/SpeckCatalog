@@ -11,10 +11,9 @@ class Uom extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'record_id',
+            'name' => 'uom_code',
             'attributes' => array(
-                'label' => 'Record Id',
-                'type' => 'text'
+                'type' => 'hidden'
             ),
         ));
     }

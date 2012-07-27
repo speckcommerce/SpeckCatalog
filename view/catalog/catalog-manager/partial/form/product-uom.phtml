@@ -2,12 +2,12 @@
 
 <?
 $form->prepare();
-$form->setAttribute('id', 'productUom-' . $productUom->getRecordId());
+$form->setAttribute('id', 'productUom-' . $productUom->getProductUomId());
 $form->setAttribute('class', 'live-form');
 ?>
 <?=$this->form()->openTag($form);?>
 
-    <?=$this->formInput($form->get('record_id')); ?>
+    <?=$this->formInput($form->get('product_uom_id')); ?>
     <?=$this->formInput($form->get('parent_product_id')); ?>
 
     <div class="row quarter-pad">

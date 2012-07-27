@@ -7,6 +7,7 @@ use Catalog\Model\Company,
 
 class CompanyMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'company_id';
     protected $tableName = 'catalog_company';
 
     public function __construct($adapter)

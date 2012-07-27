@@ -4,12 +4,13 @@ namespace Catalog\Form;
 
 use Zend\InputFilter\InputFilter;
 
-class FilterProductUom extends AbstractFilter
+class FilterProductUom extends InputFilter
 {
     public function __construct()
     {
-        parent::__construct();
-
+        $this->add(array(
+            'name' => 'product_uom_id',
+        ));
         $this->add(array(
             'name' => 'price',
         ));

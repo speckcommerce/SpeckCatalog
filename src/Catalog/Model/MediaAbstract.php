@@ -4,6 +4,7 @@ namespace Catalog\Model;
 
 abstract class MediaAbstract extends LinkedModelAbstract
 {
+    protected $mediaId;
     /**
      * label
      *
@@ -100,5 +101,33 @@ abstract class MediaAbstract extends LinkedModelAbstract
     {
         $this->baseUrl = $baseUrl;
         return $this;
+    }
+
+ /**
+  * Get mediaId.
+  *
+  * @return mediaId.
+  */
+ function getMediaId()
+ {
+     return $this->mediaId;
+ }
+
+ /**
+  * Set mediaId.
+  *
+  * @param mediaId the value to set.
+  */
+ function setMediaId($mediaId)
+ {
+     $this->mediaId = $mediaId;
+ }
+    public function getId()
+    {
+        return $this->mediaId;
+    }
+    public function setId($id)
+    {
+        return $this->setMediaId($id);
     }
 }

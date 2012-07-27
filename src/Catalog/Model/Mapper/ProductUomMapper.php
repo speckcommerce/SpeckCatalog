@@ -7,6 +7,7 @@ use Catalog\Model\ProductUom,
 
 class ProductUomMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'product_uom_id';
     protected $tableName = 'catalog_product_uom';
 
     public function __construct($adapter)

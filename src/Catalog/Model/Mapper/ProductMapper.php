@@ -7,6 +7,7 @@ use Catalog\Model\Product,
 
 class ProductMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'product_id';
     protected $tableName = 'catalog_product';
     protected $childOptionLinkerTableName = 'catalog_product_option_linker';
     protected $parentCategoryLinkerTableName = 'catalog_category_product_linker';
@@ -27,7 +28,7 @@ class ProductMapper extends ModelMapperAbstract
         $linker = $this->parentCategoryLinkerTableName;
         $select = $this->select()
                   ->from($this->tableName)
-                  ->join($linker, $linker . '.product_id = '.$this->tableName.'.record_id')
+                  ->join($linker, $linker . '.product_id = '.$this->tableName.'.product_id')
                   ->where(array($linker . '.category_id' => $categoryId));
         return $this->selectMany($select);
     }
@@ -36,7 +37,7 @@ class ProductMapper extends ModelMapperAbstract
     {
         $linkerName = $this->childOptionLinkerTableName;
         $select = $this->select()->from($this->tableName)
-            ->join($linkerName, $this->tableName . '.record_id = '. $linkerName .'.product_id')
+            ->join($linkerName, $this->tableName . '.product_id = '. $linkerName .'.product_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
         return $this->selectMany($select);

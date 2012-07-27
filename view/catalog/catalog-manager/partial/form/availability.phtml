@@ -1,27 +1,27 @@
-<? $pdir = '/catalog/catalog-manager/partial/'; ?>
-<form id="availability-<?=$availability->getRecordId();?>" class="live-form">
+<?
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'availability-' . $availability->getAvailabilityId());
+$form->setAttribute('class', 'live-form');
 
-    <input type="hidden" name="record_id" value="<?=$availability->getRecordId();?>"/>
-    <input type="hidden" name="parent_product_uom_id" value="<?=$availability->getParentProductUomId();?>"/>
+?>
+
+<?=$this->form()->openTag($form);?>
+
+    <?=$this->formInput($form->get('availability_id')); ?>
+    <?=$this->formInput($form->get('parent_product_uom_id')); ?>
 
     <div class="row">
         <div class="span5">
             <div class="row">
                 <div class="span3">
-                    <span class="smallcaps">distributor</span><br/>
-                    <select name="distributor_company_id" class="span3">
-                        <?=$this->partial($pdir.'form/select-options.phtml', array(
-                            'data' => $availability->getCompanies(),
-                            'getIdMethod' => 'getRecordId',
-                            'selectedId'  => $availability->getDistributorCompanyId(),
-                            'getNameMethod' => 'getName',
-                        ));?>
-                    </select>
+                    <?=$this->formRow($form->get('distributor_company_id')); ?>
                 </div>
                 <div class="span2 input-prepend">
-                    <span class="smallcaps">cost</span><br/>
+                    <?=$this->formLabel($form->get('cost')); ?>
                     <span class="add-on">$</span>
-                    <input name="cost" class="span1" value="<?=$availability->getCost();?>" type="text"/>
+                    <?=$this->formLabel($form->get('cost')); ?>
+                    <?=$this->formErrors($form->get('cost')); ?>
                 </div>
             </div>
         </div>

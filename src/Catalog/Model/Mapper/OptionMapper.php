@@ -6,6 +6,7 @@ use Catalog\Model\Option,
 
 class OptionMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'option_id';
     protected $tableName = 'catalog_option';
     protected $productLinkerTableName = 'catalog_product_option_linker';
     protected $childChoiceLinkerTableName = 'catalog_option_choice_linker';
@@ -25,7 +26,7 @@ class OptionMapper extends ModelMapperAbstract
     public function getOptionsByProductId($productId)
     {
         $select = $this->select()->from($this->tableName)
-            ->join($this->productLinkerTableName, $this->tableName . '.record_id = ' . $this->productLinkerTableName . '.option_id')
+            ->join($this->productLinkerTableName, $this->tableName . '.option_id = ' . $this->productLinkerTableName . '.option_id')
             ->where(array('product_id' => $productId));
         return $this->selectMany($select);
     }
@@ -34,7 +35,7 @@ class OptionMapper extends ModelMapperAbstract
     {
         $linkerName = $this->parentChoiceLinkerTableName;
         $select = $this->select()->from($this->tableName)
-            ->join($linkerName, $this->tableName . '.record_id = ' . $linkerName . '.option_id' )
+            ->join($linkerName, $this->tableName . '.option_id = ' . $linkerName . '.option_id' )
             ->where(array('choice_id' => $choiceId));
         //->order('sort_weight DESC');
         return $this->selectMany($select);

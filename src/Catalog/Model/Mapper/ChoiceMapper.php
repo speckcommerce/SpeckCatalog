@@ -6,6 +6,7 @@ use Catalog\Model\Choice,
 
 class ChoiceMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'choice_id';
     protected $childOptionLinkerTableName = 'catalog_choice_option_linker';
     protected $parentOptionLinkerTableName = 'catalog_option_choice_linker';
     protected $tableName = 'catalog_choice';
@@ -25,7 +26,7 @@ class ChoiceMapper extends ModelMapperAbstract
     {
         $linkerName = $this->parentOptionLinkerTableName;
         $select = $this->select()->from($this->getTableName())
-            ->join($linkerName, $this->getTableName() . '.record_id = ' . $linkerName . '.choice_id')
+            ->join($linkerName, $this->getTableName() . '.choice_id = ' . $linkerName . '.choice_id')
             ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
 
@@ -52,7 +53,7 @@ class ChoiceMapper extends ModelMapperAbstract
     {
         $linkerName = $this->childOptionLinkerTableName;
         $select = $this->select()->from($this->tableName)
-            ->join($linkerName, $this->tableName . '.record_id = ' . $linkerName . '.choice_id')
+            ->join($linkerName, $this->tableName . '.choice_id = ' . $linkerName . '.choice_id')
             ->where(array('option_id' => $optionId));
             //->order('sort_weight DESC');
         return $this->selectMany($select);

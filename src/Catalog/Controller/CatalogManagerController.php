@@ -51,7 +51,7 @@ class CatalogManagerController extends AbstractActionController implements FormS
         $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
         $model = $this->getCatalogService()->newModel($class, $constructor);
 
-        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getRecordId()));
+        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
     }
 
     public function productsAction()

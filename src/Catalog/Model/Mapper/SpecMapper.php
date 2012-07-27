@@ -3,6 +3,7 @@ namespace Catalog\Model\Mapper;
 use Catalog\Model\Spec;
 class SpecMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'spec_id';
     protected $tableName = 'catalog_product_spec';
 
     public function getModel($constructor=null)

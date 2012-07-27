@@ -20,7 +20,7 @@ class AvailabilityService extends ServiceAbstract
         $model = $this->getModelMapper()->getModel($constructor);
         $model->setCompanies($this->getCompanyService()->getAll());
         return $model;
-    }       
+    }
 
     public function getAvailabilitiesByParentProductUomId($id)
     {
@@ -30,28 +30,28 @@ class AvailabilityService extends ServiceAbstract
             $return[] = $this->populateModel($availability);
         }
         return $return;
-    }  
+    }
 
     public function getCompanyService()
     {
         if(null === $this->companyService){
             $this->companyService = $this->getServiceManager()->get('catalog_company_service');
         }
-        return $this->companyService;         
+        return $this->companyService;
     }
- 
+
     public function setCompanyService($companyService)
     {
         $this->companyService = $companyService;
         return $this;
     }
- 
+
     public function getProductUomService()
     {
         if(null === $this->productUomService){
             $this->productUomService = $this->getServiceManager()->get('catalog_product_uom_service');
         }
-        return $this->productUomService;   
+        return $this->productUomService;
     }
 
     public function getModelMapper()
@@ -59,6 +59,6 @@ class AvailabilityService extends ServiceAbstract
         if(null === $this->modelMapper){
             $this->modelMapper = $this->getServiceManager()->get('catalog_availability_mapper');
         }
-        return $this->modelMapper;         
-    }    
+        return $this->modelMapper;
+    }
 }

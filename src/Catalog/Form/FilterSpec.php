@@ -4,12 +4,13 @@ namespace Catalog\Form;
 
 use Zend\InputFilter\InputFilter;
 
-class FilterSpec extends AbstractFilter
+class FilterSpec extends Inputfilter
 {
     public function __construct()
     {
-        parent::__construct();
-
+        $this->add(array(
+            'name' => 'spec_id',
+        ));
         $this->add(array(
             'name' => 'label',
         ));

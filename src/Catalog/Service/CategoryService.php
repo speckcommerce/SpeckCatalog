@@ -8,14 +8,14 @@ class CategoryService extends ServiceAbstract
 
     public function _populateModel($category)
     {
-        $categories = $this->getChildCategories($category->getRecordId());
+        $categories = $this->getChildCategories($category->getCategoryId());
         if($categories){
             foreach($categories as $i => $childCategory){
                 $childCategories[$i] = $this->populateModel($childCategory);
                 $category->setCategories($childCategories);
             }
         }
-        $products = $this->getProductService()->getProductsByCategoryId($category->getRecordId());
+        $products = $this->getProductService()->getProductsByCategoryId($category->getCategoryId());
         if($products){
             foreach($products as $i => $product){
                 $products[$i] = $this->getProductService()->populateModel($product);

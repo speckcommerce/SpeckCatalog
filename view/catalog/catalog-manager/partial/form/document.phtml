@@ -1,11 +1,11 @@
-<form id="document-<?=$document->getRecordId();?>" class="live-form">
+<form id="document-<?=$document->getMediaId();?>" class="live-form">
 
-    <input type="hidden" name="record_id" value="<?=$document->getRecordId();?>"/>
+    <input type="hidden" name="media_id" value="<?=$document->getMediaId();?>"/>
     <div class="row">
         <div class="span3">
             <span class="smallcaps">label</span><br/>
             <input name="label" class="span3" type="text" value="<?=$document->getLabel();?>"/>
-        </div>  
+        </div>
         <div class="span3">
             <span class="smallcaps">filename</span><br/>
             <input name="file_name" class="span3" type="text" value="<?=$document->getFilename();?>"/>
@@ -13,4 +13,4 @@
     </div>
     <a href="<?=$document->getFullPath();?>" target="_blank"><?=$document->getFullPath();?></a>
 
-</form><br/>  
+</form><br/>

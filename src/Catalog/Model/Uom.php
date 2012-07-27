@@ -12,13 +12,13 @@ class Uom extends ModelAbstract
     {
         return $this->uomCode;
     }
- 
+
     public function setUomCode($uomCode)
     {
         $this->uomCode = $uomCode;
         return $this;
     }
- 
+
     public function getName()
     {
         return $this->name;

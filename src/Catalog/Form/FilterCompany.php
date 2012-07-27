@@ -4,12 +4,13 @@ namespace Catalog\Form;
 
 use Zend\InputFilter\InputFilter;
 
-class FilterCompany extends AbstractFilter
+class FilterCompany extends InputFilter
 {
     public function __construct()
     {
-        parent::__construct();
-
+        $this->add(array(
+            'name' => 'company_id',
+        ));
         $this->add(array(
             'name' => 'name',
         ));

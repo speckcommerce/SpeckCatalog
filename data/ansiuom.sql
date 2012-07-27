@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `ansi_uom` (
   PRIMARY KEY (`uom_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `ansi_uom` (`record_id`, `name`, `enabled`) VALUES
+INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('1', 'Actual Pounds', 0),
 ('10', 'Group', 0),
 ('11', 'Outfit', 0),

@@ -28,21 +28,8 @@
                     <?=$this->speckCatalogRenderChildren($choice->getOptions());?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->partial($pdir.'add.phtml', array(
-                        'function' => 'add-button',
-                        'newClassName' => 'option',
-                        'parentClassName' => 'choice',
-                        'parentId' => $choice->getRecordId(),
-                        'partialName' => 'option',
-                    ));?>
-                    <?=$this->partial($pdir.'add.phtml', array(
-                        'function'  => 'import-search',
-                        'searchClassName' => 'option',
-                        'className' => 'option',
-                        'parentClassName' => 'choice',
-                        'parentId' => $choice->getRecordId(),
-                        'partialName' => 'option',
-                    ));?>
+                    <?=$this->speckCatalogAdderHelper('addButton', 'option', $choice); ?>
+                    <?=$this->speckCatalogAdderHelper('importSearch', 'option', $choice); ?>
                 </div>
             </div>
         <? endif; ?>

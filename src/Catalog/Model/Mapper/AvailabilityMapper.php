@@ -7,6 +7,7 @@ use Catalog\Model\Availability,
 
 class AvailabilityMapper extends ModelMapperAbstract
 {
+    protected $primaryKey = 'availability_id';
     protected $tableName = "catalog_availability";
 
     public function __construct($adapter)

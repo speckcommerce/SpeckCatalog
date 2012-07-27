@@ -2,7 +2,7 @@
 <h2><?=$product->getName();?></h2>
 
 <form method="submit" action="/cart/add-product">
-<input type="hidden" name="product_id" value="<?=$product->getRecordId();?>"/>
+<input type="hidden" name="product_id" value="<?=$product->getProductId();?>"/>
 
 <div class="row">
     <div class="span3 bordered-table">

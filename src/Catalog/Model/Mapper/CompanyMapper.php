@@ -10,10 +10,10 @@ class CompanyMapper extends ModelMapperAbstract
     protected $primaryKey = 'company_id';
     protected $tableName = 'catalog_company';
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('products', 'availabilities');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getModel($constructor = null)

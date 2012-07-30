@@ -12,10 +12,10 @@ class ProductMapper extends ModelMapperAbstract
     protected $childOptionLinkerTableName = 'catalog_product_option_linker';
     protected $parentCategoryLinkerTableName = 'catalog_category_product_linker';
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('options', 'parent_choices', 'manufacturer', 'uoms', 'specs', 'documents', 'images');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getModel($constructor = null)

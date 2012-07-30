@@ -12,10 +12,10 @@ class OptionMapper extends ModelMapperAbstract
     protected $childChoiceLinkerTableName = 'catalog_option_choice_linker';
     protected $parentChoiceLinkerTableName = 'catalog_choice_option_linker';
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('choices', 'parent_choices', 'slider', 'builder_segment', 'images', 'choice_uom_adjustments', 'price_map', 'parent_products');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getModel($constructor = null)

@@ -10,10 +10,10 @@ class AvailabilityMapper extends ModelMapperAbstract
     protected $primaryKey = 'availability_id';
     protected $tableName = "catalog_availability";
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('distributor','companies');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getModel($constructor = null)

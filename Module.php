@@ -69,46 +69,31 @@ class Module
         );
     }
 
-   //      ,,,,,,,,,,,,,,
-   //    <{ blahblahblah }
-   //      ''''''''''''''
+    public function getControllerConfig()
+    {
+        return array(
+            'initializers' => array(
+                function($instance, $sm){
+                    if($instance instanceof FormServiceAwareInterface){
+                        $sm = $sm->getServiceLocator();
+                        $formService = $sm->get('catalog_form_service');
+                        $instance->setFormService($formService);
+                    }
+                },
+                function($instance, $sm){
+                    if($instance instanceof CatalogServiceAwareInterface){
+                        $sm = $sm->getServiceLocator();
+                        $catalogService = $sm->get('catalog_generic_service');
+                        $instance->setCatalogService($catalogService);
+                    }
+                },
+            ),
+        );
+    }
 
     public function getServiceConfig()
     {
         return array(
-            'invokables' => array(
-                'catalog_generic_service'      => 'Catalog\Service\CatalogService',
-                'catalog_model_linker_service' => 'Catalog\Service\ModelLinkerService',
-                'catalog_product_service'      => 'Catalog\Service\ProductService',
-                'catalog_option_service'       => 'Catalog\Service\OptionService',
-                //'catalog_image_service'        => 'Catalog\Service\ImageService',
-                //'catalog_document_service'     => 'Catalog\Service\DocumentService',
-                'catalog_category_service'     => 'Catalog\Service\CategoryService',
-                'catalog_choice_service'       => 'Catalog\Service\ChoiceService',
-                'catalog_product_uom_service'  => 'Catalog\Service\ProductUomService',
-                'catalog_uom_service'          => 'Catalog\Service\UomService',
-                'catalog_availability_service' => 'Catalog\Service\AvailabilityService',
-                'catalog_company_service'      => 'Catalog\Service\CompanyService',
-                'catalog_spec_service'         => 'Catalog\Service\SpecService',
-
-                'catalog_form_service' => 'Catalog\Service\FormService',
-                'catalog_option_form' => 'Catalog\Form\Option',
-                'catalog_choice_form' => 'Catalog\Form\Choice',
-                'catalog_availability_form' => 'Catalog\Form\Availability',
-                'catalog_uom_form' => 'Catalog\Form\Uom',
-                'catalog_company_form' => 'Catalog\Form\Company',
-                'catalog_category_form' => 'Catalog\Form\Category',
-                'catalog_spec_form' => 'Catalog\Form\Spec',
-                'catalog_image_form' => 'Catalog\Form\Image',
-                'catalog_document_form' => 'Catalog\Form\Document',
-
-                'catalog_product_uom_form_filter' => 'Catalog\Form\FilterProductUom',
-                'catalog_product_form_filter' => 'Catalog\Form\FilterProduct',
-                'catalog_option_form_filter' => 'Catalog\Form\FilterOption',
-                'catalog_spec_form_filter' => 'Catalog\Form\FilterSpec',
-                'catalog_company_form_filter' => 'Catalog\Form\FilterCompany',
-                'catalog_category_form_filter' => 'Catalog\Form\FilterCategory',
-            ),
             'factories' => array(
                 'catalog_product_form' => function ($sm) {
                     $form = new \Catalog\Form\Product;
@@ -123,50 +108,13 @@ class Module
                 'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');
                 },
-                //model mappers
-                'catalog_product_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\ProductMapper($adapter);
-                },
-                'catalog_option_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\OptionMapper($adapter);
-                },
-                'catalog_category_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\CategoryMapper($adapter);
-                },
-                'catalog_choice_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\ChoiceMapper($adapter);
-                },
-                'catalog_availability_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\AvailabilityMapper($adapter);
-                },
-                'catalog_product_uom_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\ProductUomMapper($adapter);
-                },
-                'catalog_image_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\ImageMapper($adapter);
-                },
-                'catalog_document_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\DocumentMapper($adapter);
-                },
-                'catalog_company_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\CompanyMapper($adapter);
-                },
-                'catalog_spec_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\SpecMapper($adapter);
-                },
-                'catalog_uom_mapper' => function ($sm) {
-                    $adapter = $sm->get('catalog_db');
-                    return new Mapper\UomMapper($adapter);
+            ),
+            'initializers' => array(
+                function($instance, $sm){
+                    if($instance instanceof Mapper\DbAdapterAwareInterface){
+                        $dbAdapter = $sm->get('catalog_db');
+                        return $instance->setDbAdapter($dbAdapter);
+                    }
                 },
             ),
         );

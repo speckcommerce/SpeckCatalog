@@ -11,10 +11,10 @@ class ChoiceMapper extends ModelMapperAbstract
     protected $parentOptionLinkerTableName = 'catalog_option_choice_linker';
     protected $tableName = 'catalog_choice';
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('product', 'target_uom', 'na_choices', 'options', 'parent_options', 'linker_id', 'sort_weight');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getModel($constructor = null)

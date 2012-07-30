@@ -2,11 +2,11 @@
 
 namespace Catalog\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController,
-    Zend\View\Model\ViewModel,
-    Zend\Paginator\Paginator,
-    Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter,
-    Catalog\Service\FormServiceAwareInterface;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter;
+use Catalog\Service\FormServiceAwareInterface;
 
 class CatalogManagerController extends AbstractActionController implements FormServiceAwareInterface
 {

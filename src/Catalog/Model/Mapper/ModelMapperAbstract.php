@@ -7,17 +7,17 @@ use Catalog\Model\Mapper\Hydrator;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Db\Sql\Select;
 
-class ModelMapperAbstract extends AbstractDbMapper
+class ModelMapperAbstract extends AbstractDbMapper implements DbAdapterAwareInterface
 {
     protected $primaryKey;
     protected $tableName;
     protected $hydrator;
+    protected $serviceManager;
 
-    public function __construct($adapter, $unsetFields=array())
+    public function __construct($unsetFields=array())
     {
         $abstractFields = array('sort_weight', 'linker_id', 'id');
         $unsetFields = array_merge($unsetFields, $abstractFields);
-        $this->setDbAdapter($adapter);
         $this->setEntityPrototype($this->getModel());
         $this->setHydrator(new Hydrator($unsetFields));
     }

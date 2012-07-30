@@ -6,10 +6,10 @@ abstract class MediaMapperAbstract extends ModelMapperAbstract
     protected $primaryKey = 'media_id';
     protected $tableName = 'catalog_media';
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('media_type', 'base_url');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getMediaByProductId($productId)

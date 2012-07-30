@@ -11,10 +11,10 @@ class CategoryMapper extends ModelMapperAbstract
 
     protected $categoryLinkerTableName = 'catalog_category_category_linker';
 
-    public function __construct($adapter)
+    public function __construct()
     {
         $unsetKeys = array('products', 'categories', 'parent_category_id');
-        parent::__construct($adapter, $unsetKeys);
+        parent::__construct($unsetKeys);
     }
 
     public function getModel($constructor = null)

@@ -6,6 +6,8 @@ use Zend\Form\Form as ZendForm;
 
 class Availability extends ZendForm
 {
+    protected $companyService;
+
     public function __construct()
     {
         parent::__construct();
@@ -13,8 +15,55 @@ class Availability extends ZendForm
         $this->add(array(
             'name' => 'availability_id',
             'attributes' => array(
-                'type' => 'text'
+                'type' => 'hidden'
             ),
         ));
+        $this->add(array(
+            'name' => 'parent_product_uom_id',
+            'attributes' => array(
+                'type' => 'hidden'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'cost',
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'span1'
+            ),
+            'options' => array(
+                'label' => 'Cost',
+            ),
+        ));
+    }
+
+    public function init()
+    {
+        $options = array();
+        foreach($this->getCompanyService()->getAll() as $company){
+            $options[$company->getCompanyId()] = $company->getName();
+        }
+        $this->add(array(
+            'name' => 'distributor_company_id',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => $options,
+                'class' => 'span3',
+            ),
+            'options' => array(
+                'label' => 'Distributor',
+            ),
+        ));
+        return $this;
+    }
+
+    public function setCompanyService($companyService)
+    {
+        $this->companyService = $companyService;
+        return $this;
+    }
+
+    public function getCompanyService()
+    {
+        return $this->companyService;
     }
 }

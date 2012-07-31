@@ -33,11 +33,12 @@ class ChoiceMapper extends ModelMapperAbstract
         return $this->selectMany($select);
     }
 
+    //product->parentChoices
     public function getChoicesByChildProductId($productId)
     {
         $select = $this->select()->from($this->getTableName())
             ->where(array('product_id' => $productId));
-        return $this->selectWith($select);
+        return $this->selectMany($select);
     }
 
     public function linkParentOption($optionId, $choiceId)

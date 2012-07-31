@@ -6,6 +6,6 @@
         <div class="title collapser">&nbsp; <?=$availability;?></div>
     </div>
     <div class="entity-content">
-            <?=$this->partial($pdir.'form/availability.phtml', array('availability' => $availability));?>
+        <?=$this->speckCatalogRenderForm($availability);?>
     </div>
 </div>

@@ -20,14 +20,16 @@ class Choice extends ZendForm
             'name' => 'product_id',
             'attributes' => array(
                 'label' => 'Product Id',
-                'type' => 'text'
+                'type' => 'hidden'
             ),
         ));
         $this->add(array(
             'name' => 'override_name',
             'attributes' => array(
-                'label' => 'Override Name',
                 'type' => 'text'
+            ),
+            'options' => array(
+                'label' => 'Override Name',
             ),
         ));
         $this->add(array(

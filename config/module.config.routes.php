@@ -55,7 +55,7 @@ return array(
                 'options' => array(
                     'route' => '/cart',
                     'defaults' => array(
-                        'controller' => 'catalogcart',
+                        'controller' => 'speckcart',
                         'action' => 'index',
                     ),
                 ),

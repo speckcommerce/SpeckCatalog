@@ -312,6 +312,7 @@ class Product extends LinkedModelAbstract
  function setProductId($productId)
  {
      $this->productId = $productId;
+     return $this;
  }
     public function getId()
     {

@@ -6,6 +6,14 @@ $form->setAttribute('class', 'live-form');
 
 ?>
 
+    <? if(false === $form->isValid()) : ?>
+        <? var_dump($form->getData()); ?>
+        <div class="alert alert-error">
+        <button class="close" data-dismiss="alert" type="button">×</button>
+        <strong>Oh snap!</strong>
+        Change a few things up and try submitting again.
+        </div>
+    <? endif; ?>
 <?=$this->form()->openTag($form);?>
 
     <?=$this->formInput($form->get('choice_id')); ?>
@@ -21,4 +29,4 @@ $form->setAttribute('class', 'live-form');
         </div>
     </div>
 
-</form><br/>
+</form>

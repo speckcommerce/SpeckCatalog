@@ -14,7 +14,7 @@ class CategoryController extends AbstractActionController implements CatalogServ
     public function indexAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $category = $this->getCatalogService()->getById('category', $id);
+        $category = $this->getCatalogService()->getService('category')->getCategoryForView($id);
 
         return new ViewModel(array('category' => $category));
     }

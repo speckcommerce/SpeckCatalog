@@ -89,7 +89,7 @@ class CatalogManagerController
 
     public function categoriesAction()
     {
-        $categories = $this->getCatalogService()->getCategories();
+        $categories = $this->getCatalogService()->getService('category')->getCategoriesForManagement();
         return new ViewModel(array('categories' => $categories));
     }
 

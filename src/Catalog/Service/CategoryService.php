@@ -11,6 +11,19 @@ class CategoryService extends ServiceAbstract
         return $this->getChildCategories(0, true);
     }
 
+    public function getCategoriesForManagement($parentId = 0)
+    {
+        $categories = $this->getChildCategories($parentId);
+        foreach($categories as $category){
+            $products = $this->getProductService()->getProductsByCategoryId($category->getCategoryId());
+            $category->setProducts($products);
+            $childCategories = $this->getCategoriesForManagement($category->getCategoryId());
+            $category->setCategories($childCategories);
+        }
+        return $categories;
+    }
+
+
     public function getCategoryforView($categoryId)
     {
         $category = $this->getById($categoryId);

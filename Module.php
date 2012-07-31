@@ -9,6 +9,7 @@ use Service\Installer;
 use Catalog\Model\Mapper;
 use Catalog\Service\FormServiceAwareInterface;
 use Catalog\Service\CatalogServiceAwareInterface;
+use Zend\Console\Request as ConsoleRequest;
 
 class Module
 {
@@ -34,6 +35,10 @@ class Module
 
     public function onBootstrap($e)
     {
+        if($e->getRequest() instanceof ConsoleRequest){
+            return;
+        }
+
         $app          = $e->getParam('application');
         $locator      = $app->getServiceManager();
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
@@ -41,6 +46,7 @@ class Module
         $renderer->plugin('headScript')->appendFile('/assets/speck-catalog/js/speck-catalog-manager.js');
         $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
     }
+
 
     public function getViewHelperConfig()
     {

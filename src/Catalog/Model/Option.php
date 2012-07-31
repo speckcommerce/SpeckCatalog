@@ -246,6 +246,7 @@ class Option extends LinkedModelAbstract
  function setOptionId($optionId)
  {
      $this->optionId = $optionId;
+     return $this;
  }
     public function getId()
     {

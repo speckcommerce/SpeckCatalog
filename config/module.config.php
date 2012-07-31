@@ -51,7 +51,6 @@ $config = array(
             'catalog_form_service'      => 'Catalog\Service\FormService',
             'catalog_option_form'       => 'Catalog\Form\Option',
             'catalog_choice_form'       => 'Catalog\Form\Choice',
-            'catalog_availability_form' => 'Catalog\Form\Availability',
             'catalog_uom_form'          => 'Catalog\Form\Uom',
             'catalog_company_form'      => 'Catalog\Form\Company',
             'catalog_category_form'     => 'Catalog\Form\Category',
@@ -60,6 +59,8 @@ $config = array(
             'catalog_document_form'     => 'Catalog\Form\Document',
 
             'catalog_product_uom_form_filter' => 'Catalog\Form\FilterProductUom',
+            'catalog_availability_form_filter' => 'Catalog\Form\FilterAvailability',
+            'catalog_choice_form_filter'      => 'Catalog\Form\FilterChoice',
             'catalog_product_form_filter'     => 'Catalog\Form\FilterProduct',
             'catalog_option_form_filter'      => 'Catalog\Form\FilterOption',
             'catalog_spec_form_filter'        => 'Catalog\Form\FilterSpec',

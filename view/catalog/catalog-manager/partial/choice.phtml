@@ -14,7 +14,7 @@
         <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>
     </div>
     <div class="entity-content">
-        <?=$this->partial($pdir.'form/choice.phtml', array('choice' => $choice));?>
+        <?=$this->speckCatalogRenderForm($choice);?>
         <? if($choice->has('product')) : ?>
             <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?><br/>
         <? else: ?>

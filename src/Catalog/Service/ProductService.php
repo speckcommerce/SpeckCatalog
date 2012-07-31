@@ -12,12 +12,12 @@ class ProductService extends ServiceAbstract
     protected $imageService;
     protected $choiceService;
 
-    public function _populateModel($product)
+    public function _populateModel($product, $recursive=false)
     {
         $productId = $product->getProductId();
 
         $product->setParentChoices($this->getChoiceService()->getChoicesByChildProductId($productId));
-        $options = $this->getOptionService()->getOptionsByProductId($productId);
+        $options = $this->getOptionService()->getOptionsByProductId($productId, $recursive);
         $product->setOptions($options);
         $product->setUoms($this->getProductUomService()->getProductUomsByParentProductId($productId));
         $product->setManufacturer($this->getCompanyService()->getById($product->getManufacturerCompanyId()));

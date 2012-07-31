@@ -53,6 +53,8 @@ class CartController extends AbstractActionController
             'description' => $product->getName(),
             'quantity' => $_POST['quantity'],
         );
+
+
         $cartItem = $this->createCartItem($arr);
         $this->cartService->addItemToCart($cartItem);
 

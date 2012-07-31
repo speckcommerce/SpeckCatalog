@@ -7,14 +7,19 @@ use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter;
 use Catalog\Service\FormServiceAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-class CatalogManagerController extends AbstractActionController implements FormServiceAwareInterface
+class CatalogManagerController
+    extends AbstractActionController
+    implements FormServiceAwareInterface, ServiceLocatorAwareInterface
 {
     protected $catalogService;
     protected $linkerService;
     protected $testService;
     protected $userAuth;
     protected $formService;
+    protected $serviceLocator;
 
     public function __construct($userAuth = null)
     {
@@ -22,6 +27,16 @@ class CatalogManagerController extends AbstractActionController implements FormS
         //    $this->redirect()->toRoute('zfcuser');
         //}
         //$this->userAuth = $userAuth;
+    }
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+        return $this;
     }
 
     public function layout($layout)
@@ -105,7 +120,8 @@ class CatalogManagerController extends AbstractActionController implements FormS
 
     public function productAction()
     {
-        $product = $this->getCatalogService()->getById('product', $this->params('id'));
+        $productService = $this->getServiceLocator()->get('catalog_product_service');
+        $product = $productService->getById($this->params('id'), true, true);
         $view = new ViewModel(array('product' => $product));
 
         return $view;

@@ -95,6 +95,11 @@ class Module
     {
         return array(
             'factories' => array(
+                'catalog_availability_form' => function ($sm) {
+                    $form = new \Catalog\Form\Availability;
+                    $form->setCompanyService($sm->get('catalog_company_service'));
+                    return $form->init();
+                },
                 'catalog_product_form' => function ($sm) {
                     $form = new \Catalog\Form\Product;
                     $form->setCompanyService($sm->get('catalog_company_service'));

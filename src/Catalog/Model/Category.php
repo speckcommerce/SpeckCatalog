@@ -104,7 +104,7 @@ class Category extends LinkedModelAbstract
 
     public function getId()
     {
-        return $this->categoryId();
+        return $this->categoryId;
     }
     public function setId($id)
     {

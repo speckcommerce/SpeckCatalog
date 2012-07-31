@@ -1,7 +1,7 @@
 <? $pdir = '/catalog/catalog/partial/'; ?>
 <h2><?=$product->getName();?></h2>
 
-<form method="submit" action="/cart/add-product">
+<form method="POST" action="/cart/add-item">
 <input type="hidden" name="product_id" value="<?=$product->getProductId();?>"/>
 
 <div class="row">
@@ -20,6 +20,7 @@
             <hr/>
         <? endif; ?>
         <? if(!$product->has('options')) : ?>
+            <input type="text" name="quantity" value="1">
             <input type="submit" value="Add To Cart"/>
             <hr/>
         <? endif; ?>
@@ -46,6 +47,7 @@
                     <? foreach($product->getOptions() as $option) : ?>
                         <?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>
                     <? endforeach; ?>
+                    <input type="text" name="quantity" value="1">
                     <input type="submit" value="Add To Cart"/>
                 </div>
             <? endif; ?>

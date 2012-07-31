@@ -2,14 +2,28 @@
 
 namespace Catalog\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController,
-    Zend\View\Model\ViewModel,
-    Exception;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-class CatalogController extends AbstractActionController
+
+class CatalogController extends AbstractActionController implements ServiceLocatorAwareInterface
 {
     protected $catalogService;
     protected $modelLinkerService;
+    protected $serviceManager;
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+        return $this;
+    }
 
     public function indexAction()
     {
@@ -19,7 +33,8 @@ class CatalogController extends AbstractActionController
     public function productAction()
     {
         $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $product = $this->getCatalogService()->getById('product', $id);
+        $productService = $this->getServiceLocator()->get('catalog_product_service');
+        $product = $productService->getById($id, true, true);
 
         return new ViewModel(array('product' => $product));
     }

@@ -31,12 +31,12 @@ abstract class ServiceAbstract implements ServiceInterface, ServiceManagerAwareI
         return $this->getModelMapper()->getAll();
     }
 
-    public function getById($id, $populate=true)
+    public function getById($id, $populate=false, $recursive=false)
     {
         $model = $this->getModelMapper()->findById($id);
         if($model){
             if(true === $populate){
-                $model = $this->populateModel($model);
+                $model = $this->populateModel($model, $recursive);
             }
             return $model;
         }

@@ -24,6 +24,7 @@ class CartController extends AbstractActionController
         $cs = $this->getCartService();
         $cart = $cs->getSessionCart();
 
+        $images = array();
         return new ViewModel(array(
             'cart' => $cart
         ));
@@ -59,7 +60,7 @@ class CartController extends AbstractActionController
         $this->cartService->addItemToCart($cartItem);
 
         if(isset($_POST['product_branch'])){
-            $this->addChildrenToCart($_POST['product_branch'], $cartItem->getCartItemId());
+            //$this->addChildrenToCart($_POST['product_branch'], $cartItem->getCartItemId());
         }
         return $this->_redirect()->toUrl('/cart');
     }

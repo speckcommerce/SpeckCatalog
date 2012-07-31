@@ -55,6 +55,7 @@ class ModelLinkerService implements ServiceManagerAwareInterface
 
     public function resolveAndStoreRelationship()
     {
+        // child aware of its parent
         // one/many children to one parent
         $setParentClassId = 'setParent' . ucfirst($this->parentClassName) . 'Id';
         if (is_callable(array($this->model, $setParentClassId))){
@@ -62,17 +63,18 @@ class ModelLinkerService implements ServiceManagerAwareInterface
             $this->model->$setParentClassId($this->parentId);
             return $this->getModelService()->add($this->model);
         }
+        // parent aware of its child
         // one/many parents to one child
-        $setChildClassId = 'set' . ucfirst($this->class) . 'Id';
+        $setChildClassId = 'setChild' . ucfirst($this->class) . 'Id';
         $parentModelService = $this->getModelService($this->parentClassName);
         $parentModel = $parentModelService->getById($this->parentId);
         if (is_callable(array($parentModel, $setChildClassId))){
             echo '"' . $setChildClassId . '"';
-            $parentModelService->update($parentModel->$setChildClassId($id));
+            $parentModelService->update($parentModel->$setChildClassId($this->id));
             return $this->model;
         }
+        // linker table
         // many parents to many children
-
         $this->getModelService()->add($this->model);
         return $this->createLinker($this->class, $this->model->getId(), $this->parentClassName, $this->parentId);
     }

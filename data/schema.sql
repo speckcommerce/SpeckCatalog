@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 31, 2012 at 11:31 AM
+-- Generation Time: Jul 31, 2012 at 11:41 AM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.14
 
@@ -29,6 +29,41 @@ CREATE TABLE IF NOT EXISTS `ansi_uom` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart_item`
+--
+
+CREATE TABLE IF NOT EXISTS `cart_item` (
+  `item_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cart_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(15,5) DEFAULT NULL,
+  `tax` decimal(15,5) DEFAULT NULL,
+  `added_time` datetime DEFAULT NULL,
+  `parent_item_id` int(11) DEFAULT '0',
+  PRIMARY KEY (`item_id`),
+  KEY `cart_id` (`cart_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_item_index`
+--
+
+CREATE TABLE IF NOT EXISTS `cart_item_index` (
+  `item_id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(255) NOT NULL,
+  `value_string` varchar(255) DEFAULT NULL,
+  `value_int` int(11) DEFAULT NULL,
+  PRIMARY KEY (`item_id`),
+  KEY `int_string` (`key`,`value_string`),
+  KEY `int_index` (`key`,`value_int`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `catalog_availability`
 --
 
@@ -39,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `catalog_availability` (
   `distributor_company_id` int(11) DEFAULT NULL,
   `cost` float NOT NULL,
   PRIMARY KEY (`availability_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -52,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category` (
   `name` varchar(255) DEFAULT NULL,
   `search_data` text NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -65,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_category_linker` (
   `parent_category_id` int(11) NOT NULL,
   `child_category_id` int(11) NOT NULL,
   PRIMARY KEY (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -78,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_linker` (
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   PRIMARY KEY (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -98,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice` (
   `default_choice_id` int(11) DEFAULT NULL,
   `type` enum('choice','product') NOT NULL,
   PRIMARY KEY (`choice_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -113,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice_option_linker` (
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`linker_id`),
   UNIQUE KEY `link` (`choice_id`,`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -128,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `catalog_company` (
   `phone` varchar(255) DEFAULT NULL,
   `search_data` text NOT NULL,
   PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -142,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `catalog_media` (
   `file_name` varchar(255) DEFAULT NULL,
   `search_data` text,
   PRIMARY KEY (`media_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -158,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option` (
   `required` tinyint(1) NOT NULL DEFAULT '0',
   `list_type` enum('radio','checkbox','dropdown') DEFAULT 'radio',
   PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -172,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option_choice_linker` (
   `choice_id` int(11) NOT NULL,
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -186,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option_image_linker` (
   `media_id` int(11) NOT NULL,
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -203,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product` (
   `manufacturer_company_id` int(11) DEFAULT NULL,
   `search_data` text,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -217,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_document_linker` (
   `media_id` int(11) NOT NULL,
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   KEY `linker_id` (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -231,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_image_linker` (
   `media_id` int(11) NOT NULL,
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   KEY `linker_id` (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -246,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_linker` (
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `link` (`option_id`,`product_id`),
   KEY `linker_id` (`linker_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -262,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
   `tab_delimited` text,
   `search_data` text,
   PRIMARY KEY (`spec_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -280,4 +315,5 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
   `uom_code` varchar(2) NOT NULL DEFAULT 'EA',
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`product_uom_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+

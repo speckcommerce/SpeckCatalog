@@ -11,20 +11,18 @@ class CartController extends AbstractActionController
     protected $cartService;
     protected $productService;
     protected $choiceService;
+    protected $flatOptions;
 
     public function init()
     {
         $this->cartService = $this->getServiceLocator()->get('SpeckCart\Service\CartService');
         $this->productService = $this->getServiceLocator()->get('catalog_product_service');
-        $this->choiceService = $this->getServiceLocator()->get('catalog_choice_service');
     }
 
     public function indexAction()
     {
         $cs = $this->getCartService();
         $cart = $cs->getSessionCart();
-
-        $images = array();
         return new ViewModel(array(
             'cart' => $cart
         ));
@@ -48,43 +46,59 @@ class CartController extends AbstractActionController
     public function addItemAction()
     {
         $this->init();
-
-        $product = $this->productService->getById($_POST['product_id']);
-        $arr = array(
-            'description' => $product->getName(),
-            'quantity' => $_POST['quantity'],
-        );
-
-
-        $cartItem = $this->createCartItem($arr);
-        $this->cartService->addItemToCart($cartItem);
-
+        $product = $this->productService->getById($_POST['product_id'], true);
         if(isset($_POST['product_branch'])){
-            //$this->addChildrenToCart($_POST['product_branch'], $cartItem->getCartItemId());
+            $this->flatOptions = $_POST['product_branch'];
         }
+        $this->cartService->addItemToCart($this->createCartItem($product));
         return $this->_redirect()->toUrl('/cart');
     }
 
-    public function addChildrenToCart($children, $parentId)
+    private function addOptions($options, $parentCartItem)
     {
-        foreach($children as $i => $choiceId){
-            $choice = $this->choiceService->getById($choiceId);
+        foreach($options as $option){
+            if(array_key_exists($option->getOptionId(), $this->flatOptions)){
 
-            $arr = array(
-                'description' => $choice->__toString(),
-                'quantity' => 1,
-            );
-            $cartItem = $this->createCartItem($arr)->setParentItemId($parentId);
-            $this->cartService->addItemToCart($cartItem);
+                $opt = $this->flatOptions[$option->getOptionId()];
+
+                if(is_array($opt)){ // multiple choices allowed(checkboxes or multi-select)
+                    foreach($option->getChoices() as $choice){
+                        if(array_key_exists($choice->getChoiceId(), $opt)){
+                            $childItem = $this->createCartItem($choice, $option);
+                            $parentCartItem->addItem($childItem);
+                        }
+                    }
+                } else { // $opt is the choiceId
+                    foreach($option->getChoices() as $choice){
+                        if($opt == $choice->getChoiceId()){
+                            $childItem = $this->createCartItem($choice, $option);
+                            $parentCartItem->addItem($childItem);
+                        }
+                    }
+                }
+
+            }
         }
+        return $parentCartItem;
     }
 
-    public function createCartItem($arr)
+    private function createCartItem($item, $parentChoice=null)
     {
+        if ($parentChoice) {
+            $description = '<b>[' . $parentChoice->__toString() . ']</b> ' . $item->__toString();
+        } else {
+            $description = $item->__toString();
+        }
+
         $cartItem = new CartItem();
-        $cartItem->setDescription($arr['description']);
-        $cartItem->setQuantity($arr['quantity']);
-        $cartItem->setPrice(99.99);
+        $cartItem->setDescription($description);
+        $cartItem->setQuantity(1);
+        $cartItem->setPrice($item->getPrice());
+
+        if($item->has('options')){
+            $cartItem = $this->addOptions($item->getOptions(), $cartItem);
+        }
+
         return $cartItem;
     }
 }

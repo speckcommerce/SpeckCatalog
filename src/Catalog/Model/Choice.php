@@ -217,6 +217,13 @@ class Choice extends LinkedModelAbstract
         return $this;
     }
 
+    public function getPrice(){
+        if($this->has('product')){
+            return $product->getPrice();
+        }
+        return 0;
+    }
+
     public function getType()
     {
         return $this->type;

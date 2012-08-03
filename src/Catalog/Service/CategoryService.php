@@ -23,14 +23,17 @@ class CategoryService extends ServiceAbstract
         return $categories;
     }
 
-
     public function getCategoryforView($categoryId)
     {
         $category = $this->getById($categoryId);
+        $imageService = $this->getProductservice()->getImageService();
 
         $categories = $this->getChildCategories($categoryId);
+        foreach($categories as $child){
+            $image = $imageService->getImageForCategory($child->getCategoryId());
+            $child->setImage($image);
+        }
         $products = $this->getProductService()->getProductsByCategoryId($categoryId);
-        $imageService = $this->getProductservice()->getImageService();
         foreach($products as $product){
             $product->setImages($imageService->getImagesByProductId($product->getProductId()));
         }

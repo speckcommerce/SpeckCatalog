@@ -1,0 +1,18 @@
+<?php
+var_dump($cart); die();
+
+function renderCartItem($item, $level = 0) {
+    $str = str_repeat('-', $level) . ' ';
+    $str .= $item->getDescription() . ' | ' . $item->getQuantity() . ' @ $' . $item->getPrice();
+    $str .= "<br />";
+
+    foreach ($item->getItems() as $c) {
+        $str .= renderCartItem($c, $level+1);
+    }
+
+    return $str;
+}
+
+foreach ($cart->getItems() as $i) {
+    echo renderCartItem($i) . "<br />";
+}

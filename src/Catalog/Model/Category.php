@@ -6,28 +6,16 @@ class Category extends LinkedModelAbstract
 {
     protected $categoryId;
 
-    /**
-     * name
-     *
-     * @var string
-     * @access protected
-     */
     protected $name;
 
-    /**
-     * products
-     *
-     * @var array
-     * @access protected
-     */
+    protected $title;
+
+    protected $descriptionHtml;
+
+    protected $image;
+
     protected $products;
 
-    /**
-     * categories
-     *
-     * @var array
-     * @access protected
-     */
     protected $categories;
 
     public function getProducts()
@@ -82,32 +70,53 @@ class Category extends LinkedModelAbstract
         return '' . $this->getName();
     }
 
- /**
-  * Get categoryId.
-  *
-  * @return categoryId.
-  */
- function getCategoryId()
- {
-     return $this->categoryId;
- }
+    function getCategoryId()
+    {
+        return $this->categoryId;
+    }
 
- /**
-  * Set categoryId.
-  *
-  * @param categoryId the value to set.
-  */
- function setCategoryId($categoryId)
- {
-     $this->categoryId = $categoryId;
- }
+    function setCategoryId($categoryId)
+    {
+        $this->categoryId = $categoryId;
+    }
 
     public function getId()
     {
         return $this->categoryId;
     }
+
     public function setId($id)
     {
         return $this->setCategoryId($id);
+    }
+
+    function getDescriptionHtml()
+    {
+        return $this->descriptionHtml;
+    }
+
+    function setDescriptionHtml($descriptionHtml)
+    {
+        $this->descriptionHtml = $descriptionHtml;
+    }
+
+    function getImage()
+    {
+        return $this->image;
+    }
+
+    function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    function getTitle()
+    {
+        return $this->title;
+    }
+
+    function setTitle($title)
+    {
+        $this->title = $title;
     }
 }

@@ -45,7 +45,7 @@
             <? if($product->has('options')) : ?>
                 <div class="boundary tab-pane" id="options">
                     <? foreach($product->getOptions() as $option) : ?>
-                        <?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>
+                        <?=$this->partial($pdir . 'option.phtml', array('option' => $option, 'tree' => '[options]')); ?>
                     <? endforeach; ?>
                     <input type="text" name="quantity" value="1">
                     <input type="submit" value="Add To Cart"/>

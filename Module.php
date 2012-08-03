@@ -47,7 +47,6 @@ class Module
         $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
     }
 
-
     public function getViewHelperConfig()
     {
         return array(
@@ -55,6 +54,13 @@ class Module
                 'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
                 'speckCatalogRenderForm' => 'Catalog\View\Helper\RenderForm',
                 'speckCatalogAdderHelper' => 'Catalog\View\Helper\AdderHelper',
+            ),
+            'factories' => array(
+                'speckCatalogImage' => function ($sm) {
+                    $sm = $sm->getServiceLocator();
+                    $settings = $sm->get('catalog_module_options');
+                    return new \Catalog\View\Helper\MediaUrl($settings, 'image');
+                },
             ),
             'initializers' => array(
                 function($instance, $sm){
@@ -99,8 +105,13 @@ class Module
 
     public function getServiceConfig()
     {
+
         return array(
             'factories' => array(
+                'catalog_module_options' => function ($sm) {
+                    $config = $sm->get('Config');
+                    return new \Catalog\Options\ModuleOptions(isset($config['speckcatalog']) ? $config['speckcatalog'] : array());
+                },
                 'catalog_availability_form' => function ($sm) {
                     $form = new \Catalog\Form\Availability;
                     $form->setCompanyService($sm->get('catalog_company_service'));
@@ -119,7 +130,16 @@ class Module
                 'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');
                 },
+                'catalog_image_service' => function ($sm) {
+                    $service = new \Catalog\Service\ImageService();
+                    return $service;
+                },
+                'catalog_document_service' => function ($sm) {
+                    $service = new \Catalog\Service\DocumentService();
+                    return $service;
+                },
             ),
+
             'initializers' => array(
                 function($instance, $sm){
                     if($instance instanceof Mapper\DbAdapterAwareInterface){

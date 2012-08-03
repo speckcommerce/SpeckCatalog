@@ -13,7 +13,7 @@ class CategoryMapper extends ModelMapperAbstract
 
     public function __construct()
     {
-        $unsetKeys = array('products', 'categories', 'parent_category_id');
+        $unsetKeys = array('products', 'categories', 'parent_category_id', 'image');
         parent::__construct($unsetKeys);
     }
 

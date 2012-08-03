@@ -6,6 +6,7 @@ class ImageMapper extends MediaMapperAbstract
 {
     protected $parentOptionLinkerTableName = 'catalog_option_image_linker';
     protected $parentProductLinkerTableName = 'catalog_product_image_linker';
+    protected $parentCategoryLinkerTableName = 'catalog_category_image_linker';
 
     public function getModel($constructor=null)
     {
@@ -20,6 +21,16 @@ class ImageMapper extends MediaMapperAbstract
             ->where(array('option_id' => $optionId));
         //->order('sort_weight DESC');
         return $this->selectMany($select);
+    }
+
+    public function getImageForCategory($categoryId)
+    {
+        $linkerName = $this->parentCategoryLinkerTableName;
+        $select = $this->select()->from($this->getTableName())
+            ->join($linkerName, $this->getTableName() . '.media_id = ' . $linkerName . '.media_id')
+            ->where(array('category_id' => $categoryId));
+        //->order('sort_weight DESC');
+        return $this->selectWith($select);
     }
 
     public function linkParentProduct($productId, $imageId)
@@ -38,6 +49,15 @@ class ImageMapper extends MediaMapperAbstract
             'media_id' => $imageId,
         );
         return $this->add($row, $this->parentOptionLinkerTableName);
+    }
+
+    public function linkParentCategory($categoryId, $imageId)
+    {
+        $row = array(
+            'category_id' => $categoryId,
+            'media_id' => $imageId,
+        );
+        return $this->add($row, $this->parentCategoryLinkerTableName);
     }
 
     public function updateProductImageSortOrder($order)

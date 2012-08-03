@@ -1,5 +1,5 @@
-<select name="option-<?=$option->getOptionId();?>">
+<select name="options[<?=$option->getOptionId();?>][]">
     <? foreach ($option->getChoices() as $choice): ?>
-    <option value="choice-<?=$choice->getOptionId();?>"><?=$choice->__toString();?></option>
+    <option value="choice-<?=$choice->getChoiceId();?>"><?=$choice->__toString();?></option>
     <? endforeach; ?>
 </select>

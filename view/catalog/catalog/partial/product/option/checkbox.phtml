@@ -1,6 +1,8 @@
 <? $pdir = '/catalog/catalog/partial/'; ?>
+
 <? foreach ($option->getChoices() as $choice): ?>
-<input name="option-<?=$option->getOptionId();?>" value="choice-<?=$choice->getChoiceId();?>" type="checkbox">&nbsp;<?=$choice;?>
+
+<input name="options[<?=$option->getOptionId();?>][]" value="choice-<?=$choice->getChoiceId();?>" type="checkbox">&nbsp;<?=$choice;?>
     <? if($choice->has('options')) : ?>
         <? foreach($choice->getOptions() as $option) : ?>
             <?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>

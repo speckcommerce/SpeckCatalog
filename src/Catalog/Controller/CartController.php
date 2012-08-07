@@ -11,7 +11,7 @@ class CartController extends AbstractActionController
     protected $cartService;
     protected $productService;
     protected $choiceService;
-    protected $flatOptions;
+    protected $flatOptions = array();
 
     public function init()
     {
@@ -46,7 +46,15 @@ class CartController extends AbstractActionController
     public function addItemAction()
     {
         $this->init();
-        $product = $this->productService->getById($_POST['product_id'], true);
+        $paramId = $this->params('id');
+        if (isset($paramId)) {
+            $productId = $paramId;
+        } elseif (isset($_POST['product_id'])) {
+            $productId = $_POST['product_id'];
+        } else {
+            die('didnt get an id');
+        }
+        $product = $this->productService->getById($productId, true);
         if(isset($_POST['product_branch'])){
             $this->flatOptions = $_POST['product_branch'];
         }

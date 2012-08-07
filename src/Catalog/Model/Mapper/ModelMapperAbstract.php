@@ -96,23 +96,13 @@ class ModelMapperAbstract extends AbstractDbMapper implements DbAdapterAwareInte
         return $return;
     }
 
- /**
-  * Get primaryKey.
-  *
-  * @return primaryKey.
-  */
- function getPrimaryKey()
- {
-     return $this->primaryKey;
- }
+    function getPrimaryKey()
+    {
+        return $this->primaryKey;
+    }
 
- /**
-  * Set primaryKey.
-  *
-  * @param primaryKey the value to set.
-  */
- function setPrimaryKey($primaryKey)
- {
-     $this->primaryKey = $primaryKey;
- }
+    function setPrimaryKey($primaryKey)
+    {
+        $this->primaryKey = $primaryKey;
+    }
 }

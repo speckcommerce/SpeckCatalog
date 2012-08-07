@@ -62,9 +62,9 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     'add-item' => array(
-                        'type'    => 'Literal',
+                        'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/add-item',
+                            'route'    => '/add-item[/:id]',
                             'defaults' => array(
                                 'controller' => 'catalogcart',
                                 'action' => 'addItem',

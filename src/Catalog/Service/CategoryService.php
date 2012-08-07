@@ -40,6 +40,7 @@ class CategoryService extends ServiceAbstract
         $category->setCategories($categories);
         $category->setProducts($products);
         return $category;
+
     }
 
     public function _populateModel($category)

@@ -275,49 +275,40 @@ class Product extends LinkedModelAbstract
 
     public function getPrice($uomCode = null)
     {
-        if($uomCode){
-            if($this->hasUoms()){
-                foreach($this->getUoms as $uom){
-                    if($uomCode === $uom->getUomCode){
-                        return $uom->getPrice();
-                    }
-                }
+        $price = 0;
+        if ($this->has('options')) {
+            foreach ($this->getOptions() as $option) {
+                $price = $price + $option->getPrice();
             }
         }
-        if(isset($this->uomForPrice)){
-            return $this->uomForPrice->getPrice();
+        if ($this->has('uoms')) {
+            $uomPrices = array();
+            foreach($this->getUoms() as $uom) {
+                $uomPrices[$uom->getPrice()] = $uom->getPrice();
+            }
+            ksort($uomPrices);
+            $price = $price + array_shift($uomPrices);
         }
-        //temporary
-        if($this->has('uoms')){
-            $uoms = $this->getUoms();
-            return $uoms[0]->getPrice();
-        }
+
+        return $price;
     }
 
- /**
-  * Get productId.
-  *
-  * @return productId.
-  */
- function getProductId()
- {
-     return $this->productId;
- }
+    function getProductId()
+    {
+        return $this->productId;
+    }
 
- /**
-  * Set productId.
-  *
-  * @param productId the value to set.
-  */
- function setProductId($productId)
- {
-     $this->productId = $productId;
-     return $this;
- }
+    function setProductId($productId)
+    {
+        $this->productId = $productId;
+        return $this;
+    }
+
     public function getId()
     {
         return $this->productId;
     }
+
     public function setId($id)
     {
         return $this->setProductId($id);

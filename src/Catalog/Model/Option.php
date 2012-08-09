@@ -96,6 +96,24 @@ class Option extends LinkedModelAbstract
         return $this;
     }
 
+    public function getPrice()
+    {
+        $price = 0;
+        if (true === $this->getRequired()) {
+            //add the cheapest choice price
+            if ($this->has('choices')) {
+                $choicePrices = array();
+                foreach($this->getChoices() as $choice) {
+                    $choicePrices[$choice->getPrice()] = $choice->getPrice();
+                }
+                ksort($choicePrices);
+                $price = $price + array_shift($choicePrices);
+            }
+        }
+
+        return $price;
+    }
+
     public function setRequired($required)
     {
         $this->required = $required;

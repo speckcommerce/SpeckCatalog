@@ -89,6 +89,17 @@ class Choice extends LinkedModelAbstract
         return $this->product;
     }
 
+    public function getPrice()
+    {
+        $price = 0;
+
+        if ($this->has('product')) {
+            //note: need to get all the extra logic in here for price modifers/etc
+            $price = $price + $this->getProduct()->getPrice();
+        }
+        return $price;
+    }
+
     public function setProduct(Product $product)
     {
         $this->targetUom = null; //keep this, if the product changes, the targetuom must be reset.
@@ -216,13 +227,6 @@ class Choice extends LinkedModelAbstract
     {
         $this->priceOverrideFixed = $priceOverrideFixed;
         return $this;
-    }
-
-    public function getPrice(){
-        if($this->has('product')){
-            return $this->getProduct()->getPrice();
-        }
-        return 0;
     }
 
     public function getType()

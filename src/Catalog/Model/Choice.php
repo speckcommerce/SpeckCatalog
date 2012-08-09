@@ -92,6 +92,7 @@ class Choice extends LinkedModelAbstract
     public function setProduct(Product $product)
     {
         $this->targetUom = null; //keep this, if the product changes, the targetuom must be reset.
+        $this->type = 'product';
         $this->product = $product;
         return $this;
     }
@@ -256,25 +257,16 @@ class Choice extends LinkedModelAbstract
         return $this;
     }
 
- /**
-  * Get choiceId.
-  *
-  * @return choiceId.
-  */
- function getChoiceId()
- {
-     return $this->choiceId;
- }
+    function getChoiceId()
+    {
+        return $this->choiceId;
+    }
 
- /**
-  * Set choiceId.
-  *
-  * @param choiceId the value to set.
-  */
- function setChoiceId($choiceId)
- {
-     $this->choiceId = $choiceId;
- }
+    function setChoiceId($choiceId)
+    {
+        $this->choiceId = $choiceId;
+    }
+
     public function getId()
     {
         return $this->choiceId;

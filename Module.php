@@ -130,14 +130,6 @@ class Module
                 'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');
                 },
-                'catalog_image_service' => function ($sm) {
-                    $service = new \Catalog\Service\ImageService();
-                    return $service;
-                },
-                'catalog_document_service' => function ($sm) {
-                    $service = new \Catalog\Service\DocumentService();
-                    return $service;
-                },
             ),
 
             'initializers' => array(

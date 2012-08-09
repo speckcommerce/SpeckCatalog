@@ -7,10 +7,13 @@ $config = array(
     'controllers' => array(
         'invokables' => array(
             'catalog'         => 'Catalog\Controller\CatalogController',
-            'catalogmanager'  => 'Catalog\Controller\CatalogManagerController',
+            'product'         => 'Catalog\Controller\ProductController',
             'category'        => 'Catalog\Controller\CategoryController',
             'catalogcart'     => 'Catalog\Controller\CartController',
+
+            'catalogmanager'  => 'Catalog\Controller\CatalogManagerController',
             'manage-category' => 'Catalog\Controller\ManageCategoryController',
+            'manage-product'  => 'Catalog\Controller\ManageProductController',
         ),
     ),
     'view_helpers' => array(
@@ -26,8 +29,8 @@ $config = array(
             'catalog_model_linker_service' => 'Catalog\Service\ModelLinkerService',
             'catalog_product_service'      => 'Catalog\Service\ProductService',
             'catalog_option_service'       => 'Catalog\Service\OptionService',
-            //'catalog_image_service'        => 'Catalog\Service\ImageService',
-            //'catalog_document_service'     => 'Catalog\Service\DocumentService',
+            'catalog_image_service'        => 'Catalog\Service\ImageService',
+            'catalog_document_service'     => 'Catalog\Service\DocumentService',
             'catalog_category_service'     => 'Catalog\Service\CategoryService',
             'catalog_choice_service'       => 'Catalog\Service\ChoiceService',
             'catalog_product_uom_service'  => 'Catalog\Service\ProductUomService',

@@ -94,22 +94,3 @@
 </div><!--/tabbable-->
 
 <?=$this->render($pdir.'modal.phtml'); ?>
-
-<div class="hide">
-
-    <div class="tab-pane" id="specs">
-        <div class="add-new">
-            add a spec
-        </div>
-    </div>
-
-    <div class="tab-pane" id="parent-choices">
-        <? if (count($product->getParentChoices()) > 0) : ?>
-            <?=$this->partial(
-                $pdir.'entity-list.phtml',
-                array('paginator' => $parentChoicesPaginator)
-            );?>
-        <? endif; ?>
-    </div>
-
-</div>

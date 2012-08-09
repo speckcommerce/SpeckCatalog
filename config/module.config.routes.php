@@ -16,6 +16,16 @@ return array(
                     ),
                 ),
             ),
+            'product' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/product/:id',
+                    'defaults' => array(
+                        'controller' => 'product',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'catalog' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
@@ -28,15 +38,6 @@ return array(
                 ),
                 'may_terminate' => false,
                 'child_routes' => array(
-                    'product' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/product/:id',
-                            'defaults' => array(
-                                'action' => 'product',
-                            ),
-                        ),
-                    ),
                     'category' => array(
                         'type' => 'Segment',
                         'options' => array(

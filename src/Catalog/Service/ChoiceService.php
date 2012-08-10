@@ -10,7 +10,7 @@ class ChoiceService extends ServiceAbstract
     public function _populateModel($choice)
     {
         if($choice->getProductId()){
-            $product = $this->getProductService()->getById($choice->getProductId());
+            $product = $this->getProductService()->getById($choice->getProductId(), true);
             if($product){
                 $choice->setProduct($product);
             }

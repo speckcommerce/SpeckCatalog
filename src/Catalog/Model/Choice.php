@@ -58,7 +58,7 @@ class Choice extends LinkedModelAbstract
     protected $targetUomDiscount = 0;
 
     protected $allUomsDiscount;
-
+    protected $addPrice = 0;
     /**
      * options
      *
@@ -89,7 +89,13 @@ class Choice extends LinkedModelAbstract
         return $this->product;
     }
 
-    public function getPrice()
+    public function getPrice(){
+        if ($this->has('product')) {
+            return $this->getProduct()->getPrice();
+        }
+    }
+
+    public function getRecursivePrice()
     {
         $price = 0;
 
@@ -279,4 +285,24 @@ class Choice extends LinkedModelAbstract
     {
         return $this->setChoiceId($id);
     }
+
+ /**
+  * Get addPrice.
+  *
+  * @return addPrice.
+  */
+ function getAddPrice()
+ {
+     return $this->addPrice;
+ }
+
+ /**
+  * Set addPrice.
+  *
+  * @param addPrice the value to set.
+  */
+ function setAddPrice($addPrice)
+ {
+     $this->addPrice = $addPrice;
+ }
 }

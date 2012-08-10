@@ -16,6 +16,16 @@ return array(
                     ),
                 ),
             ),
+            'category' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/category/:id',
+                    'defaults' => array(
+                        'controller' => 'category',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'product' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -34,19 +44,6 @@ return array(
                     'defaults' => array(
                         'controller' => 'catalog',
                         'action' => 'index',
-                    ),
-                ),
-                'may_terminate' => false,
-                'child_routes' => array(
-                    'category' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/category/:id',
-                            'defaults' => array(
-                                'controller' => 'category',
-                                'action' => 'index',
-                            ),
-                        ),
                     ),
                 ),
             ),

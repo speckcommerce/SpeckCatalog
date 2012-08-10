@@ -96,7 +96,7 @@ class Option extends LinkedModelAbstract
         return $this;
     }
 
-    public function getPrice()
+    public function getRecursivePrice()
     {
         $price = 0;
         if (true === $this->getRequired()) {
@@ -104,7 +104,7 @@ class Option extends LinkedModelAbstract
             if ($this->has('choices')) {
                 $choicePrices = array();
                 foreach($this->getChoices() as $choice) {
-                    $choicePrices[$choice->getPrice()] = $choice->getPrice();
+                    $choicePrices[$choice->getRecursivePrice()] = $choice->getRecursivePrice();
                 }
                 ksort($choicePrices);
                 $price = $price + array_shift($choicePrices);

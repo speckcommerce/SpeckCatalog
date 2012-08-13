@@ -52,8 +52,9 @@ class Module
         return array(
             'invokables' => array(
                 'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
-                'speckCatalogRenderForm' => 'Catalog\View\Helper\RenderForm',
-                'speckCatalogAdderHelper' => 'Catalog\View\Helper\AdderHelper',
+                'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
+                'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
+                'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
             ),
             'factories' => array(
                 'speckCatalogImage' => function ($sm) {
@@ -107,7 +108,13 @@ class Module
     {
 
         return array(
+            'shared' => array(
+                'cart_item_meta' => false,
+            ),
             'factories' => array(
+                'cart_item_meta' => function ($sm) {
+                    return new \Catalog\Model\CartItemMeta();
+                },
                 'catalog_module_options' => function ($sm) {
                     $config = $sm->get('Config');
                     return new \Catalog\Options\ModuleOptions(isset($config['speckcatalog']) ? $config['speckcatalog'] : array());

@@ -19,6 +19,22 @@ class OptionService extends ServiceAbstract
 
         $choices = $this->getChoiceService()->getChoicesByParentOptionId($optionId);
         if($choices){
+
+            if('checkbox' === $option->getListType()){
+                foreach ($choices as $choice) {
+                    $choice->setAddPrice($choice->getPrice());
+                }
+            } else {
+                $prices = array();
+                foreach ($choices as $choice) {
+                    $prices[$choice->getPrice()] = $choice->getPrice();
+                }
+                ksort($prices);
+                $lowestPrice = array_shift($prices);
+                foreach ($choices as $choice) {
+                    $choice->setAddPrice($choice->getPrice() - $lowestPrice);
+                }
+            }
             $option->setChoices($choices);
         }
         return $option;

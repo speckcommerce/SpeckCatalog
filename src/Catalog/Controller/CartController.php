@@ -90,18 +90,26 @@ class CartController extends AbstractActionController
         return $parentCartItem;
     }
 
-    private function createCartItem($item, $parentChoice=null)
+    private function createCartItem($item, $parentOption=null)
     {
-        if ($parentChoice) {
-            $description = '<b>[' . $parentChoice->__toString() . ']</b> ' . $item->__toString();
-        } else {
-            $description = $item->__toString();
+        $meta = $this->getServiceLocator()->get('cart_item_meta');
+
+        if ($item->has('images')) {
+            $meta->setImage($item->getFirstImage());
         }
 
+        $description = $item->__toString();
         $cartItem = new CartItem();
         $cartItem->setDescription($description);
         $cartItem->setQuantity(1);
-        $cartItem->setPrice($item->getPrice());
+        if ($parentOption) {
+            $meta->setParentOptionId($parentOption->getOptionId());
+            $meta->setParentOptionName($parentOption->__toString());
+            $cartItem->setPrice($item->getAddPrice());
+        } else {
+            $cartItem->setPrice($item->getPrice());
+        }
+        $cartItem->setMetaData($meta);
 
         if($item->has('options')){
             $cartItem = $this->addOptions($item->getOptions(), $cartItem);

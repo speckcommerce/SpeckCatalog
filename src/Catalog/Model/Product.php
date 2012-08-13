@@ -273,12 +273,12 @@ class Product extends LinkedModelAbstract
         return $this;
     }
 
-    public function getPrice($uomCode = null)
+    public function getRecursivePrice($uomCode = null)
     {
         $price = 0;
         if ($this->has('options')) {
             foreach ($this->getOptions() as $option) {
-                $price = $price + $option->getPrice();
+                $price = $price + $option->getRecursivePrice();
             }
         }
         if ($this->has('uoms')) {
@@ -292,6 +292,19 @@ class Product extends LinkedModelAbstract
 
         return $price;
     }
+    public function getPrice()
+    {
+        if ($this->has('uoms')) {
+            $uomPrices = array();
+            foreach($this->getUoms() as $uom) {
+                $uomPrices[$uom->getPrice()] = $uom->getPrice();
+            }
+            ksort($uomPrices);
+            return array_shift($uomPrices);
+        }
+        return 0;
+    }
+
 
     function getProductId()
     {

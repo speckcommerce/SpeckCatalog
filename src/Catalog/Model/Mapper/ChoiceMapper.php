@@ -13,7 +13,7 @@ class ChoiceMapper extends ModelMapperAbstract
 
     public function __construct()
     {
-        $unsetKeys = array('product', 'target_uom', 'na_choices', 'options', 'parent_options', 'linker_id', 'sort_weight');
+        $unsetKeys = array('product', 'target_uom', 'na_choices', 'options', 'parent_options', 'linker_id', 'sort_weight', 'add_price');
         parent::__construct($unsetKeys);
     }
 

@@ -25,6 +25,11 @@ class ProductUomService extends ServiceAbstract
         return $model;
     }
 
+    public function getByParentProductId($id)
+    {
+        return $this->getProductUomsByParentProductId($id);
+    }
+
     public function getProductUomsByParentProductId($id)
     {
         $productUoms = $this->getModelMapper()->getProductUomsByParentProductId($id)?:array();

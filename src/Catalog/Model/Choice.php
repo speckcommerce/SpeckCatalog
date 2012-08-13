@@ -98,7 +98,6 @@ class Choice extends LinkedModelAbstract
     public function getRecursivePrice()
     {
         $price = 0;
-
         if ($this->has('product')) {
             //note: need to get all the extra logic in here for price modifers/etc
             $price = $price + $this->getProduct()->getPrice();

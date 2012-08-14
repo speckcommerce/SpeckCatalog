@@ -292,6 +292,7 @@ class Product extends LinkedModelAbstract
 
         return $price;
     }
+
     public function getPrice()
     {
         if ($this->has('uoms')) {

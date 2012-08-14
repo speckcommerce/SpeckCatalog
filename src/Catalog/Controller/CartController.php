@@ -43,6 +43,7 @@ class CartController extends AbstractActionController
         return $this;
     }
 
+    //todo : some of this to be moved to a service
     public function addItemAction()
     {
         $this->init();
@@ -62,6 +63,7 @@ class CartController extends AbstractActionController
         return $this->_redirect()->toUrl('/cart');
     }
 
+    //todo : need a service for this
     private function addOptions($options, $parentCartItem)
     {
         foreach($options as $option){
@@ -90,6 +92,7 @@ class CartController extends AbstractActionController
         return $parentCartItem;
     }
 
+    //todo : move this to the service too!
     private function createCartItem($item, $parentOption=null)
     {
         $meta = $this->getServiceLocator()->get('cart_item_meta');
@@ -107,7 +110,7 @@ class CartController extends AbstractActionController
             $meta->setParentOptionName($parentOption->__toString());
             $cartItem->setPrice($item->getAddPrice());
         } else {
-            $cartItem->setPrice($item->getPrice());
+            $cartItem->setPrice($item->getRecursivePrice());
         }
         $cartItem->setMetaData($meta);
 
@@ -117,4 +120,31 @@ class CartController extends AbstractActionController
 
         return $cartItem;
     }
+
+    //todo : needs to be in service
+    public function updateQuantitiesAction()
+    {
+        $cartService = $this->getCartService();
+
+        foreach($_POST['quantities'] as $cartItemId => $newQuantity) {
+            if(0 === (int) $newQuantity) {
+                $cartService->removeItemFromCart($cartItemId);
+            } else {
+                $item = $cartService->findItemById($cartItemId);
+                $item->setQuantity($newQuantity);
+                $cartService->persistItem($item);
+            }
+        }
+
+        return $this->_redirect()->toUrl('/cart');
+    }
+
+    public function removeItemAction()
+    {
+        $cartService = $this->getCartService();
+        $cartService->removeItemFromCart($this->params('id'));
+
+        return $this->_redirect()->toUrl('/cart');
+    }
+
 }

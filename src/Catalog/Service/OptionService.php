@@ -27,9 +27,9 @@ class OptionService extends ServiceAbstract
             } else {
                 $prices = array();
                 foreach ($choices as $choice) {
-                    $prices[$choice->getPrice()] = $choice->getPrice();
+                    $prices[] = $choice->getPrice();
                 }
-                ksort($prices);
+                asort($prices);
                 $lowestPrice = array_shift($prices);
                 foreach ($choices as $choice) {
                     $choice->setAddPrice($choice->getPrice() - $lowestPrice);

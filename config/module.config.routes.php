@@ -69,6 +69,26 @@ return array(
                             ),
                         ),
                     ),
+                    'update-quantities' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/update-quantities',
+                            'defaults' => array(
+                                'controller' => 'catalogcart',
+                                'action' => 'updateQuantities',
+                            ),
+                        ),
+                    ),
+                    'remove-item' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/remove-item/:id',
+                            'defaults' => array(
+                                'controller' => 'catalogcart',
+                                'action' => 'remove-item',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'catalogmanager' => array(

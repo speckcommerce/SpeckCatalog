@@ -99,7 +99,7 @@ class Option extends LinkedModelAbstract
     public function getRecursivePrice()
     {
         $price = 0;
-        if (true === $this->getRequired()) {
+        if ($this->getRequired()) {
             //add the cheapest choice price
             if ($this->has('choices')) {
                 $choicePrices = array();

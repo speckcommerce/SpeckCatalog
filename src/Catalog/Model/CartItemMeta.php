@@ -5,6 +5,7 @@ namespace Catalog\Model;
 class CartItemMeta
 {
     protected $parentOptionId;
+    protected $productId;
     protected $parentOptionName;
     protected $image;
 
@@ -66,5 +67,25 @@ class CartItemMeta
  function setImage($image)
  {
      $this->image = $image;
+ }
+
+ /**
+  * Get productId.
+  *
+  * @return productId.
+  */
+ function getProductId()
+ {
+     return $this->productId;
+ }
+
+ /**
+  * Set productId.
+  *
+  * @param productId the value to set.
+  */
+ function setProductId($productId)
+ {
+     $this->productId = $productId;
  }
 }

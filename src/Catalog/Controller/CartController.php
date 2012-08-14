@@ -110,6 +110,7 @@ class CartController extends AbstractActionController
             $meta->setParentOptionName($parentOption->__toString());
             $cartItem->setPrice($item->getAddPrice());
         } else {
+            $meta->setProductId($item->getProductId());
             $cartItem->setPrice($item->getRecursivePrice());
         }
         $cartItem->setMetaData($meta);

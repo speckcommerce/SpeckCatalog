@@ -91,6 +91,17 @@ return array(
                     ),
                 ),
             ),
+            'checkout' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/checkout',
+                    'defaults' => array(
+                        'controller' => 'checkout',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'catalogmanager' => array(
                 'type' => 'Segment',
                 'priority' => 1000,

@@ -120,4 +120,31 @@ class CartController extends AbstractActionController
 
         return $cartItem;
     }
+
+    //todo : needs to be in service
+    public function updateQuantitiesAction()
+    {
+        $cartService = $this->getCartService();
+
+        foreach($_POST['quantities'] as $cartItemId => $newQuantity) {
+            if(0 === (int) $newQuantity) {
+                $cartService->removeItemFromCart($cartItemId);
+            } else {
+                $item = $cartService->findItemById($cartItemId);
+                $item->setQuantity($newQuantity);
+                $cartService->persistItem($item);
+            }
+        }
+
+        return $this->_redirect()->toUrl('/cart');
+    }
+
+    public function removeItemAction()
+    {
+        $cartService = $this->getCartService();
+        $cartService->removeItemFromCart($this->params('id'));
+
+        return $this->_redirect()->toUrl('/cart');
+    }
+
 }

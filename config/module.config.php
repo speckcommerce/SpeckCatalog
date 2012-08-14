@@ -10,6 +10,7 @@ $config = array(
             'product'         => 'Catalog\Controller\ProductController',
             'category'        => 'Catalog\Controller\CategoryController',
             'catalogcart'     => 'Catalog\Controller\CartController',
+            'checkout'        => 'Catalog\Controller\CheckoutController',
 
             'catalogmanager'  => 'Catalog\Controller\CatalogManagerController',
             'manage-category' => 'Catalog\Controller\ManageCategoryController',

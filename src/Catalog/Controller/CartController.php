@@ -131,6 +131,9 @@ class CartController extends AbstractActionController
                 $cartService->removeItemFromCart($cartItemId);
             } else {
                 $item = $cartService->findItemById($cartItemId);
+                if (!$item) {
+                    throw new \Exception('couldnt find that cart item %n', $cartItemId);
+                }
                 $item->setQuantity($newQuantity);
                 $cartService->persistItem($item);
             }

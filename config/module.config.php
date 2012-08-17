@@ -39,6 +39,7 @@ $config = array(
             'catalog_availability_service' => 'Catalog\Service\AvailabilityService',
             'catalog_company_service'      => 'Catalog\Service\CompanyService',
             'catalog_spec_service'         => 'Catalog\Service\SpecService',
+            'catalog_cart_service'         => 'Catalog\Service\CatalogCartService',
 
             'catalog_product_mapper'      => 'Catalog\Model\Mapper\ProductMapper',
             'catalog_option_mapper'       => 'Catalog\Model\Mapper\OptionMapper',

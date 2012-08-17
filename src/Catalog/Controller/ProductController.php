@@ -13,37 +13,17 @@ class ProductController extends AbstractActionController
 
     public function indexAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
+        $cartItemId = $this->params('cartItemId');
+        $cartService = $this->getServiceLocator()->get('catalog_cart_service');
         $productService = $this->getServiceLocator()->get('catalog_product_service');
-        $product = $productService->getById($id, true, true);
-        if(null === $product){
+        $product = $productService->getById($this->params('id'), true, true);
+        if(!$product){
             throw new \Exception('fore oh fore');
         }
-        return new ViewModel(array('product' => $product));
-    }
-
-    public function getCatalogService()
-    {
-        if(null === $this->catalogService){
-            $this->catalogService = $this->getServiceLocator()->get('catalog_generic_service');
-        }
-        return $this->catalogService;
-    }
-
-    public function setCatalogService($catalogService)
-    {
-        $this->catalogService = $catalogService;
-        return $this;
-    }
-
-    public function getModelLinkerService()
-    {
-        return $this->modelLinkerService;
-    }
-
-    public function setModelLinkerService($modelLinkerService)
-    {
-        $this->modelLinkerService = $modelLinkerService;
-        return $this;
+        return new ViewModel(array(
+            'product'     => $product,
+            'editingCart' => ($cartItemId ? true : false),
+            'cartItem'    => ($cartItemId ? $cartService->findItemById($cartItemId) : false),
+        ));
     }
 }

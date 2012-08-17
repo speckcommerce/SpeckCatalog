@@ -7,6 +7,7 @@ class CartItemMeta
     protected $parentOptionId;
     protected $productId;
     protected $parentOptionName;
+    protected $flatOptions = array();
     protected $image;
 
  /**
@@ -87,5 +88,25 @@ class CartItemMeta
  function setProductId($productId)
  {
      $this->productId = $productId;
+ }
+
+ /**
+  * Get flatOptions.
+  *
+  * @return flatOptions.
+  */
+ function getFlatOptions()
+ {
+     return $this->flatOptions;
+ }
+
+ /**
+  * Set flatOptions.
+  *
+  * @param flatOptions the value to set.
+  */
+ function setFlatOptions($flatOptions)
+ {
+     $this->flatOptions = $flatOptions;
  }
 }

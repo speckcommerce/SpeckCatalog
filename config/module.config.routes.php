@@ -29,7 +29,7 @@ return array(
             'product' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/product/:id',
+                    'route' => '/product/:id[/:cartItemId]',
                     'defaults' => array(
                         'controller' => 'product',
                         'action' => 'index',
@@ -86,6 +86,16 @@ return array(
                             'defaults' => array(
                                 'controller' => 'catalogcart',
                                 'action' => 'remove-item',
+                            ),
+                        ),
+                    ),
+                    'update-product' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/update-product',
+                            'defaults' => array(
+                                'controller' => 'catalogcart',
+                                'action' => 'update-product',
                             ),
                         ),
                     ),

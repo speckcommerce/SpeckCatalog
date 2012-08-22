@@ -13,20 +13,18 @@ $form->setAttribute('class', 'live-form');
     <?=$this->formInput($form->get('option_id')); ?>
 
     <div class="row offset0">
-
-
         <div class="span3">
             <?=$this->formRow($form->get('name')); ?>
         </div>
-
-        <div class="span3">
+        <div class="span2">
             <?=$this->formRow($form->get('instruction')); ?>
         </div>
-
         <div class="span2">
             <?=$this->formRow($form->get('list_type')); ?>
         </div>
-
+        <div class="span2">
+            <?=$this->formRow($form->get('variation')); ?>
+            The choices are variations of the parent
+        </div>
     </div>
-
 </form>

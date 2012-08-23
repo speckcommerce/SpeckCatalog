@@ -20,5 +20,8 @@ class FilterOption extends InputFilter
         $this->add(array(
             'name' => 'list_type',
         ));
+        $this->add(array(
+            'name' => 'variation',
+        ));
     }
 }

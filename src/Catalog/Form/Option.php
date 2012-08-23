@@ -19,7 +19,8 @@ class Option extends ZendForm
         $this->add(array(
             'name' => 'name',
             'attributes' => array(
-                'type' => 'text'
+                'type' => 'text',
+                'class' => 'span3',
             ),
             'options' => array(
                 'label' => 'Name',
@@ -28,10 +29,25 @@ class Option extends ZendForm
         $this->add(array(
             'name' => 'instruction',
             'attributes' => array(
-                'type' => 'text'
+                'type' => 'text',
+                'class' => 'span2',
             ),
             'options' => array(
                 'label' => 'Instruction',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'variation',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => array(
+                    '1' => 'true',
+                    '0' => 'false',
+                ),
+                'class' => 'span2',
+            ),
+            'options' => array(
+                'label' => 'Variation',
             ),
         ));
         $this->add(array(
@@ -49,8 +65,5 @@ class Option extends ZendForm
                 'label' => 'List Type',
             ),
         ));
-
-
-
     }
 }

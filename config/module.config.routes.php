@@ -2,6 +2,16 @@
 return array(
     'router' => array(
         'routes' => array(
+            'index' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/',
+                    'defaults' => array(
+                        'controller' => 'catalog',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'productshortcut' => array(
                 'type' => 'Segment',
                 'priority' => -1000,

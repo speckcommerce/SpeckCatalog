@@ -171,6 +171,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option` (
   `instruction` varchar(255) DEFAULT NULL,
   `search_data` text,
   `required` tinyint(1) NOT NULL DEFAULT '0',
+  `variation` tinyint(1) NOT NULL DEFAULT '0',
   `list_type` enum('radio','checkbox','dropdown') DEFAULT 'radio',
   PRIMARY KEY (`option_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;

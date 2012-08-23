@@ -55,6 +55,7 @@ class Module
                 'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
                 'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
                 'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
+                'speckCatalogCategoryNav'    => 'Catalog\View\Helper\CategoryNav',
             ),
             'factories' => array(
                 'speckCatalogImage' => function ($sm) {

@@ -31,6 +31,8 @@ class Option extends LinkedModelAbstract
      */
     protected $name;
 
+    protected $variation = 0;
+
     /**
      * listType
      *
@@ -246,32 +248,34 @@ class Option extends LinkedModelAbstract
         return $this;
     }
 
- /**
-  * Get optionId.
-  *
-  * @return optionId.
-  */
- function getOptionId()
- {
-     return $this->optionId;
- }
+    function getOptionId()
+    {
+        return $this->optionId;
+    }
 
- /**
-  * Set optionId.
-  *
-  * @param optionId the value to set.
-  */
- function setOptionId($optionId)
- {
-     $this->optionId = $optionId;
-     return $this;
- }
+    function setOptionId($optionId)
+    {
+        $this->optionId = $optionId;
+        return $this;
+    }
+
     public function getId()
     {
         return $this->optionId;
     }
+
     public function setId($id)
     {
         return $this->setOptionId($id);
+    }
+
+    function getVariation()
+    {
+        return $this->variation;
+    }
+
+    function setVariation($variation)
+    {
+        $this->variation = $variation;
     }
 }

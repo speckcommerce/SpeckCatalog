@@ -1,4 +1,7 @@
 hello
+<?=$this->speckCatalogCategoryNav(); ?>
+
 <? $categories = $category->getCategories(); ?>
-<?=$this->speckCatalogImage()->product($categories[0]->getImage());?><br/>
-<?=$this->speckCatalogImage()->category($categories[0]->getImage());?>
+<? var_dump($category); ?>
+<?//=$this->speckCatalogImage()->product($categories[0]->getImage());?><br/>
+<?//=$this->speckCatalogImage()->category($categories[0]->getImage());?>

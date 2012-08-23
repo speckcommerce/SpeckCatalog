@@ -9,7 +9,8 @@ class CatalogController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel;
+        $categories = $this->getServiceLocator()->get('catalog_category_service')->getCategoriesForNavigation();
+        return new ViewModel(array('categories' => $categories));
     }
 
     public function productRedirectAction()

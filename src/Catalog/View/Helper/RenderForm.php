@@ -11,31 +11,36 @@ class RenderForm extends AbstractHelper implements FormServiceAwareInterface
 
     protected $partialDir = "catalog/catalog-manager/partial/form/";
 
-    public function __invoke($model)
+    public function __invoke($model=null, $name=null)
     {
-        $form = $this->getFormService()->getForm($model->get('dashed_class_name'), $model);
+        if(!isset($model) || !isset($name)){
+            throw new \Exception('');
+        }
 
-        $viewContainer = new ViewModel(array(lcfirst($model->get('class_name')) => $model, 'form' => $form));
-        $viewContainer->setTemplate($this->partialDir . $model->get('dashed_class_name') . '.phtml');
+        $form = $this->getFormService()->getForm($name, $model);
+        $view = new ViewModel(array($this->camel($name) => $model, 'form' => $form));
+        $view->setTemplate($this->partialDir . $this->dash($name) . '.phtml');
 
-        return $this->getView()->render($viewContainer);
+        return $this->getView()->render($view);
     }
 
-    /**
-     * Get formService.
-     *
-     * @return formService.
-     */
+    private function camel($name)
+    {
+        $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
+        return lcfirst($camel->__invoke($name));
+    }
+
+    private function dash($name)
+    {
+        $dash = new \Zend\Filter\Word\UnderscoreToDash;
+        return $dash->__invoke($name);
+    }
+
     function getFormService()
     {
         return $this->formService;
     }
 
-    /**
-     * Set formService.
-     *
-     * @param formService the value to set.
-     */
     function setFormService($formService)
     {
         $this->formService = $formService;

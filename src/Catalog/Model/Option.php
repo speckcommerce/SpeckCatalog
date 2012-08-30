@@ -33,13 +33,7 @@ class Option extends LinkedModelAbstract
 
     protected $variation = 0;
 
-    /**
-     * listType
-     *
-     * @var string
-     * @access protected
-     */
-    protected $listType = 'radio'; //radio, checkbox, dropdown, slider
+    protected $optionTypeId = 1;
 
     protected $slider;
 
@@ -106,28 +100,18 @@ class Option extends LinkedModelAbstract
             if ($this->has('choices')) {
                 $choicePrices = array();
                 foreach($this->getChoices() as $choice) {
-                    $choicePrices[$choice->getRecursivePrice()] = $choice->getRecursivePrice();
+                    $choicePrices[] = $choice->getRecursivePrice();
                 }
-                ksort($choicePrices);
+                asort($choicePrices);
                 $price = $price + array_shift($choicePrices);
             }
         }
-
         return $price;
     }
 
     public function setRequired($required)
     {
         $this->required = $required;
-        return $this;
-    }
-
-    public function setListType($listType=null)
-    {
-        if($listType !== 'radio' && $listType !== 'dropdown' && $listType !== 'checkbox'){
-            throw new \InvalidArgumentException("invalid list type - '{$listType}', must be 'radio', 'dropdown' or 'checkbox'");
-        }
-        $this->listType = $listType;
         return $this;
     }
 
@@ -162,10 +146,6 @@ class Option extends LinkedModelAbstract
         return $count;
     }
 
-    public function getListTypes()
-    {
-        return array('radio', 'checkbox', 'dropdown');
-    }
 
     public function getName()
     {
@@ -174,18 +154,12 @@ class Option extends LinkedModelAbstract
 
     public function getChoices()
     {
-        //$this->events()->trigger(__FUNCTION__, $this, array('choices' => $this->choices));
         return $this->choices;
     }
 
     public function getRequired()
     {
         return $this->required;
-    }
-
-    public function getListType()
-    {
-        return $this->listType;
     }
 
     public function getInstruction()
@@ -211,19 +185,6 @@ class Option extends LinkedModelAbstract
         }else{
             return  '';
         }
-    }
-
-    public function getSlider()
-    {
-        return $this->slider;
-    }
-
-    public function setSlider($slider)
-    {
-        if('slider' === $this->getType()){
-            $this->slider = $slider;
-        }
-        return $this;
     }
 
     public function getParentChoices()
@@ -277,5 +238,19 @@ class Option extends LinkedModelAbstract
     function setVariation($variation)
     {
         $this->variation = $variation;
+    }
+
+    public function getOptionTypeId()
+    {
+        return $this->optionTypeId;
+    }
+
+    public function setOptionTypeId($optionTypeId)
+    {
+        if($optionTypeId > 3){
+            throw new \Exception('invalid option type id');
+        }
+        $this->optionTypeId = $optionTypeId;
+        return $this;
     }
 }

@@ -16,10 +16,11 @@ class ProductController extends AbstractActionController
         $cartItemId = $this->params('cartItemId');
         $cartService = $this->getServiceLocator()->get('catalog_cart_service');
         $productService = $this->getServiceLocator()->get('catalog_product_service');
-        $product = $productService->getById($this->params('id'), true, true);
+        $product = $productService->getFullProduct($this->params('id')); //, true, true);
         if(!$product){
             throw new \Exception('fore oh fore');
         }
+        //var_dump($product); die();
         return new ViewModel(array(
             'product'     => $product,
             'editingCart' => ($cartItemId ? true : false),

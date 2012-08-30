@@ -49,6 +49,20 @@ class Product extends ZendForm
                 'label' => 'Item Number',
             ),
         ));
+        $this->add(array(
+            'name' => 'product_type_id',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => array(
+                    '1' => 'Shell',
+                    '2' => 'Product'
+                ),
+                'class' => 'span3',
+            ),
+            'options' => array(
+                'label' => 'Manufacturer',
+            ),
+        ));
     }
 
     public function init()
@@ -58,7 +72,7 @@ class Product extends ZendForm
             $options[$company->getCompanyId()] = $company->getName();
         }
         $this->add(array(
-            'name' => 'manufacturer_company_id',
+            'name' => 'manufacturer_id',
             'attributes' => array(
                 'type' => 'select',
                 'options' => $options,
@@ -71,21 +85,11 @@ class Product extends ZendForm
         return $this;
     }
 
-    /**
-     * Get companyService.
-     *
-     * @return companyService.
-     */
     function getCompanyService()
     {
         return $this->companyService;
     }
 
-    /**
-     * Set companyService.
-     *
-     * @param companyService the value to set.
-     */
     function setCompanyService($companyService)
     {
         $this->companyService = $companyService;

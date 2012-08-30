@@ -4,14 +4,7 @@ namespace Catalog\Model;
 
 class Availability extends ModelAbstract
 {
-    protected $availabilityId;
-    /**
-     * distributorCompanyId
-     *
-     * @var int
-     * @access protected
-     */
-    protected $distributorCompanyId;
+    protected $distributorId;
 
     /**
      * distributor
@@ -86,17 +79,6 @@ class Availability extends ModelAbstract
         return $this;
     }
 
-    public function getDistributorCompanyId()
-    {
-        return $this->distributorCompanyId;
-    }
-
-    public function setDistributorCompanyId($distributorCompanyId)
-    {
-        $this->distributorCompanyId = (int) $distributorCompanyId;
-        return $this;
-    }
-
     public function getCompanies()
     {
         return $this->companies;
@@ -118,32 +100,21 @@ class Availability extends ModelAbstract
         return $string;
     }
 
- /**
-  * Get availabilityId.
-  *
-  * @return availabilityId.
-  */
- function getAvailabilityId()
- {
-     return $this->availabilityId;
- }
-
- /**
-  * Set availabilityId.
-  *
-  * @param availabilityId the value to set.
-  */
- function setAvailabilityId($availabilityId)
- {
-     $this->availabilityId = $availabilityId;
- }
-
-    public function getId()
+    /**
+     * @return distributorId
+     */
+    public function getDistributorId()
     {
-        return $this->availabilityId;
+        return $this->distributorId;
     }
-    public function setId($id)
+
+    /**
+     * @param $distributorId
+     * @return self
+     */
+    public function setDistributorId($distributorId)
     {
-        return $this->setAvailabilityId($id);
+        $this->distributorId = $distributorId;
+        return $this;
     }
 }

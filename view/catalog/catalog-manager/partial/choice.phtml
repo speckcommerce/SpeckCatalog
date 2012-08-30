@@ -1,5 +1,5 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
-<div class="choice whitebg boundary" id="<?=$choice->getLinkerId();?>" >
+<div class="choice whitebg boundary" id="" >
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
         <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
@@ -14,7 +14,7 @@
         <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>
     </div>
     <div class="entity-content">
-        <?=$this->speckCatalogRenderForm($choice);?>
+        <?=$this->speckCatalogRenderForm($choice, 'choice');?>
         <? if($choice->has('product')) : ?>
             <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?><br/>
         <? else: ?>
@@ -25,7 +25,7 @@
                     <span class="smallcaps">&nbsp;options</span><br/>
                 </div>
                 <div class="list-items" type="option" parent="choice">
-                    <?=$this->speckCatalogRenderChildren($choice->getOptions());?>
+                    <?=$this->speckCatalogRenderChildren('option', $choice->getOptions());?>
                 </div>
                 <div class="row list-items-helper">
                     <?=$this->speckCatalogAdderHelper('addButton', 'option', $choice); ?>

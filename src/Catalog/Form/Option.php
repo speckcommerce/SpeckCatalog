@@ -41,8 +41,8 @@ class Option extends ZendForm
             'attributes' => array(
                 'type' => 'select',
                 'options' => array(
-                    '1' => 'true',
-                    '0' => 'false',
+                    '0' => 'False',
+                    '1' => 'True',
                 ),
                 'class' => 'span2',
             ),
@@ -51,18 +51,18 @@ class Option extends ZendForm
             ),
         ));
         $this->add(array(
-            'name' => 'list_type',
+            'name' => 'option_type_id',
             'attributes' => array(
                 'type' => 'select',
                 'options' => array(
-                    'radio' => 'radio',
-                    'checkbox' => 'checkbox',
-                    'dropdown' => 'dropdown'
+                    '1' => 'Select',
+                    '2' => 'Radio',
+                    '3' => 'Checkbox',
                 ),
                 'class' => 'span2',
             ),
             'options' => array(
-                'label' => 'List Type',
+                'label' => 'Option Type',
             ),
         ));
     }

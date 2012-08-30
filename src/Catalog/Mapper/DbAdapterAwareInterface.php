@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Model\Mapper;
+namespace Catalog\Mapper;
 
 use Zend\Db\Adapter\Adapter;
 

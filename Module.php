@@ -6,7 +6,6 @@ use Zend\ModuleManager\ModuleManager;
 use Zend\Navigation;
 use Application\Extra\Page;
 use Service\Installer;
-use Catalog\Model\Mapper;
 use Catalog\Service\FormServiceAwareInterface;
 use Catalog\Service\CatalogServiceAwareInterface;
 use Zend\Console\Request as ConsoleRequest;
@@ -50,12 +49,6 @@ class Module
     public function getViewHelperConfig()
     {
         return array(
-            'invokables' => array(
-                'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
-                'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
-                'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
-                'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
-            ),
             'factories' => array(
                 'speckCatalogImage' => function ($sm) {
                     $sm = $sm->getServiceLocator();
@@ -65,17 +58,10 @@ class Module
             ),
             'initializers' => array(
                 function($instance, $sm){
-                    if($instance instanceof FormServiceAwareInterface){
+                    if($instance instanceof \Catalog\Service\FormServiceAwareInterface){
                         $sm = $sm->getServiceLocator();
                         $formService = $sm->get('catalog_form_service');
                         $instance->setFormService($formService);
-                    }
-                },
-                function($instance, $sm){
-                    if($instance instanceof CatalogServiceAwareInterface){
-                        $sm = $sm->getServiceLocator();
-                        $catalogService = $sm->get('catalog_generic_service');
-                        $instance->setCatalogService($catalogService);
                     }
                 },
             ),
@@ -106,7 +92,6 @@ class Module
 
     public function getServiceConfig()
     {
-
         return array(
             'shared' => array(
                 'cart_item_meta' => false,
@@ -138,10 +123,9 @@ class Module
                     return $sm->get('Zend\Db\Adapter\Adapter');
                 },
             ),
-
             'initializers' => array(
                 function($instance, $sm){
-                    if($instance instanceof Mapper\DbAdapterAwareInterface){
+                    if($instance instanceof \Catalog\Mapper\DbAdapterAwareInterface){
                         $dbAdapter = $sm->get('catalog_db');
                         return $instance->setDbAdapter($dbAdapter);
                     }

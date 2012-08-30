@@ -1,4 +1,4 @@
-<div id="<?=$option->getLinkerId();?>" class="option contrastbg boundary">
+<div id="<?=$option->getOptionId();?>" class="option contrastbg boundary">
 
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down"></i></div>
@@ -11,7 +11,7 @@
     </div>
 
     <div class="entity-content">
-        <?=$this->speckCatalogRenderForm($option);?>
+        <?=$this->speckCatalogRenderForm($option, 'option');?>
         <div class="list-wrap">
             <div class="child-expand list-items-helper">
                 <div class="collapse-all"><i class="icon-arrow-up"></i></div>
@@ -20,7 +20,7 @@
             </div>
             <div class="list-items" type="image" parent="product">
                 <? if ($option->has('images')) : ?>
-                    <?=$this->speckCatalogRenderChildren($option->getImages()); ?>
+                    <?=$this->speckCatalogRenderChildren('image', $option->getImages()); ?>
                 <? endif; ?>
             </div>
             <div class="row list-items-helper">
@@ -36,7 +36,7 @@
                 <span class="smallcaps">&nbsp;choices</span>
             </div>
             <div class="list-items" type="choice" parent="option">
-                <?=$this->speckCatalogRenderChildren($option->getChoices()); ?>
+                <?=$this->speckCatalogRenderChildren('choice', $option->getChoices()); ?>
             </div>
             <div class="row list-items-helper">
                 <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option, 'product'); ?>

@@ -2,29 +2,28 @@
 
 namespace Catalog\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 
-class FormService implements ServiceManagerAwareInterface
+class FormService implements ServiceLocatorAwareInterface
 {
-    protected $serviceManager;
+    protected $serviceLocator;
 
     protected $form;
 
-    protected $catalogService;
-
-    public function getForm($className = null, $model = null, $bind=true)
+    public function getForm($name = null, $model = null, $bind=true)
     {
         if(!$model){
-            $model = $this->getCatalogService()->getModel($className);
+            $serviceName = 'catalog_' . $name . '_service';
+            $model = $this->getServiceLocator()->get($serviceName)->getModel($className);
         }
 
-        $formName = 'catalog_' . $model->get('underscore_class_name') . '_form';
-        $form = $this->getServiceManager()->get($formName);
+        $formName = 'catalog_' . $name . '_form';
+        $form = $this->getServiceLocator()->get($formName);
 
-        $filterName = 'catalog_' . $model->get('underscore_class_name') . '_form_filter';
-        $filter = $this->getServiceManager()->get($filterName);
+        $filterName = 'catalog_' . $name . '_form_filter';
+        $filter = $this->getServiceLocator()->get($filterName);
         $form->setInputFilter($filter);
 
         $form->setHydrator(new Hydrator);
@@ -35,54 +34,22 @@ class FormService implements ServiceManagerAwareInterface
         return $form;
     }
 
-    public function prepare($className, $data)
+    public function prepare($name, $data)
     {
-        $form = $this->getForm($className, null, false);
+        $form = $this->getForm($name, null, false);
         $form->setData($data);
 
         return $form;
     }
 
-    /**
-     * Get serviceManager.
-     *
-     * @return serviceManager.
-     */
-    function getServiceManager()
+    public function getServiceLocator()
     {
-        return $this->serviceManager;
+        return $this->serviceLocator;
     }
 
-    /**
-     * Set serviceManager.
-     *
-     * @param serviceManager the value to set.
-     */
-    function setServiceManager(ServiceManager $serviceManager)
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
-        $this->serviceManager = $serviceManager;
-    }
-
-    /**
-     * Get catalogService.
-     *
-     * @return catalogService.
-     */
-    function getCatalogService()
-    {
-        if(null === $this->catalogService){
-            $this->catalogService = $this->getServiceManager()->get('catalog_generic_service');
-        }
-        return $this->catalogService;
-    }
-
-    /**
-     * Set catalogService.
-     *
-     * @param catalogService the value to set.
-     */
-    function setCatalogService($catalogService)
-    {
-        $this->catalogService = $catalogService;
+        $this->serviceLocator = $serviceLocator;
+        return $this;
     }
 }

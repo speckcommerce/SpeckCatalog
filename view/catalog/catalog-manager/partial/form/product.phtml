@@ -9,7 +9,7 @@ $form->setAttribute('class', 'live-form');
 ?>
 <?=$this->form()->openTag($form);?>
     <?=$this->formInput($form->get('product_id')); ?>
-    <input type="hidden" name="type" value="<?=$product->getType();?>"/>
+    <input type="hidden" name="product_type_id" value="<?=$product->getProductTypeId();?>"/>
     <? if(false === $form->isValid()) : ?>
         <? var_dump($form->getData()); ?>
         <div class="alert alert-error">
@@ -21,8 +21,8 @@ $form->setAttribute('class', 'live-form');
 
     <div class="row">
         <div class="span2">
-            <? if ($product->has('images')) : ?>
-                <img class="img hover_fullsize" src="<?=$product->getFirstImage()->getFullPath();?>"/>
+            <? if ($product->has('image')) : ?>
+                <img class="img hover_fullsize" src="<?=$this->speckCatalogImage()->product($product->getImage());?>"/>
             <? endif; ?>
         </div>
         <div class="span6">
@@ -30,8 +30,8 @@ $form->setAttribute('class', 'live-form');
             <?=$this->formRow($form->get('description')); ?>
         </div>
         <div class="span3">
-            <?=$this->formRow($form->get('manufacturer_company_id')); ?>
-            <? if(isset($product) && $product->isItem()) : ?>
+            <?=$this->formRow($form->get('manufacturer_id')); ?>
+            <? if('2' == $product->getProductTypeId()) : ?>
                 <?=$this->formRow($form->get('item_number')); ?>
             <? endif; ?>
         </div>

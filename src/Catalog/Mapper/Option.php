@@ -28,6 +28,7 @@ class Option extends AbstractMapper
             ->where(array('product_id' => (int) $productId));
         return $this->selectMany($select);
     }
+
     public function getByParentChoiceId($choiceId)
     {
         $linker = 'catalog_choice_option_linker';
@@ -39,5 +40,21 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array($linker . '.choice_id' => (int) $choiceId));
         return $this->selectMany($select);
+    }
+
+    public function persist($option)
+    {
+        if(null === $option->getOptionId()) {
+            $id = $this->insert($option);
+            return $this->find($id);
+        }
+        $existing = self::find($option->getOptionId());
+        if($existing){
+            $where = array('option_id' => $option->getOptionId());
+            return $this->update($option, $where);
+        } else {
+            $id = $this->insert($option);
+            return $this->find($id);
+        }
     }
 }

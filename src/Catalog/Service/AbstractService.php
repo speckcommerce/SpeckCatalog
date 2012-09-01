@@ -37,4 +37,9 @@ class AbstractService implements ServiceLocatorAwareInterface
         $this->serviceLocator = $serviceLocator;
         return $this;
     }
+
+    public function persist($entity)
+    {
+        return $this->getEntityMapper()->persist($entity);
+    }
 }

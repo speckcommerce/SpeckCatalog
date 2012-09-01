@@ -139,9 +139,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_category_linker`
+-- Table `speck`.`catalog_category_website`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category_linker` (
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category_website` (
   `category_id` INT NOT NULL ,
   `parent_category_id` INT NULL ,
   `website_id` INT NULL ,
@@ -276,7 +276,6 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_choice_option_linker` (
   `option_id` INT(11) NOT NULL ,
   `choice_id` INT(11) NOT NULL ,
   `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`choice_id`) ,
   INDEX `UNIQUE` (`choice_id` ASC, `option_id` ASC) ,
   INDEX `fk_catalog_choice_option_linker_1_idx` (`option_id` ASC) ,
   INDEX `fk_catalog_choice_option_linker_2_idx` (`choice_id` ASC) ,

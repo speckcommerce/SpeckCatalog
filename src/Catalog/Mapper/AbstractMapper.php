@@ -5,6 +5,7 @@ namespace Catalog\Mapper;
 use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
+use Zend\Db\Adapter\Platform\Mysql;
 
 class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
@@ -32,6 +33,13 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return $return;
     }
 
+    public function query($select)
+    {
+        $sql = $select->getSqlString(new Mysql);
+        $result = $this->getDbAdapter()->query($sql)->execute()->current();
+        return $result;
+    }
+
     public function getAll()
     {
         $select = $this->select()
@@ -48,22 +56,20 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     public function getEntityPrototype()
     {
         if (is_string($this->entityPrototype) && class_exists($this->entityPrototype)) {
-            $this->entityPrototype = new $this->entityPrototype;
+            return new $this->entityPrototype;
         }else{
             die('could not instantiate - ' . $this->entityPrototype);
         }
-        return parent::getEntityPrototype();
     }
 
     //note: remove after zfcbase refactor
     public function getHydrator()
     {
         if (is_string($this->hydrator) && class_exists($this->hydrator)) {
-            $this->hydrator = new $this->hydrator;
+            return new $this->hydrator;
         }else{
             die('could not instantiate - ' . $this->hydrator);
         }
-        return parent::getHydrator();
     }
 
     public function select()
@@ -74,5 +80,19 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     public function where()
     {
         return new Where;
+    }
+
+    public function update($entity, $where = null)
+    {
+        parent::update($entity, $where);
+    }
+
+    public function insert($model, $tableName = null)
+    {
+        if (null === $tableName) {
+            $tableName = $this->getTableName();
+        }
+        $result = parent::insert($model, $tableName);
+        return $result->getGeneratedValue();
     }
 }

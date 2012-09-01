@@ -8,7 +8,7 @@ class Choice extends AbstractEntity
     protected $choiceId;
     protected $productId;
     protected $optionId;
-    protected $sortWeight;
+    protected $sortWeight = 0;
 
     //non db fields
     protected $product;

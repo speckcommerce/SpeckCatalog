@@ -9,7 +9,7 @@ class Option extends AbstractEntity
     protected $instruction;
     protected $required;
     protected $optionTypeId;
-    protected $variation;
+    protected $variation = 0;
 
     //non db fields
     protected $parentProducts;

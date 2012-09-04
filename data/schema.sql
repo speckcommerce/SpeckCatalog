@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_uom` (
   `sort_weight` INT NOT NULL DEFAULT 0 ,
   INDEX `fk_catalog_product_uom_uom_code_idx` (`uom_code` ASC) ,
   INDEX `fk_catalog_product_uom_product_id_idx` (`product_id` ASC) ,
-  PRIMARY KEY (`uom_code`, `product_id`) ,
+  PRIMARY KEY (`uom_code`, `product_id`, `quantity`) ,
   CONSTRAINT `fk_catalog_product_uom_uom_code`
     FOREIGN KEY (`uom_code` )
     REFERENCES `speck`.`ansi_uom` (`uom_code` )
@@ -100,12 +100,13 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_availability` (
   `uom_code` CHAR(2) NOT NULL ,
   `distributor_id` INT NOT NULL ,
   `cost` DECIMAL(15,5) NOT NULL ,
-  PRIMARY KEY (`product_id`, `uom_code`, `distributor_id`) ,
-  INDEX `fk_catalog_availability_product_uom_idx` (`product_id` ASC, `uom_code` ASC) ,
+  `quantity` INT NOT NULL ,
+  PRIMARY KEY (`product_id`, `uom_code`, `distributor_id`, `quantity`) ,
+  INDEX `fk_catalog_availability_product_uom_idx` (`product_id` ASC, `uom_code` ASC, `quantity` ASC) ,
   INDEX `fk_catalog_availability_1_idx` (`distributor_id` ASC) ,
   CONSTRAINT `fk_catalog_availability_product_uom`
-    FOREIGN KEY (`product_id` , `uom_code` )
-    REFERENCES `speck`.`catalog_product_uom` (`product_id` , `uom_code` )
+    FOREIGN KEY (`product_id` , `uom_code` , `quantity` )
+    REFERENCES `speck`.`catalog_product_uom` (`product_id` , `uom_code` , `quantity` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_catalog_availability_distributor`

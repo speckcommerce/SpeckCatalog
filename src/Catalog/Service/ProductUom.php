@@ -5,9 +5,11 @@ namespace Catalog\Service;
 class ProductUom extends AbstractService
 {
     protected $entityMapper = 'catalog_product_uom_mapper';
+    protected $availabilityService;
 
-    public function find()
+    public function find($productId, $uomCode, $quantity)
     {
+        return $this->getEntityMapper()->find($productId, $uomCode, $quantity);
     }
 
     public function getByProductId($productId, $populate=false, $recursive=false)
@@ -21,7 +23,34 @@ class ProductUom extends AbstractService
         return $productUoms;
     }
 
-    public function populate($productUoms)
+    public function populate($productUom)
     {
+        $availabilities = $this->getAvailabilityService()->getByProductUom(
+            $productUom->getProductId(),
+            $productUom->getUomCode(),
+            $productUom->getQuantity()
+        );
+        $productUom->setAvailabilities($availabilities);
+    }
+
+    /**
+     * @return availabilityService
+     */
+    public function getAvailabilityService()
+    {
+        if (null === $this->availabilityService) {
+            $this->availabilityService = $this->getServiceLocator()->get('catalog_availability_service');
+        }
+        return $this->availabilityService;
+    }
+
+    /**
+     * @param $availabilityService
+     * @return self
+     */
+    public function setAvailabilityService($availabilityService)
+    {
+        $this->availabilityService = $availabilityService;
+        return $this;
     }
 }

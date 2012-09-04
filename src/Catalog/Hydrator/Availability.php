@@ -2,9 +2,9 @@
 
 namespace Catalog\Hydrator;
 
-class ProductUom extends AbstractHydrator
+class Availability extends AbstractHydrator
 {
-    protected $nonDbFields = array('availabilities');
+    protected $nonDbFields = array('distributor');
 
     public function __construct()
     {

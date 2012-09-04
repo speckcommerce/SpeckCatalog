@@ -5,11 +5,14 @@ namespace Catalog\Entity;
 class ProductUom extends AbstractEntity
 {
     protected $productId;
-    protected $uomCode;
+    protected $uomCode = 'EA';
     protected $price;
     protected $retail;
-    protected $quantity;
-    protected $sortWeight;
+    protected $quantity = 1;
+    protected $sortWeight = 0;
+
+    //non db fields
+    protected $availabilities;
 
     /**
      * @return productId
@@ -25,7 +28,7 @@ class ProductUom extends AbstractEntity
      */
     public function setProductId($productId)
     {
-        $this->productId = $productId;
+        $this->productId = (int) $productId;
         return $this;
     }
 
@@ -116,6 +119,24 @@ class ProductUom extends AbstractEntity
     public function setSortWeight($sortWeight)
     {
         $this->sortWeight = $sortWeight;
+        return $this;
+    }
+
+    /**
+     * @return availabilities
+     */
+    public function getAvailabilities()
+    {
+        return $this->availabilities;
+    }
+
+    /**
+     * @param $availabilities
+     * @return self
+     */
+    public function setAvailabilities($availabilities)
+    {
+        $this->availabilities = $availabilities;
         return $this;
     }
 }

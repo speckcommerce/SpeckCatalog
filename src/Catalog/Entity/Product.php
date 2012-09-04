@@ -7,7 +7,7 @@ class Product extends AbstractEntity
     protected $productId;
     protected $name;
     protected $description;
-    protected $productTypeId;
+    protected $productTypeId = 1;
     protected $itemNumber;
     protected $manufacturerId;
 

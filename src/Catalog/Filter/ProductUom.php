@@ -1,15 +1,15 @@
 <?php
 
-namespace Catalog\Form;
+namespace Catalog\Filter;
 
 use Zend\InputFilter\InputFilter;
 
-class FilterProductUom extends InputFilter
+class ProductUom extends InputFilter
 {
     public function __construct()
     {
         $this->add(array(
-            'name' => 'product_uom_id',
+            'name' => 'product_id'
         ));
         $this->add(array(
             'name' => 'price',
@@ -23,12 +23,5 @@ class FilterProductUom extends InputFilter
         $this->add(array(
             'name' => 'uom_code',
         ));
-
-
-
-
-
-
-
     }
 }

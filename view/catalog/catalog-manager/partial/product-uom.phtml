@@ -1,5 +1,5 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
-<div class="existing contrastbg boundary" id="<?=$productUom->getProductUomId();?>">
+<div class="existing contrastbg boundary" id="">
 <div class="entity-header">
     <div class="collapser"><i class="icon-chevron-down"></i></div>
     <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
@@ -8,7 +8,7 @@
     <div class="entity-content">
         <div class="row">
             <div class="span4">
-                <?=$this->speckCatalogRenderForm($productUom); ?>
+                <?=$this->speckCatalogRenderForm($productUom, 'product_uom'); ?>
             </div>
             <div class="span6">
                 <div class="list-wrap">
@@ -18,7 +18,7 @@
                         <span class="smallcaps">&nbsp;availabilities</span><br/>
                     </div>
                     <div class="list-items">
-                        <?=$this->speckCatalogRenderChildren($productUom->getAvailabilities());?>
+                        <?=$this->speckCatalogRenderChildren('availability', $productUom->getAvailabilities());?>
                     </div>
                     <div class="row list-items-helper">
                         <?=$this->speckCatalogAdderHelper('addButton', 'availability', $productUom); ?>

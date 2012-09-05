@@ -9,6 +9,7 @@ class Product extends AbstractService
     protected $productUomService;
     protected $imageService;
     protected $documentService;
+    protected $specService;
 
     public function find($productId, $populate=false, $recursive=false)
     {
@@ -33,6 +34,7 @@ class Product extends AbstractService
         $product->setImages($this->getImageService()->getImages('product', $productId));
         $product->setDocuments($this->getDocumentService()->getDocuments('product', $productId));
         $product->setUoms($this->getProductUomService()->getByProductId($productId, true, $recursive));
+        $product->setSpecs($this->getSpecService()->getByProductId($productId));
     }
 
     public function addOption($productOrId, $optionOrId)
@@ -156,6 +158,27 @@ class Product extends AbstractService
     public function setDocumentService($documentService)
     {
         $this->documentService = $documentService;
+        return $this;
+    }
+
+    /**
+     * @return specService
+     */
+    public function getSpecService()
+    {
+        if (null === $this->specService) {
+            $this->specService = $this->getServiceLocator()->get('catalog_spec_service');
+        }
+        return $this->specService;
+    }
+
+    /**
+     * @param $specService
+     * @return self
+     */
+    public function setSpecService($specService)
+    {
+        $this->specService = $specService;
         return $this;
     }
 }

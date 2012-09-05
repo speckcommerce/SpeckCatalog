@@ -52,6 +52,24 @@ class Category extends AbstractMapper
         }
     }
 
+
+    public function addProduct($categoryId, $productId, $siteId=1)
+    {
+        $table = 'category_category_product_linker';
+        $row = array(
+            'category_id' => $categoryId,
+            'product_id' => $productId,
+            'website_id' => $siteId,
+        );
+        $select = $this->select()
+            ->from($table)
+            ->where($row);
+        $result = $this->query($select);
+        if (false === $result) {
+            $this->insert($row, $table);
+        }
+    }
+
     public function addCategory($parentCategoryId = null, $categoryId, $siteId=1)
     {
         $where = $this->where()

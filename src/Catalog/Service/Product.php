@@ -50,6 +50,12 @@ class Product extends AbstractService
         $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
+    public function addImage($productOrId, $image)
+    {
+        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
+        return $this->getImageService()->addLinker('product', $productId, $image);
+    }
+
     public function populateForPricing($product)
     {
         //recursive options (only whats needed for pricing)

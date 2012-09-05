@@ -10,4 +10,9 @@ class Image extends AbstractService
     {
         return $this->getEntityMapper()->getImages($type, $id);
     }
+
+    public function addLinker($parentName, $parentId, $image)
+    {
+        return $this->getEntityMapper()->addLinker($parentName, $parentId, $image);
+    }
 }

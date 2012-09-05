@@ -22,7 +22,7 @@ class Media extends AbstractEntity
      */
     public function setMediaId($mediaId)
     {
-        $this->mediaId = $mediaId;
+        $this->mediaId = (int) $mediaId;
         return $this;
     }
 

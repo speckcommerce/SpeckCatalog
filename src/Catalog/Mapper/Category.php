@@ -45,7 +45,8 @@ class Category extends AbstractMapper
         $existing = self::find($category->getCategoryId());
         if($existing){
             $where = array('category_id' => $category->getCategoryId());
-            return $this->update($category, $where);
+            $this->update($category, $where);
+            return $category;
         } else {
             $id = $this->insert($category);
             return $this->find($id);
@@ -55,7 +56,7 @@ class Category extends AbstractMapper
 
     public function addProduct($categoryId, $productId, $siteId=1)
     {
-        $table = 'category_category_product_linker';
+        $table = 'catalog_category_product_linker';
         $row = array(
             'category_id' => $categoryId,
             'product_id' => $productId,

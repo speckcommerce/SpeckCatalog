@@ -17,7 +17,6 @@ class CategoryController extends AbstractActionController
         if (null === $category) {
             throw new \Exception('fore oh fore');
         }
-
         return new ViewModel(array('category' => $category));
     }
 

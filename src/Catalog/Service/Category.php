@@ -31,10 +31,10 @@ class Category extends AbstractService
         if (!$category) return;
 
         $categories = $this->getChildCategories($categoryId);
-        //foreach($categories as $child){
-        //    $image = $this->getImageService()->getImageForCategory($child->getCategoryId());
-        //    $child->setImage($image);
-        //}
+        foreach($categories as $child){
+            $image = $this->getImageService()->getImageForCategory($child->getCategoryId());
+            $child->setImage($image);
+        }
         $products = $this->getProductService()->getByCategoryId($categoryId);
         foreach($products as $product){
             $product->setImages($this->getImageService()->getImages('product', $product->getProductId()));
@@ -54,7 +54,7 @@ class Category extends AbstractService
     public function addProduct($categoryOrId, $productOrId)
     {
         $categoryId = ( is_int($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
-        $productOrId = ( is_int($productOrId) ? $productOrId  : $productOrId->getProductId() );
+        $productId = ( is_int($productOrId) ? $productOrId  : $productOrId->getProductId() );
 
         return $this->getEntityMapper()->addProduct($categoryId, $productId);
     }
@@ -75,6 +75,15 @@ class Category extends AbstractService
 
         return $this->getEntityMapper()->addCategory($parentCategoryId, $categoryId);
     }
+
+    public function setImage($categoryOrId, $imageOrId)
+    {
+        $categoryId = ( is_int($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
+        $imageId    = ( is_int($imageOrId)    ? $imageOrId    : $imageOrId->getMediaId() );
+
+        return $this->getImageService()->addLinker('category', $categoryId, $imageId);
+    }
+
 
     /**
      * @return productService

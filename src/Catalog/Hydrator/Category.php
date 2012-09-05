@@ -4,7 +4,7 @@ namespace Catalog\Hydrator;
 
 class Category extends AbstractHydrator
 {
-    protected $nonDbFields = array('categories', 'products');
+    protected $nonDbFields = array('categories', 'products', 'image');
 
     public function __construct()
     {

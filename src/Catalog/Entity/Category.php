@@ -12,6 +12,7 @@ class Category extends AbstractEntity
     //non db fields
     protected $categories;
     protected $products;
+    protected $image;
 
     /**
      * @return categoryId
@@ -27,7 +28,7 @@ class Category extends AbstractEntity
      */
     public function setCategoryId($categoryId)
     {
-        $this->categoryId = $categoryId;
+        $this->categoryId = (int) $categoryId;
         return $this;
     }
 
@@ -118,6 +119,24 @@ class Category extends AbstractEntity
     public function setProducts($products)
     {
         $this->products = $products;
+        return $this;
+    }
+
+    /**
+     * @return image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param $image
+     * @return self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
         return $this;
     }
 }

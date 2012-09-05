@@ -34,7 +34,10 @@ class Image extends AbstractMedia
 
     public function persist($image)
     {
-        if(null !== $image->getMediaId()){
+        if(null === $image->getMediaId()){
+            $id = $this->insert($image);
+            return $image->setMediaId($id);
+        } elseif($this->find($image->getMediaId())) {
             $where = array('media_id' => $image->getMediaId());
             return $this->update($image, $where);
         } else {
@@ -43,12 +46,12 @@ class Image extends AbstractMedia
         }
     }
 
-    public function addLinker($parentName, $parentId, $image)
+    public function addLinker($parentName, $parentId, $imageId)
     {
-        $table = 'catalog_product_image_linker';
+        $table = $this->$parentName;
         $row = array(
             $parentName . '_id' => $parentId,
-            'media_id' => $image->getMediaId(),
+            'media_id' => $imageId,
         );
         $select = $this->select()
             ->from($table)

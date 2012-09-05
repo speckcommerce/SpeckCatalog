@@ -11,8 +11,17 @@ class Image extends AbstractService
         return $this->getEntityMapper()->getImages($type, $id);
     }
 
-    public function addLinker($parentName, $parentId, $image)
+    public function getImageForCategory($id)
     {
-        return $this->getEntityMapper()->addLinker($parentName, $parentId, $image);
+        $images = $this->getEntityMapper()->getImages('category', $id);
+        if(count($images) > 0){
+            return array_shift($images);
+        }
+    }
+
+    public function addLinker($parentName, $parentId, $imageOrId)
+    {
+        $imageId    = ( is_int($imageOrId)    ? $imageOrId    : $imageOrId->getMediaId() );
+        return $this->getEntityMapper()->addLinker($parentName, $parentId, $imageId);
     }
 }

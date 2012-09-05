@@ -6,6 +6,8 @@ use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\Adapter\Platform\Mysql;
+use Zend\Stdlib\Hydrator\HydratorInterface;
+
 
 class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
@@ -82,12 +84,12 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return new Where;
     }
 
-    public function update($entity, $where = null)
+    public function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
     {
         parent::update($entity, $where);
     }
 
-    public function insert($model, $tableName = null)
+    public function insert($model, $tableName = null, HydratorInterface $hydrator = null)
     {
         if (null === $tableName) {
             $tableName = $this->getTableName();

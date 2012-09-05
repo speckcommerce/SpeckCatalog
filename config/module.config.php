@@ -37,6 +37,7 @@ $config = array(
             'catalog_image_service'            => 'Catalog\Service\Image',
             'catalog_document_service'         => 'Catalog\Service\Document',
             'catalog_availability_service'     => 'Catalog\Service\Availability',
+            'catalog_spec_service'             => 'Catalog\Service\Spec',
 
             'catalog_product_mapper'           => 'Catalog\Mapper\Product',
             'catalog_category_mapper'          => 'Catalog\Mapper\Category',
@@ -48,6 +49,7 @@ $config = array(
             'catalog_document_mapper'          => 'Catalog\Mapper\Document',
             'catalog_uom_mapper'               => 'Catalog\Mapper\Uom',
             'catalog_availability_mapper'      => 'Catalog\Mapper\Availability',
+            'catalog_spec_mapper'              => 'Catalog\Mapper\Spec',
 
             'catalog_cart_service'             => 'Catalog\Service\CatalogCartService',
             'catalog_form_service'             => 'Catalog\Service\FormService',

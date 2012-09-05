@@ -377,9 +377,13 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_spec` (
   `product_id` INT(11) NOT NULL ,
   `label` VARCHAR(255) NULL DEFAULT NULL ,
   `value` TEXT NULL DEFAULT NULL ,
-  `tab_delimited` TEXT NULL DEFAULT NULL ,
-  `search_data` TEXT NULL DEFAULT NULL ,
-  PRIMARY KEY (`spec_id`) )
+  PRIMARY KEY (`spec_id`) ,
+  INDEX `fk_catalog_product_spec_1_idx` (`product_id` ASC) ,
+  CONSTRAINT `fk_catalog_product_spec_1`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `speck`.`catalog_product` (`product_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 

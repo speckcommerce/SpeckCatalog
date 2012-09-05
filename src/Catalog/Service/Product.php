@@ -8,6 +8,7 @@ class Product extends AbstractService
     protected $optionService;
     protected $productUomService;
     protected $imageService;
+    protected $documentService;
 
     public function find($productId, $populate=false, $recursive=false)
     {
@@ -30,6 +31,7 @@ class Product extends AbstractService
         $productId = $product->getProductId();
         $product->setOptions($this->getOptionService()->getByProductId($productId, true, $recursive));
         $product->setImages($this->getImageService()->getImages('product', $productId));
+        $product->setDocuments($this->getDocumentService()->getDocuments('product', $productId));
         $product->setUoms($this->getProductUomService()->getByProductId($productId, true, $recursive));
     }
 
@@ -54,6 +56,11 @@ class Product extends AbstractService
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
         return $this->getImageService()->addLinker('product', $productId, $image);
+    }
+    public function addDocument($productOrId, $document)
+    {
+        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
+        return $this->getDocumentService()->addLinker('product', $productId, $document);
     }
 
     public function populateForPricing($product)
@@ -128,6 +135,27 @@ class Product extends AbstractService
     public function setImageService($imageService)
     {
         $this->imageService = $imageService;
+        return $this;
+    }
+
+    /**
+     * @return documentService
+     */
+    public function getDocumentService()
+    {
+        if (null === $this->documentService) {
+            $this->documentService = $this->getServiceLocator()->get('catalog_document_service');
+        }
+        return $this->documentService;
+    }
+
+    /**
+     * @param $documentService
+     * @return self
+     */
+    public function setDocumentService($documentService)
+    {
+        $this->documentService = $documentService;
         return $this;
     }
 }

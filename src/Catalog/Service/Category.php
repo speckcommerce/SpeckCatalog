@@ -51,6 +51,22 @@ class Category extends AbstractService
         return $this->getEntityMapper()->getChildCategories($categoryId);
     }
 
+    public function addCategory($parentCategoryOrIdOrNull = null, $categoryOrId)
+    {
+        $categoryId = ( is_int($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
+
+        $parentCategoryId = (
+            is_int($parentCategoryOrIdOrNull)
+            ? $parentCategoryOrIdOrNull
+            : (is_null($parentCategoryOrIdOrNull)
+                ? null
+                : $parentCategoryOrIdOrNull->getCategoryId()
+            )
+        );
+
+        return $this->getEntityMapper()->addCategory($parentCategoryId, $categoryId);
+    }
+
     /**
      * @return productService
      */

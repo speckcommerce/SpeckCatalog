@@ -35,6 +35,7 @@ $config = array(
             'catalog_product_uom_service'      => 'Catalog\Service\ProductUom',
             'catalog_uom_service'              => 'Catalog\Service\Uom',
             'catalog_image_service'            => 'Catalog\Service\Image',
+            'catalog_document_service'         => 'Catalog\Service\Document',
             'catalog_availability_service'     => 'Catalog\Service\Availability',
 
             'catalog_product_mapper'           => 'Catalog\Mapper\Product',
@@ -44,6 +45,7 @@ $config = array(
             'catalog_choice_mapper'            => 'Catalog\Mapper\Choice',
             'catalog_product_uom_mapper'       => 'Catalog\Mapper\ProductUom',
             'catalog_image_mapper'             => 'Catalog\Mapper\Image',
+            'catalog_document_mapper'          => 'Catalog\Mapper\Document',
             'catalog_uom_mapper'               => 'Catalog\Mapper\Uom',
             'catalog_availability_mapper'      => 'Catalog\Mapper\Availability',
 

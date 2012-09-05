@@ -35,4 +35,45 @@ class Category extends AbstractMapper
             ->where($where);
         return $this->selectMany($query);
     }
+
+    public function persist($category)
+    {
+        if(null === $category->getCategoryId()) {
+            $id = $this->insert($category);
+            return $this->find($id);
+        }
+        $existing = self::find($category->getCategoryId());
+        if($existing){
+            $where = array('category_id' => $category->getCategoryId());
+            return $this->update($category, $where);
+        } else {
+            $id = $this->insert($category);
+            return $this->find($id);
+        }
+    }
+
+    public function addCategory($parentCategoryId = null, $categoryId, $siteId=1)
+    {
+        $where = $this->where()
+            ->equalTo('website_id', $siteId)
+            ->equalTo('category_id', $categoryId);
+        if (null === $parentCategoryId) {
+            $where->isNull('parent_category_id');
+        } else {
+            $where->equalTo('parent_category_id', $parentCategoryId);
+        }
+        $table = 'catalog_category_website';
+        $row = array(
+            'category_id' => $categoryId,
+            'parent_category_id' => $parentCategoryId,
+            'website_id' => $siteId,
+        );
+        $select = $this->select()
+            ->from($table)
+            ->where($where);
+        $result = $this->query($select);
+        if (false === $result) {
+            $this->insert($row, $table);
+        }
+    }
 }

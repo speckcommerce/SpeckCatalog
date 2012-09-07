@@ -27,6 +27,12 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $this->entityMapper;
     }
 
+    public function setEntityMapper($entityMapper)
+    {
+        $this->entityMapper = $entityMapper;
+        return $this;
+    }
+
     public function getServiceLocator()
     {
         return $this->serviceLocator;

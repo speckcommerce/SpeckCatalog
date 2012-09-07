@@ -7,7 +7,7 @@ class Category extends AbstractService
     protected $entityMapper = 'catalog_category_mapper';
     protected $productService;
     protected $productUomService;
-    protected $imageService;
+    protected $productImageService;
     protected $optionService;
 
     public function find($categoryId)
@@ -31,13 +31,9 @@ class Category extends AbstractService
         if (!$category) return;
 
         $categories = $this->getChildCategories($categoryId);
-        foreach($categories as $child){
-            $image = $this->getImageService()->getImageForCategory($child->getCategoryId());
-            $child->setImage($image);
-        }
         $products = $this->getProductService()->getByCategoryId($categoryId);
         foreach($products as $product){
-            $product->setImages($this->getImageService()->getImages('product', $product->getProductId()));
+            $product->setImages($this->getProductImageService()->getImages('product', $product->getProductId()));
             $product->setUoms($this->getProductUomService()->getByProductId($product->getProductId()));
             $product->setOptions($this->getOptionService()->getByProductId($product->getProductId(), true, true));
         }
@@ -128,27 +124,6 @@ class Category extends AbstractService
     }
 
     /**
-     * @return imageService
-     */
-    public function getImageService()
-    {
-        if (null === $this->imageService) {
-            $this->imageService = $this->getServiceLocator()->get('catalog_image_service');
-        }
-        return $this->imageService;
-    }
-
-    /**
-     * @param $imageService
-     * @return self
-     */
-    public function setImageService($imageService)
-    {
-        $this->imageService = $imageService;
-        return $this;
-    }
-
-    /**
      * @return optionService
      */
     public function getOptionService()
@@ -166,6 +141,27 @@ class Category extends AbstractService
     public function setOptionService($optionService)
     {
         $this->optionService = $optionService;
+        return $this;
+    }
+
+    /**
+     * @return productImageService
+     */
+    public function getProductImageService()
+    {
+        if (null === $this->productImageService) {
+            $this->productImageService = $this->getServiceLocator()->get('catalog_product_image_service');
+        }
+        return $this->productImageService;
+    }
+
+    /**
+     * @param $productImageService
+     * @return self
+     */
+    public function setProductImageService($productImageService)
+    {
+        $this->productImageService = $productImageService;
         return $this;
     }
 }

@@ -56,7 +56,7 @@ class Category extends AbstractMapper
 
     public function addProduct($categoryId, $productId, $siteId=1)
     {
-        $table = 'catalog_category_product_linker';
+        $table = 'catalog_category_product';
         $row = array(
             'category_id' => $categoryId,
             'product_id' => $productId,

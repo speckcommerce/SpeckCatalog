@@ -4,6 +4,13 @@ namespace Catalog\Model;
 
 class Image extends MediaAbstract
 {
+    protected $parentType;
+
+    public function construct($parentType)
+    {
+        $this->setParentType($parentType);
+    }
+
     public function noFile()
     {
         return "data:image/jpeg;base64,
@@ -39,4 +46,21 @@ class Image extends MediaAbstract
         return '' . $this->getLabel();
     }
 
+    /**
+     * @return parentType
+     */
+    public function getParentType()
+    {
+        return $this->parentType;
+    }
+
+    /**
+     * @param $parentType
+     * @return self
+     */
+    public function setParentType($parentType)
+    {
+        $this->parentType = $parentType;
+        return $this;
+    }
 }

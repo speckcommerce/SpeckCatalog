@@ -87,8 +87,8 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_uom` (
   CONSTRAINT `fk_catalog_product_uom_product_id`
     FOREIGN KEY (`product_id` )
     REFERENCES `speck`.`catalog_product` (`product_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -107,13 +107,13 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_availability` (
   CONSTRAINT `fk_catalog_availability_product_uom`
     FOREIGN KEY (`product_id` , `uom_code` , `quantity` )
     REFERENCES `speck`.`catalog_product_uom` (`product_id` , `uom_code` , `quantity` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_availability_distributor`
     FOREIGN KEY (`distributor_id` )
     REFERENCES `speck`.`catalog_company` (`company_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -125,6 +125,7 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category` (
   `name` VARCHAR(255) NOT NULL ,
   `seo_title` VARCHAR(255) NULL DEFAULT NULL ,
   `description_html` TEXT NULL DEFAULT NULL ,
+  `image_file_name` VARCHAR(255) NULL ,
   PRIMARY KEY (`category_id`) )
 ENGINE = InnoDB;
 
@@ -169,25 +170,13 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_category_image_linker`
+-- Table `speck`.`catalog_category_product`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category_image_linker` (
-  `linker_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `category_id` INT(11) NOT NULL ,
-  `media_id` INT(11) NOT NULL ,
-  `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  INDEX `linker_id` (`linker_id` ASC) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `speck`.`catalog_category_product_linker`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category_product_linker` (
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category_product` (
   `category_id` INT NOT NULL ,
   `product_id` INT NOT NULL ,
   `website_id` INT NOT NULL ,
+  `image_file_name` VARCHAR(45) NULL ,
   INDEX `fk_catalog_product_category_linker_category_id_idx` (`category_id` ASC) ,
   INDEX `fk_catalog_product_category_linker_product_id_idx` (`product_id` ASC) ,
   PRIMARY KEY (`product_id`, `category_id`, `website_id`) ,
@@ -195,28 +184,18 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_category_product_linker` (
   CONSTRAINT `fk_catalog_product_category_linker_category_id`
     FOREIGN KEY (`category_id` )
     REFERENCES `speck`.`catalog_category` (`category_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_product_category_linker_product_id`
     FOREIGN KEY (`product_id` )
     REFERENCES `speck`.`catalog_product` (`product_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_product_category_linker_website_id`
     FOREIGN KEY (`website_id` )
     REFERENCES `speck`.`website` (`website_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `speck`.`catalog_option_type`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_option_type` (
-  `option_type_id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`option_type_id`) )
 ENGINE = InnoDB;
 
 
@@ -228,15 +207,9 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_option` (
   `name` VARCHAR(255) NOT NULL ,
   `instruction` VARCHAR(255) NULL DEFAULT NULL ,
   `required` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `option_type_id` INT NOT NULL ,
   `variation` TINYINT NOT NULL DEFAULT 0 ,
-  PRIMARY KEY (`option_id`) ,
-  INDEX `fk_catalog_option_option_type_id_idx` (`option_type_id` ASC) ,
-  CONSTRAINT `fk_catalog_option_option_type_id`
-    FOREIGN KEY (`option_type_id` )
-    REFERENCES `speck`.`catalog_option_type` (`option_type_id` )
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+  `option_type_id` TINYINT(1) NULL ,
+  PRIMARY KEY (`option_id`) )
 ENGINE = InnoDB;
 
 
@@ -259,21 +232,21 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_choice` (
   CONSTRAINT `fk_catalog_choice_product_id`
     FOREIGN KEY (`product_id` )
     REFERENCES `speck`.`catalog_product` (`product_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_choice_option_id`
     FOREIGN KEY (`option_id` )
     REFERENCES `speck`.`catalog_option` (`option_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 PACK_KEYS = DEFAULT;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_choice_option_linker`
+-- Table `speck`.`catalog_choice_option`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_choice_option_linker` (
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_choice_option` (
   `option_id` INT(11) NOT NULL ,
   `choice_id` INT(11) NOT NULL ,
   `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
@@ -283,73 +256,83 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_choice_option_linker` (
   CONSTRAINT `fk_catalog_choice_option_linker_1`
     FOREIGN KEY (`option_id` )
     REFERENCES `speck`.`catalog_option` (`option_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_choice_option_linker_2`
     FOREIGN KEY (`choice_id` )
     REFERENCES `speck`.`catalog_choice` (`choice_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 COMMENT = 'the options that choices have\n(linker table names are parent' /* comment truncated */;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_media`
+-- Table `speck`.`catalog_option_image`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_media` (
-  `media_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `label` VARCHAR(255) NULL DEFAULT NULL ,
-  `file_name` VARCHAR(255) NULL DEFAULT NULL ,
-  `search_data` TEXT NULL DEFAULT NULL ,
-  PRIMARY KEY (`media_id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `speck`.`catalog_option_image_linker`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_option_image_linker` (
-  `linker_id` INT(11) NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_option_image` (
+  `image_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `option_id` INT(11) NOT NULL ,
-  `media_id` INT(11) NOT NULL ,
   `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`linker_id`) )
+  `file_name` VARCHAR(45) NULL ,
+  `label` VARCHAR(255) NULL ,
+  PRIMARY KEY (`image_id`) ,
+  INDEX `fk_catalog_option_image_1_idx` (`option_id` ASC) ,
+  CONSTRAINT `fk_catalog_option_image_1`
+    FOREIGN KEY (`option_id` )
+    REFERENCES `speck`.`catalog_option` (`option_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_product_document_linker`
+-- Table `speck`.`catalog_product_document`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_document_linker` (
-  `linker_id` INT(11) NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_document` (
+  `document_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `product_id` INT(11) NOT NULL ,
-  `media_id` INT(11) NOT NULL ,
   `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  INDEX `linker_id` (`linker_id` ASC) )
+  `file_name` VARCHAR(45) NULL ,
+  `label` VARCHAR(45) NULL ,
+  INDEX `linker_id` (`document_id` ASC) ,
+  PRIMARY KEY (`document_id`) ,
+  INDEX `fk_catalog_product_document_1_idx` (`product_id` ASC) ,
+  CONSTRAINT `fk_catalog_product_document_1`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `speck`.`catalog_product` (`product_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_product_image_linker`
+-- Table `speck`.`catalog_product_image`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_image_linker` (
-  `linker_id` INT(11) NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_image` (
+  `image_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `product_id` INT(11) NOT NULL ,
-  `media_id` INT(11) NOT NULL ,
   `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  INDEX `linker_id` (`linker_id` ASC) )
+  `file_name` VARCHAR(45) NULL ,
+  `label` VARCHAR(255) NULL ,
+  INDEX `linker_id` (`image_id` ASC) ,
+  PRIMARY KEY (`image_id`) ,
+  INDEX `fk_catalog_product_image_1_idx` (`product_id` ASC) ,
+  CONSTRAINT `fk_catalog_product_image_1`
+    FOREIGN KEY (`product_id` )
+    REFERENCES `speck`.`catalog_product` (`product_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `speck`.`catalog_product_option_linker`
+-- Table `speck`.`catalog_product_option`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_option_linker` (
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_option` (
   `product_id` INT NULL ,
   `option_id` INT NULL ,
   `sort_weight` INT NOT NULL DEFAULT 0 ,
@@ -359,13 +342,13 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_option_linker` (
   CONSTRAINT `fk_catalog_product_option_linker_product_id`
     FOREIGN KEY (`product_id` )
     REFERENCES `speck`.`catalog_product` (`product_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_product_option_linker_option_id`
     FOREIGN KEY (`option_id` )
     REFERENCES `speck`.`catalog_option` (`option_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -382,8 +365,8 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_spec` (
   CONSTRAINT `fk_catalog_product_spec_1`
     FOREIGN KEY (`product_id` )
     REFERENCES `speck`.`catalog_product` (`product_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
@@ -567,16 +550,5 @@ START TRANSACTION;
 USE `speck`;
 INSERT INTO `speck`.`catalog_product_type` (`product_type_id`, `name`) VALUES (1, 'Shell');
 INSERT INTO `speck`.`catalog_product_type` (`product_type_id`, `name`) VALUES (2, 'Product');
-
-COMMIT;
-
--- -----------------------------------------------------
--- Data for table `speck`.`catalog_option_type`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `speck`;
-INSERT INTO `speck`.`catalog_option_type` (`option_type_id`, `name`) VALUES (1, 'Select');
-INSERT INTO `speck`.`catalog_option_type` (`option_type_id`, `name`) VALUES (2, 'Radio');
-INSERT INTO `speck`.`catalog_option_type` (`option_type_id`, `name`) VALUES (3, 'Checkbox');
 
 COMMIT;

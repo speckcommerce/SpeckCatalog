@@ -19,7 +19,7 @@ class Product extends AbstractMapper
     public function getByCategoryId($categoryId, $siteId=1)
     {
         $table = $this->getTableName();
-        $linker = 'catalog_category_product_linker';
+        $linker = 'catalog_category_product';
         $joinString = $linker . '.product_id = ' . $table . '.product_id';
         $where = array('category_id' => $categoryId, 'website_id' => $siteId);
 
@@ -48,7 +48,7 @@ class Product extends AbstractMapper
 
     public function addOption($productId, $optionId)
     {
-        $table = 'catalog_product_option_linker';
+        $table = 'catalog_product_option';
         $row = array('product_id' => $productId, 'option_id' => $optionId);
         $select = $this->select()
             ->from($table)

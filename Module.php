@@ -94,11 +94,13 @@ class Module
     {
         return array(
             'shared' => array(
-                'cart_item_meta' => false,
+                //'cart_item_meta' => false,
             ),
             'factories' => array(
-                'cart_item_meta' => function ($sm) {
-                    return new \Catalog\Model\CartItemMeta();
+                'catalog_product_image_service' => function ($sm) {
+                    $service = new \Catalog\Service\Image;
+                    $mapper = $sm->get('catalog_image_mapper')->setParentType('product');
+                    return $service->setEntityMapper($mapper);
                 },
                 'catalog_module_options' => function ($sm) {
                     $config = $sm->get('Config');

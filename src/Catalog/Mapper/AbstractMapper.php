@@ -54,11 +54,17 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return $this->tableName;
     }
 
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
+        return $this;
+    }
+
     //note: remove after zfcbase refactor
-    public function getEntityPrototype()
+    public function getEntityPrototype($constructor = null)
     {
         if (is_string($this->entityPrototype) && class_exists($this->entityPrototype)) {
-            return new $this->entityPrototype;
+            return new $this->entityPrototype($constructor);
         }else{
             die('could not instantiate - ' . $this->entityPrototype);
         }

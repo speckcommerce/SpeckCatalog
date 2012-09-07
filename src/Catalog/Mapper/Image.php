@@ -2,11 +2,17 @@
 
 namespace Catalog\Mapper;
 
-class Image extends AbstractMedia
+class Image extends AbstractMapper
 {
-    protected $product  = 'catalog_product_image_linker';
-    protected $category = 'catalog_category_image_linker';
-    protected $option   = 'catalog_option_image_linker';
+    protected $tableName;
+    protected $entityPrototype = 'Catalog\Entity\Image';
+    protected $hydrator        = 'Catalog\Hydrator\Image';
+
+    public function setParentType($parentType)
+    {
+        $this->tableName = 'catalog_' . $parentType . '_image';
+        return $this;
+    }
 
     public function find($mediaId)
     {
@@ -20,34 +26,28 @@ class Image extends AbstractMedia
 
     public function getImages($type, $id)
     {
-        $table = $this->getTableName();
-        $linker = $this->$type;
-        $joinString = $linker . '.media_id = ' . $table . '.media_id';
         $where = array($type . '_id' => $id);
 
         $select = $this->select()
-            ->from($table)
-            ->join($linker, $joinString)
+            ->from($this->getTableName())
             ->where($where);
         return $this->selectMany($select);
     }
 
     public function persist($image)
     {
-        if(null === $image->getMediaId()){
+        if(null === $image->getImageId()){
             $id = $this->insert($image);
-            return $image->setMediaId($id);
+            return $image->setImageId($id);
         } elseif($this->find($image->getMediaId())) {
-            $where = array('media_id' => $image->getMediaId());
+            $where = array('image_id' => $image->getImageId());
             return $this->update($image, $where);
-        } else {
-            $id = $this->insert($image);
-            return $image->setMediaId($id);
         }
     }
 
     public function addLinker($parentName, $parentId, $imageId)
     {
+        die();
         $table = $this->$parentName;
         $row = array(
             $parentName . '_id' => $parentId,

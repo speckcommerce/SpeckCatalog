@@ -37,7 +37,7 @@ class Choice extends AbstractMapper
 
     public function addOption($choiceId, $optionId)
     {
-        $table = 'catalog_choice_option_linker';
+        $table = 'catalog_choice_option';
         $row = array('choice_id' => $choiceId, 'option_id' => $optionId);
         $select = $this->select()
             ->from($table)

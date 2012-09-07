@@ -18,10 +18,4 @@ class Image extends AbstractService
             return array_shift($images);
         }
     }
-
-    public function addLinker($parentName, $parentId, $imageOrId)
-    {
-        $imageId    = ( is_int($imageOrId)    ? $imageOrId    : $imageOrId->getMediaId() );
-        return $this->getEntityMapper()->addLinker($parentName, $parentId, $imageId);
-    }
 }

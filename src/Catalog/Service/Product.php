@@ -125,7 +125,7 @@ class Product extends AbstractService
     public function getImageService()
     {
         if (null === $this->imageService) {
-            $this->imageService = $this->getServiceLocator()->get('catalog_image_service');
+            $this->imageService = $this->getServiceLocator()->get('catalog_product_image_service');
         }
         return $this->imageService;
     }

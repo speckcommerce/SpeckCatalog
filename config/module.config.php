@@ -34,7 +34,6 @@ $config = array(
             'catalog_choice_service'           => 'Catalog\Service\Choice',
             'catalog_product_uom_service'      => 'Catalog\Service\ProductUom',
             'catalog_uom_service'              => 'Catalog\Service\Uom',
-            'catalog_image_service'            => 'Catalog\Service\Image',
             'catalog_document_service'         => 'Catalog\Service\Document',
             'catalog_availability_service'     => 'Catalog\Service\Availability',
             'catalog_spec_service'             => 'Catalog\Service\Spec',

@@ -2,58 +2,28 @@
 
 namespace Catalog\Mapper;
 
-class Document extends AbstractMedia
+class Document extends AbstractMapper
 {
-    protected $product  = 'catalog_product_document_linker';
+    protected $tableName = 'catalog_product_document';
+    protected $entityPrototype = 'Catalog\Entity\Document';
+    protected $hydrator        = 'Catalog\Hydrator\Document';
 
-    public function find($mediaId)
+    public function getDocuments($productId)
     {
-        $table = $this->getTableName();
-        $where = array('media_id' => $mediaId);
         $select = $this->select()
-            ->from($table)
-            ->where($where);
-        return $this->selectOne($select);
-    }
-
-    public function getDocuments($type, $id)
-    {
-        $table = $this->getTableName();
-        $linker = $this->$type;
-        $joinString = $linker . '.media_id = ' . $table . '.media_id';
-        $where = array($type . '_id' => $id);
-
-        $select = $this->select()
-            ->from($table)
-            ->join($linker, $joinString)
-            ->where($where);
+            ->from($this->getTableName())
+            ->where(array('product_id' => $productId));
         return $this->selectMany($select);
     }
 
-    public function persist($image)
+    public function persist($document)
     {
-        if(null !== $image->getMediaId()){
-            $where = array('media_id' => $image->getMediaId());
-            return $this->update($image, $where);
-        } else {
-            $id = $this->insert($image);
-            return $image->setMediaId($id);
-        }
-    }
-
-    public function addLinker($parentName, $parentId, $image)
-    {
-        $table = 'catalog_product_image_linker';
-        $row = array(
-            $parentName . '_id' => $parentId,
-            'media_id' => $image->getMediaId(),
-        );
-        $select = $this->select()
-            ->from($table)
-            ->where($row);
-        $result = $this->query($select);
-        if (false === $result) {
-            $this->insert($row, $this->$parentName);
+        if(null === $document->getDocumentId()){
+            $id = $this->insert($document);
+            return $document->setDocumentId($id);
+        } elseif($this->find($document->getDocumentId())) {
+            $where = array('document_id' => $document->getDocumentId());
+            return $this->update($document, $where);
         }
     }
 }

@@ -8,11 +8,11 @@ class Category extends AbstractEntity
     protected $name;
     protected $seoTitle;
     protected $descriptionHtml;
+    protected $imageFileName;
 
     //non db fields
     protected $categories;
     protected $products;
-    protected $image;
 
     /**
      * @return categoryId
@@ -123,20 +123,20 @@ class Category extends AbstractEntity
     }
 
     /**
-     * @return image
+     * @return imageFileName
      */
-    public function getImage()
+    public function getImageFileName()
     {
-        return $this->image;
+        return $this->imageFileName;
     }
 
     /**
-     * @param $image
+     * @param $imageFileName
      * @return self
      */
-    public function setImage($image)
+    public function setImageFileName($imageFileName)
     {
-        $this->image = $image;
+        $this->imageFileName = $imageFileName;
         return $this;
     }
 }

@@ -18,7 +18,7 @@ class Option extends AbstractMapper
 
     public function getByProductId($productId)
     {
-        $linker = 'catalog_product_option_linker';
+        $linker = 'catalog_product_option';
         $table = $this->getTableName();
         $joinString = $linker . '.option_id = ' . $table . '.option_id';
 
@@ -31,7 +31,7 @@ class Option extends AbstractMapper
 
     public function getByParentChoiceId($choiceId)
     {
-        $linker = 'catalog_choice_option_linker';
+        $linker = 'catalog_choice_option';
         $table = $this->getTableName();
         $joinString = $linker . '.option_id = ' . $table . '.option_id';
 

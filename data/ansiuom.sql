@@ -1,6 +1,3 @@
--- ansi uoms // note: needs to be updated, you will get errors relating to
--- missing fields if you use this.
-
 CREATE TABLE IF NOT EXISTS `ansi_uom` (
   `uom_code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,

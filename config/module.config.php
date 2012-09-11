@@ -27,6 +27,9 @@ $config = array(
     ),
     'service_manager' => array(
         'invokables' => array(
+
+            'cart_item_meta'                   => 'Catalog\Model\CartItemMeta',
+
             'catalog_product_service'          => 'Catalog\Service\Product',
             'catalog_category_service'         => 'Catalog\Service\Category',
             'catalog_company_service'          => 'Catalog\Service\Company',

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `ansi_uom` (
-  `uom_code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `uom_code` char(2) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uom_code`)

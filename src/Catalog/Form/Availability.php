@@ -13,17 +13,30 @@ class Availability extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'availability_id',
+            'name' => 'product_id',
             'attributes' => array(
                 'type' => 'hidden'
             ),
         ));
         $this->add(array(
-            'name' => 'parent_product_uom_id',
+            'name' => 'uom_code',
             'attributes' => array(
                 'type' => 'hidden'
             ),
         ));
+        $this->add(array(
+            'name' => 'product_id',
+            'attributes' => array(
+                'type' => 'hidden'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'quantity',
+            'attributes' => array(
+                'type' => 'hidden'
+            ),
+        ));
+
         $this->add(array(
             'name' => 'cost',
             'attributes' => array(
@@ -43,7 +56,7 @@ class Availability extends ZendForm
             $options[$company->getCompanyId()] = $company->getName();
         }
         $this->add(array(
-            'name' => 'distributor_company_id',
+            'name' => 'distributor_id',
             'attributes' => array(
                 'type' => 'select',
                 'options' => $options,

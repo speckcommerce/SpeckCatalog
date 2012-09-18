@@ -1,0 +1,8 @@
+<span id="mini-cart">
+	<? if ($this->miniCart['item_count'] == 0): ?>
+		<span id="cart-link">0 Items (<span class="notranslate">$0.00</span>)</span>
+	<? else: ?>
+		<a href="/cart" id="cart-link"><?= $this->miniCart['item_count']; ?> <?if ($this->miniCart['item_count'] == 1): ?>Item<? else: ?>Items<? endif; ?> ($<?= $this->miniCart['total_cost']; ?>)</a>
+		<? if ($this->miniCart['item_count'] > 0 && !$this->inCheckout && !Zend_Registry::get('session')->editingCart): ?> | <a href="/checkout">Checkout</a><? endif; ?>
+	<? endif; ?>
+</span>

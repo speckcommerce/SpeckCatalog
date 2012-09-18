@@ -13,13 +13,7 @@ class ProductUom extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'product_uom_id',
-            'attributes' => array(
-                'type' => 'hidden',
-            ),
-        ));
-        $this->add(array(
-            'name' => 'parent_product_id',
+            'name' => 'product_id',
             'attributes' => array(
                 'type' => 'hidden'
             ),

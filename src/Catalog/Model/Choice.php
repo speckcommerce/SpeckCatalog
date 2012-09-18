@@ -33,14 +33,6 @@ class Choice extends LinkedModelAbstract
      */
     protected $productId;
 
-    /**
-     * type
-     *
-     * @var string
-     * @access protected
-     */
-    protected $type = 'choice';  // choice or product
-
     //only when type is product
     protected $priceDiscountFixed = 0;
 
@@ -53,11 +45,9 @@ class Choice extends LinkedModelAbstract
     //only when type is product
     protected $priceOverrideFixed = 0;
 
-    protected $targetUom;
-
-    protected $targetUomDiscount = 0;
-
     protected $allUomsDiscount;
+
+    //will be set by optionservice
     protected $addPrice = 0;
     /**
      * options
@@ -107,15 +97,8 @@ class Choice extends LinkedModelAbstract
 
     public function setProduct(Product $product)
     {
-        $this->targetUom = null; //keep this, if the product changes, the targetuom must be reset.
-        $this->type = 'product';
         $this->product = $product;
         return $this;
-    }
-
-    public function getTargetUom()
-    {
-        return $this->targetUom;
     }
 
     public function setTargetUom(ProductUom $targetUom)

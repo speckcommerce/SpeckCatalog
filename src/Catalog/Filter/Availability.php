@@ -1,34 +1,27 @@
 <?php
 
-namespace Catalog\Form;
+namespace Catalog\Filter;
 
 use Zend\InputFilter\InputFilter;
 
-class FilterProductUom extends InputFilter
+class Availability extends InputFilter
 {
     public function __construct()
     {
         $this->add(array(
-            'name' => 'product_uom_id',
+            'name' => 'product_id',
         ));
         $this->add(array(
-            'name' => 'price',
-        ));
-        $this->add(array(
-            'name' => 'retail',
+            'name' => 'uom_code',
         ));
         $this->add(array(
             'name' => 'quantity',
         ));
         $this->add(array(
-            'name' => 'uom_code',
+            'name' => 'distributor_id',
         ));
-
-
-
-
-
-
-
+        $this->add(array(
+            'name' => 'cost',
+        ));
     }
 }

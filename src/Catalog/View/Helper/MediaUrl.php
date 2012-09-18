@@ -1,7 +1,6 @@
 <?php
 namespace Catalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
-use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
 
 class MediaUrl extends AbstractHelper
@@ -9,8 +8,6 @@ class MediaUrl extends AbstractHelper
     protected $mediaType;
 
     protected $settings;
-
-    protected $partialDir = "catalog/catalog-manager/partial/form/";
 
     public function __construct($settings, $mediaType)
     {
@@ -32,7 +29,7 @@ class MediaUrl extends AbstractHelper
 
     public function product($media)
     {
-        $getter = 'getCategory' . $this->getMediaType() . 'Path';
+        $getter = 'getProduct' . $this->getMediaType() . 'Path';
         return $this->settings->$getter($media) . '/' . $media->getFileName();
     }
 

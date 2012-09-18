@@ -7,20 +7,20 @@ use Catalog\Service\FormServiceAwareInterface;
 
 class AdderHelper extends AbstractHelper
 {
-    public function __invoke($type, $className, $parent=null, $childName=null)
+    public function __invoke($type, $className, $parentName=null, $childName=null)
     {
-        $data = array(
-            'searchClassName' => $className,
-            'className'       => $className,
-            'newClassName'    => $className,
-            'parentClassName' => ($parent ? lcfirst($parent->get('class_name')) : $className) ,
-            'parentId'        => ($parent ? $parent->getId() : 0),
-            'partialName'     => $className,
-            'childId'         => null,
-            'childClassName'  => $childName?:null
-        );
+        //$data = array(
+        //    'searchClassName' => $className,
+        //    'className'       => $className,
+        //    'newClassName'    => $className,
+        //    'parentClassName' => ($parent ? lcfirst($parent->get('class_name')) : $className) ,
+        //    'parentId'        => ($parent ? $parent->getId() : 0),
+        //    'partialName'     => $className,
+        //    'childId'         => null,
+        //    'childClassName'  => $childName?:null
+        //);
 
-        return $this->$type($data);
+        //return $this->$type($data);
     }
 
     public function addButton($data)

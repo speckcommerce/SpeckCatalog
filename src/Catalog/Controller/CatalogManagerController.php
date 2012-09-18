@@ -108,7 +108,7 @@ class CatalogManagerController
     public function productAction()
     {
         $productService = $this->getServiceLocator()->get('catalog_product_service');
-        $product = $productService->getById($this->params('id'), true, true);
+        $product = $productService->getFullProduct($this->params('id'));//, true, true);
         $view = new ViewModel(array('product' => $product));
 
         return $view;

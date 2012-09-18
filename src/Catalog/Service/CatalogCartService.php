@@ -16,10 +16,11 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     public function addCartItem($productId, $flatOptions=array())
     {
         $this->flatOptions = $flatOptions;
-        $product = $this->getProductService()->getById($productId, true);
+        $product = $this->getProductService()->getFullProduct($productId, true);
         $cartItem = $this->createCartItem($product);
         $this->getCartService()->addItemToCart($cartItem);
     }
+
     public function getSessionCart()
     {
         return $this->getCartService()->getSessionCart();
@@ -77,7 +78,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
 
         $cartItem = $this->findItemById($cartItemId);
 
-        $product = $this->getProductService()->getById($cartItem->getMetaData()->getProductId(), true);
+        $product = $this->getProductService()->getFullProduct($cartItem->getMetaData()->getProductId());
 
         //remove all children
         $children = $cartItem->getItems();
@@ -120,8 +121,9 @@ class CatalogCartService implements ServiceLocatorAwareInterface
             $meta->setProductId($item->getProductId());
             $cartItem->setPrice($item->getRecursivePrice());
         }
-        if ($item->has('images')) {
-            $meta->setImage($item->getFirstImage());
+        $meta->setItemNumber($item->getItemNumber());
+        if ($item->has('image')) {
+            $meta->setImage($item->getImage());
         }
         $cartItem->setMetaData($meta);
 

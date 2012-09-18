@@ -11,7 +11,7 @@ class Choice extends ZendForm
         parent::__construct();
 
         $this->add(array(
-            'name' => 'choice_id',
+            'name' => 'option_id',
             'attributes' => array(
                 'type' => 'hidden'
             ),

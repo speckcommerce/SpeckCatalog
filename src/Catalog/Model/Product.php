@@ -6,13 +6,7 @@ class Product extends LinkedModelAbstract
 {
     protected $productId;
 
-    /**
-     * type
-     *
-     * @var string
-     * @access protected
-     */
-    protected $type; // shell, item, builder
+    protected $typeId = 2;         // 1, 2
 
     /**
      * name
@@ -86,13 +80,7 @@ class Product extends LinkedModelAbstract
      */
     protected $manufacturer;
 
-    /**
-     * manufacturerCompanyId
-     *
-     * @var int
-     * @access protected
-     */
-    protected $manufacturerCompanyId;
+    protected $manufacturerId;
 
     /**
      * uoms
@@ -102,22 +90,13 @@ class Product extends LinkedModelAbstract
      */
     protected $uoms;
 
-    public function setType($type = null)
+    public function setTypeId($typeId)
     {
-        if($type !== 'shell' && $type !== 'item' && $type !== 'builder'){
-            throw new \InvalidArgumentException("invalid type, must be 'shell', 'item', or 'builder'");
+        if ($typeId > 2) {
+            throw new \Exception('invalid type id');
         }
-
-        $this->type = $type;
+        $this->typeId = $typeId;
         return $this;
-    }
-
-    public function __construct($type=null)
-    {
-        if(!$type){
-            $type = 'shell';
-        }
-        $this->setType($type);
     }
 
     public function addOption(Option $option)
@@ -164,11 +143,6 @@ class Product extends LinkedModelAbstract
         return $this->description;
     }
 
-    public function getType()
-    {
-        return $this->type;
-    }
-
     public function getParentChoices()
     {
         return $this->parentChoices;
@@ -180,8 +154,9 @@ class Product extends LinkedModelAbstract
         return $this;
     }
 
-    public function isItem(){
-        if($this->getType() === 'item'){
+    public function isProduct()
+    {
+        if($this->getTypeId() === '1'){
             return true;
         }
     }
@@ -194,17 +169,6 @@ class Product extends LinkedModelAbstract
     public function setManufacturer($manufacturer)
     {
         $this->manufacturer = $manufacturer;
-        return $this;
-    }
-
-    public function getManufacturerCompanyId()
-    {
-        return $this->manufacturerCompanyId;
-    }
-
-    public function setManufacturerCompanyId($companyId)
-    {
-        $this->manufacturerCompanyId = (int) $companyId;
         return $this;
     }
 
@@ -284,12 +248,11 @@ class Product extends LinkedModelAbstract
         if ($this->has('uoms')) {
             $uomPrices = array();
             foreach($this->getUoms() as $uom) {
-                $uomPrices[$uom->getPrice()] = $uom->getPrice();
+                $uomPrices[] = $uom->getPrice();
             }
-            ksort($uomPrices);
+            asort($uomPrices);
             $price = $price + array_shift($uomPrices);
         }
-
         return $price;
     }
 
@@ -298,14 +261,13 @@ class Product extends LinkedModelAbstract
         if ($this->has('uoms')) {
             $uomPrices = array();
             foreach($this->getUoms() as $uom) {
-                $uomPrices[$uom->getPrice()] = $uom->getPrice();
+                $uomPrices[] = $uom->getPrice();
             }
-            ksort($uomPrices);
+            asort($uomPrices);
             return array_shift($uomPrices);
         }
         return 0;
     }
-
 
     function getProductId()
     {
@@ -326,5 +288,32 @@ class Product extends LinkedModelAbstract
     public function setId($id)
     {
         return $this->setProductId($id);
+    }
+
+    /**
+     * @return typeId
+     */
+    public function getTypeId()
+    {
+        return $this->typeId;
+    }
+
+
+    /**
+     * @return manufacturerId
+     */
+    public function getManufacturerId()
+    {
+        return $this->manufacturerId;
+    }
+
+    /**
+     * @param $manufacturerId
+     * @return self
+     */
+    public function setManufacturerId($manufacturerId)
+    {
+        $this->manufacturerId = $manufacturerId;
+        return $this;
     }
 }

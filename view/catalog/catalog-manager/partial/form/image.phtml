@@ -1,9 +1,9 @@
-<form id="image-<?=$image->getMediaId();?>" class="live-form">
+<form id="image-" class="live-form">
 
-    <input type="hidden" name="media_id" value="<?=$image->getMediaId();?>"/>
+    <input type="hidden" name="parent_id" value="<?=$image->getParentId();?>"/>
     <div class="row">
         <div class="span1">
-        <img class="img hover_fullsize" src="<?=$image->getFullPath();?>"/>
+        <img class="img hover_fullsize" src="<?=$this->speckCatalogImage()->product($image);?>"/>
         </div>
         <div class="span3">
             <span class="smallcaps">label</span><br/>
@@ -14,6 +14,6 @@
             <input name="file_name" class="span3" type="text" value="<?=$image->getFilename();?>"/>
         </div>
     </div>
-    <?=$image->getBaseUrl();?><?=$image->getFileName();?>
+    <?=$this->speckCatalogImage()->product($image);?>
 
 </form><br/>

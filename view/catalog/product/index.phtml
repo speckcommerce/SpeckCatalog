@@ -6,9 +6,9 @@
 
 <div class="row">
     <div class="span3 bordered-table">
-        <? if($product->has('images')): ?>
-            <? $image = $product->getFirstImage(); ?>
-            <img src="<?=$image->getFullPath();?>" width="200" height="200" />
+        <? if($product->has('image')): ?>
+            <? $image = $product->getImage(); ?>
+            <img src="<?=$this->speckCatalogImage()->product($image);?>" width="200" height="200" />
         <? else: ?>
             asdf
             <img src="nopic.jpg" width="200" height="200"/>

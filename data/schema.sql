@@ -1,8 +1,3 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-
-CREATE SCHEMA IF NOT EXISTS `speck` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 USE `speck` ;
 
 -- -----------------------------------------------------
@@ -16,6 +11,20 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `speck`.`company`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `speck`.`company` (
+  `company_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(255) NULL DEFAULT NULL ,
+  `email` VARCHAR(255) NULL DEFAULT NULL ,
+  `phone` VARCHAR(255) NULL DEFAULT NULL ,
+  `search_data` TEXT NOT NULL ,
+  PRIMARY KEY (`company_id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
 -- Table `speck`.`catalog_product`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product` (
@@ -24,7 +33,7 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product` (
   `description` TEXT NULL DEFAULT NULL ,
   `product_type_id` INT NOT NULL DEFAULT 1 ,
   `item_number` VARCHAR(45) NULL DEFAULT NULL ,
-  `manufacturer_id` INT NOT NULL ,
+  `manufacturer_id` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`product_id`) ,
   INDEX `fk_product_product_type_id_idx` (`product_type_id` ASC) ,
   INDEX `fk_catalog_product_1_idx` (`manufacturer_id` ASC) ,
@@ -35,7 +44,7 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product` (
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_product_manufacturer_company_id`
     FOREIGN KEY (`manufacturer_id` )
-    REFERENCES `speck`.`catalog_company` (`company_id` )
+    REFERENCES `speck`.`company` (`company_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -73,7 +82,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `speck`.`catalog_availability` (
   `product_id` INT NOT NULL ,
   `uom_code` CHAR(2) NOT NULL ,
-  `distributor_id` INT NOT NULL ,
+  `distributor_id` INT UNSIGNED NOT NULL ,
   `cost` DECIMAL(15,5) NOT NULL ,
   `quantity` INT NOT NULL ,
   PRIMARY KEY (`product_id`, `uom_code`, `distributor_id`, `quantity`) ,
@@ -86,7 +95,7 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_availability` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_catalog_availability_distributor`
     FOREIGN KEY (`distributor_id` )
-    REFERENCES `speck`.`catalog_company` (`company_id` )
+    REFERENCES `speck`.`company` (`company_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -276,7 +285,7 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 -- Table `speck`.`catalog_product_image`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `specspeck`.`catalog_product_image` (
+CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_image` (
   `image_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `product_id` INT(11) NOT NULL ,
   `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
@@ -335,9 +344,6 @@ CREATE  TABLE IF NOT EXISTS `speck`.`catalog_product_spec` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
 -- Data for table `speck`.`catalog_product_type`

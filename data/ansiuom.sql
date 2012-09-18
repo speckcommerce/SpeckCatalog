@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS `ansi_uom` (
-  `uom_code` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `uom_code` char(2) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uom_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('1', 'Actual Pounds', 0),
@@ -799,4 +799,4 @@ INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('ZB', 'Biweekly', 0),
 ('ZC', 'Semiannual', 0),
 ('ZP', 'Page', 0),
-('ZZ', 'Mutually Defined', 0);                                                
+('ZZ', 'Mutually Defined', 0);

@@ -11,9 +11,14 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 
 class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
+    protected function initialize()
+    {
+        //we're done here
+    }
+
     public function selectOne(Select $select)
     {
-        $result = $this->selectWith($select);
+        $result = $this->select($select);
         if(count($result) === 1){
             return $result->current();
         } elseif(count($result) > 1) {
@@ -24,7 +29,7 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     //always returns array
     public function selectMany(Select $select)
     {
-        $result = $this->selectWith($select);
+        $result = $this->select($select);
 
         $return = array();
         if (count($result) > 0) {
@@ -44,7 +49,7 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 
     public function getAll()
     {
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTablename());
         return $this->selectMany($select);
     }
@@ -78,11 +83,6 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         }else{
             die('could not instantiate - ' . $this->hydrator);
         }
-    }
-
-    public function select()
-    {
-        return new Select;
     }
 
     public function where()

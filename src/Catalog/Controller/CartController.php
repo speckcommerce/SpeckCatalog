@@ -35,7 +35,6 @@ class CartController extends AbstractActionController
         return $this;
     }
 
-    //todo : some of this to be moved to a service
     public function addItemAction()
     {
         $productId = (isset($_POST['product_id']) ? $_POST['product_id'] : $this->params('id'));
@@ -44,14 +43,12 @@ class CartController extends AbstractActionController
         return $this->_redirect()->toUrl('/cart');
     }
 
-    //todo: move to extending cartservice
     public function updateProductAction()
     {
         $this->getCartService()->replaceCartItemsChildren($_POST['cart_item_id'], $_POST['product_branch']);
         return $this->redirect()->toUrl('/cart');
     }
 
-    //todo : needs to be in service
     public function updateQuantitiesAction()
     {
         $this->getCartService()->updateQuantities($_POST['quantities']);

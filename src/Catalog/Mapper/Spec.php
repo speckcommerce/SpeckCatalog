@@ -12,7 +12,7 @@ class Spec extends AbstractMapper
     {
         $table = $this->getTableName();
         $where = array('spec_id' => $specId);
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($where);
         return $this->selectOne($select);
@@ -22,7 +22,7 @@ class Spec extends AbstractMapper
     {
         $table = $this->getTableName();
         $where = array('product_id' => $productId);
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($where);
         return $this->selectMany($select);

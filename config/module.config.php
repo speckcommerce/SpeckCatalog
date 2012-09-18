@@ -26,6 +26,9 @@ $config = array(
         ),
     ),
     'service_manager' => array(
+        'shared' => array(
+            'cart_item_meta' => false,
+        ),
         'invokables' => array(
 
             'cart_item_meta'                   => 'Catalog\Model\CartItemMeta',

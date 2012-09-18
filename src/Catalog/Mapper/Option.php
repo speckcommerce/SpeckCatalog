@@ -10,7 +10,7 @@ class Option extends AbstractMapper
 
     public function find($optionId)
     {
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where(array('option_id' => (int) $optionId));
         return $this->selectOne($select);
@@ -22,7 +22,7 @@ class Option extends AbstractMapper
         $table = $this->getTableName();
         $joinString = $linker . '.option_id = ' . $table . '.option_id';
 
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->join($linker, $joinString)
             ->where(array('product_id' => (int) $productId));
@@ -35,7 +35,7 @@ class Option extends AbstractMapper
         $table = $this->getTableName();
         $joinString = $linker . '.option_id = ' . $table . '.option_id';
 
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->join($linker, $joinString)
             ->where(array($linker . '.choice_id' => (int) $choiceId));

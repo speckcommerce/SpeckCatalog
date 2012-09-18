@@ -24,6 +24,13 @@ class Choice extends AbstractEntity
         return $this->overrideName;
     }
 
+    public function getItemNumber()
+    {
+        if($this->product) {
+            return $this->getProduct()->getItemNumber();
+        }
+    }
+
     /**
      * @param $overrideName
      * @return self

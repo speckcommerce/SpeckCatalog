@@ -17,7 +17,7 @@ class Availability extends AbstractMapper
             'quantity'       => $quantity,
             'distributor_id' => $distributorId,
         );
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where($where);
         return $this->selectOne($select);
@@ -30,7 +30,7 @@ class Availability extends AbstractMapper
             'uom_code'   => $uomCode,
             'quantity'   => $quantity,
         );
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where($where);
         return $this->selectMany($select);

@@ -10,7 +10,7 @@ class Product extends AbstractMapper
 
     public function find($productId)
     {
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where(array('product_id' => (int) $productId));
         return $this->selectOne($select);
@@ -23,7 +23,7 @@ class Product extends AbstractMapper
         $joinString = $linker . '.product_id = ' . $table . '.product_id';
         $where = array('category_id' => $categoryId, 'website_id' => $siteId);
 
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->join($linker, $joinString)
             ->where($where);
@@ -50,7 +50,7 @@ class Product extends AbstractMapper
     {
         $table = 'catalog_product_option';
         $row = array('product_id' => $productId, 'option_id' => $optionId);
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($row);
         $result = $this->query($select);

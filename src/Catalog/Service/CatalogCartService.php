@@ -121,6 +121,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
             $meta->setProductId($item->getProductId());
             $cartItem->setPrice($item->getRecursivePrice());
         }
+        $meta->setItemNumber($item->getItemNumber());
         if ($item->has('image')) {
             $meta->setImage($item->getImage());
         }

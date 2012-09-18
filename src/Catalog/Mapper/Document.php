@@ -10,7 +10,7 @@ class Document extends AbstractMapper
 
     public function getDocuments($productId)
     {
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where(array('product_id' => $productId));
         return $this->selectMany($select);

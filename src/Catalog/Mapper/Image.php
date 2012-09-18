@@ -18,7 +18,7 @@ class Image extends AbstractMapper
     {
         $table = $this->getTableName();
         $where = array('media_id' => $mediaId);
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($where);
         return $this->selectOne($select);
@@ -28,7 +28,7 @@ class Image extends AbstractMapper
     {
         $where = array($type . '_id' => $id);
 
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where($where);
         return $this->selectMany($select);
@@ -53,7 +53,7 @@ class Image extends AbstractMapper
             $parentName . '_id' => $parentId,
             'media_id' => $imageId,
         );
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($row);
         $result = $this->query($select);

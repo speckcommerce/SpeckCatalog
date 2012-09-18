@@ -10,7 +10,7 @@ class Category extends AbstractMapper
 
     public function find($categoryId)
     {
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($this->getTableName())
             ->where(array('category_id' => (int) $categoryId));
         return $this->selectOne($select);
@@ -29,7 +29,7 @@ class Category extends AbstractMapper
             $where->equalTo('parent_category_id', $parentCategoryId);
         }
 
-        $query = $this->select()
+        $query = $this->getSelect()
             ->from($table)
             ->join($linker, $joinString)
             ->where($where);
@@ -62,7 +62,7 @@ class Category extends AbstractMapper
             'product_id' => $productId,
             'website_id' => $siteId,
         );
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($row);
         $result = $this->query($select);
@@ -87,7 +87,7 @@ class Category extends AbstractMapper
             'parent_category_id' => $parentCategoryId,
             'website_id' => $siteId,
         );
-        $select = $this->select()
+        $select = $this->getSelect()
             ->from($table)
             ->where($where);
         $result = $this->query($select);

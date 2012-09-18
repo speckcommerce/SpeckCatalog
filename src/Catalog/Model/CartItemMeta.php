@@ -6,6 +6,7 @@ class CartItemMeta
 {
     protected $parentOptionId;
     protected $productId;
+    protected $itemNumber;
     protected $parentOptionName;
     protected $flatOptions = array();
     protected $image;
@@ -109,4 +110,22 @@ class CartItemMeta
  {
      $this->flatOptions = $flatOptions;
  }
+
+    /**
+     * @return itemNumber
+     */
+    public function getItemNumber()
+    {
+        return $this->itemNumber;
+    }
+
+    /**
+     * @param $itemNumber
+     * @return self
+     */
+    public function setItemNumber($itemNumber)
+    {
+        $this->itemNumber = $itemNumber;
+        return $this;
+    }
 }

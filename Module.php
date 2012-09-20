@@ -54,9 +54,13 @@ class Module
                 'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
                 'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
                 'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
-                'speckCatalogCategoryNav'    => 'Catalog\View\Helper\CategoryNav',
             ),
             'factories' => array(
+                'speckCatalogCategoryNav'    => function ($sm) {
+                    $sm = $sm->getServiceLocator();
+                    $helper = new \Catalog\View\Helper\CategoryNav;
+                    return $helper->setCategoryService($sm->get('catalog_category_service'));
+                },
                 'speckCatalogImage' => function ($sm) {
                     $sm = $sm->getServiceLocator();
                     $settings = $sm->get('catalog_module_options');

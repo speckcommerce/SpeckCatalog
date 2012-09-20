@@ -5,11 +5,10 @@ namespace Catalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
-use Catalog\Service\CatalogServiceAwareInterface;
 
-class CategoryNav extends AbstractHelper implements CatalogServiceAwareInterface
+class CategoryNav extends AbstractHelper
 {
-    protected $catalogService;
+    protected $categoryService;
 
     protected $partialDir = 'catalog/catalog/partial/';
 
@@ -26,9 +25,20 @@ class CategoryNav extends AbstractHelper implements CatalogServiceAwareInterface
 
     public function __invoke()
     {
-        $categories = $this->getCatalogService()->getService('category')->getCategoriesForNavigation();
+        $categories = $this->getCategoryService()->getCategoriesForNavigation();
         $view = new ViewModel(array('categories' => $categories));
         $view->setTemplate($this->partialDir . 'categories.phtml');
         return $this->getView()->render($view);
+    }
+
+    public function getCategoryService()
+    {
+        return $this->categoryService;
+    }
+
+    public function setCategoryService($categoryService)
+    {
+        $this->categoryService = $categoryService;
+        return $this;
     }
 }

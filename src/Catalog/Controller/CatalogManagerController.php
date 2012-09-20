@@ -12,7 +12,6 @@ class CatalogManagerController
     extends AbstractActionController
     implements FormServiceAwareInterface
 {
-    protected $catalogService;
     protected $linkerService;
     protected $testService;
     protected $userAuth;
@@ -39,8 +38,8 @@ class CatalogManagerController
     {
         $this->getUserAuth();
 
-        $products = $this->getCatalogService()->getAll('product');
-        $companies = $this->getCatalogService()->getAll('company');
+        $products = $this->getServiceLocator()->get('catalog_product_service')->getAll();
+        $companies = $this->getServiceLocator()->get('catalog_company_service')->getAll();
         return new ViewModel(array(
             'products' => $products,
             'companies' => $companies
@@ -151,17 +150,6 @@ class CatalogManagerController
         $type = $this->getEvent()->getRouteMatch()->getParam('type');
         $linkerId = $this->getEvent()->getRouteMatch()->getParam('linkerId');
         die($this->getLinkerService()->removeLinker($type, $linkerId));
-    }
-
-    public function getCatalogService()
-    {
-        return $this->getServiceLocator()->get('catalog_generic_service');
-    }
-
-    public function setCatalogService($catalogService)
-    {
-        $this->catalogService = $catalogService;
-        return $this;
     }
 
     public function getLinkerService()

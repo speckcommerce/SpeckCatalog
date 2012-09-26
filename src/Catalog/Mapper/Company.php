@@ -4,7 +4,7 @@ namespace Catalog\Mapper;
 
 class Company extends AbstractMapper
 {
-    protected $tableName = 'catalog_company';
+    protected $tableName = 'contact_company';
     protected $entityPrototype = '\Catalog\Entity\Company';
     protected $hydrator = 'Catalog\Hydrator\Company';
 

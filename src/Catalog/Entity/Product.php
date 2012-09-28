@@ -17,6 +17,7 @@ class Product extends AbstractEntity
     protected $images;
     protected $documents;
     protected $uoms;
+    protected $manufacturer;
 
     /**
      * @return productId
@@ -257,6 +258,24 @@ class Product extends AbstractEntity
     public function setUoms($uoms)
     {
         $this->uoms = $uoms;
+        return $this;
+    }
+
+    /**
+     * @return manufacturer
+     */
+    public function getManufacturer()
+    {
+        return $this->manufacturer;
+    }
+
+    /**
+     * @param $manufacturer
+     * @return self
+     */
+    public function setManufacturer($manufacturer)
+    {
+        $this->manufacturer = $manufacturer;
         return $this;
     }
 }

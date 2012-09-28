@@ -23,6 +23,7 @@ $config = array(
             'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
             'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
             'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
+            'speckCatalog'               => 'Catalog\View\Helper\Functions',
         ),
     ),
     'service_manager' => array(

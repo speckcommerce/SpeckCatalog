@@ -12,12 +12,19 @@ class CategoryController extends AbstractActionController
 
     public function indexAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $category = $this->getServiceLocator()->get('catalog_category_service')->getCategoryForView($id);
+        $paginatorVars = $this->getPaginatorVars();
+
+        $id = $this->params('id');
+        $category = $this->getServiceLocator()->get('catalog_category_service')->getCategoryForView($id, $paginatorVars);
         if (null === $category) {
             throw new \Exception('fore oh fore');
         }
-        return new ViewModel(array('category' => $category));
+        $paginatorVars['categoryId'] = $category->getCategoryId();
+        return new ViewModel(array(
+            'category' => $category,
+            'paginatorVars' => $paginatorVars,
+            )
+        );
     }
 
     function setCatalogService($catalogService)
@@ -28,5 +35,43 @@ class CategoryController extends AbstractActionController
     function getCatalogService()
     {
         return $this->catalogService;
+    }
+
+    function getPaginatorVars($stringify = false)
+    {
+        if(isset($_GET['nn'])) {
+            $this->perPageAction();
+        }
+        $keys = array('n', 'p', 'o', 's');
+        $paginatorVars = array();
+        foreach ($keys as $key) {
+            if (isset($_GET[$key])) {
+                $paginatorVars[$key] = $_GET[$key];
+            }
+        }
+
+        return $paginatorVars;
+    }
+
+    function perPageAction()
+    {
+        $keys = array('o', 's');
+        foreach ($keys as $key) {
+            if(isset($_GET[$key])) {
+                $paginatorVars[$key] = $_GET[$key];
+            }
+        }
+
+        $page = (isset($_GET['p']) ? $_GET['p'] : 1);
+        $perPage = (isset($_GET['n']) ? $_GET['n'] : 10);
+
+        $offset = ((($page * $perPage) - $perPage) + 1); //this is the first item on the page
+
+        $paginatorVars['p'] = floor($offset / $_GET['nn']);
+        $paginatorVars['n'] = $_GET['nn'];
+
+        $query = '?' . http_build_query($paginatorVars);
+
+        return $this->redirect()->toUrl('/category/' . $this->params('id') . $query);
     }
 }

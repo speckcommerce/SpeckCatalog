@@ -35,6 +35,18 @@ return array(
                         'action' => 'index',
                     ),
                 ),
+                //'child_routes' => array(
+                //    'per-page' => array(
+                //        'type'    => 'Segment',
+                //        'options' => array(
+                //            'route'    => '/per-page',
+                //            'defaults' => array(
+                //                'controller' => 'category',
+                //                'action' => 'perPage',
+                //            ),
+                //        ),
+                //    ),
+                //),
             ),
             'product' => array(
                 'type' => 'Segment',

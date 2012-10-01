@@ -74,9 +74,9 @@ class Product extends AbstractService
         //
     }
 
-    public function getByCategoryId($categoryId)
+    public function getByCategoryId($categoryId, $options=array())
     {
-        return $this->getEntityMapper()->getByCategoryId($categoryId);
+        return $this->usePaginator($options)->getEntityMapper()->getByCategoryId($categoryId);
     }
 
     /**

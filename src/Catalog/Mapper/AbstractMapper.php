@@ -7,10 +7,16 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-
+use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Paginator\Paginator;
+use Catalog\Adapter\PaginatorDbSelect;
 
 class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
+    protected $paginator;
+    protected $paginatorOptions;
+    protected $usePaginator;
+
     protected function initialize()
     {
         //we're done here
@@ -29,8 +35,16 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     //always returns array
     public function selectMany(Select $select)
     {
-        $result = $this->select($select);
+        if($this->usePaginator) {
+            unset($this->usePaginator);
+            $paginator = $this->initPaginator($select);
 
+
+
+            return $paginator;
+        }
+
+        $result = $this->select($select);
         $return = array();
         if (count($result) > 0) {
             foreach($result as $res){
@@ -102,5 +116,66 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         }
         $result = parent::insert($model, $tableName);
         return $result->getGeneratedValue();
+    }
+
+    public function usePaginator($options=array())
+    {
+        $this->usePaginator = true;
+        $this->paginatorOptions = $options;
+    }
+
+    public function initPaginator($select)
+    {
+        $paginator = new Paginator(new PaginatorDbSelect(
+            $select,
+            $this->getDbAdapter(),
+            new HydratingResultSet($this->getHydrator(), $this->getEntityPrototype())
+        ));
+
+        $options = $this->getPaginatorOptions();
+        if (isset($options['n'])) {
+            $paginator->setItemCountPerPage($options['n']);
+        }
+        if (isset($options['p'])) {
+            $paginator->setCurrentPageNumber($options['p']);
+        }
+
+        return $paginator;
+    }
+
+    /**
+     * @return paginator
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
+    }
+
+    /**
+     * @param $paginator
+     * @return self
+     */
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
+        return $this;
+    }
+
+    /**
+     * @return paginatorOptions
+     */
+    public function getPaginatorOptions()
+    {
+        return $this->paginatorOptions;
+    }
+
+    /**
+     * @param $paginatorOptions
+     * @return self
+     */
+    public function setPaginatorOptions($paginatorOptions)
+    {
+        $this->paginatorOptions = $paginatorOptions;
+        return $this;
     }
 }

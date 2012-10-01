@@ -25,13 +25,13 @@ class Category extends AbstractService
         return $categories;
     }
 
-    public function getCategoryforView($categoryId)
+    public function getCategoryforView($categoryId, $paginationOptions=null)
     {
         $category = $this->find($categoryId);
         if (!$category) return;
 
         $categories = $this->getChildCategories($categoryId);
-        $products = $this->getProductService()->getByCategoryId($categoryId);
+        $products = $this->getProductService()->getByCategoryId($categoryId, $paginationOptions);
         foreach($products as $product){
             $product->setImages($this->getProductImageService()->getImages('product', $product->getProductId()));
             $product->setUoms($this->getProductUomService()->getByProductId($product->getProductId()));

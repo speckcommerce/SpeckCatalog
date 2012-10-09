@@ -8,7 +8,8 @@
     <div class="entity-content">
         <div class="row">
             <div class="span4">
-                <?=$this->speckCatalogRenderForm($productUom, 'product_uom'); ?>
+                <? $formHelper = $this->speckCatalogForm($productUom, 'product_uom'); ?>
+                <?=$formHelper->renderForm(); ?>
             </div>
             <div class="span6">
                 <div class="list-wrap">
@@ -21,7 +22,7 @@
                         <?=$this->speckCatalogRenderChildren('availability', $productUom->getAvailabilities());?>
                     </div>
                     <div class="row list-items-helper">
-                        <?=$this->speckCatalogAdderHelper('addButton', 'availability', $productUom); ?>
+                        <?=$this->speckCatalogAdderHelper()->addNew('availability', 'product_uom', $formHelper->getKeyFields()); ?>
                     </div>
                 </div>
             </div>

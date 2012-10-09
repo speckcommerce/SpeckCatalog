@@ -10,9 +10,9 @@ class Category extends AbstractService
     protected $productImageService;
     protected $optionService;
 
-    public function find($categoryId)
+    public function findById($categoryId)
     {
-        return $this->getEntityMapper()->find($categoryId);
+        return $this->find(array('category_id' => $categoryId));
     }
 
     public function getCategoriesForNavigation()
@@ -27,7 +27,7 @@ class Category extends AbstractService
 
     public function getCategoryforView($categoryId, $paginationOptions=null)
     {
-        $category = $this->find($categoryId);
+        $category = $this->findById($categoryId);
         if (!$category) return;
 
         $categories = $this->getChildCategories($categoryId);

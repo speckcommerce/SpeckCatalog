@@ -11,7 +11,9 @@
     </div>
 
     <div class="entity-content">
-        <?=$this->speckCatalogRenderForm($option, 'option');?>
+        <? $formHelper = $this->speckCatalogForm($option, 'option'); ?>
+        <?=$formHelper->renderForm(); ?>
+        <? $parentKeyFields = $formHelper->getKeyFields(); ?>
         <div class="list-wrap">
             <div class="child-expand list-items-helper">
                 <div class="collapse-all"><i class="icon-arrow-up"></i></div>
@@ -24,8 +26,7 @@
                 <? endif; ?>
             </div>
             <div class="row list-items-helper">
-                <?=$this->speckCatalogAdderHelper('addButton', 'image', $option); ?>
-                <?=$this->speckCatalogAdderHelper('importSearch', 'image', $option); ?>
+                <?=$this->speckCatalogAdderHelper()->addNew('image', 'option', $parentKeyFields); ?>
             </div>
         </div>
 
@@ -39,9 +40,7 @@
                 <?=$this->speckCatalogRenderChildren('choice', $option->getChoices()); ?>
             </div>
             <div class="row list-items-helper">
-                <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option, 'product'); ?>
-                <?=$this->speckCatalogAdderHelper('addButton', 'choice', $option); ?>
-                <?=$this->speckCatalogAdderHelper('importSearch', 'choice', $option); ?>
+                <?=$this->speckCatalogAdderHelper()->addNew('choice', 'option', $parentKeyFields); ?>
             </div>
         </div>
     </div>

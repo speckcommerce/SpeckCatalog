@@ -10,6 +10,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Paginator;
 use Catalog\Adapter\PaginatorDbSelect;
+use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 
 class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
@@ -38,8 +39,6 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         if($this->usePaginator) {
             unset($this->usePaginator);
             $paginator = $this->initPaginator($select);
-
-
 
             return $paginator;
         }
@@ -80,23 +79,28 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     }
 
     //note: remove after zfcbase refactor
-    public function getEntityPrototype($constructor = null)
+    public function getEntityPrototype()
     {
-        if (is_string($this->entityPrototype) && class_exists($this->entityPrototype)) {
-            return new $this->entityPrototype($constructor);
+        if (is_string($this->relationalModel) && class_exists($this->relationalModel)) {
+            return new $this->relationalModel;
         }else{
-            die('could not instantiate - ' . $this->entityPrototype);
+            die('could not instantiate - ' . $this->relationalModel);
+        }
+    }
+
+    public function getDbModel($construct)
+    {
+        if (is_string($this->dbModel) && class_exists($this->dbModel)) {
+            return new $this->dbModel($construct);
+        }else{
+            die('could not instantiate - ' . $this->dbModel);
         }
     }
 
     //note: remove after zfcbase refactor
     public function getHydrator()
     {
-        if (is_string($this->hydrator) && class_exists($this->hydrator)) {
-            return new $this->hydrator;
-        }else{
-            die('could not instantiate - ' . $this->hydrator);
-        }
+        return new Hydrator;
     }
 
     public function where()
@@ -104,9 +108,25 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return new Where;
     }
 
-    public function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
+    public function primaryKeyFromData($data, $getOriginalValues=false)
     {
-        parent::update($entity, $where);
+        if($data instanceOf Catalog\Entity\AbstractEntity) {
+            $data = $this->getHydrator()->extract($data);
+        }
+        $keyArray = array();
+        foreach ($this->key as $key) {
+            $dataKey = ($getOriginalValues ? 'original_' . $key : $key);
+            if (null === $data[$dataKey]) {
+                throw new \Exception($dataKey . ' - cant be null!');
+            }
+            $keyArray[$key] = $data[$dataKey];
+        }
+        return $keyArray;
+    }
+
+    public function update($data, $where, $tableName = null, HydratorInterface $hydrator = null)
+    {
+        parent::update($data, $where, $tableName, $hydrator);
     }
 
     public function insert($model, $tableName = null, HydratorInterface $hydrator = null)

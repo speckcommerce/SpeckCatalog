@@ -2,181 +2,120 @@
 
 namespace Catalog\Model;
 
-class ProductUom extends ModelAbstract
+class ProductUom extends AbstractModel
 {
-
-    /**
-     * uom
-     *
-     * @var object Catalog\Model\Uom
-     * @access protected
-     */
-    protected $uom;
-
-    /**
-     * uomCode
-     *
-     * @var string
-     * @access protected
-     */
+    protected $productId;
     protected $uomCode = 'EA';
-
-    /**
-     * uoms
-     *
-     * @var array
-     * @access protected
-     */
-    protected $uoms;
-
-    /**
-     * parentProduct
-     *
-     * @var object Catalog\Model\Product
-     * @access protected
-     */
-    protected $parentProduct;
-
-    /**
-     * parentProductId
-     *
-     * @var int
-     * @access protected
-     */
-    protected $parentProductId;
-
-    /**
-     * quantity
-     *
-     * @var int
-     * @access protected
-     */
-    protected $quantity = 1;
-
-    /**
-     * price
-     *
-     * @var float
-     * @access protected
-     */
     protected $price = 0;
-
-    /**
-     * retail
-     *
-     * @var float
-     * @access protected
-     */
     protected $retail = 0;
+    protected $quantity = 1;
+    protected $sortWeight = 0;
 
     /**
-     * availabilities
-     *
-     * @var array
-     * @access protected
+     * @return productId
      */
-    protected $availabilities;
-
-    public function addAvailability(Availability $availability)
+    public function getProductId()
     {
-        $this->availabilities[] = $availability;
+        return $this->productId;
+    }
+
+    /**
+     * @param $productId
+     * @return self
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
         return $this;
     }
 
-    public function setAvailabilities($availabilities)
+    /**
+     * @return uomCode
+     */
+    public function getUomCode()
     {
-        $this->availabilities = array();
-        foreach($availabilities as $availability){
-            $this->addAvailability($availability);
-        }
-        return $this;
+        return $this->uomCode;
     }
 
-    public function setPrice($price)
-    {
-        $this->price = (float) $price;
-        return $this;
-    }
-
-    public function setRetail($retail)
-    {
-
-        $this->retail = (float) $retail;
-        return $this;
-    }
-
-    public function getRetail()
-    {
-        return $this->retail;
-    }
-    public function getPrice()
-    {
-        return $this->price;
-    }
-    public function getAvailabilities()
-    {
-        return $this->availabilities;
-    }
-
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity($quantity)
-    {
-        $this->quantity = (int) $quantity;
-        return $this;
-    }
-
-    public function getUom()
-    {
-        return $this->uom;
-    }
-
-    public function setUom(Uom $uom)
-    {
-        $this->uom = $uom;
-        return $this;
-    }
-
-    public function getParentProduct()
-    {
-        return $this->parentProduct;
-    }
-
-    public function setParentProduct(Product $parentProduct=null)
-    {
-        $this->parentProduct = $parentProduct;
-        return $this;
-    }
-
-    public function getParentProductId()
-    {
-        return $this->parentProductId;
-    }
-
-    public function setParentProductId($parentProductId)
-    {
-        $this->parentProductId = (int) $parentProductId;
-        return $this;
-    }
-
+    /**
+     * @param $uomCode
+     * @return self
+     */
     public function setUomCode($uomCode)
     {
         $this->uomCode = $uomCode;
         return $this;
     }
 
-    public function getUomCode()
+    /**
+     * @return price
+     */
+    public function getPrice()
     {
-        return $this->uomCode;
+        return $this->price;
     }
 
-    public function __toString()
+    /**
+     * @param $price
+     * @return self
+     */
+    public function setPrice($price)
     {
-        return $this->getUom()->__toString()
-            . ' ' . $this->getQuantity()
-            . ' - $' . number_format($this->getPrice(), 2);
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return retail
+     */
+    public function getRetail()
+    {
+        return $this->retail;
+    }
+
+    /**
+     * @param $retail
+     * @return self
+     */
+    public function setRetail($retail)
+    {
+        $this->retail = $retail;
+        return $this;
+    }
+
+    /**
+     * @return quantity
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param $quantity
+     * @return self
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
+     * @return sortWeight
+     */
+    public function getSortWeight()
+    {
+        return $this->sortWeight;
+    }
+
+    /**
+     * @param $sortWeight
+     * @return self
+     */
+    public function setSortWeight($sortWeight)
+    {
+        $this->sortWeight = $sortWeight;
+        return $this;
     }
 }

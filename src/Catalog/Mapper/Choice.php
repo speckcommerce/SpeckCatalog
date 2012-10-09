@@ -5,14 +5,15 @@ namespace Catalog\Mapper;
 class Choice extends AbstractMapper
 {
     protected $tableName = 'catalog_choice';
-    protected $entityPrototype = '\Catalog\Entity\Choice';
-    protected $hydrator = 'Catalog\Hydrator\Choice';
+    protected $relationalModel = '\Catalog\Model\Choice\Relational';
+    protected $dbModel = '\Catalog\Model\Choice';
+    protected $key = array('choice_id');
 
-    public function find($choiceId)
+    public function find(array $data)
     {
         $select = $this->getSelect()
             ->from($this->getTableName())
-            ->where(array('choice_id' => (int) $choiceId));
+            ->where(array('choice_id' => (int) $data['choice_id']));
         return $this->selectOne($select);
     }
 
@@ -26,6 +27,7 @@ class Choice extends AbstractMapper
 
     public function persist($choice)
     {
+        $choice = $this->getDbModel($choice);
         if (null === $choice->getChoiceId()) {
             $id = $this->insert($choice);
             return $choice->setChoiceId($id);

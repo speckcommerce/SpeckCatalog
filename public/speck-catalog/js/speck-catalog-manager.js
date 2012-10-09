@@ -90,8 +90,7 @@
         targetForm(this);
         var form = getForm(this)
         console.log(form);
-        var parts = form.attr('id').split('-')
-        $.post('/catalogmanager/update-record/'+parts[0]+'/'+parts[1], form.serializeArray(), function(formHtml){
+        $.post('/catalogmanager/update-record/'+form.attr('id'), form.serializeArray(), function(formHtml){
             $('.target').replaceWith(formHtml)
             clearTarget()
         })
@@ -104,7 +103,7 @@
 /**
  *  partial handling for new/existing records
  */
-    $('.add-partial').live("submit",function(e){
+    $('.add-new').live("submit",function(e){
         e.preventDefault();
         targetListItems(this);
         getPartial($(this).serializeArray());

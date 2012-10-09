@@ -4,42 +4,49 @@ namespace Catalog\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
+use Catalog\Model\AbstractModel;
 
 class FormService implements ServiceLocatorAwareInterface
 {
     protected $serviceLocator;
 
-    protected $form;
-
-    public function getForm($name = null, $model = null, $bind=true)
+    public function getForm($name = null, $model=null, $data=null)
     {
-        if(!$model){
-            $serviceName = 'catalog_' . $name . '_service';
-            $model = $this->getServiceLocator()->get($serviceName)->getModel($className);
-        }
+        $serviceLocator = $this->getServiceLocator();
 
         $formName = 'catalog_' . $name . '_form';
-        $form = $this->getServiceLocator()->get($formName);
 
-        $filterName = 'catalog_' . $name . '_form_filter';
-        $filter = $this->getServiceLocator()->get($filterName);
+        $form = $serviceLocator->get($formName);
+        $filter = $serviceLocator->get($formName . '_filter');
         $form->setInputFilter($filter);
 
-        $form->setHydrator(new Hydrator);
-        if($bind){
+        if ($model instanceOf AbstractModel) {
             $form->bind($model);
+        }
+        if (is_array($data)) {
+            $form->setData($data);
         }
 
         return $form;
     }
 
-    public function prepare($name, $data)
+    public function getKeyFields($name, $model=null)
     {
-        $form = $this->getForm($name, null, false);
-        $form->setData($data);
+        $form = $this->getServiceLocator()->get('catalog_' . $name . '_form');
 
-        return $form;
+        $fields = array();
+        foreach ($form->getOriginalFields() as $field) {
+            $getter = 'get' . $this->camel($field);
+            $fields[$field] = $model->$getter();
+        }
+
+        return $fields;
+    }
+
+    private function camel($name)
+    {
+        $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
+        return $camel->__invoke($name);
     }
 
     public function getServiceLocator()

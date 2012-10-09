@@ -12,9 +12,9 @@ class Product extends AbstractService
     protected $specService;
     protected $companyService;
 
-    public function find($productId, $populate=false, $recursive=false)
+    public function find(array $data, $populate=false, $recursive=false)
     {
-        $product = $this->getEntityMapper()->find($productId);
+        $product = $this->getEntityMapper()->find($data);
         if($populate) {
             $this->populate($product, $recursive);
         }
@@ -23,7 +23,7 @@ class Product extends AbstractService
 
     public function getFullProduct($productId)
     {
-        $product = $this->find($productId);
+        $product = $this->find(array('product_id' => $productId));
         $this->populate($product, true);
         return $product;
     }
@@ -36,7 +36,7 @@ class Product extends AbstractService
         $product->setDocuments($this->getDocumentService()->getDocuments('product', $productId));
         $product->setUoms($this->getProductUomService()->getByProductId($productId, true, $recursive));
         $product->setSpecs($this->getSpecService()->getByProductId($productId));
-        $product->setManufacturer($this->getCompanyService()->find($product->getManufacturerId()));
+        $product->setManufacturer($this->getCompanyService()->findById($product->getManufacturerId()));
     }
 
     public function addOption($productOrId, $optionOrId)
@@ -44,9 +44,15 @@ class Product extends AbstractService
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
         $optionId  = ( is_int($optionOrId)
             ? $optionOrId
-            : $this->getOptionMapper()->persist($optionOrId)->getOptionId()
+            : $this->getOptionService()->persist($optionOrId)->getOptionId()
         );
         $this->getEntityMapper()->addOption($productId, $optionId);
+    }
+
+    public function addProductUom($productOrId, $productUom)
+    {
+        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
+        $this->getProductUomService()->persist($productUom);
     }
 
     public function removeOption($productOrId, $optionOrId)

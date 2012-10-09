@@ -5,8 +5,8 @@ namespace Catalog\Mapper;
 class Image extends AbstractMapper
 {
     protected $tableName;
-    protected $entityPrototype = 'Catalog\Entity\Image';
-    protected $hydrator        = 'Catalog\Hydrator\Image';
+
+    protected $relationalModel = 'Catalog\Model\ProductImage';
 
     public function setParentType($parentType)
     {

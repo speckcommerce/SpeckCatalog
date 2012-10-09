@@ -5,14 +5,16 @@ namespace Catalog\Mapper;
 class Option extends AbstractMapper
 {
     protected $tableName = 'catalog_option';
-    protected $entityPrototype = '\Catalog\Entity\Option';
+    protected $dbModel = '\Catalog\Model\Option';
+    protected $relationalModel = '\Catalog\Model\Option\Relational';
     protected $hydrator = 'Catalog\Hydrator\Option';
+    protected $key = array('option_id');
 
-    public function find($optionId)
+    public function find(array $data)
     {
         $select = $this->getSelect()
             ->from($this->getTableName())
-            ->where(array('option_id' => (int) $optionId));
+            ->where(array('option_id' => $data['option_id']));
         return $this->selectOne($select);
     }
 
@@ -44,17 +46,18 @@ class Option extends AbstractMapper
 
     public function persist($option)
     {
+        $option = $this->getDbModel($option);
         if(null === $option->getOptionId()) {
             $id = $this->insert($option);
-            return $this->find($id);
+            return $this->find(array('option_id' => $id));
         }
-        $existing = self::find($option->getOptionId());
+        $existing = self::find(array('option_id' => $option->getOptionId()));
         if($existing){
             $where = array('option_id' => $option->getOptionId());
             return $this->update($option, $where);
         } else {
             $id = $this->insert($option);
-            return $this->find($id);
+            return $this->find(array('option_id' => $id));
         }
     }
 }

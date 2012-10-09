@@ -239,7 +239,7 @@ return array(
                     'update-record' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/update-record/:class/:id',
+                            'route' => '/update-record/:class',
                             'defaults' => array(
                                 'action' => 'update-record',
                             ),

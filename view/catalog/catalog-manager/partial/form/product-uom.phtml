@@ -1,14 +1,15 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 
 <?
+$form->edit();
 $form->prepare();
-//$form->setAttribute('id', 'productUom-' . $productUom->getProductUomId());
+$form->setAttribute('id', 'product_uom');
 $form->setAttribute('class', 'live-form');
 ?>
 <?=$this->form()->openTag($form);?>
 
+    <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('product_id')); ?>
-
     <div class="row quarter-pad">
         <div class="span4">
             <div class="row">

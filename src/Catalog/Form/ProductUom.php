@@ -2,11 +2,10 @@
 
 namespace Catalog\Form;
 
-use Zend\Form\Form as ZendForm;
-
-class ProductUom extends ZendForm
+class ProductUom extends AbstractForm
 {
     protected $uomService;
+    protected $originalFields = array('uom_code', 'product_id', 'quantity');
 
     public function __construct()
     {
@@ -54,10 +53,11 @@ class ProductUom extends ZendForm
     {
         $uoms = array();
         foreach($this->getUomService()->getAll() as $uom){
-            $uoms[$uom->getName()] = $uom->getUomCode();
+            $uoms[$uom->getUomCode()] = $uom->getName();
         }
         $this->add(array(
             'name' => 'uom_code',
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'type' => 'select',
                 'options' => $uoms,

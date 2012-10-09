@@ -9,6 +9,11 @@ class AbstractService implements ServiceLocatorAwareInterface
 {
     protected $serviceLocator;
 
+    public function find(array $data, $populate=false, $recursive=false)
+    {
+        return $this->getEntityMapper()->find($data);
+    }
+
     public function getEntity()
     {
         return $this->getEntityMapper()->getEntityPrototype();
@@ -47,6 +52,11 @@ class AbstractService implements ServiceLocatorAwareInterface
     public function persist($entity)
     {
         return $this->getEntityMapper()->persist($entity);
+    }
+
+    public function update($formData, $originalValues)
+    {
+        return $this->getEntityMapper()->update($formData, $originalValues);
     }
 
     public function usePaginator($options=array())

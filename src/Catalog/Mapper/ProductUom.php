@@ -5,15 +5,16 @@ namespace Catalog\Mapper;
 class ProductUom extends AbstractMapper
 {
     protected $tableName = 'catalog_product_uom';
-    protected $entityPrototype = '\Catalog\Entity\ProductUom';
-    protected $hydrator = 'Catalog\Hydrator\ProductUom';
+    protected $dbModel = '\Catalog\Model\ProductUom';
+    protected $relationalModel = '\Catalog\Model\ProductUom\Relational';
+    protected $key = array('product_id', 'uom_code', 'quantity');
 
-    public function find($productId, $uomCode, $quantity)
+    public function find(array $data)
     {
         $where = array(
-            'product_id' => $productId,
-            'uom_code'   => $uomCode,
-            'quantity'   => $quantity,
+            'product_id' => $data['product_id'],
+            'uom_code'   => $data['uom_code'],
+            'quantity'   => $data['quantity'],
         );
         $select = $this->getSelect()
             ->from($this->getTableName())
@@ -31,13 +32,14 @@ class ProductUom extends AbstractMapper
 
     public function persist($productUom)
     {
-        $existing = self::find($productUom->getProductId(), $productUom->getUomCode(), $productUom->getQuantity());
+        $productUom = $this->getDbModel($productUom);
+        $where = array(
+            'product_id' => $productUom->getProductId(),
+            'uom_code'   => $productUom->getUomCode(),
+            'quantity'   => $productUom->getQuantity(),
+        );
+        $existing = self::find($where);
         if($existing){
-            $where = array(
-                'product_id' => $productUom->getProductId(),
-                'uom_code'   => $productUom->getUomCode(),
-                'quantity'   => $productUom->getQuantity(),
-            );
             return $this->update($productUom, $where);
         } else {
             return $this->insert($productUom);

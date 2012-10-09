@@ -2,10 +2,10 @@
 
 namespace Catalog\Form;
 
-use Zend\Form\Form as ZendForm;
-
-class Option extends ZendForm
+class Option extends AbstractForm
 {
+    protected $originalFields = array('option_id');
+
     public function __construct()
     {
         parent::__construct();
@@ -38,8 +38,8 @@ class Option extends ZendForm
         ));
         $this->add(array(
             'name' => 'variation',
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
-                'type' => 'select',
                 'options' => array(
                     '0' => 'False',
                     '1' => 'True',
@@ -52,8 +52,8 @@ class Option extends ZendForm
         ));
         $this->add(array(
             'name' => 'option_type_id',
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
-                'type' => 'select',
                 'options' => array(
                     '1' => 'Select',
                     '2' => 'Radio',

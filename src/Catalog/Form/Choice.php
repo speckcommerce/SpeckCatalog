@@ -2,16 +2,22 @@
 
 namespace Catalog\Form;
 
-use Zend\Form\Form as ZendForm;
-
-class Choice extends ZendForm
+class Choice extends AbstractForm
 {
+    protected $originalFields = array('choice_id');
+
     public function __construct()
     {
         parent::__construct();
 
         $this->add(array(
             'name' => 'option_id',
+            'attributes' => array(
+                'type' => 'hidden'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'choice_id',
             'attributes' => array(
                 'type' => 'hidden'
             ),
@@ -30,13 +36,6 @@ class Choice extends ZendForm
             ),
             'options' => array(
                 'label' => 'Override Name',
-            ),
-        ));
-        $this->add(array(
-            'name' => 'type',
-            'attributes' => array(
-                'label' => 'Type',
-                'type' => 'text'
             ),
         ));
     }

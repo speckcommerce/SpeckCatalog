@@ -7,6 +7,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter;
 use Catalog\Service\FormServiceAwareInterface;
+use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 
 class CatalogManagerController
     extends AbstractActionController
@@ -57,14 +58,8 @@ class CatalogManagerController
 
     public function productsAction()
     {
-        $products = $this->getCatalogService()->getAll('product');
-        $paginator = new Paginator(new ArrayAdapter($products));
-        $page = $this->getEvent()->getRouteMatch()->getParam('page');
-        if($page){
-            $paginator->setCurrentPageNumber($page);
-        }
-        if((int)$page === 0)$page=1;
-        return new ViewModel(array('products' => $paginator, 'page' => (int)$page));
+        $products = $this->getServiceLocator()->get('catalog_product_service')->getAll();
+        return new ViewModel(array('products' => $products));
     }
 
     public function companiesAction()
@@ -78,7 +73,6 @@ class CatalogManagerController
         $categories = $this->getCatalogService()->getService('category')->getCategoriesForManagement();
         return new ViewModel(array('categories' => $categories));
     }
-
 
     public function companyAction()
     {
@@ -107,34 +101,55 @@ class CatalogManagerController
     public function productAction()
     {
         $productService = $this->getServiceLocator()->get('catalog_product_service');
-        $product = $productService->getFullProduct($this->params('id'));//, true, true);
-        $view = new ViewModel(array('product' => $product));
-
-        return $view;
+        $product = $productService->getFullProduct($this->params('id'));
+        return new ViewModel(array('product' => $product));
     }
 
     public function fetchPartialAction()
     {
         $this->layout(false);
-        $class = ($_POST['class_name'] ? $_POST['class_name'] : $_POST['new_class_name']);
-        $model = $this->getLinkerService()->linkModel($_POST);
+        $serviceLocator = $this->getServiceLocator();
+        $params = $this->params()->fromPost();
+        $childService = $serviceLocator->get('catalog_' . $params['child_name'] . '_service');
+        $parentService = $serviceLocator->get('catalog_' . $params['parent_name'] . '_service');
+        $parent = $parentService->find($params['parent']);
+        $child = $childService->getEntity();
+        $hydrator = new Hydrator;
+        $hydrator->hydrate($params['parent'], $child);
+        $addMethod = 'add' . $this->camel($params['child_name']);
+        $parentService->$addMethod($parent, $child);
         return new ViewModel(array(
-            $class => $model,
-            'partial' => $model->get('dashed_class_name'),
+            lcfirst($this->camel($params['child_name'])) => $child,
+            'partial' => $this->dash($params['child_name']),
         ));
     }
 
     public function updateRecordAction()
     {
         $this->layout(false);
-        $form = $this->getFormService()->prepare($this->params('class'), $_POST);
+        $class = $this->params('class');
+        $service = $this->getServiceLocator()->get('catalog_' . $class . '_service');
+        $form = $this->getFormService()->getForm($class, null, $_POST);
         if($form->isValid()){
-            $this->getCatalogService()->update($this->params('class'), $this->params('id'), $form->getData());
+            $service->update($form->getData(), $form->getOriginalData());
+        } else {
+            echo "form was not valid!";
         }
-        $model = $this->getCatalogService()->getById($this->params('class'), $this->params('id'));
-        $view = new ViewModel(array('form' => $form, $this->params('class') => $model));
-        $view->setTemplate("catalog/catalog-manager/partial/form/" . $model->get('dashed_class_name') . '.phtml');
-        return $view;
+        $entity = $service->find($form->getData(), true);
+        $view = new ViewModel(array('form' => $form, $class => $entity));
+        return $view->setTemplate("catalog/catalog-manager/partial/form/" . $this->dash($class) . '.phtml');
+    }
+
+    private function dash($name)
+    {
+        $dash = new \Zend\Filter\Word\UnderscoreToDash;
+        return $dash->__invoke($name);
+    }
+
+    private function camel($name)
+    {
+        $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
+        return $camel->__invoke($name);
     }
 
     public function sortAction()

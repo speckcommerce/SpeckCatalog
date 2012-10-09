@@ -1,7 +1,6 @@
 <?
-$items = $products->getCurrentItems();
-foreach($items as $item){
-    echo '<a href="/catalogmanager/product/' . $item->getProductId() . '">' . $item->getType() . ' - ' .  $item . ' </a><br/>';
+foreach($products as $product){
+    echo '<a href="/catalogmanager/product/' . $product->getProductId() . '">' . $product->getProductTypeId() . ' - ' .  $product . ' </a><br/>';
 }
 ?>
     <hr>

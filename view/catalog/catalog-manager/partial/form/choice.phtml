@@ -1,21 +1,21 @@
 <?
+$form->edit();
 $form->prepare();
-$form->setAttribute('method', 'post');
-$form->setAttribute('id', 'choice-' . $choice->getChoiceId());
+$form->setAttribute('id', 'choice');
 $form->setAttribute('class', 'live-form');
-
 ?>
 
-    <? if(false === $form->isValid()) : ?>
-        <? var_dump($form->getData()); ?>
-        <div class="alert alert-error">
-        <button class="close" data-dismiss="alert" type="button">×</button>
-        <strong>Oh snap!</strong>
-        Change a few things up and try submitting again.
-        </div>
-    <? endif; ?>
+<? if(false === $form->isValid()) : ?>
+    <? var_dump($form->getData()); ?>
+    <div class="alert alert-error">
+    <button class="close" data-dismiss="alert" type="button">×</button>
+    <strong>Oh snap!</strong>
+    Change a few things up and try submitting again.
+    </div>
+<? endif; ?>
 <?=$this->form()->openTag($form);?>
 
+    <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('option_id')); ?>
     <?=$this->formInput($form->get('product_id')); ?>
 

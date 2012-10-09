@@ -20,8 +20,7 @@ $config = array(
     'view_helpers' => array(
         'invokables' => array(
             'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
-            'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
-            'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
+            'speckCatalogForm'           => 'Catalog\View\Helper\Form',
             'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
             'speckCatalog'               => 'Catalog\View\Helper\Functions',
         ),

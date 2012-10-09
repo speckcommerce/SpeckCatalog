@@ -52,8 +52,8 @@ class Module
             'invokables' => array(
                 'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
                 'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
-                'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
                 'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
+                'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
             ),
             'factories' => array(
                 'speckCatalogCategoryNav'    => function ($sm) {

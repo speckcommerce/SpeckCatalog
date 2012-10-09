@@ -3,70 +3,32 @@ namespace Catalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
-use Catalog\Service\FormServiceAwareInterface;
+use Zend\Form\Form as ZendForm;
 
 class AdderHelper extends AbstractHelper
 {
-    public function __invoke($type, $className, $parentName=null, $childName=null)
+    public function __invoke()
     {
-        //$data = array(
-        //    'searchClassName' => $className,
-        //    'className'       => $className,
-        //    'newClassName'    => $className,
-        //    'parentClassName' => ($parent ? lcfirst($parent->get('class_name')) : $className) ,
-        //    'parentId'        => ($parent ? $parent->getId() : 0),
-        //    'partialName'     => $className,
-        //    'childId'         => null,
-        //    'childClassName'  => $childName?:null
-        //);
-
-        //return $this->$type($data);
+        return $this;
     }
 
-    public function addButton($data)
+    public function addNew($childName, $parentName, $parentKeyFields)
     {
-        extract($data);
-        echo '
-        <div class="span1 add-element">
-            <form action="" class="add-partial">
-                <input type="hidden" name="class_name"        value="' . $className . '" />
-                <input type="hidden" name="new_class_name"    value="' . $newClassName . '" />
-                <input type="hidden" name="parent_class_name" value="' . $parentClassName . '" />
-                <input type="hidden" name="parent_id"         value="' . $parentId . '" />
-                <input type="hidden" name="partial_name"      value="' . $partialName . '" />
-                <input type="submit" class="btn" value="+"/>
-            </form>
-        </div>
-        ';
+        $elements = array(
+            'parent_name' => $parentName,
+            'child_name'  => $childName,
+        );
+        $form = new \Catalog\Form\AddChild;
+        $form->addElements($elements)->addParent($parentKeyFields);
+        $view = $this->getView();
+        $view->vars()->assign(array('addForm' => $form));
+        $html = $view->render('/catalog/catalog-manager/partial/add');
+        return $html;
     }
-    public function importSearch($data)
+
+    private function dash($name)
     {
-        extract($data);
-        echo '
-        <div class="span2 add-element">
-            <form action="" class="import-search">
-                <input type="hidden" name="class_name"        value="' . $className . '" />
-                <input type="hidden" name="search_class_name" value="' . $searchClassName . '" />
-                <input type="hidden" name="child_class_name"  value="' . $childClassName . '" />
-                <input type="hidden" name="child_id"          value="' . $childId . '" />
-                <input type="hidden" name="new_class_name"    value="' . $newClassName . '" />
-                <input type="hidden" name="parent_class_name" value="' . $parentClassName . '" />
-                <input type="hidden" name="parent_id"         value="' . $parentId . '" />
-                <input type="hidden" name="partial_name"      value="' . $partialName . '" />
-                <input type="text" name="value" class="span2" placeholder="import ' . $searchClassName . '" />
-            </form>
-        </div>
-        ';
-    }
-    public function importFile($data)
-    {
-        extract($data);
-        echo '
-        <div class="span2 add-element">
-            <form action="">
-                <input class="input-file" type="file" placeholder="upload"/>
-            </form>
-        </div>
-        ';
+        $dash = new \Zend\Filter\Word\UnderscoreToDash;
+        return $dash->__invoke($name);
     }
 }

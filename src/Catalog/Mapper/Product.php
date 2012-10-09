@@ -5,14 +5,16 @@ namespace Catalog\Mapper;
 class Product extends AbstractMapper
 {
     protected $tableName = 'catalog_product';
-    protected $entityPrototype = '\Catalog\Entity\Product';
+    protected $relationalModel = '\Catalog\Model\Product\Relational';
+    protected $dbWriteModel = '\Catalog\Model\Product';
     protected $hydrator = 'Catalog\Hydrator\Product';
+    protected $key = array('product_id');
 
-    public function find($productId)
+    public function find(array $data)
     {
         $select = $this->getSelect()
             ->from($this->getTableName())
-            ->where(array('product_id' => (int) $productId));
+            ->where(array('product_id' => $data['product_id']));
         return $this->selectOne($select);
     }
 
@@ -34,15 +36,15 @@ class Product extends AbstractMapper
     {
         if(null === $product->getProductId()) {
             $id = $this->insert($product);
-            return $this->find($id);
+            return $this->find(array('product_id' => $id));
         }
-        $existing = self::find($product->getProductId());
+        $existing = self::find(array('product_id' => $product->getProductId()));
         if($existing){
             $where = array('product_id' => $product->getProductId());
             return $this->update($product, $where);
         } else {
             $id = $this->insert($product);
-            return $this->find($id);
+            return $this->find(array('product_id' => $id));
         }
     }
 

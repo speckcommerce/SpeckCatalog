@@ -2,289 +2,101 @@
 
 namespace Catalog\Model;
 
-use Exception;
-
-class Choice extends LinkedModelAbstract
+class Choice extends AbstractModel
 {
     protected $choiceId;
-
-    //field holds name for 'choice', override name for 'product'
-    /**
-     * overrideName
-     *
-     * @var string
-     * @access protected
-     */
     protected $overrideName;
-
-    /**
-     * product
-     *
-     * @var object Catalog\Model\Product
-     * @access protected
-     */
-    protected $product;
-
-    /**
-     * productId
-     *
-     * @var int
-     * @access protected
-     */
     protected $productId;
-
-    //only when type is product
-    protected $priceDiscountFixed = 0;
-
-    //only when type is product
-    protected $priceNoCharge = false;
-
-    //only when type is product
-    protected $priceDiscountPercent = 0;
-
-    //only when type is product
-    protected $priceOverrideFixed = 0;
-
-    protected $allUomsDiscount;
-
-    //will be set by optionservice
-    protected $addPrice = 0;
-    /**
-     * options
-     *
-     * @var array
-     * @access protected
-     */
-    protected $options;
+    protected $optionId;
+    protected $sortWeight = 0;
 
     /**
-     * parentOptions
-     *
-     * @var array
-     * @access protected
+     * @return choiceId
      */
-    protected $parentOptions;
+    public function getChoiceId()
+    {
+        return $this->choiceId;
+    }
 
     /**
-     * naChoices
-     *
-     * @var array
-     * @access protected
+     * @param $choiceId
+     * @return self
      */
-    protected $naChoices;
-
-
-    public function getProduct()
+    public function setChoiceId($choiceId)
     {
-        return $this->product;
-    }
-
-    public function getPrice(){
-        if ($this->has('product')) {
-            return $this->getProduct()->getPrice();
-        }
-    }
-
-    public function getRecursivePrice()
-    {
-        $price = 0;
-        if ($this->has('product')) {
-            //note: need to get all the extra logic in here for price modifers/etc
-            $price = $price + $this->getProduct()->getPrice();
-        }
-        return $price;
-    }
-
-    public function setProduct(Product $product)
-    {
-        $this->product = $product;
+        $this->choiceId = $choiceId;
         return $this;
     }
 
-    public function setTargetUom(ProductUom $targetUom)
-    {
-        $shell = $this->getShell();
-        if($shell->getType() !== 'product'){
-            throw new \RuntimeException('shell is not product, can not have target uom!');
-        }
-        $productUomIds=array();
-        foreach($shell->getProduct()->getUoms() as $productUom){
-            $productUomIds[] = $productUom->getProductUomId();
-        }
-        if(!in_array($targetUom->getProductUomId(), $productUomIds)){
-            throw new \RuntimeException('shells product does not contain that productUom!');
-        }
-        $this->targetUom = $targetUom;
-        return $this;
-    }
-
-    public function getNaChoices()
-    {
-        return $this->naChoices;
-    }
-
-    public function setNaChoices(Choice $naChoices)
-    {
-        $this->naChoices = $naChoices;
-        return $this;
-    }
-
+    /**
+     * @return overrideName
+     */
     public function getOverrideName()
     {
         return $this->overrideName;
     }
 
+    /**
+     * @param $overrideName
+     * @return self
+     */
     public function setOverrideName($overrideName)
     {
         $this->overrideName = $overrideName;
         return $this;
     }
 
-    public function __toString()
-    {
-        if($this->getOverrideName()){
-            return (string) $this->getOverrideName();
-        }elseif($this->getProduct()){
-            return (string) $this->getProduct()->getName();
-        }else{
-            return '';
-        }
-    }
-
+    /**
+     * @return productId
+     */
     public function getProductId()
     {
         return $this->productId;
     }
 
+    /**
+     * @param $productId
+     * @return self
+     */
     public function setProductId($productId)
     {
         $this->productId = $productId;
         return $this;
     }
 
-    public function getOptions()
+    /**
+     * @return optionId
+     */
+    public function getOptionId()
     {
-        return $this->options;
+        return $this->optionId;
     }
 
-    public function setOptions($options)
+    /**
+     * @param $optionId
+     * @return self
+     */
+    public function setOptionId($optionId)
     {
-        $this->options = $options;
+        $this->optionId = $optionId;
         return $this;
     }
 
-    public function getPriceDiscountFixed()
+    /**
+     * @return sortWeight
+     */
+    public function getSortWeight()
     {
-        return $this->priceDiscountFixed;
+        return $this->sortWeight;
     }
 
-    public function setPriceDiscountFixed($priceDiscountFixed)
+    /**
+     * @param $sortWeight
+     * @return self
+     */
+    public function setSortWeight($sortWeight)
     {
-        $this->priceDiscountFixed = $priceDiscountFixed;
+        $this->sortWeight = $sortWeight;
         return $this;
     }
-
-    public function getPriceNoCharge()
-    {
-        return $this->priceNoCharge;
-    }
-
-    public function setPriceNoCharge($priceNoCharge)
-    {
-        $this->priceNoCharge = $priceNoCharge;
-        return $this;
-    }
-
-    public function getPriceDiscountPercent()
-    {
-        return $this->priceDiscountPercent;
-    }
-
-    public function setPriceDiscountPercent($priceDiscountPercent)
-    {
-        $this->priceDiscountPercent = $priceDiscountPercent;
-        return $this;
-    }
-
-    public function getPriceOverrideFixed()
-    {
-        return $this->priceOverrideFixed;
-    }
-
-    public function setPriceOverrideFixed($priceOverrideFixed)
-    {
-        $this->priceOverrideFixed = $priceOverrideFixed;
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function setType($type)
-    {
-        if($type === 'choice' || $type === 'product'){
-            $this->type = $type;
-        }else{
-            throw new Exception('invalid type - ' . $type);
-        }
-        return $this;
-    }
-
-    public function isShared()
-    {
-        //todo: get parent options and count
-        return false;
-    }
-
-    public function getParentOptions()
-    {
-        return $this->parentOptions;
-    }
-
-    public function setParentOptions($parentOptions)
-    {
-        $this->parentOptions = $parentOptions;
-        return $this;
-    }
-
-    function getChoiceId()
-    {
-        return $this->choiceId;
-    }
-
-    function setChoiceId($choiceId)
-    {
-        $this->choiceId = $choiceId;
-    }
-
-    public function getId()
-    {
-        return $this->choiceId;
-    }
-    public function setId($id)
-    {
-        return $this->setChoiceId($id);
-    }
-
- /**
-  * Get addPrice.
-  *
-  * @return addPrice.
-  */
- function getAddPrice()
- {
-     return $this->addPrice;
- }
-
- /**
-  * Set addPrice.
-  *
-  * @param addPrice the value to set.
-  */
- function setAddPrice($addPrice)
- {
-     $this->addPrice = $addPrice;
- }
 }

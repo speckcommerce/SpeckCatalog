@@ -18,7 +18,9 @@
 
             <div class="entity-content">
 
-                <?=$this->speckCatalogRenderForm($product, 'product');?>
+                <? $formHelper = $this->speckCatalogForm($product, 'product'); ?>
+                <?=$formHelper->renderForm(); ?>
+                <? $parentKeyFields = $formHelper->getKeyFields(); ?>
 
                 <? if(2 === $product->getProductTypeId()) :?>
                     <div class="list-wrap">
@@ -31,7 +33,7 @@
                             <?=$this->speckCatalogRenderChildren('product_uom', $product->getUoms()); ?>
                         </div>
                         <div class="row list-items-helper">
-                            <?=$this->speckCatalogAdderHelper('addButton', 'productUom', $product); ?>
+                            <?=$this->speckCatalogAdderHelper()->addNew('product_uom', 'product', $parentKeyFields); ?>
                         </div>
                     </div>
                 <? endif; ?>
@@ -50,8 +52,7 @@
                     <?=$this->speckCatalogRenderChildren('option', $product->getOptions()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper('addButton', 'option', $product); ?>
-                    <?=$this->speckCatalogAdderHelper('importSearch', 'option', $product); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('option', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>
@@ -62,7 +63,7 @@
                     <?=$this->speckCatalogRenderChildren('spec', $product->getSpecs()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper('addButton', 'spec', $product); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('spec', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>
@@ -73,8 +74,7 @@
                     <?=$this->speckCatalogRenderChildren('document', $product->getDocuments()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper('addButton', 'document', $product); ?>
-                    <?=$this->speckCatalogAdderHelper('importSearch', 'document', $product); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('document', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>
@@ -85,8 +85,7 @@
                     <?=$this->speckCatalogRenderChildren('image', $product->getImages()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper('addButton', 'image', $product); ?>
-                    <?=$this->speckCatalogAdderHelper('importSearch', 'image', $product); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('image', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>

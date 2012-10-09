@@ -1,53 +1,7 @@
-<?php
-    if (!isset($searchClassName)){ $searchClassName = null; }
-    if (!isset($childClassName)){ $childClassName = null; }
-    if (!isset($childId)){ $childId = null; }
-    if (!isset($className)){ $className = null; }
-    if (!isset($newClassName)){ $newClassName = null; }
-    if (!isset($parentClassName)){ $parentClassName = null; }
-    if (!isset($parentId)){ $parentId = null; }
-    if (!isset($partialName)){ $partialName = null; }
-
-    switch($function){
-    case 'add-button':
-        echo '
-        <div class="span1 add-element">
-            <form action="" class="add-partial">
-                <input type="hidden" name="class_name"        value="' . $className . '" />
-                <input type="hidden" name="new_class_name"    value="' . $newClassName . '" />
-                <input type="hidden" name="parent_class_name" value="' . $parentClassName . '" />
-                <input type="hidden" name="parent_id"         value="' . $parentId . '" />
-                <input type="hidden" name="partial_name"      value="' . $partialName . '" />
-                <input type="submit" class="btn" value="+"/>
-            </form>
-        </div>
-        ';
-        break;
-    case 'import-search':
-        echo '
-        <div class="span2 add-element">
-            <form action="" class="import-search">
-                <input type="hidden" name="class_name"        value="' . $className . '" />
-                <input type="hidden" name="search_class_name" value="' . $searchClassName . '" />
-                <input type="hidden" name="child_class_name"  value="' . $childClassName . '" />
-                <input type="hidden" name="child_id"          value="' . $childId . '" />
-                <input type="hidden" name="new_class_name"    value="' . $newClassName . '" />
-                <input type="hidden" name="parent_class_name" value="' . $parentClassName . '" />
-                <input type="hidden" name="parent_id"         value="' . $parentId . '" />
-                <input type="hidden" name="partial_name"      value="' . $partialName . '" />
-                <input type="text" name="value" class="span2" placeholder="import ' . $searchClassName . '" />
-            </form>
-        </div>
-        ';
-        break;
-    case 'import-file':
-        echo '
-        <div class="span2 add-element">
-            <form action="">
-                <input class="input-file" type="file" placeholder="upload"/>
-            </form>
-        </div>
-        ';
-        break;
-    }
- ?>
+<div class="span1 add-element">
+    <form class="add-new">
+    <? foreach ($addForm->getElements() as $element) : ?>
+        <?=$this->formInput($element); ?>
+    <? endforeach; ?>
+    </form>
+</div>

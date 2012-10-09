@@ -7,11 +7,6 @@ class Option extends AbstractService
     protected $entityMapper = 'catalog_option_mapper';
     protected $choiceService;
 
-    public function find($optionId)
-    {
-        return $this->getEntityMapper()->find($optionId);
-    }
-
     public function getByProductId($productId, $populate=false, $recursive=false)
     {
         $options = $this->getEntityMapper()->getByProductId($productId);

@@ -7,11 +7,6 @@ class ProductUom extends AbstractService
     protected $entityMapper = 'catalog_product_uom_mapper';
     protected $availabilityService;
 
-    public function find($productId, $uomCode, $quantity)
-    {
-        return $this->getEntityMapper()->find($productId, $uomCode, $quantity);
-    }
-
     public function getByProductId($productId, $populate=false, $recursive=false)
     {
         $productUoms = $this->getEntityMapper()->getByProductId($productId);

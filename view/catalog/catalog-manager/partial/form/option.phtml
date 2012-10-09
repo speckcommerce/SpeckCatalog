@@ -1,15 +1,15 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 
 <?
+$form->edit();
 $form->prepare();
-$form->setAttribute('method', 'post');
-$form->setAttribute('id', 'option-' . $option->getOptionId());
+$form->setAttribute('id', 'option');
 $form->setAttribute('class', 'live-form');
-
 ?>
 
 <?=$this->form()->openTag($form);?>
 
+    <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('option_id')); ?>
 
     <div class="row offset0">

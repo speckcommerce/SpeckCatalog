@@ -2,102 +2,48 @@
 
 namespace Catalog\Model;
 
-class Availability extends ModelAbstract
+class Availability extends AbstractModel
 {
+    protected $productId;
+    protected $uomCode;
     protected $distributorId;
+    protected $quantity;
+    protected $cost;
 
     /**
-     * distributor
-     *
-     * @var model Catalog\Model\Distributor
-     * @access protected
+     * @return productId
      */
-    protected $distributor;
-
-    /**
-     * companies
-     *
-     * @var array
-     * @access protected
-     */
-    protected $companies;
-
-    /**
-     * cost
-     *
-     * @var float
-     * @access protected
-     */
-    protected $cost = 0;
-
-    /**
-     * parentProductUomId
-     *
-     * @var int
-     * @access protected
-     */
-    protected $parentProductUomId;
-
-    /**
-     * parentProductUom
-     *
-     * @var model Catalog\Model\ProductUom
-     * @access protected
-     */
-    protected $parentProductUom;
-
-    public function getCost()
+    public function getProductId()
     {
-        return $this->cost;
+        return $this->productId;
     }
 
-    public function setCost($cost)
+    /**
+     * @param $productId
+     * @return self
+     */
+    public function setProductId($productId)
     {
-        $this->cost = (float) $cost;
+        $this->productId = $productId;
         return $this;
     }
 
-    public function getDistributor()
+    /**
+     * @return uomCode
+     */
+    public function getUomCode()
     {
-        return $this->distributor;
+        return $this->uomCode;
     }
 
-    public function setDistributor(Company $distributor=null)
+    /**
+     * @param $uomCode
+     * @return self
+     */
+    public function setUomCode($uomCode)
     {
-        $this->distributor = $distributor;
+        $this->uomCode = $uomCode;
         return $this;
-    }
-
-    public function getParentProductUomId()
-    {
-        return $this->parentProductUomId;
-    }
-
-    public function setParentProductUomId($parentProductUomId)
-    {
-        $this->parentProductUomId = $parentProductUomId;
-        return $this;
-    }
-
-    public function getCompanies()
-    {
-        return $this->companies;
-    }
-
-    public function setCompanies($companies)
-    {
-        $this->companies = $companies;
-        return $this;
-    }
-
-    public function __toString()
-    {
-        $string = "";
-        $company = $this->getDistributor();
-        if($company){
-            $string .= $company->getName() . ' - $' . number_format($this->getCost(),2);
-        }
-        return $string;
     }
 
     /**
@@ -115,6 +61,42 @@ class Availability extends ModelAbstract
     public function setDistributorId($distributorId)
     {
         $this->distributorId = $distributorId;
+        return $this;
+    }
+
+    /**
+     * @return quantity
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param $quantity
+     * @return self
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
+     * @return cost
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param $cost
+     * @return self
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
         return $this;
     }
 }

@@ -1,17 +1,16 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 
 <?
+$form->edit();
 $form->prepare();
-$form->setAttribute('method', 'post');
-$form->setAttribute('id', 'product-' . $product->getProductId());
+$form->setAttribute('id', 'product');
 $form->setAttribute('class', 'live-form');
-
 ?>
 <?=$this->form()->openTag($form);?>
+    <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('product_id')); ?>
-    <input type="hidden" name="product_type_id" value="<?=$product->getProductTypeId();?>"/>
+
     <? if(false === $form->isValid()) : ?>
-        <? var_dump($form->getData()); ?>
         <div class="alert alert-error">
         <button class="close" data-dismiss="alert" type="button">×</button>
         <strong>Oh snap!</strong>
@@ -31,6 +30,7 @@ $form->setAttribute('class', 'live-form');
         </div>
         <div class="span3">
             <?=$this->formRow($form->get('manufacturer_id')); ?>
+            <?=$this->formRow($form->get('product_type_id')); ?>
             <? if('2' == $product->getProductTypeId()) : ?>
                 <?=$this->formRow($form->get('item_number')); ?>
             <? endif; ?>

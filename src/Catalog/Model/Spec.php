@@ -1,16 +1,51 @@
 <?php
+
 namespace Catalog\Model;
-class Spec extends ModelAbstract
+
+class Spec extends AbstractModel
 {
     protected $specId;
     protected $productId;
     protected $label;
     protected $value;
-    protected $tabDelimited;
 
     /**
-     * Get label.
-     *
+     * @return specId
+     */
+    public function getSpecId()
+    {
+        return $this->specId;
+    }
+
+    /**
+     * @param $specId
+     * @return self
+     */
+    public function setSpecId($specId)
+    {
+        $this->specId = $specId;
+        return $this;
+    }
+
+    /**
+     * @return productId
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    /**
+     * @param $productId
+     * @return self
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+        return $this;
+    }
+
+    /**
      * @return label
      */
     public function getLabel()
@@ -19,9 +54,8 @@ class Spec extends ModelAbstract
     }
 
     /**
-     * Set label.
-     *
-     * @param $label the value to be set
+     * @param $label
+     * @return self
      */
     public function setLabel($label)
     {
@@ -30,8 +64,6 @@ class Spec extends ModelAbstract
     }
 
     /**
-     * Get value.
-     *
      * @return value
      */
     public function getValue()
@@ -40,86 +72,12 @@ class Spec extends ModelAbstract
     }
 
     /**
-     * Set value.
-     *
-     * @param $value the value to be set
+     * @param $value
+     * @return self
      */
     public function setValue($value)
     {
         $this->value = $value;
         return $this;
-    }
-
-    public function __toString()
-    {
-        if($this->getLabel()){
-            return $this->getLabel();
-        }else{
-            return '';
-        }
-    }
-
-    public function getProductId()
-    {
-        return $this->productId;
-    }
-
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-        return $this;
-    }
-    public function setParentProductId($productId)
-    {
-        return $this->setProductId($productId);
-    }
-
-    /**
-     * Get tabDelimited.
-     *
-     * @return tabDelimited
-     */
-    public function getTabDelimited()
-    {
-        return $this->tabDelimited;
-    }
-
-    /**
-     * Set tabDelimited.
-     *
-     * @param $tabDelimited the value to be set
-     */
-    public function setTabDelimited($tabDelimited)
-    {
-        $this->tabDelimited = $tabDelimited;
-        return $this;
-    }
-
- /**
-  * Get specId.
-  *
-  * @return specId.
-  */
- function getSpecId()
- {
-     return $this->specId;
- }
-
- /**
-  * Set specId.
-  *
-  * @param specId the value to set.
-  */
- function setSpecId($specId)
- {
-     $this->specId = $specId;
- }
-    public function getId()
-    {
-        return $this->specId;
-    }
-    public function setId($id)
-    {
-        return $this->setSpecId($id);
     }
 }

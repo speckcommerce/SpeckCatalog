@@ -14,7 +14,8 @@
         <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>
     </div>
     <div class="entity-content">
-        <?=$this->speckCatalogRenderForm($choice, 'choice');?>
+        <? $formHelper = $this->speckCatalogForm($choice, 'choice'); ?>
+        <?=$formHelper->renderForm(); ?>
         <? if($choice->has('product')) : ?>
             <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?><br/>
         <? else: ?>
@@ -28,8 +29,7 @@
                     <?=$this->speckCatalogRenderChildren('option', $choice->getOptions());?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper('addButton', 'option', $choice); ?>
-                    <?=$this->speckCatalogAdderHelper('importSearch', 'option', $choice); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('option', 'choice', $formHelper->getKeyFields()); ?>
                 </div>
             </div>
         <? endif; ?>

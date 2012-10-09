@@ -5,8 +5,8 @@ namespace Catalog\Mapper;
 class Uom extends AbstractMapper
 {
     protected $tableName = 'ansi_uom';
-    protected $entityPrototype = '\Catalog\Entity\Uom';
-    protected $hydrator = 'Catalog\Hydrator\Uom';
+    protected $relationalModel = '\Catalog\Model\Uom\Relational';
+    protected $key = array('uom_code');
 
     public function find($uomCode)
     {

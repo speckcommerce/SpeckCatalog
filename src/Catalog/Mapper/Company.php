@@ -5,8 +5,8 @@ namespace Catalog\Mapper;
 class Company extends AbstractMapper
 {
     protected $tableName = 'contact_company';
-    protected $entityPrototype = '\Catalog\Entity\Company';
-    protected $hydrator = 'Catalog\Hydrator\Company';
+    protected $relationalModel = '\Catalog\Model\Company\Relational';
+    protected $key = array('company_id');
 
     public function find($companyId)
     {

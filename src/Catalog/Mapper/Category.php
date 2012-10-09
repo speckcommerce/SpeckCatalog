@@ -5,14 +5,15 @@ namespace Catalog\Mapper;
 class Category extends AbstractMapper
 {
     protected $tableName = 'catalog_category';
-    protected $entityPrototype = '\Catalog\Entity\Category';
-    protected $hydrator = 'Catalog\Hydrator\Category';
+    protected $relationalModel = '\Catalog\Model\Category\Relational';
+    protected $key = array('category_id');
 
-    public function find($categoryId)
+    public function find(array $data)
     {
+
         $select = $this->getSelect()
             ->from($this->getTableName())
-            ->where(array('category_id' => (int) $categoryId));
+            ->where(array('category_id' => (int) $data['category_id']));
         return $this->selectOne($select);
     }
 

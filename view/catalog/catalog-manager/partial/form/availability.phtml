@@ -1,16 +1,15 @@
 <?
 $form->prepare();
-$form->setAttribute('method', 'post');
-//$form->setAttribute('id', 'availability-' . $availability->getAvailabilityId());
+$form->setAttribute('id', 'availability');
 $form->setAttribute('class', 'live-form');
-
 ?>
 
 <?=$this->form()->openTag($form);?>
 
-    <?=$this->formInput($form->get('product_id')); ?>
-    <?=$this->formInput($form->get('uom_code')); ?>
-    <?=$this->formInput($form->get('quantity')); ?>
+    <?= $this->originalFields; ?>
+    <?= $this->formInput($form->get('product_id')); ?>
+    <?= $this->formInput($form->get('uom_code')); ?>
+    <?= $this->formInput($form->get('quantity')); ?>
 
     <div class="row">
         <div class="span5">

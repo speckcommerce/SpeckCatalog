@@ -2,44 +2,44 @@
 
 namespace Catalog\Model;
 
-class Uom extends ModelAbstract
+class Uom extends AbstractModel
 {
-    private $uomCode;
-
+    protected $uomCode;
     protected $name;
 
+    /**
+     * @return uomCode
+     */
     public function getUomCode()
     {
         return $this->uomCode;
     }
 
+    /**
+     * @param $uomCode
+     * @return self
+     */
     public function setUomCode($uomCode)
     {
         $this->uomCode = $uomCode;
         return $this;
     }
 
+    /**
+     * @return name
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param $name
+     * @return self
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name . ' (' . $this->uomCode . ')';
-    }
-    public function getId()
-    {
-        return $this->getUomCode();
-    }
-    public function setId($id)
-    {
-        return $this->setUomCode($id);
     }
 }

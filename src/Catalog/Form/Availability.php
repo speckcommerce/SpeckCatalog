@@ -2,22 +2,15 @@
 
 namespace Catalog\Form;
 
-use Zend\Form\Form as ZendForm;
-
-class Availability extends ZendForm
+class Availability extends AbstractForm
 {
     protected $companyService;
+    protected $originalFields = array('product_id', 'uom_code', 'quantity', 'distributor_id');
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->add(array(
-            'name' => 'product_id',
-            'attributes' => array(
-                'type' => 'hidden'
-            ),
-        ));
         $this->add(array(
             'name' => 'uom_code',
             'attributes' => array(
@@ -36,7 +29,6 @@ class Availability extends ZendForm
                 'type' => 'hidden'
             ),
         ));
-
         $this->add(array(
             'name' => 'cost',
             'attributes' => array(
@@ -57,6 +49,7 @@ class Availability extends ZendForm
         }
         $this->add(array(
             'name' => 'distributor_id',
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'type' => 'select',
                 'options' => $options,

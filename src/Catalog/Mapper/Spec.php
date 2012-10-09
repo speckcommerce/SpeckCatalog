@@ -5,8 +5,7 @@ namespace Catalog\Mapper;
 class Spec extends AbstractMapper
 {
     protected $tableName = 'catalog_product_spec';
-    protected $entityPrototype = '\Catalog\Entity\Spec';
-    protected $hydrator = 'Catalog\Hydrator\Spec';
+    protected $relationalModel = '\Catalog\Model\Spec\Relational';
 
     public function find($specId)
     {

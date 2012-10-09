@@ -2,11 +2,10 @@
 
 namespace Catalog\Form;
 
-use Zend\Form\Form as ZendForm;
-
-class Product extends ZendForm
+class Product extends AbstractForm
 {
     protected $companyService;
+    protected $originalFields = array('product_id');
 
     public function __construct()
     {
@@ -51,6 +50,7 @@ class Product extends ZendForm
         ));
         $this->add(array(
             'name' => 'product_type_id',
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'type' => 'select',
                 'options' => array(
@@ -60,7 +60,7 @@ class Product extends ZendForm
                 'class' => 'span3',
             ),
             'options' => array(
-                'label' => 'Manufacturer',
+                'label' => 'Product Type',
             ),
         ));
     }
@@ -73,6 +73,7 @@ class Product extends ZendForm
         }
         $this->add(array(
             'name' => 'manufacturer_id',
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'type' => 'select',
                 'options' => $options,

@@ -5,8 +5,8 @@ namespace Catalog\Mapper;
 class Document extends AbstractMapper
 {
     protected $tableName = 'catalog_product_document';
-    protected $entityPrototype = 'Catalog\Entity\Document';
-    protected $hydrator        = 'Catalog\Hydrator\Document';
+    protected $relationalModel = 'Catalog\Model\Document\Relational';
+    protected $key = array('product_id', 'document_id');
 
     public function getDocuments($productId)
     {

@@ -2,121 +2,101 @@
 
 namespace Catalog\Model;
 
-class Category extends LinkedModelAbstract
+class Category extends AbstractModel
 {
     protected $categoryId;
-
     protected $name;
-
-    protected $title;
-
+    protected $seoTitle;
     protected $descriptionHtml;
+    protected $imageFileName;
 
-    protected $image;
-
-    protected $products;
-
-    protected $categories;
-
-    public function getProducts()
+    /**
+     * @return categoryId
+     */
+    public function getCategoryId()
     {
-        return $this->products;
+        return $this->categoryId;
     }
 
-    public function setProducts($products)
+    /**
+     * @param $categoryId
+     * @return self
+     */
+    public function setCategoryId($categoryId)
     {
-        $this->products = $products;
+        $this->categoryId = $categoryId;
         return $this;
     }
 
-    public function hasProducts()
-    {
-        if(count($this->getProducts()) > 0){
-            return true;
-        }
-    }
-
+    /**
+     * @return name
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param $name
+     * @return self
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
-    public function hasCategories()
+    /**
+     * @return seoTitle
+     */
+    public function getSeoTitle()
     {
-        if(count($this->getCategories()) > 0){
-            return true;
-        }
+        return $this->seoTitle;
     }
 
-    public function getCategories()
+    /**
+     * @param $seoTitle
+     * @return self
+     */
+    public function setSeoTitle($seoTitle)
     {
-        return $this->categories;
-    }
-
-    public function setCategories($categories)
-    {
-        $this->categories = $categories;
+        $this->seoTitle = $seoTitle;
         return $this;
     }
 
-    public function __toString()
+    /**
+     * @return imageFileName
+     */
+    public function getImageFileName()
     {
-        return '' . $this->getName();
+        return $this->imageFileName;
     }
 
-    function getCategoryId()
+    /**
+     * @param $imageFileName
+     * @return self
+     */
+    public function setImageFileName($imageFileName)
     {
-        return $this->categoryId;
+        $this->imageFileName = $imageFileName;
+        return $this;
     }
 
-    function setCategoryId($categoryId)
-    {
-        $this->categoryId = $categoryId;
-    }
-
-    public function getId()
-    {
-        return $this->categoryId;
-    }
-
-    public function setId($id)
-    {
-        return $this->setCategoryId($id);
-    }
-
-    function getDescriptionHtml()
+    /**
+     * @return descriptionHtml
+     */
+    public function getDescriptionHtml()
     {
         return $this->descriptionHtml;
     }
 
-    function setDescriptionHtml($descriptionHtml)
+    /**
+     * @param $descriptionHtml
+     * @return self
+     */
+    public function setDescriptionHtml($descriptionHtml)
     {
         $this->descriptionHtml = $descriptionHtml;
-    }
-
-    function getImage()
-    {
-        return $this->image;
-    }
-
-    function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    function getTitle()
-    {
-        return $this->title;
-    }
-
-    function setTitle($title)
-    {
-        $this->title = $title;
+        return $this;
     }
 }

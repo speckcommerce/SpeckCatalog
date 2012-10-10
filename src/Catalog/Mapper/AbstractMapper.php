@@ -12,7 +12,7 @@ use Zend\Paginator\Paginator;
 use Catalog\Adapter\PaginatorDbSelect;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 
-class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
+class AbstractMapper extends AbstractDbMapper
 {
     protected $paginator;
     protected $paginatorOptions;
@@ -25,21 +25,15 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 
     public function selectOne(Select $select)
     {
-        $result = $this->select($select);
-        if(count($result) === 1){
-            return $result->current();
-        } elseif(count($result) > 1) {
-            throw new \Exception('returned more than one result');
-        }
+        return $this->select($select)->current();
     }
 
     //always returns array
     public function selectMany(Select $select)
     {
         if($this->usePaginator) {
-            unset($this->usePaginator);
+            $this->usePaginator = $false;
             $paginator = $this->initPaginator($select);
-
             return $paginator;
         }
 
@@ -106,22 +100,6 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     public function where()
     {
         return new Where;
-    }
-
-    public function primaryKeyFromData($data, $getOriginalValues=false)
-    {
-        if($data instanceOf Catalog\Entity\AbstractEntity) {
-            $data = $this->getHydrator()->extract($data);
-        }
-        $keyArray = array();
-        foreach ($this->key as $key) {
-            $dataKey = ($getOriginalValues ? 'original_' . $key : $key);
-            if (null === $data[$dataKey]) {
-                throw new \Exception($dataKey . ' - cant be null!');
-            }
-            $keyArray[$key] = $data[$dataKey];
-        }
-        return $keyArray;
     }
 
     public function update($data, $where, $tableName = null, HydratorInterface $hydrator = null)

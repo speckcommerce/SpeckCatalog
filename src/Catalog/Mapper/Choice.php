@@ -27,10 +27,11 @@ class Choice extends AbstractMapper
 
     public function persist($choice)
     {
-        $choice = $this->getDbModel($choice);
+        $dbChoice = $this->getDbModel($choice);
         if (null === $choice->getChoiceId()) {
-            $id = $this->insert($choice);
-            return $choice->setChoiceId($id);
+            $id = $this->insert($dbChoice);
+            $choice->setChoiceId($id);
+            return $choice;
         } else {
             $where = array('choice_id' => $choice->getChoiceId());
             return $this->update($choice, $where);

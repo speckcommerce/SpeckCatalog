@@ -5,8 +5,8 @@ namespace Catalog\Mapper;
 class Image extends AbstractMapper
 {
     protected $tableName;
-
-    protected $relationalModel = 'Catalog\Model\ProductImage';
+    protected $relationalModel = 'Catalog\Model\ProductImage\Relational';
+    protected $dbModel = 'Catalog\Model\ProductImage';
 
     public function setParentType($parentType)
     {
@@ -36,6 +36,7 @@ class Image extends AbstractMapper
 
     public function persist($image)
     {
+        $image = $this->getDbModel($image);
         if(null === $image->getImageId()){
             $id = $this->insert($image);
             return $image->setImageId($id);
@@ -47,7 +48,6 @@ class Image extends AbstractMapper
 
     public function addLinker($parentName, $parentId, $imageId)
     {
-        die();
         $table = $this->$parentName;
         $row = array(
             $parentName . '_id' => $parentId,

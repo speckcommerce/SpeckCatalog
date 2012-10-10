@@ -6,6 +6,7 @@ class Category extends AbstractMapper
 {
     protected $tableName = 'catalog_category';
     protected $relationalModel = '\Catalog\Model\Category\Relational';
+    protected $dbModel = '\Catalog\Model\Category';
     protected $key = array('category_id');
 
     public function find(array $data)
@@ -39,6 +40,7 @@ class Category extends AbstractMapper
 
     public function persist($category)
     {
+        $category = $this->getDbModel($category);
         if(null === $category->getCategoryId()) {
             $id = $this->insert($category);
             return $this->find($id);

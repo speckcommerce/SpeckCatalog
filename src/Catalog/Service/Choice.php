@@ -37,6 +37,7 @@ class Choice extends AbstractService
             : $this->getOptionService()->persist($optionOrId)->getOptionId()
         );
         $this->getEntityMapper()->addOption($choiceId, $optionId);
+        return $this->getOptionService()->find(array('option_id' => $optionId));
     }
 
     public function removeOption($choiceOrId, $optionOrId)

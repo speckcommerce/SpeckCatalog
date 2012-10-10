@@ -47,6 +47,7 @@ class Product extends AbstractService
             : $this->getOptionService()->persist($optionOrId)->getOptionId()
         );
         $this->getEntityMapper()->addOption($productId, $optionId);
+        return $this->getOptionService()->find(array('option_id' => $optionId));
     }
 
     public function addProductUom($productOrId, $productUom)

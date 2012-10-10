@@ -25,7 +25,6 @@ class Choice extends AbstractForm
         $this->add(array(
             'name' => 'product_id',
             'attributes' => array(
-                'label' => 'Product Id',
                 'type' => 'hidden'
             ),
         ));

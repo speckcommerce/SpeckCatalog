@@ -6,6 +6,7 @@ class Document extends AbstractMapper
 {
     protected $tableName = 'catalog_product_document';
     protected $relationalModel = 'Catalog\Model\Document\Relational';
+    protected $dbModel = 'Catalog\Model\Document';
     protected $key = array('product_id', 'document_id');
 
     public function getDocuments($productId)
@@ -18,6 +19,7 @@ class Document extends AbstractMapper
 
     public function persist($document)
     {
+        $document = $this->getDbModel($document);
         if(null === $document->getDocumentId()){
             $id = $this->insert($document);
             return $document->setDocumentId($id);

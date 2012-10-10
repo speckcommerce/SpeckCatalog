@@ -3,7 +3,7 @@
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
         <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
-        <? if(1===1 || $choice->isShared()) : ?>
+        <? if($choice->has('parentOptions')) : ?>
             <div><i class="icon-eye-open" title="This choice is shared <?=count($choice->getParentOptions());?> times"></i></div>
         <? endif; ?>
         <? if ($choice->has('options')) : ?>

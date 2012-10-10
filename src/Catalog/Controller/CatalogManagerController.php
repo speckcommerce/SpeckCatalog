@@ -108,20 +108,25 @@ class CatalogManagerController
     public function fetchPartialAction()
     {
         $this->layout(false);
-        $serviceLocator = $this->getServiceLocator();
         $params = $this->params()->fromPost();
-        $childService = $serviceLocator->get('catalog_' . $params['child_name'] . '_service');
-        $parentService = $serviceLocator->get('catalog_' . $params['parent_name'] . '_service');
+
+        $childService = $this->getServiceLocator()->get('catalog_' . $params['child_name'] . '_service');
+        $parentService = $this->getServiceLocator()->get('catalog_' . $params['parent_name'] . '_service');
+
         $parent = $parentService->find($params['parent']);
         $child = $childService->getEntity();
+
         $hydrator = new Hydrator;
         $hydrator->hydrate($params['parent'], $child);
+
         $addMethod = 'add' . $this->camel($params['child_name']);
-        $parentService->$addMethod($parent, $child);
-        return new ViewModel(array(
+        $child = $parentService->$addMethod($parent, $child);
+
+        $view = new ViewModel(array(
             lcfirst($this->camel($params['child_name'])) => $child,
             'partial' => $this->dash($params['child_name']),
         ));
+        return $view;
     }
 
     public function updateRecordAction()

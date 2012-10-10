@@ -13,9 +13,11 @@ class Option extends InputFilter
         ));
         $this->add(array(
             'name' => 'name',
+            'allow_empty' => 'true',
         ));
         $this->add(array(
             'name' => 'instruction',
+            'allow_empty' => 'true',
         ));
         $this->add(array(
             'name' => 'option_type_id',

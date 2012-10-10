@@ -6,6 +6,7 @@ class Availability extends AbstractMapper
 {
     protected $tableName = 'catalog_availability';
     protected $relationalModel = '\Catalog\Model\Availability\Relational';
+    protected $dbModel = '\Catalog\Model\Availability';
     protected $key = array('product_id', 'uom_code', 'quantity', 'distributor_id');
 
     public function find(array $data)
@@ -37,6 +38,7 @@ class Availability extends AbstractMapper
 
     public function persist($availability)
     {
+        $availability = $this->getDbModel($availability);
         $existing = self::find(array(
             'product_id'     => $availability->getProductId(),
             'uom_code'       => $availability->getUomCode(),

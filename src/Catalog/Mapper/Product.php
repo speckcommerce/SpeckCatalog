@@ -6,7 +6,7 @@ class Product extends AbstractMapper
 {
     protected $tableName = 'catalog_product';
     protected $relationalModel = '\Catalog\Model\Product\Relational';
-    protected $dbWriteModel = '\Catalog\Model\Product';
+    protected $dbModel = '\Catalog\Model\Product';
     protected $hydrator = 'Catalog\Hydrator\Product';
     protected $key = array('product_id');
 
@@ -34,6 +34,7 @@ class Product extends AbstractMapper
 
     public function persist($product)
     {
+        $dbProduct = $this->getDbModel($product);
         if(null === $product->getProductId()) {
             $id = $this->insert($product);
             return $this->find(array('product_id' => $id));
@@ -41,9 +42,9 @@ class Product extends AbstractMapper
         $existing = self::find(array('product_id' => $product->getProductId()));
         if($existing){
             $where = array('product_id' => $product->getProductId());
-            return $this->update($product, $where);
+            return $this->update($dbProduct, $where);
         } else {
-            $id = $this->insert($product);
+            $id = $this->insert($dbProduct);
             return $this->find(array('product_id' => $id));
         }
     }

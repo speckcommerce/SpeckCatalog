@@ -56,7 +56,8 @@ class Option extends AbstractService
     {
         $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
         $choice->setOptionId($optionId);
-        $this->getChoiceService()->persist($choice);
+        $choice = $this->getChoiceService()->persist($choice);
+        return $choice;
     }
 
     public function removeChoice($choiceOrId)

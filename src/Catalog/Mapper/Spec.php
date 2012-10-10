@@ -6,6 +6,7 @@ class Spec extends AbstractMapper
 {
     protected $tableName = 'catalog_product_spec';
     protected $relationalModel = '\Catalog\Model\Spec\Relational';
+    protected $dbModel = '\Catalog\Model\Spec';
 
     public function find($specId)
     {
@@ -29,6 +30,7 @@ class Spec extends AbstractMapper
 
     public function persist($spec)
     {
+        $spec = $this->getDbModel($spec);
         if(null === $spec->getSpecId()){
             $id = $this->insert($spec);
             return $spec->setSpecId($id);

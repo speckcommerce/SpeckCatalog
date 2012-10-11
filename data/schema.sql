@@ -801,227 +801,249 @@ INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('ZP', 'Page', 0),
 ('ZZ', 'Mutually Defined', 0);
 
--- -----------------------------------------------------
--- Table `catalog_product_type`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product_type` (
-  `product_type_id` INT NOT NULL ,
-  `name` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`product_type_id`) )
-ENGINE = InnoDB;
 
+--
+-- Table structure for table `catalog_availability`
+--
 
--- -----------------------------------------------------
--- Table `catalog_product`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product` (
-  `product_id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(255) NOT NULL ,
-  `description` TEXT NULL DEFAULT NULL ,
-  `product_type_id` INT NOT NULL DEFAULT 1 ,
-  `item_number` VARCHAR(45) NULL DEFAULT NULL ,
-  `manufacturer_id` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`product_id`) ,
-  INDEX `fk_product_product_type_id_idx` (`product_type_id` ASC) ,
-  INDEX `fk_catalog_product_1_idx` (`manufacturer_id` ASC))
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `catalog_availability` (
+  `product_id` int(11) NOT NULL,
+  `uom_code` char(2) NOT NULL,
+  `distributor_id` int(10) unsigned NOT NULL,
+  `cost` decimal(15,5) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`product_id`,`uom_code`,`distributor_id`,`quantity`),
+  KEY `fk_catalog_availability_product_uom_idx` (`product_id`,`uom_code`,`quantity`),
+  KEY `fk_catalog_availability_1_idx` (`distributor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `catalog_product_uom`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product_uom` (
-  `uom_code` CHAR(2) NOT NULL DEFAULT 'EA' ,
-  `product_id` INT NOT NULL ,
-  `price` DECIMAL(15,5) NOT NULL ,
-  `retail` DECIMAL(15,5) NOT NULL ,
-  `quantity` INT NOT NULL ,
-  `sort_weight` INT NOT NULL DEFAULT 0 ,
-  INDEX `fk_catalog_product_uom_uom_code_idx` (`uom_code` ASC) ,
-  INDEX `fk_catalog_product_uom_product_id_idx` (`product_id` ASC) ,
-  PRIMARY KEY (`uom_code`, `product_id`, `quantity`))
-ENGINE = InnoDB;
+--
+-- Table structure for table `catalog_category`
+--
 
+CREATE TABLE IF NOT EXISTS `catalog_category` (
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `seo_title` varchar(255) DEFAULT NULL,
+  `description_html` text,
+  `image_file_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1338 ;
 
--- -----------------------------------------------------
--- Table `catalog_availability`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_availability` (
-  `product_id` INT NOT NULL ,
-  `uom_code` CHAR(2) NOT NULL ,
-  `distributor_id` INT UNSIGNED NOT NULL ,
-  `cost` DECIMAL(15,5) NOT NULL ,
-  `quantity` INT NOT NULL ,
-  PRIMARY KEY (`product_id`, `uom_code`, `distributor_id`, `quantity`) ,
-  INDEX `fk_catalog_availability_product_uom_idx` (`product_id` ASC, `uom_code` ASC, `quantity` ASC) ,
-  INDEX `fk_catalog_availability_1_idx` (`distributor_id` ASC))
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `catalog_category_product`
+--
 
--- -----------------------------------------------------
--- Table `catalog_category`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_category` (
-  `category_id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(255) NOT NULL ,
-  `seo_title` VARCHAR(255) NULL DEFAULT NULL ,
-  `description_html` TEXT NULL DEFAULT NULL ,
-  `image_file_name` VARCHAR(255) NULL ,
-  PRIMARY KEY (`category_id`) )
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `catalog_category_product` (
+  `category_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `website_id` int(11) NOT NULL,
+  `image_file_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`product_id`,`category_id`,`website_id`),
+  KEY `fk_catalog_product_category_linker_category_id_idx` (`category_id`),
+  KEY `fk_catalog_product_category_linker_product_id_idx` (`product_id`),
+  KEY `fk_catalog_product_category_linker_website_id_idx` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `catalog_category_website`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_category_website` (
-  `category_id` INT NOT NULL ,
-  `parent_category_id` INT NULL ,
-  `website_id` INT NULL ,
-  INDEX `fk_catalog_category_linker_category_id_idx` (`category_id` ASC) ,
-  INDEX `fk_catalog_category_linker_parent_category_id_idx` (`parent_category_id` ASC) ,
-  INDEX `fk_catalog_category_linker_website_id_idx` (`website_id` ASC) ,
-  UNIQUE INDEX `category_id_parent_category_id_website_id_uq` (`category_id` ASC, `parent_category_id` ASC, `website_id` ASC))
-ENGINE = InnoDB;
+--
+-- Table structure for table `catalog_category_website`
+--
 
+CREATE TABLE IF NOT EXISTS `catalog_category_website` (
+  `category_id` int(11) NOT NULL,
+  `parent_category_id` int(11) DEFAULT NULL,
+  `website_id` int(11) DEFAULT NULL,
+  UNIQUE KEY `category_id_parent_category_id_website_id_uq` (`category_id`,`parent_category_id`,`website_id`),
+  KEY `fk_catalog_category_linker_category_id_idx` (`category_id`),
+  KEY `fk_catalog_category_linker_parent_category_id_idx` (`parent_category_id`),
+  KEY `fk_catalog_category_linker_website_id_idx` (`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- -----------------------------------------------------
--- Table `catalog_category_product`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_category_product` (
-  `category_id` INT NOT NULL ,
-  `product_id` INT NOT NULL ,
-  `website_id` INT NOT NULL ,
-  `image_file_name` VARCHAR(45) NULL ,
-  INDEX `fk_catalog_product_category_linker_category_id_idx` (`category_id` ASC) ,
-  INDEX `fk_catalog_product_category_linker_product_id_idx` (`product_id` ASC) ,
-  PRIMARY KEY (`product_id`, `category_id`, `website_id`) ,
-  INDEX `fk_catalog_product_category_linker_website_id_idx` (`website_id` ASC))
-ENGINE = InnoDB;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `catalog_choice`
+--
 
--- -----------------------------------------------------
--- Table `catalog_option`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_option` (
-  `option_id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(255) NOT NULL ,
-  `instruction` VARCHAR(255) NULL DEFAULT NULL ,
-  `required` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `variation` TINYINT NOT NULL DEFAULT 0 ,
-  `option_type_id` TINYINT(1) NULL ,
-  PRIMARY KEY (`option_id`) )
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `catalog_choice` (
+  `choice_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL,
+  `option_id` int(11) NOT NULL,
+  `price_override_fixed` decimal(15,5) NOT NULL DEFAULT '0.00000',
+  `price_discount_fixed` decimal(15,5) NOT NULL DEFAULT '0.00000',
+  `price_discount_percent` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `price_no_charge` tinyint(1) NOT NULL DEFAULT '0',
+  `override_name` varchar(255) DEFAULT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`choice_id`),
+  KEY `fk_catalog_choice_product_id_idx` (`product_id`),
+  KEY `fk_catalog_choice_option_id_idx` (`option_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5114 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `catalog_choice`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_choice` (
-  `choice_id` INT NOT NULL AUTO_INCREMENT ,
-  `product_id` INT NULL ,
-  `option_id` INT NOT NULL ,
-  `price_override_fixed` DECIMAL(15,5) NOT NULL DEFAULT 0 ,
-  `price_discount_fixed` DECIMAL(15,5) NOT NULL DEFAULT 0 ,
-  `price_discount_percent` DECIMAL(5,2) NOT NULL DEFAULT 0 ,
-  `price_no_charge` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `override_name` VARCHAR(255) NULL DEFAULT NULL ,
-  `sort_weight` INT NOT NULL DEFAULT 0 ,
-  PRIMARY KEY (`choice_id`) ,
-  INDEX `fk_catalog_choice_product_id_idx` (`product_id` ASC) ,
-  INDEX `fk_catalog_choice_option_id_idx` (`option_id` ASC))
-ENGINE = InnoDB
-PACK_KEYS = DEFAULT;
+--
+-- Table structure for table `catalog_choice_option`
+--
 
+CREATE TABLE IF NOT EXISTS `catalog_choice_option` (
+  `option_id` int(11) NOT NULL,
+  `choice_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  KEY `UNIQUE` (`choice_id`,`option_id`),
+  KEY `fk_catalog_choice_option_linker_1_idx` (`option_id`),
+  KEY `fk_catalog_choice_option_linker_2_idx` (`choice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='the options that choices have\n(linker table names are parent';
 
--- -----------------------------------------------------
--- Table `catalog_choice_option`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_choice_option` (
-  `option_id` INT(11) NOT NULL ,
-  `choice_id` INT(11) NOT NULL ,
-  `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  INDEX `UNIQUE` (`choice_id` ASC, `option_id` ASC) ,
-  INDEX `fk_catalog_choice_option_linker_1_idx` (`option_id` ASC) ,
-  INDEX `fk_catalog_choice_option_linker_2_idx` (`choice_id` ASC))
-ENGINE = InnoDB
-COMMENT = 'the options that choices have\n(linker table names are parent' /* comment truncated */;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `catalog_option`
+--
 
--- -----------------------------------------------------
--- Table `catalog_option_image`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_option_image` (
-  `image_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `option_id` INT(11) NOT NULL ,
-  `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  `file_name` VARCHAR(45) NULL ,
-  `label` VARCHAR(255) NULL ,
-  PRIMARY KEY (`image_id`) ,
-  INDEX `fk_catalog_option_image_1_idx` (`option_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+CREATE TABLE IF NOT EXISTS `catalog_option` (
+  `option_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `instruction` varchar(255) DEFAULT NULL,
+  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `variation` tinyint(4) NOT NULL DEFAULT '0',
+  `option_type_id` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`option_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21165 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `catalog_product_document`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product_document` (
-  `document_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `product_id` INT(11) NOT NULL ,
-  `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  `file_name` VARCHAR(45) NULL ,
-  `label` VARCHAR(45) NULL ,
-  INDEX `linker_id` (`document_id` ASC) ,
-  PRIMARY KEY (`document_id`) ,
-  INDEX `fk_catalog_product_document_1_idx` (`product_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+--
+-- Table structure for table `catalog_option_image`
+--
 
+CREATE TABLE IF NOT EXISTS `catalog_option_image` (
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
+  `option_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  `file_name` varchar(45) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`image_id`),
+  KEY `fk_catalog_option_image_1_idx` (`option_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- -----------------------------------------------------
--- Table `catalog_product_image`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product_image` (
-  `image_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `product_id` INT(11) NOT NULL ,
-  `sort_weight` INT(11) NOT NULL DEFAULT '0' ,
-  `file_name` VARCHAR(45) NULL ,
-  `label` VARCHAR(255) NULL ,
-  INDEX `linker_id` (`image_id` ASC) ,
-  PRIMARY KEY (`image_id`) ,
-  INDEX `fk_catalog_product_image_1_idx` (`product_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `catalog_product`
+--
 
--- -----------------------------------------------------
--- Table `catalog_product_option`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product_option` (
-  `product_id` INT NULL ,
-  `option_id` INT NULL ,
-  `sort_weight` INT NOT NULL DEFAULT 0 ,
-  PRIMARY KEY (`product_id`, `option_id`) ,
-  INDEX `fk_catalog_product_option_linker_product_id_idx` (`product_id` ASC) ,
-  INDEX `fk_catalog_product_option_linker_option_id_idx` (`option_id` ASC)
-)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `catalog_product` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `product_type_id` int(11) NOT NULL DEFAULT '1',
+  `item_number` varchar(45) DEFAULT NULL,
+  `manufacturer_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`product_id`),
+  KEY `fk_product_product_type_id_idx` (`product_type_id`),
+  KEY `fk_catalog_product_1_idx` (`manufacturer_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36034 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `catalog_product_spec`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `catalog_product_spec` (
-  `spec_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `product_id` INT(11) NOT NULL ,
-  `label` VARCHAR(255) NULL DEFAULT NULL ,
-  `value` TEXT NULL DEFAULT NULL ,
-  PRIMARY KEY (`spec_id`) ,
-  INDEX `fk_catalog_product_spec_1_idx` (`product_id` ASC)
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+--
+-- Table structure for table `catalog_product_document`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_document` (
+  `document_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  `file_name` varchar(45) DEFAULT NULL,
+  `label` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`document_id`),
+  KEY `linker_id` (`document_id`),
+  KEY `fk_catalog_product_document_1_idx` (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=227 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_image`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_image` (
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  `file_name` varchar(45) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`image_id`),
+  KEY `linker_id` (`image_id`),
+  KEY `fk_catalog_product_image_1_idx` (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6551 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_option`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_option` (
+  `product_id` int(11) NOT NULL DEFAULT '0',
+  `option_id` int(11) NOT NULL DEFAULT '0',
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`product_id`,`option_id`),
+  KEY `fk_catalog_product_option_linker_product_id_idx` (`product_id`),
+  KEY `fk_catalog_product_option_linker_option_id_idx` (`option_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_spec`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
+  `spec_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `value` text,
+  PRIMARY KEY (`spec_id`),
+  KEY `fk_catalog_product_spec_1_idx` (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6839 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_type`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_type` (
+  `product_type_id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`product_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_product_uom`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
+  `uom_code` char(2) NOT NULL DEFAULT 'EA',
+  `product_id` int(11) NOT NULL,
+  `price` decimal(15,5) NOT NULL,
+  `retail` decimal(15,5) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uom_code`,`product_id`,`quantity`),
+  KEY `fk_catalog_product_uom_uom_code_idx` (`uom_code`),
+  KEY `fk_catalog_product_uom_product_id_idx` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 -- -----------------------------------------------------

@@ -4,6 +4,7 @@ use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
 use Catalog\Service\FormServiceAwareInterface;
+use Catalog\Model\AbstractModel;
 
 class Form extends AbstractHelper implements FormServiceAwareInterface
 {
@@ -17,7 +18,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
 
     protected $model;
 
-    public function __invoke($model=null, $name=null)
+    public function __invoke(AbstractModel $model=null, $name=null)
     {
         $this->model = $model;
         $this->name = $name;
@@ -27,9 +28,15 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
 
     public function renderform()
     {
+        $this->form
+            ->edit()
+            ->prepare()
+            ->setAttribute('id', $this->name)
+            ->setAttribute('class', 'live-form');
+
         $view = new ViewModel(array(
             $this->camel($this->name) => $this->model,
-            'form' => $this->form->edit(),
+            'form' => $this->form,
             'originalFields' => $this->prepareOriginalFields($this->form),
         ));
         $view->setTemplate($this->partialDir . $this->dash($this->name) . '.phtml');

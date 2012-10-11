@@ -8,10 +8,10 @@ class Spec extends AbstractMapper
     protected $relationalModel = '\Catalog\Model\Spec\Relational';
     protected $dbModel = '\Catalog\Model\Spec';
 
-    public function find($specId)
+    public function find(array $data)
     {
         $table = $this->getTableName();
-        $where = array('spec_id' => $specId);
+        $where = array('spec_id' => $data['spec_id']);
         $select = $this->getSelect()
             ->from($table)
             ->where($where);

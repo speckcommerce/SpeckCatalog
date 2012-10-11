@@ -68,6 +68,8 @@ $config = array(
             'catalog_image_form'               => 'Catalog\Form\Image',
             'catalog_document_form'            => 'Catalog\Form\Document',
 
+            'catalog_spec_form_filter'         => 'Catalog\Filter\Spec',
+            'catalog_document_form_filter'     => 'Catalog\Filter\Document',
             'catalog_product_form_filter'      => 'Catalog\Filter\Product',
             'catalog_product_uom_form_filter'  => 'Catalog\Filter\ProductUom',
             'catalog_option_form_filter'       => 'Catalog\Filter\Option',

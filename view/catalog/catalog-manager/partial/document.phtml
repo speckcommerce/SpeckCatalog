@@ -1,4 +1,6 @@
-<? $pdir = '/catalog/catalog-manager/partial/'; ?>
+<?php
+    $formHelper = $this->speckCatalogForm($document, 'document');
+?>
 
 <div class="boundary contrastbg" id="">
     <div class="entity-header">
@@ -7,6 +9,6 @@
         <div class="title sort-handle">&nbsp; <?=$document;?></div>
     </div>
     <div class="entity-content initialcol">
-        <?=$this->partial($pdir.'form/document.phtml', array('document' => $document));?>
+        <?= $formHelper->renderForm(); ?>
     </div>
 </div>

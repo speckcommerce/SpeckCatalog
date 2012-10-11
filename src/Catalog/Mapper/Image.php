@@ -14,10 +14,10 @@ class Image extends AbstractMapper
         return $this;
     }
 
-    public function find($mediaId)
+    public function find(array $data)
     {
         $table = $this->getTableName();
-        $where = array('media_id' => $mediaId);
+        $where = array('image_id' => $data['image_id']);
         $select = $this->getSelect()
             ->from($table)
             ->where($where);
@@ -43,22 +43,6 @@ class Image extends AbstractMapper
         } elseif($this->find($image->getMediaId())) {
             $where = array('image_id' => $image->getImageId());
             return $this->update($image, $where);
-        }
-    }
-
-    public function addLinker($parentName, $parentId, $imageId)
-    {
-        $table = $this->$parentName;
-        $row = array(
-            $parentName . '_id' => $parentId,
-            'media_id' => $imageId,
-        );
-        $select = $this->getSelect()
-            ->from($table)
-            ->where($row);
-        $result = $this->query($select);
-        if (false === $result) {
-            $this->insert($row, $this->$parentName);
         }
     }
 }

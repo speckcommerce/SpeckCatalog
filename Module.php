@@ -109,7 +109,7 @@ class Module
             ),
             'factories' => array(
                 'catalog_product_image_service' => function ($sm) {
-                    $service = new \Catalog\Service\Image;
+                    $service = new \Catalog\Service\ProductImage;
                     $mapper = $sm->get('catalog_image_mapper')->setParentType('product');
                     return $service->setEntityMapper($mapper);
                 },

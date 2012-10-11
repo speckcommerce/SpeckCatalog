@@ -61,4 +61,17 @@ class Product extends AbstractMapper
             $this->insert($row, $table);
         }
     }
+
+    public function addImage($productId, $imageId)
+    {
+        $table = 'catalog_product_image';
+        $row = array('product_id' => $productId, 'image_id' => $imageId);
+        $select = $this->getSelect()
+            ->from($table)
+            ->where($row);
+        $result = $this->query($select);
+        if (false === $result) {
+            $this->insert($row, $table);
+        }
+    }
 }

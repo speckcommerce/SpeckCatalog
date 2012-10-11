@@ -7,7 +7,16 @@ class Document extends AbstractMapper
     protected $tableName = 'catalog_product_document';
     protected $relationalModel = 'Catalog\Model\Document\Relational';
     protected $dbModel = 'Catalog\Model\Document';
-    protected $key = array('product_id', 'document_id');
+
+    public function find(array $data)
+    {
+        $table = $this->getTableName();
+        $where = array('document_id' => $data['document_id']);
+        $select = $this->getSelect()
+            ->from($table)
+            ->where($where);
+        return $this->selectOne($select);
+    }
 
     public function getDocuments($productId)
     {

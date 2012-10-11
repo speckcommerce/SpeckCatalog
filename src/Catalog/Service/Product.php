@@ -33,7 +33,7 @@ class Product extends AbstractService
         $productId = $product->getProductId();
         $product->setOptions($this->getOptionService()->getByProductId($productId, true, $recursive));
         $product->setImages($this->getImageService()->getImages('product', $productId));
-        $product->setDocuments($this->getDocumentService()->getDocuments('product', $productId));
+        $product->setDocuments($this->getDocumentService()->getDocuments($productId));
         $product->setUoms($this->getProductUomService()->getByProductId($productId, true, $recursive));
         $product->setSpecs($this->getSpecService()->getByProductId($productId));
         $product->setManufacturer($this->getCompanyService()->findById($product->getManufacturerId()));
@@ -53,7 +53,8 @@ class Product extends AbstractService
     public function addProductUom($productOrId, $productUom)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $this->getProductUomService()->persist($productUom);
+        $productUom = $this->getProductUomService()->persist($productUom);
+        var_dump($productUom); die();
     }
 
     public function removeOption($productOrId, $optionOrId)
@@ -63,15 +64,26 @@ class Product extends AbstractService
         $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
-    public function addImage($productOrId, $image)
+    public function addProductImage($productOrId, $image)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        return $this->getImageService()->addLinker('product', $productId, $image);
+        $imageId = $this->getImageService()->persist($image)->getImageId();
+        $this->getEntityMapper()->addImage($productId, $imageId);
+        return $this->getImageService()->find(array('image_id' => $imageId));
     }
+
+    public function addSpec($productOrId, $spec)
+    {
+        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
+        $specId = $this->getSpecService()->persist($spec)->getSpecId();
+        return $this->getSpecService()->find(array('spec_id' => $specId));
+    }
+
     public function addDocument($productOrId, $document)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        return $this->getDocumentService()->addLinker('product', $productId, $document);
+        $documentId = $this->getDocumentService()->persist($document)->getDocumentId();
+        return $this->getDocumentService()->find(array('document_id' => $documentId));
     }
 
     public function populateForPricing($product)

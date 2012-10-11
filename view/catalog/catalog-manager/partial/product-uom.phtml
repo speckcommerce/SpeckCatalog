@@ -1,4 +1,7 @@
-<? $pdir = '/catalog/catalog-manager/partial/'; ?>
+<?php
+    $formHelper = $this->speckCatalogForm($productUom, 'product_uom');
+?>
+
 <div class="existing contrastbg boundary" id="">
 <div class="entity-header">
     <div class="collapser"><i class="icon-chevron-down"></i></div>
@@ -8,7 +11,6 @@
     <div class="entity-content">
         <div class="row">
             <div class="span4">
-                <? $formHelper = $this->speckCatalogForm($productUom, 'product_uom'); ?>
                 <?=$formHelper->renderForm(); ?>
             </div>
             <div class="span6">

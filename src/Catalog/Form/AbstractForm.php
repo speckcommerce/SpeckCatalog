@@ -39,6 +39,10 @@ class AbstractForm extends ZendForm
                     'value' => $elements[$field]->getValue(),
                 )
             ));
+            //$this->getFilter()->add(array(
+            //    'name' => 'original_' . $field,
+            //    'required' => true,
+            //));
         }
         return $this;
     }

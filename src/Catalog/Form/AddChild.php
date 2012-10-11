@@ -13,7 +13,7 @@ class AddChild extends ZendForm
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
-                'value' => ' + ',
+                'value' => '  +  ',
                 'type' => 'submit',
             ),
         ));

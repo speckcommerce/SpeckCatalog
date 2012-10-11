@@ -82,10 +82,11 @@
         <div id="images" class="tab-pane boundary">
             <div class="list-wrap">
                 <div class="list-items" type="image" parent="product">
-                    <?=$this->speckCatalogRenderChildren('image', $product->getImages()); ?>
+                    <?=$this->speckCatalogRenderChildren('product_image', $product->getImages()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper()->addNew('image', 'product', $parentKeyFields); ?>
+                    <?=$this->imageUploader(); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('product_image', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>

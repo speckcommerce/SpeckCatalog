@@ -67,8 +67,8 @@ class CategoryController extends AbstractActionController
 
         $offset = ((($page * $perPage) - $perPage) + 1); //this is the first item on the page
 
-        $paginatorVars['p'] = floor($offset / $_GET['nn']);
-        $paginatorVars['n'] = $_GET['nn'];
+        $paginatorVars['p'] = floor($offset / $_GET['nn']) + 1; //new page number
+        $paginatorVars['n'] = $_GET['nn'];                      //new items per page
 
         $query = '?' . http_build_query($paginatorVars);
 

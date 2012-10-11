@@ -32,7 +32,7 @@ class AbstractMapper extends AbstractDbMapper
     public function selectMany(Select $select)
     {
         if($this->usePaginator) {
-            $this->usePaginator = $false;
+            $this->usePaginator = false;
             $paginator = $this->initPaginator($select);
             return $paginator;
         }

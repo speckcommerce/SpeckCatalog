@@ -14,6 +14,7 @@ class Module
 {
     protected $view;
     protected $viewListener;
+    protected $serviceManager;
 
     public function getAutoloaderConfig()
     {
@@ -38,12 +39,46 @@ class Module
             return;
         }
 
+        $app = $e->getParam('application');
+        $em  = $app->getEventManager()->getSharedManager();
+        $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre', array($this, 'preFileUpload'));
+        $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array($this, 'postFileUpload'));
+
         $app          = $e->getParam('application');
         $locator      = $app->getServiceManager();
+        $this->setServiceManager($locator);
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($locator->get('Router'));
         $renderer->plugin('headScript')->appendFile('/assets/speck-catalog/js/speck-catalog-manager.js');
         $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
+    }
+
+    public function preFileUpload($e)
+    {
+        $formData = $e->getParam('params');
+        $getter = 'get' . ucfirst($formData['file_type']) . 'Upload';
+
+        $appRoot = __DIR__ . '/../..';
+        $catalogOptions = $this->getServiceManager()->get('catalog_module_options');
+
+        $path = $appRoot . $catalogOptions->$getter();
+        $e->getParam('options')->setDestination($path);
+    }
+
+    public function postFileUpload($e)
+    {
+        $params = $e->getParams();
+        switch ($params['params']['file_type']) {
+            case 'productImage' :
+                $imageService = $this->getServiceManager()->get('catalog_product_image_service');
+                $image = $imageService->getEntity();
+                $image->setProductId($params['params']['product_id'])
+                    ->setFileName($params['fileName']);
+                $imageService->persist($image);
+                break;
+            default :
+                throw new \Exception('no handler for file type - ' . $params['params']['file_type']);
+        }
     }
 
     public function getViewHelperConfig()
@@ -55,7 +90,14 @@ class Module
                 'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
                 'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
             ),
+
             'factories' => array(
+                'speckCatalogProductImageUploader'  => function ($sm) {
+                    $imageUploader = $sm->get('imageUploader');
+                    $element = array('name' => 'file_type', 'attributes' => array('value' => 'productImage', 'type' => 'hidden'));
+                    $form = $imageUploader->getForm()->add($element);
+                    return $imageUploader;
+                },
                 'speckCatalogCategoryNav'    => function ($sm) {
                     $sm = $sm->getServiceLocator();
                     $helper = new \Catalog\View\Helper\CategoryNav;
@@ -145,5 +187,23 @@ class Module
                 },
             ),
         );
+    }
+
+    /**
+     * @return serviceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+    /**
+     * @param $serviceManager
+     * @return self
+     */
+    public function setServiceManager($serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
     }
 }

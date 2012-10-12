@@ -6,10 +6,12 @@ use Zend\Stdlib\AbstractOptions;
 
 class ModuleOptions extends AbstractOptions
 {
-    protected $productDocumentPath = '/public/speck-catalog/media/document';
-    protected $productImagePath    = '/public/speck-catalog/media/product_image';
-    protected $categoryImagePath   = '/public/speck-catalog/media/category_image';
-    protected $optionImagePath     = '/public/speck-catalog/media/option_image';
+    protected $productImagePath    = '/assets/speck-catalog/media/product-image';
+    protected $productImageUpload  = '/public/assets/speck-catalog/media/product-image';
+
+    protected $productDocumentPath = '/public/assets/speck-catalog/media/document';
+    protected $categoryImagePath   = '/public/assets/speck-catalog/media/category-image';
+    protected $optionImagePath     = '/public/assets/speck-catalog/media/option-image';
 
     function getProductDocumentPath()
     {
@@ -49,6 +51,17 @@ class ModuleOptions extends AbstractOptions
     function setOptionImagePath($optionImagePath)
     {
         $this->optionImagePath = $optionImagePath;
+    }
+
+    public function getProductImageUpload()
+    {
+        return $this->productImageUpload;
+    }
+
+    public function setProductImageUpload($productImageUpload)
+    {
+        $this->productImageUpload = $productImageUpload;
+        return $this;
     }
 }
 

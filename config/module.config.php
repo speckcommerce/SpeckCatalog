@@ -24,6 +24,12 @@ $config = array(
             'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
             'speckCatalog'               => 'Catalog\View\Helper\Functions',
         ),
+        'factories' => array(
+            'speckProductImageUploader'  => function ($sm) {
+                $imageUploader = $sm->get('imageUploader');
+                return $imageUploader;
+            },
+        ),
     ),
     'service_manager' => array(
         'shared' => array(

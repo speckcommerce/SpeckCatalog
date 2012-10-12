@@ -23,6 +23,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         $this->model = $model;
         $this->name = $name;
         $this->form = $this->getFormService()->getForm($name, $model);
+
         return $this;
     }
 

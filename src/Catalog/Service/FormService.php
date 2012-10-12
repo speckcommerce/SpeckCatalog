@@ -17,6 +17,7 @@ class FormService implements ServiceLocatorAwareInterface
         $formName = 'catalog_' . $name . '_form';
 
         $form = $serviceLocator->get($formName);
+
         $filter = $serviceLocator->get($formName . '_filter');
         $form->setInputFilter($filter);
 

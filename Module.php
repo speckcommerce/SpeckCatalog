@@ -166,6 +166,7 @@ class Module
                 },
                 'catalog_product_form' => function ($sm) {
                     $form = new \Catalog\Form\Product;
+                    $companyService = $sm->get('catalog_company_service');
                     $form->setCompanyService($sm->get('catalog_company_service'));
                     return $form->init();
                 },

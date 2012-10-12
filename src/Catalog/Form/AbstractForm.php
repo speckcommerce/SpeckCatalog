@@ -23,6 +23,12 @@ class AbstractForm extends ZendForm
         $this->setHydrator(new Hydrator);
     }
 
+    public function prepare()
+    {
+        parent::prepare();
+        return $this;
+    }
+
     /*
      * adds extra form elements, used to generate the where statement
      * when updating the record.

@@ -1,4 +1,11 @@
 ./category-image/*
+!./category-image/README.md
+
 ./product-document/*
+!./product-document/README.md
+
 ./option-image/*
+!./option-image/README.md
+
 ./product-image/*
+!./product-image/README.md

@@ -58,7 +58,6 @@ class Module
         $formData = $e->getParam('params');
         $getter = 'get' . ucfirst($formData['file_type']) . 'Upload';
 
-        $appRoot = __DIR__ . '/../..';
         $catalogOptions = $this->getServiceManager()->get('catalog_module_options');
 
         if($formData['file_type'] === 'productDocument'){
@@ -67,6 +66,7 @@ class Module
             $e->getParam('options')->setUseMax(false);
         }
 
+        $appRoot = __DIR__ . '/../..';
         $path = $appRoot . $catalogOptions->$getter();
         $e->getParam('options')->setDestination($path);
     }
@@ -89,6 +89,13 @@ class Module
                     ->setFileName($params['fileName']);
                 $documentService->persist($document);
                 break;
+            case 'optionImage' :
+                $imageService = $this->getServiceManager()->get('catalog_option_image_service');
+                $image = $imageService->getEntity();
+                $image->setOptionId($params['params']['option_id'])
+                    ->setFileName($params['fileName']);
+                $imageService->persist($image);
+                break;
             default :
                 throw new \Exception('no handler for file type - ' . $params['params']['file_type']);
         }
@@ -105,6 +112,12 @@ class Module
             ),
 
             'factories' => array(
+                'speckCatalogOptionImageUploader'  => function ($sm) {
+                    $imageUploader = $sm->get('imageUploader');
+                    $element = array('name' => 'file_type', 'attributes' => array('value' => 'optionImage', 'type' => 'hidden'));
+                    $imageUploader->getForm()->add($element);
+                    return $imageUploader;
+                },
                 'speckCatalogProductImageUploader'  => function ($sm) {
                     $imageUploader = $sm->get('imageUploader');
                     $element = array('name' => 'file_type', 'attributes' => array('value' => 'productImage', 'type' => 'hidden'));

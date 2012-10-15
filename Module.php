@@ -61,6 +61,12 @@ class Module
         $appRoot = __DIR__ . '/../..';
         $catalogOptions = $this->getServiceManager()->get('catalog_module_options');
 
+        if($formData['file_type'] === 'productDocument'){
+            $e->getParam('options')->setAllowedFileTypes(array('pdf' => 'pdf'));
+            $e->getParam('options')->setUseMin(false);
+            $e->getParam('options')->setUseMax(false);
+        }
+
         $path = $appRoot . $catalogOptions->$getter();
         $e->getParam('options')->setDestination($path);
     }
@@ -75,6 +81,13 @@ class Module
                 $image->setProductId($params['params']['product_id'])
                     ->setFileName($params['fileName']);
                 $imageService->persist($image);
+                break;
+            case 'productDocument' :
+                $documentService = $this->getServiceManager()->get('catalog_document_service');
+                $document = $documentService->getEntity();
+                $document->setProductId($params['params']['product_id'])
+                    ->setFileName($params['fileName']);
+                $documentService->persist($document);
                 break;
             default :
                 throw new \Exception('no handler for file type - ' . $params['params']['file_type']);
@@ -95,8 +108,14 @@ class Module
                 'speckCatalogProductImageUploader'  => function ($sm) {
                     $imageUploader = $sm->get('imageUploader');
                     $element = array('name' => 'file_type', 'attributes' => array('value' => 'productImage', 'type' => 'hidden'));
-                    $form = $imageUploader->getForm()->add($element);
+                    $imageUploader->getForm()->add($element);
                     return $imageUploader;
+                },
+                'speckCatalogProductDocumentUploader' => function ($sm) {
+                    $uploader = $sm->get('imageUploader');
+                    $element = array('name' => 'file_type', 'attributes' => array('value' => 'productDocument', 'type' => 'hidden'));
+                    $uploader->getForm()->add($element);
+                    return $uploader;
                 },
                 'speckCatalogCategoryNav'    => function ($sm) {
                     $sm = $sm->getServiceLocator();

@@ -1,6 +1,6 @@
 <form id="image-" class="live-form">
 
-    <input type="hidden" name="parent_id" value="<?=$image->getProductId();?>"/>
+    <input type="hidden" name="parent_id" value="<?=$image->getParentId();?>"/>
     <div class="row">
         <div class="span1">
         <img class="img hover_fullsize" src="<?=$this->speckCatalogImage()->product($image);?>"/>

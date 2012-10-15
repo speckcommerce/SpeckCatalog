@@ -6,6 +6,7 @@ class Option extends AbstractService
 {
     protected $entityMapper = 'catalog_option_mapper';
     protected $choiceService;
+    protected $imageService;
 
     public function getByProductId($productId, $populate=false, $recursive=false)
     {
@@ -50,6 +51,7 @@ class Option extends AbstractService
             }
             $option->setChoices($choices);
         }
+        $option->setImages($this->getImageService()->getImages('option', $option->getOptionId()));
     }
 
     public function addChoice($optionOrId, $choice)
@@ -84,6 +86,27 @@ class Option extends AbstractService
     public function setChoiceService($choiceService)
     {
         $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    /**
+     * @return imageService
+     */
+    public function getImageService()
+    {
+        if (null === $this->imageService) {
+            $this->imageService = $this->getServiceLocator()->get('catalog_option_image_service');
+        }
+        return $this->imageService;
+    }
+
+    /**
+     * @param $imageService
+     * @return self
+     */
+    public function setImageService($imageService)
+    {
+        $this->imageService = $imageService;
         return $this;
     }
 }

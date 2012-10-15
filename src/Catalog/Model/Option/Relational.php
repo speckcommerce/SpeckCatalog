@@ -8,6 +8,7 @@ class Relational extends Base
 {
     protected $parentProducts;
     protected $choices;
+    protected $images;
 
     public function getRecursivePrice()
     {
@@ -59,6 +60,24 @@ class Relational extends Base
     public function setChoices($choices)
     {
         $this->choices = $choices;
+        return $this;
+    }
+
+    /**
+     * @return images
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param $images
+     * @return self
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
         return $this;
     }
 }

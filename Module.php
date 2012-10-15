@@ -183,8 +183,13 @@ class Module
             ),
             'factories' => array(
                 'catalog_product_image_service' => function ($sm) {
-                    $service = new \Catalog\Service\ProductImage;
+                    $service = new \Catalog\Service\Image;
                     $mapper = $sm->get('catalog_image_mapper')->setParentType('product');
+                    return $service->setEntityMapper($mapper);
+                },
+                'catalog_option_image_service' => function ($sm) {
+                    $service = new \Catalog\Service\Image;
+                    $mapper = $sm->get('catalog_image_mapper')->setParentType('option');
                     return $service->setEntityMapper($mapper);
                 },
                 'catalog_module_options' => function ($sm) {

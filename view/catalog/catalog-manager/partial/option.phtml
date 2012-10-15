@@ -22,7 +22,7 @@
             </div>
             <div class="list-items" type="image" parent="product">
                 <? if ($option->has('images')) : ?>
-                    <?=$this->speckCatalogRenderChildren('image', $option->getImages()); ?>
+                    <?=$this->speckCatalogRenderChildren('option_image', $option->getImages()); ?>
                 <? endif; ?>
             </div>
             <div class="row list-items-helper">

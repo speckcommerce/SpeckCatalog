@@ -31,8 +31,9 @@ class CatalogManagerController
         if(false === $layout){
             $this->getEvent()->getViewModel()->setTemplate('layout/nolayout');
         }else{
-            $this->getEvent()->getViewModel()->setTemplate('layout/' . $layout);
+            parent::layout($layout);
         }
+
     }
 
     public function indexAction()

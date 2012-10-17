@@ -31,6 +31,14 @@ $config = array(
             },
         ),
     ),
+    'navigation' => array(
+        'admin' => array(
+            'mynavigation' => array(
+                'label' => 'Catalog Manager',
+                'route' => 'zfcadmin/catalogmanager',
+            ),
+        ),
+    ),
     'service_manager' => array(
         'shared' => array(
             'cart_item_meta' => false,
@@ -49,7 +57,6 @@ $config = array(
             'catalog_document_service'         => 'Catalog\Service\Document',
             'catalog_availability_service'     => 'Catalog\Service\Availability',
             'catalog_spec_service'             => 'Catalog\Service\Spec',
-
 
             'catalog_cart_service'             => 'Catalog\Service\CatalogCartService',
             'catalog_form_service'             => 'Catalog\Service\FormService',

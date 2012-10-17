@@ -39,6 +39,8 @@ class Image extends AbstractMapper
 
     public function getImages($type, $id)
     {
+        $this->setParentType($type);
+
         $where = array($type . '_id' => $id);
 
         $select = $this->getSelect()

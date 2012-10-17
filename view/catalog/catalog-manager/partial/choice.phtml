@@ -16,7 +16,7 @@
         <? $formHelper = $this->speckCatalogForm($choice, 'choice'); ?>
         <?=$formHelper->renderForm(); ?>
         <? if($choice->has('product')) : ?>
-            <?=$this->partial($pdir.'product.phtml', array('product' => $choice->getProduct()));?><br/>
+            <?=$this->speckCatalogRenderChildren('product', array($choice->getProduct()));?>
         <? else: ?>
             <div class="list-wrap half-pad">
                 <div class="child-expand list-items-helper">

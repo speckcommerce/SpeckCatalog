@@ -6,8 +6,16 @@ use Catalog\Model\OptionImage as Base;
 
 class Relational extends Base
 {
+    protected $parentId;
+
     public function getParentId()
     {
-        return $this->getOptionId();
+        return $this->optionId;
+    }
+
+    public function setParentId($parentId)
+    {
+        $this->optionId = $parentId;
+        return $this;
     }
 }

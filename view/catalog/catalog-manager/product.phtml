@@ -85,7 +85,10 @@
                     <?=$this->speckCatalogRenderChildren('product_image', $product->getImages()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?= $this->speckCatalogProductImageUploader($parentKeyFields); ?>
+                    <div class="span5">
+                        Upload Image
+                        <?= $this->speckCatalogProductImageUploader($parentKeyFields); ?>
+                    </div>
                 </div>
             </div>
         </div>

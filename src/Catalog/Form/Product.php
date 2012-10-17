@@ -21,7 +21,6 @@ class Product extends AbstractForm
             'name' => 'name',
             'attributes' => array(
                 'type' => 'text',
-                'class' => 'span6',
             ),
             'options' => array(
                 'label' => 'Name',
@@ -31,8 +30,6 @@ class Product extends AbstractForm
             'name' => 'description',
             'attributes' => array(
                 'type' => 'textarea',
-                'rows' => 5,
-                'class' => 'span6',
             ),
             'options' => array(
                 'label' => 'Description',
@@ -42,7 +39,6 @@ class Product extends AbstractForm
             'name' => 'item_number',
             'attributes' => array(
                 'type' => 'text',
-                'class' => 'span3',
             ),
             'options' => array(
                 'label' => 'Item Number',
@@ -57,7 +53,6 @@ class Product extends AbstractForm
                     '1' => 'Shell',
                     '2' => 'Product'
                 ),
-                'class' => 'span3',
             ),
             'options' => array(
                 'label' => 'Product Type',

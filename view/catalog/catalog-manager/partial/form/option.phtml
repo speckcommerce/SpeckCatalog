@@ -5,17 +5,16 @@
 
     <div class="row offset0">
         <div class="span3">
-            <?=$this->formRow($form->get('name')); ?>
+            <?=$this->formRow($form->get('name')->setAttribute('class', 'span3')); ?>
         </div>
         <div class="span2">
-            <?=$this->formRow($form->get('instruction')); ?>
+            <?=$this->formRow($form->get('instruction')->setAttribute('class', 'span2')); ?>
         </div>
         <div class="span2">
-            <?=$this->formRow($form->get('option_type_id')); ?>
+            <?=$this->formRow($form->get('option_type_id')->setAttribute('class', 'span2')); ?>
         </div>
         <div class="span2">
-            <?=$this->formRow($form->get('variation')); ?>
-            The choices are variations of the parent
+            <?=$this->formRow($form->get('variation')->setAttribute('class', 'span2')); ?>
         </div>
     </div>
 </form>

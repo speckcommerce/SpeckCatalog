@@ -34,7 +34,7 @@ class Choice extends AbstractMapper
             return $choice;
         } else {
             $where = array('choice_id' => $choice->getChoiceId());
-            return $this->update($choice, $where);
+            return $this->update($dbChoice, $where);
         }
     }
 

@@ -105,7 +105,7 @@ class CatalogManagerController
         return new ViewModel(array('product' => $product));
     }
 
-    public function fetchPartialAction()
+    public function newPartialAction()
     {
         $this->layout(false);
         $params = $this->params()->fromPost();
@@ -122,11 +122,11 @@ class CatalogManagerController
         $addMethod = 'add' . $this->camel($params['child_name']);
         $child = $parentService->$addMethod($parent, $child);
 
+        $partial = $this->dash($params['child_name']);
         $view = new ViewModel(array(
             lcfirst($this->camel($params['child_name'])) => $child,
-            'partial' => $this->dash($params['child_name']),
         ));
-        return $view;
+        return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
     }
 
     public function updateRecordAction()

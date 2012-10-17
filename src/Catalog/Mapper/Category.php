@@ -11,7 +11,6 @@ class Category extends AbstractMapper
 
     public function find(array $data)
     {
-
         $select = $this->getSelect()
             ->from($this->getTableName())
             ->where(array('category_id' => (int) $data['category_id']));
@@ -43,16 +42,16 @@ class Category extends AbstractMapper
         $category = $this->getDbModel($category);
         if(null === $category->getCategoryId()) {
             $id = $this->insert($category);
-            return $this->find($id);
+            return $this->find(array('category_id' => $id));
         }
-        $existing = self::find($category->getCategoryId());
+        $existing = self::find(array('category_id' => $category->getCategoryId()));
         if($existing){
             $where = array('category_id' => $category->getCategoryId());
             $this->update($category, $where);
             return $category;
         } else {
             $id = $this->insert($category);
-            return $this->find($id);
+            return $this->find(array('category_id' => $id));
         }
     }
 

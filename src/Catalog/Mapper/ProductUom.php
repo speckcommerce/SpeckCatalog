@@ -40,10 +40,8 @@ class ProductUom extends AbstractMapper
         );
         $existing = self::find($where);
         if($existing){
-            die('exist');
             return $this->update($productUom, $where);
         } else {
-            die('new');
             $this->insert($productUom);
             return $this->find($where);
         }

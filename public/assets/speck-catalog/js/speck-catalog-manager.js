@@ -106,7 +106,7 @@
     $('.add-new').live("submit",function(e){
         e.preventDefault();
         targetListItems(this);
-        getPartial($(this).serializeArray());
+        newPartial($(this).serializeArray());
     })
 
     function doSort(){
@@ -130,15 +130,11 @@
         })
     }
 
-    function getPartial(data){
+    function newPartial(data){
         hideModal()
-        $.post("/catalogmanager/fetch-partial", data, function(html){
+        $.post("/catalogmanager/new-partial", data, function(html){
             $('.target').append(html)
-            if(data[1]['name'] === 'new_class_name' && data[1]['value']){
-                initialCollapse('skip')
-            }else{
-                initialCollapse()
-            }
+            initialCollapse('skip')
             $('.target').children().last().hide().addClass('appearing').slideDown(200, function(){
                 $(this).removeClass('appearing', 200)
             })
@@ -192,18 +188,13 @@
 
     function collapseRecursively(ele, action){
         var headers = getBoundary(ele).children().find('.entity-header')
-        var collapsing = $(headers).siblings('.entity-content')
-        var collapsers = $(headers).find('.collapser')
+        var collapsing = $(headers).siblings('div.entity-content')
         if('expand' === action){
             $(collapsing).show()
-            var add = 'icon-arrow-up'
-            var rem = 'icon-arrow-down'
-            $(collapsers).removeClass(rem).addClass(add)
+            $(headers).find('i.icon-chevron-right').removeClass('icon-chevron-right').addClass('icon-chevron-down');
         }else{ //collapse
             $(collapsing).hide()
-            var add = 'icon-arrow-up'
-            var rem = 'icon-arrow-down'
-            $(collapsers).removeClass(rem).addClass(add)
+            $(headers).find('i.icon-chevron-down').removeClass('icon-chevron-down').addClass('icon-chevron-right');
         }
     }
 

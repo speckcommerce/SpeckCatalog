@@ -173,12 +173,12 @@ return array(
                             ),
                         ),
                     ),
-                    'fetch-partial' => array(
+                    'new-partial' => array(
                         'type'    => 'literal',
                         'options' => array(
-                            'route'    => '/fetch-partial',
+                            'route'    => '/new-partial',
                             'defaults' => array(
-                                'action' => 'fetchPartial',
+                                'action' => 'newPartial',
                             ),
                         ),
                     ),

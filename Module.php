@@ -212,16 +212,54 @@ class Module
                     $form->setUomService($sm->get('catalog_uom_service'));
                     return $form->init();
                 },
+
+                'catalog_product_mapper'           => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Product;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_category_mapper'          => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Category;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_company_mapper'           => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Company;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_option_mapper'            => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Option;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_choice_mapper'            => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Choice;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_product_uom_mapper'       => function ($sm) {
+                    $mapper = new \Catalog\Mapper\ProductUom;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_image_mapper'             => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Image;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_document_mapper'          => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Document;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_uom_mapper'               => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Uom;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_availability_mapper'      => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Availability;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+                'catalog_spec_mapper'              => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Spec;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
+
                 'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');
-                },
-            ),
-            'initializers' => array(
-                function($instance, $sm){
-                    if($instance instanceof \Catalog\Mapper\DbAdapterAwareInterface){
-                        $dbAdapter = $sm->get('catalog_db');
-                        return $instance->setDbAdapter($dbAdapter);
-                    }
                 },
             ),
         );

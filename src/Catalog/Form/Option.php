@@ -20,7 +20,6 @@ class Option extends AbstractForm
             'name' => 'name',
             'attributes' => array(
                 'type' => 'text',
-                'class' => 'span3',
             ),
             'options' => array(
                 'label' => 'Name',
@@ -30,7 +29,6 @@ class Option extends AbstractForm
             'name' => 'instruction',
             'attributes' => array(
                 'type' => 'text',
-                'class' => 'span2',
             ),
             'options' => array(
                 'label' => 'Instruction',
@@ -44,7 +42,6 @@ class Option extends AbstractForm
                     '0' => 'False',
                     '1' => 'True',
                 ),
-                'class' => 'span2',
             ),
             'options' => array(
                 'label' => 'Variation',
@@ -59,7 +56,6 @@ class Option extends AbstractForm
                     '2' => 'Radio',
                     '3' => 'Checkbox',
                 ),
-                'class' => 'span2',
             ),
             'options' => array(
                 'label' => 'Option Type',

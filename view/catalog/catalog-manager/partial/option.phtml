@@ -1,4 +1,4 @@
-<div id="<?=$option->getOptionId();?>" class="option contrastbg boundary">
+<div id="<?=$option->getOptionId();?>" class="option contrastbg boundary shadow">
 
     <div class="entity-header">
         <div class="collapser"><i class="icon-chevron-down"></i></div>
@@ -15,6 +15,7 @@
         <?=$formHelper->renderForm(); ?>
         <? $parentKeyFields = $formHelper->getKeyFields(); ?>
         <div class="list-wrap">
+            <hr class="hr" />
             <div class="child-expand list-items-helper">
                 <div class="collapse-all"><i class="icon-arrow-up"></i></div>
                 <div class="expand-all"><i class="icon-arrow-down"></i></div>
@@ -26,11 +27,15 @@
                 <? endif; ?>
             </div>
             <div class="row list-items-helper">
-                <?= $this->speckCatalogOptionImageUploader($parentKeyFields); ?>
+                <div class="span5">
+                    Upload Image
+                    <?= $this->speckCatalogOptionImageUploader($parentKeyFields); ?>
+                </div>
             </div>
         </div>
 
         <div class="list-wrap half-pad">
+            <hr class="hr" />
             <div class="child-expand list-items-helper">
                 <div class="collapse-all"><i class="icon-arrow-up"></i></div>
                 <div class="expand-all"><i class="icon-arrow-down"></i></div>

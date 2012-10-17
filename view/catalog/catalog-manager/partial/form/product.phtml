@@ -17,14 +17,14 @@
             <? endif; ?>
         </div>
         <div class="span6">
-            <?=$this->formRow($form->get('name')); ?>
-            <?=$this->formRow($form->get('description')); ?>
+            <?=$this->formRow($form->get('name')->setAttribute('class', 'span6')); ?>
+            <?=$this->formRow($form->get('description')->setAttribute('class', 'span6')); ?>
         </div>
         <div class="span3">
-            <?=$this->formRow($form->get('manufacturer_id')); ?>
-            <?=$this->formRow($form->get('product_type_id')); ?>
+            <?=$this->formRow($form->get('manufacturer_id')->setAttribute('class', 'span3')); ?>
+            <?=$this->formRow($form->get('product_type_id')->setAttribute('class', 'span3')); ?>
             <? if('2' == $product->getProductTypeId()) : ?>
-                <?=$this->formRow($form->get('item_number')); ?>
+                <?=$this->formRow($form->get('item_number')->setAttribute('class', 'span3')); ?>
             <? endif; ?>
         </div>
     </div>

@@ -20,7 +20,9 @@ class AbstractMapper extends AbstractDbMapper
 
     protected function initialize()
     {
-        //we're done here
+        //$this->setEntityPrototype($this->getEntityPrototype());
+        //parent::initialize();
+        //we're done here - dont check anything, we got this covered
     }
 
     public function selectOne(Select $select)

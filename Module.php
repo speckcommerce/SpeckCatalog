@@ -110,7 +110,6 @@ class Module
                 'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
                 'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
             ),
-
             'factories' => array(
                 'speckCatalogOptionImageUploader'  => function ($sm) {
                     $imageUploader = $sm->get('imageUploader');

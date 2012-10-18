@@ -1,10 +1,4 @@
- <? $pdir = '/catalog-manager/partial/'; ?>
-
-
 <h3>Products</h3>
-<form action='/importer/import-product'>
-    <input type="text" name="id"> import a product by id
-</form>
 <? if(isset($products)) :?>
     <a href="/catalogmanager/products"><?=count($products);?> Products</a>
 <? endif; ?>

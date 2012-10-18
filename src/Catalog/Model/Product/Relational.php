@@ -178,4 +178,11 @@ class Relational extends Base
         $this->manufacturer = $manufacturer;
         return $this;
     }
+
+    public function __toString()
+    {
+        $name = $this->getName();
+        $parent = parent::__toString();
+        return ($name ?: $parent);
+    }
 }

@@ -44,4 +44,11 @@ class Relational extends Base
         $this->products = $products;
         return $this;
     }
+
+    public function __toString()
+    {
+        $name = $this->getName();
+        $parent = parent::__toString();
+        return ($name ?: $parent);
+    }
 }

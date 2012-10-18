@@ -24,18 +24,12 @@ $config = array(
             'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
             'speckCatalog'               => 'Catalog\View\Helper\Functions',
         ),
-        'factories' => array(
-            'speckProductImageUploader'  => function ($sm) {
-                $imageUploader = $sm->get('imageUploader');
-                return $imageUploader;
-            },
-        ),
     ),
     'navigation' => array(
         'admin' => array(
             'mynavigation' => array(
                 'label' => 'Catalog Manager',
-                'route' => 'zfcadmin/catalogmanager',
+                'route' => 'catalogmanager',
             ),
         ),
     ),

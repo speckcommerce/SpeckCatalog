@@ -1,13 +1,10 @@
-<div class="container">
-    <div class="row">
-        <div class="span3 bs-docs-sidebar" style="border:1px solid black">
-            <ul class="nav nav-list bs-docs-sidenav">
-              <? foreach($categories as $category) : ?>
-                <li>
-                    <a href="/category/<?=$category->getCategoryId(); ?>"><?=$category;?></a>
-                </li>
-              <? endforeach; ?>
-            </ul>
-        </div>
-    </div>
+<div style="min-width:170px; max-width: 250px; padding: 8px 0; margin-right:10px;" class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header">Categories</li>
+      <? foreach($categories as $category) : ?>
+        <li>
+            <a href="/category/<?=$category->getCategoryId(); ?>"><?=$category;?></a>
+        </li>
+      <? endforeach; ?>
+    </ul>
 </div>

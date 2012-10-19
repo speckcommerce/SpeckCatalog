@@ -1,45 +1,14 @@
 <?php
 
 namespace Catalog\Model;
+use SpeckContact\Entity\Company as ContactCompany;
 
-class Company extends AbstractModel
+class Company extends ContactCompany
 {
-    protected $companyId;
-    protected $name;
+    protected $name = '';
 
-    /**
-     * @return companyId
-     */
-    public function getCompanyId()
+    public function __toString()
     {
-        return $this->companyId;
-    }
-
-    /**
-     * @param $companyId
-     * @return self
-     */
-    public function setCompanyId($companyId)
-    {
-        $this->companyId = $companyId;
-        return $this;
-    }
-
-    /**
-     * @return name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param $name
-     * @return self
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
+        return $this->getName();
     }
 }

@@ -139,6 +139,10 @@ class Module
                     $settings = $sm->get('catalog_module_options');
                     return new \Catalog\View\Helper\MediaUrl($settings, 'image');
                 },
+                'speckCatalogFeaturedProducts' => function ($sm) {
+                    $speckFeaturedProducts = $sm->get('speckFeaturedProducts');
+                    return $speckFeaturedProducts->setTemplate('/catalog/product/feature-clip');
+                },
             ),
             'initializers' => array(
                 function($instance, $sm){

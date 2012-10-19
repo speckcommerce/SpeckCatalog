@@ -63,12 +63,6 @@ class CatalogManagerController
         return new ViewModel(array('products' => $products));
     }
 
-    public function companiesAction()
-    {
-        $companies = $this->getCatalogService()->getCompanies();
-        return new ViewModel(array('companies' => $companies));
-    }
-
     public function categoriesAction()
     {
         $categories = $this->getCatalogService()->getService('category')->getCategoriesForManagement();

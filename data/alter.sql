@@ -61,6 +61,12 @@ ALTER TABLE `catalog_product_image`
   ADD CONSTRAINT `fk_catalog_product_image_1` FOREIGN KEY (`product_id`) REFERENCES `catalog_product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `catalog_product_feature`
+--
+ALTER TABLE `catalog_product_feature`
+  ADD CONSTRAINT `fk_catalog_product_feature_id` FOREIGN KEY (`product_id`) REFERENCES `catalog_product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `catalog_product_option`
 --
 ALTER TABLE `catalog_product_option`

@@ -988,6 +988,22 @@ CREATE TABLE IF NOT EXISTS `catalog_product_image` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `catalog_product_feature`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_product_feature` (
+  `feature_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) DEFAULT NULL,
+  `sort_weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`product_id`,`option_id`),
+  KEY `fk_catalog_product_option_linker_product_id_idx` (`product_id`),
+  KEY `fk_catalog_product_option_linker_feature_id_idx` (`feature_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `catalog_product_option`
 --
 

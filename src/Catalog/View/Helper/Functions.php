@@ -45,4 +45,23 @@ class Functions extends AbstractHelper
         }
         return $text;
     }
+
+    public function uomStrings($uoms, $string = false)
+    {
+        $uomStrings = array();
+
+        foreach ($uoms as $uom) {
+            if($uom->getQuantity() === 1) {
+                $uomStrings[] = $uom->getUom()->getName();
+            } else {
+                $uomStrings[] = "{$uom->getUom()->getName()} of {$uom->getQuantity()}";
+            }
+        }
+
+        if ($string) {
+            return implode(',', $uomStrings);
+        }
+
+        return $uomStrings;
+    }
 }

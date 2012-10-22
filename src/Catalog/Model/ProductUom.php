@@ -97,7 +97,7 @@ class ProductUom extends AbstractModel
      */
     public function setQuantity($quantity)
     {
-        $this->quantity = $quantity;
+        $this->quantity = (int) $quantity;
         return $this;
     }
 
@@ -115,7 +115,7 @@ class ProductUom extends AbstractModel
      */
     public function setSortWeight($sortWeight)
     {
-        $this->sortWeight = $sortWeight;
+        $this->sortWeight = (int) $sortWeight;
         return $this;
     }
 }

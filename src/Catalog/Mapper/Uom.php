@@ -8,11 +8,11 @@ class Uom extends AbstractMapper
     protected $relationalModel = '\Catalog\Model\Uom\Relational';
     protected $key = array('uom_code');
 
-    public function find($uomCode)
+    public function find(array $data)
     {
         $select = $this->getSelect()
             ->from($this->getTableName())
-            ->where(array('uom_code' => $uomCode));
+            ->where(array('uom_code' => $data['uom_code']));
         return $this->selectOne($select);
     }
 }

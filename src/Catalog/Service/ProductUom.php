@@ -6,6 +6,7 @@ class ProductUom extends AbstractService
 {
     protected $entityMapper = 'catalog_product_uom_mapper';
     protected $availabilityService;
+    protected $uomService;
 
     public function getByProductId($productId, $populate=false, $recursive=false)
     {
@@ -26,6 +27,8 @@ class ProductUom extends AbstractService
             $productUom->getQuantity()
         );
         $productUom->setAvailabilities($availabilities);
+        $uom = $this->getUomService()->find(array('uom_code' => $productUom->getUomCode()));
+        $productUom->setUom($uom);
     }
 
     /**
@@ -46,6 +49,27 @@ class ProductUom extends AbstractService
     public function setAvailabilityService($availabilityService)
     {
         $this->availabilityService = $availabilityService;
+        return $this;
+    }
+
+    /**
+     * @return uomService
+     */
+    public function getUomService()
+    {
+        if (null === $this->uomService) {
+            $this->uomService = $this->getServiceLocator()->get('catalog_uom_service');
+        }
+        return $this->uomService;
+    }
+
+    /**
+     * @param $uomService
+     * @return self
+     */
+    public function setUomService($uomService)
+    {
+        $this->uomService = $uomService;
         return $this;
     }
 }

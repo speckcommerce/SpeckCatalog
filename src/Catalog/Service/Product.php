@@ -39,22 +39,36 @@ class Product extends AbstractService
         $product->setManufacturer($this->getCompanyService()->findById($product->getManufacturerId()));
     }
 
-    public function addOption($productOrId, $optionOrId)
+    public function newOption($productOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $optionId  = ( is_int($optionOrId)
-            ? $optionOrId
-            : $this->getOptionService()->persist($optionOrId)->getOptionId()
-        );
+
+        $option = $this->getOptionService()->getEntity();
+        $optionId = $this->getOptionService()->insert($option);
+
         $this->getEntityMapper()->addOption($productId, $optionId);
+
         return $this->getOptionService()->find(array('option_id' => $optionId));
     }
 
-    public function addProductUom($productOrId, $productUom)
+    public function addOption($productOrId, $optionOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $productUom = $this->getProductUomService()->persist($productUom);
-        var_dump($productUom); die();
+        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getProductId() );
+
+        $this->getEntityMapper()->addOption($productId, $optionId);
+
+        return $this->getOptionService()->find(array('option_id' => $optionId));
+    }
+
+    public function newProductUom($productOrId)
+    {
+        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
+
+        $productUom = $this->getProductUomService()->getEntity()->setProductId($productId);
+        $productUom = $this->getProductUomService()->insert($productUom);
+
+        return $productUom;
     }
 
     public function removeOption($productOrId, $optionOrId)
@@ -64,26 +78,41 @@ class Product extends AbstractService
         $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
-    public function addProductImage($productOrId, $image)
+    public function newProductImage($productOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $imageId = $this->getImageService()->persist($image)->getImageId();
+
+        $image = $this->getImageService()->getEntity();
+        $image = $this->getImageService()->insert($image);
+        $imageId = $image->getImageId();
+
         $this->getEntityMapper()->addImage($productId, $imageId);
-        return $this->getImageService()->find(array('image_id' => $imageId));
+
+        return $image;
     }
 
-    public function addSpec($productOrId, $spec)
+    public function newSpec($productOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $specId = $this->getSpecService()->persist($spec)->getSpecId();
-        return $this->getSpecService()->find(array('spec_id' => $specId));
+
+        $spec = $this->getSpecService()->getEntity();
+        $spec->setProductId($productId);
+        $specId = $this->getSpecService()->insert($spec);
+        $spec->setSpecId($specId);
+
+        return $spec;
     }
 
-    public function addDocument($productOrId, $document)
+    public function newDocument($productOrId, $document)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $documentId = $this->getDocumentService()->persist($document)->getDocumentId();
-        return $this->getDocumentService()->find(array('document_id' => $documentId));
+
+        $document = $this->getDocumentService()->getEntity();
+        $document->setProductId($productId);
+        $documentId = $this->getDocumentService()->insert($document);
+        $document->setDocumentId($documentId);
+
+        return $document;
     }
 
     public function populateForPricing($product)

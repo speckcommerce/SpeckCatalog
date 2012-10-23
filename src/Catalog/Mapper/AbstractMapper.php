@@ -11,6 +11,7 @@ use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Paginator;
 use Catalog\Adapter\PaginatorDbSelect;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
+use Catalog\Model\AbstractModel;
 
 class AbstractMapper extends AbstractDbMapper
 {
@@ -84,7 +85,7 @@ class AbstractMapper extends AbstractDbMapper
         }
     }
 
-    public function getDbModel($construct)
+    public function getDbModel(AbstractModel $construct)
     {
         if (is_string($this->dbModel) && class_exists($this->dbModel)) {
             return new $this->dbModel($construct);
@@ -111,6 +112,10 @@ class AbstractMapper extends AbstractDbMapper
 
     public function insert($model, $tableName = null, HydratorInterface $hydrator = null)
     {
+        if ($model instanceof AbstractModel) {
+            $model = $this->getDbModel($model);
+        }
+
         if (null === $tableName) {
             $tableName = $this->getTableName();
         }

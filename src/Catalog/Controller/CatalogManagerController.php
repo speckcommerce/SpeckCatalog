@@ -100,29 +100,50 @@ class CatalogManagerController
         return new ViewModel(array('product' => $product));
     }
 
+
+    //create a new record, add it to the parent, and return the partial.
     public function newPartialAction()
+    {
+        return $this->getPartial(true);
+    }
+
+    //fetch an existing record, add it to the parent, and return the partial.
+    public function addPartialAction()
+    {
+        return $this->getPartial();
+    }
+
+    private function getPartial($new = false)
     {
         $this->layout(false);
         $params = $this->params()->fromPost();
 
-        $childService = $this->getServiceLocator()->get('catalog_' . $params['child_name'] . '_service');
         $parentService = $this->getServiceLocator()->get('catalog_' . $params['parent_name'] . '_service');
 
         $parent = $parentService->find($params['parent']);
-        $child = $childService->getEntity();
 
-        $hydrator = new Hydrator;
-        $hydrator->hydrate($params['parent'], $child);
+        if ($new) {
+            //$child = $childService->getEntity();
+            //$childService = $this->getServiceLocator()->get('catalog_' . $params['child_name'] . '_service');
+            //$hydrator = new Hydrator;
+            //$hydrator->hydrate($params['parent'], $child);
+            $method = 'new' . $this->camel($params['child_name']);
+            $child = $parentService->$method($parent);
+        } else {
+            $method = 'add' . $this->camel($params['child_name']);
+            $child = $parentService->$method($parent, $child);
+        }
 
-        $addMethod = 'add' . $this->camel($params['child_name']);
-        $child = $parentService->$addMethod($parent, $child);
 
         $partial = $this->dash($params['child_name']);
         $view = new ViewModel(array(
             lcfirst($this->camel($params['child_name'])) => $child,
         ));
+
         return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
     }
+
+
 
     public function updateRecordAction()
     {

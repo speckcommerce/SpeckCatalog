@@ -49,14 +49,19 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $this;
     }
 
-    public function persist($entity)
+    public function persist($model)
     {
-        return $this->getEntityMapper()->persist($entity);
+        return $this->getEntityMapper()->persist($model);
     }
 
     public function update($formData, $originalValues)
     {
         return $this->getEntityMapper()->update($formData, $originalValues);
+    }
+
+    public function insert($model)
+    {
+        return $this->getEntityMapper()->insert($model);
     }
 
     public function usePaginator($options=array())

@@ -54,11 +54,15 @@ class Option extends AbstractService
         $option->setImages($this->getImageService()->getImages('option', $option->getOptionId()));
     }
 
-    public function addChoice($optionOrId, $choice)
+    public function newChoice($optionOrId)
     {
         $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
+
+        $choice = $this->getChoiceService()->getEntity();
         $choice->setOptionId($optionId);
-        $choice = $this->getChoiceService()->persist($choice);
+        $choiceId = $this->getChoiceService()->insert($choice);
+        $choice->setChoiceId($choiceId);
+
         return $choice;
     }
 

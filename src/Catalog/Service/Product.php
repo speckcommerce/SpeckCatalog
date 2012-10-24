@@ -45,6 +45,7 @@ class Product extends AbstractService
 
         $option = $this->getOptionService()->getEntity();
         $optionId = $this->getOptionService()->insert($option);
+        $option->setOptionId($optionId);
 
         $this->getEntityMapper()->addOption($productId, $optionId);
 

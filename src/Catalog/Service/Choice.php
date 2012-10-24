@@ -29,6 +29,20 @@ class Choice extends AbstractService
         }
     }
 
+
+    public function newOption($choiceOrId)
+    {
+        $choiceId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getChoiceId() );
+
+        $option = $this->getOptionService()->getEntity();
+        $optionId = $this->getOptionService()->insert($option);
+        $option->setOptionId($optionId);
+
+        $this->getEntityMapper()->addOption($choiceId, $optionId);
+
+        return $option;
+    }
+
     public function addOption($choiceOrId, $optionOrId)
     {
         $choiceId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getChoiceId() );

@@ -14,15 +14,33 @@ class AdderHelper extends AbstractHelper
 
     public function addNew($childName, $parentName, $parentKeyFields)
     {
+        $form = new \Catalog\Form\AddChild;
+        $form->addElements($elements)
+            ->addParent($parentKeyFields);
+
+        $view = $this->getView();
+        $view->vars()->assign(array('addForm' => $form));
+
+        $html = $view->render('/catalog/catalog-manager/partial/add');
+        return $html;
+    }
+
+    public function removeChild($parentName, $parentFormElements, $childName, $childFormElements)
+    {
         $elements = array(
             'parent_name' => $parentName,
             'child_name'  => $childName,
         );
-        $form = new \Catalog\Form\AddChild;
-        $form->addElements($elements)->addParent($parentKeyFields);
+
+        $form = new \Catalog\Form\RemoveChild;
+        $form->addElements($elements)
+            ->addParent($parentFormElements)
+            ->addChild($childElements);
+
         $view = $this->getView();
-        $view->vars()->assign(array('addForm' => $form));
-        $html = $view->render('/catalog/catalog-manager/partial/add');
+        $view->vars()->assign(array('removeForm' => $form));
+
+        $html = $view->render('/catalog/catalog-manager/partial/remove');
         return $html;
     }
 

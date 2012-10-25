@@ -1,0 +1,7 @@
+<div class="span1 add-element">
+    <form class="remove-child">
+    <? foreach ($removeForm->getElements() as $element) : ?>
+        <?=$this->formInput($element); ?>
+    <? endforeach; ?>
+    </form>
+</div>

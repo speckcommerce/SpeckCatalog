@@ -29,7 +29,6 @@ class Choice extends AbstractService
         }
     }
 
-
     public function newOption($choiceOrId)
     {
         $choiceId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getChoiceId() );

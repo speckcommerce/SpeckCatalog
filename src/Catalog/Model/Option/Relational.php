@@ -2,10 +2,12 @@
 
 namespace Catalog\Model\Option;
 
+use Catalog\Model\AbstractModel;
 use Catalog\Model\Option as Base;
 
 class Relational extends Base
 {
+    protected $parent;
     protected $parentProducts;
     protected $choices;
     protected $images;
@@ -53,13 +55,25 @@ class Relational extends Base
         return $this->choices;
     }
 
+    public function addChoice($choice)
+    {
+        $choice->setParent($this);
+        $this->choices[] = $choice;
+        return $this;
+    }
+
     /**
      * @param $choices
      * @return self
      */
     public function setChoices($choices)
     {
-        $this->choices = $choices;
+        $this->choices = array();
+
+        foreach ($choices as $choice) {
+            $this->addChoice($choice);
+        }
+
         return $this;
     }
 
@@ -71,13 +85,43 @@ class Relational extends Base
         return $this->images;
     }
 
+    public function addImage($image)
+    {
+        $image->setParent($this);
+        $this->images[] = $image;
+        return $this;
+    }
+
     /**
      * @param $images
      * @return self
      */
     public function setImages($images)
     {
-        $this->images = $images;
+        $this->images = array();
+
+        foreach ($images as $image) {
+            $this->addImage($image);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param $parent
+     * @return self
+     */
+    public function setParent(AbstractModel $parent)
+    {
+        $this->parent = $parent;
         return $this;
     }
 }

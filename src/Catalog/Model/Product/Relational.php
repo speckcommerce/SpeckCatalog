@@ -2,10 +2,12 @@
 
 namespace Catalog\Model\Product;
 
+use Catalog\Model\AbstractModel;
 use Catalog\Model\Product as Base;
 
 class Relational extends Base
 {
+    protected $parent;
     protected $manufacturer;
     protected $options;
     protected $uoms;
@@ -61,13 +63,25 @@ class Relational extends Base
         return $this->uoms;
     }
 
+    public function addUom($uom)
+    {
+        $uom->setParent($this);
+        $this->uoms[] = $uom;
+        return $this;
+    }
+
     /**
      * @param $uoms
      * @return self
      */
     public function setUoms($uoms)
     {
-        $this->uoms = $uoms;
+        $this->uoms = array();
+
+        foreach ($uoms as $uom) {
+            $this->addUom($uom);
+        }
+
         return $this;
     }
 
@@ -79,13 +93,25 @@ class Relational extends Base
         return $this->images;
     }
 
+    public function addImage($image)
+    {
+        $image->setParent($this);
+        $this->images[] = $image;
+        return $this;
+    }
+
     /**
      * @param $images
      * @return self
      */
     public function setImages($images)
     {
-        $this->images = $images;
+        $this->images = array();
+
+        foreach ($images as $image) {
+            $this->addImage($image);
+        }
+
         return $this;
     }
 
@@ -97,13 +123,25 @@ class Relational extends Base
         return $this->specs;
     }
 
+    public function addSpec($spec)
+    {
+        $spec->setParent($this);
+        $this->specs[] = $spec;
+        return $this;
+    }
+
     /**
      * @param $specs
      * @return self
      */
     public function setSpecs($specs)
     {
-        $this->specs = $specs;
+        $this->specs = array();
+
+        foreach ($specs as $spec) {
+            $this->addSpec($spec);
+        }
+
         return $this;
     }
 
@@ -115,13 +153,25 @@ class Relational extends Base
         return $this->documents;
     }
 
+    public function addDocument($document)
+    {
+        $document->setParent($this);
+        $this->documents[] = $document;
+        return $this;
+    }
+
     /**
      * @param $documents
      * @return self
      */
     public function setDocuments($documents)
     {
-        $this->documents = $documents;
+        $this->documents = array();
+
+        foreach ($documents as $document) {
+            $this->addDocument($document);
+        }
+
         return $this;
     }
 
@@ -133,13 +183,25 @@ class Relational extends Base
         return $this->features;
     }
 
+    public function addFeature($feature)
+    {
+        $feature->setParent($this);
+        $this->features[] = $feature;
+        return $this;
+    }
+
     /**
      * @param $features
      * @return self
      */
     public function setFeatures($features)
     {
-        $this->features = $features;
+        $this->features = array();
+
+        foreach ($features as $feature) {
+            $this->addFeature($feature);
+        }
+
         return $this;
     }
 
@@ -151,13 +213,25 @@ class Relational extends Base
         return $this->options;
     }
 
+    public function addOption($option)
+    {
+        $option->setParent($this);
+        $this->options[] = $option;
+        return $this;
+    }
+
     /**
      * @param $options
      * @return self
      */
     public function setOptions($options)
     {
-        $this->options = $options;
+        $this->options = array();
+
+        foreach ($options as $option) {
+            $this->addOption($option);
+        }
+
         return $this;
     }
 
@@ -175,6 +249,7 @@ class Relational extends Base
      */
     public function setManufacturer($manufacturer)
     {
+        $manufacturer->setParent($this);
         $this->manufacturer = $manufacturer;
         return $this;
     }
@@ -184,5 +259,23 @@ class Relational extends Base
         $name = $this->getName();
         $parent = parent::__toString();
         return ($name ?: $parent);
+    }
+
+    /**
+     * @return parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param $parent
+     * @return self
+     */
+    public function setParent(AbstractModel $parent)
+    {
+        $this->parent = $parent;
+        return $this;
     }
 }

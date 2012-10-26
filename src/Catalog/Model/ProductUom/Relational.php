@@ -2,10 +2,12 @@
 
 namespace Catalog\Model\ProductUom;
 
+use Catalog\Model\AbstractModel;
 use Catalog\Model\ProductUom as Base;
 
 class Relational extends Base
 {
+    protected $parent;
     protected $availabilities;
     protected $uom;
 
@@ -17,13 +19,25 @@ class Relational extends Base
         return $this->availabilities;
     }
 
+    public function addAvailability($availability)
+    {
+        $availability->setParent($this);
+        $this->availabilities[] = $availability;
+        return $this;
+    }
+
     /**
      * @param $availabilities
      * @return self
      */
     public function setAvailabilities($availabilities)
     {
-        $this->availabilities = $availabilities;
+        $this->availabilities = array();
+
+        foreach ($availabilities as $availability) {
+            $this->addAvailability($availability);
+        }
+
         return $this;
     }
 
@@ -41,7 +55,26 @@ class Relational extends Base
      */
     public function setUom($uom)
     {
+        $uom->setParent($this);
         $this->uom = $uom;
+        return $this;
+    }
+
+    /**
+     * @return parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param $parent
+     * @return self
+     */
+    public function setParent(AbstractModel $parent)
+    {
+        $this->parent = $parent;
         return $this;
     }
 }

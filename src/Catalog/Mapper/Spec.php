@@ -10,18 +10,16 @@ class Spec extends AbstractMapper
 
     public function find(array $data)
     {
-        $table = $this->getTableName();
         $where = array('spec_id' => $data['spec_id']);
-        $select = $this->getSelect($table)
+        $select = $this->getSelect()
             ->where($where);
         return $this->selectOne($select);
     }
 
     public function getByProductId($productId)
     {
-        $table = $this->getTableName();
         $where = array('product_id' => $productId);
-        $select = $this->getSelect($table)
+        $select = $this->getSelect()
             ->where($where);
         return $this->selectMany($select);
     }

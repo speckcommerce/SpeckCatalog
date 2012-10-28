@@ -12,7 +12,7 @@ class Product extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect($this->getTableName())
+        $select = $this->getSelect()
             ->where(array('product_id' => $data['product_id']));
         return $this->selectOne($select);
     }
@@ -24,7 +24,7 @@ class Product extends AbstractMapper
         $joinString = $linker . '.product_id = ' . $table . '.product_id';
         $where = array('category_id' => $categoryId, 'website_id' => $siteId);
 
-        $select = $this->getSelect($table)
+        $select = $this->getSelect()
             ->join($linker, $joinString)
             ->where($where);
         return $this->selectMany($select);

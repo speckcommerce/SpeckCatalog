@@ -10,16 +10,15 @@ class Document extends AbstractMapper
 
     public function find(array $data)
     {
-        $table = $this->getTableName();
         $where = array('document_id' => $data['document_id']);
-        $select = $this->getSelect($table)
+        $select = $this->getSelect()
             ->where($where);
         return $this->selectOne($select);
     }
 
     public function getDocuments($productId)
     {
-        $select = $this->getSelect($this->getTableName())
+        $select = $this->getSelect()
             ->where(array('product_id' => $productId));
         return $this->selectMany($select);
     }

@@ -59,8 +59,7 @@ class AbstractMapper extends AbstractDbMapper
 
     public function getAll()
     {
-        $select = $this->getSelect()
-            ->from($this->getTablename());
+        $select = $this->getSelect($this->getTablename());
         return $this->selectMany($select);
     }
 

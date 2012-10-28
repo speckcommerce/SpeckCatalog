@@ -10,8 +10,7 @@ class Uom extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect()
-            ->from($this->getTableName())
+        $select = $this->getSelect($this->getTableName())
             ->where(array('uom_code' => $data['uom_code']));
         return $this->selectOne($select);
     }

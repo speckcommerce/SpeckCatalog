@@ -11,16 +11,14 @@ class Choice extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect()
-            ->from($this->getTableName())
+        $select = $this->getSelect($this->getTableName())
             ->where(array('choice_id' => (int) $data['choice_id']));
         return $this->selectOne($select);
     }
 
     public function getByOptionId($optionId)
     {
-        $select = $this->getSelect()
-            ->from($this->getTableName())
+        $select = $this->getSelect($this->getTableName())
             ->where(array('option_id' => (int) $optionId));
         return $this->selectMany($select);
     }
@@ -42,8 +40,7 @@ class Choice extends AbstractMapper
     {
         $table = 'catalog_choice_option';
         $row = array('choice_id' => $choiceId, 'option_id' => $optionId);
-        $select = $this->getSelect()
-            ->from($table)
+        $select = $this->getSelect($table)
             ->where($row);
         $result = $this->query($select);
         if (false === $result) {

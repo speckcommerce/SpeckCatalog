@@ -24,6 +24,10 @@ class Product extends AbstractService
     public function getFullProduct($productId)
     {
         $product = $this->find(array('product_id' => $productId));
+        if(false === $product) {
+        	return new \Catalog\Model\Product();
+        }
+        
         $this->populate($product, true);
         return $product;
     }

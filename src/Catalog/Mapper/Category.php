@@ -11,7 +11,7 @@ class Category extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect($this->getTableName())
+        $select = $this->getSelect()
             ->where(array('category_id' => (int) $data['category_id']));
         return $this->selectOne($select);
     }
@@ -29,7 +29,7 @@ class Category extends AbstractMapper
             $where->equalTo('parent_category_id', $parentCategoryId);
         }
 
-        $query = $this->getSelect($table)
+        $query = $this->getSelect()
             ->join($linker, $joinString)
             ->where($where);
         return $this->selectMany($query);

@@ -51,10 +51,10 @@ class CatalogManagerController
     public function newAction()
     {
         $class = $this->getEvent()->getRouteMatch()->getParam('class');
-        //$constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
-        //$model = $this->getCatalogService()->newModel($class, $constructor);
+        $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
+        $model = $this->getCatalogService()->newModel($class, $constructor);
 
-        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => 1)); //$model->getId()
+        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
     }
 
     public function productsAction()

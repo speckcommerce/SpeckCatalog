@@ -29,7 +29,7 @@ class Availability extends AbstractMapper
             'uom_code'   => $uomCode,
             'quantity'   => $quantity,
         );
-        $select = $this->getSelect()
+        $select = $this->getSelect($this->getTableName())
             ->where($where);
         return $this->selectMany($select);
     }

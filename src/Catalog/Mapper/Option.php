@@ -12,7 +12,7 @@ class Option extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect()
+        $select = $this->getSelect($this->getTableName())
             ->where(array('option_id' => $data['option_id']));
         return $this->selectOne($select);
     }

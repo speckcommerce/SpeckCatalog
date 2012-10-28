@@ -29,8 +29,9 @@ class Image extends AbstractMapper
 
     public function find(array $data)
     {
+        $table = $this->getTableName();
         $where = array('image_id' => $data['image_id']);
-        $select = $this->getSelect()
+        $select = $this->getSelect($table)
             ->where($where);
         return $this->selectOne($select);
     }
@@ -41,7 +42,7 @@ class Image extends AbstractMapper
 
         $where = array($type . '_id' => $id);
 
-        $select = $this->getSelect()
+        $select = $this->getSelect($this->getTableName())
             ->where($where);
         return $this->selectMany($select);
     }

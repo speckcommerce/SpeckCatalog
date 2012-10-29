@@ -13,7 +13,6 @@ class Product extends AbstractMapper
     public function find(array $data)
     {
         $select = $this->getSelect()
-            ->from($this->getTableName())
             ->where(array('product_id' => $data['product_id']));
         return $this->selectOne($select);
     }
@@ -26,7 +25,6 @@ class Product extends AbstractMapper
         $where = array('category_id' => $categoryId, 'website_id' => $siteId);
 
         $select = $this->getSelect()
-            ->from($table)
             ->join($linker, $joinString)
             ->where($where);
         return $this->selectMany($select);
@@ -53,8 +51,7 @@ class Product extends AbstractMapper
     {
         $table = 'catalog_product_option';
         $row = array('product_id' => $productId, 'option_id' => $optionId);
-        $select = $this->getSelect()
-            ->from($table)
+        $select = $this->getSelect($table)
             ->where($row);
         $result = $this->query($select);
         if (false === $result) {
@@ -66,8 +63,7 @@ class Product extends AbstractMapper
     {
         $table = 'catalog_product_image';
         $row = array('product_id' => $productId, 'image_id' => $imageId);
-        $select = $this->getSelect()
-            ->from($table)
+        $select = $this->getSelect($table)
             ->where($row);
         $result = $this->query($select);
         if (false === $result) {

@@ -43,6 +43,11 @@ class Relational extends Base
     public function setParent(AbstractModel $parent)
     {
         $this->parent = $parent;
+
+        $this->uomCode = $parent->getUomCode();
+        $this->quantity = $parent->getQuantity();
+        $this->productId = $parent->getProductId();
+
         return $this;
     }
 }

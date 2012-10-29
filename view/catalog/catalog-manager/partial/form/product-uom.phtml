@@ -1,16 +1,17 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
 <?=$this->form()->openTag($form);?>
 
+    <?= $this->formErrors; ?>
     <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('product_id')); ?>
     <div class="row quarter-pad">
         <div class="span4">
             <div class="row">
                 <div class="span2">
-                    <?=$this->formRow($form->get('uom_code')); ?>
+                    <?=$this->speckCatalogManagerFormRow($form->get('uom_code')); ?>
                 </div>
                 <div class="span1">
-                    <?=$this->formRow($form->get('quantity')); ?>
+                    <?=$this->speckCatalogManagerFormRow($form->get('quantity')); ?>
                 </div>
             </div>
             <div class="row">

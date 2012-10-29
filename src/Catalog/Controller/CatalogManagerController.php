@@ -153,22 +153,30 @@ class CatalogManagerController
         return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
     }
 
-
-
     public function updateRecordAction()
     {
         $this->layout(false);
         $class = $this->params('class');
         $service = $this->getServiceLocator()->get('catalog_' . $class . '_service');
         $form = $this->getFormService()->getForm($class, null, $_POST);
+
         if($form->isValid()){
-            $service->update($form->getData(), $form->getOriginalData());
+            if ($service->find($form->getData())) {
+                $service->update($form->getData(), $form->getOriginalData());
+            } else {
+                $service->insert($form->getData());
+            }
+            $entity = $service->find($form->getData(), true);
         } else {
-            echo "form was not valid!";
+            $hydrator = new Hydrator;
+            $entity = $service->getEntity();
+            $hydrator->hydrate($form->getData(), $entity);
         }
-        $entity = $service->find($form->getData(), true);
-        $view = new ViewModel(array('form' => $form, $class => $entity));
-        return $view->setTemplate("catalog/catalog-manager/partial/form/" . $this->dash($class) . '.phtml');
+
+        $view = new ViewModel(array(
+            lcfirst($this->camel($class)) => $entity
+        ));
+        return $view->setTemplate("catalog/catalog-manager/partial/" . $this->dash($class) . '.phtml');
     }
 
     private function dash($name)

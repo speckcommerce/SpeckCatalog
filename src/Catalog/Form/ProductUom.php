@@ -51,7 +51,7 @@ class ProductUom extends AbstractForm
 
     public function init()
     {
-        $uoms = array();
+        $uoms = array('select' => '--SELECT--');
         foreach($this->getUomService()->getAll() as $uom){
             $uoms[$uom->getUomCode()] = $uom->getName();
         }

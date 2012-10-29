@@ -22,6 +22,7 @@ class Availability extends InputFilter
         ));
         $this->add(array(
             'name' => 'cost',
+            'allow_empty' => false,
         ));
     }
 }

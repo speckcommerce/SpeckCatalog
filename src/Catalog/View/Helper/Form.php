@@ -34,15 +34,33 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
             ->prepare()
             ->setAttribute('id', $this->name)
             ->setAttribute('class', 'live-form');
-        $this->form->isValid();
 
         $view = new ViewModel(array(
             $this->camel($this->name) => $this->model,
             'form' => $this->form,
+            'formErrors' => $this->renderFormErrors($this->form),
             'originalFields' => $this->prepareOriginalFields($this->form),
         ));
         $view->setTemplate($this->partialDir . $this->dash($this->name) . '.phtml');
         return $this->getView()->render($view);
+    }
+
+    public function renderFormErrors($form)
+    {
+        $html = '';
+
+        if (!$form->isValid()) {
+            $html .= '<strong> Check the fields listed below</strong>';
+            $html .= '<div class="form-error"><ul>';
+            foreach ($form->getElements() as $element) {
+                if (count($element->getMessages()) > 0) {
+                    $html .= '<li>' . $element->getLabel() . '</li>';
+                }
+            }
+            $html .= '</ul></div>';
+        }
+
+        return $html;
     }
 
     public function getKeyFields()

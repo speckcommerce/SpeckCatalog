@@ -1,5 +1,6 @@
-<?=$this->form()->openTag($form);?>
+<?= $this->form()->openTag($form); ?>
 
+    <?= $this->formErrors; ?>
     <?= $this->originalFields; ?>
     <?= $this->formInput($form->get('product_id')); ?>
     <?= $this->formInput($form->get('uom_code')); ?>
@@ -9,12 +10,10 @@
         <div class="span5">
             <div class="row">
                 <div class="span3">
-                    <?=$this->formRow($form->get('distributor_id')); ?>
+                    <?=$this->speckCatalogManagerFormRow($form->get('distributor_id')->setAttribute('class', 'span3')); ?>
                 </div>
-                <div class="span2 input-prepend">
-                    <?=$this->formLabel($form->get('cost')); ?>
-                    <span class="add-on">$</span>
-                    <?=$this->formInput($form->get('cost')); ?>
+                <div class="span2">
+                    <?=$this->speckCatalogManagerFormRow($form->get('cost')->setAttribute('class', 'span2')); ?>
                 </div>
             </div>
         </div>

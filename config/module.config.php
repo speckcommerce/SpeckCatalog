@@ -23,6 +23,7 @@ $config = array(
             'speckCatalogForm'           => 'Catalog\View\Helper\Form',
             'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
             'speckCatalog'               => 'Catalog\View\Helper\Functions',
+            'speckCatalogManagerFormRow' => 'Catalog\Form\View\Helper\CatalogManagerFormRow',
         ),
     ),
     'navigation' => array(

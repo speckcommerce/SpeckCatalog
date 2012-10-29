@@ -5,11 +5,11 @@ namespace Catalog\Model;
 class ProductUom extends AbstractModel
 {
     protected $productId;
-    protected $uomCode = 'EA';
-    protected $price = 0;
-    protected $retail = 0;
-    protected $quantity = 1;
-    protected $sortWeight = 0;
+    protected $uomCode;
+    protected $price;
+    protected $retail;
+    protected $quantity;
+    protected $sortWeight;
 
     /**
      * @return productId

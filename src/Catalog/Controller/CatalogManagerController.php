@@ -104,13 +104,23 @@ class CatalogManagerController
     //create a new record, add it to the parent, and return the partial.
     public function newPartialAction()
     {
-        return $this->getPartial(true);
-    }
+        $this->layout(false);
+        $params = $this->params()->fromPost();
 
-    //fetch an existing record, add it to the parent, and return the partial.
-    public function addPartialAction()
-    {
-        return $this->getPartial();
+        $parentService = $this->getServiceLocator()->get('catalog_' . $params['parent_name'] . '_service');
+        $parent = $parentService->find($params['parent']);
+
+        $childService = $this->getServiceLocator()->get('catalog_' . $params['child_name'] . '_service');
+        $child = $childService->getEntity();
+
+        $child->setParent($parent);
+
+        $partial = $this->dash($params['child_name']);
+        $view = new ViewModel(array(
+            lcfirst($this->camel($params['child_name'])) => $child,
+        ));
+
+        return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
     }
 
     private function getPartial($new = false)

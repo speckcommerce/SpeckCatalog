@@ -49,10 +49,10 @@
                     <div class="expand-all"><i class="icon-arrow-down"></i></div>
                 </div>
                 <div class="list-items" type="option" parent="product">
-                    <?=$this->speckCatalogRenderChildren('option', $product->getOptions()); ?>
+                    <?= $this->speckCatalogRenderChildren('option', $product->getOptions()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper()->addNew('option', 'product', $parentKeyFields); ?>
+                    <?= $this->speckCatalogAdderHelper()->addNew('option', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>
@@ -60,10 +60,10 @@
         <div id="specs" class="tab-pane boundary">
             <div class="list-wrap">
                 <div class="list-items">
-                    <?=$this->speckCatalogRenderChildren('spec', $product->getSpecs()); ?>
+                    <?= $this->speckCatalogRenderChildren('spec', $product->getSpecs()); ?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper()->addNew('spec', 'product', $parentKeyFields); ?>
+                    <?= $this->speckCatalogAdderHelper()->addNew('spec', 'product', $parentKeyFields); ?>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
         <div id="documents" class="tab-pane boundary">
             <div class="list-wrap">
                 <div class="list-items" type="document" parent="product">
-                    <?=$this->speckCatalogRenderChildren('document', $product->getDocuments()); ?>
+                    <?= $this->speckCatalogRenderChildren('document', $product->getDocuments()); ?>
                 </div>
                 <div class="row list-items-helper">
                     <?= $this->speckCatalogProductDocumentUploader($parentKeyFields); ?>

@@ -1,5 +1,6 @@
 <?php
     $formHelper = $this->speckCatalogForm($productUom, 'product_uom');
+    $productUomKeyFields = $formHelper->getKeyFields();
 ?>
 
 <div class="existing contrastbg boundary shadow" id="">
@@ -11,7 +12,7 @@
     <div class="entity-content">
         <div class="row">
             <div class="span4">
-                <?=$formHelper->renderForm(); ?>
+                <?= $formHelper->renderForm(); ?>
             </div>
             <div class="span6">
                 <div class="list-wrap">
@@ -24,7 +25,7 @@
                         <?=$this->speckCatalogRenderChildren('availability', $productUom->getAvailabilities());?>
                     </div>
                     <div class="row list-items-helper">
-                        <?=$this->speckCatalogAdderHelper()->addNew('availability', 'product_uom', $formHelper->getKeyFields()); ?>
+                        <?=$this->speckCatalogAdderHelper()->addNew('availability', 'product_uom', $productUomKeyFields); ?>
                     </div>
                 </div>
             </div>

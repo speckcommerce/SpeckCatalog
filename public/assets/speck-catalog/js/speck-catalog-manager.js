@@ -143,27 +143,24 @@
         })
     }
 
-    $('.remover').live("dblclick", function(){
-        var parts = getForm($(this)).attr('id').split('-')
-        var linkerId = getLinkerId($(this))
-        if(linkerId){
-            $.post('/catalogmanager/remove/' + parts[0] + '/' + linkerId)
-            getBoundary(this).addClass('removing').fadeOut(function(){
-                $(this).remove()
-            })
-        }else{
-            alert('does not have a linkerId ?!');
-        }
+    $('.remove-child').live("submit",function(e){
+        alert('removing this!');
+        e.preventDefault();
+        targetListItems(this);
+        var data = $(this).serializeArray();
+        $.post('/catalogmanager/remove-child', data, function(response){
+            if(response = true){
+                getBoundary(this).addClass('removing').fadeOut(function(){
+                   $(this).remove()
+                });
+            }
+        });
     })
 
 
 /**
  * make it easier on the eyes
  */
-    $('.entity-header').live({
-        mouseenter:function(){$(this).children('.remover').children().removeClass('hide')},
-        mouseleave:function(){$(this).children('.remover').children().addClass('hide')}
-    })
 
     $('.live-form').live({
         mouseenter:function(){$(this).css({opacity: 1.0})},

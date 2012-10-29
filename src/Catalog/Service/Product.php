@@ -31,12 +31,24 @@ class Product extends AbstractService
     public function populate($product, $recursive=false)
     {
         $productId = $product->getProductId();
-        $product->setOptions($this->getOptionService()->getByProductId($productId, true, $recursive));
-        $product->setImages($this->getImageService()->getImages('product', $productId));
-        $product->setDocuments($this->getDocumentService()->getDocuments($productId));
-        $product->setUoms($this->getProductUomService()->getByProductId($productId, true, $recursive));
-        $product->setSpecs($this->getSpecService()->getByProductId($productId));
-        $product->setManufacturer($this->getCompanyService()->findById($product->getManufacturerId()));
+
+        $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
+        $product->setOptions($options);
+
+        $images = $this->getImageService()->getImages('product', $productId);
+        $product->setImages($images);
+
+        $documents = $this->getDocumentService()->getDocuments($productId);
+        $product->setDocuments($documents);
+
+        $uoms = $this->getProductUomService()->getByProductId($productId, true, $recursive);
+        $product->setUoms($uoms);
+
+        $specs = $this->getSpecService()->getByProductId($productId);
+        $product->setSpecs($specs);
+
+        $manufacturer = $this->getCompanyService()->findById($product->getManufacturerId());
+        $product->setManufacturer($manufacturer);
     }
 
     public function newOption($productOrId)

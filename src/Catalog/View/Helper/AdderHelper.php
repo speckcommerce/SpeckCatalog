@@ -14,6 +14,11 @@ class AdderHelper extends AbstractHelper
 
     public function addNew($childName, $parentName, $parentKeyFields)
     {
+        $elements = array(
+            'parent_name' => $parentName,
+            'child_name'  => $childName,
+        );
+
         $form = new \Catalog\Form\AddChild;
         $form->addElements($elements)
             ->addParent($parentKeyFields);
@@ -35,7 +40,7 @@ class AdderHelper extends AbstractHelper
         $form = new \Catalog\Form\RemoveChild;
         $form->addElements($elements)
             ->addParent($parentFormElements)
-            ->addChild($childElements);
+            ->addChild($childFormElements);
 
         $view = $this->getView();
         $view->vars()->assign(array('removeForm' => $form));

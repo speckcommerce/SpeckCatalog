@@ -34,7 +34,7 @@ class Choice extends AbstractForm
                 'type' => 'text'
             ),
             'options' => array(
-                'label' => 'Override Name',
+                'label' => 'Name',
             ),
         ));
     }

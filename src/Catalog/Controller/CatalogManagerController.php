@@ -33,7 +33,6 @@ class CatalogManagerController
         }else{
             parent::layout($layout);
         }
-
     }
 
     public function indexAction()
@@ -101,7 +100,7 @@ class CatalogManagerController
     }
 
 
-    //create a new record, add it to the parent, and return the partial.
+    //return the partial for a new record.
     public function newPartialAction()
     {
         $this->layout(false);
@@ -123,36 +122,6 @@ class CatalogManagerController
         return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
     }
 
-    private function getPartial($new = false)
-    {
-        $this->layout(false);
-        $params = $this->params()->fromPost();
-
-        $parentService = $this->getServiceLocator()->get('catalog_' . $params['parent_name'] . '_service');
-
-        $parent = $parentService->find($params['parent']);
-
-        if ($new) {
-            //$child = $childService->getEntity();
-            //$childService = $this->getServiceLocator()->get('catalog_' . $params['child_name'] . '_service');
-            //$hydrator = new Hydrator;
-            //$hydrator->hydrate($params['parent'], $child);
-            $method = 'new' . $this->camel($params['child_name']);
-            $child = $parentService->$method($parent);
-        } else {
-            $method = 'add' . $this->camel($params['child_name']);
-            $child = $parentService->$method($parent, $child);
-        }
-
-
-        $partial = $this->dash($params['child_name']);
-        $view = new ViewModel(array(
-            lcfirst($this->camel($params['child_name'])) => $child,
-        ));
-
-        return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
-    }
-
     public function updateRecordAction()
     {
         $this->layout(false);
@@ -163,10 +132,10 @@ class CatalogManagerController
         if($form->isValid()){
             if ($service->find($form->getData())) {
                 $service->update($form->getData(), $form->getOriginalData());
+                $entity = $service->find($form->getData(), true);
             } else {
-                $service->insert($form->getData());
+                $entity = $service->insert($form->getData());
             }
-            $entity = $service->find($form->getData(), true);
         } else {
             $hydrator = new Hydrator;
             $entity = $service->getEntity();

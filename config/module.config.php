@@ -18,6 +18,9 @@ $config = array(
         ),
     ),
     'view_helpers' => array(
+        'shared' => array(
+            'speckCatalogForm' => false,
+        ),
         'invokables' => array(
             'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
             'speckCatalogForm'           => 'Catalog\View\Helper\Form',

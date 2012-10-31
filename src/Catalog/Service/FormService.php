@@ -5,6 +5,9 @@ namespace Catalog\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Catalog\Model\AbstractModel;
+use Catalog\Model\Option;
+use Catalog\Model\Product\Relational as RelationalProduct;
+use Catalog\Model\Choice\Relational as RelationalChoice;
 
 class FormService implements ServiceLocatorAwareInterface
 {
@@ -31,14 +34,17 @@ class FormService implements ServiceLocatorAwareInterface
         return $form;
     }
 
-    public function getKeyFields($name, $model=null)
+    public function getKeyFields($name, $model=null, $parentKeyFields=false)
     {
         $form = $this->getServiceLocator()->get('catalog_' . $name . '_form');
 
         $fields = array();
-        foreach ($form->getOriginalFields() as $field) {
-            $getter = 'get' . $this->camel($field);
-            $fields[$field] = $model->$getter();
+
+        if($model) {
+            foreach ($form->getOriginalFields() as $field) {
+                $getter = 'get' . $this->camel($field);
+                $fields[$field] = $model->$getter();
+            }
         }
 
         return $fields;

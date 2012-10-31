@@ -50,11 +50,14 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         $html = '';
 
         if (!$form->isValid()) {
+            $html .= '<div class="alert alert-error">';
             $html .= '<strong> Check the fields listed below</strong>';
-            $html .= '<div class="form-error"><ul>';
+            $html .= '<ul>';
             foreach ($form->getElements() as $element) {
                 if (count($element->getMessages()) > 0) {
-                    $html .= '<li>' . $element->getLabel() . '</li>';
+                    //$html .= '<li>' . $element->getLabel() . '</li>'; //using lines below for debugging
+                    $name = trim($element->getLabel()) ? $element->getLabel() : 'hidden field: ' . $element->getName();
+                    $html .= '<li>' . $name . '</li>';
                 }
             }
             $html .= '</ul></div>';

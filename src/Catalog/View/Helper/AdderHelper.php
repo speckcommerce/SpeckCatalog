@@ -30,6 +30,7 @@ class AdderHelper extends AbstractHelper
         return $html;
     }
 
+
     public function removeChild($parentName, $parentFormElements, $childName, $childFormElements)
     {
         $elements = array(

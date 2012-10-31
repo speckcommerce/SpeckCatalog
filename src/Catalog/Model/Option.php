@@ -5,10 +5,10 @@ namespace Catalog\Model;
 class Option extends AbstractModel
 {
     protected $optionId;
-    protected $name = '';
+    protected $name;
     protected $instruction;
-    protected $required = 0;
-    protected $optionTypeId = 1;
+    protected $required;
+    protected $optionTypeId;
     protected $variation = 0;
 
     /**
@@ -25,7 +25,7 @@ class Option extends AbstractModel
      */
     public function setOptionId($optionId)
     {
-        $this->optionId = $optionId;
+        $this->optionId = (int) $optionId;
         return $this;
     }
 

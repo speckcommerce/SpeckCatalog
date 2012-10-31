@@ -10,6 +10,7 @@ class Choice extends Inputfilter
     {
         $this->add(array(
             'name' => 'choice_id',
+            'allow_empty' => true,
         ));
         $this->add(array(
             'name' => 'option_id',

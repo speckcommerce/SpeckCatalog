@@ -17,6 +17,18 @@ class Option extends AbstractForm
             ),
         ));
         $this->add(array(
+            'name' => 'choice_id',
+            'attributes' => array(
+                'type' => 'hidden'
+            ),
+        ));
+        $this->add(array(
+            'name' => 'product_id',
+            'attributes' => array(
+                'type' => 'hidden'
+            ),
+        ));
+        $this->add(array(
             'name' => 'name',
             'attributes' => array(
                 'type' => 'text',
@@ -52,6 +64,7 @@ class Option extends AbstractForm
             'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'options' => array(
+                    'select' => '---------',
                     '1' => 'Select',
                     '2' => 'Radio',
                     '3' => 'Checkbox',

@@ -1,4 +1,6 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
+<? $formHelper = $this->speckCatalogForm($product, 'product'); ?>
+<? $parentKeyFields = $formHelper->getKeyFields(); ?>
 
 <a href="/<?=$product->getProductId();?>">View this product</a><br/><br/>
 <div class="tabbable">
@@ -12,35 +14,7 @@
 
     <div class="tab-content">
 
-        <div class="active boundary tab-pane" id="product">
-
-            <div class="entity-header hide"><div class="title"></div></div>
-
-            <div class="entity-content">
-
-                <? $formHelper = $this->speckCatalogForm($product, 'product'); ?>
-                <?=$formHelper->renderForm(); ?>
-                <? $parentKeyFields = $formHelper->getKeyFields(); ?>
-
-                <? if(2 === $product->getProductTypeId()) :?>
-                    <div class="list-wrap">
-                        <div class="child-expand list-items-helper">
-                            <div class="collapse-all"><i class="icon-arrow-up"></i></div>
-                            <div class="expand-all"><i class="icon-arrow-down"></i></div>
-                            <span class="smallcaps">&nbsp;uoms</span><br/>
-                        </div>
-                        <div class="list-items">
-                            <?=$this->speckCatalogRenderChildren('product_uom', $product->getUoms()); ?>
-                        </div>
-                        <div class="row list-items-helper">
-                            <?=$this->speckCatalogAdderHelper()->addNew('product_uom', 'product', $parentKeyFields); ?>
-                        </div>
-                    </div>
-                <? endif; ?>
-
-            </div>
-
-        </div>
+        <?= $this->render($pdir . 'product'); ?>
 
         <div id="options" class="tab-pane boundary">
             <div class="list-wrap">

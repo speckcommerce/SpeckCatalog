@@ -4,6 +4,8 @@ namespace Catalog\Model\Option;
 
 use Catalog\Model\AbstractModel;
 use Catalog\Model\Option as Base;
+use Catalog\Model\Product\Relational as RelationalProduct;
+use Catalog\Model\Choice\Relational as RelationalChoice;
 
 class Relational extends Base
 {
@@ -11,6 +13,8 @@ class Relational extends Base
     protected $parentProducts;
     protected $choices;
     protected $images;
+    protected $productId;
+    protected $choiceId;
 
     public function getRecursivePrice()
     {
@@ -122,6 +126,49 @@ class Relational extends Base
     public function setParent(AbstractModel $parent)
     {
         $this->parent = $parent;
+
+        if ($parent instanceOf RelationalProduct) {
+            $this->setProductId($parent->getProductId());
+        } elseif ($parent instanceOf RelationalChoice) {
+            $this->setChoiceId($parent->getChoiceId());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return productId
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    /**
+     * @param $productId
+     * @return self
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+        return $this;
+    }
+
+    /**
+     * @return choiceId
+     */
+    public function getChoiceId()
+    {
+        return $this->choiceId;
+    }
+
+    /**
+     * @param $choiceId
+     * @return self
+     */
+    public function setChoiceId($choiceId)
+    {
+        $this->choiceId = $choiceId;
         return $this;
     }
 }

@@ -1,13 +1,29 @@
-<div class="boundary contrastbg2 shadow">
-    <div class="entity-header">
-        <div>
-            <div><i class="icon-tag"></i></div>
-            <div><a class="icon-pencil" href="/catalogmanager/product/<?=$product->getProductId();?>" title="edit this"></a></div>
-            &nbsp; <?=$product; ?>
-            <?=$product->getItemNumber(); ?>
-            <? if($product->has('uoms')) : ?>
-                <? foreach($product->getUoms() as $uom) : ?>(<?=$uom;?>)<? endforeach;?>
-            <? endif; ?>
-        </div>
+<div class="active boundary tab-pane" id="product">
+
+    <div class="entity-header hide"><div class="title"></div></div>
+
+    <div class="entity-content">
+
+        <? $formHelper = $this->speckCatalogForm($product, 'product'); ?>
+        <?=$formHelper->renderForm(); ?>
+        <? $parentKeyFields = $formHelper->getKeyFields(); ?>
+
+        <? if(2 === $product->getProductTypeId()) :?>
+            <div class="list-wrap">
+                <div class="child-expand list-items-helper">
+                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                    <div class="expand-all"><i class="icon-arrow-down"></i></div>
+                    <span class="smallcaps">&nbsp;uoms</span><br/>
+                </div>
+                <div class="list-items">
+                    <?=$this->speckCatalogRenderChildren('product_uom', $product->getUoms()); ?>
+                </div>
+                <div class="row list-items-helper">
+                    <?=$this->speckCatalogAdderHelper()->addNew('product_uom', 'product', $parentKeyFields); ?>
+                </div>
+            </div>
+        <? endif; ?>
+
     </div>
+
 </div>

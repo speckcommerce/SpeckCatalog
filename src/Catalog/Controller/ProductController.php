@@ -18,7 +18,7 @@ class ProductController extends AbstractActionController
         $productService = $this->getServiceLocator()->get('catalog_product_service');
         $product = $productService->getFullProduct($this->params('id')); //, true, true);
         if(!$product){
-            throw new \Exception('fore oh fore');
+            throw new \Exception('no product for that id');
         }
         //var_dump($product); die();
         return new ViewModel(array(

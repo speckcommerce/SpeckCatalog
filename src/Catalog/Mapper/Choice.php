@@ -2,6 +2,8 @@
 
 namespace Catalog\Mapper;
 
+use Zend\Stdlib\Hydrator\HydratorInterface;
+
 class Choice extends AbstractMapper
 {
     protected $tableName = 'catalog_choice';
@@ -34,6 +36,12 @@ class Choice extends AbstractMapper
             $where = array('choice_id' => $choice->getChoiceId());
             return $this->update($dbChoice, $where);
         }
+    }
+
+    public function insert($choice, $tableName=null, HydratorInterface $hydrator=null)
+    {
+        $choiceId = parent::insert($choice, $tableName, $hydrator);
+        return $this->find(array('choice_id' => $choiceId));
     }
 
     public function addOption($choiceId, $optionId)

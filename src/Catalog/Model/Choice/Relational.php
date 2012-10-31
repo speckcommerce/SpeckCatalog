@@ -128,6 +128,19 @@ class Relational extends Base
     public function setParent(AbstractModel $parent)
     {
         $this->parent = $parent;
+        $this->setOptionId($parent->getOptionId());
         return $this;
     }
+
+    public function __toString()
+    {
+        if($this->getOverrideName()){
+            return $this->getOverrideName();
+        } elseif ($this->getProduct()) {
+            return $this->getProduct()->getName();
+        } else {
+            return 'Unnamed Choice';
+        }
+    }
+
 }

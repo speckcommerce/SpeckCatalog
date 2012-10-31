@@ -1,20 +1,23 @@
 <?=$this->form()->openTag($form);?>
 
+    <?= $this->formErrors; ?>
     <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('option_id')); ?>
+    <?=$this->formInput($form->get('product_id')); ?>
+    <?=$this->formInput($form->get('choice_id')); ?>
 
     <div class="row offset0">
         <div class="span3">
-            <?=$this->formRow($form->get('name')->setAttribute('class', 'span3')); ?>
+            <?=$this->speckCatalogManagerFormRow($form->get('name')->setAttribute('class', 'span3')); ?>
         </div>
         <div class="span2">
-            <?=$this->formRow($form->get('instruction')->setAttribute('class', 'span2')); ?>
+            <?=$this->speckCatalogManagerFormRow($form->get('instruction')->setAttribute('class', 'span2')); ?>
         </div>
         <div class="span2">
-            <?=$this->formRow($form->get('option_type_id')->setAttribute('class', 'span2')); ?>
+            <?=$this->speckCatalogManagerFormRow($form->get('option_type_id')->setAttribute('class', 'span2')); ?>
         </div>
         <div class="span2">
-            <?=$this->formRow($form->get('variation')->setAttribute('class', 'span2')); ?>
+            <?=$this->speckCatalogManagerFormRow($form->get('variation')->setAttribute('class', 'span2')); ?>
         </div>
     </div>
 </form>

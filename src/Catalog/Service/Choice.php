@@ -32,10 +32,7 @@ class Choice extends AbstractService
     public function addOption($choiceOrId, $optionOrId)
     {
         $choiceId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getChoiceId() );
-        $optionId = ( is_int($optionOrId)
-            ? $optionOrId
-            : $this->getOptionService()->persist($optionOrId)->getOptionId()
-        );
+        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
         $this->getEntityMapper()->addOption($choiceId, $optionId);
         return $this->getOptionService()->find(array('option_id' => $optionId));
     }

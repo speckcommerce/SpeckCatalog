@@ -33,17 +33,6 @@ class ProductUom extends AbstractService
         $productUom->setUom($uom);
     }
 
-    public function newAvailability($productUom)
-    {
-        $availability = $this->getAvailabilityService()->getEntity();
-        $availability->setProductId($productUom->getProductId());
-        $availability->setUomCode($productUom->getUomCode());
-        $availability->setQuantity($productUom->getQuantity());
-        $this->getAvailabilityService()->persist($availability);
-
-        return $availability;
-    }
-
     /**
      * @return availabilityService
      */

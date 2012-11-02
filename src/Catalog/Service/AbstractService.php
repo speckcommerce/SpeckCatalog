@@ -49,12 +49,6 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $this;
     }
 
-    public function persist($model)
-    {
-        throw new \Exception;
-        return $this->getEntityMapper()->persist($model);
-    }
-
     public function update($formData, $originalValues)
     {
         return $this->getEntityMapper()->update($formData, $originalValues);

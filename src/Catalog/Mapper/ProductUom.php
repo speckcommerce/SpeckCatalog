@@ -16,7 +16,7 @@ class ProductUom extends AbstractMapper
             'uom_code'   => $data['uom_code'],
             'quantity'   => $data['quantity'],
         );
-        $select = $this->getSelect()           
+        $select = $this->getSelect()
             ->where($where);
         return $this->selectOne($select);
     }
@@ -26,22 +26,5 @@ class ProductUom extends AbstractMapper
         $select = $this->getSelect()
             ->where(array('product_id' => $productId));
         return $this->selectMany($select);
-    }
-
-    public function persist($productUom)
-    {
-        $productUom = $this->getDbModel($productUom);
-        $where = array(
-            'product_id' => $productUom->getProductId(),
-            'uom_code'   => $productUom->getUomCode(),
-            'quantity'   => $productUom->getQuantity(),
-        );
-        $existing = self::find($where);
-        if($existing){
-            return $this->update($productUom, $where);
-        } else {
-            $this->insert($productUom);
-            return $this->find($where);
-        }
     }
 }

@@ -45,16 +45,4 @@ class Image extends AbstractMapper
             ->where($where);
         return $this->selectMany($select);
     }
-
-    public function persist($image)
-    {
-        $image = $this->getDbModel($image);
-        if(null === $image->getImageId()){
-            $id = $this->insert($image);
-            return $image->setImageId($id);
-        } elseif($this->find($image->getMediaId())) {
-            $where = array('image_id' => $image->getImageId());
-            return $this->update($image, $where);
-        }
-    }
 }

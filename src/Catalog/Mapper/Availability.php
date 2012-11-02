@@ -33,26 +33,4 @@ class Availability extends AbstractMapper
             ->where($where);
         return $this->selectMany($select);
     }
-
-    public function persist($availability)
-    {
-        $availability = $this->getDbModel($availability);
-        $existing = self::find(array(
-            'product_id'     => $availability->getProductId(),
-            'uom_code'       => $availability->getUomCode(),
-            'quantity'       => $availability->getQuantity(),
-            'distributor_id' => $availability->getDistributorId(),
-        ));
-        if($existing){
-            $where = array(
-                'product_id'     => $availability->getProductId(),
-                'uom_code'       => $availability->getUomCode(),
-                'quantity'       => $availability->getQuantity(),
-                'distributor_id' => $availability->getDistributorId(),
-            );
-            return $this->update($availability, $where);
-        } else {
-            return $this->insert($availability);
-        }
-    }
 }

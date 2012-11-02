@@ -56,24 +56,6 @@ class Category extends AbstractMapper
         return array_reverse($crumbs);
     }
 
-    public function persist($category)
-    {
-        $category = $this->getDbModel($category);
-        if(null === $category->getCategoryId()) {
-            $id = $this->insert($category);
-            return $this->find(array('category_id' => $id));
-        }
-        $existing = self::find(array('category_id' => $category->getCategoryId()));
-        if($existing){
-            $where = array('category_id' => $category->getCategoryId());
-            $this->update($category, $where);
-            return $category;
-        } else {
-            $id = $this->insert($category);
-            return $this->find(array('category_id' => $id));
-        }
-    }
-
     public function addProduct($categoryId, $productId, $siteId=1)
     {
         $table = 'catalog_category_product';

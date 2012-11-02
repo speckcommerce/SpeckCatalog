@@ -51,21 +51,4 @@ class Option extends AbstractMapper
 
         return $option;
     }
-
-    //public function persist($option)
-    //{
-    //    $option = $this->getDbModel($option);
-    //    if(null === $option->getOptionId()) {
-    //        $id = $this->insert($option);
-    //        return $this->find(array('option_id' => $id));
-    //    }
-    //    $existing = self::find(array('option_id' => $option->getOptionId()));
-    //    if($existing){
-    //        $where = array('option_id' => $option->getOptionId());
-    //        return $this->update($option, $where);
-    //    } else {
-    //        $id = $this->insert($option);
-    //        return $this->find(array('option_id' => $id));
-    //    }
-    //}
 }

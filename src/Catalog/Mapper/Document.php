@@ -22,16 +22,4 @@ class Document extends AbstractMapper
             ->where(array('product_id' => $productId));
         return $this->selectMany($select);
     }
-
-    public function persist($document)
-    {
-        $document = $this->getDbModel($document);
-        if(null === $document->getDocumentId()){
-            $id = $this->insert($document);
-            return $document->setDocumentId($id);
-        } elseif($this->find($document->getDocumentId())) {
-            $where = array('document_id' => $document->getDocumentId());
-            return $this->update($document, $where);
-        }
-    }
 }

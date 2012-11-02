@@ -25,19 +25,6 @@ class Choice extends AbstractMapper
         return $this->selectMany($select);
     }
 
-    public function persist($choice)
-    {
-        $dbChoice = $this->getDbModel($choice);
-        if (null === $choice->getChoiceId()) {
-            $id = $this->insert($dbChoice);
-            $choice->setChoiceId($id);
-            return $choice;
-        } else {
-            $where = array('choice_id' => $choice->getChoiceId());
-            return $this->update($dbChoice, $where);
-        }
-    }
-
     public function insert($choice, $tableName=null, HydratorInterface $hydrator=null)
     {
         $choiceId = parent::insert($choice, $tableName, $hydrator);

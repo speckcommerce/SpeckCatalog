@@ -23,20 +23,4 @@ class Spec extends AbstractMapper
             ->where($where);
         return $this->selectMany($select);
     }
-
-    public function persist($spec)
-    {
-        $spec = $this->getDbModel($spec);
-        if(null === $spec->getSpecId()){
-            $id = $this->insert($spec);
-            return $spec->setSpecId($id);
-        }
-        if($this->find($spec->getSpecId())) {
-            $where = array('spec_id' => $specId);
-            return $this->update($spec, $where);
-        }else{
-            $id = $this->insert($spec);
-            return $spec->setSpecId($id);
-        }
-    }
 }

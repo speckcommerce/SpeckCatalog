@@ -30,23 +30,6 @@ class Product extends AbstractMapper
         return $this->selectMany($select);
     }
 
-    public function persist($product)
-    {
-        $dbProduct = $this->getDbModel($product);
-        if(null === $product->getProductId()) {
-            $id = $this->insert($product);
-            return $this->find(array('product_id' => $id));
-        }
-        $existing = self::find(array('product_id' => $product->getProductId()));
-        if($existing){
-            $where = array('product_id' => $product->getProductId());
-            return $this->update($dbProduct, $where);
-        } else {
-            $id = $this->insert($dbProduct);
-            return $this->find(array('product_id' => $id));
-        }
-    }
-
     public function addOption($productId, $optionId)
     {
         $table = 'catalog_product_option';

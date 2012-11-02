@@ -2,6 +2,8 @@
 
 namespace Catalog\Service;
 
+use Catalog\Model\AbstractModel;
+
 class ProductUom extends AbstractService
 {
     protected $entityMapper = 'catalog_product_uom_mapper';
@@ -82,5 +84,23 @@ class ProductUom extends AbstractService
     {
         $this->uomService = $uomService;
         return $this;
+    }
+
+    public function insert($productUom)
+    {
+        if($productUom instanceOf AbstractModel) {
+            $data = array(
+                'uom_code' => $productUom->getUomCode(),
+                'product_id' => $productUom->getProductId(),
+                'quantity' => $productUom->getQuantity(),
+            );
+        } elseif (is_array($productUom)) {
+            $data = $productUom;
+        }
+
+        parent::insert($productUom);
+
+        $productUom = $this->find($data);
+        return $productUom;
     }
 }

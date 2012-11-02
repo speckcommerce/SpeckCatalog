@@ -58,18 +58,6 @@ class Option extends AbstractService
         $option->setImages($this->getImageService()->getImages('option', $option->getOptionId()));
     }
 
-    public function newChoice($optionOrId)
-    {
-        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
-
-        $choice = $this->getChoiceService()->getEntity();
-        $choice->setOptionId($optionId);
-        $choiceId = $this->getChoiceService()->insert($choice);
-        $choice->setChoiceId($choiceId);
-
-        return $choice;
-    }
-
     public function insert($option)
     {
         if (is_array($option)) {
@@ -92,7 +80,7 @@ class Option extends AbstractService
             $choiceId = (int) $option->getChoiceId();
         }
 
-        $option = $this->getEntityMapper()->insert($option);
+        $option = parent::insert($option);
 
         if($parentType === 'product') {
             $parent = $this->getProductService()->find(array('product_id' => $productId));

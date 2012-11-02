@@ -1,5 +1,6 @@
 <form id="image-" class="live-form">
 
+    <div class="form-messages"><?= $this->formErrors; ?></div>
     <input type="hidden" name="parent_id" value="<?=$image->getParentId();?>"/>
     <div class="row">
         <div class="span1">

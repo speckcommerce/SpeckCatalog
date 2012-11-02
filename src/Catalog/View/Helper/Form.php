@@ -38,14 +38,14 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         $view = new ViewModel(array(
             $this->camel($this->name) => $this->model,
             'form' => $this->form,
-            'formErrors' => $this->renderFormErrors($this->form),
+            'formErrors' => $this->renderFormMessages($this->form, false),
             'originalFields' => $this->prepareOriginalFields($this->form),
         ));
         $view->setTemplate($this->partialDir . $this->dash($this->name) . '.phtml');
         return $this->getView()->render($view);
     }
 
-    public function renderFormErrors($form)
+    public function renderFormMessages($form, $showValid=true)
     {
         $html = '';
 
@@ -54,11 +54,14 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
             $html .= '<ul>';
             foreach ($form->getElements() as $element) {
                 if (count($element->getMessages()) > 0) {
-
-                    $html .= '<li>' . $element->getLabel() . ' - ' . implode(', ', $element->getMessages()) . ' - ' .$element->getValue() . '</li>';
+                    $html .= '<li>' . $element->getLabel() . ' - ' . implode(', ', $element->getMessages()) . '</li>';
                 }
             }
             $html .= '</ul></div>';
+        } else if($showValid) {
+            $html .= '<div class="alert alert-success">';
+            $html .= 'All Data is valid!  <a href="#" class="save-now">Save Now</a>';
+            $html .= '</div>';
         }
 
         return $html;

@@ -130,7 +130,7 @@ class CatalogManagerController
         $form = $this->getFormService()->getForm($class, null, $_POST);
 
         if($form->isValid()){
-            if ($service->find($form->getData())) {
+            if (count($form->getOriginalData()) && $service->find($form->getOriginalData())) {
                 $service->update($form->getData(), $form->getOriginalData());
                 $entity = $service->find($form->getData(), true);
             } else {
@@ -146,6 +146,18 @@ class CatalogManagerController
             lcfirst($this->camel($class)) => $entity
         ));
         return $view->setTemplate("catalog/catalog-manager/partial/" . $this->dash($class) . '.phtml');
+    }
+
+    public function updateFormAction()
+    {
+        $this->layout(false);
+        $class = $this->params('class');
+
+        $service = $this->getServiceLocator()->get('catalog_' . $class . '_service');
+        $form = $this->getFormService()->getForm($class, null, $_POST);
+
+        $messages = $this->getServiceLocator()->get('viewhelpermanager')->get('speckCatalogForm')->renderFormMessages($form);
+        die($messages);
     }
 
     private function dash($name)

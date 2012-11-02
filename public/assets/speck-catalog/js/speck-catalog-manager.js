@@ -10,7 +10,13 @@
     }
 
     function getForm(ele){
-        return getBoundary(ele).find('form').first()
+        return getBoundary(ele).find('form.live-form').first()
+    }
+
+    function getFormMessages(ele){
+        var messages = getForm(ele).find('div.form-messages').first();
+        console.log(messages);
+        return getForm(ele).find('div.form-messages').first()
     }
 
     function targetListItems(trigger){
@@ -21,11 +27,6 @@
     function targetTitle(ele){
         clearTarget()
         getBoundary(ele).find('.title').first().addClass('target')
-    }
-
-    function targetForm(ele){
-        clearTarget()
-        getForm(ele).addClass('target')
     }
 
     function getCollapser(ele){
@@ -84,14 +85,14 @@
 
 
 /**
- *  auto-save
+ *  auto-validate
  */
     $('.live-form input, .live-form textarea, .live-form select').live('change', function(){
-        targetForm(this);
+        clearTarget();
+        getFormMessages(this).addClass('target');
         var form = getForm(this)
-        console.log(form);
-        $.post('/catalogmanager/update-record/'+form.attr('id'), form.serializeArray(), function(formHtml){
-            $('.target').replaceWith(formHtml)
+        $.post('/catalogmanager/update-form/'+form.attr('id'), form.serializeArray(), function(html){
+            $('.target').html(html)
             clearTarget()
         })
     })

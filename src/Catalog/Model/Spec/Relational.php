@@ -24,6 +24,9 @@ class Relational extends Base
     public function setParent(AbstractModel $parent)
     {
         $this->parent = $parent;
+
+        $this->setProductId($parent->getProductId());
+
         return $this;
     }
 }

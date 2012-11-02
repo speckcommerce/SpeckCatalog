@@ -236,6 +236,15 @@ return array(
                             ),
                         ),
                     ),
+                    'update-form' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/update-form/:class',
+                            'defaults' => array(
+                                'action' => 'update-form',
+                            ),
+                        ),
+                    ),
                     'update-record' => array(
                         'type' => 'Segment',
                         'options' => array(

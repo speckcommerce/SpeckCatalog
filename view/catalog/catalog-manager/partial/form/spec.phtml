@@ -1,4 +1,5 @@
 <?=$this->form()->openTag($form);?>
+    <div class="form-messages"><?= $this->formErrors; ?></div>
     <?= $this->originalFields; ?>
     <?= $this->formRow($form->get('spec_id')); ?>
     <?= $this->formRow($form->get('product_id')); ?>

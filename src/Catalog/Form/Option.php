@@ -64,7 +64,7 @@ class Option extends AbstractForm
             'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'options' => array(
-                    'select' => '---------',
+                    '' => '---------',
                     '1' => 'Select',
                     '2' => 'Radio',
                     '3' => 'Checkbox',

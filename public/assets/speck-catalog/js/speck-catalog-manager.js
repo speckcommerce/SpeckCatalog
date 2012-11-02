@@ -14,8 +14,6 @@
     }
 
     function getFormMessages(ele){
-        var messages = getForm(ele).find('div.form-messages').first();
-        console.log(messages);
         return getForm(ele).find('div.form-messages').first()
     }
 
@@ -79,7 +77,6 @@
     $('.search-result').live("click", function(e){
         e.preventDefault();
         var data = $(this).parents('form.search-result-data').first().serializeArray();
-        console.log(data);
         getPartial(data);
     })
 
@@ -98,6 +95,21 @@
     })
     $('.live-form').live('submit', function(e){
         e.preventDefault();
+    })
+
+
+ /**
+ * save a record
+ */
+    $('a.save-now').live('click', function(e){
+        e.preventDefault();
+        clearTarget();
+        getBoundary(this).addClass('target');
+        var form = getForm(this)
+        $.post('/catalogmanager/update-record/'+form.attr('id'), form.serializeArray(), function(formHtml){
+            $('.target').replaceWith(formHtml)
+            clearTarget()
+        })
     })
 
 

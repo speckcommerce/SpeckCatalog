@@ -40,6 +40,14 @@ $config = array(
     'service_manager' => array(
         'shared' => array(
             'cart_item_meta' => false,
+            'catalog_option_form' => false,
+            'catalog_choice_form' => false,
+            'catalog_product_form' => false,
+            'catalog_uom_form' => false,
+            'catalog_image_form' => false,
+            'catalog_spec_form' => false,
+            'catalog_availability_form' => false,
+            'catalog_product_uom_form' => false,
         ),
         'invokables' => array(
 

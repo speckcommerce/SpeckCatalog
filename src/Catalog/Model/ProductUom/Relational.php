@@ -80,4 +80,17 @@ class Relational extends Base
 
         return $this;
     }
+
+    public function __toString()
+    {
+        if($this->getUom()) {
+            $string  = $this->getPrice() . ' - ';
+            $string .= $this->getUom()->getName();
+            $string .= ' (' . $this->getUomCode() . ')';
+            $string .= ' of ' . $this->getQuantity();
+        } else {
+            $string = 'Incomplete ProductUom';
+        }
+        return $string;
+    }
 }

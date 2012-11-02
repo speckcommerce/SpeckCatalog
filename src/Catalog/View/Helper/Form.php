@@ -51,13 +51,11 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
 
         if (!$form->isValid()) {
             $html .= '<div class="alert alert-error">';
-            $html .= '<strong> Check the fields listed below</strong>';
             $html .= '<ul>';
             foreach ($form->getElements() as $element) {
                 if (count($element->getMessages()) > 0) {
-                    //$html .= '<li>' . $element->getLabel() . '</li>'; //using lines below for debugging
-                    $name = trim($element->getLabel()) ? $element->getLabel() : 'hidden field: ' . $element->getName();
-                    $html .= '<li>' . $name . '</li>';
+
+                    $html .= '<li>' . $element->getLabel() . ' - ' . implode(', ', $element->getMessages()) . ' - ' .$element->getValue() . '</li>';
                 }
             }
             $html .= '</ul></div>';
@@ -80,7 +78,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
                 $html .= '<input type="hidden" name = "' . $element->getName() . '" value="' . $element->getValue() . '" />';
             }
         } else {
-            throw new \Exception('form is still "new", try $form->edit() first');
+            throw new \Exception('form is not prepared for edit, cannot prepare original fields until edit method is called on the form');
         }
         return $html;
     }

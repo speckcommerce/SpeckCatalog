@@ -25,6 +25,11 @@ class Category extends AbstractService
         return $categories;
     }
 
+    public function getCrumbs($category)
+    {
+        return $this->getEntityMapper()->getCrumbs($category);
+    }
+
     public function getCategoryforView($categoryId, $paginationOptions=null)
     {
         $category = $this->findById($categoryId);
@@ -39,6 +44,7 @@ class Category extends AbstractService
         }
         $category->setCategories($categories);
         $category->setProducts($products);
+
         return $category;
     }
 

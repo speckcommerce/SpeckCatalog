@@ -830,7 +830,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category` (
   `description_html` text,
   `image_file_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1338 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -884,7 +884,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice` (
   PRIMARY KEY (`choice_id`),
   KEY `fk_catalog_choice_product_id_idx` (`product_id`),
   KEY `fk_catalog_choice_option_id_idx` (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5114 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -899,7 +899,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice_option` (
   KEY `UNIQUE` (`choice_id`,`option_id`),
   KEY `fk_catalog_choice_option_linker_1_idx` (`option_id`),
   KEY `fk_catalog_choice_option_linker_2_idx` (`choice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='the options that choices have\n(linker table names are parent';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -915,7 +915,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option` (
   `variation` tinyint(4) NOT NULL DEFAULT '0',
   `option_type_id` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21165 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -931,7 +931,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option_image` (
   `label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`),
   KEY `fk_catalog_option_image_1_idx` (`option_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -949,7 +949,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product` (
   PRIMARY KEY (`product_id`),
   KEY `fk_product_product_type_id_idx` (`product_type_id`),
   KEY `fk_catalog_product_1_idx` (`manufacturer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36034 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -966,7 +966,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_document` (
   PRIMARY KEY (`document_id`),
   KEY `linker_id` (`document_id`),
   KEY `fk_catalog_product_document_1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=227 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -983,7 +983,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_image` (
   PRIMARY KEY (`image_id`),
   KEY `linker_id` (`image_id`),
   KEY `fk_catalog_product_image_1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6551 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1029,7 +1029,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
   `value` text,
   PRIMARY KEY (`spec_id`),
   KEY `fk_catalog_product_spec_1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6839 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 

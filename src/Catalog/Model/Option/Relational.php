@@ -171,4 +171,13 @@ class Relational extends Base
         $this->choiceId = $choiceId;
         return $this;
     }
+
+    public function __toString()
+    {
+        if($this->getName()) {
+            return $this->getName();
+        } else {
+            return 'Unnamed Option';
+        }
+    }
 }

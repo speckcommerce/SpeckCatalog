@@ -21,6 +21,11 @@ class Product extends AbstractService
         return $product;
     }
 
+    public function getCrubs($product)
+    {
+        $crumbs = array($product->getName());
+        return $this->getEntityMapper()->getCrumbs($product, $crumbs);
+    }
     public function getFullProduct($productId)
     {
         $product = $this->find(array('product_id' => $productId));

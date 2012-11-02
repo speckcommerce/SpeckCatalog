@@ -35,6 +35,27 @@ class Category extends AbstractMapper
         return $this->selectMany($query);
     }
 
+    //this method requires no linkers are orphaned.
+    public function getCrumbs($category, $crumbs=array())
+    {
+        $crumbs[] = $category->getName();
+
+        $linkerTable = 'catalog_category_website';
+        $where = array('category_id' => $category->getCategoryId());
+
+        $query = $this->getSelect($linkerTable)
+            ->where($where)
+            ->limit(1);
+        $linker = $this->query($query);
+
+        if ($linker) {
+            $parent = $this->find(array('category_id' => $linker['parent_category_id']));
+            return $this->getCrumbs($parent, $crumbs);
+        }
+
+        return array_reverse($crumbs);
+    }
+
     public function persist($category)
     {
         $category = $this->getDbModel($category);
@@ -52,7 +73,6 @@ class Category extends AbstractMapper
             return $this->find(array('category_id' => $id));
         }
     }
-
 
     public function addProduct($categoryId, $productId, $siteId=1)
     {

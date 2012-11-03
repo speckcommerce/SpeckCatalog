@@ -27,5 +27,10 @@ class ProductUom extends InputFilter
             'name' => 'uom_code',
             'required' => true,
         ));
+        $this->add(array(
+            'name' => 'enabled',
+            'required' => false,
+            'allow_empty' => false,
+        ));
     }
 }

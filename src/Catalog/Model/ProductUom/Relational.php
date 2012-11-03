@@ -10,6 +10,7 @@ class Relational extends Base
     protected $parent;
     protected $availabilities;
     protected $uom;
+    protected $enabled = 1;
 
     /**
      * @return availabilities
@@ -81,16 +82,21 @@ class Relational extends Base
         return $this;
     }
 
-    public function __toString()
+    /**
+     * @return enabled
+     */
+    public function getEnabled()
     {
-        if($this->getUom()) {
-            $string  = $this->getPrice() . ' - ';
-            $string .= $this->getUom()->getName();
-            $string .= ' (' . $this->getUomCode() . ')';
-            $string .= ' of ' . $this->getQuantity();
-        } else {
-            $string = 'Incomplete ProductUom';
-        }
-        return $string;
+        return $this->enabled;
+    }
+
+    /**
+     * @param $enabled
+     * @return self
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
     }
 }

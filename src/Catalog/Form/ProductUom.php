@@ -47,6 +47,17 @@ class ProductUom extends AbstractForm
                 'label' => 'Retail',
             ),
         ));
+        $this->add(array(
+            'name' => 'enabled',
+            'type' => 'Zend\Form\Element\Select',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => array(1 => 'Yes', 0 => 'No'),
+            ),
+            'options' => array(
+                'label' => 'Enabled',
+            ),
+        ));
     }
 
     public function init()
@@ -61,7 +72,6 @@ class ProductUom extends AbstractForm
             'attributes' => array(
                 'type' => 'select',
                 'options' => $uoms,
-                'class' => 'span2',
             ),
             'options' => array(
                 'label' => 'Unit of Measure',

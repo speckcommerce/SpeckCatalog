@@ -7,24 +7,21 @@
         <div class="span4">
             <div class="row">
                 <div class="span2">
-                    <?=$this->speckCatalogManagerFormRow($form->get('uom_code')); ?>
+                    <?=$this->speckCatalogManagerFormRow($form->get('uom_code')->setAttribute('class', 'span2')); ?>
                 </div>
                 <div class="span1">
-                    <?=$this->speckCatalogManagerFormRow($form->get('quantity')); ?>
+                    <?=$this->speckCatalogManagerFormRow($form->get('quantity')->setAttribute('class', 'span1')); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="span2 input-prepend">
-                    <?=$this->formLabel($form->get('retail')); ?>
-                    <span class="add-on">$</span>
-                    <?=$this->formElement($form->get('retail')); ?>
-                    <?=$this->formElementErrors($form->get('retail')); ?>
+                <div class="span1">
+                    <?=$this->speckCatalogManagerFormRow($form->get('enabled')->setAttribute('class', 'span1')); ?>
                 </div>
-                <div class="span2 input-prepend">
-                    <?=$this->formLabel($form->get('price')); ?>
-                    <span class="add-on">$</span>
-                    <?=$this->formElement($form->get('price')); ?>
-                    <?=$this->formElementErrors($form->get('price')); ?>
+                <div class="span1">
+                    <?=$this->speckCatalogManagerFormRow($form->get('retail')->setAttribute('class', 'span1')); ?>
+                </div>
+                <div class="span1">
+                    <?=$this->speckCatalogManagerFormRow($form->get('price')->setAttribute('class', 'span1')); ?>
                 </div>
             </div>
         </div>

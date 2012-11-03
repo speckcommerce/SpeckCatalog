@@ -1054,6 +1054,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
   `product_id` int(11) NOT NULL,
   `price` decimal(15,5) NOT NULL,
   `retail` decimal(15,5) NOT NULL,
+  `enabled` tinyint(4) NOT NULL DEFAULT '0',
   `quantity` int(11) NOT NULL,
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uom_code`,`product_id`,`quantity`),

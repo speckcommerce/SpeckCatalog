@@ -34,7 +34,7 @@ class Option extends AbstractForm
                 'type' => 'text',
             ),
             'options' => array(
-                'label' => 'Name',
+                'label' => 'Option Group Name (size, color, etc.)',
             ),
         ));
         $this->add(array(
@@ -65,13 +65,13 @@ class Option extends AbstractForm
             'attributes' => array(
                 'options' => array(
                     '' => '---------',
-                    '1' => 'Select',
-                    '2' => 'Radio',
-                    '3' => 'Checkbox',
+                    '1' => 'Select Box',
+                    '2' => 'Radio Buttons',
+                    '3' => 'Checkboxes',
                 ),
             ),
             'options' => array(
-                'label' => 'Option Type',
+                'label' => 'Display Options As',
             ),
         ));
     }

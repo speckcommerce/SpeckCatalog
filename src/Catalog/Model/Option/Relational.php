@@ -177,7 +177,7 @@ class Relational extends Base
         if($this->getName()) {
             return $this->getName();
         } else {
-            return 'Unnamed Option';
+            return 'Unnamed Option Group';
         }
     }
 }

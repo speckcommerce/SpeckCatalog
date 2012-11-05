@@ -29,6 +29,13 @@ class Relational extends Base
         return $price;
     }
 
+    public function getItemNumber()
+    {
+        if ($this->getProduct()) {
+            return $this->getProduct()->getItemNumber();
+        }
+    }
+
     /**
      * @return product
      */

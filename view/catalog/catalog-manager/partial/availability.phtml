@@ -1,8 +1,16 @@
+<?
+    $formHelper = $this->speckCatalogForm($availability, 'availability');
+    $keyFields = $formHelper->getKeyFields();
+    $parentProductUomKeyFields = $this->speckCatalogForm($availability->getParent(), 'product_uom')->getKeyFields();
+?>
+
 <div class="boundary whitebg" id="">
     <div class="entity-header">
-        <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
-        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
-        <div class="title collapser">&nbsp; <?=$availability;?></div>
+        <div class="collapser left"><i class="icon-chevron-down initialCollapse"></i></div>
+        <div class="title collapser left">&nbsp; <?=$availability;?></div>
+        <div class="remover right">
+            <?= $this->speckCatalogAdderHelper()->removeChild('product_uom', $parentProductUomKeyFields, 'availability', $keyFields); ?>
+        </div>
     </div>
     <div class="entity-content">
         <?=$this->speckCatalogForm($availability, 'availability')->renderForm();?>

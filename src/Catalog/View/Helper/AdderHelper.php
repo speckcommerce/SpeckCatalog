@@ -12,6 +12,7 @@ class AdderHelper extends AbstractHelper
         'option'       => 'Option Group',
         'availability' => 'Availability',
         'product_uom'  => 'Product Uom',
+        'spec'         => 'Product Specification',
     );
 
     public function __invoke()
@@ -65,6 +66,14 @@ class AdderHelper extends AbstractHelper
         $form->addElements($elements)
             ->addParent($parentFormElements)
             ->addChild($childFormElements);
+
+        $removeType = 'remove-child';
+        foreach ($childFormElements as $key => $val) {
+            if (!trim($val)) {
+                $removeType = 'remove-incomplete-child';
+            }
+        }
+        $form->setAttribute('class', $removeType);
 
         $view = $this->getView();
         $view->vars()->assign(array('removeForm' => $form));

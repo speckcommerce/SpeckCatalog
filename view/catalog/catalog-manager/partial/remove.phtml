@@ -1,4 +1,4 @@
-<form class="remove-child">
+<?=$this->form()->openTag($removeForm);?>
 <? foreach ($removeForm->getElements() as $element) : ?>
     <?=$this->formInput($element); ?>
 <? endforeach; ?>

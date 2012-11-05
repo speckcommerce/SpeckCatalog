@@ -1,13 +1,16 @@
 <?php
     $formHelper = $this->speckCatalogForm($productUom, 'product_uom');
     $productUomKeyFields = $formHelper->getKeyFields();
+    $parentProductKeyFields = $this->SpeckCatalogForm($productUom->getParent(), 'product')->getKeyFields()
 ?>
 
 <div class="existing contrastbg boundary shadow" id="">
 <div class="entity-header">
-    <div class="collapser"><i class="icon-chevron-down"></i></div>
-    <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
-    <div class="title collapser">&nbsp;<?=$productUom;?></div>
+    <div class="collapser left"><i class="icon-chevron-down"></i></div>
+    <div class="title collapser left">&nbsp;<?=$productUom;?></div>
+    <div class="remover right">
+        <?= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'product_uom', $productUomKeyFields); ?>
+    </div>
 </div>
     <div class="entity-content">
         <div class="row">

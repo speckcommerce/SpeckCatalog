@@ -4,6 +4,7 @@ namespace Catalog\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Catalog\Model\AbstractModel;
 
 class AbstractService implements ServiceLocatorAwareInterface
 {
@@ -12,6 +13,11 @@ class AbstractService implements ServiceLocatorAwareInterface
     public function find(array $data, $populate=false, $recursive=false)
     {
         return $this->getEntityMapper()->find($data);
+    }
+
+    public function populate($model, $recursive=false)
+    {
+        return $model;
     }
 
     public function getEntity()

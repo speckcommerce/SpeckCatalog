@@ -34,7 +34,7 @@ class Option extends AbstractService
         return $options;
     }
 
-    private function populate($option, $recursive=false)
+    public function populate($option, $recursive=false)
     {
         $choices = $this->getChoiceService()->getByOptionId($option->getOptionId(), true, $recursive);
         if($choices){

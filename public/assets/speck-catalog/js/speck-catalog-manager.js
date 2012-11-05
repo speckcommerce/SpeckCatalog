@@ -166,7 +166,6 @@
     }
 
     $('.remove-child').live("submit",function(e){
-        alert('removing this!');
         e.preventDefault();
         targetListItems(this);
         var data = $(this).serializeArray();
@@ -178,6 +177,13 @@
             }
         });
     })
+    $('.remove-incomplete-child').live("submit",function(e){
+        e.preventDefault();
+        getBoundary(this).addClass('removing').fadeOut(function(){
+           $(this).remove()
+        });
+    })
+
 
 
 /**

@@ -8,15 +8,15 @@
 <div id="<?=$option->getOptionId();?>" class="option contrastbg boundary shadow">
 
     <div class="entity-header">
-        <div class="collapser"><i class="icon-chevron-down"></i></div>
-        <div class="remover">
-            <?= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'option', $optionKeyFields); ?>
-        </div>
+        <div class="collapser left"><i class="icon-chevron-down"></i></div>
         <? if(1===1 || $option->isShared()) : ?>
             <? $count = count($option->getParentProducts()); ?>
-            <div><i class="icon-eye-open" title="This option is shared <?=$count;?> times"></i></div>
+            <div class="left"><i class="icon-eye-open" title="This option is shared <?=$count;?> times"></i></div>
         <? endif; ?>
-        <div class="title sort-handle collapser">&nbsp; <?=$option;?></div>
+        <div class="title sort-handle collapser left">&nbsp; <?=$option;?></div>
+        <div class="remover right">
+            <?= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'option', $optionKeyFields); ?>
+        </div>
     </div>
     <div class="entity-content">
         <?=$formHelper->renderForm(); ?>

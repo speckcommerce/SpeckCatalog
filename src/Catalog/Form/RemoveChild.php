@@ -14,7 +14,6 @@ class RemoveChild extends ZendForm
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
                 'value' => ' x ',
-                'type' => 'submit',
             ),
         ));
     }

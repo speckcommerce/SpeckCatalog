@@ -21,7 +21,7 @@ class ProductUom extends AbstractService
         return $productUoms;
     }
 
-    public function populate($productUom)
+    public function populate($productUom, $recursive=false)
     {
         $availabilities = $this->getAvailabilityService()->getByProductUom(
             $productUom->getProductId(),

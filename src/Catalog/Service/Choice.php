@@ -19,7 +19,7 @@ class Choice extends AbstractService
         return $choices;
     }
 
-    public function populate($choice, $recursive)
+    public function populate($choice, $recursive=false)
     {
         $options = $this->getOptionService()->getByParentChoiceId($choice->getChoiceId(), true);
         $choice->setOptions($options);

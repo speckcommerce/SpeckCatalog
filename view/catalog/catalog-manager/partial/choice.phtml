@@ -1,19 +1,25 @@
+<?
+$formHelper = $this->speckCatalogForm($choice, 'choice');
+$keyFields = $formHelper->getKeyFields();
+$parentOptionKeyFields = $this->SpeckCatalogForm($choice->getParent(), 'option')->getKeyFields()
+?>
 <div class="choice whitebg boundary shadow" id="" >
     <div class="entity-header">
-        <div class="collapser"><i class="icon-chevron-down initialCollapse"></i></div>
-        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
+        <div class="collapser left"><i class="icon-chevron-down initialCollapse"></i></div>
         <? if($choice->has('parentOptions')) : ?>
-            <div><i class="icon-eye-open" title="This choice is shared <?=count($choice->getParentOptions());?> times"></i></div>
+            <div class="left"><i class="icon-eye-open" title="This choice is shared <?=count($choice->getParentOptions());?> times"></i></div>
         <? endif; ?>
         <? if ($choice->has('options')) : ?>
-            <div><span class="icon-list" title="has options"></span></div>
+            <div class="left"><span class="icon-list" title="has options"></span></div>
         <? elseif($choice->has('product')) : ?>
-            <div><span class="icon-tag"></span></div>
+            <div class="left"><span class="icon-tag"></span></div>
         <? endif; ?>
-        <div class="title sort-handle collapser">&nbsp; <?=$choice;?></div>
+        <div class="title sort-handle collapser left">&nbsp; <?=$choice;?></div>
+        <div class="remover right">
+            <?= $this->speckCatalogAdderHelper()->removeChild('option', $parentOptionKeyFields, 'choice', $keyFields); ?>
+        </div>
     </div>
     <div class="entity-content">
-        <? $formHelper = $this->speckCatalogForm($choice, 'choice'); ?>
         <?=$formHelper->renderForm(); ?>
         <? if($choice->has('product')) : ?>
             <?=$this->speckCatalogRenderChildren('product', array($choice->getProduct()));?>
@@ -28,7 +34,7 @@
                     <?=$this->speckCatalogRenderChildren('option', $choice->getOptions());?>
                 </div>
                 <div class="row list-items-helper">
-                    <?=$this->speckCatalogAdderHelper()->addNew('option', 'choice', $formHelper->getKeyFields()); ?>
+                    <?=$this->speckCatalogAdderHelper()->addNew('option', 'choice', $keyFields); ?>
                 </div>
             </div>
         <? endif; ?>

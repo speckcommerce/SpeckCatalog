@@ -1,10 +1,14 @@
 <?php
     $formHelper = $this->speckCatalogForm($spec, 'spec');
+    $keyFields = $formHelper->getKeyFields();
+    $parentProductKeyFields = $this->speckCatalogForm($spec->getParent(), 'product')->getKeyFields();
 ?>
 <div class="boundary contrastbg">
     <div class="entity-header">
-        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
-        <div class="title sort-handle">&nbsp; <?=$spec;?></div>
+        <div class="title sort-handle left">&nbsp; <?=$spec;?></div>
+        <div class="remover right">
+            <?= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'spec', $keyFields); ?>
+        </div>
     </div>
     <div class="entity-content">
         <?= $formHelper->renderForm(); ?>

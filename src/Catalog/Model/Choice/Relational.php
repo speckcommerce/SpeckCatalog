@@ -146,7 +146,7 @@ class Relational extends Base
         } elseif ($this->getProduct()) {
             return $this->getProduct()->getName();
         } else {
-            return 'Unnamed Choice';
+            return 'Unnamed Option';
         }
     }
 

@@ -146,12 +146,12 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'new' => array(
-                        'type'    => 'Segment',
+                    'new-product' => array(
+                        'type'    => 'Literal',
                         'options' => array(
-                            'route'    => '/new/:class[/:constructor]',
+                            'route'    => '/new-product',
                             'defaults' => array(
-                                'action' => 'new',
+                                'action' => 'newProduct',
                             ),
                         ),
                     ),

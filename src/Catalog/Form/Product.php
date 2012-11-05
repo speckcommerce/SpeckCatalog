@@ -62,7 +62,7 @@ class Product extends AbstractForm
 
     public function init()
     {
-        $options = array();
+        $options = array('' => '---------');
         foreach($this->getCompanyService()->getAll() as $company){
             $options[$company->getCompanyId()] = $company->getName();
         }

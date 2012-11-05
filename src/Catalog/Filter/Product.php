@@ -10,6 +10,8 @@ class Product extends InputFilter
     {
         $this->add(array(
             'name'        => 'product_id',
+            'required'    => 'false',
+            'allow_empty' => 'true',
         ));
         $this->add(array(
             'name'        => 'name',

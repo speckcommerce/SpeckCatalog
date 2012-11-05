@@ -133,6 +133,12 @@ class Product extends AbstractService
         return $document;
     }
 
+    public function insert($product)
+    {
+        $id = parent::insert($product);
+        return $this->find(array('product_id' => $id));
+    }
+
     public function populateForPricing($product)
     {
         //recursive options (only whats needed for pricing)

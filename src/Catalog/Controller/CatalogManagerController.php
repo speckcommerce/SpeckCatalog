@@ -13,10 +13,10 @@ class CatalogManagerController
     extends AbstractActionController
     implements FormServiceAwareInterface
 {
-    protected $linkerService;
     protected $testService;
     protected $userAuth;
     protected $formService;
+    protected $productService;
 
     public function __construct($userAuth = null)
     {
@@ -45,15 +45,18 @@ class CatalogManagerController
             'products' => $products,
             'companies' => $companies
         ));
+
     }
 
-    public function newAction()
+    public function newProductAction()
     {
-        $class = $this->getEvent()->getRouteMatch()->getParam('class');
-        $constructor = $this->getEvent()->getRouteMatch()->getParam('constructor');
-        $model = $this->getCatalogService()->newModel($class, $constructor);
+        if (0) {
+            $this->updateRecordAction($data);
+            $this->redirect()->toRoute("/catalogmanager/product/{$id}");
+        }
+        $product = $this->getProductService()->getEntity();
 
-        return $this->redirect()->toRoute('catalogmanager/' . $class, array('id' => $model->getId()));
+        return new ViewModel(array('product' => $product));
     }
 
     public function productsAction()
@@ -136,6 +139,11 @@ class CatalogManagerController
             } else {
                 $entity = $service->insert($form->getData());
             }
+
+            if ($entity instanceOf \Catalog\Model\Product) {
+                echo (int) $entity->getProductId();
+                die();
+            }
         } else {
             $hydrator = new Hydrator;
             $entity = $service->getEntity();
@@ -187,17 +195,6 @@ class CatalogManagerController
         die($this->getLinkerService()->removeLinker($type, $linkerId));
     }
 
-    public function getLinkerService()
-    {
-        return $this->getServiceLocator()->get('catalog_model_linker_service');
-    }
-
-    public function setLinkerService($linkerService)
-    {
-        $this->linkerService = $linkerService;
-        return $this;
-    }
-
     public function getUserAuth()
     {
         return $this->userAuth;
@@ -217,6 +214,27 @@ class CatalogManagerController
     public function setFormService($formService)
     {
         $this->formService = $formService;
+        return $this;
+    }
+
+    /**
+     * @return productService
+     */
+    public function getProductService()
+    {
+        if (null === $this->productService) {
+            $this->productService = $this->getServiceLocator()->get('catalog_product_service');
+        }
+        return $this->productService;
+    }
+
+    /**
+     * @param $productService
+     * @return self
+     */
+    public function setProductService($productService)
+    {
+        $this->productService = $productService;
         return $this;
     }
 }

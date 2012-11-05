@@ -59,8 +59,14 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
             }
             $html .= '</ul></div>';
         } else if($showValid) {
+
+
             $html .= '<div class="alert alert-success">';
-            $html .= 'All Data is valid!  <a href="#" class="save-now">Save Now</a>';
+            if ($form instanceOf \Catalog\Form\Product) {
+                $html .= 'All Data is valid!  <a href="#" class="save-product">Save Now</a>';
+            } else {
+                $html .= 'All Data is valid!  <a href="#" class="save-now">Save Now</a>';
+            }
             $html .= '</div>';
         }
 

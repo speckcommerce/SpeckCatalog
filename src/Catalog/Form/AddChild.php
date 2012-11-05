@@ -9,14 +9,6 @@ class AddChild extends ZendForm
     public function __construct()
     {
         parent::__construct();
-        $this->add(array(
-            'name' => 'submit',
-            'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
-                'value' => '  +  ',
-                'type' => 'submit',
-            ),
-        ));
     }
 
     public function addElements(array $elements)

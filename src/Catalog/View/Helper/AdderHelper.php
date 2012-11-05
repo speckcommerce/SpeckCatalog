@@ -7,6 +7,13 @@ use Zend\Form\Form as ZendForm;
 
 class AdderHelper extends AbstractHelper
 {
+    protected $labels = array(
+        'choice'       => 'Option',
+        'option'       => 'Option Group',
+        'availability' => 'Availability',
+        'product_uom'  => 'Product Uom',
+    );
+
     public function __invoke()
     {
         return $this;
@@ -14,14 +21,30 @@ class AdderHelper extends AbstractHelper
 
     public function addNew($childName, $parentName, $parentKeyFields)
     {
+        // if there is no parent set yet, cant show a button that wont work.
+        foreach ($parentKeyFields as $key => $val) {
+            if (!trim($val)) {
+                return '';
+            }
+        }
+
         $elements = array(
             'parent_name' => $parentName,
             'child_name'  => $childName,
         );
 
+        $submitButton = array(
+            'name' => 'submit',
+            'type' => 'Zend\Form\Element\Submit',
+            'attributes' => array(
+                'value' => ' + ' . $this->labels[$childName],
+            ),
+        );
+
         $form = new \Catalog\Form\AddChild;
         $form->addElements($elements)
             ->addParent($parentKeyFields);
+        $form->add($submitButton);
 
         $view = $this->getView();
         $view->vars()->assign(array('addForm' => $form));

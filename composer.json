@@ -1,5 +1,5 @@
 {
-    "name": "speckcommerce/SpeckCatalog",
+    "name": "speckcommerce/speck-catalog",
     "description": "catalog + manager module for the ecommerce platform SpeckCommerce",
     "type": "library",
     "keywords": [

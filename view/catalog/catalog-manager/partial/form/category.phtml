@@ -1,5 +1,5 @@
 <?=$this->form()->openTag($form);?>
-
+    <div class="form-messages"><?= $this->formErrors; ?></div>
     <?= $this->originalFields; ?>
     <?=$this->formInput($form->get('category_id')); ?>
 

@@ -268,6 +268,10 @@ class Module
                     $mapper = new \Catalog\Mapper\Spec;
                     return $mapper->setDbAdapter($sm->get('catalog_db'));
                 },
+                'catalog_sites_mapper'              => function ($sm) {
+                    $mapper = new \Catalog\Mapper\Sites;
+                    return $mapper->setDbAdapter($sm->get('catalog_db'));
+                },
 
                 'catalog_db' => function ($sm) {
                     return $sm->get('Zend\Db\Adapter\Adapter');

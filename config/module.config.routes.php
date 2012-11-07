@@ -254,6 +254,15 @@ return array(
                             ),
                         ),
                     ),
+                    'category-tree-preview' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/category-tree-preview/:siteid',
+                            'defaults' => array(
+                                'action' => 'categoryTreePreview',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

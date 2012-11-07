@@ -18,6 +18,7 @@ class CatalogManagerController
     protected $formService;
     protected $productService;
     protected $categoryService;
+    protected $sitesService;
 
     public function __construct($userAuth = null)
     {
@@ -46,7 +47,16 @@ class CatalogManagerController
             'products' => $products,
             'companies' => $companies
         ));
+    }
 
+    public function categoryTreePreviewAction()
+    {
+        $categories = $this->getCategoryService()->getCategoriesForTreePreview($this->params('siteid'));
+
+        $view = new ViewModel(array('categories' => $categories));
+        $view->setTemplate('catalog/catalog-manager/partial/category-tree')->setTerminal(true);
+
+        return $view;
     }
 
     public function newProductAction()
@@ -68,8 +78,9 @@ class CatalogManagerController
 
     public function categoriesAction()
     {
+        $sites = $this->getSitesService()->getAll();
         $categories = $this->getCategoryService()->getAll();
-        return new ViewModel(array('categories' => $categories));
+        return new ViewModel(array('categories' => $categories, 'sites' => $sites,));
     }
 
     public function companyAction()
@@ -257,6 +268,27 @@ class CatalogManagerController
     public function setCategoryService($categoryService)
     {
         $this->categoryService = $categoryService;
+        return $this;
+    }
+
+    /**
+     * @return sitesService
+     */
+    public function getSitesService()
+    {
+        if (null === $this->sitesService) {
+            $this->sitesService = $this->getServiceLocator()->get('catalog_sites_service');
+        }
+        return $this->sitesService;
+    }
+
+    /**
+     * @param $sitesService
+     * @return self
+     */
+    public function setSitesService($sitesService)
+    {
+        $this->sitesService = $sitesService;
         return $this;
     }
 }

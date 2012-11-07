@@ -30,6 +30,18 @@ class Category extends AbstractService
         return $this->getEntityMapper()->getCrumbs($category);
     }
 
+    public function getCategoriesForTreePreview($siteId, $parentCategoryId=null)
+    {
+        $categories = $this->getEntityMapper()->getChildCategories($parentCategoryId, $siteId);
+        foreach ($categories as $category) {
+            $category->setCategories($this->getCategoriesForTreePreview($siteId, $category->getCategoryId()));
+            //$products = $this->getProductService()->getByCategoryId($category->getCategoryId());
+            //$category->setProducts($products);
+        }
+
+        return $categories;
+    }
+
     public function getCategoryforView($categoryId, $paginationOptions=null)
     {
         $category = $this->findById($categoryId);

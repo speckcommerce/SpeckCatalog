@@ -63,6 +63,7 @@ $config = array(
             'catalog_document_service'         => 'Catalog\Service\Document',
             'catalog_availability_service'     => 'Catalog\Service\Availability',
             'catalog_spec_service'             => 'Catalog\Service\Spec',
+            'catalog_sites_service'            => 'Catalog\Service\Sites',
 
             'catalog_cart_service'             => 'Catalog\Service\CatalogCartService',
             'catalog_form_service'             => 'Catalog\Service\FormService',

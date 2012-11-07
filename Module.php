@@ -117,6 +117,14 @@ class Module
                     $imageUploader->getForm()->add($element);
                     return $imageUploader;
                 },
+                'speckCatalogManagerSideNav' => function ($sm) {
+                    $sm = $sm->getServiceLocator();
+                    $app = $sm->get('application');
+                    $routeMatch = $app->getMvcEvent()->getRouteMatch();
+                    $helper = new \Catalog\View\Helper\CatalogManagerSideNav();
+                    $helper->setRouteMatch($routeMatch);
+                    return $helper;
+                },
                 'speckCatalogProductImageUploader'  => function ($sm) {
                     $imageUploader = $sm->get('imageUploader');
                     $element = array('name' => 'file_type', 'attributes' => array('value' => 'productImage', 'type' => 'hidden'));

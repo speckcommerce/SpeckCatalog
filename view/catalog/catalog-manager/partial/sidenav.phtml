@@ -1,3 +1,8 @@
+<?
+ // this is a partial used by a viewhelper
+?>
+
+
 <style>
 /* Sidenav for Docs
 -------------------------------------------------- */
@@ -68,12 +73,33 @@
   bottom: 270px;
 }
 
+<?
+    $buttons = array(
+        array(
+            'action' => 'index',
+            'title' => 'Overview',
+            'url'  => '/catalogmanager',
+        ),
+        array(
+            'action' => 'products',
+            'title' => 'Products',
+            'url'  => '/catalogmanager/products',
+        ),
+        array(
+            'action' => 'categories',
+            'title' => 'Categories',
+            'url'  => '/catalogmanager/categories',
+        ),
+    );
+?>
+
 </style>
 
 <div class="span3 bs-docs-sidebar">
     <ul class="nav nav-list bs-docs-sidenav affix">
-      <li><a href="/catalogmanager"><i class="icon-chevron-right"></i>Overview</a></li>
-      <li><a href="/catalogmanager/products"><i class="icon-chevron-right"></i>Products</a></li>
-      <li><a href="/catalogmanager/categories"><i class="icon-chevron-right"></i>Categories</a></li>
+        <? foreach($buttons as $button) : ?>
+            <? $class = $action === $button['action'] ? 'class="active" ' : ''; ?>
+            <li <?=$class;?>><a href="<?=$button['url'];?>"><i class="icon-chevron-right"></i><?=$button['title'];?></a></li>
+        <? endforeach; ?>
     </ul>
 </div>

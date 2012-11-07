@@ -1,6 +1,16 @@
-<h3>Products</h3>
-<a href="/catalogmanager/new-product">+ New Product</a><br/><br/>
-<? if(isset($products)) :?>
-    <a href="/catalogmanager/products"><?=count($products);?> Products</a>
-<? endif; ?>
-<hr/>
+<?= $this->render('catalog/catalog-manager/partial/sidenav'); ?>
+
+<div class="span9 offset3">
+    <div  id="products">
+        <h3>Products</h3>
+        <a href="/catalogmanager/new-product">+ New Product</a><br/><br/>
+        <? if(isset($products)) :?>
+            <a href="/catalogmanager/products"><?=count($products);?> Products</a>
+        <? endif; ?>
+    </div>
+    <div class="hr"><hr/></div>
+    <div id="categories">
+        <h3>Categories</h3>
+    </div>
+    <div class="hr"><hr/></div>
+</div>

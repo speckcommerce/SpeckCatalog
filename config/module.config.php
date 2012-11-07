@@ -82,6 +82,7 @@ $config = array(
             'catalog_product_uom_form_filter'  => 'Catalog\Filter\ProductUom',
             'catalog_option_form_filter'       => 'Catalog\Filter\Option',
             'catalog_choice_form_filter'       => 'Catalog\Filter\Choice',
+            'catalog_category_form_filter'     => 'Catalog\Filter\Category',
             'catalog_availability_form_filter' => 'Catalog\Filter\Availability',
         ),
     ),

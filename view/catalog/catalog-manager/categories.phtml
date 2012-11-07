@@ -1,16 +1,17 @@
 <? $pdir = '/catalog/catalog-manager/partial/'; ?>
-<div class="list-wrap half-pad">
-    <div class="child-expand list-items-helper">
-        <div class="collapse-all"><i class="icon-arrow-up"></i></div>
-        <div class="expand-all"><i class="icon-arrow-down"></i></div>
-        <span class="smallcaps">&nbsp;categories</span><br/>
-    </div>
-    <div class="list-items">
-        <?=$this->speckCatalogRenderChildren($categories); ?>
-    </div>
-    <div class="row list-items-helper">
-        <?=$this->speckCatalogAdderHelper('addButton', 'category'); ?>
+<?= $this->render('catalog/catalog-manager/partial/sidenav'); ?>
+<div class="offset3 span9">
+    <div class="list-wrap half-pad">
+        <div class="child-expand list-items-helper">
+            <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+            <div class="expand-all"><i class="icon-arrow-down"></i></div>
+            <span class="smallcaps">&nbsp;categories</span><br/>
+        </div>
+        <div class="list-items">
+            <?=$this->speckCatalogRenderChildren('category', $categories); ?>
+        </div>
+        <div class="row list-items-helper">
+            <?=$this->speckCatalogAdderHelper()->addNew('category', 'category', array('category_id' => null)); ?>
+        </div>
     </div>
 </div>
-
-<?=$this->render($pdir.'modal.phtml'); ?>

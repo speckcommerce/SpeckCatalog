@@ -13,6 +13,8 @@ class AdderHelper extends AbstractHelper
         'availability' => 'Availability',
         'product_uom'  => 'Product Uom',
         'spec'         => 'Product Specification',
+        'category'     => 'Category',
+        'product'      => 'Product',
     );
 
     public function __invoke()

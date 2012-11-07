@@ -17,6 +17,7 @@ class CatalogManagerController
     protected $userAuth;
     protected $formService;
     protected $productService;
+    protected $categoryService;
 
     public function __construct($userAuth = null)
     {
@@ -67,7 +68,7 @@ class CatalogManagerController
 
     public function categoriesAction()
     {
-        $categories = $this->getCatalogService()->getService('category')->getCategoriesForManagement();
+        $categories = $this->getCategoryService()->getAll();
         return new ViewModel(array('categories' => $categories));
     }
 
@@ -235,6 +236,27 @@ class CatalogManagerController
     public function setProductService($productService)
     {
         $this->productService = $productService;
+        return $this;
+    }
+
+    /**
+     * @return categoryService
+     */
+    public function getCategoryService()
+    {
+        if (null === $this->categoryService) {
+            $this->categoryService = $this->getServiceLocator()->get('catalog_category_service');
+        }
+        return $this->categoryService;
+    }
+
+    /**
+     * @param $categoryService
+     * @return self
+     */
+    public function setCategoryService($categoryService)
+    {
+        $this->categoryService = $categoryService;
         return $this;
     }
 }

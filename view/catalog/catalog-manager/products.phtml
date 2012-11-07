@@ -1,5 +1,8 @@
-<?
-foreach($products as $product){
-    echo '<a href="/catalogmanager/product/' . $product->getProductId() . '">' . $product->getProductTypeId() . ' - ' .  $product . ' </a><br/>';
-}
-?>
+<?= $this->render('catalog/catalog-manager/partial/sidenav'); ?>
+<div class="offset3 span9">
+    <?
+    foreach($products as $product){
+        echo '<a href="/catalogmanager/product/' . $product->getProductId() . '">' . $product->getProductTypeId() . ' - ' .  $product . ' </a><br/>';
+    }
+    ?>
+</div>

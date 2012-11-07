@@ -2,6 +2,7 @@
     "name": "speckcommerce/speck-catalog",
     "description": "catalog + manager module for the ecommerce platform SpeckCommerce",
     "type": "library",
+    "minimum-stability": "dev",
     "keywords": [
         "zf2"
     ],

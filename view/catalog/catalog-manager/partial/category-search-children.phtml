@@ -1,9 +1,11 @@
 <? foreach ($children as $child) : ?>
     <? if($type === 'product') : ?>
-        <div class="tree-product"><b>:P: </b><?= $child ;?></div>
+        <div class="tree-product">
+            <div class="tree-product-title title"><b>:P: </b><?= $child ;?></div>
+        </div>
     <? else : ?>
         <div class="tree-cat">
-            <div class="tree-cat-title"><b>:C: </b><?= $child ;?></div>
+            <div class="tree-cat-title title"><b>:C: </b><?= $child ;?></div>
             <div class="tree-cat-cats"></div>
             <div class="tree-cat-products"></div>
         </div>

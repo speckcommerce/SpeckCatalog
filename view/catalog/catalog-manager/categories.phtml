@@ -2,8 +2,11 @@
     div.tree-cat-cats{padding:3px; padding-top:10px; padding-bottom:5px; background:#eeeeee; border:1px solid #cccccc;}
     div.tree-cat-products{padding:3px; padding-top:10px; padding-bottom:5px; background:#eef5ff; border:1px solid #aaccff}
     div.tree-cat{padding:2px; margin-bottom:5px; border:1px solid #cccccc; background:#dddddd}
-    div.tree-cat-title{cursor:move}
-    div.tree-product{cursor:move; padding:2px; margin-bottom:5px; background:#ddeeff; border:1px solid #aaccff}
+    div.tree-cat-placeholder{background:#cccccc}
+    div.tree-cat-title{cursor:move; padding-bottom:4px}
+    div.tree-product{padding:2px; margin-bottom:5px; background:#ddeeff; border:1px solid #aaccff}
+    div.tree-product-title{cursor:move}
+    div.tree-product-placeholder{background:#aaccff}
 </style>
 
 </style>
@@ -69,8 +72,18 @@
         })
         function categorySortable()
         {
-            $('.tree-cat-cats').sortable({connectWith:['.tree-cat-cats']});
-            $('.tree-cat-products').sortable({connectWith:['.tree-cat-products']});
+            $('.tree-cat-cats').sortable({
+                connectWith:['.tree-cat-cats'],
+                forcePlaceholderSize: true,
+                handle: '.title',
+                placeholder: 'tree-cat tree-cat-placeholder'
+            });
+            $('.tree-cat-products').sortable({
+                connectWith:['.tree-cat-products'],
+                forcePlaceholderSize: true,
+                handle: '.title',
+                placeholder: 'tree-product tree-product-placeholder'
+            });
         }
         function getSiteTree(){
             if($('select#site-select').val()){

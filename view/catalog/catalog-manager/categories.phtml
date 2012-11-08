@@ -1,8 +1,9 @@
 <style>
-    div.tree-cat-children{margin-left:2px; padding:3px; padding-top:6px; background:#dddddd}
-    div.tree-cat{padding:2px; border:1px dotted #bbbbbb; background:#ffffff}
+    div.tree-cat-cats{padding:3px; padding-top:10px; padding-bottom:5px; background:#eeeeee; border:1px solid #cccccc;}
+    div.tree-cat-products{padding:3px; padding-top:10px; padding-bottom:5px; background:#eef5ff; border:1px solid #aaccff}
+    div.tree-cat{padding:2px; margin-bottom:5px; border:1px solid #cccccc; background:#dddddd}
     div.tree-cat-title{cursor:move}
-    div.tree-product{cursor:move}
+    div.tree-product{cursor:move; padding:2px; margin-bottom:5px; background:#ddeeff; border:1px solid #aaccff}
 </style>
 
 </style>
@@ -17,7 +18,7 @@
                 <option value="<?=$site->getSiteId();?>"><?=$site->getName();?></option>
             <? endforeach; ?>
         </select>
-        <div id="option-tree" style="max-height:300px; height:300px; overflow-y:scroll">select a site from the above dropdown</div>
+        <div class="tree-cat-cats" id="option-tree" style="max-height:600px; height:600px; overflow-y:scroll">select a site from the above dropdown</div>
     </div>
     <div class="span3 tabbable">
 
@@ -29,13 +30,13 @@
         <div class="tab-content">
             <div id="products" class="tab-pane active">
                 <input type="text" class="span3" id="search-product">
-                <div class="well tree-cat-children" id="product-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
+                <div class="tree-cat-products" id="product-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
                     search for products above
                 </div>
             </div>
             <div id="categories" class="tab-pane">
                 <input type="text" class="span3" id="search-category">
-                <div class="well tree-cat-children" id="category-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
+                <div class="tree-cat-cats" id="category-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
                     search for categories above
                 </div>
             </div>
@@ -66,12 +67,11 @@
                 })
             }
         })
-
         function categorySortable()
         {
-            $('.tree-cat-children').sortable({connectWith:['.tree-cat-children']});
+            $('.tree-cat-cats').sortable({connectWith:['.tree-cat-cats']});
+            $('.tree-cat-products').sortable({connectWith:['.tree-cat-products']});
         }
-
         function getSiteTree(){
             if($('select#site-select').val()){
                 $.post('/catalogmanager/category-tree-preview/' + $('select#site-select').val(), null, function(html){

@@ -59,6 +59,18 @@ class CatalogManagerController
         return $view;
     }
 
+    //find categories/products that match search terms
+    public function categorySearchChildrenAction()
+    {
+        $getter = 'get' . ucfirst($this->params('type')) . 'Service';
+        $service = $this->$getter();
+        $children = $service->getAll();
+
+        $view = new ViewModel(array('children' => $children, 'type' => $this->params('type')));
+        $view->setTemplate('/catalog/catalog-manager/partial/category-search-children')->setTerminal(true);
+        return $view;
+    }
+
     public function newProductAction()
     {
         if (0) {

@@ -3,21 +3,21 @@ $depth = isset($depth) ? $depth : 0;
 $products = isset($products) ? $products : array();
 
 function renderCategories($categories, $depth){
-    $indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
     foreach ($categories as $i => $category) {
-        echo '<div id="' . $category->getCategoryId() . '" class="tree-cat">' . str_repeat($indent, $depth) . '&nbsp;⏴'. $category->getName() . '</div>';
-        if ($category->has('categories') ) {
+        echo '<div id="' . $category->getCategoryId() . '" class="tree-cat">';
+        echo '<div class="tree-cat-title"><b>:C: </b>'. $category->getName() . '</div>';
             echo '<div class="tree-cat-children">';
-            renderCategories($category->getCategories(), $depth+1);
+            if ($category->has('categories') ) {
+                renderCategories($category->getCategories(), $depth+1);
+            }
             echo '</div>';
-        }
+        echo '</div>';
     }
 }
 
 function renderProducts($products, $depth){
-    $indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
     foreach ($products as $i => $product) {
-        echo '<div id="' . $product->getProductId() . '" class="tree-product">' . str_repeat($indent, $depth) . '&nbsp;⏺'. $product->getName() . '</div>';
+        echo '<div id="' . $product->getProductId() . '" class="tree-product">'. $product->getName() . '</div>';
     }
 }
 

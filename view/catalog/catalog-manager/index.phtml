@@ -1,16 +1,20 @@
-<?= $this->speckCatalogManagerSideNav(); ?>
+<div class="row">
 
-<div class="span10 offset2">
-    <div  id="products">
-        <h3>Products</h3>
-        <a href="/catalogmanager/new-product">+ New Product</a><br/><br/>
-        <? if(isset($products)) :?>
-            <a href="/catalogmanager/products"><?=count($products);?> Products</a>
-        <? endif; ?>
+    <?= $this->speckCatalogManagerSideNav(); ?>
+
+    <div class="span10 offset2">
+        <div  id="products">
+            <h3>Products</h3>
+            <a href="/catalogmanager/new-product">+ New Product</a><br/><br/>
+            <? if(isset($products)) :?>
+                <a href="/catalogmanager/products"><?=count($products);?> Products</a>
+            <? endif; ?>
+        </div>
+        <div class="hr"><hr/></div>
+        <div id="categories">
+            <h3>Categories</h3>
+        </div>
+        <div class="hr"><hr/></div>
     </div>
-    <div class="hr"><hr/></div>
-    <div id="categories">
-        <h3>Categories</h3>
-    </div>
-    <div class="hr"><hr/></div>
+
 </div>

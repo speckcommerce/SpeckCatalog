@@ -219,11 +219,23 @@ return array(
                         ),
                     ),
                     'categories' => array(
-                        'type'    => 'Segment',
+                        'type'    => 'Literal',
                         'options' => array(
-                            'route'    => '/categories[/:page]',
+                            'route'    => '/categories',
                             'defaults' => array(
                                 'action' => 'categories',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'search' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/search/:type/:terms',
+                                    'defaults' => array(
+                                        'action' => 'categorySearchChildren',
+                                    ),
+                                ),
                             ),
                         ),
                     ),

@@ -6,12 +6,12 @@ function renderCategories($categories, $depth){
     foreach ($categories as $i => $category) {
         echo '<div id="' . $category->getCategoryId() . '" class="tree-cat">';
         echo '<div class="tree-cat-title title"><b>:C: </b>'. $category->getName() . '</div>';
-            echo '<div class="tree-cat-cats">';
+            echo '<div class="tree-cat-cats cat-sort">';
             if ($category->has('categories') ) {
                 renderCategories($category->getCategories(), $depth+1);
             }
             echo '</div>';
-            echo '<div class="tree-cat-products">';
+            echo '<div class="tree-cat-products product-sort">';
             echo '</div>';
         echo '</div>';
     }

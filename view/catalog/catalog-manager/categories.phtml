@@ -1,12 +1,18 @@
 <style>
-    div.tree-cat-cats{padding:3px; padding-top:10px; padding-bottom:5px; background:#eeeeee; border:1px solid #cccccc;}
-    div.tree-cat-products{padding:3px; padding-top:10px; padding-bottom:5px; background:#eef5ff; border:1px solid #aaccff}
-    div.tree-cat{padding:2px; margin-bottom:5px; border:1px solid #cccccc; background:#dddddd}
-    div.tree-cat-placeholder{background:#cccccc}
+
+    div.tree-cat{padding:2px; margin-top:10px; margin-bottom:10px border:1px solid #cccccc; background:#dddddd}
+    div.tree-product{padding:2px; margin-top:10px; margin-bottom:10px; background:#ddeeff; border:1px solid #aaccff}
+
+    div.tree-cat-placeholder{background:#cccccc; margin:1px }
+    div.tree-product-placeholder{background:#aaccff; margin:1px}
+
     div.tree-cat-title{cursor:move; padding-bottom:4px}
-    div.tree-product{padding:2px; margin-bottom:5px; background:#ddeeff; border:1px solid #aaccff}
     div.tree-product-title{cursor:move}
-    div.tree-product-placeholder{background:#aaccff}
+
+    div.tree-cat-cats{padding:3px; padding-top:5px; padding-bottom:5px; min-height:10px; background:#eeeeee; border:1px solid #cccccc;}
+    div.tree-cat-products{padding:3px; padding-top:5px; padding-bottom:5px; min-height:10px; background:#eef5ff; border:1px solid #aaccff}
+
+
 </style>
 
 </style>
@@ -21,7 +27,7 @@
                 <option value="<?=$site->getSiteId();?>"><?=$site->getName();?></option>
             <? endforeach; ?>
         </select>
-        <div class="tree-cat-cats" id="option-tree" style="max-height:600px; height:600px; overflow-y:scroll">select a site from the above dropdown</div>
+        <div class="tree-cat-cats cat-sort" id="option-tree" style="max-height:600px; height:600px; overflow-y:scroll">select a site from the above dropdown</div>
     </div>
     <div class="span3 tabbable">
 
@@ -33,13 +39,13 @@
         <div class="tab-content">
             <div id="products" class="tab-pane active">
                 <input type="text" class="span3" id="search-product">
-                <div class="tree-cat-products" id="product-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
+                <div class="tree-cat-products product-clone" id="product-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
                     search for products above
                 </div>
             </div>
             <div id="categories" class="tab-pane">
                 <input type="text" class="span3" id="search-category">
-                <div class="tree-cat-cats" id="category-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
+                <div class="tree-cat-cats cat-clone" id="category-search-results" style="max-height:300px; height:300px; overflow-y:scroll">
                     search for categories above
                 </div>
             </div>
@@ -72,18 +78,40 @@
         })
         function categorySortable()
         {
-            $('.tree-cat-cats').sortable({
-                connectWith:['.tree-cat-cats'],
-                forcePlaceholderSize: true,
-                handle: '.title',
-                placeholder: 'tree-cat tree-cat-placeholder'
-            });
-            $('.tree-cat-products').sortable({
-                connectWith:['.tree-cat-products'],
-                forcePlaceholderSize: true,
-                handle: '.title',
-                placeholder: 'tree-product tree-product-placeholder'
-            });
+            $('.cat-sort').sortable({
+                connectWith:['.cat-sort']
+                , placeholder: 'tree-cat tree-cat-placeholder'
+                , handle: '.title'
+                , tolerance: 'pointer'
+                , revert : true
+                , opacity: 0.3
+            }).disableSelection();
+
+            $('.product-sort').sortable({
+                connectWith:['.product-sort']
+                , placeholder: 'tree-product tree-product-placeholder'
+                , handle: '.title'
+                , tolerance: 'pointer'
+                , revert : true
+                , opacity: 0.3
+            }).disableSelection();
+
+            $('.cat-clone div.tree-cat').draggable({
+                connectToSortable:'.cat-sort'
+                , placeholder: 'tree-cat tree-cat-placeholder'
+                , handle: '.title'
+                , opacity: 0.3
+                , helper: 'clone'
+            }).disableSelection();
+
+            $('.product-clone div.tree-product').draggable({
+                connectToSortable:'.product-sort'
+                , placeholder: 'tree-product tree-product-placeholder'
+                , handle: '.title'
+                , opacity: 0.3
+                , helper: 'clone'
+            }).disableSelection();
+
         }
         function getSiteTree(){
             if($('select#site-select').val()){

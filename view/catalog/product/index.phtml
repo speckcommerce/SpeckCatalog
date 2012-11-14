@@ -29,7 +29,7 @@
 </div>
 
 <? if( $product->has('options') || $product->has('specs') || $product->has('documents') ): ?>
-    <div class="tabbable">
+    <div class="tabbable" class="row">
         <ul class="nav nav-tabs">
             <? if($product->has('options')) : ?>
                 <li><a href="#options" data-toggle="tab">Configure and Buy</a></li>
@@ -74,4 +74,13 @@
         });
     </script>
 <? endif; ?>
+
+<? if ($product->has('uoms')) : ?>
+    <div class="span12 row">
+        <?= $this->speckCatalogUomsToCart($product->getUoms()); ?>
+    </div>
+<? endif; ?>
+
+
+
 </form>

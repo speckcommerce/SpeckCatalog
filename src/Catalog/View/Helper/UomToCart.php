@@ -9,6 +9,13 @@ use Zend\Form\Form;
 
 class UomToCart extends AbstractHelper
 {
+
+    protected $partials = array(
+        'single' => '/catalog/product/product-uom/single',
+        'few' => '/catalog/product/product-uom/few',
+        'many' => '/catalog/product/product-uom/many',
+    );
+
     /**
      * how many uoms before we change the display style from few to many
      * you may use a value above 3, but you may end up with undesired results.
@@ -34,10 +41,9 @@ class UomToCart extends AbstractHelper
 
     public function renderOne($uom)
     {
-        $partial = '/catalog/product/product-uom/single';
         $form = $this->newForm($uom, true);
         $view = new ViewModel(array('form' => $form, 'uom' => $uom, 'uomTranslated' => $this->translateUom($uom)));
-        $view->setTerminal(true)->setTemplate($partial);
+        $view->setTerminal(true)->setTemplate($this->partials['single']);
         $return = $this->getView()->render($view);
 
         return $return;
@@ -45,17 +51,26 @@ class UomToCart extends AbstractHelper
 
     public function renderFew($uoms)
     {
-        $partial = '/catalog/product/product-uom/few';
-
-        $return = '';
         foreach ($uoms as $uom) {
-            $form = $this->newForm($uom, true);
-            $view = new ViewModel(array('form' => $form, 'uom' => $uom, 'uomTranslated' => $this->translateUom($uom)));
-            $view->setTerminal(true)->setTemplate($partial);
-            $return .= $this->getView()->render($view);
+            $options[$this->uomtokey($uom)] = $this->translateUom($uom);
         }
 
-        return $return;
+        $form = $this->newForm();
+        $form->add(array(
+            'name' => 'uom',
+            'type' => 'Zend\Form\Element\Radio',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => $options,
+            ),
+            'options' => array(
+                'label' => 'Unit Of Measure',
+            ),
+        ));
+
+        $view = new ViewModel(array('form' => $form, 'uoms' => $uoms));
+        $view->setTerminal(true)->setTemplate($this->partials['few']);
+        return $this->getView()->render($view);
     }
 
     public function translateUom($uom)
@@ -67,14 +82,15 @@ class UomToCart extends AbstractHelper
         }
     }
 
+    public function uomToKey($uom)
+    {
+        return $uom->getProductId() . ':' . $uom->getUomCode() . ':' . $uom->getQuantity();
+    }
 
     public function renderMany($uoms)
     {
-        $partial = '/catalog/product/product-uom/many';
-
         foreach ($uoms as $uom) {
-            $key = $uom->getUomCode() . '[' . $uom->getQuantity() . ']';
-            $options[$key] = $this->translateUom($uom) . ' : $' . number_format($uom->getPrice(), 2);
+            $options[$this->uomtokey($uom)] = $this->translateUom($uom) . ' : $' . number_format($uom->getPrice(), 2);
         }
 
         $form = $this->newForm();
@@ -91,7 +107,7 @@ class UomToCart extends AbstractHelper
         ));
 
         $view = new ViewModel(array('form' => $form));
-        $view->setTerminal(true)->setTemplate($partial);
+        $view->setTerminal(true)->setTemplate($this->partials['many']);
         return $this->getView()->render($view);
     }
 
@@ -105,13 +121,17 @@ class UomToCart extends AbstractHelper
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
-                'value' => 'Add To Cart',
+                'class' => 'btn add-to-cart',
+            ),
+            'options' => array(
+                'label' => 'Add To Cart',
             ),
         ));
         $form->add(array(
             'name' => 'quantity',
             'attributes' => array(
                 'type' => 'text',
+                'value' => 1
             ),
             'options' => array(
                 'label' => 'Quantity',

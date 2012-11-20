@@ -10,6 +10,7 @@ class CartItemMeta
     protected $parentOptionName;
     protected $flatOptions = array();
     protected $image;
+    protected $uom;
 
  /**
   * Get parentOptionId.
@@ -126,6 +127,24 @@ class CartItemMeta
     public function setItemNumber($itemNumber)
     {
         $this->itemNumber = $itemNumber;
+        return $this;
+    }
+
+    /**
+     * @return uom
+     */
+    public function getUom()
+    {
+        return $this->uom;
+    }
+
+    /**
+     * @param $uom
+     * @return self
+     */
+    public function setUom($uom)
+    {
+        $this->uom = $uom;
         return $this;
     }
 }

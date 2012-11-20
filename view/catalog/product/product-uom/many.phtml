@@ -14,9 +14,11 @@
         <?= $this->formSelect($form->get('uom')); ?>
     </div>
     <div class="span1">
-        <?= $this->formInput($form->get('quantity')->setAttribute('class', 'span1')->setValue(1)); ?>
+        <?= $this->formInput($form->get('quantity')->setAttribute('class', 'span1')); ?>
     </div>
     <div class="span2" style="align:bottom">
-        <?= $this->formInput($form->get('submit')->setAttribute('class', 'btn')); ?>
+        <? $submit = $form->get('submit'); ?>
+        <? $class = $submit->getAttribute('class') . ' span2'; ?>
+        <?= $this->formButton($submit->setAttribute('class', $class)); ?>
     </div>
 </div>

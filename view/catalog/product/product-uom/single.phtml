@@ -8,5 +8,7 @@
     <?=$this->formInput($form->get('quantity')->setAttribute('class', 'span1')); ?>
 </div>
 <div class="span2">
-    <?=$this->formInput($form->get('submit')->setAttribute('class', 'span2 btn')); ?>
+    <? $submit = $form->get('submit'); ?>
+    <? $class = $submit->getAttribute('class') . ' span2'; ?>
+    <?= $this->formButton($submit->setAttribute('class', $class)); ?>
 </div>

@@ -1,20 +1,36 @@
-<div class="span2 offset1 well">
-    <div class="row">
-        <div class="span2">
-            <?=$uomTranslated; ?>
+<?
+function uomForKey($uoms, $key) {
+    $key = explode(':', $key);
+    foreach($uoms as $uom) {
+        if(
+            $uom->getUomCode() === $key[1]
+            && $uom->getQuantity() === (int) $key[2]
+        ) {
+            return $uom;
+        }
+    }
+}
+?>
+
+<div style="row" class="span12">
+    <? foreach($form->get('uom')->getValueOptions() as $val => $label): ?>
+        <div class="product-uom-wrap span2 well">
+            <label>
+                <? $uom = uomForKey($uoms, $val); ?>
+                <input class="select-product-uom" type="radio" name="uom" value="<?=$val;?>" />
+                    &nbsp; <?=$label;?><br/>
+                <h4 align="right">$ <?=number_format($uom->getPrice(), 2); ?></h4>
+            </label>
         </div>
+    <? endforeach; ?>
+</div>
+<div style="row" class="span12">
+    <div class="span1">
+        <?= $this->formInput($form->get('quantity')->setAttribute('class', 'span1')); ?>
     </div>
-    <div class="row">
-        <div class="span1">
-            <h5>$ <?= number_format($uom->getPrice(), 2); ?></h5>
-        </div>
-        <div class="span1">
-            <?=$this->formInput($form->get('quantity')->setAttribute('class', 'span1')); ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span2">
-        <?=$this->formInput($form->get('submit')->setAttribute('class', 'span2 btn')); ?>
-        </div>
+    <div class="span2" style="align:bottom">
+        <? $submit = $form->get('submit'); ?>
+        <? $class = $submit->getAttribute('class') . ' span2'; ?>
+        <?= $this->formButton($submit->setAttribute('class', $class)); ?>
     </div>
 </div>

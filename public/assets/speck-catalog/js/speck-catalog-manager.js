@@ -141,9 +141,10 @@
             update: function() {
                 var data = {
                     order : $(this).sortable("toArray").toString(),
+                    parent_key : $(this).data('parent_key')
                 }
                 $.post(
-                    "/catalogmanager/sort/" + $(this).attr('parent') + $(this).attr('type') + '/',
+                    '/catalogmanager/sort/' + $(this).data('parent') + '/' + $(this).data('type'),
                     data, function(res){
                         console.log(res);
                     }

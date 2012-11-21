@@ -51,6 +51,7 @@ class UomToCart extends AbstractHelper
 
     public function renderFew($uoms)
     {
+        $options = array();
         foreach ($uoms as $uom) {
             $options[$this->uomtokey($uom)] = $this->translateUom($uom);
         }

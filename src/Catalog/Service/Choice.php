@@ -37,6 +37,11 @@ class Choice extends AbstractService
         return $this->getOptionService()->find(array('option_id' => $optionId));
     }
 
+    public function sortOptions($choiceId, $order)
+    {
+        return $this->getEntityMapper()->sortOptions($choiceId, $order);
+    }
+
     public function removeOption($choiceOrId, $optionOrId)
     {
         $productId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getProductId() );

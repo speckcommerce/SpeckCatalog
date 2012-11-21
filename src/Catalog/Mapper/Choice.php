@@ -32,6 +32,19 @@ class Choice extends AbstractMapper
         return $this->find(array('choice_id' => $choiceId));
     }
 
+    public function sortOptions($choiceId, $order)
+    {
+        var_dump($choiceId, $order); die();
+        $table = 'catalog_choice_option';
+        foreach ($order as $i => $optionId) {
+            $where = array('choice_id' => $choiceId, 'option_id' => $optionId);
+            $select = $this->getSelect($table)->where($where);
+            $row = $this->query($select);
+            $row['sort_weight'] = $i;
+            $this->update($row, $where, $table);
+        }
+    }
+
     public function addOption($choiceId, $optionId)
     {
         $table = 'catalog_choice_option';

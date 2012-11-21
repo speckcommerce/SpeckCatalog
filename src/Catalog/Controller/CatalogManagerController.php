@@ -18,6 +18,7 @@ class CatalogManagerController
     protected $formService;
     protected $productService;
     protected $optionService;
+    protected $choiceService;
     protected $categoryService;
     protected $sitesService;
 
@@ -336,6 +337,27 @@ class CatalogManagerController
     public function setOptionService($optionService)
     {
         $this->optionService = $optionService;
+        return $this;
+    }
+
+    /**
+     * @return choiceService
+     */
+    public function getChoiceService()
+    {
+        if (null === $this->choiceService) {
+            $this->choiceService = $this->getServiceLocator()->get('catalog_choice_service');
+        }
+        return $this->choiceService;
+    }
+
+    /**
+     * @param $choiceService
+     * @return self
+     */
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
         return $this;
     }
 }

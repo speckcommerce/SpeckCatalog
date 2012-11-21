@@ -41,7 +41,8 @@ class Option extends AbstractMapper
 
         $select = $this->getSelect()
             ->join($linker, $joinString)
-            ->where(array($linker . '.choice_id' => (int) $choiceId));
+            ->where(array($linker . '.choice_id' => (int) $choiceId))
+            ->order('sort_weight', 'ASC');
         return $this->selectMany($select);
     }
 

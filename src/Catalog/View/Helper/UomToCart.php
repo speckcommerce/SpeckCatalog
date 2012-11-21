@@ -91,7 +91,7 @@ class UomToCart extends AbstractHelper
     public function renderMany($uoms)
     {
         foreach ($uoms as $uom) {
-            $options[$this->uomtokey($uom)] = $this->translateUom($uom) . ' : $' . number_format($uom->getPrice(), 2);
+            $options[$this->uomToKey($uom)] = $this->translateUom($uom) . ' : $' . number_format($uom->getPrice(), 2);
         }
 
         $form = $this->newForm();
@@ -141,14 +141,13 @@ class UomToCart extends AbstractHelper
         ));
 
         if($uomTextField) {
-            $value = $uom->getUomCode() . '[' . $uom->getQuantity() . ']';
             $form->add(array(
                 'name' => 'uom',
                 'attributes' => array(
                     'type' => 'hidden'
                 ),
-                'value' => $value,
             ));
+            $form->get('uom')->setValue($this->uomToKey($uom));
         }
 
         return $form;

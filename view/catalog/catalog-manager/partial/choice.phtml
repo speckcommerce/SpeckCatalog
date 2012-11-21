@@ -3,7 +3,7 @@ $formHelper = $this->speckCatalogForm($choice, 'choice');
 $keyFields = $formHelper->getKeyFields();
 $parentOptionKeyFields = $this->SpeckCatalogForm($choice->getParent(), 'option')->getKeyFields()
 ?>
-<div class="choice whitebg boundary shadow" id="" >
+<div class="choice whitebg boundary shadow" id="<?= $choice->getKey(); ?>" >
     <div class="entity-header">
         <div class="collapser left"><i class="icon-chevron-down initialCollapse"></i></div>
         <? if($choice->has('parentOptions')) : ?>

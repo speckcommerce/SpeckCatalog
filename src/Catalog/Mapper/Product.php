@@ -42,6 +42,18 @@ class Product extends AbstractMapper
         }
     }
 
+    public function sortOptions($productId, $order)
+    {
+        $table = 'catalog_product_option';
+        foreach ($order as $i => $optionId) {
+            $where = array('product_id' => $productId, 'option_id' => $optionId);
+            $select = $this->getSelect($table)->where($where);
+            $row = $this->query($select);
+            $row['sort_weight'] = $i;
+            $this->update($row, $where, $table);
+        }
+    }
+
     public function addImage($productId, $imageId)
     {
         $table = 'catalog_product_image';

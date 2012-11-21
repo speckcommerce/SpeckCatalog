@@ -21,7 +21,8 @@ class Choice extends AbstractMapper
     public function getByOptionId($optionId)
     {
         $select = $this->getSelect()
-            ->where(array('option_id' => (int) $optionId));
+            ->where(array('option_id' => (int) $optionId))
+            ->order('sort_weight', 'ASC');
         return $this->selectMany($select);
     }
 

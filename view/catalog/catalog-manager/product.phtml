@@ -22,7 +22,7 @@
                     <div class="collapse-all"><i class="icon-arrow-up"></i></div>
                     <div class="expand-all"><i class="icon-arrow-down"></i></div>
                 </div>
-                <div class="list-items" type="option" parent="product">
+                <div class="list-items" data-type="option" data-parent="product" data-parent_key="<?= $product->getKey();?>">
                     <?= $this->speckCatalogRenderChildren('option', $product->getOptions()); ?>
                 </div>
                 <div class="row list-items-helper">

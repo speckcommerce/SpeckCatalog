@@ -13,6 +13,11 @@ class Relational extends Base
     protected $parentOptions;
     protected $addPrice;
 
+    public function getKey()
+    {
+        return $this->choiceId;
+    }
+
     public function getPrice(){
         if ($this->has('product')) {
             return $this->getProduct()->getPrice();

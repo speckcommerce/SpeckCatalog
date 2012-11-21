@@ -158,7 +158,7 @@ return array(
                     'sort' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/sort/:type/:parent',
+                            'route'    => '/sort/:parent/:type',
                             'defaults' => array(
                                 'action' => 'sort',
                             ),

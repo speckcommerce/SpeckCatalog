@@ -16,6 +16,11 @@ class Relational extends Base
     protected $documents;
     protected $features;
 
+    public function getKey()
+    {
+        return $this->productId;
+    }
+
     public function getRecursivePrice($uomCode = null)
     {
         $price = 0;

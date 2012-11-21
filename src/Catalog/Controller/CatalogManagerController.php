@@ -17,6 +17,7 @@ class CatalogManagerController
     protected $userAuth;
     protected $formService;
     protected $productService;
+    protected $optionService;
     protected $categoryService;
     protected $sitesService;
 
@@ -206,15 +207,28 @@ class CatalogManagerController
 
     public function sortAction()
     {
-        $order = explode(',', $_POST['order']);
-        $type = $this->getEvent()->getRouteMatch()->getParam('type');
-        $parent = $this->getEvent()->getRouteMatch()->getParam('parent');
-        die($this->getCatalogService()->updateSortOrder($type, $parent, $order));
+        $postParams = $this->params()->fromPost();
+        $type = $this->params('type');
+        $parent = $this->params('parent');
+        $parentKey = $postParams['parent_key'];
+
+        $order = explode(',', $postParams['order']);
+        foreach ($order as $i => $val) {
+            if(!trim($val)) {
+                unset($order[$i]);
+            }
+        }
+        $getter = 'get' . $this->camel($parent) . 'Service';
+        $parentService =  $this->$getter();
+
+        $sortChildren = 'sort' . $this->camel($type) . 's';
+        $parentService->$sortChildren($parentKey, $order);
+        die();
     }
 
     public function removeAction()
     {
-        $type = $this->getEvent()->getRouteMatch()->getParam('type');
+        $type = $this->param('type');
         $linkerId = $this->getEvent()->getRouteMatch()->getParam('linkerId');
         die($this->getLinkerService()->removeLinker($type, $linkerId));
     }
@@ -301,6 +315,27 @@ class CatalogManagerController
     public function setSitesService($sitesService)
     {
         $this->sitesService = $sitesService;
+        return $this;
+    }
+
+    /**
+     * @return optionService
+     */
+    public function getOptionService()
+    {
+        if (null === $this->optionService) {
+            $this->optionService = $this->getServiceLocator()->get('catalog_option_service');
+        }
+        return $this->optionService;
+    }
+
+    /**
+     * @param $optionService
+     * @return self
+     */
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
         return $this;
     }
 }

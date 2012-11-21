@@ -28,7 +28,8 @@ class Option extends AbstractMapper
 
         $select = $this->getSelect()
             ->join($linker, $joinString)
-            ->where(array('product_id' => (int) $productId));
+            ->where(array('product_id' => (int) $productId))
+            ->order('sort_weight', 'ASC');
         return $this->selectMany($select);
     }
 
@@ -42,6 +43,18 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array($linker . '.choice_id' => (int) $choiceId));
         return $this->selectMany($select);
+    }
+
+    public function sortChoices($optionId, $order)
+    {
+        $table = 'catalog_choice';
+        foreach ($order as $i => $choiceId) {
+            $where = array('option_id' => $optionId, 'choice_id' => $choiceId);
+            $select = $this->getSelect($table)->where($where);
+            $row = $this->query($select);
+            $row['sort_weight'] = $i;
+            $this->update($row, $where, $table);
+        }
     }
 
     public function insert($option, $tableName=null, HydratorInterface $hydrator=null)

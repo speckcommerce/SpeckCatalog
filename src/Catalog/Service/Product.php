@@ -26,6 +26,7 @@ class Product extends AbstractService
         $crumbs = array($product->getName());
         return $this->getEntityMapper()->getCrumbs($product, $crumbs);
     }
+
     public function getFullProduct($productId)
     {
         $product = $this->find(array('product_id' => $productId));
@@ -77,6 +78,11 @@ class Product extends AbstractService
         $this->getEntityMapper()->addOption($productId, $optionId);
 
         return $this->getOptionService()->find(array('option_id' => $optionId));
+    }
+
+    public function sortOptions($productId, $order)
+    {
+        return $this->getEntityMapper()->sortOptions($productId, $order);
     }
 
     public function newProductUom($productOrId)

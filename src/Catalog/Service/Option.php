@@ -108,6 +108,11 @@ class Option extends AbstractService
         $this->getChoiceService()->delete($choiceId);
     }
 
+    public function sortChoices($optionId, $order)
+    {
+        return $this->getEntityMapper()->sortChoices($optionId, $order);
+    }
+
     /**
      * @return choiceService
      */

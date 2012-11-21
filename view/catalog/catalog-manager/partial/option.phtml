@@ -5,7 +5,7 @@
 ?>
 
 
-<div id="<?=$option->getOptionId();?>" class="option contrastbg boundary shadow">
+<div id="<?=$option->getKey();?>" class="option contrastbg boundary shadow">
 
     <div class="entity-header">
         <div class="collapser left"><i class="icon-chevron-down"></i></div>
@@ -47,7 +47,7 @@
                 <div class="expand-all"><i class="icon-arrow-down"></i></div>
                 <span class="smallcaps">&nbsp;options</span>
             </div>
-            <div class="list-items" type="choice" parent="option">
+            <div class="list-items" data-type="choice" data-parent="option" data-parent_key="<?= $option->getKey(); ?>">
                 <?=$this->speckCatalogRenderChildren('choice', $option->getChoices()); ?>
             </div>
             <div class="row list-items-helper">

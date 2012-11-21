@@ -98,9 +98,9 @@
     })
 
 
- /**
- * save a record
- */
+/**
+* save a record
+*/
     $('a.save-now').live('click', function(e){
         e.preventDefault();
         clearTarget();
@@ -143,7 +143,7 @@
                     order : $(this).sortable("toArray").toString(),
                 }
                 $.post(
-                    "/catalogmanager/sort/" + $(this).attr('type') + '/' + $(this).attr('parent'),
+                    "/catalogmanager/sort/" + $(this).attr('parent') + $(this).attr('type') + '/',
                     data, function(res){
                         console.log(res);
                     }

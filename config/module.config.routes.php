@@ -164,12 +164,12 @@ return array(
                             ),
                         ),
                     ),
-                    'remove' => array(
+                    'remove-child' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/remove/:type/:linkerId',
+                            'route'    => '/remove-child',
                             'defaults' => array(
-                                'action' => 'remove',
+                                'action' => 'removeChild',
                             ),
                         ),
                     ),

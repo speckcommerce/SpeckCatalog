@@ -95,11 +95,12 @@ class Product extends AbstractService
         return $productUom;
     }
 
-    public function removeOption($productOrId, $optionOrId)
+    public function removeOption(array $product, array $option)
     {
-        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $optionId  = ( is_int($optionOrId)  ? $optionOrId  : $optionOrId->getOptionId() );
-        $this->getEntityMapper()->removeOption($productId, $optionId);
+        $productId = $product['product_id'];
+        $optionId = $option['option_id'];
+
+        return $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
     public function newProductImage($productOrId)

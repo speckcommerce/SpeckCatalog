@@ -168,13 +168,16 @@
 
     $('.remove-child').live("submit",function(e){
         e.preventDefault();
-        targetListItems(this);
         var data = $(this).serializeArray();
+        clearTarget();
+        getBoundary(this).addClass('target');
         $.post('/catalogmanager/remove-child', data, function(response){
-            if(response = true){
-                getBoundary(this).addClass('removing').fadeOut(function(){
-                   $(this).remove()
+            if(response == 'true'){
+                $('.target').addClass('removing').fadeOut(function(){
+                   $('.target').remove()
                 });
+            } else {
+                clearTarget();
             }
         });
     })

@@ -42,6 +42,19 @@ class Product extends AbstractMapper
         }
     }
 
+    public function removeOption($productId, $optionId)
+    {
+        $table = 'catalog_product_option';
+        $row = array('product_id' => $productId, 'option_id' => $optionId);
+        $select = $this->getSelect($table)
+            ->where($row);
+        $result = $this->query($select);
+        if ($result) {
+            $resp = $this->delete($row, $table);
+            return true;
+        }
+    }
+
     public function sortOptions($productId, $order)
     {
         $table = 'catalog_product_option';

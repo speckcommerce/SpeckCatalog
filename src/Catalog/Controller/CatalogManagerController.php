@@ -227,11 +227,20 @@ class CatalogManagerController
         die();
     }
 
-    public function removeAction()
+    public function removeChildAction()
     {
-        $type = $this->param('type');
-        $linkerId = $this->getEvent()->getRouteMatch()->getParam('linkerId');
-        die($this->getLinkerService()->removeLinker($type, $linkerId));
+        $this->layout(false);
+        $postParams = $this->params()->fromPost();
+
+        $getParentService = 'get' . $this->camel($postParams['parent_name']) . 'Service';
+        $parentService = $this->$getParentService();
+
+        $removeChildMethod = 'remove' . $this->camel($postParams['child_name']);
+
+        $response = $parentService->$removeChildMethod($postParams['parent'], $postParams['child']);
+        if(true === $response) {
+            die('true');
+        }
     }
 
     public function getUserAuth()

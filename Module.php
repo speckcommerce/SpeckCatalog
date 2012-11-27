@@ -53,6 +53,13 @@ class Module
                         $instance->setFormService($formService);
                     }
                 },
+                function($instance, $sm){
+                    if($instance instanceof \Catalog\Mapper\DbAdapterAwareInterface){
+                        $sm = $sm->getServiceLocator();
+                        $dbAdapter = $sm->get('catalog_db');
+                        $instance->setDbAdapter($dbAdapter);
+                    }
+                },
             ),
         );
     }

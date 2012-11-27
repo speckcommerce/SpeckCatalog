@@ -12,9 +12,11 @@ use Zend\Paginator\Paginator;
 use Catalog\Adapter\PaginatorDbSelect;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 use Catalog\Model\AbstractModel;
+use Catalog\Mapper\DbAdapterAwareInterface;
 
-class AbstractMapper extends AbstractDbMapper
+class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
+    protected $dbAdapter;
     protected $paginator;
     protected $paginatorOptions;
     protected $usePaginator;
@@ -180,6 +182,24 @@ class AbstractMapper extends AbstractDbMapper
     public function setPaginatorOptions($paginatorOptions)
     {
         $this->paginatorOptions = $paginatorOptions;
+        return $this;
+    }
+
+    /**
+     * @return dbAdapter
+     */
+    public function getDbAdapter()
+    {
+        return $this->dbAdapter;
+    }
+
+    /**
+     * @param $dbAdapter
+     * @return self
+     */
+    public function setDbAdapter(\Zend\Db\Adapter\Adapter $dbAdapter)
+    {
+        $this->dbAdapter = $dbAdapter;
         return $this;
     }
 }

@@ -30,6 +30,13 @@ $config = array(
             'speckCatalogUomsToCart'     => 'Catalog\View\Helper\UomToCart',
         ),
     ),
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'paths' => array(
+                __DIR__ . '/../public',
+            ),
+        ),
+    ),
     'navigation' => array(
         'admin' => array(
             'mynavigation' => array(

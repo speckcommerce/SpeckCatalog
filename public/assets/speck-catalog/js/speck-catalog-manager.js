@@ -97,7 +97,6 @@
         e.preventDefault();
     })
 
-
 /**
 * save a record
 */
@@ -168,18 +167,22 @@
 
     $('.remove-child').live("submit",function(e){
         e.preventDefault();
-        var data = $(this).serializeArray();
-        clearTarget();
-        getBoundary(this).addClass('target');
-        $.post('/catalogmanager/remove-child', data, function(response){
-            if(response == 'true'){
-                $('.target').addClass('removing').fadeOut(function(){
-                   $('.target').remove()
-                });
-            } else {
-                clearTarget();
-            }
-        });
+        if(confirm('Confirm')) {
+            var data = $(this).serializeArray();
+            clearTarget();
+            getBoundary(this).addClass('target');
+            $.post('/catalogmanager/remove-child', data, function(response){
+                if(response == 'true'){
+                    $('.target').addClass('removing').fadeOut(function(){
+                       $('.target').remove()
+                    });
+                } else {
+                    clearTarget();
+                }
+            });
+        } else {
+            return;
+        }
     })
     $('.remove-incomplete-child').live("submit",function(e){
         e.preventDefault();

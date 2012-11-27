@@ -4,8 +4,6 @@ namespace SpeckCatalog;
 
 class Module
 {
-    protected $view;
-    protected $viewListener;
     protected $serviceManager;
 
     public function getAutoloaderConfig()

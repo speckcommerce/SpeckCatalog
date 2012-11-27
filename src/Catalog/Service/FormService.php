@@ -5,9 +5,6 @@ namespace Catalog\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Catalog\Model\AbstractModel;
-use Catalog\Model\Option;
-use Catalog\Model\Product\Relational as RelationalProduct;
-use Catalog\Model\Choice\Relational as RelationalChoice;
 
 class FormService implements ServiceLocatorAwareInterface
 {

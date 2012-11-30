@@ -1,0 +1,7 @@
+<phpunit bootstrap="./Bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="SpeckCommerce SpeckCatalog module tests">
+            <directory>./SpeckCatalogTest</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

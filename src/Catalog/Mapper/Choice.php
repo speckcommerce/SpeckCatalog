@@ -10,6 +10,7 @@ class Choice extends AbstractMapper
     protected $relationalModel = '\Catalog\Model\Choice\Relational';
     protected $dbModel = '\Catalog\Model\Choice';
     protected $key = array('choice_id');
+    protected $dbFields = array('choice_id', 'product_id', 'option_id', 'price_override_fixed', 'price_discount_percent', 'price_no_charge', 'override_name', 'sort_weight');
 
     public function find(array $data)
     {

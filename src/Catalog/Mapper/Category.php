@@ -8,6 +8,7 @@ class Category extends AbstractMapper
     protected $relationalModel = '\Catalog\Model\Category\Relational';
     protected $dbModel = '\Catalog\Model\Category';
     protected $key = array('category_id');
+    protected $dbFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
 
     public function find(array $data)
     {

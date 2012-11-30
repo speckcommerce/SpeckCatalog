@@ -13,9 +13,7 @@ class Availability extends AbstractService
 
     public function insert($availability)
     {
-        $id = parent::insert($availability);
-
-        $availability->setAvailabityId($id);
+        parent::insert($availability);
         return $availability;
     }
 }

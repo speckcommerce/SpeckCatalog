@@ -238,9 +238,11 @@ class CatalogManagerController
         $removeChildMethod = 'remove' . $this->camel($postParams['child_name']);
 
         $response = $parentService->$removeChildMethod($postParams['parent'], $postParams['child']);
+
         if(true === $response) {
             die('true');
         }
+        die();
     }
 
     public function getUserAuth()

@@ -21,6 +21,17 @@ class Product extends AbstractService
         return $product;
     }
 
+    public function update($dataOrModel, array $originalVals = null)
+    {
+        if (null === $originalVals && is_array($dataOrModel)) {
+            $originalVals['product_id'] = $dataOrModel['product_id'];
+        }
+        if (null === $originalVals && $dataOrModel instanceOf \Catalog\Model\Product) {
+            $originalVals['product_id'] = $dataOrModel->getProductId();
+        }
+        return parent::update($dataOrModel, $originalVals);
+    }
+
     public function getCrubs($product)
     {
         $crumbs = array($product->getName());

@@ -55,9 +55,9 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $this;
     }
 
-    public function update($formData, $originalValues)
+    public function update($dataOrModel, array $originalValues = null)
     {
-        return $this->getEntityMapper()->update($formData, $originalValues);
+        return $this->getEntityMapper()->update($dataOrModel, $originalValues);
     }
 
     public function insert($model)

@@ -8,6 +8,7 @@ class Availability extends AbstractMapper
     protected $relationalModel = '\Catalog\Model\Availability\Relational';
     protected $dbModel = '\Catalog\Model\Availability';
     protected $key = array('product_id', 'uom_code', 'quantity', 'distributor_id');
+    protected $dbFields = array('product_id', 'uom_code', 'distributor_id', 'cost', 'quantity');
 
     public function find(array $data)
     {

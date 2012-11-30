@@ -1,6 +1,7 @@
 <?
     $formHelper = $this->speckCatalogForm($option, 'option');
     $optionKeyFields = $formHelper->getKeyFields();
+
     $parentProductKeyFields = $this->speckCatalogForm($option->getParent(), 'product')->getKeyFields();
 ?>
 

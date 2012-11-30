@@ -106,17 +106,31 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return new Where;
     }
 
+    public function prepareData($data)
+    {
+        if ($data instanceof AbstractModel) {
+            return $this->getDbModel($data);
+        } elseif (is_array($data)) {
+            $dbFields = $this->getDbFields();
+            $return = array();
+            foreach ($dbFields as $field) {
+                if(array_key_exists($field, $data)) {
+                    $return[$field] = $data['field'];
+                }
+            }
+            return $return;
+        }
+    }
+
     public function update($data, $where, $tableName = null, HydratorInterface $hydrator = null)
     {
+        $data = $this->prepareData($data);
         parent::update($data, $where, $tableName, $hydrator);
     }
 
     public function insert($model, $tableName = null, HydratorInterface $hydrator = null)
     {
-        if ($model instanceof AbstractModel) {
-            $model = $this->getDbModel($model);
-        }
-
+        $model = $this->prepareData($model);
         if (null === $tableName) {
             $tableName = $this->getTableName();
         }
@@ -200,6 +214,24 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     public function setDbAdapter(\Zend\Db\Adapter\Adapter $dbAdapter)
     {
         $this->dbAdapter = $dbAdapter;
+        return $this;
+    }
+
+    /**
+     * @return dbFields
+     */
+    public function getDbFields()
+    {
+        return $this->dbFields;
+    }
+
+    /**
+     * @param $dbFields
+     * @return self
+     */
+    public function setDbFields($dbFields)
+    {
+        $this->dbFields = $dbFields;
         return $this;
     }
 }

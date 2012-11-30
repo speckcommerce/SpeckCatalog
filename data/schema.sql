@@ -1,3 +1,6 @@
+-- NOTE: if you are adding fields to a table in this schema,
+-- be sure to add them to the dbFields array in its respective mapper
+
 CREATE TABLE IF NOT EXISTS `ansi_uom` (
   `uom_code` char(2) NOT NULL,
   `name` varchar(255) NOT NULL,

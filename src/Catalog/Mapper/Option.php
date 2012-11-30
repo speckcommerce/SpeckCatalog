@@ -11,6 +11,7 @@ class Option extends AbstractMapper
     protected $dbModel = '\Catalog\Model\Option';
     protected $relationalModel = '\Catalog\Model\Option\Relational';
     protected $key = array('option_id');
+    protected $dbFields = array('option_id', 'name', 'instruction', 'required', 'variation', 'option_type_id');
 
     public function find(array $data)
     {

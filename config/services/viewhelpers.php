@@ -1,5 +1,11 @@
 <?php
+
 return array(
+    'shared' => array(
+        //note: this isnt currently working, and as a result, there are the wrong forms almost everywhere in the views :(
+        //see github.com/zendframework/zf2 issue #3094
+        'speckCatalogRenderForm' => false,
+    ),
     'invokables' => array(
         'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
         'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',

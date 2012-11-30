@@ -9,6 +9,7 @@ class Product extends AbstractMapper
     protected $dbModel = '\Catalog\Model\Product';
     protected $hydrator = 'Catalog\Hydrator\Product';
     protected $key = array('product_id');
+    protected $dbFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
 
     public function find(array $data)
     {

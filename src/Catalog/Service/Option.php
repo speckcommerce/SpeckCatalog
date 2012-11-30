@@ -60,6 +60,7 @@ class Option extends AbstractService
 
     public function insert($option)
     {
+        $parentType = null;
         if (is_array($option)) {
             if ($option['choice_id']) {
                 $parentType = 'choice';
@@ -72,10 +73,10 @@ class Option extends AbstractService
             }
             unset($option['choice_id']);
             unset($option['product_id']);
-        } elseif ($option instanceOf RelationalProduct) {
+        } elseif ($option->getProductId()) {
             $parentType = 'product';
             $productId = (int) $option->getProductId();
-        } elseif ($option instanceOf RelationalChoice) {
+        } elseif ($option->getChoiceId()) {
             $parentType = 'choice';
             $choiceId = (int) $option->getChoiceId();
         }
@@ -85,19 +86,23 @@ class Option extends AbstractService
         if($parentType === 'product') {
             $parent = $this->getProductService()->find(array('product_id' => $productId));
             $this->getProductService()->addOption($productId, $option->getOptionId());
+            $option->setParent($parent);
         } elseif ($parentType === 'choice') {
             $parent = $this->getChoiceService()->find(array('choice_id' => $choiceId));
             $this->getChoiceService()->addOption($choiceId, $option->getOptionId());
+            $option->setParent($parent);
         }
 
-        return $option->setParent($parent);
+        return $option;
     }
 
-    public function update($option, $originalValues)
+    public function update($option, array $originalValues = null)
     {
-        if (is_array($option)) {
-            unset($option['choice_id']);
-            unset($option['product_id']);
+        if (null === $originalValues && is_array($option)) {
+            $originalValues['option_id'] = $option['option_id'];
+        }
+        if (null === $originalValues && $option instanceOf \Catalog\Model\Option) {
+            $originalValues['option_id'] = $option->getOptionId();
         }
         parent::update($option, $originalValues);
     }

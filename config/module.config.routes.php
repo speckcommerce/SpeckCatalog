@@ -7,7 +7,7 @@ return array(
                 'options' => array(
                     'route' => '/',
                     'defaults' => array(
-                        'controller' => 'catalog',
+                        'controller' => 'speckcatalog_catalog',
                         'action' => 'index',
                     ),
                 ),
@@ -21,7 +21,7 @@ return array(
                         'id' => '\d+',
                     ),
                     'defaults' => array(
-                        'controller' => 'catalog',
+                        'controller' => 'speckcatalog_catalog',
                         'action' => 'productRedirect',
                     ),
                 ),
@@ -31,7 +31,7 @@ return array(
                 'options' => array(
                     'route' => '/category/:id',
                     'defaults' => array(
-                        'controller' => 'category',
+                        'controller' => 'speckcatalog_category',
                         'action' => 'index',
                     ),
                 ),
@@ -41,7 +41,7 @@ return array(
                 //        'options' => array(
                 //            'route'    => '/per-page',
                 //            'defaults' => array(
-                //                'controller' => 'category',
+                //                'controller' => 'speckcatalog_category',
                 //                'action' => 'perPage',
                 //            ),
                 //        ),
@@ -53,7 +53,7 @@ return array(
                 'options' => array(
                     'route' => '/product/:id[/:cartItemId]',
                     'defaults' => array(
-                        'controller' => 'product',
+                        'controller' => 'speckcatalog_product',
                         'action' => 'index',
                     ),
                 ),
@@ -64,7 +64,7 @@ return array(
                 'options' => array(
                     'route' => '/catalog',
                     'defaults' => array(
-                        'controller' => 'catalog',
+                        'controller' => 'speckcatalog_catalog',
                         'action' => 'index',
                     ),
                 ),
@@ -75,7 +75,7 @@ return array(
                 'options' => array(
                     'route' => '/cart',
                     'defaults' => array(
-                        'controller' => 'catalogcart',
+                        'controller' => 'speckcatalog_cart',
                         'action' => 'index',
                     ),
                 ),
@@ -86,7 +86,7 @@ return array(
                         'options' => array(
                             'route'    => '/add-item[/:id]',
                             'defaults' => array(
-                                'controller' => 'catalogcart',
+                                'controller' => 'speckcatalog_cart',
                                 'action' => 'addItem',
                             ),
                         ),
@@ -96,7 +96,7 @@ return array(
                         'options' => array(
                             'route'    => '/update-quantities',
                             'defaults' => array(
-                                'controller' => 'catalogcart',
+                                'controller' => 'speckcatalog_cart',
                                 'action' => 'updateQuantities',
                             ),
                         ),
@@ -106,7 +106,7 @@ return array(
                         'options' => array(
                             'route'    => '/remove-item/:id',
                             'defaults' => array(
-                                'controller' => 'catalogcart',
+                                'controller' => 'speckcatalog_cart',
                                 'action' => 'remove-item',
                             ),
                         ),
@@ -116,7 +116,7 @@ return array(
                         'options' => array(
                             'route'    => '/update-product',
                             'defaults' => array(
-                                'controller' => 'catalogcart',
+                                'controller' => 'speckcatalog_cart',
                                 'action' => 'update-product',
                             ),
                         ),
@@ -129,7 +129,7 @@ return array(
                 'options' => array(
                     'route' => '/checkout',
                     'defaults' => array(
-                        'controller' => 'checkout',
+                        'controller' => 'speckcatalog_checkout',
                         'action' => 'index',
                     ),
                 ),
@@ -140,7 +140,7 @@ return array(
                 'options' => array(
                     'route' => '/catalogmanager',
                     'defaults' => array(
-                        'controller' => 'catalogmanager',
+                        'controller' => 'speckcatalog_manager',
                         'action' => 'index',
                     ),
                 ),

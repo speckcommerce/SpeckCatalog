@@ -3,15 +3,15 @@
 $config = array(
     'controllers' => array(
         'invokables' => array(
-            'catalog'         => 'Catalog\Controller\CatalogController',
-            'product'         => 'Catalog\Controller\ProductController',
-            'category'        => 'Catalog\Controller\CategoryController',
-            'catalogcart'     => 'Catalog\Controller\CartController',
-            'checkout'        => 'Catalog\Controller\CheckoutController',
+            'speckcatalog_catalog'  => 'SpeckCatalog\Controller\CatalogController',
+            'speckcatalog_product'  => 'SpeckCatalog\Controller\ProductController',
+            'speckcatalog_category' => 'SpeckCatalog\Controller\CategoryController',
+            'speckcatalog_cart'     => 'SpeckCatalog\Controller\CartController',
+            'speckcatalog_checkout' => 'SpeckCatalog\Controller\CheckoutController',
 
-            'catalogmanager'  => 'Catalog\Controller\CatalogManagerController',
-            'manage-category' => 'Catalog\Controller\ManageCategoryController',
-            'manage-product'  => 'Catalog\Controller\ManageProductController',
+            'speckcatalog_manager'  => 'SpeckCatalog\Controller\CatalogManagerController',
+            'speckcatalog_manage_category' => 'SpeckCatalog\Controller\ManageCategoryController',
+            'speckcatalog_manage_product'  => 'SpeckCatalog\Controller\ManageProductController',
         ),
     ),
     'view_helpers' => array(
@@ -19,12 +19,12 @@ $config = array(
             'speckCatalogForm' => false,
         ),
         'invokables' => array(
-            'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
-            'speckCatalogForm'           => 'Catalog\View\Helper\Form',
-            'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
-            'speckCatalog'               => 'Catalog\View\Helper\Functions',
-            'speckCatalogManagerFormRow' => 'Catalog\Form\View\Helper\CatalogManagerFormRow',
-            'speckCatalogUomsToCart'     => 'Catalog\View\Helper\UomToCart',
+            'speckCatalogRenderChildren' => 'SpeckCatalog\View\Helper\ChildViewRenderer',
+            'speckCatalogForm'           => 'SpeckCatalog\View\Helper\Form',
+            'speckCatalogCart'           => 'SpeckCatalog\View\Helper\Cart',
+            'speckCatalog'               => 'SpeckCatalog\View\Helper\Functions',
+            'speckCatalogManagerFormRow' => 'SpeckCatalog\Form\View\Helper\CatalogManagerFormRow',
+            'speckCatalogUomsToCart'     => 'SpeckCatalog\View\Helper\UomToCart',
         ),
     ),
     'asset_manager' => array(

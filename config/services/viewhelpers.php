@@ -1,5 +1,8 @@
 <?php
 
+use SpeckCatalog\Service\FormServiceAwareInterface;
+use SpeckCatalog\View\Helper;
+
 return array(
     'shared' => array(
         //note: this isnt currently working, and as a result, there are the wrong forms almost everywhere in the views :(
@@ -7,13 +10,13 @@ return array(
         'speckCatalogRenderForm' => false,
     ),
     'invokables' => array(
-        'speckCatalogRenderChildren' => 'Catalog\View\Helper\ChildViewRenderer',
-        'speckCatalogRenderForm'     => 'Catalog\View\Helper\RenderForm',
-        'speckCatalogCart'           => 'Catalog\View\Helper\Cart',
-        'speckCatalogAdderHelper'    => 'Catalog\View\Helper\AdderHelper',
+        'speckCatalogRenderChildren' => 'SpeckCatalog\View\Helper\ChildViewRenderer',
+        'speckCatalogRenderForm'     => 'SpeckCatalog\View\Helper\RenderForm',
+        'speckCatalogCart'           => 'SpeckCatalog\View\Helper\Cart',
+        'speckCatalogAdderHelper'    => 'SpeckCatalog\View\Helper\AdderHelper',
     ),
     'factories' => array(
-        'speckCatalogOptionImageUploader'  => function ($sm) {
+        'speckCatalogOptionImageUploader' => function ($sm) {
             $imageUploader = $sm->get('imageUploader');
             $element = array('name' => 'file_type', 'attributes' => array('value' => 'optionImage', 'type' => 'hidden'));
             $imageUploader->getForm()->add($element);
@@ -23,11 +26,11 @@ return array(
             $sm = $sm->getServiceLocator();
             $app = $sm->get('application');
             $routeMatch = $app->getMvcEvent()->getRouteMatch();
-            $helper = new \Catalog\View\Helper\CatalogManagerSideNav();
+            $helper = new Helper\CatalogManagerSideNav();
             $helper->setRouteMatch($routeMatch);
             return $helper;
         },
-        'speckCatalogProductImageUploader'  => function ($sm) {
+        'speckCatalogProductImageUploader' => function ($sm) {
             $imageUploader = $sm->get('imageUploader');
             $element = array('name' => 'file_type', 'attributes' => array('value' => 'productImage', 'type' => 'hidden'));
             $imageUploader->getForm()->add($element);
@@ -39,15 +42,15 @@ return array(
             $uploader->getForm()->add($element);
             return $uploader;
         },
-        'speckCatalogCategoryNav'    => function ($sm) {
+        'speckCatalogCategoryNav' => function ($sm) {
             $sm = $sm->getServiceLocator();
-            $helper = new \Catalog\View\Helper\CategoryNav;
-            return $helper->setCategoryService($sm->get('catalog_category_service'));
+            $helper = new Helper\CategoryNav;
+            return $helper->setCategoryService($sm->get('speckcatalog_category_service'));
         },
         'speckCatalogImage' => function ($sm) {
             $sm = $sm->getServiceLocator();
-            $settings = $sm->get('catalog_module_options');
-            return new \Catalog\View\Helper\MediaUrl($settings, 'image');
+            $settings = $sm->get('speckcatalog_module_options');
+            return new Helper\MediaUrl($settings, 'image');
         },
         'speckCatalogFeaturedProducts' => function ($sm) {
             $speckFeaturedProducts = $sm->get('speckFeaturedProducts');
@@ -56,9 +59,9 @@ return array(
     ),
     'initializers' => array(
         function($instance, $sm){
-            if($instance instanceof \Catalog\Service\FormServiceAwareInterface){
+            if($instance instanceof FormServiceAwareInterface){
                 $sm = $sm->getServiceLocator();
-                $formService = $sm->get('catalog_form_service');
+                $formService = $sm->get('speckcatalog_form_service');
                 $instance->setFormService($formService);
             }
         },

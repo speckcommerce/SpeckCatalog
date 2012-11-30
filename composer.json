@@ -21,11 +21,10 @@
     },
     "autoload": {
         "psr-0": {
-            "Catalog": "src/",
-            "CatalogManager": "src/"
+            "SpeckCatalog": "src/",
         },
         "classmap": [
-            "./"
+            "./Module.php"
         ]
     }
-}            
+}

@@ -12,7 +12,6 @@ class Module
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                    'Catalog' => __DIR__ . '/src/Catalog',
                 ),
             ),
         );
@@ -47,16 +46,16 @@ class Module
         return array(
             'initializers' => array(
                 function($instance, $sm){
-                    if($instance instanceof \Catalog\Service\FormServiceAwareInterface){
+                    if($instance instanceof Service\FormServiceAwareInterface){
                         $sm = $sm->getServiceLocator();
-                        $formService = $sm->get('catalog_form_service');
+                        $formService = $sm->get('speckcatalog_form_service');
                         $instance->setFormService($formService);
                     }
                 },
                 function($instance, $sm){
-                    if($instance instanceof \Catalog\Mapper\DbAdapterAwareInterface){
+                    if($instance instanceof Mapper\DbAdapterAwareInterface){
                         $sm = $sm->getServiceLocator();
-                        $dbAdapter = $sm->get('catalog_db');
+                        $dbAdapter = $sm->get('speckcatalog_db');
                         $instance->setDbAdapter($dbAdapter);
                     }
                 },
@@ -73,8 +72,8 @@ class Module
         $app = $e->getParam('application');
         $em  = $app->getEventManager()->getSharedManager();
 
-        $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre', array('Catalog\Event\FileUpload', 'preFileUpload'));
-        $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array('Catalog\Event\FileUpload', 'postFileUpload'));
+        $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre', array('SpeckCatalog\Event\FileUpload', 'preFileUpload'));
+        $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array('SpeckCatalog\Event\FileUpload', 'postFileUpload'));
 
         $app          = $e->getParam('application');
         $locator      = $app->getServiceManager();

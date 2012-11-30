@@ -3,38 +3,39 @@ return array(
     'shared' => array(
     ),
     'factories' => array(
-        'catalog_product_image_service' => function ($sm) {
-            $service = new \Catalog\Service\Image;
-            $mapper = $sm->get('catalog_image_mapper')->setParentType('product');
+        'speckcatalog_product_image_service' => function ($sm) {
+            $service = new \SpeckCatalog\Service\Image;
+            $mapper = $sm->get('speckcatalog_image_mapper')->setParentType('product');
             return $service->setEntityMapper($mapper);
         },
-        'catalog_option_image_service' => function ($sm) {
-            $service = new \Catalog\Service\Image;
-            $mapper = $sm->get('catalog_image_mapper')->setParentType('option');
+        'speckcatalog_option_image_service' => function ($sm) {
+            $service = new \SpeckCatalog\Service\Image;
+            $mapper = $sm->get('speckcatalog_image_mapper')->setParentType('option');
             return $service->setEntityMapper($mapper);
         },
-        'catalog_module_options' => function ($sm) {
+        'speckcatalog_module_options' => function ($sm) {
             $config = $sm->get('Config');
-            return new \Catalog\Options\ModuleOptions(isset($config['speckcatalog']) ? $config['speckcatalog'] : array());
+            return new \SpeckCatalog\Options\ModuleOptions(isset($config['speckcatalog']) ? $config['speckcatalog'] : array());
         },
-        'catalog_availability_form' => function ($sm) {
-            $form = new \Catalog\Form\Availability;
-            $form->setCompanyService($sm->get('catalog_company_service'));
+        'speckcatalog_availability_form' => function ($sm) {
+            $form = new \SpeckCatalog\Form\Availability;
+            $form->setCompanyService($sm->get('speckcatalog_company_service'));
             return $form->init();
         },
-        'catalog_product_form' => function ($sm) {
-            $form = new \Catalog\Form\Product;
-            $companyService = $sm->get('catalog_company_service');
-            $form->setCompanyService($sm->get('catalog_company_service'));
+        'speckcatalog_product_form' => function ($sm) {
+            $form = new \SpeckCatalog\Form\Product;
+            $companyService = $sm->get('speckcatalog_company_service');
+            $form->setCompanyService($sm->get('speckcatalog_company_service'));
             return $form->init();
         },
-        'catalog_product_uom_form' => function ($sm) {
-            $form = new \Catalog\Form\ProductUom;
-            $form->setUomService($sm->get('catalog_uom_service'));
+        'speckcatalog_product_uom_form' => function ($sm) {
+            $form = new \SpeckCatalog\Form\ProductUom;
+            $form->setUomService($sm->get('speckcatalog_uom_service'));
             return $form->init();
-        },
-        'catalog_db' => function ($sm) {
-            return $sm->get('Zend\Db\Adapter\Adapter');
         },
     ),
+    'aliases' => array(
+        'speckcatalog_db' => 'Zend\Db\Adapter\Adapter',
+    )
+
 );

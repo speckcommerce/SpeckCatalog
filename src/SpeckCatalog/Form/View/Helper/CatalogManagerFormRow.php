@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Form\View\Helper;
+namespace SpeckCatalog\Form\View\Helper;
 
 use Zend\Form\ElementInterface;
 use Zend\Form\Exception;

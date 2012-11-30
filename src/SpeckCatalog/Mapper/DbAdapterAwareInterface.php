@@ -1,9 +1,11 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
+
+use Zend\Db\Adapter\Adapter;
 
 interface DbAdapterAwareInterface
 {
     public function getDbAdapter();
-    public function setDbAdapter(\Zend\Db\Adapter\Adapter $dbAdapter);
+    public function setDbAdapter(Adapter $dbAdapter);
 }

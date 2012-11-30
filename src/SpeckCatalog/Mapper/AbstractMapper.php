@@ -1,18 +1,19 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
+use SpeckCatalog\Adapter\PaginatorDbSelect;
+use SpeckCatalog\Mapper\DbAdapterAwareInterface;
+use SpeckCatalog\Model\AbstractModel;
 use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
+use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Paginator;
-use Catalog\Adapter\PaginatorDbSelect;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
-use Catalog\Model\AbstractModel;
-use Catalog\Mapper\DbAdapterAwareInterface;
 
 class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 {
@@ -211,7 +212,7 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
      * @param $dbAdapter
      * @return self
      */
-    public function setDbAdapter(\Zend\Db\Adapter\Adapter $dbAdapter)
+    public function setDbAdapter(DbAdapter $dbAdapter)
     {
         $this->dbAdapter = $dbAdapter;
         return $this;

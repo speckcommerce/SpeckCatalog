@@ -1,9 +1,9 @@
 <?php
 
-namespace Catalog\Model\Availability;
+namespace SpeckCatalog\Model\Availability;
 
-use Catalog\Model\AbstractModel;
-use Catalog\Model\Availability as Base;
+use SpeckCatalog\Model\AbstractModel;
+use SpeckCatalog\Model\Availability as Base;
 
 class Relational extends Base
 {

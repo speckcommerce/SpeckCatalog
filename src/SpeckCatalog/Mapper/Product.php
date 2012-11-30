@@ -1,13 +1,13 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class Product extends AbstractMapper
 {
     protected $tableName = 'catalog_product';
-    protected $relationalModel = '\Catalog\Model\Product\Relational';
-    protected $dbModel = '\Catalog\Model\Product';
-    protected $hydrator = 'Catalog\Hydrator\Product';
+    protected $relationalModel = '\SpeckCatalog\Model\Product\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\Product';
+    protected $hydrator = 'SpeckCatalog\Hydrator\Product';
     protected $key = array('product_id');
     protected $dbFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
 

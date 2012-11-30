@@ -1,5 +1,5 @@
 <?php
-namespace Catalog\View\Helper;
+namespace SpeckCatalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
@@ -44,7 +44,7 @@ class AdderHelper extends AbstractHelper
             ),
         );
 
-        $form = new \Catalog\Form\AddChild;
+        $form = new \SpeckCatalog\Form\AddChild;
         $form->addElements($elements)
             ->addParent($parentKeyFields);
         $form->add($submitButton);
@@ -64,7 +64,7 @@ class AdderHelper extends AbstractHelper
             'child_name'  => $childName,
         );
 
-        $form = new \Catalog\Form\RemoveChild;
+        $form = new \SpeckCatalog\Form\RemoveChild;
         $form->addElements($elements)
             ->addParent($parentFormElements)
             ->addChild($childFormElements);

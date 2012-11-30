@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Document extends AbstractService
 {
-    protected $entityMapper = 'catalog_document_mapper';
+    protected $entityMapper = 'speckcatalog_document_mapper';
 
     public function getDocuments($productId)
     {

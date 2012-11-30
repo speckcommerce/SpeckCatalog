@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Form;
+namespace SpeckCatalog\Form;
 
 class Product extends AbstractForm
 {

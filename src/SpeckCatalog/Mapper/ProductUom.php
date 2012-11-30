@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class ProductUom extends AbstractMapper
 {
     protected $tableName = 'catalog_product_uom';
-    protected $dbModel = '\Catalog\Model\ProductUom';
-    protected $relationalModel = '\Catalog\Model\ProductUom\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\ProductUom';
+    protected $relationalModel = '\SpeckCatalog\Model\ProductUom\Relational';
     protected $key = array('product_id', 'uom_code', 'quantity');
 
     public function find(array $data)

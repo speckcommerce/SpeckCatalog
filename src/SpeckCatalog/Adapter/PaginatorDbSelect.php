@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Adapter;
+namespace SpeckCatalog\Adapter;
 
 use Zend\Paginator\Adapter\DbSelect;
 

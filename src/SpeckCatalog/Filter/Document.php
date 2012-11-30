@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Filter;
+namespace SpeckCatalog\Filter;
 
 use Zend\InputFilter\InputFilter;
 

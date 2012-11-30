@@ -1,11 +1,11 @@
 <?php
 
-namespace Catalog\Model\Option;
+namespace SpeckCatalog\Model\Option;
 
-use Catalog\Model\AbstractModel;
-use Catalog\Model\Option as Base;
-use Catalog\Model\Product\Relational as RelationalProduct;
-use Catalog\Model\Choice\Relational as RelationalChoice;
+use SpeckCatalog\Model\AbstractModel;
+use SpeckCatalog\Model\Option as Base;
+use SpeckCatalog\Model\Product\Relational as RelationalProduct;
+use SpeckCatalog\Model\Choice\Relational as RelationalChoice;
 
 class Relational extends Base
 {

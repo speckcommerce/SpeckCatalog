@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Controller;
+namespace SpeckCatalog\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use SpeckCart\Entity\CartItem;
@@ -23,7 +23,7 @@ class CartController extends AbstractActionController
     public function getCartService()
     {
         if (!isset($this->cartService)) {
-            $this->cartService = $this->getServiceLocator()->get('catalog_cart_service');
+            $this->cartService = $this->getServiceLocator()->get('speckcatalog_cart_service');
         }
 
         return $this->cartService;
@@ -37,6 +37,7 @@ class CartController extends AbstractActionController
 
     public function addItemAction()
     {
+        // @todo use Request
         $productId     = (isset($_POST['product_id'])     ? $_POST['product_id']     : $this->params('id') );
         $productBranch = (isset($_POST['product_branch']) ? $_POST['product_branch'] : array()             );
         $uom           = (isset($_POST['uom'])            ? $_POST['uom']            : 'EA[1]'             );
@@ -47,12 +48,14 @@ class CartController extends AbstractActionController
 
     public function updateProductAction()
     {
+        // @todo use Request
         $this->getCartService()->replaceCartItemsChildren($_POST['cart_item_id'], $_POST['product_branch'], $_POST['uom'], $_POST['quantity']);
         return $this->redirect()->toUrl('/cart');
     }
 
     public function updateQuantitiesAction()
     {
+        // @todo use Request
         $this->getCartService()->updateQuantities($_POST['quantities']);
         return $this->_redirect()->toUrl('/cart');
     }

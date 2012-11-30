@@ -1,13 +1,13 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
-use Catalog\Model\Product\Relational as RelationalProduct;
-use Catalog\Model\Choice\Relational as RelationalChoice;
+use SpeckCatalog\Model\Product\Relational as RelationalProduct;
+use SpeckCatalog\Model\Choice\Relational as RelationalChoice;
 
 class Option extends AbstractService
 {
-    protected $entityMapper = 'catalog_option_mapper';
+    protected $entityMapper = 'speckcatalog_option_mapper';
     protected $choiceService;
     protected $imageService;
     protected $productService;
@@ -101,7 +101,7 @@ class Option extends AbstractService
         if (null === $originalValues && is_array($option)) {
             $originalValues['option_id'] = $option['option_id'];
         }
-        if (null === $originalValues && $option instanceOf \Catalog\Model\Option) {
+        if (null === $originalValues && $option instanceOf \SpeckCatalog\Model\Option) {
             $originalValues['option_id'] = $option->getOptionId();
         }
         parent::update($option, $originalValues);
@@ -124,7 +124,7 @@ class Option extends AbstractService
     public function getChoiceService()
     {
         if (null === $this->choiceService) {
-            $this->choiceService = $this->getServiceLocator()->get('catalog_choice_service');
+            $this->choiceService = $this->getServiceLocator()->get('speckcatalog_choice_service');
         }
         return $this->choiceService;
     }
@@ -145,7 +145,7 @@ class Option extends AbstractService
     public function getImageService()
     {
         if (null === $this->imageService) {
-            $this->imageService = $this->getServiceLocator()->get('catalog_option_image_service');
+            $this->imageService = $this->getServiceLocator()->get('speckcatalog_option_image_service');
         }
         return $this->imageService;
     }
@@ -166,7 +166,7 @@ class Option extends AbstractService
     public function getProductService()
     {
         if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('catalog_product_service');
+            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         }
         return $this->productService;
     }

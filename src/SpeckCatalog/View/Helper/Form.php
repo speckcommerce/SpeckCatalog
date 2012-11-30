@@ -1,10 +1,10 @@
 <?php
-namespace Catalog\View\Helper;
+namespace SpeckCatalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
-use Catalog\Service\FormServiceAwareInterface;
-use Catalog\Model\AbstractModel;
+use SpeckCatalog\Service\FormServiceAwareInterface;
+use SpeckCatalog\Model\AbstractModel;
 
 class Form extends AbstractHelper implements FormServiceAwareInterface
 {
@@ -62,7 +62,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
 
 
             $html .= '<div class="alert alert-success">';
-            if ($form instanceOf \Catalog\Form\Product) {
+            if ($form instanceOf \SpeckCatalog\Form\Product) {
                 $html .= 'All Data is valid!  <a href="#" class="save-product">Save Now</a>';
             } else {
                 $html .= 'All Data is valid!  <a href="#" class="save-now">Save Now</a>';

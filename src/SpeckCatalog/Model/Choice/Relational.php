@@ -1,9 +1,9 @@
 <?php
 
-namespace Catalog\Model\Choice;
+namespace SpeckCatalog\Model\Choice;
 
-use Catalog\Model\AbstractModel;
-use Catalog\Model\Choice as Base;
+use SpeckCatalog\Model\AbstractModel;
+use SpeckCatalog\Model\Choice as Base;
 
 class Relational extends Base
 {

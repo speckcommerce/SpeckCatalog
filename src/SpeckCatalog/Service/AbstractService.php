@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Catalog\Model\AbstractModel;
+use SpeckCatalog\Model\AbstractModel;
 
 class AbstractService implements ServiceLocatorAwareInterface
 {

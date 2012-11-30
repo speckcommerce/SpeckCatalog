@@ -1,9 +1,9 @@
 <?php
 
-namespace Catalog\Model\Company;
+namespace SpeckCatalog\Model\Company;
 
-use Catalog\Model\Company as Base;
-use Catalog\Model\AbstractModel;
+use SpeckCatalog\Model\Company as Base;
+use SpeckCatalog\Model\AbstractModel;
 
 class Relational extends Base
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class Spec extends AbstractMapper
 {
     protected $tableName = 'catalog_product_spec';
-    protected $relationalModel = '\Catalog\Model\Spec\Relational';
-    protected $dbModel = '\Catalog\Model\Spec';
+    protected $relationalModel = '\SpeckCatalog\Model\Spec\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\Spec';
 
     public function find(array $data)
     {

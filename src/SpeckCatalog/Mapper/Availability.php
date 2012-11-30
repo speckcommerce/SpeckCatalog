@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class Availability extends AbstractMapper
 {
     protected $tableName = 'catalog_availability';
-    protected $relationalModel = '\Catalog\Model\Availability\Relational';
-    protected $dbModel = '\Catalog\Model\Availability';
+    protected $relationalModel = '\SpeckCatalog\Model\Availability\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\Availability';
     protected $key = array('product_id', 'uom_code', 'quantity', 'distributor_id');
     protected $dbFields = array('product_id', 'uom_code', 'distributor_id', 'cost', 'quantity');
 

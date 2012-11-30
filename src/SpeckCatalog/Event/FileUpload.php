@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Event;
+namespace SpeckCatalog\Event;
 
 class FileUpload
 {
@@ -9,7 +9,7 @@ class FileUpload
         $formData = $e->getParam('params');
         $getter = 'get' . ucfirst($formData['file_type']) . 'Upload';
 
-        $catalogOptions = $this->getServiceManager()->get('catalog_module_options');
+        $catalogOptions = $this->getServiceManager()->get('speckcatalog_module_options');
 
         if($formData['file_type'] === 'productDocument'){
             $e->getParam('options')->setAllowedFileTypes(array('pdf' => 'pdf'));
@@ -27,21 +27,21 @@ class FileUpload
         $params = $e->getParams();
         switch ($params['params']['file_type']) {
             case 'productImage' :
-                $imageService = $this->getServiceManager()->get('catalog_product_image_service');
+                $imageService = $this->getServiceManager()->get('speckcatalog_product_image_service');
                 $image = $imageService->getEntity();
                 $image->setProductId($params['params']['product_id'])
                     ->setFileName($params['fileName']);
                 $imageService->persist($image);
                 break;
             case 'productDocument' :
-                $documentService = $this->getServiceManager()->get('catalog_document_service');
+                $documentService = $this->getServiceManager()->get('speckcatalog_document_service');
                 $document = $documentService->getEntity();
                 $document->setProductId($params['params']['product_id'])
                     ->setFileName($params['fileName']);
                 $documentService->persist($document);
                 break;
             case 'optionImage' :
-                $imageService = $this->getServiceManager()->get('catalog_option_image_service');
+                $imageService = $this->getServiceManager()->get('speckcatalog_option_image_service');
                 $image = $imageService->getEntity();
                 $image->setOptionId($params['params']['option_id'])
                     ->setFileName($params['fileName']);

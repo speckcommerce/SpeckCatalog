@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\View\Helper;
+namespace SpeckCatalog\View\Helper;
 
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
@@ -10,6 +10,7 @@ class CategoryNav extends AbstractHelper
 {
     protected $categoryService;
 
+    // @todo replace with option
     protected $partialDir = 'catalog/catalog/partial/';
 
     public function setCatalogService($catalogService)

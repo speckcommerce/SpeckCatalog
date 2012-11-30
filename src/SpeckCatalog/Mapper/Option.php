@@ -1,15 +1,15 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
-use Catalog\Model\AbstractModel;
+use SpeckCatalog\Model\AbstractModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 class Option extends AbstractMapper
 {
     protected $tableName = 'catalog_option';
-    protected $dbModel = '\Catalog\Model\Option';
-    protected $relationalModel = '\Catalog\Model\Option\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\Option';
+    protected $relationalModel = '\SpeckCatalog\Model\Option\Relational';
     protected $key = array('option_id');
     protected $dbFields = array('option_id', 'name', 'instruction', 'required', 'variation', 'option_type_id');
 

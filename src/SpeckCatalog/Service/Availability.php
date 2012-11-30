@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Availability extends AbstractService
 {

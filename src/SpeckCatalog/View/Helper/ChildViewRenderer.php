@@ -1,15 +1,16 @@
 <?php
-namespace Catalog\View\Helper;
+namespace SpeckCatalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
-use Catalog\Service\FormServiceAwareInterface;
+use SpeckCatalog\Service\FormServiceAwareInterface;
 
 /*
  * loops through an array of model objects and renders the view for each
  */
 class ChildViewRenderer extends AbstractHelper
 {
+    // @todo replace with option
     protected $partialDir = "catalog/catalog-manager/partial/";
 
     public function __invoke($name=null, $objects=null)

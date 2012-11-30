@@ -1,7 +1,8 @@
 <?php
 
-namespace Catalog\Form;
+namespace SpeckCatalog\Form;
 
+use Zend\Filter\Word\UnderscoreToCamelCase as UnderscoreToCamelCaseFilter;
 use Zend\Form\Form as ZendForm;
 use Zend\Form\FormInterface;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
@@ -95,7 +96,7 @@ class AbstractForm extends ZendForm
 
     private function camel($name)
     {
-        $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
+        $camel = new UnderscoreToCamelCaseFilter;
         return $camel->__invoke($name);
     }
 

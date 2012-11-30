@@ -1,8 +1,8 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Uom extends AbstractService
 {
-    protected $entityMapper = 'catalog_uom_mapper';
+    protected $entityMapper = 'speckcatalog_uom_mapper';
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Category extends AbstractService
 {
-    protected $entityMapper = 'catalog_category_mapper';
+    protected $entityMapper = 'speckcatalog_category_mapper';
     protected $productService;
     protected $productUomService;
     protected $productImageService;
@@ -105,7 +105,7 @@ class Category extends AbstractService
     public function getProductService()
     {
         if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('catalog_product_service');
+            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         }
         return $this->productService;
     }
@@ -126,7 +126,7 @@ class Category extends AbstractService
     public function getProductUomService()
     {
         if (null === $this->productUomService) {
-            $this->productUomService = $this->getServiceLocator()->get('catalog_product_uom_service');
+            $this->productUomService = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
         }
         return $this->productUomService;
     }
@@ -147,7 +147,7 @@ class Category extends AbstractService
     public function getOptionService()
     {
         if (null === $this->optionService) {
-            $this->optionService = $this->getServiceLocator()->get('catalog_option_service');
+            $this->optionService = $this->getServiceLocator()->get('speckcatalog_option_service');
         }
         return $this->optionService;
     }
@@ -168,7 +168,7 @@ class Category extends AbstractService
     public function getProductImageService()
     {
         if (null === $this->productImageService) {
-            $this->productImageService = $this->getServiceLocator()->get('catalog_product_image_service');
+            $this->productImageService = $this->getServiceLocator()->get('speckcatalog_product_image_service');
         }
         return $this->productImageService;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Controller;
+namespace SpeckCatalog\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -15,7 +15,7 @@ class CategoryController extends AbstractActionController
         $paginatorVars = $this->getPaginatorVars();
 
         $id = $this->params('id');
-        $category = $this->getServiceLocator()->get('catalog_category_service')->getCategoryForView($id, $paginatorVars);
+        $category = $this->getServiceLocator()->get('speckcatalog_category_service')->getCategoryForView($id, $paginatorVars);
         if (null === $category) {
             throw new \Exception('fore oh fore');
         }

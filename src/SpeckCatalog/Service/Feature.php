@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Feature extends AbstractService
 {
-    protected $entityMapper = 'catalog_feature_mapper';
+    protected $entityMapper = 'speckcatalog_feature_mapper';
 
     public function getFeatures($productId)
     {

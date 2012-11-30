@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Catalog\Model\AbstractModel;
+use SpeckCatalog\Model\AbstractModel;
 
 class FormService implements ServiceLocatorAwareInterface
 {
@@ -14,7 +14,7 @@ class FormService implements ServiceLocatorAwareInterface
     {
         $serviceLocator = $this->getServiceLocator();
 
-        $formName = 'catalog_' . $name . '_form';
+        $formName = 'speckcatalog_' . $name . '_form';
 
         $form = $serviceLocator->get($formName);
 
@@ -33,7 +33,7 @@ class FormService implements ServiceLocatorAwareInterface
 
     public function getKeyFields($name, $model=null, $parentKeyFields=false)
     {
-        $form = $this->getServiceLocator()->get('catalog_' . $name . '_form');
+        $form = $this->getServiceLocator()->get('speckcatalog_' . $name . '_form');
 
         $fields = array();
 

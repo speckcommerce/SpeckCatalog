@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Choice extends AbstractService
 {
-    protected $entityMapper = 'catalog_choice_mapper';
+    protected $entityMapper = 'speckcatalog_choice_mapper';
     protected $optionService;
     protected $productService;
 
@@ -62,7 +62,7 @@ class Choice extends AbstractService
     public function getOptionService()
     {
         if (null === $this->optionService) {
-            $this->optionService = $this->getServiceLocator()->get('catalog_option_service');
+            $this->optionService = $this->getServiceLocator()->get('speckcatalog_option_service');
         }
         return $this->optionService;
     }
@@ -83,7 +83,7 @@ class Choice extends AbstractService
     public function getProductService()
     {
         if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('catalog_product_service');
+            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         }
         return $this->productService;
     }

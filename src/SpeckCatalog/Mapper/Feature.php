@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class Feature extends AbstractMapper
 {
     protected $tableName = 'catalog_product_feature';
-    protected $relationalModel = 'Catalog\Model\Feature\Relational';
-    protected $dbModel = 'Catalog\Model\Feature';
+    protected $relationalModel = 'SpeckCatalog\Model\Feature\Relational';
+    protected $dbModel = 'SpeckCatalog\Model\Feature';
 }

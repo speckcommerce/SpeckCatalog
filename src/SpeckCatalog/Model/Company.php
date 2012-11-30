@@ -1,6 +1,7 @@
 <?php
 
-namespace Catalog\Model;
+namespace SpeckCatalog\Model;
+
 use SpeckContact\Entity\Company as ContactCompany;
 
 class Company extends ContactCompany

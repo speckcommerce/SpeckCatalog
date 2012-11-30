@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class Category extends AbstractMapper
 {
     protected $tableName = 'catalog_category';
-    protected $relationalModel = '\Catalog\Model\Category\Relational';
-    protected $dbModel = '\Catalog\Model\Category';
+    protected $relationalModel = '\SpeckCatalog\Model\Category\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\Category';
     protected $key = array('category_id');
     protected $dbFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
 

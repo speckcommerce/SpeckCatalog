@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Options;
+namespace SpeckCatalog\Options;
 
 use Zend\Stdlib\AbstractOptions;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Controller;
+namespace SpeckCatalog\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter as ArrayAdapter;
-use Catalog\Service\FormServiceAwareInterface;
+use SpeckCatalog\Service\FormServiceAwareInterface;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
 
 class CatalogManagerController
@@ -43,8 +43,8 @@ class CatalogManagerController
     {
         $this->getUserAuth();
 
-        $products = $this->getServiceLocator()->get('catalog_product_service')->getAll();
-        $companies = $this->getServiceLocator()->get('catalog_company_service')->getAll();
+        $products = $this->getServiceLocator()->get('speckcatalog_product_service')->getAll();
+        $companies = $this->getServiceLocator()->get('speckcatalog_company_service')->getAll();
         return new ViewModel(array(
             'products' => $products,
             'companies' => $companies
@@ -86,7 +86,7 @@ class CatalogManagerController
 
     public function productsAction()
     {
-        $products = $this->getServiceLocator()->get('catalog_product_service')->getAll();
+        $products = $this->getServiceLocator()->get('speckcatalog_product_service')->getAll();
         return new ViewModel(array('products' => $products));
     }
 
@@ -123,7 +123,7 @@ class CatalogManagerController
 
     public function productAction()
     {
-        $productService = $this->getServiceLocator()->get('catalog_product_service');
+        $productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         $product = $productService->getFullProduct($this->params('id'));
         return new ViewModel(array('product' => $product));
     }
@@ -135,10 +135,10 @@ class CatalogManagerController
         $this->layout(false);
         $params = $this->params()->fromPost();
 
-        $parentService = $this->getServiceLocator()->get('catalog_' . $params['parent_name'] . '_service');
+        $parentService = $this->getServiceLocator()->get('speckcatalog_' . $params['parent_name'] . '_service');
         $parent = $parentService->find($params['parent']);
 
-        $childService = $this->getServiceLocator()->get('catalog_' . $params['child_name'] . '_service');
+        $childService = $this->getServiceLocator()->get('speckcatalog_' . $params['child_name'] . '_service');
         $child = $childService->getEntity();
 
         $child->setParent($parent);
@@ -155,7 +155,7 @@ class CatalogManagerController
     {
         $this->layout(false);
         $class = $this->params('class');
-        $service = $this->getServiceLocator()->get('catalog_' . $class . '_service');
+        $service = $this->getServiceLocator()->get('speckcatalog_' . $class . '_service');
         $form = $this->getFormService()->getForm($class, null, $_POST);
 
         if($form->isValid()){
@@ -187,7 +187,7 @@ class CatalogManagerController
         $this->layout(false);
         $class = $this->params('class');
 
-        $service = $this->getServiceLocator()->get('catalog_' . $class . '_service');
+        $service = $this->getServiceLocator()->get('speckcatalog_' . $class . '_service');
         $form = $this->getFormService()->getForm($class, null, $_POST);
 
         $messages = $this->getServiceLocator()->get('viewhelpermanager')->get('speckCatalogForm')->renderFormMessages($form);
@@ -273,7 +273,7 @@ class CatalogManagerController
     public function getProductService()
     {
         if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('catalog_product_service');
+            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         }
         return $this->productService;
     }
@@ -294,7 +294,7 @@ class CatalogManagerController
     public function getCategoryService()
     {
         if (null === $this->categoryService) {
-            $this->categoryService = $this->getServiceLocator()->get('catalog_category_service');
+            $this->categoryService = $this->getServiceLocator()->get('speckcatalog_category_service');
         }
         return $this->categoryService;
     }
@@ -315,7 +315,7 @@ class CatalogManagerController
     public function getSitesService()
     {
         if (null === $this->sitesService) {
-            $this->sitesService = $this->getServiceLocator()->get('catalog_sites_service');
+            $this->sitesService = $this->getServiceLocator()->get('speckcatalog_sites_service');
         }
         return $this->sitesService;
     }
@@ -336,7 +336,7 @@ class CatalogManagerController
     public function getOptionService()
     {
         if (null === $this->optionService) {
-            $this->optionService = $this->getServiceLocator()->get('catalog_option_service');
+            $this->optionService = $this->getServiceLocator()->get('speckcatalog_option_service');
         }
         return $this->optionService;
     }
@@ -357,7 +357,7 @@ class CatalogManagerController
     public function getChoiceService()
     {
         if (null === $this->choiceService) {
-            $this->choiceService = $this->getServiceLocator()->get('catalog_choice_service');
+            $this->choiceService = $this->getServiceLocator()->get('speckcatalog_choice_service');
         }
         return $this->choiceService;
     }

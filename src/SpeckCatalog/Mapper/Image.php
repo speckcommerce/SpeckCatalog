@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 class Image extends AbstractMapper
 {
@@ -9,13 +9,13 @@ class Image extends AbstractMapper
     protected $dbModel;
 
     protected $dbModels = array(
-        'product' => 'Catalog\Model\ProductImage',
-        'option'  => 'Catalog\Model\OptionImage',
+        'product' => 'SpeckCatalog\Model\ProductImage',
+        'option'  => 'SpeckCatalog\Model\OptionImage',
     );
 
     protected $relationalModels = array(
-        'product' => 'Catalog\Model\ProductImage\Relational',
-        'option'  => 'Catalog\Model\OptionImage\Relational',
+        'product' => 'SpeckCatalog\Model\ProductImage\Relational',
+        'option'  => 'SpeckCatalog\Model\OptionImage\Relational',
     );
 
     public function setParentType($parentType)

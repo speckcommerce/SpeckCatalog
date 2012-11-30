@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\View\Helper;
+namespace SpeckCatalog\View\Helper;
 
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Helper\AbstractHelper;

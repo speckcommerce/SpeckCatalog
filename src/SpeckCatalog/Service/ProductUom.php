@@ -1,12 +1,12 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
-use Catalog\Model\AbstractModel;
+use SpeckCatalog\Model\AbstractModel;
 
 class ProductUom extends AbstractService
 {
-    protected $entityMapper = 'catalog_product_uom_mapper';
+    protected $entityMapper = 'speckcatalog_product_uom_mapper';
     protected $availabilityService;
     protected $uomService;
 
@@ -39,7 +39,7 @@ class ProductUom extends AbstractService
     public function getAvailabilityService()
     {
         if (null === $this->availabilityService) {
-            $this->availabilityService = $this->getServiceLocator()->get('catalog_availability_service');
+            $this->availabilityService = $this->getServiceLocator()->get('speckcatalog_availability_service');
         }
         return $this->availabilityService;
     }
@@ -60,7 +60,7 @@ class ProductUom extends AbstractService
     public function getUomService()
     {
         if (null === $this->uomService) {
-            $this->uomService = $this->getServiceLocator()->get('catalog_uom_service');
+            $this->uomService = $this->getServiceLocator()->get('speckcatalog_uom_service');
         }
         return $this->uomService;
     }

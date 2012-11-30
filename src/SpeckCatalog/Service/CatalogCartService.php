@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -173,7 +173,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     public function getProductService()
     {
         if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('catalog_product_service');
+            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         }
         return $this->productService;
     }
@@ -212,7 +212,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     public function getProductUomService()
     {
         if (null === $this->productUomService) {
-            $this->productUomService = $this->getServiceLocator()->get('catalog_product_uom_service');
+            $this->productUomService = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
         }
         return $this->productUomService;
     }

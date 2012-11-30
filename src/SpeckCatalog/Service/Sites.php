@@ -1,8 +1,8 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Sites extends AbstractService
 {
-    protected $entityMapper = 'catalog_sites_mapper';
+    protected $entityMapper = 'speckcatalog_sites_mapper';
 }

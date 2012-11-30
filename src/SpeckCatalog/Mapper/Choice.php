@@ -1,14 +1,14 @@
 <?php
 
-namespace Catalog\Mapper;
+namespace SpeckCatalog\Mapper;
 
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
 class Choice extends AbstractMapper
 {
     protected $tableName = 'catalog_choice';
-    protected $relationalModel = '\Catalog\Model\Choice\Relational';
-    protected $dbModel = '\Catalog\Model\Choice';
+    protected $relationalModel = '\SpeckCatalog\Model\Choice\Relational';
+    protected $dbModel = '\SpeckCatalog\Model\Choice';
     protected $key = array('choice_id');
     protected $dbFields = array('choice_id', 'product_id', 'option_id', 'price_override_fixed', 'price_discount_percent', 'price_no_charge', 'override_name', 'sort_weight');
 

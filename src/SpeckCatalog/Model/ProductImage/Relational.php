@@ -1,9 +1,9 @@
 <?php
 
-namespace Catalog\Model\ProductImage;
+namespace SpeckCatalog\Model\ProductImage;
 
-use Catalog\Model\AbstractModel;
-use Catalog\Model\ProductImage as Base;
+use SpeckCatalog\Model\AbstractModel;
+use SpeckCatalog\Model\ProductImage as Base;
 
 class Relational extends Base
 {

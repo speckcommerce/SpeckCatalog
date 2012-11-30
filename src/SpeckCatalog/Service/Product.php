@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Product extends AbstractService
 {
-    protected $entityMapper = 'catalog_product_mapper';
+    protected $entityMapper = 'speckcatalog_product_mapper';
     protected $optionService;
     protected $productUomService;
     protected $imageService;
@@ -26,7 +26,7 @@ class Product extends AbstractService
         if (null === $originalVals && is_array($dataOrModel)) {
             $originalVals['product_id'] = $dataOrModel['product_id'];
         }
-        if (null === $originalVals && $dataOrModel instanceOf \Catalog\Model\Product) {
+        if (null === $originalVals && $dataOrModel instanceOf \SpeckCatalog\Model\Product) {
             $originalVals['product_id'] = $dataOrModel->getProductId();
         }
         return parent::update($dataOrModel, $originalVals);
@@ -175,7 +175,7 @@ class Product extends AbstractService
     public function getOptionService()
     {
         if (null === $this->optionService) {
-            $this->optionService = $this->getServiceLocator()->get('catalog_option_service');
+            $this->optionService = $this->getServiceLocator()->get('speckcatalog_option_service');
         }
         return $this->optionService;
     }
@@ -196,7 +196,7 @@ class Product extends AbstractService
     public function getProductUomService()
     {
         if (null === $this->productUomService) {
-            $this->productUomService = $this->getServiceLocator()->get('catalog_product_uom_service');
+            $this->productUomService = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
         }
         return $this->productUomService;
     }
@@ -217,7 +217,7 @@ class Product extends AbstractService
     public function getImageService()
     {
         if (null === $this->imageService) {
-            $this->imageService = $this->getServiceLocator()->get('catalog_product_image_service');
+            $this->imageService = $this->getServiceLocator()->get('speckcatalog_product_image_service');
         }
         return $this->imageService;
     }
@@ -238,7 +238,7 @@ class Product extends AbstractService
     public function getDocumentService()
     {
         if (null === $this->documentService) {
-            $this->documentService = $this->getServiceLocator()->get('catalog_document_service');
+            $this->documentService = $this->getServiceLocator()->get('speckcatalog_document_service');
         }
         return $this->documentService;
     }
@@ -259,7 +259,7 @@ class Product extends AbstractService
     public function getSpecService()
     {
         if (null === $this->specService) {
-            $this->specService = $this->getServiceLocator()->get('catalog_spec_service');
+            $this->specService = $this->getServiceLocator()->get('speckcatalog_spec_service');
         }
         return $this->specService;
     }
@@ -280,7 +280,7 @@ class Product extends AbstractService
     public function getCompanyService()
     {
         if (null === $this->companyService) {
-            $this->companyService = $this->getServiceLocator()->get('catalog_company_service');
+            $this->companyService = $this->getServiceLocator()->get('speckcatalog_company_service');
         }
         return $this->companyService;
     }

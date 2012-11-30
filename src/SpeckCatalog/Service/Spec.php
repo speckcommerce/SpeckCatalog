@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Spec extends AbstractService
 {
-    protected $entityMapper = 'catalog_spec_mapper';
+    protected $entityMapper = 'speckcatalog_spec_mapper';
 
     public function find(array $data, $populate=false, $recursive=false)
     {

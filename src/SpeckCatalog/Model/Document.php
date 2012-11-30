@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Model;
+namespace SpeckCatalog\Model;
 
 class Document extends AbstractModel
 {

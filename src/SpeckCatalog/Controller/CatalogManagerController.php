@@ -21,6 +21,7 @@ class CatalogManagerController
     protected $choiceService;
     protected $categoryService;
     protected $sitesService;
+    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
     public function __construct($userAuth = null)
     {
@@ -32,9 +33,9 @@ class CatalogManagerController
 
     public function layout($layout)
     {
-        if(false === $layout){
+        if (false === $layout) {
             $this->getEvent()->getViewModel()->setTemplate('layout/nolayout');
-        }else{
+        } else {
             parent::layout($layout);
         }
     }
@@ -43,20 +44,30 @@ class CatalogManagerController
     {
         $this->getUserAuth();
 
-        $products = $this->getServiceLocator()->get('speckcatalog_product_service')->getAll();
-        $companies = $this->getServiceLocator()->get('speckcatalog_company_service')->getAll();
-        return new ViewModel(array(
-            'products' => $products,
-            'companies' => $companies
-        ));
+        $productService = $this->getProductService();
+        $companyService = $this->getCompanyService();
+
+        $products = $productService->getAll();
+        $companies = $companyService->getAll();
+
+        return new ViewModel(
+            array(
+                'products' => $products,
+                'companies' => $companies,
+
+            )
+        );
     }
 
     public function categoryTreePreviewAction()
     {
-        $categories = $this->getCategoryService()->getCategoriesForTreePreview($this->params('siteid'));
+        $categoryService = $this->getCategoryService();
+        $siteId = $this->params('siteid');
+        $categories = $categoryService->getCategoriesForTreePreview($siteId);
 
         $view = new ViewModel(array('categories' => $categories));
-        $view->setTemplate('catalog/catalog-manager/partial/category-tree')->setTerminal(true);
+        $view->setTemplate($this->partialDir . 'category-tree')
+             ->setTerminal(true);
 
         return $view;
     }
@@ -68,25 +79,27 @@ class CatalogManagerController
         $service = $this->$getter();
         $children = $service->getAll();
 
-        $view = new ViewModel(array('children' => $children, 'type' => $this->params('type')));
-        $view->setTemplate('/catalog/catalog-manager/partial/category-search-children')->setTerminal(true);
+        $view = new ViewModel(
+            array(
+                'children' => $children,
+                'type' => $this->params('type')
+            )
+        );
+        $view->setTemplate($this->partialDir . 'category-search-children')
+             ->setTerminal(true);
         return $view;
     }
 
     public function newProductAction()
     {
-        if (0) {
-            $this->updateRecordAction($data);
-            $this->redirect()->toRoute("/catalogmanager/product/{$id}");
-        }
         $product = $this->getProductService()->getEntity();
-
         return new ViewModel(array('product' => $product));
     }
 
     public function productsAction()
     {
-        $products = $this->getServiceLocator()->get('speckcatalog_product_service')->getAll();
+        $productService = $this->getProductService();
+        $products = $productService->getAll();
         return new ViewModel(array('products' => $products));
     }
 
@@ -94,40 +107,20 @@ class CatalogManagerController
     {
         $sites = $this->getSitesService()->getAll();
         $categories = $this->getCategoryService()->getAll();
-        return new ViewModel(array('categories' => $categories, 'sites' => $sites,));
-    }
-
-    public function companyAction()
-    {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $company = $this->getCatalogService()->getModel('company', $id);
-        return new ViewModel(array('company' => $company));
-    }
-
-    public function categoryAction()
-    {
-        $category = $this->getCatalogService()->getModel('category', $this->params('id'));
-        return new ViewModel(array('category' => $category));
-    }
-
-    public function searchClassAction()
-    {
-        $this->layout(false);
-        $class = $_POST['search_class_name'];
-        $value = trim($_POST['value']);
-        return new ViewModel(array(
-            'results' => $this->getCatalogService()->searchClass($class, $value),
-            'data'    => $_POST,
-        ));
+        return new ViewModel(
+            array(
+                'categories' => $categories,
+                'sites' => $sites,
+            )
+        );
     }
 
     public function productAction()
     {
-        $productService = $this->getServiceLocator()->get('speckcatalog_product_service');
+        $productService = $this->getProductService();
         $product = $productService->getFullProduct($this->params('id'));
         return new ViewModel(array('product' => $product));
     }
-
 
     //return the partial for a new record.
     public function newPartialAction()
@@ -135,38 +128,42 @@ class CatalogManagerController
         $this->layout(false);
         $params = $this->params()->fromPost();
 
-        $parentService = $this->getServiceLocator()->get('speckcatalog_' . $params['parent_name'] . '_service');
+        $serviceName = 'speckcatalog_' . $params['parent_name'] . '_service';
+        $parentService = $this->getServiceLocator()->get($serviceName);
         $parent = $parentService->find($params['parent']);
 
-        $childService = $this->getServiceLocator()->get('speckcatalog_' . $params['child_name'] . '_service');
+        $serviceName = 'speckcatalog_' . $params['child_name'] . '_service';
+        $childService = $this->getServiceLocator()->get($serviceName);
         $child = $childService->getEntity();
 
         $child->setParent($parent);
 
         $partial = $this->dash($params['child_name']);
-        $view = new ViewModel(array(
-            lcfirst($this->camel($params['child_name'])) => $child,
-        ));
+        $view = new ViewModel(
+            array(lcfirst($this->camel($params['child_name'])) => $child)
+        );
 
-        return $view->setTemplate('catalog/catalog-manager/partial/' . $partial);
+        return $view->setTemplate($this->partialDir . $partial);
     }
 
     public function updateRecordAction()
     {
         $this->layout(false);
         $class = $this->params('class');
-        $service = $this->getServiceLocator()->get('speckcatalog_' . $class . '_service');
+        $serviceName =  'speckcatalog_' . $class . '_service';
+        $service = $this->getServiceLocator()->get($serviceName);
         $form = $this->getFormService()->getForm($class, null, $_POST);
 
-        if($form->isValid()){
-            if (count($form->getOriginalData()) && $service->find($form->getOriginalData())) {
-                $service->update($form->getData(), $form->getOriginalData());
-                $entity = $service->find($form->getData(), true);
+        if ($form->isValid()) {
+            $originalData = $form->getOriginalData();
+            $data = $form->getData();
+            if (count($originalData) && $service->find($originalData)) {
+                $service->update($data, $originalData);
+                $entity = $service->find($data, true);
             } else {
-                $entity = $service->insert($form->getData());
+                $entity = $service->insert($data);
             }
-
-            if ($entity instanceOf \Catalog\Model\Product) {
+            if ($entity instanceOf \SpeckCatalog\Model\Product) {
                 echo (int) $entity->getProductId();
                 die();
             }
@@ -176,22 +173,31 @@ class CatalogManagerController
             $hydrator->hydrate($form->getData(), $entity);
         }
 
-        $view = new ViewModel(array(
-            lcfirst($this->camel($class)) => $entity
-        ));
-        return $view->setTemplate("catalog/catalog-manager/partial/" . $this->dash($class) . '.phtml');
+        $view = new ViewModel(
+            array(lcfirst($this->camel($class)) => $entity)
+        );
+        return $view->setTemplate($this->partialDir . $this->dash($class));
     }
 
+    /**
+     * updateFormAction
+     *
+     * @return message stringvoid
+     */
     public function updateFormAction()
     {
         $this->layout(false);
+
         $class = $this->params('class');
+        $serviceLocator = $this->getServiceLocator();
+        $formService = $this->getFormService();
+        $form = $formService->getForm($class, null, $_POST);
+        $viewHelperManager = $serviceLocator->get('viewhelpermanager');
+        $formViewHelper = $viewHelperManager->get('speckCatalogForm');
+        $messageHtml = $formViewHelper->renderFormMessages($form);
 
-        $service = $this->getServiceLocator()->get('speckcatalog_' . $class . '_service');
-        $form = $this->getFormService()->getForm($class, null, $_POST);
-
-        $messages = $this->getServiceLocator()->get('viewhelpermanager')->get('speckCatalogForm')->renderFormMessages($form);
-        die($messages);
+        $response = $this->getResponse()->setContent($messageHtml);
+        return $response;
     }
 
     private function dash($name)
@@ -215,7 +221,7 @@ class CatalogManagerController
 
         $order = explode(',', $postParams['order']);
         foreach ($order as $i => $val) {
-            if(!trim($val)) {
+            if (!trim($val)) {
                 unset($order[$i]);
             }
         }
@@ -224,25 +230,32 @@ class CatalogManagerController
 
         $sortChildren = 'sort' . $this->camel($type) . 's';
         $parentService->$sortChildren($parentKey, $order);
-        die();
+
+        return $this->getResponse();
     }
+
 
     public function removeChildAction()
     {
         $this->layout(false);
-        $postParams = $this->params()->fromPost();
 
-        $getParentService = 'get' . $this->camel($postParams['parent_name']) . 'Service';
+        $postParams = $this->params()->fromPost();
+        $parentName = $postParams['parent_name'];
+        $parentKey  = $postParams['parent'];
+        $childName  = $postParams['child_name'];
+        $childKey   = $postParams['child'];
+
+        $getParentService = 'get' . $this->camel($parentName) . 'Service';
         $parentService = $this->$getParentService();
 
-        $removeChildMethod = 'remove' . $this->camel($postParams['child_name']);
+        $removeChildMethod = 'remove' . $this->camel($childName);
+        $result = $parentService->$removeChildMethod($parentKey, $childKey);
 
-        $response = $parentService->$removeChildMethod($postParams['parent'], $postParams['child']);
-
-        if(true === $response) {
-            die('true');
+        $response = $this->getResponse();
+        if (true === $result) {
+            $response->setContent('true');
         }
-        die();
+        return $response;
     }
 
     public function getUserAuth()

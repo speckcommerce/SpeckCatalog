@@ -8,10 +8,12 @@ use Zend\View\Model\ViewModel;
 
 class CatalogManagerCategoryTree extends AbstractHelper
 {
+    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
+
     public function __invoke()
     {
         $view = new ViewModel();
-        $view->setTemplate('catalog/catalog-manager/partial/category-tree');
+        $view->setTemplate($this->partialDir . 'category-tree');
 
         return $this->getView()->render($view);
     }

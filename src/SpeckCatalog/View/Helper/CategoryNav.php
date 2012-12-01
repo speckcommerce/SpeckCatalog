@@ -11,7 +11,7 @@ class CategoryNav extends AbstractHelper
     protected $categoryService;
 
     // @todo replace with option
-    protected $partialDir = 'catalog/catalog/partial/';
+    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
     public function setCatalogService($catalogService)
     {
@@ -28,7 +28,7 @@ class CategoryNav extends AbstractHelper
     {
         $categories = $this->getCategoryService()->getCategoriesForNavigation();
         $view = new ViewModel(array('categories' => $categories));
-        $view->setTemplate($this->partialDir . 'categories.phtml');
+        $view->setTemplate($this->partialDir . 'categories');
         return $this->getView()->render($view);
     }
 

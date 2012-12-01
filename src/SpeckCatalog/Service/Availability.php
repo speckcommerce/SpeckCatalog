@@ -4,7 +4,7 @@ namespace SpeckCatalog\Service;
 
 class Availability extends AbstractService
 {
-    protected $entityMapper = 'catalog_availability_mapper';
+    protected $entityMapper = 'speckcatalog_availability_mapper';
 
     public function getByProductUom($productId, $uomCode, $quantity)
     {

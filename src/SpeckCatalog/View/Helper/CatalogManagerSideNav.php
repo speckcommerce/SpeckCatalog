@@ -9,11 +9,12 @@ use Zend\View\Model\ViewModel;
 class CatalogManagerSideNav extends AbstractHelper
 {
     protected $routematch;
+    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
     public function __invoke()
     {
         $view = new ViewModel(array('action' => $this->getRouteMatch()->getParam('action')));
-        $view->setTemplate('catalog/catalog-manager/partial/sidenav');
+        $view->setTemplate($this->partialDir . 'sidenav');
 
         return $this->getView()->render($view);
     }

@@ -114,9 +114,9 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         } elseif (is_array($data)) {
             $dbFields = $this->getDbFields();
             $return = array();
-            foreach ($dbFields as $field) {
-                if(array_key_exists($field, $data)) {
-                    $return[$field] = $data['field'];
+            foreach ($dbFields as $key) {
+                if(array_key_exists($key, $data)) {
+                    $return[$key] = $data[$key];
                 }
             }
             return $return;

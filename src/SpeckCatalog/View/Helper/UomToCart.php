@@ -11,9 +11,9 @@ class UomToCart extends AbstractHelper
 {
 
     protected $partials = array(
-        'single' => '/catalog/product/product-uom/single',
-        'few' => '/catalog/product/product-uom/few',
-        'many' => '/catalog/product/product-uom/many',
+        'single' => '/speck-catalog/product/product-uom/single',
+        'few' => '/speck-catalog/product/product-uom/few',
+        'many' => '/speck-catalog/product/product-uom/many',
     );
 
     /**

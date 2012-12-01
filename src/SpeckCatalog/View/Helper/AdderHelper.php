@@ -7,6 +7,8 @@ use Zend\Form\Form as ZendForm;
 
 class AdderHelper extends AbstractHelper
 {
+    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
+
     protected $labels = array(
         'choice'       => 'Option',
         'option'       => 'Option Group',
@@ -52,7 +54,7 @@ class AdderHelper extends AbstractHelper
         $view = $this->getView();
         $view->vars()->assign(array('addForm' => $form));
 
-        $html = $view->render('/catalog/catalog-manager/partial/add');
+        $html = $view->render($this->partialDir . 'add');
         return $html;
     }
 
@@ -80,7 +82,7 @@ class AdderHelper extends AbstractHelper
         $view = $this->getView();
         $view->vars()->assign(array('removeForm' => $form));
 
-        $html = $view->render('/catalog/catalog-manager/partial/remove');
+        $html = $view->render($this->partialDir . 'remove');
         return $html;
     }
 

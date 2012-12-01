@@ -11,7 +11,7 @@ use SpeckCatalog\Service\FormServiceAwareInterface;
 class ChildViewRenderer extends AbstractHelper
 {
     // @todo replace with option
-    protected $partialDir = "catalog/catalog-manager/partial/";
+    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
     public function __invoke($name=null, $objects=null)
     {
@@ -24,10 +24,19 @@ class ChildViewRenderer extends AbstractHelper
         $views = '';
         foreach ($objects as $object) {
             $child = new ViewModel(array($this->camel($name) => $object));
-            $child->setTemplate($this->partialDir . $this->dash($name) . '.phtml');
+            $child->setTemplate($this->partialDir . $this->templateName($name) . '.phtml');
             $views .= $this->getView()->render($child);
         }
         return $views;
+    }
+
+    private function templateName($name)
+    {
+        if ($name === 'product') {
+            return 'product-clip';
+        } else {
+            return $this->dash($name);
+        }
     }
 
     private function camel($name)

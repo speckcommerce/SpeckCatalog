@@ -1,10 +1,10 @@
 <?php
 
-namespace Catalog\Service;
+namespace SpeckCatalog\Service;
 
 class Company extends AbstractService
 {
-    protected $entityMapper = 'catalog_company_mapper';
+    protected $entityMapper = 'speckcatalog_company_mapper';
 
     public function findById($companyId)
     {

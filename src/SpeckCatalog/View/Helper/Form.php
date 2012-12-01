@@ -10,7 +10,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
 {
     protected $formService;
 
-    protected $partialDir = "catalog/catalog-manager/partial/form/";
+    protected $partialDir = "/speck-catalog/catalog-manager/partial/form/";
 
     protected $form;
 
@@ -41,7 +41,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
             'formErrors' => $this->renderFormMessages($this->form, false),
             'originalFields' => $this->prepareOriginalFields($this->form),
         ));
-        $view->setTemplate($this->partialDir . $this->dash($this->name) . '.phtml');
+        $view->setTemplate($this->partialDir . $this->dash($this->name));
         return $this->getView()->render($view);
     }
 

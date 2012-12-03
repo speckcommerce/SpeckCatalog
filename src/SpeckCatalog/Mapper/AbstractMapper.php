@@ -78,10 +78,10 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     }
 
     //note: remove after zfcbase refactor
-    public function getEntityPrototype()
+    public function getEntityPrototype($construct=null)
     {
         if (is_string($this->relationalModel) && class_exists($this->relationalModel)) {
-            return new $this->relationalModel;
+            return new $this->relationalModel($construct);
         }else{
             die('could not instantiate - ' . $this->relationalModel);
         }

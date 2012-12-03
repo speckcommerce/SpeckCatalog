@@ -115,7 +115,7 @@
         e.preventDefault();
         var form = getForm(this)
         $('#greyOverlay').show();
-        $.post('/catalogmanager/update-record/'+form.attr('id'), form.serializeArray(), function(id){
+        $.post('/catalogmanager/update-product', form.serializeArray(), function(id){
             window.location.replace('/catalogmanager/product/' + id);
         })
 

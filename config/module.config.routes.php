@@ -266,6 +266,15 @@ return array(
                             ),
                         ),
                     ),
+                    'update-product' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/update-product',
+                            'defaults' => array(
+                                'action' => 'update-product',
+                            ),
+                        ),
+                    ),
                     'category-tree-preview' => array(
                         'type' => 'Segment',
                         'options' => array(

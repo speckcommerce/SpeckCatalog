@@ -55,7 +55,7 @@ class CatalogManagerController extends AbstractActionController
 
     public function categoriesAction()
     {
-        $sites = $this->getSitesService()->getAll();
+        $sites = $this->getService('sites')->getAll();
         return new ViewModel(array('sites' => $sites));
     }
 

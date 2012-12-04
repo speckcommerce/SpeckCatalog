@@ -1,3 +1,11 @@
+SpeckCatalog
+============
+
+Catalog and manager module for the ecommerce platform SpeckCommerce
+
+Introduction
+------------
+
 Steps to get this module running:
 - in /config/autoload, be sure you have a copy of database.local.php.dist, configured for your database, and saved as database.local.php 
 - create the tables necessary for this module, using /vendor/speckcommerce/SpeckCatalog/data/schema.sql

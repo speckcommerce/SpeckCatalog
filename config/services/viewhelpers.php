@@ -54,7 +54,7 @@ return array(
         },
         'speckCatalogFeaturedProducts' => function ($sm) {
             $speckFeaturedProducts = $sm->get('speckFeaturedProducts');
-            return $speckFeaturedProducts->setTemplate('/catalog/product/feature-clip');
+            return $speckFeaturedProducts->setTemplate('/speck-catalog/product/feature-clip');
         },
     ),
     'initializers' => array(

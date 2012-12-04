@@ -11,7 +11,7 @@ class CategoryNav extends AbstractHelper
     protected $categoryService;
 
     // @todo replace with option
-    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
+    protected $partialDir = '/speck-catalog/catalog/partial/';
 
     public function setCatalogService($catalogService)
     {

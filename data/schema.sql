@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `ansi_uom` (
   `name` varchar(255) NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uom_code`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 ('1', 'Actual Pounds', 0),
@@ -818,7 +818,7 @@ CREATE TABLE IF NOT EXISTS `catalog_availability` (
   PRIMARY KEY (`product_id`,`uom_code`,`distributor_id`,`quantity`),
   KEY `fk_catalog_availability_product_uom_idx` (`product_id`,`uom_code`,`quantity`),
   KEY `fk_catalog_availability_1_idx` (`distributor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -833,7 +833,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category` (
   `description_html` text,
   `image_file_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -850,7 +850,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product` (
   KEY `fk_catalog_product_category_linker_category_id_idx` (`category_id`),
   KEY `fk_catalog_product_category_linker_product_id_idx` (`product_id`),
   KEY `fk_catalog_product_category_linker_website_id_idx` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -866,7 +866,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_website` (
   KEY `fk_catalog_category_linker_category_id_idx` (`category_id`),
   KEY `fk_catalog_category_linker_parent_category_id_idx` (`parent_category_id`),
   KEY `fk_catalog_category_linker_website_id_idx` (`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -887,7 +887,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice` (
   PRIMARY KEY (`choice_id`),
   KEY `fk_catalog_choice_product_id_idx` (`product_id`),
   KEY `fk_catalog_choice_option_id_idx` (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -902,7 +902,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice_option` (
   KEY `UNIQUE` (`choice_id`,`option_id`),
   KEY `fk_catalog_choice_option_linker_1_idx` (`option_id`),
   KEY `fk_catalog_choice_option_linker_2_idx` (`choice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -918,7 +918,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option` (
   `variation` tinyint(4) NOT NULL DEFAULT '0',
   `option_type_id` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`option_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -934,7 +934,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option_image` (
   `label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`),
   KEY `fk_catalog_option_image_1_idx` (`option_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -952,7 +952,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product` (
   PRIMARY KEY (`product_id`),
   KEY `fk_product_product_type_id_idx` (`product_type_id`),
   KEY `fk_catalog_product_1_idx` (`manufacturer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -969,7 +969,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_document` (
   PRIMARY KEY (`document_id`),
   KEY `linker_id` (`document_id`),
   KEY `fk_catalog_product_document_1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -986,7 +986,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_image` (
   PRIMARY KEY (`image_id`),
   KEY `linker_id` (`image_id`),
   KEY `fk_catalog_product_image_1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1002,7 +1002,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_feature` (
   PRIMARY KEY (`product_id`,`feature_id`),
   KEY `fk_catalog_product_option_linker_product_id_idx` (`product_id`),
   KEY `fk_catalog_product_option_linker_feature_id_idx` (`feature_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1017,7 +1017,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option` (
   PRIMARY KEY (`product_id`,`option_id`),
   KEY `fk_catalog_product_option_linker_product_id_idx` (`product_id`),
   KEY `fk_catalog_product_option_linker_option_id_idx` (`option_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1032,7 +1032,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
   `value` text,
   PRIMARY KEY (`spec_id`),
   KEY `fk_catalog_product_spec_1_idx` (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1044,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_type` (
   `product_type_id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`product_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1063,7 +1063,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
   PRIMARY KEY (`uom_code`,`product_id`,`quantity`),
   KEY `fk_catalog_product_uom_uom_code_idx` (`uom_code`),
   KEY `fk_catalog_product_uom_product_id_idx` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------

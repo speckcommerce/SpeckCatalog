@@ -37,5 +37,4 @@ return array(
     'aliases' => array(
         'speckcatalog_db' => 'Zend\Db\Adapter\Adapter',
     )
-
 );

@@ -32,8 +32,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         return \SpeckCatalogTest\Bootstrap::getServiceManager();
     }
 
-
-
     /**
      * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
      */

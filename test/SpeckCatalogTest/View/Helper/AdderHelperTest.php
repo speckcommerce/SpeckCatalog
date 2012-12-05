@@ -8,20 +8,16 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $viewMock = $this->getMock(
+        $this->view = $this->getMock(
             'Zend\\View\\Renderer\\PhpRenderer',
             array('render')
         );
 
-        $helper = new AdderHelper;
-        $helper->setView($viewMock);
+        $this->helper = new AdderHelper;
+        $this->helper->setView($this->view);
 
-        $partial = '/assert/partial/dir/';
-        $helper->setPartialDir($partial);
-
-        $this->helper  = $helper;
-        $this->partial = $partial;
-        $this->view    = $viewMock;
+        $this->partial = '/assert/partial/dir/';
+        $this->helper->setPartialDir($this->partial);
     }
 
     public function testGetPartialDir()
@@ -29,7 +25,20 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->partial, $this->helper->getPartialDir());
     }
 
-    public function testAddNew()
+    public function testAddNewReturnsRenderedData()
+    {
+        $html = '<p>some rendered html</p>';
+        $this->view->expects($this->once())
+            ->method('render')
+            ->will($this->returnValue($html));
+
+        $this->assertEquals(
+            $html,
+            $this->helper->addNew('spec', 'product', array())
+        );
+    }
+
+    public function testAddNewProvidesFormToPartial()
     {
         $form = null;
         $callback = function($partial, $params) use (&$form) {
@@ -45,7 +54,20 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('SpeckCatalog\\Form\\AddChild', $form);
     }
 
-    public function testRemoveChild()
+    public function testRemoveChildReturnsRenderedData()
+    {
+        $html = '<p>some rendered html</p>';
+        $this->view->expects($this->once())
+            ->method('render')
+            ->will($this->returnValue($html));
+
+        $this->assertEquals(
+            $html,
+            $this->helper->removeChild('parentName', array(), 'childName', array())
+        );
+    }
+
+    public function testRemoveChildProvidesFormToPartial()
     {
         $form = null;
         $callback = function($partial, $params) use (&$form) {

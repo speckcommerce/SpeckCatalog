@@ -13,9 +13,16 @@ return array(
         'speckCatalogRenderChildren' => 'SpeckCatalog\View\Helper\ChildViewRenderer',
         'speckCatalogRenderForm'     => 'SpeckCatalog\View\Helper\RenderForm',
         'speckCatalogCart'           => 'SpeckCatalog\View\Helper\Cart',
-        'speckCatalogAdderHelper'    => 'SpeckCatalog\View\Helper\AdderHelper',
     ),
     'factories' => array(
+        'speckCatalogAdderHelper' => function($sm) {
+            //$sm = $sm->getServiceLocator();
+            //$app = $sm->get('module options here');
+            // @todo refactor to use ModuleOptions to get that value
+            $helper = new Helper\AdderHelper;
+            $helper->setPartialDir('/speck-catalog/catalog-manager/partial/');
+            return $helper;
+        },
         'speckCatalogOptionImageUploader' => function ($sm) {
             $imageUploader = $sm->get('imageUploader');
             $element = array('name' => 'file_type', 'attributes' => array('value' => 'optionImage', 'type' => 'hidden'));

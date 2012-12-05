@@ -16,11 +16,10 @@ return array(
     ),
     'factories' => array(
         'speckCatalogAdderHelper' => function($sm) {
-            //$sm = $sm->getServiceLocator();
-            //$app = $sm->get('module options here');
-            // @todo refactor to use ModuleOptions to get that value
+            $sm = $sm->getServiceLocator();
+            $options = $sm->get('speckcatalog_module_options');
             $helper = new Helper\AdderHelper;
-            $helper->setPartialDir('/speck-catalog/catalog-manager/partial/');
+            $helper->setPartialDir($options->getCatalogManagerPartialDir());
             return $helper;
         },
         'speckCatalogOptionImageUploader' => function ($sm) {

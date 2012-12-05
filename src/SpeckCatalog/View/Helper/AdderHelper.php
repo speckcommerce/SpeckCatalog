@@ -1,7 +1,6 @@
 <?php
 namespace SpeckCatalog\View\Helper;
 
-use SpeckCatalog\Form;
 use Zend\Filter\Word\UnderscoreToDash as UnderscoreToDashFilter;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Helper\HelperInterface;
@@ -65,7 +64,7 @@ class AdderHelper extends AbstractHelper
             ),
         );
 
-        $form = new Form\AddChild;
+        $form = new \SpeckCatalog\Form\AddChild;
         $form->addElements($elements)
             ->addParent($parentKeyFields);
         $form->add($submitButton);
@@ -90,7 +89,7 @@ class AdderHelper extends AbstractHelper
             'child_name'  => $childName,
         );
 
-        $form = new Form\RemoveChild;
+        $form = new \SpeckCatalog\Form\RemoveChild;
         $form->addElements($elements)
             ->addParent($parentFormElements)
             ->addChild($childFormElements);

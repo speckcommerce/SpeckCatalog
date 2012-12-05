@@ -13,9 +13,15 @@ return array(
         'speckCatalogRenderChildren' => 'SpeckCatalog\View\Helper\ChildViewRenderer',
         'speckCatalogRenderForm'     => 'SpeckCatalog\View\Helper\RenderForm',
         'speckCatalogCart'           => 'SpeckCatalog\View\Helper\Cart',
-        'speckCatalogAdderHelper'    => 'SpeckCatalog\View\Helper\AdderHelper',
     ),
     'factories' => array(
+        'speckCatalogAdderHelper' => function($sm) {
+            $sm = $sm->getServiceLocator();
+            $options = $sm->get('speckcatalog_module_options');
+            $helper = new Helper\AdderHelper;
+            $helper->setPartialDir($options->getCatalogManagerPartialDir());
+            return $helper;
+        },
         'speckCatalogOptionImageUploader' => function ($sm) {
             $imageUploader = $sm->get('imageUploader');
             $element = array('name' => 'file_type', 'attributes' => array('value' => 'optionImage', 'type' => 'hidden'));

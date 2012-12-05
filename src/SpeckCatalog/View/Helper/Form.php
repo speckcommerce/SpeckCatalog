@@ -92,13 +92,13 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         return $html;
     }
 
-    private function camel($name)
+    protected function camel($name)
     {
         $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
         return lcfirst($camel->__invoke($name));
     }
 
-    private function dash($name)
+    protected function dash($name)
     {
         $dash = new \Zend\Filter\Word\UnderscoreToDash;
         return $dash->__invoke($name);

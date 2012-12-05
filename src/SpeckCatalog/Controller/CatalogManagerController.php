@@ -85,7 +85,7 @@ class CatalogManagerController extends AbstractActionController
     }
 
     //returns entity
-    private function persist($class, $form)
+    protected function persist($class, $form)
     {
         $service = $this->getService($class);
         $originalData = $form->getOriginalData();
@@ -206,13 +206,13 @@ class CatalogManagerController extends AbstractActionController
         }
     }
 
-    private function dash($name)
+    protected function dash($name)
     {
         $dash = new \Zend\Filter\Word\UnderscoreToDash;
         return $dash->__invoke($name);
     }
 
-    private function camel($name)
+    protected function camel($name)
     {
         $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
         return $camel->__invoke($name);

@@ -30,7 +30,7 @@ class ChildViewRenderer extends AbstractHelper
         return $views;
     }
 
-    private function templateName($name)
+    protected function templateName($name)
     {
         if ($name === 'product') {
             return 'product-clip';
@@ -39,13 +39,13 @@ class ChildViewRenderer extends AbstractHelper
         }
     }
 
-    private function camel($name)
+    protected function camel($name)
     {
         $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
         return lcfirst($camel->__invoke($name));
     }
 
-    private function dash($name)
+    protected function dash($name)
     {
         $dash = new \Zend\Filter\Word\UnderscoreToDash;
         return $dash->__invoke($name);

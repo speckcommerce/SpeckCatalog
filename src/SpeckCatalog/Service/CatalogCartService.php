@@ -46,7 +46,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         }
     }
 
-    private function addOptions($options, $parentCartItem)
+    protected function addOptions($options, $parentCartItem)
     {
         foreach($options as $option){
             if(array_key_exists($option->getOptionId(), $this->flatOptions)){
@@ -108,7 +108,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     /*
      * 'item' is either a product, or a choice
      */
-    private function createCartItem($item, $parentOption=null, $uomString=null, $quantity=1)
+    protected function createCartItem($item, $parentOption=null, $uomString=null, $quantity=1)
     {
         $meta = $this->getServiceLocator()->get('cart_item_meta');
 
@@ -141,7 +141,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         return $cartItem;
     }
 
-    private function getPriceForUom($uomString)
+    protected function getPriceForUom($uomString)
     {
         $exp = explode(':', $uomString);
         $data = array(

@@ -94,7 +94,7 @@ class AbstractForm extends ZendForm
         return $originals;
     }
 
-    private function camel($name)
+    protected function camel($name)
     {
         $camel = new UnderscoreToCamelCaseFilter;
         return $camel->__invoke($name);

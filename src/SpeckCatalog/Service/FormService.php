@@ -47,7 +47,7 @@ class FormService implements ServiceLocatorAwareInterface
         return $fields;
     }
 
-    private function camel($name)
+    protected function camel($name)
     {
         $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
         return $camel->__invoke($name);

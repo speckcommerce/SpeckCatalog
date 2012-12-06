@@ -6,17 +6,20 @@ use Zend\Stdlib\AbstractOptions;
 
 class ModuleOptions extends AbstractOptions
 {
-    protected $productImagePath             = '/assets/speck-catalog/media/product-image';
-    protected $productImageUpload    = '/public/assets/speck-catalog/media/product-image';
+    protected $catalogPartialDir        = '/speck-catalog/catalog/partial/';
+    protected $catalogManagerPartialDir = '/speck-catalog/catalog-manager/partial/';
 
-    protected $productDocumentPath          = '/assets/speck-catalog/media/product-document';
-    protected $productDocumentUpload = '/public/assets/speck-catalog/media/product-document';
+    protected $productImagePath         = '/assets/speck-catalog/media/product-image';
+    protected $productImageUpload       = '/public/assets/speck-catalog/media/product-image';
 
-    protected $categoryImagePath            = '/assets/speck-catalog/media/category-image';
-    protected $categoryImageUpload   = '/public/assets/speck-catalog/media/category-image';
+    protected $productDocumentPath      = '/assets/speck-catalog/media/product-document';
+    protected $productDocumentUpload    = '/public/assets/speck-catalog/media/product-document';
 
-    protected $optionImagePath              = '/assets/speck-catalog/media/option-image';
-    protected $optionImageUpload     = '/public/assets/speck-catalog/media/option-image';
+    protected $categoryImagePath        = '/assets/speck-catalog/media/category-image';
+    protected $categoryImageUpload      = '/public/assets/speck-catalog/media/category-image';
+
+    protected $optionImagePath          = '/assets/speck-catalog/media/option-image';
+    protected $optionImageUpload        = '/public/assets/speck-catalog/media/option-image';
 
     function getProductDocumentPath()
     {
@@ -120,6 +123,42 @@ class ModuleOptions extends AbstractOptions
     public function setOptionImageUpload($optionImageUpload)
     {
         $this->optionImageUpload = $optionImageUpload;
+        return $this;
+    }
+
+    /**
+     * @return catalogPartialDir
+     */
+    public function getCatalogPartialDir()
+    {
+        return $this->catalogPartialDir;
+    }
+
+    /**
+     * @param $catalogPartialDir
+     * @return self
+     */
+    public function setCatalogPartialDir($partialDir)
+    {
+        $this->catalogPartialDir = $partialDir;
+        return $this;
+    }
+
+    /**
+     * @return catalogManagerPartialDir
+     */
+    public function getCatalogManagerPartialDir()
+    {
+        return $this->catalogManagerPartialDir;
+    }
+
+    /**
+     * @param $catalogManagerPartialDir
+     * @return self
+     */
+    public function setCatalogManagerPartialDir($partialDir)
+    {
+        $this->catalogManagerPartialDir = $partialDir;
         return $this;
     }
 }

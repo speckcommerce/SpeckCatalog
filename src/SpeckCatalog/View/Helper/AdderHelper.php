@@ -1,14 +1,24 @@
 <?php
 namespace SpeckCatalog\View\Helper;
+
+use Zend\Filter\Word\UnderscoreToDash as UnderscoreToDashFilter;
+use Zend\View\Helper\AbstractHelper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
-use Zend\View\Helper\AbstractHelper;
-use Zend\Form\Form as ZendForm;
 
 class AdderHelper extends AbstractHelper
 {
-    protected $partialDir = '/speck-catalog/catalog-manager/partial/';
+    /**
+     * @var UnderscoreToDashFilter
+     */
+    protected $filter     = null;
+    protected $partialDir = '';
 
+    /**
+     * labels
+     *
+     * @var array
+     */
     protected $labels = array(
         'choice'       => 'Option',
         'option'       => 'Option Group',
@@ -24,6 +34,14 @@ class AdderHelper extends AbstractHelper
         return $this;
     }
 
+    /**
+     * addNew
+     *
+     * @param mixed $childName
+     * @param mixed $parentName
+     * @param mixed $parentKeyFields
+     * @return string rendered form
+     */
     public function addNew($childName, $parentName, $parentKeyFields)
     {
         // if there is no parent set yet, cant show a button that wont work.
@@ -52,13 +70,18 @@ class AdderHelper extends AbstractHelper
         $form->add($submitButton);
 
         $view = $this->getView();
-        $view->vars()->assign(array('addForm' => $form));
-
-        $html = $view->render($this->partialDir . 'add');
-        return $html;
+        return $view->render($this->partialDir . 'add', array('addForm' => $form));
     }
 
-
+    /**
+     * removeChild
+     *
+     * @param mixed $parentName
+     * @param mixed $parentFormElements
+     * @param mixed $childName
+     * @param mixed $childFormElements
+     * @return string rendered form
+     */
     public function removeChild($parentName, $parentFormElements, $childName, $childFormElements)
     {
         $elements = array(
@@ -80,15 +103,50 @@ class AdderHelper extends AbstractHelper
         $form->setAttribute('class', $removeType);
 
         $view = $this->getView();
-        $view->vars()->assign(array('removeForm' => $form));
-
-        $html = $view->render($this->partialDir . 'remove');
-        return $html;
+        return $view->render($this->partialDir . 'remove', array('removeForm' => $form));
     }
 
-    private function dash($name)
+    protected function dash($name)
     {
-        $dash = new \Zend\Filter\Word\UnderscoreToDash;
-        return $dash->__invoke($name);
+        if($this->filter == null) {
+            $this->filter = new UnderscoreToDashFilter;
+        }
+        return $this->filter->filter($name);
+    }
+
+    /**
+     * @return string partialDir
+     */
+    public function getPartialDir()
+    {
+        return $this->partialDir;
+    }
+
+    /**
+     * @param string $partialDir
+     * @return self
+     */
+    public function setPartialDir($partialDir)
+    {
+        $this->partialDir = $partialDir;
+        return $this;
+    }
+
+    /**
+     * @return array labels
+     */
+    public function getLabels()
+    {
+        return $this->labels;
+    }
+
+    /**
+     * @param array $labels
+     * @return self
+     */
+    public function setLabels(array $labels)
+    {
+        $this->labels = $labels;
+        return $this;
     }
 }

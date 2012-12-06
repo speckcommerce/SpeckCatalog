@@ -1,7 +1,8 @@
 <?php
+    $parentProductKeyFields = $this->SpeckCatalogForm($productUom->getParent(), 'product')->getKeyFields();
+
     $formHelper = $this->speckCatalogForm($productUom, 'product_uom');
     $productUomKeyFields = $formHelper->getKeyFields();
-    $parentProductKeyFields = $this->SpeckCatalogForm($productUom->getParent(), 'product')->getKeyFields()
 ?>
 
 <div class="existing contrastbg boundary shadow" id="">

@@ -1,7 +1,8 @@
 <?
-$formHelper = $this->speckCatalogForm($choice, 'choice');
-$keyFields = $formHelper->getKeyFields();
-$parentOptionKeyFields = $this->SpeckCatalogForm($choice->getParent(), 'option')->getKeyFields()
+    $parentOptionKeyFields = $this->SpeckCatalogForm($choice->getParent(), 'option')->getKeyFields();
+
+    $formHelper = $this->speckCatalogForm($choice, 'choice');
+    $keyFields = $formHelper->getKeyFields();
 ?>
 <div class="choice whitebg boundary shadow" id="<?= $choice->getKey(); ?>" >
     <div class="entity-header">

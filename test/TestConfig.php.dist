@@ -1,12 +1,34 @@
 <?php
+
+$dbName   = 'sp_cat_unit_test';
+$user     = 'sp_cat_unit_test';
+$password = 'sp_cat_unit_test';
+$host     = 'localhost';
+
 return array(
     'modules' => array(
         'SpeckCatalog',
-        'ZfcUser'
+        'ZfcBase',
     ),
     'module_listener_options' => array(
+        'extra_config' => array(
+            'service_manager' => array (
+                'factories' => array (
+                    'zend\\db\\adapter\\adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
+                ),
+            ),
+            'db' => array (
+                'driver' => 'pdo',
+                'dsn' => "mysql:dbname={$dbName};host={$host};",
+                'username' => $user,
+                'password' => $password,
+                'driver_options' => array(
+                    1002 => 'SET NAMES \'UTF8\'',
+                ),
+            ),
+        ),
         'module_paths' => array(
-            'vendor',
+            'devmodules',
         ),
     ),
 );

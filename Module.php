@@ -52,13 +52,6 @@ class Module
                         $instance->setFormService($formService);
                     }
                 },
-                function($instance, $sm){
-                    if($instance instanceof Mapper\DbAdapterAwareInterface){
-                        $sm = $sm->getServiceLocator();
-                        $dbAdapter = $sm->get('speckcatalog_db');
-                        $instance->setDbAdapter($dbAdapter);
-                    }
-                },
             ),
         );
     }

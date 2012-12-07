@@ -36,5 +36,14 @@ return array(
     ),
     'aliases' => array(
         'speckcatalog_db' => 'Zend\Db\Adapter\Adapter',
-    )
+    ),
+    'initializers' => array(
+        function($instance, $sm){
+            if($instance instanceof Mapper\DbAdapterAwareInterface){
+                $sm = $sm->getServiceLocator();
+                $dbAdapter = $sm->get('speckcatalog_db');
+                $instance->setDbAdapter($dbAdapter);
+            }
+        },
+    ),
 );

@@ -1069,8 +1069,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
 -- -----------------------------------------------------
 -- Data for table `catalog_product_type`
 -- -----------------------------------------------------
-START TRANSACTION;
-INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (1, 'Shell');
-INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (2, 'Product');
-
-COMMIT;
+-- START TRANSACTION;
+-- INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (1, 'Shell');
+-- INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (2, 'Product');
+-- 
+-- COMMIT;

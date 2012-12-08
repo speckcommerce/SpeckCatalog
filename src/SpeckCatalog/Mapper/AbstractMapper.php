@@ -24,9 +24,8 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 
     protected function initialize()
     {
-        //$this->setEntityPrototype($this->getEntityPrototype());
-        //parent::initialize();
-        //we're done here - dont check anything, we got this covered
+        $this->setEntityPrototype($this->getEntityPrototype());
+        parent::initialize();
     }
 
     public function selectOne(Select $select)
@@ -83,17 +82,29 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         if (is_string($this->relationalModel) && class_exists($this->relationalModel)) {
             return new $this->relationalModel($construct);
         }else{
-            die('could not instantiate - ' . $this->relationalModel);
+            throw new \RuntimeException('could not instantiate - ' . $this->relationalModel);
         }
     }
 
-    public function getDbModel(AbstractModel $construct)
+    public function setRelationalModel($className)
+    {
+        $this->relationalModel = $className;
+        return $this;
+    }
+
+    public function getDbModel(AbstractModel $construct = null)
     {
         if (is_string($this->dbModel) && class_exists($this->dbModel)) {
             return new $this->dbModel($construct);
         }else{
-            die('could not instantiate - ' . $this->dbModel);
+            throw new \RuntimeException('could not instantiate - ' . $this->dbModel);
         }
+    }
+
+    public function setDbModel($className)
+    {
+        $this->dbModel = $className;
+        return $this;
     }
 
     //note: remove after zfcbase refactor
@@ -107,11 +118,30 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return new Where;
     }
 
-    public function prepareData($data)
+    public function prepareData($data, $tableName)
     {
-        if ($data instanceof AbstractModel) {
-            return $this->getDbModel($data);
+        //not sure what table its for.. return data as-is
+        if ($tableName !== $this->getTableName()) {
+            return $data;
+        }
+
+        if ($data instanceOf AbstractModel) {
+
+            $dbModel = $this->getDbModel();
+            $relational = $this->getEntityPrototype();
+            if ($data instanceOf $relational) {
+                return $this->getDbModel($data);
+            } elseif ($data instanceOf $dbModel) {
+                return $data;
+            } else {
+                $expected = get_class($relational);
+                $got = get_class($data);
+                $message = "cannot prepare data -- expected instance of {$expected}, got {$got}";
+                throw new \InvalidArgumentException($message);
+            }
+
         } elseif (is_array($data)) {
+
             $dbFields = $this->getDbFields();
             $return = array();
             foreach ($dbFields as $key) {
@@ -120,21 +150,24 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
                 }
             }
             return $return;
+
         }
+
+        $message = 'cannot prepare data -- expected array, got '. gettype($data);
+        throw new \InvalidArgumentException($message);
     }
 
     public function update($data, $where, $tableName = null, HydratorInterface $hydrator = null)
     {
-        $data = $this->prepareData($data);
+        $tableName = ($tableName ?: $this->getTableName());
+        $data = $this->prepareData($data, $tableName);
         parent::update($data, $where, $tableName, $hydrator);
     }
 
     public function insert($model, $tableName = null, HydratorInterface $hydrator = null)
     {
-        $model = $this->prepareData($model);
-        if (null === $tableName) {
-            $tableName = $this->getTableName();
-        }
+        $tableName = ($tableName ?: $this->getTableName());
+        $model = $this->prepareData($model, $tableName);
         $result = parent::insert($model, $tableName);
         return $result->getGeneratedValue();
     }
@@ -162,24 +195,6 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         }
 
         return $paginator;
-    }
-
-    /**
-     * @return paginator
-     */
-    public function getPaginator()
-    {
-        return $this->paginator;
-    }
-
-    /**
-     * @param $paginator
-     * @return self
-     */
-    public function setPaginator($paginator)
-    {
-        $this->paginator = $paginator;
-        return $this;
     }
 
     /**

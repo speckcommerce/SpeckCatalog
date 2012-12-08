@@ -7,11 +7,6 @@ use Zend\Db\Sql\Select;
 
 class AbstractMapperTest extends \PHPUnit_Framework_TestCase
 {
-    public function __construct()
-    {
-        $this->createSchema();
-    }
-
     public function testInsertModelAbstract()
     {
         $product = $this->getTestProductModel();
@@ -273,16 +268,24 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         return $id;
     }
 
-    public function createSchema()
+    public function setup()
     {
-        $dataPath  = __DIR__ . '/../../../data/';
-        $schemaSql = file_get_contents($dataPath . 'schema.sql');
-        $alterSql  = file_get_contents($dataPath . 'alter.sql');
+        $query = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_product`(
+    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
+    'name'            VARCHAR(255),
+    'description'     VARCHAR(255),
+    'manufacturer_id' INTEGER(11),
+    'item_number'     VARCHAR(255),
+    'product_type_id' INTEGER(1)
+);";
+sqlite;
+
         $db = $this->getServiceManager()->get('speckcatalog_db');
-        $separator = '-- --------------------------------------------------------';
-        $statements = explode($separator, $schemaSql);
-        foreach ($statements as $statement) {
-            $db->query($statement)->execute();
-        }
+        $db->query($query)->execute();
+        $row = "insert into catalog_product ('name') VALUES ('product');";
+        $db->query($row)->execute();
+        $sql = "select * from catalog_product WHERE 1";
+        $result = $db->query($row)->execute();
     }
 }

@@ -1,10 +1,5 @@
 <?php
 
-$dbName   = 'sp_cat_unit_test';
-$user     = 'sp_cat_unit_test';
-$password = 'sp_cat_unit_test';
-$host     = 'localhost';
-
 return array(
     'modules' => array(
         'SpeckCatalog',
@@ -16,12 +11,18 @@ return array(
                 'factories' => array (
                     'zend\\db\\adapter\\adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
                 ),
+                'initializers' => array(
+                    function($instance, $sm){
+                        if ($instance instanceof \SpeckCatalog\Mapper\DbAdapterAwareInterface) {
+                            $dbAdapter = $sm->get('speckcatalog_db');
+                            $instance->setDbAdapter($dbAdapter);
+                        }
+                    },
+                ),
             ),
             'db' => array (
                 'driver' => 'pdo',
-                'dsn' => "mysql:dbname={$dbName};host={$host};",
-                'username' => $user,
-                'password' => $password,
+                'dsn' => "sqlite::memory:",
                 'driver_options' => array(
                     1002 => 'SET NAMES \'UTF8\'',
                 ),

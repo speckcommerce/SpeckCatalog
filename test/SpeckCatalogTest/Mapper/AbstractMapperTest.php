@@ -142,8 +142,6 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         $return = $mapper->prepareData('foo', 'catalog_product');
     }
 
-
-
     public function testQuery()
     {
         $this->insertProduct();

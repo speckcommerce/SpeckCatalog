@@ -182,7 +182,7 @@ sqlite;
 
         $linker = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product_option`(
-    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
+    `product_id`      INTEGER(11),
     `option_id`       INTEGER(11),
     `sort_weight`     INTEGER(11)
 );

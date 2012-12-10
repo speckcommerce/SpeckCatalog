@@ -180,28 +180,6 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($options, $return);
     }
 
-
-
-
-
-    /***
-     * NOTE:
-     * PHPUnit likes to hang when doing anything special
-     * with Zend/ServiceManager...
-     *
-     * Workaround (for now):
-     * The tests below change properties in the mapper,
-     * they should be run last as to not interfere with
-     * the other tests.
-     *
-     * NOTE
-     */
-
-
-
-
-
-
     /**
      * @expectedException RuntimeException
      */
@@ -229,7 +207,6 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         $mapper->setTableName($name);
         $this->assertSame($mapper->getTableName(), $name);
     }
-
 
 
     /**

@@ -70,6 +70,29 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result);
     }
 
+    public function testSortOptionsChangesOrderOfOptions()
+    {
+        $table = 'catalog_product_option';
+        $productId = 1;
+        $this->createOptionTables();
+        $linker1 = array('product_id' => $productId, 'option_id' => 3, 'sort_weight' => 0);
+        $linker2 = array('product_id' => $productId, 'option_id' => 4, 'sort_weight' => 1);
+
+        $mapper = $this->getMapper();
+        $mapper->insert($linker1, $table);
+        $mapper->insert($linker2, $table);
+
+        $order = array(4,3);
+        $mapper->sortOptions($productId, $order);
+
+        $select = new \Zend\Db\Sql\Select($table);
+        $select->where(array('option_id' => 4, 'sort_weight' => 0));
+
+        $result = $mapper->query($select);
+
+        $this->assertTrue(is_array($result));
+    }
+
     public function getMapper()
     {
         $mapper =  $this->getServiceManager()->get('speckcatalog_product_mapper');

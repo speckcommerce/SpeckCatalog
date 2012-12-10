@@ -50,10 +50,12 @@ class Product extends AbstractMapper
         $select = $this->getSelect($table)
             ->where($row);
         $result = $this->query($select);
+        $return = false;
         if ($result) {
             $resp = $this->delete($row, $table);
-            return true;
+            $return = true;
         }
+        return $return;
     }
 
     public function sortOptions($productId, $order)
@@ -65,18 +67,6 @@ class Product extends AbstractMapper
             $row = $this->query($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
-        }
-    }
-
-    public function addImage($productId, $imageId)
-    {
-        $table = 'catalog_product_image';
-        $row = array('product_id' => $productId, 'image_id' => $imageId);
-        $select = $this->getSelect($table)
-            ->where($row);
-        $result = $this->query($select);
-        if (false === $result) {
-            $this->insert($row, $table);
         }
     }
 }

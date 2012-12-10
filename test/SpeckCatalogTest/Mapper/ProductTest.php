@@ -26,9 +26,48 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $return = $mapper->getByCategoryId(1, 1);
         $this->assertTrue(is_array($return));
-        $this->assertTrue(count($return) > 0);
         $productModel = $return[0];
         $this->assertTrue($productModel instanceOf \SpeckCatalog\Model\Product);
+    }
+
+    public function testAddOptionCreatesLinker()
+    {
+        $this->createOptionTables();
+
+        $optionId = $this->insertOption();
+        $productId = $this->insertProduct();
+
+        $mapper = $this->getMapper();
+        $mapper->addOption($productId, $optionId);
+
+        $table = 'catalog_product_option';
+        $select = new \Zend\Db\Sql\Select($table);
+        $select->where(array('product_id' => $productId, 'option_id' => $optionId));
+
+        $result = $mapper->query($select);
+
+        $this->assertTrue(is_array($result));
+        $this->assertTrue($result['product_id'] == $productId);
+        $this->assertTrue($result['option_id'] == $optionId);
+    }
+
+    public function testRemoveOptionRemovesLinker()
+    {
+        $this->createOptionTables();
+
+        $optionId = $this->insertOption();
+        $productId = $this->insertProduct();
+
+        $mapper = $this->getMapper();
+        $mapper->addOption($productId, $optionId);
+        $mapper->removeOption($productId, $optionId);
+
+        $table = 'catalog_product_option';
+        $select = new \Zend\Db\Sql\Select($table);
+        $select->where(array('product_id' => $productId, 'option_id' => $optionId));
+
+        $result = $mapper->query($select);
+        $this->assertFalse($result);
     }
 
     public function getMapper()
@@ -58,6 +97,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         return $id;
     }
 
+    public function insertOption()
+    {
+        $mapper = $this->getMapper();
+        $option = array('name' => 'option');
+        $id = $mapper->insert($option);
+        return $id;
+    }
+
     public function setup()
     {
         $this->createProductTable();
@@ -78,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product`(
     'manufacturer_id' INTEGER(11),
     'item_number'     VARCHAR(255),
     'product_type_id' INTEGER(1)
-);";
+);
 sqlite;
         $db = $this->getServiceManager()->get('speckcatalog_db');
         $db->query($query)->execute();
@@ -91,10 +138,35 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
     `category_id`     INTEGER(11),
     `website_id`      INTEGER(11)
-);";
+);
 sqlite;
         $db = $this->getServiceManager()->get('speckcatalog_db');
         $db->query($query)->execute();
     }
 
+    public function createOptionTables()
+    {
+        $option = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_option`(
+    `option_id`       INTEGER PRIMARY KEY AUTOINCREMENT,
+    `name`            VARCHAR(255),
+    `instruction`     VARCHAR(255),
+    `required`        INTEGER(1),
+    `variation`       INTEGER(1),
+    `option_type_id`  INTEGER(1)
+);
+sqlite;
+
+        $linker = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_product_option`(
+    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
+    `option_id`       INTEGER(11),
+    `sort_weight`     INTEGER(11)
+);
+sqlite;
+
+        $db = $this->getServiceManager()->get('speckcatalog_db');
+        $db->query($option)->execute();
+        $db->query($linker)->execute();
+    }
 }

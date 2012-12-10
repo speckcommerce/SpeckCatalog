@@ -268,6 +268,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
+        $db = $this->getServiceManager()->get('speckcatalog_db');
         $query = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -279,11 +280,6 @@ CREATE TABLE IF NOT EXISTS `catalog_product`(
 );";
 sqlite;
 
-        $db = $this->getServiceManager()->get('speckcatalog_db');
         $db->query($query)->execute();
-        $row = "insert into catalog_product ('name') VALUES ('product');";
-        $db->query($row)->execute();
-        $sql = "select * from catalog_product WHERE 1";
-        $result = $db->query($row)->execute();
     }
 }

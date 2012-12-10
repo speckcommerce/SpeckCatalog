@@ -19,7 +19,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetByCategoryIdReturnsArrayOfProducts()
     {
         $this->insertProduct();
-        $this->createCategoryProductTable();
         $linker = array('category_id' => 1, 'website_id' => 1, 'product_id' => 1);
         $mapper = $this->getMapper();
         $mapper->insert($linker, 'catalog_category_product');
@@ -32,8 +31,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testAddOptionCreatesLinker()
     {
-        $this->createOptionTables();
-
         $optionId = $this->insertOption();
         $productId = $this->insertProduct();
 
@@ -53,8 +50,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveOptionRemovesLinker()
     {
-        $this->createOptionTables();
-
         $optionId = $this->insertOption();
         $productId = $this->insertProduct();
 
@@ -74,7 +69,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $table = 'catalog_product_option';
         $productId = 1;
-        $this->createOptionTables();
         $linker1 = array('product_id' => $productId, 'option_id' => 3, 'sort_weight' => 0);
         $linker2 = array('product_id' => $productId, 'option_id' => 4, 'sort_weight' => 1);
 
@@ -130,11 +124,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->createProductTable();
-    }
-
-    public function createProductTable()
-    {
+        $db = $this->getServiceManager()->get('speckcatalog_db');
         $query = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -145,12 +135,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product`(
     'product_type_id' INTEGER(1)
 );
 sqlite;
-        $db = $this->getServiceManager()->get('speckcatalog_db');
         $db->query($query)->execute();
-    }
 
-    public function createCategoryProductTable()
-    {
         $query = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_category_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -158,13 +144,9 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product`(
     `website_id`      INTEGER(11)
 );
 sqlite;
-        $db = $this->getServiceManager()->get('speckcatalog_db');
         $db->query($query)->execute();
-    }
 
-    public function createOptionTables()
-    {
-        $option = <<<sqlite
+        $query = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_option`(
     `option_id`       INTEGER PRIMARY KEY AUTOINCREMENT,
     `name`            VARCHAR(255),
@@ -174,17 +156,15 @@ CREATE TABLE IF NOT EXISTS `catalog_option`(
     `option_type_id`  INTEGER(1)
 );
 sqlite;
+        $db->query($query)->execute();
 
-        $linker = <<<sqlite
+        $query = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product_option`(
     `product_id`      INTEGER(11),
     `option_id`       INTEGER(11),
     `sort_weight`     INTEGER(11)
 );
 sqlite;
-
-        $db = $this->getServiceManager()->get('speckcatalog_db');
-        $db->query($option)->execute();
-        $db->query($linker)->execute();
+        $db->query($query)->execute();
     }
 }

@@ -61,7 +61,7 @@ class Option extends AbstractMapper
 
     public function insert($option, $tableName=null, HydratorInterface $hydrator=null)
     {
-        $optionId = parent::insert($option);
+        $optionId = parent::insert($option, $tableName, $hydrator);
         $option = $this->find(array('option_id' => $optionId));
 
         return $option;

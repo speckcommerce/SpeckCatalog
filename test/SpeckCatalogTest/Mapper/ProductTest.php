@@ -131,11 +131,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         $this->createProductTable();
-        $db = $this->getServiceManager()->get('speckcatalog_db');
-        $row = "insert into catalog_product ('name') VALUES ('product');";
-        $db->query($row)->execute();
-        $sql = "select * from catalog_product WHERE 1";
-        $result = $db->query($row)->execute();
     }
 
     public function createProductTable()

@@ -35,7 +35,6 @@ class Choice extends AbstractMapper
 
     public function sortOptions($choiceId, $order)
     {
-        var_dump($choiceId, $order); die();
         $table = 'catalog_choice_option';
         foreach ($order as $i => $optionId) {
             $where = array('choice_id' => $choiceId, 'option_id' => $optionId);

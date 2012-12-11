@@ -7,6 +7,8 @@ use Zend\Db\Sql\Select;
 
 class AbstractMapperTest extends \PHPUnit_Framework_TestCase
 {
+    protected $testMapper;
+
     public function testInsertModelAbstract()
     {
         $product = $this->getTestProductModel();
@@ -28,18 +30,23 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testUpdateWithArray()
     {
         $mapper = $this->getMapper();
+        $testMapper = $this->getTestMapper();
         $id = $this->insertProduct();
 
         $data = array('name' => 'foo');
         $where = array('product_id' => $id);
         $mapper->update($data, $where);
-        $product = $mapper->find($where);
 
-        $this->assertTrue($product->getName() === 'foo');
+        $select = new Select('catalog_product');
+        $select->where($where);
+        $product = $testMapper->query($select);
+
+        $this->assertTrue($product['name'] === 'foo');
     }
 
     public function testUpdateWithModelAbstract()
     {
+        $testMapper = $this->getTestMapper();
         $mapper = $this->getMapper();
         $id = $this->insertProduct();
 
@@ -49,9 +56,12 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
 
         $where = array('product_id' => $id);
         $mapper->update($productModel, $where);
-        $product = $mapper->find($where);
 
-        $this->assertTrue($product->getName() === 'foo');
+        $select = new Select('catalog_product');
+        $select->where($where);
+        $product = $testMapper->query($select);
+
+        $this->assertTrue($product['name'] === 'foo');
     }
 
     public function testSelectOneReturnsOneModelAbstract()
@@ -110,7 +120,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testPreparedDataReturnsSameWhenModelAlreadyPrepared()
     {
         $mapper = $this->getMapper();
-        $product = $this->getTestProductModel();
+        $product = new \SpeckCatalog\Model\Product;
         $return = $mapper->prepareData($product, 'catalog_product');
         $this->assertSame($product, $return);
     }
@@ -118,7 +128,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testPrepareDataReturnsSameWhenTableDiffers()
     {
         $mapper = $this->getMapper();
-        $product = $this->getTestProductModel();
+        $product = new \SpeckCatalog\Model\Product;
         $return = $mapper->prepareData($product, 'foo_bar');
         $this->assertSame($product, $return);
     }
@@ -215,6 +225,13 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
      * NOTE
      */
 
+    public function getTestMapper()
+    {
+        if (null === $this->testMapper) {
+            $this->testMapper =  $this->getServiceManager()->get('speckcatalog_test_mapper');
+        }
+        return $this->testMapper;
+    }
 
     public function getMapper()
     {
@@ -237,26 +254,15 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
 
     public function insertProduct()
     {
-        $mapper = $this->getMapper();
+        $mapper = $this->getTestMapper();
+        $mapper->setEntityPrototype(new \SpeckCatalog\Model\Product);
         $product = array('name' => 'product');
-        $id = $mapper->insert($product);
-        return $id;
+        $result = $mapper->insert($product, 'catalog_product');
+        return (int) $result->getGeneratedValue();
     }
 
     public function setup()
     {
-        $db = $this->getServiceManager()->get('speckcatalog_db');
-        $query = <<<sqlite
-CREATE TABLE IF NOT EXISTS `catalog_product`(
-    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
-    'name'            VARCHAR(255),
-    'description'     VARCHAR(255),
-    'manufacturer_id' INTEGER(11),
-    'item_number'     VARCHAR(255),
-    'product_type_id' INTEGER(1)
-);";
-sqlite;
-
-        $db->query($query)->execute();
+        $this->getTestMapper()->setup();
     }
 }

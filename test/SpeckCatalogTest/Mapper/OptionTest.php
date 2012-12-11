@@ -1,13 +1,9 @@
 <?php
 
-namespace SpeckCatalogTest;
+namespace SpeckCatalogTest\Mapper;
 
-use PHPUnit\Extensions\Database\TestCase;
-
-class OptionTest extends \PHPUnit_Framework_TestCase
+class OptionTest extends AbstractTestCase
 {
-    protected $testMapper;
-
     public function testInsertReturnsOptionModel()
     {
         $mapper = $this->getMapper();
@@ -73,40 +69,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function getMapper()
     {
-        $mapper =  $this->getServiceManager()->get('speckcatalog_option_mapper');
-        return $mapper;
-    }
-
-    public function getServiceManager()
-    {
-        return \SpeckCatalogTest\Bootstrap::getServiceManager();
-    }
-
-    public function insertOption()
-    {
-        $mapper = $this->getTestMapper();
-        $mapper->setEntityPrototype(new \SpeckCatalog\Model\Option);
-        $option = array('name' => 'option');
-        $result = $mapper->insert($option, 'catalog_option');
-        return (int) $result->getGeneratedValue();
-    }
-
-    public function setup()
-    {
-        $this->getTestMapper()->setup();
-    }
-
-    public function getTestMapper()
-    {
-        if (null === $this->testMapper) {
-            $this->testMapper = $this->getServiceManager()->get('speckcatalog_test_mapper');
-        }
-        return $this->testMapper;
-    }
-
-    public function setTestMapper($testMapper)
-    {
-        $this->testMapper = $testMapper;
-        return $this;
+        return $this->getServiceManager()->get('speckcatalog_option_mapper');
     }
 }

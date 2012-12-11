@@ -8,8 +8,19 @@ return array(
     'module_listener_options' => array(
         'extra_config' => array(
             'service_manager' => array (
+                'shared' => array(
+                    'speckcatalog_product_mapper' => FALSE,
+                ),
                 'factories' => array (
                     'zend\\db\\adapter\\adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
+                    'speckcatalog_test_mapper' => function ($sm) {
+                        $pathToFile = __DIR__ . '/../data/test_tables.sqlite.php';
+                        $schema = include($pathToFile);
+                        $mapper = new \SpeckCatalogTest\Mapper\TestMapper;
+                        $mapper->setSchema($schema);
+                        $mapper->setDbAdapter($sm->get('speckcatalog_db'));
+                        return $mapper;
+                    },
                 ),
                 'initializers' => array(
                     function($instance, $sm){
@@ -29,8 +40,7 @@ return array(
             ),
         ),
         'module_paths' => array(
-            'vendor',
-            //'devmodules',
+            'devmodules',
         ),
     ),
 );

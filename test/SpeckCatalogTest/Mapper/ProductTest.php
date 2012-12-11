@@ -1,13 +1,9 @@
 <?php
 
-namespace SpeckCatalogTest;
+namespace SpeckCatalogTest\Mapper;
 
-use PHPUnit\Extensions\Database\TestCase;
-
-class ProductTest extends \PHPUnit_Framework_TestCase
+class ProductTest extends AbstractTestCase
 {
-    protected $testMapper;
-
     public function testFindReturnsProduct()
     {
         $productId = $this->insertProduct();
@@ -92,50 +88,5 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function getServiceManager()
     {
         return \SpeckCatalogTest\Bootstrap::getServiceManager();
-    }
-
-    public function getTestProductModel()
-    {
-        $product = new \SpeckCatalog\Model\Product();
-        $product->setName('product')
-            ->setManufacturerId(1);
-        return $product;
-    }
-
-    public function insertProduct()
-    {
-        $mapper = $this->getTestMapper();
-        $mapper->setEntityPrototype(new \SpeckCatalog\Model\Product);
-        $product = array('name' => 'product');
-        $result = $mapper->insert($product, 'catalog_product');
-        return (int) $result->getGeneratedValue();
-    }
-
-    public function insertOption()
-    {
-        $mapper = $this->getTestMapper();
-        $mapper->setEntityPrototype(new \SpeckCatalog\Model\Option);
-        $option = array('name' => 'option');
-        $result = $mapper->insert($option, 'catalog_option');
-        return (int) $result->getGeneratedValue();
-    }
-
-    public function setup()
-    {
-        $this->getTestMapper()->setup();
-    }
-
-    public function getTestMapper()
-    {
-        if (null === $this->testMapper) {
-            $this->testMapper = $this->getServiceManager()->get('speckcatalog_test_mapper');
-        }
-        return $this->testMapper;
-    }
-
-    public function setTestMapper($testMapper)
-    {
-        $this->testMapper = $testMapper;
-        return $this;
     }
 }

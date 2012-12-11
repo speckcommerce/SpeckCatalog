@@ -61,4 +61,16 @@ $return['catalog_choice'] = <<<sqlite
 );
 sqlite;
 
+$return['catalog_product_uom'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
+  `uom_code`    VARCHAR(2)    NOT NULL DEFAULT 'EA',
+  `product_id`  INTEGER(11)   NOT NULL,
+  `price`       DECIMAL(15,5) NOT NULL,
+  `retail`      DECIMAL(15,5) NOT NULL,
+  `quantity`    INTEGER(11)   NOT NULL,
+  `sort_weight` INTEGER(11)   NOT NULL DEFAULT '0',
+  `enabled`     INTEGER(4)    NOT NULL DEFAULT '1'
+)
+sqlite;
+
 return $return;

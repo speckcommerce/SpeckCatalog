@@ -48,6 +48,19 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         return (int) $result->getGeneratedValue();
     }
 
+    public function insertProductUom($productId, $uomCode, $quantity)
+    {
+        $productUom = array(
+            'product_id' => $productId,
+            'uom_code'   => $uomCode,
+            'quantity'   => $quantity,
+            'price'      => 1,
+            'retail'     => 1,
+        );
+        $mapper = $this->getTestMapper();
+        $mapper->insert($productUom, 'catalog_product_uom');
+    }
+
     public function setup()
     {
         $this->getTestMapper()->setup();

@@ -1,11 +1,10 @@
 <?php
 
-namespace SpeckCatalogTest;
+namespace SpeckCatalogTest\Mapper;
 
-use PHPUnit\Extensions\Database\TestCase;
 use Zend\Db\Sql\Select;
 
-class AbstractMapperTest extends \PHPUnit_Framework_TestCase
+class AbstractMapperTest extends AbstractTestCase
 {
     public function testInsertModelAbstract()
     {
@@ -28,18 +27,23 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testUpdateWithArray()
     {
         $mapper = $this->getMapper();
+        $testMapper = $this->getTestMapper();
         $id = $this->insertProduct();
 
         $data = array('name' => 'foo');
         $where = array('product_id' => $id);
         $mapper->update($data, $where);
-        $product = $mapper->find($where);
 
-        $this->assertTrue($product->getName() === 'foo');
+        $select = new Select('catalog_product');
+        $select->where($where);
+        $product = $testMapper->query($select);
+
+        $this->assertTrue($product['name'] === 'foo');
     }
 
     public function testUpdateWithModelAbstract()
     {
+        $testMapper = $this->getTestMapper();
         $mapper = $this->getMapper();
         $id = $this->insertProduct();
 
@@ -49,9 +53,12 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
 
         $where = array('product_id' => $id);
         $mapper->update($productModel, $where);
-        $product = $mapper->find($where);
 
-        $this->assertTrue($product->getName() === 'foo');
+        $select = new Select('catalog_product');
+        $select->where($where);
+        $product = $testMapper->query($select);
+
+        $this->assertTrue($product['name'] === 'foo');
     }
 
     public function testSelectOneReturnsOneModelAbstract()
@@ -110,7 +117,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testPreparedDataReturnsSameWhenModelAlreadyPrepared()
     {
         $mapper = $this->getMapper();
-        $product = $this->getTestProductModel();
+        $product = new \SpeckCatalog\Model\Product;
         $return = $mapper->prepareData($product, 'catalog_product');
         $this->assertSame($product, $return);
     }
@@ -118,7 +125,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testPrepareDataReturnsSameWhenTableDiffers()
     {
         $mapper = $this->getMapper();
-        $product = $this->getTestProductModel();
+        $product = new \SpeckCatalog\Model\Product;
         $return = $mapper->prepareData($product, 'foo_bar');
         $this->assertSame($product, $return);
     }
@@ -180,28 +187,6 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($options, $return);
     }
 
-
-
-
-
-    /***
-     * NOTE:
-     * PHPUnit likes to hang when doing anything special
-     * with Zend/ServiceManager...
-     *
-     * Workaround (for now):
-     * The tests below change properties in the mapper,
-     * they should be run last as to not interfere with
-     * the other tests.
-     *
-     * NOTE
-     */
-
-
-
-
-
-
     /**
      * @expectedException RuntimeException
      */
@@ -230,25 +215,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($mapper->getTableName(), $name);
     }
 
-
-
-    /**
-     * NOTE
-     * END OF TESTS
-     * NOTE
-     */
-
-
-    public function getMapper()
-    {
-        $mapper =  $this->getServiceManager()->get('speckcatalog_product_mapper');
-        return $mapper;
-    }
-
-    public function getServiceManager()
-    {
-        return \SpeckCatalogTest\Bootstrap::getServiceManager();
-    }
+    // NOTE: End of tests
 
     public function getTestProductModel()
     {
@@ -258,32 +225,10 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         return $product;
     }
 
-    public function insertProduct()
+    public function getMapper()
     {
-        $mapper = $this->getMapper();
-        $product = array('name' => 'product');
-        $id = $mapper->insert($product);
-        return $id;
+        $mapper =  $this->getServiceManager()->get('speckcatalog_product_mapper');
+        return $mapper;
     }
 
-    public function setup()
-    {
-        $query = <<<sqlite
-CREATE TABLE IF NOT EXISTS `catalog_product`(
-    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
-    'name'            VARCHAR(255),
-    'description'     VARCHAR(255),
-    'manufacturer_id' INTEGER(11),
-    'item_number'     VARCHAR(255),
-    'product_type_id' INTEGER(1)
-);";
-sqlite;
-
-        $db = $this->getServiceManager()->get('speckcatalog_db');
-        $db->query($query)->execute();
-        $row = "insert into catalog_product ('name') VALUES ('product');";
-        $db->query($row)->execute();
-        $sql = "select * from catalog_product WHERE 1";
-        $result = $db->query($row)->execute();
-    }
 }

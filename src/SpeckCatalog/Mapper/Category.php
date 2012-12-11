@@ -23,7 +23,8 @@ class Category extends AbstractMapper
         $table  = $this->getTableName();
         $joinString = $linker . '.category_id = ' . $table . '.category_id';
 
-        $where = $this->where()->equalTo('website_id', $siteId);
+        $where = new \Zend\Db\Sql\Where();
+        $where->equalTo('website_id', $siteId);
         if (null === $parentCategoryId) {
             $where->isNull('parent_category_id');
         } else {
@@ -75,8 +76,8 @@ class Category extends AbstractMapper
 
     public function addCategory($parentCategoryId = null, $categoryId, $siteId=1)
     {
-        $where = $this->where()
-            ->equalTo('website_id', $siteId)
+        $where = new \Zend\Db\Sql\Where();
+        $where->equalTo('website_id', $siteId)
             ->equalTo('category_id', $categoryId);
         if (null === $parentCategoryId) {
             $where->isNull('parent_category_id');

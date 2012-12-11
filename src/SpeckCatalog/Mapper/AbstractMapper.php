@@ -7,7 +7,6 @@ use SpeckCatalog\Mapper\DbAdapterAwareInterface;
 use SpeckCatalog\Model\AbstractModel;
 use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Stdlib\Hydrator\HydratorInterface;
@@ -111,11 +110,6 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     public function getHydrator()
     {
         return new Hydrator;
-    }
-
-    public function where()
-    {
-        return new Where;
     }
 
     public function prepareData($data, $tableName)

@@ -40,6 +40,10 @@ class Category extends AbstractMapper
     //this method requires no linkers are orphaned.
     public function getCrumbs($category, $crumbs=array())
     {
+        if (is_numeric($category)) {
+            $category = $this->find(array('category_id' => $category));
+        }
+
         $crumbs[] = $category->getName();
 
         $linkerTable = 'catalog_category_website';

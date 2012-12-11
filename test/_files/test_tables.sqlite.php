@@ -83,4 +83,22 @@ CREATE TABLE IF NOT EXISTS `catalog_availability` (
 );
 sqlite;
 
+$return['catalog_category'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_category` (
+  `category_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name`             VARCHAR(255) NOT NULL,
+  `seo_title`        VARCHAR(255) DEFAULT NULL,
+  `description_html` TEXT,
+  `image_file_name`  VARCHAR(255) DEFAULT NULL
+);
+sqlite;
+
+$return['catalog_category_website'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_category_website` (
+  `category_id`        INTEGER(11) NOT NULL,
+  `parent_category_id` INTEGER(11) DEFAULT NULL,
+  `website_id`         INTEGER(11) DEFAULT NULL
+);
+sqlite;
+
 return $return;

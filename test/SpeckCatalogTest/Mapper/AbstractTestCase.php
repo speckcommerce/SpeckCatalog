@@ -74,6 +74,14 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $mapper->insert($availability, 'catalog_availability');
     }
 
+    public function insertCategory()
+    {
+        $category = array('name' => 'category');
+        $mapper = $this->getTestMapper();
+        $result = $mapper->insert($category, 'catalog_category');
+        return (int) $result->getGeneratedValue();
+    }
+
     public function setup()
     {
         $this->getTestMapper()->setup();

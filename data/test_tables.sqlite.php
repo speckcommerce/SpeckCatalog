@@ -1,6 +1,6 @@
 <?php
 
-$catalog_product = <<<sqlite
+$return['catalog_product'] = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
     'name'            VARCHAR(255),
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product`(
 );
 sqlite;
 
-$catalog_category_product = <<<sqlite
+$return['catalog_category_product'] = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_category_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
     `category_id`     INTEGER(11),
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product`(
 );
 sqlite;
 
-$catalog_option = <<<sqlite
+$return['catalog_option'] = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_option`(
     `option_id`       INTEGER PRIMARY KEY AUTOINCREMENT,
     `name`            VARCHAR(255),
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option`(
 );
 sqlite;
 
-$catalog_product_option = <<<sqlite
+$return['catalog_product_option'] = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product_option`(
     `product_id`      INTEGER(11),
     `option_id`       INTEGER(11),
@@ -38,9 +38,27 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option`(
 );
 sqlite;
 
-return array(
-    'catalog_product'          => $catalog_product,
-    'catalog_category_product' => $catalog_category_product,
-    'catalog_option'           => $catalog_option,
-    'catalog_product_option'   => $catalog_product_option,
+
+$return['catalog_choice_option'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_choice_option`(
+    `option_id`       INTEGER(11),
+    `choice_id`       INTEGER(11),
+    `sort_weight`     INTEGER(11)
 );
+sqlite;
+
+$return['catalog_choice'] = <<<sqlite
+ CREATE TABLE IF NOT EXISTS `catalog_choice` (
+  `choice_id`              INTEGER PRIMARY KEY AUTOINCREMENT,
+  `product_id`             INTEGER(11),
+  `option_id`              INTEGER(11),
+  `price_override_fixed`   DECIMAL(15,5) NOT NULL DEFAULT '0.00000',
+  `price_discount_fixed`   DECIMAL(15,5) NOT NULL DEFAULT '0.00000',
+  `price_discount_percent` DECIMAL(5,2)  NOT NULL DEFAULT '0.00',
+  `price_no_charge`        INTEGER(1)    NOT NULL DEFAULT '0',
+  `override_name`          VARCHAR(255)  DEFAULT NULL,
+  `sort_weight`            INTEGER(11)   NOT NULL DEFAULT '0'
+);
+sqlite;
+
+return $return;

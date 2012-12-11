@@ -10,41 +10,37 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testFindReturnsProduct()
     {
-        $this->insertProduct();
-        $data = array('product_id' => 1);
+        $productId = $this->insertProduct();
 
         $mapper = $this->getMapper();
-        $return = $mapper->find($data);
+        $return = $mapper->find(array('product_id' => $productId));
         $this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
     }
 
     public function testGetByCategoryIdReturnsArrayOfProducts()
     {
-        $this->insertProduct();
-        $linker = array('category_id' => 1, 'website_id' => 1, 'product_id' => 1);
-        $mapper = $this->getMapper();
-        $mapper->insert($linker, 'catalog_category_product');
+        $productId = $this->insertProduct();
+        $linker = array('category_id' => 1, 'website_id' => 1, 'product_id' => $productId);
+        $testMapper = $this->getTestMapper();
+        $testMapper->insert($linker, 'catalog_category_product');
 
+        $mapper = $this->getMapper();
         $return = $mapper->getByCategoryId(1, 1);
         $this->assertTrue(is_array($return));
-        $productModel = $return[0];
-        $this->assertTrue($productModel instanceOf \SpeckCatalog\Model\Product);
+        $this->assertTrue($return[0] instanceOf \SpeckCatalog\Model\Product);
     }
 
     public function testAddOptionCreatesLinker()
     {
         $optionId = $this->insertOption();
         $productId = $this->insertProduct();
-
         $mapper = $this->getMapper();
         $mapper->addOption($productId, $optionId);
 
-        $table = 'catalog_product_option';
-        $select = new \Zend\Db\Sql\Select($table);
+        $select = new \Zend\Db\Sql\Select('catalog_product_option');
         $select->where(array('product_id' => $productId, 'option_id' => $optionId));
-
-        $result = $mapper->query($select);
-
+        $testMapper = $this->getTestMapper();
+        $result = $testMapper->query($select);
         $this->assertTrue(is_array($result));
         $this->assertTrue($result['product_id'] == $productId);
         $this->assertTrue($result['option_id'] == $optionId);
@@ -54,16 +50,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $optionId = $this->insertOption();
         $productId = $this->insertProduct();
+        $testMapper = $this->getTestMapper();
+        $linker = array('product_id' => $productId, 'option_id' => $optionId);
+        $testMapper->insert($linker, 'catalog_product_option');
 
         $mapper = $this->getMapper();
-        $mapper->addOption($productId, $optionId);
         $mapper->removeOption($productId, $optionId);
 
-        $table = 'catalog_product_option';
-        $select = new \Zend\Db\Sql\Select($table);
+        $select = new \Zend\Db\Sql\Select('catalog_product_option');
         $select->where(array('product_id' => $productId, 'option_id' => $optionId));
-
-        $result = $mapper->query($select);
+        $result = $testMapper->query($select);
         $this->assertFalse($result);
     }
 
@@ -73,19 +69,17 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $productId = 1;
         $linker1 = array('product_id' => $productId, 'option_id' => 3, 'sort_weight' => 0);
         $linker2 = array('product_id' => $productId, 'option_id' => 4, 'sort_weight' => 1);
-
-        $mapper = $this->getMapper();
-        $mapper->insert($linker1, $table);
-        $mapper->insert($linker2, $table);
+        $testMapper = $this->getTestMapper();
+        $testMapper->insert($linker1, $table);
+        $testMapper->insert($linker2, $table);
 
         $order = array(4,3);
+        $mapper = $this->getMapper();
         $mapper->sortOptions($productId, $order);
 
         $select = new \Zend\Db\Sql\Select($table);
         $select->where(array('option_id' => 4, 'sort_weight' => 0));
-
-        $result = $mapper->query($select);
-
+        $result = $testMapper->query($select);
         $this->assertTrue(is_array($result));
     }
 
@@ -110,18 +104,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function insertProduct()
     {
-        $mapper = $this->getMapper();
+        $mapper = $this->getTestMapper();
+        $mapper->setEntityPrototype(new \SpeckCatalog\Model\Product);
         $product = array('name' => 'product');
-        $id = $mapper->insert($product);
-        return $id;
+        $result = $mapper->insert($product, 'catalog_product');
+        return (int) $result->getGeneratedValue();
     }
 
     public function insertOption()
     {
-        $mapper = $this->getMapper();
+        $mapper = $this->getTestMapper();
+        $mapper->setEntityPrototype(new \SpeckCatalog\Model\Option);
         $option = array('name' => 'option');
-        $id = $mapper->insert($option);
-        return $id;
+        $result = $mapper->insert($option, 'catalog_option');
+        return (int) $result->getGeneratedValue();
     }
 
     public function setup()
@@ -129,9 +125,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->getTestMapper()->setup();
     }
 
-    /**
-     * @return testMapper
-     */
     public function getTestMapper()
     {
         if (null === $this->testMapper) {
@@ -140,10 +133,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         return $this->testMapper;
     }
 
-    /**
-     * @param $testMapper
-     * @return self
-     */
     public function setTestMapper($testMapper)
     {
         $this->testMapper = $testMapper;

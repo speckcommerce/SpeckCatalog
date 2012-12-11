@@ -10,14 +10,16 @@ CREATE TABLE IF NOT EXISTS `catalog_product`(
     'product_type_id' INTEGER(1)
 );
 sqlite;
-        $catalog_category_product = <<<sqlite
+
+$catalog_category_product = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_category_product`(
     `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
     `category_id`     INTEGER(11),
     `website_id`      INTEGER(11)
 );
 sqlite;
-        $catalog_option = <<<sqlite
+
+$catalog_option = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_option`(
     `option_id`       INTEGER PRIMARY KEY AUTOINCREMENT,
     `name`            VARCHAR(255),
@@ -27,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `catalog_option`(
     `option_type_id`  INTEGER(1)
 );
 sqlite;
-        $catalog_product_option = <<<sqlite
+
+$catalog_product_option = <<<sqlite
 CREATE TABLE IF NOT EXISTS `catalog_product_option`(
     `product_id`      INTEGER(11),
     `option_id`       INTEGER(11),

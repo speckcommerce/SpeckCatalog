@@ -61,6 +61,19 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $mapper->insert($productUom, 'catalog_product_uom');
     }
 
+    public function insertAvailability($productId, $uomCode, $quantity, $distributorId)
+    {
+        $availability = array(
+            'product_id'     => $productId,
+            'uom_code'       => $uomCode,
+            'quantity'       => $quantity,
+            'distributor_id' => $distributorId,
+            'cost'           => 1,
+        );
+        $mapper = $this->getTestMapper();
+        $mapper->insert($availability, 'catalog_availability');
+    }
+
     public function setup()
     {
         $this->getTestMapper()->setup();

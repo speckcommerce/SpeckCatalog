@@ -73,4 +73,14 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
 )
 sqlite;
 
+$return['catalog_availability'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_availability` (
+  `product_id`     INTEGER(11)   NOT NULL,
+  `uom_code`       VARCHAR(2)    NOT NULL,
+  `distributor_id` INTEGER(10)   NOT NULL,
+  `cost`           DECIMAL(15,5) NOT NULL,
+  `quantity`       INTEGER(11)   NOT NULL
+);
+sqlite;
+
 return $return;

@@ -6,6 +6,8 @@ use PHPUnit\Extensions\Database\TestCase;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
+    protected $testMapper;
+
     public function testFindReturnsProduct()
     {
         $this->insertProduct();
@@ -124,47 +126,27 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $db = $this->getServiceManager()->get('speckcatalog_db');
-        $query = <<<sqlite
-CREATE TABLE IF NOT EXISTS `catalog_product`(
-    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
-    'name'            VARCHAR(255),
-    'description'     VARCHAR(255),
-    'manufacturer_id' INTEGER(11),
-    'item_number'     VARCHAR(255),
-    'product_type_id' INTEGER(1)
-);
-sqlite;
-        $db->query($query)->execute();
+        $this->getTestMapper()->setup();
+    }
 
-        $query = <<<sqlite
-CREATE TABLE IF NOT EXISTS `catalog_category_product`(
-    `product_id`      INTEGER PRIMARY KEY AUTOINCREMENT,
-    `category_id`     INTEGER(11),
-    `website_id`      INTEGER(11)
-);
-sqlite;
-        $db->query($query)->execute();
+    /**
+     * @return testMapper
+     */
+    public function getTestMapper()
+    {
+        if (null === $this->testMapper) {
+            $this->testMapper = $this->getServiceManager()->get('speckcatalog_test_mapper');
+        }
+        return $this->testMapper;
+    }
 
-        $query = <<<sqlite
-CREATE TABLE IF NOT EXISTS `catalog_option`(
-    `option_id`       INTEGER PRIMARY KEY AUTOINCREMENT,
-    `name`            VARCHAR(255),
-    `instruction`     VARCHAR(255),
-    `required`        INTEGER(1),
-    `variation`       INTEGER(1),
-    `option_type_id`  INTEGER(1)
-);
-sqlite;
-        $db->query($query)->execute();
-
-        $query = <<<sqlite
-CREATE TABLE IF NOT EXISTS `catalog_product_option`(
-    `product_id`      INTEGER(11),
-    `option_id`       INTEGER(11),
-    `sort_weight`     INTEGER(11)
-);
-sqlite;
-        $db->query($query)->execute();
+    /**
+     * @param $testMapper
+     * @return self
+     */
+    public function setTestMapper($testMapper)
+    {
+        $this->testMapper = $testMapper;
+        return $this;
     }
 }

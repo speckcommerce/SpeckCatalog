@@ -39,6 +39,15 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         return (int) $result->getGeneratedValue();
     }
 
+    public function insertChoice($parentOptionId)
+    {
+        $mapper = $this->getTestMapper();
+        $mapper->setEntityProtoType(new \SpeckCatalog\Model\Choice);
+        $choice = array('option_id' => $parentOptionId);
+        $result = $mapper->insert($choice, 'catalog_choice');
+        return (int) $result->getGeneratedValue();
+    }
+
     public function setup()
     {
         $this->getTestMapper()->setup();

@@ -14,7 +14,7 @@ return array(
                 'factories' => array (
                     'zend\\db\\adapter\\adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
                     'speckcatalog_test_mapper' => function ($sm) {
-                        $pathToFile = __DIR__ . '/../data/test_tables.sqlite.php';
+                        $pathToFile = __DIR__ . '/_files/test_tables.sqlite.php';
                         $schema = include($pathToFile);
                         $mapper = new \SpeckCatalogTest\Mapper\TestMapper;
                         $mapper->setSchema($schema);

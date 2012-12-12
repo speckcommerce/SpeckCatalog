@@ -101,4 +101,42 @@ CREATE TABLE IF NOT EXISTS `catalog_category_website` (
 );
 sqlite;
 
+$return['catalog_product_image'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_product_image` (
+  `image_id`    INTEGER PRIMARY KEY AUTOINCREMENT,
+  `product_id`  INTEGER(11)  NOT NULL,
+  `sort_weight` INTEGER(11)  NOT NULL DEFAULT '0',
+  `file_name`   VARCHAR(45)  DEFAULT NULL,
+  `label`       VARCHAR(255) DEFAULT NULL
+);
+sqlite;
+
+$return['catalog_product_document'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_product_document` (
+  `document_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `product_id`  INTEGER(11) NOT NULL,
+  `sort_weight` INTEGER(11) NOT NULL DEFAULT '0',
+  `file_name`   VARCHAR(45) DEFAULT NULL,
+  `label`       VARCHAR(45) DEFAULT NULL
+);
+sqlite;
+
+$return['catalog_product_spec'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_product_spec` (
+  `spec_id`    INTEGER PRIMARY KEY AUTOINCREMENT,
+  `product_id` INTEGER(11)  NOT NULL,
+  `label`      VARCHAR(255) DEFAULT NULL,
+  `value`      TEXT
+);
+sqlite;
+
+$return['ansi_uom'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `ansi_uom` (
+  `uom_code` VARCHAR(2)   NOT NULL,
+  `name`     VARCHAR(255) NOT NULL,
+  `enabled`  INTEGER(4)   NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uom_code`)
+);
+sqlite;
+
 return $return;

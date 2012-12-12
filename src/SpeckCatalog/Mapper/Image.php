@@ -7,6 +7,7 @@ class Image extends AbstractMapper
     protected $tableName;
     protected $relationalModel;
     protected $dbModel;
+    protected $parentType;
 
     protected $dbModels = array(
         'product' => 'SpeckCatalog\Model\ProductImage',
@@ -20,6 +21,7 @@ class Image extends AbstractMapper
 
     public function setParentType($parentType)
     {
+        $this->parentType = $parentType;
         $this->tableName = 'catalog_' . $parentType . '_image';
         $this->dbModel = $this->dbModels[$parentType];
         $this->relationalModel = $this->relationalModels[$parentType];
@@ -38,11 +40,17 @@ class Image extends AbstractMapper
     public function getImages($type, $id)
     {
         $this->setParentType($type);
-
         $where = array($type . '_id' => $id);
-
         $select = $this->getSelect()
             ->where($where);
         return $this->selectMany($select);
+    }
+
+    /**
+     * @return parentType
+     */
+    public function getParentType()
+    {
+        return $this->parentType;
     }
 }

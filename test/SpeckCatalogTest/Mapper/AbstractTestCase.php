@@ -74,12 +74,45 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $mapper->insert($availability, 'catalog_availability');
     }
 
+    public function insertImage($parentType, $parentId=1)
+    {
+        $mapper = $this->getTestMapper();
+        $idName = $parentType . '_id';
+        $image = array($idName => $parentId);
+        $table = 'catalog_' . $parentType . '_image';
+        $result = $mapper->insert($image, $table);
+        return (int) $result->getGeneratedValue();
+    }
+
     public function insertCategory()
     {
         $category = array('name' => 'category');
         $mapper = $this->getTestMapper();
         $result = $mapper->insert($category, 'catalog_category');
         return (int) $result->getGeneratedValue();
+    }
+
+    public function insertDocument($parentProductId=1)
+    {
+        $document = array('product_id' => $parentProductId);
+        $mapper = $this->getTestMapper();
+        $result = $mapper->insert($document, 'catalog_product_document');
+        return (int) $result->getGeneratedValue();
+    }
+
+    public function insertSpec($parentProductId=1)
+    {
+        $spec = array('product_id' => $parentProductId);
+        $mapper = $this->getTestMapper();
+        $result = $mapper->insert($spec, 'catalog_product_spec');
+        return (int) $result->getGeneratedValue();
+    }
+
+    public function insertUom($uomCode, $name)
+    {
+        $uom = array('uom_code' => $uomCode, 'name' => $name);
+        $mapper = $this->getTestMapper();
+        $result = $mapper->insert($uom, 'ansi_uom');
     }
 
     public function setup()

@@ -15,10 +15,8 @@ class Option extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect()
-            ->where(array('option_id' => $data['option_id']));
-        $option = $this->selectOne($select);
-        return $this->selectOne($select);
+        $where = array('option_id' => $data['option_id']);
+        return parent::find($where);
     }
 
     public function getByProductId($productId)

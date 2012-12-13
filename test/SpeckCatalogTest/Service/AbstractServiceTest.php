@@ -8,8 +8,8 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testFindCallsFindOnMapper()
     {
-        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\Product');
-        $mockedMapper->expects($this->any())
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
             ->method('find');
 
         $service = $this->getService();
@@ -20,10 +20,9 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulateReturnsInstanceOfModelParam()
     {
-        //$service = $this->getService();
-        //$model = new \SpeckCatalog\Model\Product();
-        //$return = $service->populate($model);
-        //$this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
+        $service = $this->getService();
+        $return = $service->populate(new \SpeckCatalog\Model\Product());
+        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
     }
 
     public function testGetEntity()

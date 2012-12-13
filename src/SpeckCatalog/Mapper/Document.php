@@ -11,9 +11,7 @@ class Document extends AbstractMapper
     public function find(array $data)
     {
         $where = array('document_id' => $data['document_id']);
-        $select = $this->getSelect()
-            ->where($where);
-        return $this->selectOne($select);
+        return parent::find($where);
     }
 
     public function getDocuments($productId)

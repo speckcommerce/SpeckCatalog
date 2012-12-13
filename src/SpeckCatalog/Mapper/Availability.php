@@ -18,9 +18,7 @@ class Availability extends AbstractMapper
             'quantity'       => $data['quantity'],
             'distributor_id' => $data['distributor_id'],
         );
-        $select = $this->getSelect()
-            ->where($where);
-        return $this->selectOne($select);
+        return parent::find($where);
     }
 
     public function getByProductUom($productId, $uomCode, $quantity)

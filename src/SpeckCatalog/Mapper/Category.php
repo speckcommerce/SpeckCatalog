@@ -12,9 +12,8 @@ class Category extends AbstractMapper
 
     public function find(array $data)
     {
-        $select = $this->getSelect()
-            ->where(array('category_id' => (int) $data['category_id']));
-        return $this->selectOne($select);
+        $where = array('category_id' => (int) $data['category_id']);
+        return parent::find($where);
     }
 
     public function getChildCategories($parentCategoryId=null, $siteId=1)

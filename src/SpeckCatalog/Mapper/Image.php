@@ -32,9 +32,7 @@ class Image extends AbstractMapper
     public function find(array $data)
     {
         $where = array('image_id' => $data['image_id']);
-        $select = $this->getSelect()
-            ->where($where);
-        return $this->selectOne($select);
+        return parent::find($where);
     }
 
     public function getImages($type, $id)

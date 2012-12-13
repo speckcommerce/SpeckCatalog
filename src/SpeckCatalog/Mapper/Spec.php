@@ -11,9 +11,7 @@ class Spec extends AbstractMapper
     public function find(array $data)
     {
         $where = array('spec_id' => $data['spec_id']);
-        $select = $this->getSelect()
-            ->where($where);
-        return $this->selectOne($select);
+        return parent::find($where);
     }
 
     public function getByProductId($productId)

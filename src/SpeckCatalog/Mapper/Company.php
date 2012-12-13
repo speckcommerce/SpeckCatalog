@@ -11,8 +11,7 @@ class Company extends AbstractMapper
 
     public function find($companyId)
     {
-        $select = $this->getSelect()
-            ->where(array('company_id' => (int) $companyId));
-        return $this->selectOne($select);
+        $where = array('company_id' => (int) $companyId);
+        return parent::find($where);
     }
 }

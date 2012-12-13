@@ -16,9 +16,7 @@ class ProductUom extends AbstractMapper
             'uom_code'   => $data['uom_code'],
             'quantity'   => $data['quantity'],
         );
-        $select = $this->getSelect()
-            ->where($where);
-        return $this->selectOne($select);
+        return parent::find($where);
     }
 
     public function getByProductId($productId)

@@ -32,6 +32,13 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return $this->select($select)->current();
     }
 
+    public function find(array $data)
+    {
+        $select = $this->getSelect()
+            ->where($data);
+        return $this->selectOne($select);
+    }
+
     //always returns array
     public function selectMany(Select $select)
     {

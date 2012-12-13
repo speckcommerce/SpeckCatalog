@@ -14,7 +14,6 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = $this->getService();
         $service->setEntityMapper($mockedMapper);
-
         $data = array('return_model' => true);
         $service->find($data);
     }
@@ -31,16 +30,8 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
     {
     }
 
-    public function getMockMapper($methodName)
-    {
-        $mock = $this->getMock('\SpeckCatalog\Mapper\Product');
-        $mock->expects($this->any())
-            ->method($methodName);
-        return $mock;
-    }
-
     public function getService()
     {
-        return new \SpeckCatalog\Service\Product();
+        return new \SpeckCatalogTest\Service\Asset\ChildAbstractService();
     }
 }

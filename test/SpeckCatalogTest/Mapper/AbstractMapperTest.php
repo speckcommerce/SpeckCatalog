@@ -3,6 +3,7 @@
 namespace SpeckCatalogTest\Mapper;
 
 use Zend\Db\Sql\Select;
+use SpeckCatalogTest\Mapper\Asset\AbstractTestCase;
 
 class AbstractMapperTest extends AbstractTestCase
 {

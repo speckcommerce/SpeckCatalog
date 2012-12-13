@@ -1,0 +1,34 @@
+<?php
+
+namespace SpeckCatalogTest\Mapper;
+
+class AvailabilityTest extends AbstractTestCase
+{
+    public function testFindReturnsAvailabilityModel()
+    {
+        $this->insertAvailability(1, 'EA', 1, 1);
+        $mapper = $this->getMapper();
+        $data = array(
+            'product_id' => 1,
+            'uom_code' => 'EA',
+            'quantity' => 1,
+            'distributor_id' => 1,
+        );
+        $result = $mapper->find($data);
+        $this->assertTrue($result instanceOf \SpeckCatalog\Model\Availability);
+    }
+
+    public function testGetByProductUomReturnsArrayOfAvailabilityModels()
+    {
+        $this->insertAvailability(1, 'EA', 1, 1);
+        $mapper = $this->getMapper();
+        $result = $mapper->getByProductUom(1, 'EA', 1);
+        $this->assertTrue(is_array($result));
+        $this->assertTrue($result[0] instanceOf \SpeckCatalog\Model\Availability);
+    }
+
+    public function getMapper()
+    {
+        return $this->getServiceManager()->get('speckcatalog_availability_mapper');
+    }
+}

@@ -56,6 +56,7 @@ return array(
             'speckcatalog_availability_mapper'      => 'SpeckCatalog\Mapper\Availability',
             'speckcatalog_spec_mapper'              => 'SpeckCatalog\Mapper\Spec',
             'speckcatalog_sites_mapper'             => 'SpeckCatalog\Mapper\Sites',
+            'speckcatalog_feature_mapper'           => 'SpeckCatalog\Mapper\Feature',
         ),
     ),
 );

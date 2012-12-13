@@ -12,7 +12,7 @@ class ChoiceTest extends AbstractTestCase
         $this->assertTrue($result instanceOf \SpeckCatalog\Model\Choice);
     }
 
-    public function getByOptionIdReturnsArrayOfChoiceModels()
+    public function testGetByOptionIdReturnsArrayOfChoiceModels()
     {
         $this->insertChoice(1);
         $mapper = $this->getMapper();

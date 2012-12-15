@@ -5,7 +5,7 @@ namespace SpeckCatalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Model\ViewModel;
-use Zend\Form\Form;
+use Zend\Form\Form as ZendForm;
 
 class UomToCart extends AbstractHelper
 {
@@ -116,7 +116,7 @@ class UomToCart extends AbstractHelper
 
     public function newForm($uom=null, $uomTextField=false)
     {
-        $form = new Form();
+        $form = new ZendForm();
 
         $form->add(array(
             'name' => 'submit',

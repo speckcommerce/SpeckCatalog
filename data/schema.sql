@@ -915,7 +915,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option` (
   `name` varchar(255) DEFAULT NULL,
   `instruction` varchar(255) DEFAULT NULL,
   `required` tinyint(1) NOT NULL DEFAULT '0',
-  `variation` tinyint(4) NOT NULL DEFAULT '0',
+  `builder` tinyint(4) NOT NULL DEFAULT '0',
   `option_type_id` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`option_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

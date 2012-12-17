@@ -9,7 +9,7 @@ class Option extends AbstractModel
     protected $instruction;
     protected $required;
     protected $optionTypeId;
-    protected $variation = 0;
+    protected $builder = 0;
 
     /**
      * @return optionId
@@ -102,20 +102,20 @@ class Option extends AbstractModel
     }
 
     /**
-     * @return variation
+     * @return builder
      */
-    public function getVariation()
+    public function getBuilder()
     {
-        return $this->variation;
+        return $this->builder;
     }
 
     /**
-     * @param $variation
+     * @param $builder
      * @return self
      */
-    public function setVariation($variation)
+    public function setBuilder($builder)
     {
-        $this->variation = $variation;
+        $this->builder = $builder;
         return $this;
     }
 }

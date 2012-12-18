@@ -11,7 +11,7 @@ class Option extends AbstractMapper
     protected $dbModel = '\SpeckCatalog\Model\Option';
     protected $relationalModel = '\SpeckCatalog\Model\Option\Relational';
     protected $key = array('option_id');
-    protected $dbFields = array('option_id', 'name', 'instruction', 'required', 'variation', 'option_type_id');
+    protected $dbFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
 
     public function find(array $data)
     {

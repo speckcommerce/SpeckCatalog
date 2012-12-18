@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option`(
     `name`            VARCHAR(255),
     `instruction`     VARCHAR(255),
     `required`        INTEGER(1),
-    `variation`       INTEGER(1),
+    `builder`         INTEGER(1),
     `option_type_id`  INTEGER(1)
 );
 sqlite;

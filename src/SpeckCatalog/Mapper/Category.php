@@ -52,7 +52,7 @@ class Category extends AbstractMapper
         $query = $this->getSelect($linkerTable)
             ->where($where)
             ->limit(1);
-        $linker = $this->query($query);
+        $linker = $this->queryOne($query);
 
         if ($linker) {
             $parent = $this->find(array('category_id' => $linker['parent_category_id']));
@@ -72,7 +72,7 @@ class Category extends AbstractMapper
         );
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->query($select);
+        $result = $this->queryOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }
@@ -96,7 +96,7 @@ class Category extends AbstractMapper
         );
         $select = $this->getSelect($table)
             ->where($where);
-        $result = $this->query($select);
+        $result = $this->queryOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }

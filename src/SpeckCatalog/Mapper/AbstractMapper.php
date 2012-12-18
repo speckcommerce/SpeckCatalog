@@ -54,7 +54,7 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     public function queryOne(Select $select)
     {
         $select->limit(1);
-        return $this->_query($select)->current();
+        return $this->query($select)->current();
     }
 
     public function query(Select $select)

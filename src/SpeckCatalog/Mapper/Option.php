@@ -42,7 +42,7 @@ class Option extends AbstractMapper
             ->join($build, $joinBuild)
             ->where($where)
             ->order($order);
-        $result = $this->query($select, true);
+        $result = $this->queryAll($select, true);
         return $result;
     }
 
@@ -78,7 +78,7 @@ class Option extends AbstractMapper
         foreach ($order as $i => $choiceId) {
             $where = array('option_id' => $optionId, 'choice_id' => $choiceId);
             $select = $this->getSelect($table)->where($where);
-            $row = $this->query($select);
+            $row = $this->queryOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }

@@ -37,7 +37,7 @@ class AbstractMapperTest extends AbstractTestCase
 
         $select = new Select('catalog_product');
         $select->where($where);
-        $product = $testMapper->query($select);
+        $product = $testMapper->queryOne($select);
 
         $this->assertTrue($product['name'] === 'foo');
     }
@@ -57,7 +57,7 @@ class AbstractMapperTest extends AbstractTestCase
 
         $select = new Select('catalog_product');
         $select->where($where);
-        $product = $testMapper->query($select);
+        $product = $testMapper->queryOne($select);
 
         $this->assertTrue($product['name'] === 'foo');
     }

@@ -29,10 +29,10 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
 
     public function selectOne(Select $select)
     {
+        $select->limit(1);
         return $this->select($select)->current();
     }
 
-    //always returns array
     public function selectMany(Select $select)
     {
         if($this->usePaginator) {
@@ -51,20 +51,26 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return $return;
     }
 
-    //returns first result by default
-    public function query($select, $all = false)
+    public function queryOne(Select $select)
+    {
+        $select->limit(1);
+        return $this->_query($select)->current();
+    }
+
+    public function query(Select $select)
     {
         $dbAdapter = $this->getDbAdapter();
-        $platform = $dbAdapter->getPlatform();
-        $sql = $select->getSqlString($platform);
-        $result = $dbAdapter->query($sql)->execute();
-        if (true === $all) {
-            foreach ($result as $row) {
-                $return[] = $row;
-            }
-            return $return;
+        $stmt = $this->getSlaveSql()->prepareStatementForSqlObject($select);
+        return $stmt->execute();
+    }
+
+    public function queryAll(Select $select)
+    {
+        $result = $this->query($select);
+        foreach ($result as $row) {
+            $return[] = $row;
         }
-        return $result->current();
+        return $return;
     }
 
     public function getAll()

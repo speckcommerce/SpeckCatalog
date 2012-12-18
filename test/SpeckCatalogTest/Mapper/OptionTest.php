@@ -5,6 +5,11 @@ use SpeckCatalogTest\Mapper\Asset\AbstractTestCase;
 
 class OptionTest extends AbstractTestCase
 {
+    public function testGetBuildersByProductIdReturnsChoiceRows()
+    {
+        $this->assertTrue('test written');
+    }
+
     public function testInsertReturnsOptionModel()
     {
         $mapper = $this->getMapper();

@@ -39,7 +39,7 @@ class Choice extends AbstractMapper
         foreach ($order as $i => $optionId) {
             $where = array('choice_id' => $choiceId, 'option_id' => $optionId);
             $select = $this->getSelect($table)->where($where);
-            $row = $this->query($select);
+            $row = $this->queryOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }
@@ -51,7 +51,7 @@ class Choice extends AbstractMapper
         $row = array('choice_id' => $choiceId, 'option_id' => $optionId);
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->query($select);
+        $result = $this->queryOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }

@@ -34,6 +34,16 @@ class Option extends AbstractService
         return $options;
     }
 
+    public function getBuildersByProductId($productId)
+    {
+        $choices = $this->getEntityMapper()->getBuildersByProductId($productId);
+        $builders = array();
+        foreach ($choices as $choice) {
+            $builders[$choice['product_id']][] = $choice['choice_id'];
+        }
+        return $builders;
+    }
+
     public function populate($option, $recursive=false)
     {
         $choices = $this->getChoiceService()->getByOptionId($option->getOptionId(), true, $recursive);

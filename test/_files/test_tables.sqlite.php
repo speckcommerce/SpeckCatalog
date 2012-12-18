@@ -139,4 +139,15 @@ CREATE TABLE IF NOT EXISTS `ansi_uom` (
 );
 sqlite;
 
+$return['catalog_builder_product'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_builder_product` (
+  `product_id` INTEGER(11) NOT NULL,
+  `choice_id`  INTEGER(11) NOT NULL,
+  `option_id`  INTEGER(11) NOT NULL
+);
+sqlite;
+
+
+
+
 return $return;

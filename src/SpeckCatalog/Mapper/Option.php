@@ -21,6 +21,31 @@ class Option extends AbstractMapper
         return $this->selectOne($select);
     }
 
+    public function getBuildersByProductId($productId)
+    {
+        $link = 'catalog_product_option';
+        $opt = 'catalog_option';
+        $build = 'catalog_builder_product';
+        $joinOpt = $link . '.option_id = ' . $opt . '.option_id';
+        $joinBuild = $opt . '.option_id = ' . $build . '.option_id';
+        $where = array(
+            $opt . '.builder' => 1,
+            $link . '.product_id' => $productId
+        );
+        $order = array(
+            $link . '.product_id',
+            $build . '.choice_id'
+        );
+
+        $select = $this->getSelect($link)
+            ->join($opt, $joinOpt)
+            ->join($build, $joinBuild)
+            ->where($where)
+            ->order($order);
+        $result = $this->queryAll($select, true);
+        return $result;
+    }
+
     public function getByProductId($productId)
     {
         $linker = 'catalog_product_option';
@@ -53,7 +78,7 @@ class Option extends AbstractMapper
         foreach ($order as $i => $choiceId) {
             $where = array('option_id' => $optionId, 'choice_id' => $choiceId);
             $select = $this->getSelect($table)->where($where);
-            $row = $this->query($select);
+            $row = $this->queryOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }

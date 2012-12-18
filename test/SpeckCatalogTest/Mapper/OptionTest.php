@@ -7,7 +7,25 @@ class OptionTest extends AbstractTestCase
 {
     public function testGetBuildersByProductIdReturnsChoiceRows()
     {
-        $this->assertTrue('test written');
+        $testMapper = $this->getTestMapper();
+        $testMapper->insert(
+            array('product_id' => 1, 'option_id' => 1),
+            'catalog_product_option'
+        );
+        $testMapper->insert(
+            array('option_id' => 1, 'builder' => 1, 'required' => 1),
+            'catalog_option'
+        );
+        $testMapper->insert(
+            array('option_id' => 1, 'choice_id' => 1, 'product_id' => 2),
+            'catalog_builder_product'
+        );
+        $mapper = $this->getMapper();
+        $result = $mapper->getBuildersByProductId(1);
+
+        $this->assertTrue(is_array($result));
+        $this->assertTrue($result['choice_id'] == 1);
+        $this->assertTrue($result['product_id'] == 2);
     }
 
     public function testInsertReturnsOptionModel()

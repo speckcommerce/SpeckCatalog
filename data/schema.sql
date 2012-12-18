@@ -1065,6 +1065,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
   KEY `fk_catalog_product_uom_product_id_idx` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catalog_builder_product`
+--
+
+CREATE TABLE IF NOT EXISTS `catalog_builder_product` (
+  `product_id` int(11) NOT NULL,
+  `choice_id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 -- -----------------------------------------------------
 -- Data for table `catalog_product_type`
@@ -1072,5 +1085,5 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
 -- START TRANSACTION;
 -- INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (1, 'Shell');
 -- INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (2, 'Product');
--- 
+--
 -- COMMIT;

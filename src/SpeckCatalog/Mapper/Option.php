@@ -32,16 +32,19 @@ class Option extends AbstractMapper
             $opt . '.builder' => 1,
             $link . '.product_id' => $productId
         );
+        $order = array(
+            $link . '.product_id',
+            $build . '.choice_id'
+        );
 
         $select = $this->getSelect($link)
             ->join($opt, $joinOpt)
             ->join($build, $joinBuild)
-            ->where($where);
+            ->where($where)
+            ->order($order);
         $result = $this->query($select);
         return $result;
     }
-
-
 
     public function getByProductId($productId)
     {

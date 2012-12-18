@@ -42,7 +42,7 @@ class Option extends AbstractMapper
             ->join($build, $joinBuild)
             ->where($where)
             ->order($order);
-        $result = $this->query($select);
+        $result = $this->query($select, false);
         return $result;
     }
 

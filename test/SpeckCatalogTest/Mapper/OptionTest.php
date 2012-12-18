@@ -20,12 +20,12 @@ class OptionTest extends AbstractTestCase
             array('option_id' => 1, 'choice_id' => 1, 'product_id' => 2),
             'catalog_builder_product'
         );
+
         $mapper = $this->getMapper();
         $result = $mapper->getBuildersByProductId(1);
-
         $this->assertTrue(is_array($result));
-        $this->assertTrue($result['choice_id'] == 1);
-        $this->assertTrue($result['product_id'] == 2);
+        $this->assertTrue($result[0]['choice_id'] == 1);
+        $this->assertTrue($result[0]['product_id'] == 2);
     }
 
     public function testInsertReturnsOptionModel()

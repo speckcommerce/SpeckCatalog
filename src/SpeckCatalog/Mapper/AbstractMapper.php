@@ -51,11 +51,18 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
         return $return;
     }
 
-    public function query($select)
+    //returns first result
+    public function query($select, $one = true)
     {
         $sql = $select->getSqlString(new Mysql);
-        $result = $this->getDbAdapter()->query($sql)->execute()->current();
-        return $result;
+        if (true === $one) {
+            return $this->getDbAdapter()->query($sql)->execute()->current();
+        }
+        $result = $this->getDbAdapter()->query($sql)->execute();
+        foreach ($result as $row) {
+            $return[] = $row;
+        }
+        return $return;
     }
 
     public function getAll()

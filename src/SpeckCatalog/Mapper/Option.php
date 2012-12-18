@@ -21,6 +21,28 @@ class Option extends AbstractMapper
         return $this->selectOne($select);
     }
 
+    public function getBuildersByProductId($productId)
+    {
+        $link = 'catalog_product_option';
+        $opt = 'catalog_option';
+        $build = 'catalog_builder_product';
+        $joinOpt = $link . '.option_id = ' . $opt . '.option_id';
+        $joinBuild = $opt . '.option_id = ' . $build . '.option_id';
+        $where = array(
+            $opt . '.builder' => 1,
+            $link . '.product_id' => $productId
+        );
+
+        $select = $this->getSelect($link)
+            ->join($opt, $joinOpt)
+            ->join($build, $joinBuild)
+            ->where($where);
+        $result = $this->query($select);
+        return $result;
+    }
+
+
+
     public function getByProductId($productId)
     {
         $linker = 'catalog_product_option';

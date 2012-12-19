@@ -3,6 +3,7 @@
 return array(
     'modules' => array(
         'SpeckCatalog',
+        'SpeckContact',
         'ZfcBase',
     ),
     'module_listener_options' => array(

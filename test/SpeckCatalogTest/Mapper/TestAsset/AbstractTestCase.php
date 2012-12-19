@@ -1,6 +1,6 @@
 <?php
 
-namespace SpeckCatalogTest\Mapper\Asset;
+namespace SpeckCatalogTest\Mapper\TestAsset;
 
 use PHPUnit\Extensions\Database\TestCase;
 

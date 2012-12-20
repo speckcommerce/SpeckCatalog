@@ -47,7 +47,7 @@ class Option extends AbstractForm
             ),
         ));
         $this->add(array(
-            'name' => 'variation',
+            'name' => 'builder',
             'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
                 'options' => array(
@@ -56,7 +56,7 @@ class Option extends AbstractForm
                 ),
             ),
             'options' => array(
-                'label' => 'Variation',
+                'label' => 'Builder',
             ),
         ));
         $this->add(array(

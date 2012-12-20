@@ -36,7 +36,7 @@ class Product extends AbstractMapper
         $row = array('product_id' => $productId, 'option_id' => $optionId);
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->query($select);
+        $result = $this->queryOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }
@@ -48,7 +48,7 @@ class Product extends AbstractMapper
         $row = array('product_id' => $productId, 'option_id' => $optionId);
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->query($select);
+        $result = $this->queryOne($select);
         $return = false;
         if ($result) {
             $resp = $this->delete($row, $table);
@@ -63,7 +63,7 @@ class Product extends AbstractMapper
         foreach ($order as $i => $optionId) {
             $where = array('product_id' => $productId, 'option_id' => $optionId);
             $select = $this->getSelect($table)->where($where);
-            $row = $this->query($select);
+            $row = $this->queryOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }

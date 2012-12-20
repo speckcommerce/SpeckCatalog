@@ -2,7 +2,7 @@
 
 namespace SpeckCatalogTest\Mapper;
 
-use SpeckCatalogTest\Mapper\Asset\AbstractTestCase;
+use SpeckCatalogTest\Mapper\TestAsset\AbstractTestCase;
 
 class AvailabilityTest extends AbstractTestCase
 {

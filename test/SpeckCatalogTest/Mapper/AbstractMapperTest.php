@@ -3,7 +3,7 @@
 namespace SpeckCatalogTest\Mapper;
 
 use Zend\Db\Sql\Select;
-use SpeckCatalogTest\Mapper\Asset\AbstractTestCase;
+use SpeckCatalogTest\Mapper\TestAsset\AbstractTestCase;
 
 class AbstractMapperTest extends AbstractTestCase
 {
@@ -150,13 +150,13 @@ class AbstractMapperTest extends AbstractTestCase
         $return = $mapper->prepareData('foo', 'catalog_product');
     }
 
-    public function testQuery()
+    public function testQueryOne()
     {
         $this->insertProduct();
         $mapper = $this->getMapper();
         $select = new Select($mapper->getTableName());
         $select->where(array('name' => 'product'));
-        $result = $mapper->query($select);
+        $result = $mapper->queryOne($select);
         $this->assertTrue($result['name'] === 'product');
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace SpeckCatalogTest\Mapper\Asset;
+namespace SpeckCatalogTest\Mapper\TestAsset;
 
 use ZfcBase\Mapper\AbstractDbMapper;
 
@@ -22,6 +22,7 @@ class TestMapper extends AbstractDbMapper
     public function teardown()
     {
         foreach ($this->getSchema() as $tableName => $statement) {
+            $this->getDbAdapter()->query("drop table {$tableName}")->execute();
         };
     }
 

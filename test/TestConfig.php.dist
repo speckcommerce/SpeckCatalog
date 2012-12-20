@@ -16,7 +16,7 @@ return array(
                     'speckcatalog_test_mapper' => function ($sm) {
                         $pathToFile = __DIR__ . '/_files/test_tables.sqlite.php';
                         $schema = include($pathToFile);
-                        $mapper = new \SpeckCatalogTest\Mapper\Asset\TestMapper;
+                        $mapper = new \SpeckCatalogTest\Mapper\TestAsset\TestMapper;
                         $mapper->setSchema($schema);
                         $mapper->setDbAdapter($sm->get('speckcatalog_db'));
                         return $mapper;

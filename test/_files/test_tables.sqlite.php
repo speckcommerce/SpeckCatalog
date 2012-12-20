@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `catalog_option`(
     `name`            VARCHAR(255),
     `instruction`     VARCHAR(255),
     `required`        INTEGER(1),
-    `variation`       INTEGER(1),
+    `builder`         INTEGER(1),
     `option_type_id`  INTEGER(1)
 );
 sqlite;
@@ -138,5 +138,16 @@ CREATE TABLE IF NOT EXISTS `ansi_uom` (
   PRIMARY KEY (`uom_code`)
 );
 sqlite;
+
+$return['catalog_builder_product'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `catalog_builder_product` (
+  `product_id` INTEGER(11) NOT NULL,
+  `choice_id`  INTEGER(11) NOT NULL,
+  `option_id`  INTEGER(11) NOT NULL
+);
+sqlite;
+
+
+
 
 return $return;

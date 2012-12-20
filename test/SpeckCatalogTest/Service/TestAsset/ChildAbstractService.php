@@ -1,6 +1,6 @@
 <?php
 
-namespace SpeckCatalogTest\Service\Asset;
+namespace SpeckCatalogTest\Service\TestAsset;
 
 use SpeckCatalog\Service\AbstractService;
 

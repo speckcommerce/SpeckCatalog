@@ -31,6 +31,6 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 
     public function getService()
     {
-        return new \SpeckCatalogTest\Service\Asset\ChildAbstractService();
+        return new \SpeckCatalogTest\Service\TestAsset\ChildAbstractService();
     }
 }

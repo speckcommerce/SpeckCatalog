@@ -148,6 +148,13 @@ CREATE TABLE IF NOT EXISTS `catalog_builder_product` (
 sqlite;
 
 
+$return['contact_company'] = <<<sqlite
+CREATE TABLE IF NOT EXISTS `contact_company` (
+  `company_id`   INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name`         VARCHAR(255) NOT NULL,
+  `display_name` VARCHAR(255) DEFAULT NULL
+);
+sqlite;
 
 
 return $return;

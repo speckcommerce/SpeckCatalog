@@ -46,7 +46,6 @@ return array(
             'speckcatalog_availability_form_filter' => 'SpeckCatalog\Filter\Availability',
             'speckcatalog_product_mapper'           => 'SpeckCatalog\Mapper\Product',
             'speckcatalog_category_mapper'          => 'SpeckCatalog\Mapper\Category',
-            'speckcatalog_company_mapper'           => 'SpeckCatalog\Mapper\Company',
             'speckcatalog_option_mapper'            => 'SpeckCatalog\Mapper\Option',
             'speckcatalog_choice_mapper'            => 'SpeckCatalog\Mapper\Choice',
             'speckcatalog_product_uom_mapper'       => 'SpeckCatalog\Mapper\ProductUom',
@@ -57,6 +56,7 @@ return array(
             'speckcatalog_spec_mapper'              => 'SpeckCatalog\Mapper\Spec',
             'speckcatalog_sites_mapper'             => 'SpeckCatalog\Mapper\Sites',
             'speckcatalog_feature_mapper'           => 'SpeckCatalog\Mapper\Feature',
+            'speckcatalog_company_mapper'           => 'SpeckCatalog\Mapper\Company',
         ),
     ),
 );

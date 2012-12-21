@@ -27,6 +27,24 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEntity()
     {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('getEntityPrototype');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->getEntity();
+    }
+
+    public function testGetEntityMapperCallsGetOnServiceLocator()
+    {
+        $mockedServiceLocator = $this->getMock('\Zend\ServiceManager\ServiceManager');
+        $mockedServiceLocator->expects($this->once())
+            ->method('get')
+            ->with('foo_bar_mapper');
+        $service = $this->getService();
+        $service->setServiceLocator($mockedServiceLocator);
+        $service->setEntityMapper('foo_bar_mapper');
+        $service->getEntityMapper();
     }
 
     public function getService()

@@ -47,6 +47,36 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
         $service->getEntityMapper();
     }
 
+    public function testGetAllCallsGetAllOnMapper()
+    {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('getAll');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->getAll();
+    }
+
+    public function testInsertCallsInsertOnMapper()
+    {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('insert');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->insert(array());
+    }
+
+    public function testUpdateCallsUpdateOnMapper()
+    {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('update');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->update(array());
+    }
+
     public function getService()
     {
         return new \SpeckCatalogTest\Service\TestAsset\ChildAbstractService();

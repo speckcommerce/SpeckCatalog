@@ -22,4 +22,14 @@ class Company extends CompanyMapper
             ->limit(1);
         return $this->select($select)->current();
     }
+
+    public function getAll()
+    {
+        $select = new Select('contact_company');
+        $result = $this->select($select);
+        foreach ($result as $row) {
+            $return[] = $row;
+        }
+        return $return;
+    }
 }

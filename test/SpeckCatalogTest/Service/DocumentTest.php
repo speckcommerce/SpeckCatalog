@@ -1,9 +1,10 @@
 <?php
 
-namespace SpeckCatalogTest\Mapper;
+namespace SpeckCatalogTest\Service;
 
 use PHPUnit\Extensions\Database\TestCase;
 
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
+    public function testFoo(){}
 }

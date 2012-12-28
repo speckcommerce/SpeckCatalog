@@ -17,4 +17,41 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         //$productService = $this->mock('\SpeckCatalog\Service\Product');
         //$cartService = Mockery::mock();
     }
+
+    public function testGetSessionCartReturnsCartModel()
+    {
+    }
+
+    public function testRemoveItemFromCartRemovesItemFromCart()
+    {
+    }
+
+    public function testFindItemByIdReturnsCartItemModel()
+    {
+    }
+
+    public function testAddOptionsAddsCartItemsToParentCartItem()
+    {
+    }
+
+    public function testReplaceCartItemsChildrenReplacesAllChildCartItemsWithNewItemsBuiltFromFlatOptions()
+    {
+    }
+
+    public function testCreateCartItemReturnsCartItemModel()
+    {
+    }
+
+    public function testCreateCartItemCreatesAndPopulatesMetadataObject()
+    {
+    }
+
+    public function testGetPriceForUomReturnsPriceForUom()
+    {
+    }
+
+    public function testUpdateQuantitiesUpdatesQuantitiesOfCartItems()
+    {
+    }
+
 }

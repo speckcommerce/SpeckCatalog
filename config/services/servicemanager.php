@@ -24,9 +24,9 @@ return array(
         },
         'speckcatalog_product_form' => function ($sm) {
             $form = new \SpeckCatalog\Form\Product;
-            $companyService = $sm->get('speckcatalog_company_service');
-            $form->setCompanyService($sm->get('speckcatalog_company_service'));
-            return $form->init();
+            //$form->setCompanyService($sm->get('speckcatalog_company_service'));
+            //return $form->init();
+            return $form;
         },
         'speckcatalog_product_uom_form' => function ($sm) {
             $form = new \SpeckCatalog\Form\ProductUom;

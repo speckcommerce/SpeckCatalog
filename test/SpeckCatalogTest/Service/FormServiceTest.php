@@ -12,14 +12,23 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
         return new \SpeckCatalog\Service\FormService();
     }
 
-    public function testGetFormReturnsFormModel()
+    public function testGetFormGetsFormAndFiterFromServiceAndReturnsForm()
     {
-
         $service = $this->getService();
-        $serviceManager = $this->getServiceManager();
-        $service->setServiceLocator($serviceManager);
+        $mockSM = $this->getMock('\Zend\ServiceManager\ServiceLocatorInterface');
+        $service->setServiceLocator($mockSM);
+
+        $mockSM->expects($this->at(0))
+            ->method('get')
+            ->with('speckcatalog_product_form')
+            ->will($this->returnValue(new \Zend\Form\Form));
+        $mockSM->expects($this->at(1))
+            ->method('get')
+            ->with('speckcatalog_product_form_filter')
+            ->will($this->returnValue(new \Zend\InputFilter\InputFilter));
+
         $return = $service->getForm('product');
-        $this->assertInstance('\Zend\Form\Form');
+        $this->assertInstanceOf('\Zend\Form\Form', $return);
     }
 
     public function testGetFormWithObjectModelBindsObjectModel()

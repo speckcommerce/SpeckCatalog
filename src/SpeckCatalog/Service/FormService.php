@@ -3,7 +3,7 @@
 namespace SpeckCatalog\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use \Zend\ServiceManager\ServiceLocatorInterface;
 use SpeckCatalog\Model\AbstractModel;
 
 class FormService implements ServiceLocatorAwareInterface
@@ -12,13 +12,8 @@ class FormService implements ServiceLocatorAwareInterface
 
     public function getForm($name = null, $model=null, $data=null)
     {
-        $serviceLocator = $this->getServiceLocator();
-
-        $formName = 'speckcatalog_' . $name . '_form';
-
-        $form = $serviceLocator->get($formName);
-
-        $filter = $serviceLocator->get($formName . '_filter');
+        $form = $this->formFromServiceManager($name);
+        $filter = $this->filterFromServiceManager($name);
         $form->setInputFilter($filter);
 
         if ($model instanceOf AbstractModel) {
@@ -31,9 +26,21 @@ class FormService implements ServiceLocatorAwareInterface
         return $form;
     }
 
+    public function formFromServiceManager($name)
+    {
+        $formName = 'speckcatalog_' . $name . '_form';
+        return $this->getServiceLocator()->get($formName);
+    }
+
+    public function filterFromServiceManager($name)
+    {
+        $filterName = 'speckcatalog_' . $name . '_form_filter';
+        return $this->getServiceLocator()->get($filterName);
+    }
+
     public function getKeyFields($name, $model=null, $parentKeyFields=false)
     {
-        $form = $this->getServiceLocator()->get('speckcatalog_' . $name . '_form');
+        $form = $this->formFromServiceManager($form);
 
         $fields = array();
 

@@ -108,7 +108,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     /*
      * 'item' is either a product, or a choice
      */
-    protected function createCartItem($item, $parentOption=null, $uomString=null, $quantity=1)
+    public function createCartItem($item, $parentOption=null, $uomString=null, $quantity=1)
     {
         $meta = $this->getServiceLocator()->get('cart_item_meta');
 
@@ -141,7 +141,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         return $cartItem;
     }
 
-    protected function getPriceForUom($uomString)
+    public function getPriceForUom($uomString)
     {
         $exp = explode(':', $uomString);
         $data = array(

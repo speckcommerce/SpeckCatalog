@@ -40,7 +40,7 @@ class FormService implements ServiceLocatorAwareInterface
 
     public function getKeyFields($name, $model=null, $parentKeyFields=false)
     {
-        $form = $this->formFromServiceManager($form);
+        $form = $this->formFromServiceManager($name);
 
         $fields = array();
 

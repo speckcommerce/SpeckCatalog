@@ -53,7 +53,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($uom));
         $service->setProductUomService($productUomService);
 
-        $testItem = new \SpeckCatalog\Model\Product();
+        $testItem = new \SpeckCatalog\Model\Product\Relational();
         $testItem->setName('foo');
         $return = $service->createCartItem($testItem, null, '1:EA:1');
         $this->assertInstanceOf('\SpeckCart\Entity\CartItem', $return);

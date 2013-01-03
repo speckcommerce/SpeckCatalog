@@ -16,19 +16,51 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testAddCartItemGeneratesCartItemWithOptionsAndAddsToCart()
     {
-        //$productService = $this->mock('\SpeckCatalog\Service\Product');
-        //$cartService = Mockery::mock();
+        $product = new \SpeckCatalog\Model\Product\Relational();
+        $mockProductService = $this->getMock('\SpeckCatalog\Service\Product');
+        $mockProductService->expects($this->any())
+            ->method('getFullProduct')
+            ->will($this->returnValue($product));
+
+        $mockSpeckCartService = $this->getMock('\SpeckCart\Service\CartService');
+        $mockSpeckCartService->expects($this->once())
+            ->method('addItemToCart');
+
+        $service = $this->getService();
+        $service->setProductService($mockProductService);
+        $service->setCartService($mockSpeckCartService);
+        $service->setProductUomService($this->getMockProductUomService());
+
+        $service->addCartItem(1, array(), '1:EA:1', 1);
     }
 
-    public function testGetSessionCartReturnsCartModel()
+    public function testGetSessionCartCallsGetSessionCartOnSpeckCartService()
     {
+        $mockCart = new \SpeckCart\Entity\Cart;
+        $mockSpeckCartService = $this->getMock('\SpeckCart\Service\CartService');
+        $mockSpeckCartService->expects($this->any())
+            ->method('getSessionCart')
+            ->will($this->returnValue($mockCart));
+
+        $service = $this->getService();
+        $service->setCartService($mockSpeckCartService);
+        $cart = $service->getSessionCart();
+        $this->assertInstanceOf('\SpeckCart\Entity\Cart', $cart);
     }
 
-    public function testRemoveItemFromCartRemovesItemFromCart()
+    public function testRemoveItemFromCartCallsRemoveItemFromCartOnSpeckCartService()
     {
+        $mockSpeckCartService = $this->getMock('\SpeckCart\Service\CartService');
+        $mockSpeckCartService->expects($this->once())
+            ->method('removeItemFromCart')
+            ->with(99);
+        $service = $this->getService();
+        $service->setCartService($mockSpeckCartService);
+
+        $service->removeItemFromCart(99);
     }
 
-    public function asdftestFindItemByIdReturnsCartItemModel()
+    public function testFindItemByIdReturnsCartItemModel()
     {
         $cartItem = new \SpeckCart\Entity\CartItem();
         $cartItem->setCartItemId(123);
@@ -50,7 +82,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\SpeckCart\Entity\CartItem', $return);
     }
 
-    public function  asdftestAddOptionsAddsCartItemsToParentCartItemWithSingleChoice()
+    public function testAddOptionsAddsCartItemsToParentCartItemWithSingleChoice()
     {
         $choice = new \SpeckCatalog\Model\Choice\Relational();
         $choice->setChoiceId(33);
@@ -72,7 +104,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\SpeckCart\Entity\CartItem', $items[0]);
     }
 
-    public function asdftestAddOptionsAddsCartItemsToParentCartItemWithMultipleChoices()
+    public function testAddOptionsAddsCartItemsToParentCartItemWithMultipleChoices()
     {
         $choice1 = new \SpeckCatalog\Model\Choice\Relational();
         $choice1->setChoiceId(33);
@@ -127,7 +159,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($meta));
 
         $mockCart = $this->getMock('\SpeckCart\Entity\Cart');
-        $mockCart->expects($this->once())
+        $mockCart->expects($this->any())
             ->method('getItems')
             ->will($this->returnValue(array($cartItem)));
 
@@ -136,8 +168,6 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getSessionCart')
             ->will($this->returnValue($mockCart));
 
-
-        //mock for getFullProduct
         $choice1 = new \SpeckCatalog\Model\Choice\Relational();
         $choice1->setChoiceId(33);
         $option = new \SpeckCatalog\Model\Option\Relational();
@@ -146,7 +176,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $product = new \SpeckCatalog\Model\Product\Relational();
         $product->setOptions(array($option));
         $mockProductService = $this->getMock('\SpeckCatalog\Service\Product');
-        $mockProductService->expects($this->once())
+        $mockProductService->expects($this->any())
             ->method('getFullProduct')
             ->will($this->returnValue($product));
 
@@ -165,10 +195,9 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
             ->method('persistItem');
 
         $service->replaceCartItemsChildren(1, $flatOptions);
-
     }
 
-    public function asdftestCreateCartItemReturnsCartItemModel()
+    public function testCreateCartItemReturnsCartItemModel()
     {
         $service = $this->getService();
         $mockProductUomService = $this->getMockProductUomService();
@@ -180,7 +209,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\SpeckCart\Entity\CartItem', $return);
     }
 
-    public function asdftestCreateCartItemCreatesAndPopulatesMetadataObject()
+    public function testCreateCartItemCreatesAndPopulatesMetadataObject()
     {
         $service = $this->getService();
         $mockProductUomService = $this->getMockProductUomService();
@@ -194,7 +223,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($meta->getUom(), '1:EA:1');
     }
 
-    public function asdftestGetPriceForUomReturnsPriceForUom()
+    public function testGetPriceForUomReturnsPriceForUom()
     {
         $service = $this->getService();
         $mockProductUomService = $this->getMockProductUomService();
@@ -205,6 +234,37 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateQuantitiesUpdatesQuantitiesOfCartItems()
     {
+        $mockItem = $this->getMock('\SpeckCart\Entity\CartItem');
+        $mockItem->expects($this->once())
+            ->method('setQuantity')
+            ->with('88')
+            ->will($this->returnValue($mockItem));
+        $mockSpeckCartService = $this->getMock('\SpeckCart\Service\CartService');
+        $mockSpeckCartService->expects($this->any())
+            ->method('findItemById')
+            ->will($this->returnValue($mockItem));
+        $mockSpeckCartService->expects($this->once())
+            ->method('persistItem');
+
+        $service = $this->getService();
+        $service->setCartService($mockSpeckCartService);
+        $service->updateQuantities(array(1 => 88));
+    }
+
+    public function testUpdateQuantitiesRemovesItemWhenNewQuantityIsZero()
+    {
+        $mockItem = $this->getMock('\SpeckCart\Entity\CartItem');
+        $mockSpeckCartService = $this->getMock('\SpeckCart\Service\CartService');
+        $mockSpeckCartService->expects($this->any())
+            ->method('findItemById')
+            ->will($this->returnValue($mockItem));
+        $mockSpeckCartService->expects($this->once())
+            ->method('removeItemFromCart')
+            ->with('321');
+
+        $service = $this->getService();
+        $service->setCartService($mockSpeckCartService);
+        $service->updateQuantities(array(321 => 0));
     }
 
 
@@ -218,7 +278,6 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($uom));
         return $productUomService;
     }
-
 
     public function getMockServiceManager(array $items = array())
     {

@@ -40,12 +40,15 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         //return $this->getCartService()->findItemById($cartItemId);
 
         //this is temporarly until speck cart service can return an item with its children populated
+        $return = null;
         $cartItems = $this->getCartService()->getSessionCart()->getItems();
         foreach ($cartItems as $item) {
             if ($cartItemId === $item->getCartItemId()) {
-                return $item;
+                $return = $item;
+                break;
             }
         }
+        return $return;
     }
 
     public function addOptions($options = array(), $parentCartItem)
@@ -155,10 +158,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
                 $this->getCartservice()->removeItemFromCart($cartItemId);
             } else {
                 $item = $this->getCartservice()->findItemById($cartItemId);
-                if (!$item) {
-                    throw new \Exception('couldnt find that cart item %n', $cartItemId);
-                }
-                $this->getCartservice()->persistItem($item->setQuantity($qty));
+                $this->getCartService()->persistItem($item->setQuantity($qty));
             }
         }
     }

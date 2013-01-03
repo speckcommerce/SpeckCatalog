@@ -6,6 +6,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use SpeckCart\Entity\CartItem;
 use SpeckCatalog\Model\CartItemMeta;
+use SpeckCatalog\Model\Option;
 
 class CatalogCartService implements ServiceLocatorAwareInterface
 {
@@ -47,7 +48,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         }
     }
 
-    protected function addOptions($options = array(), $parentCartItem)
+    public function addOptions($options = array(), $parentCartItem)
     {
         if (!count($options)) {
             return $parentCartItem;
@@ -81,9 +82,10 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     {
         $this->flatOptions = $flatOptions;
 
+
         $cartItem = $this->findItemById($cartItemId);
 
-        $product = $this->getProductService()->getFullProduct($cartItem->getMetaData()->getProductId());
+        $product = $this->getProductService()->getFullProduct($cartItem->getMetadata()->getProductId());
 
         //remove all children
         $children = $cartItem->getItems();
@@ -111,13 +113,13 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     /*
      * 'item' is either a product, or a choice
      */
-    public function createCartItem($item, \SpeckCatalog\Model\Option $parentOption = null, $uomString = null, $quantity = 1)
+    public function createCartItem($item, Option $parentOption = null, $uomString = null, $quantity = 1)
     {
         $cartItem = new CartItem(array(
-            'meta_data'   => new CartItemMeta(array(
+            'metadata'   => new CartItemMeta(array(
                 'uom'                => $uomString,
                 'item_number'        => $item->getItemNumber(),
-                'image'              => $item->getImage(),
+                'image'              => $item->has('image') ? $item->getImage() : null,
                 'parent_option_id'   => $parentOption ? $parentOption->getOptionId() : null,
                 'parent_option_name' => $parentOption ? $parentOption->__toString()  : null,
                 'flat_options'       => $parentOption ? null : $this->flatOptions,
@@ -215,6 +217,24 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     public function setProductUomService($productUomService)
     {
         $this->productUomService = $productUomService;
+        return $this;
+    }
+
+    /**
+     * @return flatOptions
+     */
+    public function getFlatOptions()
+    {
+        return $this->flatOptions;
+    }
+
+    /**
+     * @param $flatOptions
+     * @return self
+     */
+    public function setFlatOptions($flatOptions)
+    {
+        $this->flatOptions = $flatOptions;
         return $this;
     }
 }

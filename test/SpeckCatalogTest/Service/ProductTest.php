@@ -105,4 +105,49 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\SpeckCatalog\Model\Company', $manufacturer);
     }
 
+    public function testAddOptionWithModelsCallsAddOptionAndReturnsOption()
+    {
+        $mockMapper = $this->getMock('\SpeckCatalog\Mapper\Product');
+        $mockMapper->expects($this->once())
+            ->method('addOption')
+            ->with(1, 2);
+        $mockOptionService = $this->getMock('\SpeckCatalog\Service\Option');
+        $mockOptionService->expects($this->once())
+            ->method('find')
+            ->with(array('option_id' => 2))
+            ->will($this->returnValue(new \SpeckCatalog\Model\Option));
+
+        $service = $this->getService();
+        $service->setEntityMapper($mockMapper);
+        $service->setOptionService($mockOptionService);
+
+        $return = $service->addOption(1, 2);
+        $this->assertInstanceOf('\SpeckCatalog\Model\Option', $return);
+    }
+
+
+    public function testAddOptionWithIdsCallsAddOptionAndReturnsOption()
+    {
+        $mockMapper = $this->getMock('\SpeckCatalog\Mapper\Product');
+        $mockMapper->expects($this->once())
+            ->method('addOption')
+            ->with(1, 2);
+        $mockOptionService = $this->getMock('\SpeckCatalog\Service\Option');
+        $mockOptionService->expects($this->once())
+            ->method('find')
+            ->with(array('option_id' => 2))
+            ->will($this->returnValue(new \SpeckCatalog\Model\Option));
+
+        $service = $this->getService();
+        $service->setEntityMapper($mockMapper);
+        $service->setOptionService($mockOptionService);
+
+        $product = new \SpeckCatalog\Model\Product();
+        $product->setProductId(1);
+        $option = new \SpeckCatalog\Model\Option();
+        $option->setOptionId(2);
+        $return = $service->addOption($product, $option);
+        $this->assertInstanceOf('\SpeckCatalog\Model\Option', $return);
+    }
+
 }

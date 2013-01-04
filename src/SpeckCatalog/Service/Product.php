@@ -84,7 +84,7 @@ class Product extends AbstractService
     public function addOption($productOrId, $optionOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getProductId() );
+        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
 
         $this->getEntityMapper()->addOption($productId, $optionId);
 

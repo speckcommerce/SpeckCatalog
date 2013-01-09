@@ -28,6 +28,7 @@ class ProductUom extends AbstractService
             $productUom->getUomCode(),
             $productUom->getQuantity()
         );
+
         $productUom->setAvailabilities($availabilities);
         $uom = $this->getUomService()->find(array('uom_code' => $productUom->getUomCode()));
         $productUom->setUom($uom);

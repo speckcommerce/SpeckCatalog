@@ -8,7 +8,6 @@ use SpeckCatalog\Model\AbstractModel;
 use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Db\Sql\Select;
 use Zend\Db\Adapter\Adapter as DbAdapter;
-use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Paginator;

@@ -20,4 +20,15 @@ class CompanyTest extends AbstractTestCase
     {
         return $this->getServiceManager()->get('speckcatalog_company_mapper');
     }
+
+    public function testGetAllReturnsArrayOfCompanies()
+    {
+        $testMapper = $this->getTestMapper();
+        $testMapper->insert(array('company_id' => 1, 'name' => 'company'), 'contact_company');
+
+        $mapper = $this->getMapper();
+        $result = $mapper->getAll();
+        $this->assertTrue(is_array($result));
+        $this->assertInstanceOf('\SpeckCatalog\Model\Company', $result[0]);
+    }
 }

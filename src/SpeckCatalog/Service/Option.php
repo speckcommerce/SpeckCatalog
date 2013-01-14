@@ -41,6 +41,10 @@ class Option extends AbstractService
         foreach ($choices as $choice) {
             $builders[$choice['product_id']][] = $choice['choice_id'];
         }
+        foreach ($builders as $pid => $choiceIds) {
+            sort($choiceIds);
+            $builders[$pid] = implode(',', $choiceIds);
+        }
         return $builders;
     }
 

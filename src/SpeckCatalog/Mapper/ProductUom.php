@@ -22,7 +22,8 @@ class ProductUom extends AbstractMapper
     public function getByProductId($productId)
     {
         $select = $this->getSelect()
-            ->where(array('product_id' => $productId));
+            ->where(array('product_id' => $productId))
+            ->order('quantity');
         return $this->selectMany($select);
     }
 }

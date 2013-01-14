@@ -20,11 +20,28 @@ class ProductController extends AbstractActionController
         if(!$product){
             throw new \Exception('no product for that id');
         }
-        //var_dump($product); die();
         return new ViewModel(array(
             'product'     => $product,
             'editingCart' => ($cartItemId ? true : false),
             'cartItem'    => ($cartItemId ? $cartService->findItemById($cartItemId) : false),
         ));
+    }
+
+    public function uomsPartialAction()
+    {
+        $postParams = $this->params()->fromPost();
+        $productId = $postParams['product_id'];
+        $uomString = isset($postParams['uom_string']) ? $postParams['uom_string'] : null;
+        $quantity = isset($postParams['quantity']) ? $postParams['quantity'] : null;
+
+        $productUomService = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
+        $uoms = $productUomService->getByProductId($productId, true, true);
+
+        $viewHelperManager = $this->getServiceLocator()->get('viewhelpermanager');
+        $viewHelper = $viewHelperManager->get('speckCatalogUomsToCart');
+
+        $html = $viewHelper->__invoke($uoms, $uomString, $quantity);
+        $response = $this->getResponse()->setContent($html);
+        return $response;
     }
 }

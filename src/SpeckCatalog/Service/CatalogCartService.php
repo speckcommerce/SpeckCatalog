@@ -81,7 +81,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         return $parentCartItem;
     }
 
-    public function replaceCartItemsChildren($cartItemId, $flatOptions = array())
+    public function replaceCartItemsChildren($cartItemId, $flatOptions = array(), $uomString, $quantity)
     {
         $this->flatOptions = $flatOptions;
 
@@ -107,6 +107,10 @@ class CatalogCartService implements ServiceLocatorAwareInterface
                 $this->getCartService()->addItemToCart($childItem);
             }
         }
+
+        $cartItem->setQuantity($quantity);
+        $cartItem->getMetaData()->setUom($uomString);
+        $cartItem->setPrice($this->getPriceForUom($uomString));
 
         //update and persist parent
         $cartItem->getMetaData()->setFlatOptions($this->flatOptions);
@@ -147,6 +151,10 @@ class CatalogCartService implements ServiceLocatorAwareInterface
             'quantity' => (int) $exp[2],
         );
         $uom = $this->getProductUomService()->find($data);
+
+        if(!$uom instanceOf \SpeckCatalog\Model\ProductUom) {
+            throw new \Exception('couldnt get that uom');
+        }
         return $uom->getPrice();
     }
 

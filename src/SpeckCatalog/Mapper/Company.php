@@ -5,7 +5,7 @@ namespace SpeckCatalog\Mapper;
 use SpeckContact\Mapper\CompanyMapper;
 use Zend\Db\Sql\Select;
 use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
-use SpeckCatalog\Model\Company as Model;
+use SpeckCatalog\Model\Company\Relational as Model;
 
 class Company extends CompanyMapper
 {
@@ -15,10 +15,10 @@ class Company extends CompanyMapper
         $this->setEntityPrototype(new Model);
     }
 
-    public function findById($companyId)
+    public function find(array $data)
     {
         $select = new Select('contact_company');
-        $select->where(array('company_id' => 1))
+        $select->where(array('company_id' => $data['company_id']))
             ->limit(1);
         return $this->select($select)->current();
     }

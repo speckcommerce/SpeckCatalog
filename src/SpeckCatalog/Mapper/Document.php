@@ -14,10 +14,10 @@ class Document extends AbstractMapper
         return parent::find($where);
     }
 
-    public function getDocuments($productId)
+    public function getByProductId($productId)
     {
-        $select = $this->getSelect()
-            ->where(array('product_id' => $productId));
+        $select = $this->getSelect();
+        $select->where(array('product_id' => $productId));
         return $this->selectMany($select);
     }
 }

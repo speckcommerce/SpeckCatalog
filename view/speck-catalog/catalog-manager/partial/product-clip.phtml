@@ -1,8 +1,8 @@
 <div class="boundary contrastbg2 shadow">
     <div class="entity-header">
         <div>
-            <div><i class="icon-tag"></i></div>
-            <div><a class="icon-pencil" href="/catalogmanager/product/<?=$product->getProductId();?>" title="edit this"></a></div>
+            <div class="left"><i class="icon-tag"></i></div>
+            <div class="left"><a class="icon-pencil" href="/catalogmanager/product/<?=$product->getProductId();?>" title="edit this"></a></div>
             &nbsp; <?=$product; ?>
             <?=$product->getItemNumber(); ?>
             <? if($product->has('uoms')) : ?>

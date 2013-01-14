@@ -14,8 +14,10 @@ class Image extends AbstractService
     public function getImageForCategory($id)
     {
         $images = $this->getEntityMapper()->getImages('category', $id);
+        $return = null;
         if(count($images) > 0){
-            return array_shift($images);
+            $return = array_shift($images);
         }
+        return $return;
     }
 }

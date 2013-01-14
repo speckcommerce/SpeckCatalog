@@ -279,6 +279,71 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         return $productUomService;
     }
 
+    public function testGetProductService()
+    {
+        $productService = new \SpeckCatalog\Service\Product;
+        $service = $this->getService();
+        $service->setProductService($productService);
+        $this->assertInstanceOf('\SpeckCatalog\Service\Product', $service->getProductService());
+    }
+
+    public function testGetProductServiceFromServiceManager()
+    {
+        $config = array('speckcatalog_product_service' => new \SpeckCatalog\Service\Product);
+        $mockServiceManager = $this->getMockServiceManager($config);
+        $service = $this->getService();
+        $service->setServiceLocator($mockServiceManager);
+        $service->getProductService();
+    }
+
+    public function testGetProductUomService()
+    {
+        $productUomService = new \SpeckCatalog\Service\ProductUom;
+        $service = $this->getService();
+        $service->setProductUomService($productUomService);
+        $this->assertInstanceOf('\SpeckCatalog\Service\ProductUom', $service->getProductUomService());
+    }
+
+    public function testGetProductUomServiceFromServiceManager()
+    {
+        $config = array('speckcatalog_product_uom_service' => new \SpeckCatalog\Service\ProductUom);
+        $mockServiceManager = $this->getMockServiceManager($config);
+        $service = $this->getService();
+        $service->setServiceLocator($mockServiceManager);
+        $service->getProductUomService();
+    }
+
+    public function testGetFlatOptions()
+    {
+        $service = $this->getService();
+        $test = array(1 => 3);
+        $service->setFlatOptions($test);
+        $return = $service->getFlatOptions();
+        $this->assertSame($test, $return);
+    }
+
+    public function testGetCartService()
+    {
+        $cartService = new \SpeckCart\Service\CartService;
+        $service = $this->getService();
+        $service->setCartService($cartService);
+        $this->assertInstanceOf('\SpeckCart\Service\CartService', $service->getCartService());
+    }
+
+    public function testGetCartServiceFromServiceManager()
+    {
+        $config = array('SpeckCart\Service\CartService' => new \SpeckCart\Service\CartService);
+        $mockServiceManager = $this->getMockServiceManager($config);
+        $service = $this->getService();
+        $service->setServiceLocator($mockServiceManager);
+        $service->getCartService();
+    }
+
+
+
+
+
+
     public function getMockServiceManager(array $items = array())
     {
         $mockSM = $this->getMock('\Zend\ServiceManager\ServiceLocatorInterface');

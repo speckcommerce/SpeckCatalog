@@ -15,6 +15,7 @@ class Relational extends Base
     protected $specs;
     protected $documents;
     protected $features;
+    protected $builders;
 
     public function getKey()
     {
@@ -281,6 +282,24 @@ class Relational extends Base
     public function setParent(AbstractModel $parent)
     {
         $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return builders
+     */
+    public function getBuilders()
+    {
+        return $this->builders;
+    }
+
+    /**
+     * @param $builders
+     * @return self
+     */
+    public function setBuilders($builders)
+    {
+        $this->builders = $builders;
         return $this;
     }
 }

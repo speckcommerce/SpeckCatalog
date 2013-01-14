@@ -58,6 +58,16 @@ return array(
                     ),
                 ),
             ),
+            'partial/uoms' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/partial/uoms',
+                    'defaults' => array(
+                        'controller' => 'speckcatalog_product',
+                        'action' => 'uomsPartial'
+                    ),
+                ),
+            ),
             'catalog' => array(
                 'type' => 'Literal',
                 'priority' => 1000,

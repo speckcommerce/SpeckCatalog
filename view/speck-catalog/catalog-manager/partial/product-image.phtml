@@ -1,12 +1,11 @@
 <? $pdir = '/speck-catalog/catalog-manager/partial/'; ?>
+<? $collapse = isset($collapse) ? 'initialCollapse' : ''; ?>
 
-<? if(isset($collapse)){ $collapse='initialCollapse';} else { $collapse='';} ?>
 <div class="boundary contrastbg shadow" id="" >
     <div class="entity-header">
-        <div class="collapser"><i class="icon-chevron-down <?=$collapse;?>"></i></div>
-        <div class="remover"><div class="hide"><span class="icon-remove" title="double click to remove"></span></div></div>
-        <div><i class="icon-picture"></i></div>
-        <div class="title sort-handle collapser">&nbsp; <?=$productImage;?></div>
+        <div class="collapser left"><i class="icon-chevron-down <?=$collapse;?>"></i></div>
+        <div class="left"><i class="icon-picture"></i></div>
+        <div class="title sort-handle collapser left">&nbsp; <?=$productImage;?></div>
     </div>
     <div class="entity-content initialcol">
         <?=$this->partial($pdir.'form/image.phtml', array('image' => $productImage));?>

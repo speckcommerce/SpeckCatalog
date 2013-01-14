@@ -93,7 +93,7 @@ class CatalogManagerController extends AbstractActionController
 
         if (count($originalData) && $service->find($originalData)) {
             $service->update($data, $originalData);
-            return $service->find($data, true);
+            return $service->find($data, true, true);
         }
 
         return $service->insert($data);

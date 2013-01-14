@@ -13,6 +13,17 @@ class FeatureTest extends AbstractTestCase
         $this->assertTrue($mapper instanceOf \SpeckCatalog\Mapper\Feature);
     }
 
+    public function testGetByProductIdReturnsArrayOfFeatureModels()
+    {
+        $testMapper = $this->getTestMapper();
+        $testMapper->insert(array('product_id' => 88), 'catalog_product_feature');
+
+        $mapper = $this->getMapper();
+        $return = $mapper->getByProductId(88);
+        $this->assertTrue(is_array($return));
+        $this->assertInstanceOf('\SpeckCatalog\Model\Feature', $return[0]);
+    }
+
     public function getMapper()
     {
         return $this->getServiceManager()->get('speckcatalog_feature_mapper');

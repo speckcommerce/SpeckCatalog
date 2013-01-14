@@ -40,7 +40,7 @@ class Product extends AbstractService
 
     public function getFullProduct($productId)
     {
-        $product = $this->find(array('product_id' => $productId));
+        $product = $this->find(array('product_id' => $productId), true, true);
         $this->populate($product, true);
         return $product;
     }
@@ -51,6 +51,9 @@ class Product extends AbstractService
 
         $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
         $product->setOptions($options);
+
+        $builders = $this->getOptionService()->getBuildersByProductId($productId);
+        $product->setBuilders($builders);
 
         $images = $this->getImageService()->getImages('product', $productId);
         $product->setImages($images);

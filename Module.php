@@ -73,8 +73,8 @@ class Module
         $this->setServiceManager($locator);
         $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
         $renderer->plugin('url')->setRouter($locator->get('Router'));
-        $renderer->plugin('headScript')->appendFile('/assets/speck-catalog/js/speck-catalog-manager.js');
-        $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
+        $renderer->plugin('headScript')->appendFile('/js/speck-catalog-manager.js');
+        $renderer->plugin('headLink')->appendStylesheet('/css/speck-catalog.css');
     }
 
     /**

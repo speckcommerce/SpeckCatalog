@@ -70,15 +70,4 @@ class AbstractService implements ServiceLocatorAwareInterface
         $this->getEntityMapper()->usePaginator($options);
         return $this;
     }
-
-    public function getPaginator()
-    {
-        return $this->paginator;
-    }
-
-    public function setPaginator($paginator)
-    {
-        $this->paginator = $paginator;
-        return $this;
-    }
 }

@@ -40,7 +40,7 @@ class CartController extends AbstractActionController
         // @todo use Request
         $productId     = (isset($_POST['product_id'])     ? $_POST['product_id']     : $this->params('id') );
         $productBranch = (isset($_POST['product_branch']) ? $_POST['product_branch'] : array()             );
-        $uom           = (isset($_POST['uom'])            ? $_POST['uom']            : 'EA[1]'             );
+        $uom           = (isset($_POST['uom'])            ? $_POST['uom']            : $productId . ':EA:1');
         $quantity      = (isset($_POST['quantity'])       ? $_POST['quantity']       : 1                   );
         $this->getCartService()->addCartItem($productId, $productBranch, $uom, $quantity);
         return $this->_redirect()->toUrl('/cart');

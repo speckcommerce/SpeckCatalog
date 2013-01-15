@@ -38,8 +38,7 @@ return array(
     ),
     'initializers' => array(
         function($instance, $sm){
-            if($instance instanceof Mapper\DbAdapterAwareInterface){
-                $sm = $sm->getServiceLocator();
+            if($instance instanceof \SpeckCatalog\Mapper\DbAdapterAwareInterface){
                 $dbAdapter = $sm->get('speckcatalog_db');
                 $instance->setDbAdapter($dbAdapter);
             }

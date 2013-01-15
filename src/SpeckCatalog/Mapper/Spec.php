@@ -5,8 +5,7 @@ namespace SpeckCatalog\Mapper;
 class Spec extends AbstractMapper
 {
     protected $tableName = 'catalog_product_spec';
-    protected $relationalModel = '\SpeckCatalog\Model\Spec\Relational';
-    protected $dbModel = '\SpeckCatalog\Model\Spec';
+    protected $model = '\SpeckCatalog\Model\Spec\Relational';
 
     public function find(array $data)
     {
@@ -19,6 +18,6 @@ class Spec extends AbstractMapper
         $where = array('product_id' => $productId);
         $select = $this->getSelect()
             ->where($where);
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 }

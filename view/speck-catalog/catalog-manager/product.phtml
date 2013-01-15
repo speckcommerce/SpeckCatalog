@@ -7,6 +7,9 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#product" data-toggle="tab">Product</a></li>
         <li><a href="#options" data-toggle="tab">Option Groups</a></li>
+      <? if ($product->getProductTypeId() == 1) : ?>
+        <li><a href="#builder" data-toggle="tab">Builder</a></li>
+      <? endif; ?>
         <li><a href="#specs" data-toggle="tab">Specs</a></li>
         <li><a href="#documents" data-toggle="tab">Documents</a></li>
         <li><a href="#images" data-toggle="tab">Images</a></li>
@@ -30,6 +33,23 @@
                 </div>
             </div>
         </div>
+
+      <? if ($product->getProductTypeId() == 1) : ?>
+        <div id="builder" class="tab-pane boundary">
+            <div class="list-wrap">
+                <div class="child-expand list-items-helper">
+                    <div class="collapse-all"><i class="icon-arrow-up"></i></div>
+                    <div class="expand-all"><i class="icon-arrow-down"></i></div>
+                </div>
+                <div class="list-items" data-type="product" data-parent="product" data-parent_key="<?= $product->getKey();?>">
+                    <?= $this->speckCatalogRenderChildren('builder_product', $product->getBuilders()); ?>
+                </div>
+                <div class="row list-items-helper">
+                    <?= $this->speckCatalogAdderHelper()->find('builder_product', 'product', $parentKeyFields); ?>
+                </div>
+            </div>
+        </div>
+      <? endif; ?>
 
         <div id="specs" class="tab-pane boundary">
             <div class="list-wrap">

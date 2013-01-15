@@ -144,6 +144,44 @@ class CatalogManagerController extends AbstractActionController
         return $response;
     }
 
+    public function findAction()
+    {
+        $postParams = $this->params()->fromPost();
+
+        $models = array();
+        //todo :finish this up - just getting all products (with paginator) for now.
+        if(isset($postParams['query'])) {
+            $models = $this->getService($postParams['parent_name'])->usePaginator()->getAll();
+        }
+
+        $this->layout(false);
+        $view = new ViewModel(array('models' => $models, 'fields' => $postParams));
+        $view->setTemplate($this->partialDir . 'find-models');
+        return $view;
+    }
+
+    public function foundAction()
+    {
+        $postParams = $this->params()->fromPost();
+
+        if ($postParams['child_name'] === 'builder_product') {
+            foreach($postParams['check'] as $key => $checked) {
+                $productIds[] = $postParams['product_id'][$key];
+            }
+            $products = $this->getService('product')->getBuilderProductsForEdit($productIds);
+            $choices = $this->getService('product')->getAllChoicesByProductId($postParams['parent']['product_id']);
+
+            $container = new ViewModel();
+            $container->setTemplate('/layout/nolayout')->setTerminal(true);
+            foreach($products as $product) {
+                $view = new ViewModel(array('product' => $product, 'choices' => $choices));
+                $view->setTemplate($this->partialDir . 'builder-product');
+                $container->addChild($view);
+            }
+        }
+        return $container->setTerminal(true);
+    }
+
     public function sortAction()
     {
         $postParams = $this->params()->fromPost();

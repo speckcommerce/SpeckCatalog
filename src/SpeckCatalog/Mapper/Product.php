@@ -2,14 +2,14 @@
 
 namespace SpeckCatalog\Mapper;
 
+use \Zend\Db\Sql\Predicate;
+
 class Product extends AbstractMapper
 {
     protected $tableName = 'catalog_product';
-    protected $relationalModel = '\SpeckCatalog\Model\Product\Relational';
-    protected $dbModel = '\SpeckCatalog\Model\Product';
-    protected $hydrator = 'SpeckCatalog\Hydrator\Product';
-    protected $key = array('product_id');
-    protected $dbFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
+    protected $model = '\SpeckCatalog\Model\Product\Relational';
+    protected $tableKeyFields = array('product_id');
+    protected $tableFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
 
     public function find(array $data)
     {
@@ -27,7 +27,7 @@ class Product extends AbstractMapper
         $select = $this->getSelect()
             ->join($linker, $joinString)
             ->where($where);
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 
     public function addOption($productId, $optionId)
@@ -36,10 +36,21 @@ class Product extends AbstractMapper
         $row = array('product_id' => $productId, 'option_id' => $optionId);
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->queryOne($select);
+        $result = $this->selectOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }
+    }
+
+    public function getProductsById(array $productIds = array())
+    {
+        $wheres = array();
+        foreach ($productIds as $productId) {
+            $predicate = new Predicate\Predicate();
+            $wheres[] = $predicate->equalTo('product_id', $productId);
+        }
+        $select = $this->getSelect()->where($wheres, Predicate\PredicateSet::OP_OR);
+        return $this->selectManyModels($select);
     }
 
     public function removeOption($productId, $optionId)
@@ -48,7 +59,7 @@ class Product extends AbstractMapper
         $row = array('product_id' => $productId, 'option_id' => $optionId);
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->queryOne($select);
+        $result = $this->selectOne($select);
         $return = false;
         if ($result) {
             $resp = $this->delete($row, $table);
@@ -63,7 +74,7 @@ class Product extends AbstractMapper
         foreach ($order as $i => $optionId) {
             $where = array('product_id' => $productId, 'option_id' => $optionId);
             $select = $this->getSelect($table)->where($where);
-            $row = $this->queryOne($select);
+            $row = $this->selectOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }

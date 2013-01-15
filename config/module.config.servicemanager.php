@@ -23,11 +23,13 @@ return array(
             'speckcatalog_product_uom_service'      => 'SpeckCatalog\Service\ProductUom',
             'speckcatalog_uom_service'              => 'SpeckCatalog\Service\Uom',
             'speckcatalog_document_service'         => 'SpeckCatalog\Service\Document',
+            'speckcatalog_builder_service'          => 'SpeckCatalog\Service\Builder',
             'speckcatalog_availability_service'     => 'SpeckCatalog\Service\Availability',
             'speckcatalog_spec_service'             => 'SpeckCatalog\Service\Spec',
             'speckcatalog_sites_service'            => 'SpeckCatalog\Service\Sites',
             'speckcatalog_cart_service'             => 'SpeckCatalog\Service\CatalogCartService',
             'speckcatalog_form_service'             => 'SpeckCatalog\Service\FormService',
+
             'speckcatalog_option_form'              => 'SpeckCatalog\Form\Option',
             'speckcatalog_choice_form'              => 'SpeckCatalog\Form\Choice',
             'speckcatalog_uom_form'                 => 'SpeckCatalog\Form\Uom',
@@ -36,6 +38,8 @@ return array(
             'speckcatalog_spec_form'                => 'SpeckCatalog\Form\Spec',
             'speckcatalog_image_form'               => 'SpeckCatalog\Form\Image',
             'speckcatalog_document_form'            => 'SpeckCatalog\Form\Document',
+            'speckcatalog_builder_form'             => 'SpeckCatalog\Form\Builder',
+
             'speckcatalog_spec_form_filter'         => 'SpeckCatalog\Filter\Spec',
             'speckcatalog_document_form_filter'     => 'SpeckCatalog\Filter\Document',
             'speckcatalog_product_form_filter'      => 'SpeckCatalog\Filter\Product',
@@ -44,7 +48,10 @@ return array(
             'speckcatalog_choice_form_filter'       => 'SpeckCatalog\Filter\Choice',
             'speckcatalog_category_form_filter'     => 'SpeckCatalog\Filter\Category',
             'speckcatalog_availability_form_filter' => 'SpeckCatalog\Filter\Availability',
+            'speckcatalog_builder_form_filter'      => 'SpeckCatalog\Filter\Builder',
+
             'speckcatalog_product_mapper'           => 'SpeckCatalog\Mapper\Product',
+            'speckcatalog_builder_mapper'           => 'SpeckCatalog\Mapper\Builder',
             'speckcatalog_category_mapper'          => 'SpeckCatalog\Mapper\Category',
             'speckcatalog_option_mapper'            => 'SpeckCatalog\Mapper\Option',
             'speckcatalog_choice_mapper'            => 'SpeckCatalog\Mapper\Choice',

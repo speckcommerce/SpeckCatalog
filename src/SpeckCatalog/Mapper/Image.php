@@ -5,16 +5,11 @@ namespace SpeckCatalog\Mapper;
 class Image extends AbstractMapper
 {
     protected $tableName;
-    protected $relationalModel;
-    protected $dbModel;
+    protected $model;
     protected $parentType;
 
-    protected $dbModels = array(
-        'product' => 'SpeckCatalog\Model\ProductImage',
-        'option'  => 'SpeckCatalog\Model\OptionImage',
-    );
 
-    protected $relationalModels = array(
+    protected $models = array(
         'product' => 'SpeckCatalog\Model\ProductImage\Relational',
         'option'  => 'SpeckCatalog\Model\OptionImage\Relational',
     );
@@ -23,8 +18,7 @@ class Image extends AbstractMapper
     {
         $this->parentType = $parentType;
         $this->tableName = 'catalog_' . $parentType . '_image';
-        $this->dbModel = $this->dbModels[$parentType];
-        $this->relationalModel = $this->relationalModels[$parentType];
+        $this->model = $this->models[$parentType];
 
         return $this;
     }
@@ -41,7 +35,7 @@ class Image extends AbstractMapper
         $where = array($type . '_id' => $id);
         $select = $this->getSelect()
             ->where($where);
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 
     /**

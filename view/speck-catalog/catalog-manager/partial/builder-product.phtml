@@ -1,0 +1,23 @@
+<div id="" class="builder contrastbg boundary shadow">
+    <div class="entity-header">
+        <div class="collapser left"><i class="icon-chevron-down"></i></div>
+        <div class="title sort-handle collapser left">&nbsp; <?=$product->__toString();?></div>
+        <div class="remover right">
+            <?//= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'option', $optionKeyFields); ?>
+        </div>
+    </div>
+    <div class="entity-content">
+        <form class="live-form" id="builder">
+
+            <div class="form-messages"><?= $this->formErrors; ?></div>
+
+            <div class="row offset0">
+                <? foreach($choices as $choiceId => $name) : ?>
+                    <div class="span3">
+                        <label><input type="checkbox" name="products[<?=$product->getProductId(); ?>][]" value="<?=$choiceId;?>" />&nbsp;<?=$name;?></label>
+                    </div>
+                <? endforeach; ?>
+            </div>
+        </form>
+    </div>
+</div>

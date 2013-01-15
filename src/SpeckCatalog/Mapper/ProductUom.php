@@ -5,9 +5,8 @@ namespace SpeckCatalog\Mapper;
 class ProductUom extends AbstractMapper
 {
     protected $tableName = 'catalog_product_uom';
-    protected $dbModel = '\SpeckCatalog\Model\ProductUom';
-    protected $relationalModel = '\SpeckCatalog\Model\ProductUom\Relational';
-    protected $key = array('product_id', 'uom_code', 'quantity');
+    protected $model = '\SpeckCatalog\Model\ProductUom\Relational';
+    protected $tableKeyFields = array('product_id', 'uom_code', 'quantity');
 
     public function find(array $data)
     {
@@ -24,6 +23,6 @@ class ProductUom extends AbstractMapper
         $select = $this->getSelect()
             ->where(array('product_id' => $productId))
             ->order('quantity');
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 }

@@ -5,8 +5,8 @@ namespace SpeckCatalog\Mapper;
 class Uom extends AbstractMapper
 {
     protected $tableName = 'ansi_uom';
-    protected $relationalModel = '\SpeckCatalog\Model\Uom\Relational';
-    protected $key = array('uom_code');
+    protected $model = '\SpeckCatalog\Model\Uom\Relational';
+    protected $tableKeyFields = array('uom_code');
 
     public function find(array $data)
     {

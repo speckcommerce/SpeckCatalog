@@ -25,7 +25,7 @@ class ProductUom extends AbstractModel
      */
     public function setProductId($productId)
     {
-        $this->productId = $productId;
+        $this->productId = (int) $productId;
         return $this;
     }
 

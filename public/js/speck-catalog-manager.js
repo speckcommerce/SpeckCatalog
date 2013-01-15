@@ -124,7 +124,26 @@
 /**
  *  partial handling for new/existing records
  */
-    $('.add-new').live("submit",function(e){
+    $('form.find').live("submit",function(e){
+        e.preventDefault();
+        targetListItems(this);
+        findPartial($(this).serializeArray());
+    })
+
+    $('form.search').live("submit",function(e){
+        e.preventDefault();
+        findPartial($(this).serializeArray());
+    })
+
+    $('form.found').live("submit", function(e){
+        e.preventDefault();
+        $.post('/catalogmanager/found', $(this).serializeArray(), function(html){
+            $('.target').append(html);
+        })
+        hideModal();
+    })
+
+    $('form.add-new').live("submit",function(e){
         e.preventDefault();
         targetListItems(this);
         newPartial($(this).serializeArray());
@@ -149,6 +168,12 @@
                     }
                 )
             }
+        })
+    }
+
+    function findPartial(data=null){
+        $.post('/catalogmanager/find', data, function(html){
+            goModal(html, 'title');
         })
     }
 

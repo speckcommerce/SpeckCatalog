@@ -192,6 +192,24 @@ return array(
                             ),
                         ),
                     ),
+                    'find' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/find',
+                            'defaults' => array(
+                                'action' => 'find',
+                            ),
+                        ),
+                    ),
+                    'found' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/found',
+                            'defaults' => array(
+                                'action' => 'found',
+                            ),
+                        ),
+                    ),
                     'products' => array(
                         'type'    => 'Segment',
                         'options' => array(

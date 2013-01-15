@@ -8,10 +8,9 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 class Option extends AbstractMapper
 {
     protected $tableName = 'catalog_option';
-    protected $dbModel = '\SpeckCatalog\Model\Option';
-    protected $relationalModel = '\SpeckCatalog\Model\Option\Relational';
-    protected $key = array('option_id');
-    protected $dbFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
+    protected $model = '\SpeckCatalog\Model\Option\Relational';
+    protected $tableKeyFields = array('option_id');
+    protected $tableFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
 
     public function find(array $data)
     {
@@ -40,7 +39,7 @@ class Option extends AbstractMapper
             ->join($build, $joinBuild)
             ->where($where)
             ->order($order);
-        $result = $this->queryAll($select, true);
+        $result = $this->selectMany($select);
         return $result;
     }
 
@@ -54,7 +53,7 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array('product_id' => (int) $productId))
             ->order('sort_weight', 'ASC');
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 
     public function getByParentChoiceId($choiceId)
@@ -67,7 +66,7 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array($linker . '.choice_id' => (int) $choiceId))
             ->order('sort_weight', 'ASC');
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 
     public function sortChoices($optionId, $order)

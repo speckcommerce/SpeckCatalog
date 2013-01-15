@@ -71,6 +71,47 @@ class Product extends AbstractService
         $product->setManufacturer($manufacturer);
     }
 
+    public function getBuilderProductsForEdit(array $productIds = array())
+    {
+        return $this->getEntityMapper()->getProductsById($productIds);
+    }
+
+    public function getAllChoicesByProductId($productId)
+    {
+        $options = $this->getOptionService()->getByProductId($productId, true, true);
+        $choices = $this->getEndChoices($options);
+        foreach($choices as $choiceId => $choice) {
+            $return[$choiceId] = $this->prependParentString($choice);
+        }
+        return $return;
+    }
+
+    public function prependParentString(\SpeckCatalog\Model\AbstractModel $model, $str='')
+    {
+        $str = $model->__toString() . ($str ? " &gt; {$str}" : "");
+        if($model->has('parent')) {
+            $str = $this->prependParentString($model->getParent(), $str);
+        }
+        return $str;
+    }
+
+    public function getEndChoices($options, array $choiceIds = array())
+    {
+        foreach ($options as $option) {
+            if($option->has('choices')) {
+                foreach ($option->getChoices() as $choice) {
+                    if ($choice->has('options')) {
+                        $getEndChoices($choice->getOptions(), $choiceIds);
+                    } else {
+                        $choiceIds[$choice->getChoiceId()] = $choice;
+                    }
+                }
+            }
+        }
+        return $choiceIds;
+    }
+
+
     public function addOption($productOrId, $optionOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );

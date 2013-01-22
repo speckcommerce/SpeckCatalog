@@ -11,12 +11,6 @@ class Product extends AbstractMapper
     protected $tableKeyFields = array('product_id');
     protected $tableFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
 
-    public function find(array $data)
-    {
-        $where = array('product_id' => $data['product_id']);
-        return parent::find($where);
-    }
-
     public function getByCategoryId($categoryId, $siteId=1)
     {
         $table = $this->getTableName();

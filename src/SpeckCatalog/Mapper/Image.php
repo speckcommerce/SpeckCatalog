@@ -23,12 +23,6 @@ class Image extends AbstractMapper
         return $this;
     }
 
-    public function find(array $data)
-    {
-        $where = array('image_id' => $data['image_id']);
-        return parent::find($where);
-    }
-
     public function getImages($type, $id)
     {
         $this->setParentType($type);

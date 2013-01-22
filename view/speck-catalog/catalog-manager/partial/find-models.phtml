@@ -29,7 +29,7 @@
             <? foreach($fields as $key => $val): ?>
                 <input type="hidden" name="<?=$key;?>[<?=$n;?>]" value="<?=$val;?>" />
             <? endforeach;?>
-            <input type="checkbox" name="check[<?=$n;?>]" value="1">&nbsp;<?=$model;?></input><br/>
+            <input type="checkbox" name="check[<?=$model->getProductId();?>]" value="1">&nbsp;<?=$model;?></input><br/>
         <? endforeach; ?>
         <input type="submit">
     </form>

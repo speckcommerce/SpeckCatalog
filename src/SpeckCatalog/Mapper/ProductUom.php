@@ -8,16 +8,6 @@ class ProductUom extends AbstractMapper
     protected $model = '\SpeckCatalog\Model\ProductUom\Relational';
     protected $tableKeyFields = array('product_id', 'uom_code', 'quantity');
 
-    public function find(array $data)
-    {
-        $where = array(
-            'product_id' => $data['product_id'],
-            'uom_code'   => $data['uom_code'],
-            'quantity'   => $data['quantity'],
-        );
-        return parent::find($where);
-    }
-
     public function getByProductId($productId)
     {
         $select = $this->getSelect()

@@ -43,6 +43,13 @@ class AbstractMapper implements DbAdapterAwareInterface
         return $this->selectOneModel($select);
     }
 
+    public function findRow(array $data)
+    {
+        $select = $this->getSelect()
+            ->where($data);
+        return $this->selectOne($select);
+    }
+
     //return array or null
     public function select(Select $select, ResultSet\ResultSetInterface $resultSet = null)
     {
@@ -57,7 +64,7 @@ class AbstractMapper implements DbAdapterAwareInterface
     //return deleted nuber of rows
     public function delete(array $where, $tableName = null)
     {
-        $sql = $this->getSql($tableName ?: $this->getTableName());
+        $sql = $this->getSql()->setTable($tableName ?: $this->getTableName());
         $delete = $sql->delete();
 
         $delete->where($where);
@@ -76,18 +83,18 @@ class AbstractMapper implements DbAdapterAwareInterface
             $data = $this->cleanData($data);
         }
 
-        $sql = $this->getSql($tableName);
-        $insert = $sql->insert();
+        $sql = $this->getSql();
+        $insert = $sql->insert($tableName);
 
         $insert->values($data);
 
         $statement = $sql->prepareStatementForSqlObject($insert);
 
-        return $statement->execute();
+        return $statement->execute()->getGeneratedValue();
     }
 
     //returns affected number of rows
-    public function update($dataOrModel, $tableName = null, array $where, HydratorInterface $hydrator = null)
+    public function update($dataOrModel, array $where, $tableName = null, HydratorInterface $hydrator = null)
     {
         $tableName = $tableName ?: $this->getTableName();
         $data = $this->extract($dataOrModel, $hydrator);
@@ -95,8 +102,8 @@ class AbstractMapper implements DbAdapterAwareInterface
             $data = $this->cleanData($data);
         }
 
-        $sql = $this->getSql($tableName);
-        $update = $sql->update();
+        $sql = $this->getSql();
+        $update = $sql->update($tableName);
 
         $update->set($data)
             ->where($where);
@@ -160,9 +167,9 @@ class AbstractMapper implements DbAdapterAwareInterface
         if (!is_array($this->tableFields) || !count($this->tableFields)) {
             return $data;
         }
-        foreach ($data as $field) {
-            if (!array_key_exists($field, $this->getTableFields())) {
-                unset($data[$field]);
+        foreach ($data as $key => $val) {
+            if (!in_array($key, $this->getTableFields())) {
+                unset($data[$key]);
             }
         }
         return $data;
@@ -216,10 +223,14 @@ class AbstractMapper implements DbAdapterAwareInterface
     /**
      * @return model
      */
-    public function getModel()
+    public function getModel(array $data = null)
     {
         if (is_string($this->model) && class_exists($this->model)) {
-            return new $this->model();
+            if ($data) {
+                $hydrator = $hydrator ?: $this->getHydrator();
+                return $hydrator->hydrate($data, $model);
+            }
+            return new $this->model;
         }else{
             throw new \RuntimeException('could not instantiate model - ' . $this->model);
         }
@@ -238,13 +249,10 @@ class AbstractMapper implements DbAdapterAwareInterface
     /**
      * @return Sql
      */
-    protected function getSql($tableName = null)
+    protected function getSql()
     {
         if (!$this->sql instanceof Sql) {
             $this->sql = new Sql($this->getDbAdapter());
-        }
-        if ($tableName) {
-            $this->sql->setTable($tableName);
         }
 
         return $this->sql;

@@ -13,39 +13,38 @@ class ChildViewRenderer extends AbstractHelper
     // @todo replace with option
     protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
-    public function __invoke($name=null, $objects=null)
+    public function __invoke($name, $views = array())
     {
-        if(!$name) {
-            throw new \Exception('need a name');
+        $html = '';
+        foreach ($views as $view) {
+            $html .= $this->renderChild($name, $view);
         }
-        if (null === $objects) {
-            return;
-        }
-        $views = '';
-        foreach ($objects as $object) {
-            $child = new ViewModel(array($this->camel($name) => $object));
-            $child->setTemplate($this->partialDir . $this->templateName($name) . '.phtml');
-            $views .= $this->getView()->render($child);
-        }
-        return $views;
+        return $html;
     }
 
-    protected function templateName($name)
+    public function renderChild($name, $data)
+    {
+        $child = new ViewModel(array($this->camel($name) => $data));
+        $child->setTemplate($this->templateName($name));
+        return $this->getView()->render($child);
+    }
+
+    public function templateName($name)
     {
         if ($name === 'product') {
             return 'product-clip';
         } else {
-            return $this->dash($name);
+            return $this->partialDir . $this->dash($name);
         }
     }
 
-    protected function camel($name)
+    public function camel($name)
     {
         $camel = new \Zend\Filter\Word\UnderscoreToCamelCase;
         return lcfirst($camel->__invoke($name));
     }
 
-    protected function dash($name)
+    public function dash($name)
     {
         $dash = new \Zend\Filter\Word\UnderscoreToDash;
         return $dash->__invoke($name);

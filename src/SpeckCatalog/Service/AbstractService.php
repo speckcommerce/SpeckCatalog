@@ -20,9 +20,9 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $model;
     }
 
-    public function getEntity($construct=null)
+    public function getModel($construct=null)
     {
-        return $this->getEntityMapper()->getEntityPrototype($construct);
+        return $this->getEntityMapper()->getModel($construct);
     }
 
     public function getAll()

@@ -43,7 +43,7 @@ class CatalogManagerController extends AbstractActionController
 
     public function newProductAction()
     {
-        $product = $this->getService('product')->getEntity();
+        $product = $this->getService('product')->getModel();
         return new ViewModel(array('product' => $product));
     }
 
@@ -75,7 +75,7 @@ class CatalogManagerController extends AbstractActionController
         $parent     = $postParams['parent'];
 
         $parent = $this->getService($parentName)->find($parent);
-        $child  = $this->getService($childName)->getEntity();
+        $child  = $this->getService($childName)->getModel();
 
         $child->setParent($parent);
 
@@ -84,10 +84,15 @@ class CatalogManagerController extends AbstractActionController
         return $this->partialView($partial, $viewVars);
     }
 
-    //returns entity
+    //returns main view variable(product/option/etc)
     protected function persist($class, $form)
     {
         $service = $this->getService($class);
+
+        if (method_exists($service, 'persist')) {
+            return $service->persist($form);
+        }
+
         $originalData = $form->getOriginalData();
         $data = $form->getData();
 
@@ -164,22 +169,21 @@ class CatalogManagerController extends AbstractActionController
     {
         $postParams = $this->params()->fromPost();
 
-        if ($postParams['child_name'] === 'builder_product') {
-            foreach($postParams['check'] as $key => $checked) {
-                $productIds[] = $postParams['product_id'][$key];
-            }
-            $products = $this->getService('product')->getBuilderProductsForEdit($productIds);
-            $choices = $this->getService('product')->getAllChoicesByProductId($postParams['parent']['product_id']);
+        $objects = array();
 
-            $container = new ViewModel();
-            $container->setTemplate('/layout/nolayout')->setTerminal(true);
-            foreach($products as $product) {
-                $view = new ViewModel(array('product' => $product, 'choices' => $choices));
-                $view->setTemplate($this->partialDir . 'builder-product');
-                $container->addChild($view);
+        if ($postParams['child_name'] === 'builder_product') {
+            $parentProductId = $postParams['parent']['product_id'];
+            $productIds = array_keys($postParams['check']);
+            foreach ($productIds as $productId) {
+                $objects[] = $this->getService('builder_product')->newBuilderForProduct($productId, $parentProductId);
             }
         }
-        return $container->setTerminal(true);
+
+        $viewHelperManager = $this->getServiceLocator()->get('viewhelpermanager');
+        $viewHelper = $viewHelperManager->get('speckCatalogRenderChildren');
+        $content = $viewHelper->__invoke($postParams['child_name'], $objects);
+        $response = $this->getResponse()->setContent($content);
+        return $response;
     }
 
     public function sortAction()
@@ -232,6 +236,7 @@ class CatalogManagerController extends AbstractActionController
         $this->layout(false);
         $view = new ViewModel($viewVars);
         $view->setTemplate($this->partialDir . $partial);
+
         return $view;
     }
 

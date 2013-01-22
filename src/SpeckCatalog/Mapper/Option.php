@@ -12,37 +12,6 @@ class Option extends AbstractMapper
     protected $tableKeyFields = array('option_id');
     protected $tableFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
 
-    public function find(array $data)
-    {
-        $where = array('option_id' => $data['option_id']);
-        return parent::find($where);
-    }
-
-    public function getBuildersByProductId($productId)
-    {
-        $link = 'catalog_product_option';
-        $opt = 'catalog_option';
-        $build = 'catalog_builder_product';
-        $joinOpt = $link . '.option_id = ' . $opt . '.option_id';
-        $joinBuild = $opt . '.option_id = ' . $build . '.option_id';
-        $where = array(
-            $opt . '.builder' => 1,
-            $link . '.product_id' => $productId
-        );
-        $order = array(
-            $link . '.product_id',
-            $build . '.choice_id'
-        );
-
-        $select = $this->getSelect($link)
-            ->join($opt, $joinOpt)
-            ->join($build, $joinBuild)
-            ->where($where)
-            ->order($order);
-        $result = $this->selectMany($select);
-        return $result;
-    }
-
     public function getByProductId($productId)
     {
         $linker = 'catalog_product_option';

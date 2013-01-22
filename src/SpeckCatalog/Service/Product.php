@@ -11,6 +11,7 @@ class Product extends AbstractService
     protected $documentService;
     protected $specService;
     protected $companyService;
+    protected $builderService;
 
     public function find(array $data, $populate=false, $recursive=false)
     {
@@ -52,7 +53,7 @@ class Product extends AbstractService
         $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
         $product->setOptions($options);
 
-        $builders = $this->getOptionService()->getBuildersByProductId($productId);
+        $builders = $this->getBuilderService()->getBuildersByProductId($productId);
         $product->setBuilders($builders);
 
         $images = $this->getImageService()->getImages('product', $productId);
@@ -71,44 +72,9 @@ class Product extends AbstractService
         $product->setManufacturer($manufacturer);
     }
 
-    public function getBuilderProductsForEdit(array $productIds = array())
+    public function getProductsById(array $productIds = array())
     {
         return $this->getEntityMapper()->getProductsById($productIds);
-    }
-
-    public function getAllChoicesByProductId($productId)
-    {
-        $options = $this->getOptionService()->getByProductId($productId, true, true);
-        $choices = $this->getEndChoices($options);
-        foreach($choices as $choiceId => $choice) {
-            $return[$choiceId] = $this->prependParentString($choice);
-        }
-        return $return;
-    }
-
-    public function prependParentString(\SpeckCatalog\Model\AbstractModel $model, $str='')
-    {
-        $str = $model->__toString() . ($str ? " &gt; {$str}" : "");
-        if($model->has('parent')) {
-            $str = $this->prependParentString($model->getParent(), $str);
-        }
-        return $str;
-    }
-
-    public function getEndChoices($options, array $choiceIds = array())
-    {
-        foreach ($options as $option) {
-            if($option->has('choices')) {
-                foreach ($option->getChoices() as $choice) {
-                    if ($choice->has('options')) {
-                        $getEndChoices($choice->getOptions(), $choiceIds);
-                    } else {
-                        $choiceIds[$choice->getChoiceId()] = $choice;
-                    }
-                }
-            }
-        }
-        return $choiceIds;
     }
 
 
@@ -278,6 +244,27 @@ class Product extends AbstractService
     public function setCompanyService($companyService)
     {
         $this->companyService = $companyService;
+        return $this;
+    }
+
+    /**
+     * @return builderService
+     */
+    public function getBuilderService()
+    {
+        if (null === $this->builderService) {
+            $this->builderService = $this->getServiceLocator()->get('speckcatalog_builder_product_service');
+        }
+        return $this->builderService;
+    }
+
+    /**
+     * @param $builderService
+     * @return self
+     */
+    public function setBuilderService($builderService)
+    {
+        $this->builderService = $builderService;
         return $this;
     }
 }

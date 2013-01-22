@@ -15,12 +15,6 @@ class Choice extends AbstractMapper
         'sort_weight'
     );
 
-    public function find(array $data)
-    {
-        $where = array('choice_id' => (int) $data['choice_id']);
-        return parent::find($where);
-    }
-
     public function getByOptionId($optionId)
     {
         $select = $this->getSelect()

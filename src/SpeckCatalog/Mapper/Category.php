@@ -9,12 +9,6 @@ class Category extends AbstractMapper
     protected $tableKeyFields = array('category_id');
     protected $tableFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
 
-    public function find(array $data)
-    {
-        $where = array('category_id' => (int) $data['category_id']);
-        return parent::find($where);
-    }
-
     public function getChildCategories($parentCategoryId=null, $siteId=1)
     {
         $linker = 'catalog_category_website';

@@ -37,6 +37,7 @@ class Option extends AbstractService
     public function getBuildersByProductId($productId)
     {
         $choices = $this->getEntityMapper()->getBuildersByProductId($productId);
+        var_dump($choices); die();
         $builders = array();
         foreach ($choices as $choice) {
             $builders[$choice['product_id']][] = $choice['choice_id'];
@@ -75,6 +76,12 @@ class Option extends AbstractService
         $parent = $this->getExistingParent($option);
         $option = parent::insert($option);
 
+        if($parent instanceOf \SpeckCatalog\Model\Product) {
+            $this->getProductService()->addOption($parent, $option);
+        }
+        if($parent instanceOf \SpeckCatalog\Model\Choice) {
+            $this->getChoiceService()->addOption($parent, $option);
+        }
         return $option->setParent($parent);
     }
 

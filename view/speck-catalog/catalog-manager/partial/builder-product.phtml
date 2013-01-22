@@ -1,7 +1,11 @@
 <?
 $product = $builderProduct['product'];
+
+$parentProductKeyFields = array('product_id' => $builderProduct['parent_product_id']);
+$builderKeyFields = array('product_id' => $builderProduct['product_id']);
+
 $formHelper = $this->speckCatalogForm(null, 'builder_product');
-$formHelper->getForm()->init($builderProduct);
+$formHelper->getForm()->setData($builderProduct);
 ?>
 
 <div id="" class="builder contrastbg boundary shadow">
@@ -9,7 +13,7 @@ $formHelper->getForm()->init($builderProduct);
         <div class="collapser left"><i class="icon-chevron-down"></i></div>
         <div class="title sort-handle collapser left">&nbsp; <?=$product->__toString();?></div>
         <div class="remover right">
-            <?//= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'option', $optionKeyFields); ?>
+            <?= $this->speckCatalogAdderHelper()->removeChild('product', $parentProductKeyFields, 'builder', $builderKeyFields); ?>
         </div>
     </div>
     <div class="entity-content">

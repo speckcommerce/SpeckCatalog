@@ -62,6 +62,27 @@ class Product extends AbstractMapper
         return $return;
     }
 
+    public function removeBuilder($productId, $builderProductId)
+    {
+        $c_b_p = 'catalog_builder_product';
+        $c_p_o = 'catalog_product_option';
+
+        $select = $this->getSelect($c_b_p)
+            ->columns(array('product_id', 'choice_id', 'option_id'))
+            ->join($c_p_o, $c_p_o.'.option_id='.$c_b_p.'.option_id', array())
+            ->where(array(
+                $c_b_p.'.product_id' => $builderProductId,
+                $c_p_o.'.product_id' => $productId,
+            ));
+        $rows = $this->selectMany($select);
+
+        foreach($rows as $row) {
+            $this->delete($row, $c_b_p);
+        }
+
+        return true;
+    }
+
     public function sortOptions($productId, $order)
     {
         $table = 'catalog_product_option';

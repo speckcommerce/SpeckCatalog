@@ -9,44 +9,7 @@ class Builder extends AbstractForm
     public function __construct($options = array())
     {
         parent::__construct();
-    }
 
-    public function init($builderProduct)
-    {
-        $options = $builderProduct['options'];
-        $productId = $builderProduct['product_id'];
-        $parentProductId = $builderProduct['parent_product_id'];
-
-        $products = array();
-        foreach ($options as $optionId => $option) {
-            ini_set('html_errors',1);
-            $name = 'products[' . $productId . ']['.$optionId.']';
-            $products[$productId][$optionId] = $option['selected'];
-            $this->add(array(
-                'name' => $name,
-                'type' => 'Zend\Form\Element\Select',
-                'attributes' => array(
-                    'type' => 'select',
-                    'options' => $option['choices'],
-                ),
-                'options' => array(
-                    'label' => ''
-                ),
-            ));
-            $this->get($name)->setValue($option['selected']);
-            $this->get($name)->setEmptyOption('-- ' . $option['name'] . ' --');
-        }
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Hidden',
-            'name' => 'product_id',
-            'attributes' => array(
-                'type' => 'hidden',
-            ),
-            'options' => array(
-                'label' => '',
-            ),
-        ));
-        $this->get('product_id')->setValue($options['product_id']);
         $this->add(array(
             'type' => 'Zend\Form\Element\Hidden',
             'name' => 'parent_product_id',
@@ -57,11 +20,49 @@ class Builder extends AbstractForm
                 'label' => '',
             ),
         ));
-        $this->get('product_id')->setValue($builderProduct['parent_product_id']);
-        $this->setData(array(
-            'products'          => $products,
-            'product_id'        => $productId,
-            'parent_product_id' => $parentProductId,
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Hidden',
+            'name' => 'product_id',
+            'attributes' => array(
+                'type' => 'hidden',
+            ),
+            'options' => array(
+                'label' => '',
+            ),
         ));
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
+        if (isset($data['options'])) {
+            if (!isset($data['product_id']) || !isset($data['parent_product_id'])) {
+                throw new \RuntimeExecption('didnt get product id or parent');
+            }
+            $this->addOptions($data['options']);
+        }
+        parent::setData($this->data);
+    }
+
+    public function addOptions($options)
+    {
+        $productId = $this->data['product_id'];
+        foreach ($options as $optionId => $option) {
+            $this->data['products'][$productId][$optionId] = $option['selected'];
+            $name =  'products['.$productId.']['.$optionId.']';
+            $this->add(array(
+                'name' => $name,
+                'type' => 'Zend\Form\Element\Select',
+                'attributes' => array(
+                    'type' => 'select',
+                    'options' => $option['choices'],
+                ),
+                'options' => array(
+                    'empty_option' => '-- ' . $option['name'] . ' --',
+                    'label' => ''
+                ),
+            ));
+            $this->get($name)->setValue($option['selected']);
+        }
     }
 }

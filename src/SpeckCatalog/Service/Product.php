@@ -101,6 +101,14 @@ class Product extends AbstractService
         return $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
+    public function removeBuilder(array $product, array $builder)
+    {
+        $productId  = $product['product_id'];
+        $builderProductId = $builder['product_id'];
+
+        return $this->getEntityMapper()->removeBuilder($productId, $builderProductId);
+    }
+
     public function insert($product)
     {
         $id = parent::insert($product);

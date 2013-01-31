@@ -9,7 +9,7 @@ class ProductUom extends AbstractModel
     protected $price;
     protected $retail;
     protected $quantity;
-    protected $sortWeight;
+    protected $sortWeight = 0;
 
     /**
      * @return productId

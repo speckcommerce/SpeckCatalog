@@ -68,6 +68,16 @@ return array(
                     ),
                 ),
             ),
+            'partial/options' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/partial/options',
+                    'defaults' => array(
+                        'controller' => 'speckcatalog_product',
+                        'action' => 'optionsPartial'
+                    ),
+                ),
+            ),
             'catalog' => array(
                 'type' => 'Literal',
                 'priority' => 1000,

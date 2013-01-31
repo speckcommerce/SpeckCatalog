@@ -63,7 +63,9 @@ class CatalogManagerController extends AbstractActionController
     {
         $productService = $this->getService('product');
         $product = $productService->getFullProduct($this->params('id'));
-        return new ViewModel(array('product' => $product));
+
+        $vars = array('product' => $product);
+        return new ViewModel($vars);
     }
 
     //return the partial for a new record.
@@ -154,9 +156,8 @@ class CatalogManagerController extends AbstractActionController
         $postParams = $this->params()->fromPost();
 
         $models = array();
-        //todo :finish this up - just getting all products (with paginator) for now.
         if(isset($postParams['query'])) {
-            $models = $this->getService($postParams['parent_name'])->usePaginator()->getAll();
+            $models = $this->getService($postParams['parent_name'])->search($postParams['query']);
         }
 
         $this->layout(false);

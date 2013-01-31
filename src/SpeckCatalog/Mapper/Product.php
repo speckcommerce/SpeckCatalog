@@ -11,6 +11,15 @@ class Product extends AbstractMapper
     protected $tableKeyFields = array('product_id');
     protected $tableFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
 
+    public function search($string)
+    {
+        $like = new Predicate\Like('name', '%' . $string . '%');
+        //$select = $this->getSelect()->where($like); //after zf 2.1
+        $select = $this->getSelect()->where(array($like));
+
+        return $this->selectManyModels($select);
+    }
+
     public function getByCategoryId($categoryId, $siteId=1)
     {
         $table = $this->getTableName();
@@ -30,8 +39,8 @@ class Product extends AbstractMapper
         $row = array('product_id' => $productId, 'option_id' => $optionId);
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->selectOne($select);
-        if (false === $result) {
+        $linker = $this->selectOne($select);
+        if (false === $linker) {
             $this->insert($row, $table);
         }
     }

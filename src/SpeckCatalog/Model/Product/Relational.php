@@ -253,9 +253,11 @@ class Relational extends Base
      * @param $manufacturer
      * @return self
      */
-    public function setManufacturer($manufacturer)
+    public function setManufacturer(\SpeckContact\Entity\Company $manufacturer = null)
     {
-        $manufacturer->setParent($this);
+        if ($manufacturer) {
+            $manufacturer->setParent($this);
+        }
         $this->manufacturer = $manufacturer;
         return $this;
     }

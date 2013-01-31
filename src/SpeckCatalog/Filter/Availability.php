@@ -24,5 +24,11 @@ class Availability extends InputFilter
             'name' => 'cost',
             'allow_empty' => false,
         ));
+        $this->add(array(
+            'name' => 'distributor_item_number',
+        ));
+        $this->add(array(
+            'name' => 'distributor_uom_code',
+        ));
     }
 }

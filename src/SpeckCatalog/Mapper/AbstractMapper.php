@@ -79,8 +79,13 @@ class AbstractMapper implements DbAdapterAwareInterface
     {
         $tableName = $tableName ?: $this->getTableName();
         $data = $this->extract($dataOrModel, $hydrator);
-        if($tableName === $this->getTableName()) {
+
+        if ($tableName === $this->getTableName()) {
             $data = $this->cleanData($data);
+        }
+
+        if ($tableName === $this->getTableName() && $this->findRow($this->dataToKeyData($data))) {
+            throw new \RuntimeException('row already exists');
         }
 
         $sql = $this->getSql();
@@ -89,9 +94,23 @@ class AbstractMapper implements DbAdapterAwareInterface
         $insert->values($data);
 
         $statement = $sql->prepareStatementForSqlObject($insert);
+        $result = $statement->execute();
 
-        return $statement->execute()->getGeneratedValue();
+        return $result->getGeneratedValue();
     }
+
+    public function dataToKeyData($data)
+    {
+        if(!is_array($this->getTableKeyFields())) {
+            throw new \RuntimeException('no key fields for:' . $this->getTableName());
+        }
+        foreach ($this->getTableKeyFields() as $field) {
+            $return[$field] = $data[$field];
+        }
+        return $return;
+    }
+
+
 
     //returns affected number of rows
     public function update($dataOrModel, array $where, $tableName = null, HydratorInterface $hydrator = null)
@@ -164,7 +183,7 @@ class AbstractMapper implements DbAdapterAwareInterface
 
     public function cleanData($data)
     {
-        if (!is_array($this->tableFields) || !count($this->tableFields)) {
+        if (!is_array($this->getTableFields()) || !count($this->getTableFields())) {
             return $data;
         }
         foreach ($data as $key => $val) {
@@ -344,6 +363,24 @@ class AbstractMapper implements DbAdapterAwareInterface
     public function setTableFields($tableFields)
     {
         $this->tableFields = $tableFields;
+        return $this;
+    }
+
+    /**
+     * @return tableKeyFields
+     */
+    public function getTableKeyFields()
+    {
+        return $this->tableKeyFields;
+    }
+
+    /**
+     * @param $tableKeyFields
+     * @return self
+     */
+    public function setTableKeyFields($tableKeyFields)
+    {
+        $this->tableKeyFields = $tableKeyFields;
         return $this;
     }
 }

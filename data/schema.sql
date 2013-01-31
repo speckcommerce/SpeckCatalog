@@ -812,7 +812,9 @@ INSERT INTO `ansi_uom` (`uom_code`, `name`, `enabled`) VALUES
 CREATE TABLE IF NOT EXISTS `catalog_availability` (
   `product_id` int(11) NOT NULL,
   `uom_code` char(2) NOT NULL,
-  `distributor_id` int(10) unsigned NOT NULL,
+  `distributor_id` int(11) unsigned NOT NULL,
+  `distributor_uom_code` VARCHAR(255) DEFAULT NULL,
+  `distributor_item_number` VARCHAR(255) DEFAULT NULL,
   `cost` decimal(15,5) NOT NULL,
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`product_id`,`uom_code`,`distributor_id`,`quantity`),
@@ -1062,6 +1064,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_uom` (
   `sort_weight` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`uom_code`,`product_id`,`quantity`),
   KEY `fk_catalog_product_uom_uom_code_idx` (`uom_code`),
+  KEY `fk_catalog_product_uom_quantity_idx` (`quantity`),
   KEY `fk_catalog_product_uom_product_id_idx` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1082,8 +1085,8 @@ CREATE TABLE IF NOT EXISTS `catalog_builder_product` (
 -- -----------------------------------------------------
 -- Data for table `catalog_product_type`
 -- -----------------------------------------------------
--- START TRANSACTION;
--- INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (1, 'Shell');
--- INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (2, 'Product');
---
--- COMMIT;
+START TRANSACTION;
+INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (1, 'Shell');
+INSERT INTO `catalog_product_type` (`product_type_id`, `name`) VALUES (2, 'Product');
+
+COMMIT;

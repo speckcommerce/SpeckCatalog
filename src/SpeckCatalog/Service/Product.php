@@ -122,11 +122,9 @@ class Product extends AbstractService
         //
     }
 
-    public function getByCategoryId($categoryId, $paginatorOptions=array())
+    public function getByCategoryId($categoryId)
     {
-        return $this->usePaginator($paginatorOptions)
-            ->getEntityMapper()
-            ->getByCategoryId($categoryId);
+        return $this->getEntityMapper()->getByCategoryId($categoryId);
     }
 
     /**

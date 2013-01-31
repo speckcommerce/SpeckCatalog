@@ -8,6 +8,7 @@ class Builder extends AbstractMapper
 {
     protected $tableName = 'catalog_builder_product';
     protected $tableFields = array('product_id', 'choice_id', 'option_id');
+    protected $tableKeyFields = array('product_id', 'choice_id', 'option_id');
 
     public function persist($row)
     {

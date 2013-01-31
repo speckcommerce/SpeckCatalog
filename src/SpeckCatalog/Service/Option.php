@@ -78,11 +78,13 @@ class Option extends AbstractService
 
         if($parent instanceOf \SpeckCatalog\Model\Product) {
             $this->getProductService()->addOption($parent, $option);
+            $option->setParent($parent);
         }
         if($parent instanceOf \SpeckCatalog\Model\Choice) {
             $this->getChoiceService()->addOption($parent, $option);
+            $option->setParent($parent);
         }
-        return $option->setParent($parent);
+        return $option;
     }
 
     public function getExistingParent($option)

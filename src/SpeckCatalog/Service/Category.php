@@ -48,7 +48,7 @@ class Category extends AbstractService
         if (!$category) return;
 
         $categories = $this->getChildCategories($categoryId);
-        $products = $this->getProductService()->getByCategoryId($categoryId, $paginationOptions);
+        $products = $this->getProductService()->usePaginator($paginationOptions)->getByCategoryId($categoryId);
         foreach($products as $product){
             $product->setImages($this->getProductImageService()->getImages('product', $product->getProductId()));
             $product->setUoms($this->getProductUomService()->getByProductId($product->getProductId()));
@@ -67,16 +67,18 @@ class Category extends AbstractService
 
     public function addProduct($categoryOrId, $productOrId)
     {
-        $categoryId = ( is_int($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
-        $productId = ( is_int($productOrId) ? $productOrId  : $productOrId->getProductId() );
+        $categoryId = ( is_numeric($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
+        $productId = ( is_numeric($productOrId) ? $productOrId  : $productOrId->getProductId() );
 
         return $this->getEntityMapper()->addProduct($categoryId, $productId);
     }
 
-
     public function addCategory($parentCategoryOrIdOrNull = null, $categoryOrId)
     {
-        $categoryId = ( is_int($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
+        if (null === $categoryOrId) {
+            throw new \RuntimeException('categoryOrId cannot be null');
+        }
+        $categoryId = ( is_numeric($categoryOrId) ? $categoryOrId : $categoryOrId->getCategoryId() );
 
         $parentCategoryId = (
             is_int($parentCategoryOrIdOrNull)

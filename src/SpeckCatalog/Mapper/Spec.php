@@ -4,8 +4,10 @@ namespace SpeckCatalog\Mapper;
 
 class Spec extends AbstractMapper
 {
-    protected $tableName = 'catalog_product_spec';
-    protected $model = '\SpeckCatalog\Model\Spec\Relational';
+    protected $tableName      = 'catalog_product_spec';
+    protected $model          = '\SpeckCatalog\Model\Spec\Relational';
+    protected $tableFields    = array('spec_id', 'product_id', 'label', 'value');
+    protected $tableKeyFields = array('spec_id');
 
     public function getByProductId($productId)
     {

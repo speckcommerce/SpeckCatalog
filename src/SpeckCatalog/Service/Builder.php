@@ -50,6 +50,20 @@ class Builder extends AbstractService
         return $return;
     }
 
+    public function buildersToProductCsv($builders)
+    {
+        $csv = array();
+        foreach($builders as $productId => $product) {
+            foreach($product['options'] as $optionId => $option) {
+                $csv[$productId][] = $option['selected'];
+            }
+        }
+        foreach($csv as $productId => $choiceIds) {
+            $csv[$productId] = implode(',', $choiceIds);
+        }
+        return $csv;
+    }
+
     public function getProduct($productId)
     {
         return $this->getProductService()->find(array('product_id' => $productId));

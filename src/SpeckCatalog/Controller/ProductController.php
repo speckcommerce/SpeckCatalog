@@ -38,8 +38,11 @@ class ProductController extends AbstractActionController
         $uomString  = isset($postParams['uom_string']) ? $postParams['uom_string'] : null;
         $quantity   = isset($postParams['quantity'])   ? $postParams['quantity']   : null;
 
-        $service = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
-        $uoms    = $service->getByProductId($productId, true, true);
+        $html     = '';
+        $response = $this->getResponse();
+
+        $service  = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
+        $uoms     = $service->getByProductId($productId, true, true);
 
         if ($uoms) {
             $helperMgr  = $this->getServiceLocator()->get('viewhelpermanager');
@@ -47,8 +50,7 @@ class ProductController extends AbstractActionController
             $html      .= $viewHelper->__invoke($uoms, $uomString, $quantity);
         }
 
-        $response = $this->getResponse()->setContent($html);
-        return $response;
+        return $response->setContent($html);
     }
 
     public function optionsPartialAction()

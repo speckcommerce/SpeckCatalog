@@ -1,5 +1,10 @@
     body{ margin:50px; background:#ffffff;}
     form{ margin-bottom:0 !important}
+    #subnav { 
+        position:absolute; top: 40px; left:0; 
+        width:100%; 
+        background-color:#D9D9D9; 
+    }
     .smallcaps{font-variant:small-caps; font-size:13px; color:#555555; font-weight:bold}
     .boundary{
         margin: 6px;

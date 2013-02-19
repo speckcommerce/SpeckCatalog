@@ -271,6 +271,8 @@
     }
 
 $(document).ready(function(){
+    //switch the parent layout to fluid
+    $('body .navbar-inner .container').removeClass('container').addClass('container-fluid');
     initialCollapse()
     doSort()
 })

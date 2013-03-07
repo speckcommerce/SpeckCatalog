@@ -62,15 +62,21 @@ class Module
         $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables.post', array($this, 'constraints'));
     }
 
-    public function createTables($sm)
+    public function createTables($e)
     {
+        $mapper = $e->getParam('mapper');
         $create = file_get_contents(__DIR__ .'/data/schema.sql');
+        $mapper->query($create);
+
         return "SpeckCatalog created tables";
     }
 
-    public function constraints($sm)
+    public function constraints($e)
     {
+        $mapper = $e->getParam('mapper');
         $alter = file_get_contents(__DIR__ .'/data/alter.sql');
+        $mapper->query($alter);
+
         return "SpeckCatalog added table constraints";
     }
 

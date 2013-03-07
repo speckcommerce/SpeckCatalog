@@ -2,17 +2,34 @@
 
 namespace SpeckCatalog\Mapper;
 
-class Company extends AbstractMapper
-{
-    protected $tableName = 'contact_company';
-    protected $relationalModel = '\SpeckCatalog\Model\Company\Relational';
-    protected $dbModel = '\SpeckCatalog\Model\Company';
-    protected $key = array('company_id');
+use SpeckContact\Mapper\CompanyMapper;
+use Zend\Db\Sql\Select;
+use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
+use SpeckCatalog\Model\Company\Relational as Model;
 
-    public function find($companyId)
+class Company extends CompanyMapper
+{
+    public function __construct()
     {
-        $select = $this->getSelect()
-            ->where(array('company_id' => (int) $companyId));
-        return $this->selectOne($select);
+        $this->setHydrator(new Hydrator);
+        $this->setEntityPrototype(new Model);
+    }
+
+    public function find(array $data)
+    {
+        $select = new Select('contact_company');
+        $select->where(array('company_id' => $data['company_id']))
+            ->limit(1);
+        return $this->select($select)->current();
+    }
+
+    public function getAll()
+    {
+        $select = new Select('contact_company');
+        $result = $this->select($select);
+        foreach ($result as $row) {
+            $return[] = $row;
+        }
+        return $return;
     }
 }

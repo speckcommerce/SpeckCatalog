@@ -8,11 +8,6 @@ class Document extends AbstractService
 
     public function getDocuments($productId)
     {
-        return $this->getEntityMapper()->getDocuments($productId);
-    }
-
-    public function addLinker($parentName, $parentId, $image)
-    {
-        return $this->getEntityMapper()->addLinker($parentName, $parentId, $image);
+        return $this->getEntityMapper()->getByProductId($productId);
     }
 }

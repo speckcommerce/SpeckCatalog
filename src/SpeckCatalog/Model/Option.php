@@ -7,7 +7,7 @@ class Option extends AbstractModel
     protected $optionId;
     protected $name;
     protected $instruction;
-    protected $required;
+    protected $required = 0;
     protected $optionTypeId;
     protected $builder = 0;
 

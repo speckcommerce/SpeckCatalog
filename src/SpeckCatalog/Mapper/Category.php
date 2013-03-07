@@ -5,17 +5,9 @@ namespace SpeckCatalog\Mapper;
 class Category extends AbstractMapper
 {
     protected $tableName = 'catalog_category';
-    protected $relationalModel = '\SpeckCatalog\Model\Category\Relational';
-    protected $dbModel = '\SpeckCatalog\Model\Category';
-    protected $key = array('category_id');
-    protected $dbFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
-
-    public function find(array $data)
-    {
-        $select = $this->getSelect()
-            ->where(array('category_id' => (int) $data['category_id']));
-        return $this->selectOne($select);
-    }
+    protected $model = '\SpeckCatalog\Model\Category\Relational';
+    protected $tableKeyFields = array('category_id');
+    protected $tableFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
 
     public function getChildCategories($parentCategoryId=null, $siteId=1)
     {
@@ -34,7 +26,7 @@ class Category extends AbstractMapper
         $query = $this->getSelect()
             ->join($linker, $joinString)
             ->where($where);
-        return $this->selectMany($query);
+        return $this->selectManyModels($query);
     }
 
     //this method requires no linkers are orphaned.
@@ -52,7 +44,7 @@ class Category extends AbstractMapper
         $query = $this->getSelect($linkerTable)
             ->where($where)
             ->limit(1);
-        $linker = $this->queryOne($query);
+        $linker = $this->selectOne($query);
 
         if ($linker) {
             $parent = $this->find(array('category_id' => $linker['parent_category_id']));
@@ -72,7 +64,7 @@ class Category extends AbstractMapper
         );
         $select = $this->getSelect($table)
             ->where($row);
-        $result = $this->queryOne($select);
+        $result = $this->selectOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }
@@ -96,7 +88,7 @@ class Category extends AbstractMapper
         );
         $select = $this->getSelect($table)
             ->where($where);
-        $result = $this->queryOne($select);
+        $result = $this->selectOne($select);
         if (false === $result) {
             $this->insert($row, $table);
         }

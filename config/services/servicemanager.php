@@ -24,7 +24,6 @@ return array(
         },
         'speckcatalog_product_form' => function ($sm) {
             $form = new \SpeckCatalog\Form\Product;
-            $companyService = $sm->get('speckcatalog_company_service');
             $form->setCompanyService($sm->get('speckcatalog_company_service'));
             return $form->init();
         },
@@ -39,8 +38,7 @@ return array(
     ),
     'initializers' => array(
         function($instance, $sm){
-            if($instance instanceof Mapper\DbAdapterAwareInterface){
-                $sm = $sm->getServiceLocator();
+            if($instance instanceof \SpeckCatalog\Mapper\DbAdapterAwareInterface){
                 $dbAdapter = $sm->get('speckcatalog_db');
                 $instance->setDbAdapter($dbAdapter);
             }

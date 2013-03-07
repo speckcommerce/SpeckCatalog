@@ -20,6 +20,10 @@
         "zendframework/zendframework": "2.*",
         "zf-commons/zfc-user": "dev-master",
         "speckcommerce/speck-contact": "dev-master"
+        "speckcommerce/speck-cart": "dev-master"
+    },
+    "require-dev": {
+        "mockery/mockery": ">=0.7.2"
     },
     "autoload": {
         "psr-0": {

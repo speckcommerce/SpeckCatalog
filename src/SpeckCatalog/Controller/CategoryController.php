@@ -14,17 +14,20 @@ class CategoryController extends AbstractActionController
     {
         $paginatorVars = $this->getPaginatorVars();
 
-        $id = $this->params('id');
-        $category = $this->getServiceLocator()->get('speckcatalog_category_service')->getCategoryForView($id, $paginatorVars);
+        $id       = $this->params('id');
+        $service  = $this->getServiceLocator()->get('speckcatalog_category_service');
+        $category = $service->getCategoryForView($id, $paginatorVars);
+
         if (null === $category) {
             throw new \Exception('fore oh fore');
         }
+
         $paginatorVars['categoryId'] = $category->getCategoryId();
+
         return new ViewModel(array(
             'category' => $category,
             'paginatorVars' => $paginatorVars,
-            )
-        );
+        ));
     }
 
     function setCatalogService($catalogService)

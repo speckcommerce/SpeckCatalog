@@ -58,6 +58,26 @@ return array(
                     ),
                 ),
             ),
+            'partial/uoms' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/partial/uoms',
+                    'defaults' => array(
+                        'controller' => 'speckcatalog_product',
+                        'action' => 'uomsPartial'
+                    ),
+                ),
+            ),
+            'partial/options' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/partial/options',
+                    'defaults' => array(
+                        'controller' => 'speckcatalog_product',
+                        'action' => 'optionsPartial'
+                    ),
+                ),
+            ),
             'catalog' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
@@ -134,153 +154,175 @@ return array(
                     ),
                 ),
             ),
-            'catalogmanager' => array(
-                'type' => 'Segment',
-                'priority' => 1000,
-                'options' => array(
-                    'route' => '/catalogmanager',
-                    'defaults' => array(
-                        'controller' => 'speckcatalog_manager',
-                        'action' => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
+            'zfcadmin' => array(
                 'child_routes' => array(
-                    'new-product' => array(
-                        'type'    => 'Literal',
+                    'catalogmanager' => array(
+                        'type' => 'Segment',
+                        'priority' => 1000,
                         'options' => array(
-                            'route'    => '/new-product',
+                            'route' => '/catalogmanager',
                             'defaults' => array(
-                                'action' => 'newProduct',
-                            ),
-                        ),
-                    ),
-                    'sort' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/sort/:parent/:type',
-                            'defaults' => array(
-                                'action' => 'sort',
-                            ),
-                        ),
-                    ),
-                    'remove-child' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/remove-child',
-                            'defaults' => array(
-                                'action' => 'removeChild',
-                            ),
-                        ),
-                    ),
-                    'new-partial' => array(
-                        'type'    => 'literal',
-                        'options' => array(
-                            'route'    => '/new-partial',
-                            'defaults' => array(
-                                'action' => 'newPartial',
-                            ),
-                        ),
-                    ),
-                    'products' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/products[/:page]',
-                            'defaults' => array(
-                                'action' => 'products',
-                            ),
-                        ),
-                    ),
-                    'company' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/company/:id',
-                            'defaults' => array(
-                                'action' => 'company',
-                            ),
-                        ),
-                    ),
-                    'companies' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/companies[/:page]',
-                            'defaults' => array(
-                                'action' => 'companies',
-                            ),
-                        ),
-                    ),
-                    'product' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/product/:id',
-                            'defaults' => array(
-                                'action' => 'product',
-                            ),
-                        ),
-                    ),
-                    'categories' => array(
-                        'type'    => 'Literal',
-                        'options' => array(
-                            'route'    => '/categories',
-                            'defaults' => array(
-                                'action' => 'categories',
+                                'controller' => 'speckcatalog_manager',
+                                'action' => 'index',
                             ),
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                            'search' => array(
-                                'type'    => 'Segment',
+                            'new-product' => array(
+                                'type'    => 'Literal',
                                 'options' => array(
-                                    'route'    => '/search/:type/:terms',
+                                    'route'    => '/new-product',
                                     'defaults' => array(
-                                        'action' => 'categorySearchChildren',
+                                        'action' => 'newProduct',
                                     ),
                                 ),
                             ),
-                        ),
-                    ),
-                    'search-class' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/search-class',
-                            'defaults' => array(
-                                'action' => 'search-class',
+                            'sort' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/sort/:parent/:type',
+                                    'defaults' => array(
+                                        'action' => 'sort',
+                                    ),
+                                ),
                             ),
-                        ),
-                    ),
-                    'update-form' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/update-form/:class',
-                            'defaults' => array(
-                                'action' => 'update-form',
+                            'remove-child' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/remove-child',
+                                    'defaults' => array(
+                                        'action' => 'removeChild',
+                                    ),
+                                ),
                             ),
-                        ),
-                    ),
-                    'update-record' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/update-record/:class',
-                            'defaults' => array(
-                                'action' => 'update-record',
+                            'new-partial' => array(
+                                'type'    => 'literal',
+                                'options' => array(
+                                    'route'    => '/new-partial',
+                                    'defaults' => array(
+                                        'action' => 'newPartial',
+                                    ),
+                                ),
                             ),
-                        ),
-                    ),
-                    'update-product' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/update-product',
-                            'defaults' => array(
-                                'action' => 'update-product',
+                            'find' => array(
+                                'type'    => 'literal',
+                                'options' => array(
+                                    'route'    => '/find',
+                                    'defaults' => array(
+                                        'action' => 'find',
+                                    ),
+                                ),
                             ),
-                        ),
-                    ),
-                    'category-tree-preview' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/category-tree-preview/:siteid',
-                            'defaults' => array(
-                                'action' => 'categoryTreePreview',
+                            'found' => array(
+                                'type'    => 'literal',
+                                'options' => array(
+                                    'route'    => '/found',
+                                    'defaults' => array(
+                                        'action' => 'found',
+                                    ),
+                                ),
+                            ),
+                            'products' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/products[/:page]',
+                                    'defaults' => array(
+                                        'action' => 'products',
+                                    ),
+                                ),
+                            ),
+                            'company' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/company/:id',
+                                    'defaults' => array(
+                                        'action' => 'company',
+                                    ),
+                                ),
+                            ),
+                            'companies' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/companies[/:page]',
+                                    'defaults' => array(
+                                        'action' => 'companies',
+                                    ),
+                                ),
+                            ),
+                            'product' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/product/:id',
+                                    'defaults' => array(
+                                        'action' => 'product',
+                                    ),
+                                ),
+                            ),
+                            'categories' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/categories',
+                                    'defaults' => array(
+                                        'action' => 'categories',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'search' => array(
+                                        'type'    => 'Segment',
+                                        'options' => array(
+                                            'route'    => '/search/:type/:terms',
+                                            'defaults' => array(
+                                                'action' => 'categorySearchChildren',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'search-class' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/search-class',
+                                    'defaults' => array(
+                                        'action' => 'search-class',
+                                    ),
+                                ),
+                            ),
+                            'update-form' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/update-form/:class',
+                                    'defaults' => array(
+                                        'action' => 'update-form',
+                                    ),
+                                ),
+                            ),
+                            'update-record' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/update-record/:class',
+                                    'defaults' => array(
+                                        'action' => 'update-record',
+                                    ),
+                                ),
+                            ),
+                            'update-product' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/update-product',
+                                    'defaults' => array(
+                                        'action' => 'update-product',
+                                    ),
+                                ),
+                            ),
+                            'category-tree-preview' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/category-tree-preview/:siteid',
+                                    'defaults' => array(
+                                        'action' => 'categoryTreePreview',
+                                    ),
+                                ),
                             ),
                         ),
                     ),

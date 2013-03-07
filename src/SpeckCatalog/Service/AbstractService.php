@@ -10,9 +10,19 @@ class AbstractService implements ServiceLocatorAwareInterface
 {
     protected $serviceLocator;
 
+    public function search($str)
+    {
+        return $this->getEntityMapper()->search($str);
+    }
+
     public function find(array $data, $populate=false, $recursive=false)
     {
         return $this->getEntityMapper()->find($data);
+    }
+
+    public function findRow(array $data)
+    {
+        return $this->getEntityMapper()->findRow($data);
     }
 
     public function populate($model, $recursive=false)
@@ -20,9 +30,9 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $model;
     }
 
-    public function getEntity($construct=null)
+    public function getModel($construct=null)
     {
-        return $this->getEntityMapper()->getEntityPrototype($construct);
+        return $this->getEntityMapper()->getModel($construct);
     }
 
     public function getAll()
@@ -62,23 +72,13 @@ class AbstractService implements ServiceLocatorAwareInterface
 
     public function insert($model)
     {
-        return $this->getEntityMapper()->insert($model);
+        $result = $this->getEntityMapper()->insert($model);
+        return $result;
     }
 
     public function usePaginator($options=array())
     {
         $this->getEntityMapper()->usePaginator($options);
-        return $this;
-    }
-
-    public function getPaginator()
-    {
-        return $this->paginator;
-    }
-
-    public function setPaginator($paginator)
-    {
-        $this->paginator = $paginator;
         return $this;
     }
 }

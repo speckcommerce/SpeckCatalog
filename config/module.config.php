@@ -1,6 +1,6 @@
 <?php
 
-$config = array(
+return array(
     'controllers' => array(
         'invokables' => array(
             'speckcatalog_catalog'  => 'SpeckCatalog\Controller\CatalogController',
@@ -36,11 +36,10 @@ $config = array(
     ),
     'navigation' => array(
         'admin' => array(
-            'mynavigation' => array(
-                'label' => 'Catalog Manager',
-                'route' => 'catalogmanager',
+            'catalogmanager' => array(
+                'label' => 'Catalog',
+                'route' => 'zfcadmin/catalogmanager',
             ),
         ),
     ),
 );
-return $config;

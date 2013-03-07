@@ -30,10 +30,28 @@ class Availability extends AbstractForm
             ),
         ));
         $this->add(array(
-            'name' => 'cost',
+            'name' => 'distributor_item_number',
             'attributes' => array(
                 'type' => 'text',
                 'class' => 'span1'
+            ),
+            'options' => array(
+                'label' => 'Dist Item#',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'distributor_uom_code',
+            'attributes' => array(
+                'type' => 'text',
+            ),
+            'options' => array(
+                'label' => 'Dist UOM',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'cost',
+            'attributes' => array(
+                'type' => 'text',
             ),
             'options' => array(
                 'label' => 'Cost',

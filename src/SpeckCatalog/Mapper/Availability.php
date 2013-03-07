@@ -5,23 +5,9 @@ namespace SpeckCatalog\Mapper;
 class Availability extends AbstractMapper
 {
     protected $tableName = 'catalog_availability';
-    protected $relationalModel = '\SpeckCatalog\Model\Availability\Relational';
-    protected $dbModel = '\SpeckCatalog\Model\Availability';
-    protected $key = array('product_id', 'uom_code', 'quantity', 'distributor_id');
-    protected $dbFields = array('product_id', 'uom_code', 'distributor_id', 'cost', 'quantity');
-
-    public function find(array $data)
-    {
-        $where = array(
-            'product_id'     => $data['product_id'],
-            'uom_code'       => $data['uom_code'],
-            'quantity'       => $data['quantity'],
-            'distributor_id' => $data['distributor_id'],
-        );
-        $select = $this->getSelect()
-            ->where($where);
-        return $this->selectOne($select);
-    }
+    protected $model = '\SpeckCatalog\Model\Availability\Relational';
+    protected $tableKeyFields = array('product_id', 'uom_code', 'quantity', 'distributor_id');
+    protected $tableFields = array('product_id', 'uom_code', 'distributor_id', 'cost', 'quantity', 'distributor_uom_code', 'distributor_item_number');
 
     public function getByProductUom($productId, $uomCode, $quantity)
     {
@@ -32,6 +18,6 @@ class Availability extends AbstractMapper
         );
         $select = $this->getSelect()
             ->where($where);
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace SpeckCatalogTest\Mapper;
+
 use SpeckCatalogTest\Mapper\TestAsset\AbstractTestCase;
 
 class DocumentTest extends AbstractTestCase
@@ -14,14 +15,15 @@ class DocumentTest extends AbstractTestCase
         $this->assertTrue($return instanceOf \SpeckCatalog\Model\Document);
     }
 
-    public function testGetDocumentsReturnsArrayOfDocumentModels()
+    public function testGetByProductIdReturnsArrayOfDocumentModels()
     {
-        $this->insertDocument(1);
+        $testMapper = $this->getTestMapper();
+        $testMapper->insert(array('product_id' => 99), 'catalog_product_document');
 
         $mapper = $this->getMapper();
-        $return = $mapper->getDocuments(1);
+        $return = $mapper->getByProductId(99);
         $this->assertTrue(is_array($return));
-        $this->assertTrue($return[0] instanceOf \SpeckCatalog\Model\Document);
+        $this->assertInstanceOf('\SpeckCatalog\Model\Document', $return[0]);
     }
 
     public function getMapper()

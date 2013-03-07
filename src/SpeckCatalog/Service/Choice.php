@@ -56,6 +56,11 @@ class Choice extends AbstractService
         return $this->persist($choice);
     }
 
+    public function delete($choiceId)
+    {
+        return $this->getEntityMapper()->delete($choiceId);
+    }
+
     /**
      * @return optionService
      */

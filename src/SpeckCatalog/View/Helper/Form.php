@@ -114,4 +114,22 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         $this->formService = $formService;
         return $this;
     }
+
+    /**
+     * @return form
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * @param $form
+     * @return self
+     */
+    public function setForm($form)
+    {
+        $this->form = $form;
+        return $this;
+    }
 }

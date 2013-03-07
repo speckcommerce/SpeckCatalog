@@ -1,6 +1,7 @@
 <?php
 
 namespace SpeckCatalogTest\Mapper;
+
 use SpeckCatalogTest\Mapper\TestAsset\AbstractTestCase;
 
 class ChoiceTest extends AbstractTestCase

@@ -15,6 +15,7 @@ class Relational extends Base
     protected $specs;
     protected $documents;
     protected $features;
+    protected $builders;
 
     public function getKey()
     {
@@ -252,9 +253,11 @@ class Relational extends Base
      * @param $manufacturer
      * @return self
      */
-    public function setManufacturer($manufacturer)
+    public function setManufacturer(\SpeckContact\Entity\Company $manufacturer = null)
     {
-        $manufacturer->setParent($this);
+        if ($manufacturer) {
+            $manufacturer->setParent($this);
+        }
         $this->manufacturer = $manufacturer;
         return $this;
     }
@@ -281,6 +284,24 @@ class Relational extends Base
     public function setParent(AbstractModel $parent)
     {
         $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return builders
+     */
+    public function getBuilders()
+    {
+        return $this->builders;
+    }
+
+    /**
+     * @param $builders
+     * @return self
+     */
+    public function setBuilders($builders)
+    {
+        $this->builders = $builders;
         return $this;
     }
 }

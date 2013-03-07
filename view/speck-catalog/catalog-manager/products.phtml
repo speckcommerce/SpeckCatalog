@@ -1,13 +1,8 @@
 <div class="row">
-
-    <?= $this->speckCatalogManagerSideNav(); ?>
-
-    <div class="offset2 span10">
-        <?
-        foreach($products as $product){
-            echo '<a href="/catalogmanager/product/' . $product->getProductId() . '">' . $product->getProductTypeId() . ' - ' .  $product . ' </a><br/>';
-        }
-        ?>
+    <div class="span12">
+        <? foreach($products as $product) : ?>
+            <a href="/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a><br/>
+        <? endforeach; ?>
     </div>
 
 </div>

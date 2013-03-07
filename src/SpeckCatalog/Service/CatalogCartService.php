@@ -5,6 +5,8 @@ namespace SpeckCatalog\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use SpeckCart\Entity\CartItem;
+use SpeckCatalog\Model\CartItemMeta;
+use SpeckCatalog\Model\Option;
 
 class CatalogCartService implements ServiceLocatorAwareInterface
 {
@@ -14,7 +16,7 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     protected $cartService;
     protected $productUomService;
 
-    public function addCartItem($productId, $flatOptions=array(), $uomString, $quantity)
+    public function addCartItem($productId, $flatOptions = array(), $uomString, $quantity)
     {
         $this->flatOptions = $flatOptions;
         $product = $this->getProductService()->getFullProduct($productId, true);
@@ -38,16 +40,22 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         //return $this->getCartService()->findItemById($cartItemId);
 
         //this is temporarly until speck cart service can return an item with its children populated
+        $return = null;
         $cartItems = $this->getCartService()->getSessionCart()->getItems();
         foreach ($cartItems as $item) {
             if ($cartItemId === $item->getCartItemId()) {
-                return $item;
+                $return = $item;
+                break;
             }
         }
+        return $return;
     }
 
-    protected function addOptions($options, $parentCartItem)
+    public function addOptions($options = array(), $parentCartItem)
     {
+        if (!count($options)) {
+            return $parentCartItem;
+        }
         foreach($options as $option){
             if(array_key_exists($option->getOptionId(), $this->flatOptions)){
 
@@ -73,32 +81,36 @@ class CatalogCartService implements ServiceLocatorAwareInterface
         return $parentCartItem;
     }
 
-    public function replaceCartItemsChildren($cartItemId, $flatOptions)
+    public function replaceCartItemsChildren($cartItemId, $flatOptions = array(), $uomString, $quantity)
     {
         $this->flatOptions = $flatOptions;
 
+
         $cartItem = $this->findItemById($cartItemId);
 
-        $product = $this->getProductService()->getFullProduct($cartItem->getMetaData()->getProductId());
+        $product = $this->getProductService()->getFullProduct($cartItem->getMetadata()->getProductId());
 
         //remove all children
         $children = $cartItem->getItems();
         if ($children) {
             foreach ($children as $child) {
-                echo 'removed child';
                 $this->removeItemFromCart($child->getCartItemId());
             }
         }
 
         //add the new child items
-        $rePopulatedCartItem = $this->addOptions($product->getOptions(), $cartItem);
-        $newItems = $rePopulatedCartItem->getItems();
+        $this->addOptions($product->getOptions(), $cartItem);
+        $newItems = $cartItem->getItems();
         if ($newItems) {
             foreach ($newItems as $childItem) {
                 $childItem->setParentItemId($cartItem->getCartItemId());
                 $this->getCartService()->addItemToCart($childItem);
             }
         }
+
+        $cartItem->setQuantity($quantity);
+        $cartItem->getMetaData()->setUom($uomString);
+        $cartItem->setPrice($this->getPriceForUom($uomString));
 
         //update and persist parent
         $cartItem->getMetaData()->setFlatOptions($this->flatOptions);
@@ -108,40 +120,29 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     /*
      * 'item' is either a product, or a choice
      */
-    protected function createCartItem($item, $parentOption=null, $uomString=null, $quantity=1)
+    public function createCartItem($item, Option $parentOption = null, $uomString = null, $quantity = 1)
     {
-        $meta = $this->getServiceLocator()->get('cart_item_meta');
+        $cartItem = new CartItem(array(
+            'metadata'   => new CartItemMeta(array(
+                'uom'                => $uomString,
+                'item_number'        => $item->getItemNumber(),
+                'image'              => $item->has('image') ? $item->getImage() : null,
+                'parent_option_id'   => $parentOption ? $parentOption->getOptionId() : null,
+                'parent_option_name' => $parentOption ? $parentOption->__toString()  : null,
+                'flat_options'       => $parentOption ? null : $this->flatOptions,
+                'product_id'         => $parentOption ? null : $item->getProductId(),
+            )),
+            'description' => $item->__toString(),
+            'quantity'    => $quantity,
+            'price'       => $parentOption ? $item->getAddPrice() : $this->getPriceForUom($uomString),
+        ));
 
-        $description = $item->__toString();
-        $cartItem = new CartItem();
-        $cartItem->setDescription($description);
-        $cartItem->setQuantity($quantity);
-        if ($parentOption) {
-            $meta->setParentOptionId($parentOption->getOptionId());
-            $meta->setParentOptionName($parentOption->__toString());
-            $cartItem->setPrice($item->getAddPrice());
-        } else {
-            $meta->setFlatOptions($this->flatOptions);
-            $meta->setProductId($item->getProductId());
-            $cartItem->setPrice($this->getPriceForUom($uomString));
-        }
-        if ($uomString) {
-            $meta->setUom($uomString);
-        }
-        $meta->setItemNumber($item->getItemNumber());
-        if ($item->has('image')) {
-            $meta->setImage($item->getImage());
-        }
-        $cartItem->setMetaData($meta);
-
-        if($item->has('options')){
-            $cartItem = $this->addOptions($item->getOptions(), $cartItem);
-        }
+        $this->addOptions($item->getOptions(), $cartItem);
 
         return $cartItem;
     }
 
-    protected function getPriceForUom($uomString)
+    public function getPriceForUom($uomString)
     {
         $exp = explode(':', $uomString);
         $data = array(
@@ -150,22 +151,22 @@ class CatalogCartService implements ServiceLocatorAwareInterface
             'quantity' => (int) $exp[2],
         );
         $uom = $this->getProductUomService()->find($data);
+
+        if(!$uom instanceOf \SpeckCatalog\Model\ProductUom) {
+            throw new \Exception('couldnt get that uom');
+        }
         return $uom->getPrice();
     }
 
     public function updateQuantities($itemIdToQuantityArray)
     {
-        foreach($itemIdToQuantityArray as $cartItemId => $newQuantity)
+        foreach($itemIdToQuantityArray as $cartItemId => $qty)
         {
-            if(0 === (int) $newQuantity) {
+            if($qty == 0) {
                 $this->getCartservice()->removeItemFromCart($cartItemId);
             } else {
                 $item = $this->getCartservice()->findItemById($cartItemId);
-                if (!$item) {
-                    throw new \Exception('couldnt find that cart item %n', $cartItemId);
-                }
-                $item->setQuantity($newQuantity);
-                $this->getCartservice()->persistItem($item);
+                $this->getCartService()->persistItem($item->setQuantity($qty));
             }
         }
     }
@@ -224,6 +225,24 @@ class CatalogCartService implements ServiceLocatorAwareInterface
     public function setProductUomService($productUomService)
     {
         $this->productUomService = $productUomService;
+        return $this;
+    }
+
+    /**
+     * @return flatOptions
+     */
+    public function getFlatOptions()
+    {
+        return $this->flatOptions;
+    }
+
+    /**
+     * @param $flatOptions
+     * @return self
+     */
+    public function setFlatOptions($flatOptions)
+    {
+        $this->flatOptions = $flatOptions;
         return $this;
     }
 }

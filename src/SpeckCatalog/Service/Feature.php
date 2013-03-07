@@ -8,6 +8,6 @@ class Feature extends AbstractService
 
     public function getFeatures($productId)
     {
-        return $this->getEntityMapper()->getFeatures($productId);
+        return $this->getEntityMapper()->getByProductId($productId);
     }
 }

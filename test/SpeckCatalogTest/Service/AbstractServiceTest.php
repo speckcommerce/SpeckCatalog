@@ -1,6 +1,6 @@
 <?php
 
-namespace SpeckCatalogTest\Mapper;
+namespace SpeckCatalogTest\Service;
 
 use PHPUnit\Extensions\Database\TestCase;
 
@@ -8,39 +8,77 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testFindCallsFindOnMapper()
     {
-        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\Product');
-        $mockedMapper->expects($this->any())
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
             ->method('find');
 
         $service = $this->getService();
         $service->setEntityMapper($mockedMapper);
-
         $data = array('return_model' => true);
         $service->find($data);
     }
 
     public function testPopulateReturnsInstanceOfModelParam()
     {
-        //$service = $this->getService();
-        //$model = new \SpeckCatalog\Model\Product();
-        //$return = $service->populate($model);
-        //$this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
+        $service = $this->getService();
+        $return = $service->populate(new \SpeckCatalog\Model\Product());
+        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
     }
 
     public function testGetEntity()
     {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('getEntityPrototype');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->getEntity();
     }
 
-    public function getMockMapper($methodName)
+    public function testGetEntityMapperCallsGetOnServiceLocator()
     {
-        $mock = $this->getMock('\SpeckCatalog\Mapper\Product');
-        $mock->expects($this->any())
-            ->method($methodName);
-        return $mock;
+        $mockedServiceLocator = $this->getMock('\Zend\ServiceManager\ServiceManager');
+        $mockedServiceLocator->expects($this->once())
+            ->method('get')
+            ->with('foo_bar_mapper');
+        $service = $this->getService();
+        $service->setServiceLocator($mockedServiceLocator);
+        $service->setEntityMapper('foo_bar_mapper');
+        $service->getEntityMapper();
+    }
+
+    public function testGetAllCallsGetAllOnMapper()
+    {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('getAll');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->getAll();
+    }
+
+    public function testInsertCallsInsertOnMapper()
+    {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('insert');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->insert(array());
+    }
+
+    public function testUpdateCallsUpdateOnMapper()
+    {
+        $mockedMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
+        $mockedMapper->expects($this->once())
+            ->method('update');
+        $service = $this->getService();
+        $service->setEntityMapper($mockedMapper);
+        $service->update(array());
     }
 
     public function getService()
     {
-        return new \SpeckCatalog\Service\Product();
+        return new \SpeckCatalogTest\Service\TestAsset\ChildAbstractService();
     }
 }

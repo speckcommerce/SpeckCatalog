@@ -1,0 +1,10 @@
+<?= $this->form()->openTag($form); ?>
+
+    <div class="form-messages"><?= $this->formErrors; ?></div>
+    <?= $this->originalFields; ?>
+
+    <? foreach($form->getElements() as $input) : ?>
+        <?=$this->speckCatalogManagerFormRow($input); ?>
+    <? endforeach; ?>
+
+</form></br>

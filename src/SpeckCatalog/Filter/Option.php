@@ -36,7 +36,7 @@ class Option extends InputFilter
             'required' => true,
         ));
         $this->add(array(
-            'name' => 'variation',
+            'name' => 'builder',
             'required' => true,
         ));
     }

@@ -12,6 +12,19 @@ class CartItemMeta
     protected $image;
     protected $uom;
 
+    public function __construct(array $config = array())
+    {
+        if (count($config)) {
+           $this->parentOptionId   = isset($config['parent_option_id'])   ? $config['parent_option_id']   : null;
+           $this->productId        = isset($config['product_id'])         ? $config['product_id']         : null;
+           $this->itemNumber       = isset($config['item_number'])        ? $config['item_number']        : null;
+           $this->parentOptionName = isset($config['parent_option_name']) ? $config['parent_option_name'] : null;
+           $this->flatOptions      = isset($config['flat_options'])       ? $config['flat_options']       : array();
+           $this->image            = isset($config['image'])              ? $config['image']              : null;
+           $this->uom              = isset($config['uom'])                ? $config['uom']                : null;
+        }
+    }
+
  /**
   * Get parentOptionId.
   *
@@ -30,6 +43,7 @@ class CartItemMeta
  function setParentOptionId($parentOptionId)
  {
      $this->parentOptionId = $parentOptionId;
+     return $this;
  }
 
  /**
@@ -50,6 +64,7 @@ class CartItemMeta
  function setParentOptionName($parentOptionName)
  {
      $this->parentOptionName = $parentOptionName;
+     return $this;
  }
 
  /**
@@ -70,6 +85,7 @@ class CartItemMeta
  function setImage($image)
  {
      $this->image = $image;
+     return $this;
  }
 
  /**
@@ -90,6 +106,7 @@ class CartItemMeta
  function setProductId($productId)
  {
      $this->productId = $productId;
+     return $this;
  }
 
  /**
@@ -110,6 +127,7 @@ class CartItemMeta
  function setFlatOptions($flatOptions)
  {
      $this->flatOptions = $flatOptions;
+     return $this;
  }
 
     /**

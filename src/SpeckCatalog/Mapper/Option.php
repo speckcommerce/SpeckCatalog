@@ -8,18 +8,9 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 class Option extends AbstractMapper
 {
     protected $tableName = 'catalog_option';
-    protected $dbModel = '\SpeckCatalog\Model\Option';
-    protected $relationalModel = '\SpeckCatalog\Model\Option\Relational';
-    protected $key = array('option_id');
-    protected $dbFields = array('option_id', 'name', 'instruction', 'required', 'variation', 'option_type_id');
-
-    public function find(array $data)
-    {
-        $select = $this->getSelect()
-            ->where(array('option_id' => $data['option_id']));
-        $option = $this->selectOne($select);
-        return $this->selectOne($select);
-    }
+    protected $model = '\SpeckCatalog\Model\Option\Relational';
+    protected $tableKeyFields = array('option_id');
+    protected $tableFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
 
     public function getByProductId($productId)
     {
@@ -31,7 +22,7 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array('product_id' => (int) $productId))
             ->order('sort_weight', 'ASC');
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 
     public function getByParentChoiceId($choiceId)
@@ -44,7 +35,7 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array($linker . '.choice_id' => (int) $choiceId))
             ->order('sort_weight', 'ASC');
-        return $this->selectMany($select);
+        return $this->selectManyModels($select);
     }
 
     public function sortChoices($optionId, $order)
@@ -53,7 +44,7 @@ class Option extends AbstractMapper
         foreach ($order as $i => $choiceId) {
             $where = array('option_id' => $optionId, 'choice_id' => $choiceId);
             $select = $this->getSelect($table)->where($where);
-            $row = $this->query($select);
+            $row = $this->queryOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }
@@ -61,7 +52,7 @@ class Option extends AbstractMapper
 
     public function insert($option, $tableName=null, HydratorInterface $hydrator=null)
     {
-        $optionId = parent::insert($option);
+        $optionId = parent::insert($option, $tableName, $hydrator);
         $option = $this->find(array('option_id' => $optionId));
 
         return $option;

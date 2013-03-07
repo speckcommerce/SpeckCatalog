@@ -1,12 +1,48 @@
 <?php
+
 return array(
     'modules' => array(
         'SpeckCatalog',
-        'ZfcUser'
+        'SpeckCart',
+        'ZfcBase',
     ),
     'module_listener_options' => array(
+        'extra_config' => array(
+            'service_manager' => array (
+                'shared' => array(
+                    'speckcatalog_product_mapper' => FALSE,
+                ),
+                'factories' => array (
+                    'zend\\db\\adapter\\adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
+                    'speckcatalog_test_mapper' => function ($sm) {
+                        $pathToFile = __DIR__ . '/_files/test_tables.sqlite.php';
+                        $schema = include($pathToFile);
+                        $mapper = new \SpeckCatalogTest\Mapper\TestAsset\TestMapper;
+                        $mapper->setSchema($schema);
+                        $mapper->setDbAdapter($sm->get('speckcatalog_db'));
+                        return $mapper;
+                    },
+                ),
+                'initializers' => array(
+                    function($instance, $sm){
+                        if ($instance instanceof \SpeckCatalog\Mapper\DbAdapterAwareInterface) {
+                            $dbAdapter = $sm->get('speckcatalog_db');
+                            $instance->setDbAdapter($dbAdapter);
+                        }
+                    },
+                ),
+            ),
+            'db' => array (
+                'driver' => 'pdo',
+                'dsn' => "sqlite::memory:",
+                'driver_options' => array(
+                    1002 => 'SET NAMES \'UTF8\'',
+                ),
+            ),
+        ),
         'module_paths' => array(
             'vendor',
+            //'devmodules',
         ),
     ),
 );

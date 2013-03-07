@@ -27,6 +27,7 @@ class AdderHelper extends AbstractHelper
         'spec'         => 'Product Specification',
         'category'     => 'Category',
         'product'      => 'Product',
+        'builder_product' => 'Product',
     );
 
     public function __invoke()
@@ -71,6 +72,30 @@ class AdderHelper extends AbstractHelper
 
         $view = $this->getView();
         return $view->render($this->partialDir . 'add', array('addForm' => $form));
+    }
+
+    public function find($childName, $parentName, $parentKeyFields)
+    {
+        $elements = array(
+            'parent_name' => $parentName,
+            'child_name'  => $childName,
+        );
+
+        $submitButton = array(
+            'name' => 'submit',
+            'type' => 'Zend\Form\Element\Submit',
+            'attributes' => array(
+                'value' => ' Find ' . $this->labels[$childName],
+            ),
+        );
+
+        $form = new \SpeckCatalog\Form\AddChild;
+        $form->addElements($elements)
+            ->addParent($parentKeyFields);
+        $form->add($submitButton);
+
+        $view = $this->getView();
+        return $view->render($this->partialDir . 'find', array('addForm' => $form));
     }
 
     /**

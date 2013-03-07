@@ -2,156 +2,209 @@
 
 namespace SpeckCatalog\Mapper;
 
-use SpeckCatalog\Adapter\PaginatorDbSelect;
-use SpeckCatalog\Mapper\DbAdapterAwareInterface;
 use SpeckCatalog\Model\AbstractModel;
-use ZfcBase\Mapper\AbstractDbMapper;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
-use Zend\Db\Adapter\Adapter as DbAdapter;
-use Zend\Db\Adapter\Platform\Mysql;
+use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-use Zend\Db\ResultSet\HydratingResultSet;
+use SpeckCatalog\Mapper\DbAdapterAwareInterface;
+use SpeckCatalog\Adapter\PaginatorDbSelect;
+use Zend\Db\Adapter\Adapter;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
 use Zend\Paginator\Paginator;
-use Zend\Stdlib\Hydrator\ClassMethods as Hydrator;
+use Zend\Db\ResultSet;
 
-class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
+class AbstractMapper implements DbAdapterAwareInterface
 {
+    protected $hydrator;
     protected $dbAdapter;
-    protected $paginator;
-    protected $paginatorOptions;
+    protected $model;
+    protected $tableFields;
+    protected $tableName;
+    protected $tableKeyFields;
+    protected $sql;
     protected $usePaginator;
+    protected $paginatorOptions;
 
-    protected function initialize()
+    public function getSelect($tableName = null)
     {
-        //$this->setEntityPrototype($this->getEntityPrototype());
-        //parent::initialize();
-        //we're done here - dont check anything, we got this covered
-    }
-
-    public function selectOne(Select $select)
-    {
-        return $this->select($select)->current();
-    }
-
-    //always returns array
-    public function selectMany(Select $select)
-    {
-        if($this->usePaginator) {
-            $this->usePaginator = false;
-            $paginator = $this->initPaginator($select);
-            return $paginator;
-        }
-
-        $result = $this->select($select);
-        $return = array();
-        if (count($result) > 0) {
-            foreach($result as $res){
-                $return[] = $res;
-            }
-        }
-        return $return;
-    }
-
-    public function query($select)
-    {
-        $sql = $select->getSqlString(new Mysql);
-        $result = $this->getDbAdapter()->query($sql)->execute()->current();
-        return $result;
+        return $this->getSql()->select($tableName ?: $this->getTableName());
     }
 
     public function getAll()
     {
-        $select = $this->getSelect($this->getTablename());
-        return $this->selectMany($select);
+        $select = $this->getSelect();
+        return $this->selectManyModels($select);
     }
 
-    public function getTableName()
+    public function find(array $data)
     {
-        return $this->tableName;
+        $select = $this->getSelect()
+            ->where($data);
+        return $this->selectOneModel($select);
     }
 
-    public function setTableName($tableName)
+    public function findRow(array $data)
     {
-        $this->tableName = $tableName;
-        return $this;
+        $select = $this->getSelect()
+            ->where($data);
+        return $this->selectOne($select);
     }
 
-    //note: remove after zfcbase refactor
-    public function getEntityPrototype($construct=null)
+    //return array or null
+    public function select(Select $select, ResultSet\ResultSetInterface $resultSet = null)
     {
-        if (is_string($this->relationalModel) && class_exists($this->relationalModel)) {
-            return new $this->relationalModel($construct);
-        }else{
-            die('could not instantiate - ' . $this->relationalModel);
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
+
+        $resultSet = $resultSet ?: new ResultSet\ResultSet(ResultSet\ResultSet::TYPE_ARRAY);
+        $resultSet->initialize($stmt->execute());
+
+        return $resultSet;
+    }
+
+    //return deleted nuber of rows
+    public function delete(array $where, $tableName = null)
+    {
+        $sql = $this->getSql()->setTable($tableName ?: $this->getTableName());
+        $delete = $sql->delete();
+
+        $delete->where($where);
+
+        $statement = $sql->prepareStatementForSqlObject($delete);
+
+        return $statement->execute();
+    }
+
+    //returns lastInsertId or null
+    public function insert($dataOrModel, $tableName = null, HydratorInterface $hydrator = null)
+    {
+        $tableName = $tableName ?: $this->getTableName();
+        $data = $this->extract($dataOrModel, $hydrator);
+
+        if ($tableName === $this->getTableName()) {
+            $data = $this->cleanData($data);
         }
-    }
 
-    public function getDbModel(AbstractModel $construct)
-    {
-        if (is_string($this->dbModel) && class_exists($this->dbModel)) {
-            return new $this->dbModel($construct);
-        }else{
-            die('could not instantiate - ' . $this->dbModel);
+        if ($tableName === $this->getTableName() && $this->findRow($this->dataToKeyData($data))) {
+            throw new \RuntimeException('row already exists');
         }
-    }
 
-    //note: remove after zfcbase refactor
-    public function getHydrator()
-    {
-        return new Hydrator;
-    }
+        $sql = $this->getSql();
+        $insert = $sql->insert($tableName);
 
-    public function where()
-    {
-        return new Where;
-    }
+        $insert->values($data);
 
-    public function prepareData($data)
-    {
-        if ($data instanceof AbstractModel) {
-            return $this->getDbModel($data);
-        } elseif (is_array($data)) {
-            $dbFields = $this->getDbFields();
-            $return = array();
-            foreach ($dbFields as $key) {
-                if(array_key_exists($key, $data)) {
-                    $return[$key] = $data[$key];
-                }
-            }
-            return $return;
-        }
-    }
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        $result = $statement->execute();
 
-    public function update($data, $where, $tableName = null, HydratorInterface $hydrator = null)
-    {
-        $data = $this->prepareData($data);
-        parent::update($data, $where, $tableName, $hydrator);
-    }
-
-    public function insert($model, $tableName = null, HydratorInterface $hydrator = null)
-    {
-        $model = $this->prepareData($model);
-        if (null === $tableName) {
-            $tableName = $this->getTableName();
-        }
-        $result = parent::insert($model, $tableName);
         return $result->getGeneratedValue();
     }
 
-    public function usePaginator($options=array())
+    public function dataToKeyData($data)
     {
-        $this->usePaginator = true;
-        $this->paginatorOptions = $options;
+        if(!is_array($this->getTableKeyFields())) {
+            throw new \RuntimeException('no key fields for:' . $this->getTableName());
+        }
+        foreach ($this->getTableKeyFields() as $field) {
+            $return[$field] = $data[$field];
+        }
+        return $return;
     }
 
-    public function initPaginator($select)
+
+
+    //returns affected number of rows
+    public function update($dataOrModel, array $where, $tableName = null, HydratorInterface $hydrator = null)
     {
-        $paginator = new Paginator(new PaginatorDbSelect(
-            $select,
-            $this->getDbAdapter(),
-            new HydratingResultSet($this->getHydrator(), $this->getEntityPrototype())
-        ));
+        $tableName = $tableName ?: $this->getTableName();
+        $data = $this->extract($dataOrModel, $hydrator);
+        if($tableName === $this->getTableName()) {
+            $data = $this->cleanData($data);
+        }
+
+        $sql = $this->getSql();
+        $update = $sql->update($tableName);
+
+        $update->set($data)
+            ->where($where);
+
+        $statement = $sql->prepareStatementForSqlObject($update);
+
+        return $statement->execute();
+    }
+
+    //returns row or null
+    public function selectOne(Select $select, ResultSet\ResultSetInterface $resultSet = null)
+    {
+        $select->limit(1);
+        return $this->select($select, $resultSet)->current();
+    }
+
+    //returns array of rows
+    public function selectMany(Select $select, ResultSet\ResultSetInterface $resultSet = null)
+    {
+        if($this->usePaginator) {
+            $this->usePaginator = false;
+            $rows = $this->initPaginator($select, $resultSet);
+        } else {
+            $result = $this->select($select, $resultSet);
+            $rows = array();
+            foreach ($result as $row) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    //returns model or null
+    public function selectOneModel(Select $select, HydratorInterface $hydrator = null, AbstractModel $model = null)
+    {
+        $resultSet = new ResultSet\HydratingResultSet($this->getHydrator(), $this->getModel());
+        return $this->selectOne($select, $resultSet);
+    }
+
+    //returns array of models
+    public function selectManyModels(Select $select, HydratorInterface $hydrator = null, AbstractModel $model = null)
+    {
+        $resultSet = new ResultSet\HydratingResultSet($this->getHydrator(), $this->getModel());
+        return $this->selectMany($select, $resultSet);
+    }
+
+    public function extract($dataOrModel, HydratorInterface $hydrator = null)
+    {
+        if (is_array($dataOrModel)) {
+            return $dataOrModel;
+        }
+        if (!$dataOrModel instanceOf AbstractModel) {
+            throw new \InvalidArgumentException('need nstance of AbstractModel got: ' . getType($dataOrModel));
+        }
+        $hydrator = $hydrator ?: $this->getHydrator();
+        return $hydrator->extract($dataOrModel);
+    }
+
+    public function cleanData($data)
+    {
+        if (!is_array($this->getTableFields()) || !count($this->getTableFields())) {
+            return $data;
+        }
+        foreach ($data as $key => $val) {
+            if (!in_array($key, $this->getTableFields())) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
+    }
+
+    public function hydrate(array $data, AbstractModel $model = null, HydratorInterface $hydrator = null)
+    {
+        $hydrator = $hydrator ?: $this->getHydrator();
+        $model    = $model    ?: $this->getModel();
+
+        return $hydrator->hydrate($data, $model);
+    }
+
+    public function initPaginator($select, ResultSet\ResultSetInterface $resultSet = null)
+    {
+        $paginator = new Paginator(new PaginatorDbSelect($select, $this->getDbAdapter(), $resultSet));
 
         $options = $this->getPaginatorOptions();
         if (isset($options['n'])) {
@@ -165,20 +218,79 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
     }
 
     /**
-     * @return paginator
+     * @return hydrator
      */
-    public function getPaginator()
+    public function getHydrator()
     {
-        return $this->paginator;
+        if (is_string($this->hydrator) && class_exists($this->hydrator)) {
+            return new $this->hydrator();
+        }else{
+            return new ClassMethods();
+        }
     }
 
     /**
-     * @param $paginator
+     * @param $hydrator
      * @return self
      */
-    public function setPaginator($paginator)
+    public function setHydrator(HydratorInterface $hydrator)
     {
-        $this->paginator = $paginator;
+        $this->hydrator = $hydrator;
+        return $this;
+    }
+
+    /**
+     * @return model
+     */
+    public function getModel(array $data = null)
+    {
+        if (is_string($this->model) && class_exists($this->model)) {
+            if ($data) {
+                $hydrator = $hydrator ?: $this->getHydrator();
+                return $hydrator->hydrate($data, $model);
+            }
+            return new $this->model;
+        }else{
+            throw new \RuntimeException('could not instantiate model - ' . $this->model);
+        }
+    }
+
+    /**
+     * @param $model
+     * @return self
+     */
+    public function setModel(AbstractModel $model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
+    /**
+     * @return Sql
+     */
+    protected function getSql()
+    {
+        if (!$this->sql instanceof Sql) {
+            $this->sql = new Sql($this->getDbAdapter());
+        }
+
+        return $this->sql;
+    }
+
+    /**
+     * @param Sql
+     * @return AbstractDbMapper
+     */
+    protected function setSql(Sql $sql)
+    {
+        $this->sql = $sql;
+        return $this;
+    }
+
+    public function usePaginator(array $paginatorOptions = array())
+    {
+        $this->usePaginator = true;
+        $this->paginatorOptions = $paginatorOptions;
         return $this;
     }
 
@@ -212,27 +324,63 @@ class AbstractMapper extends AbstractDbMapper implements DbAdapterAwareInterface
      * @param $dbAdapter
      * @return self
      */
-    public function setDbAdapter(DbAdapter $dbAdapter)
+    public function setDbAdapter(Adapter $dbAdapter)
     {
         $this->dbAdapter = $dbAdapter;
         return $this;
     }
 
     /**
-     * @return dbFields
+     * @return tableName
      */
-    public function getDbFields()
+    public function getTableName()
     {
-        return $this->dbFields;
+        return $this->tableName;
     }
 
     /**
-     * @param $dbFields
+     * @param $tableName
      * @return self
      */
-    public function setDbFields($dbFields)
+    public function setTableName($tableName)
     {
-        $this->dbFields = $dbFields;
+        $this->tableName = $tableName;
+        return $this;
+    }
+
+    /**
+     * @return tableFields
+     */
+    public function getTableFields()
+    {
+        return $this->tableFields;
+    }
+
+    /**
+     * @param $tableFields
+     * @return self
+     */
+    public function setTableFields($tableFields)
+    {
+        $this->tableFields = $tableFields;
+        return $this;
+    }
+
+    /**
+     * @return tableKeyFields
+     */
+    public function getTableKeyFields()
+    {
+        return $this->tableKeyFields;
+    }
+
+    /**
+     * @param $tableKeyFields
+     * @return self
+     */
+    public function setTableKeyFields($tableKeyFields)
+    {
+        $this->tableKeyFields = $tableKeyFields;
         return $this;
     }
 }

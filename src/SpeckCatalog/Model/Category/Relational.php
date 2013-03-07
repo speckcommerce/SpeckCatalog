@@ -49,24 +49,19 @@ class Relational extends Base
         return $this->products;
     }
 
-    public function addProduct($product)
-    {
-        $product->setParent($this);
-        $this->products[] = $product;
-        return $this;
-    }
-
     /**
      * @param $products
      * @return self
      */
-    public function setProducts($products)
+    public function setProducts(\Zend\Paginator\Paginator $products = null)
     {
-        $this->products = array();
-
-        foreach ($products as $product) {
-            $this->addProduct($product);
+        if ($products !== null) {
+            foreach ($products as $product) {
+                $product->setParent($this);
+            }
         }
+
+        $this->products = $products;
 
         return $this;
     }

@@ -4,20 +4,26 @@
     "type": "library",
     "minimum-stability": "dev",
     "keywords": [
-        "zf2"
+        "zf2",
+        "speckcommerce"
     ],
     "homepage": "http://github.com/speckcommerce/SpeckCatalog",
     "authors": [
         {
             "name": "Nigel Lundsten",
-            "email": "nigel.lundsten*at*gmail.com",
+            "email": "nigel.lundsten@gmail.com",
             "homepage": ""
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*",
-        "zf-commons/zfc-user": "dev-master"
+        "zf-commons/zfc-user": "dev-master",
+        "speckcommerce/speck-contact": "dev-master"
+        "speckcommerce/speck-cart": "dev-master"
+    },
+    "require-dev": {
+        "mockery/mockery": ">=0.7.2"
     },
     "autoload": {
         "psr-0": {

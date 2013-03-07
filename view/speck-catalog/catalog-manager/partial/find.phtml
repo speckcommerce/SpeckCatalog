@@ -1,0 +1,7 @@
+<div class="span1 add-element">
+    <form class="find">
+    <? foreach ($addForm->getElements() as $element) : ?>
+        <?=$this->formInput($element); ?>
+    <? endforeach; ?>
+    </form>
+</div>

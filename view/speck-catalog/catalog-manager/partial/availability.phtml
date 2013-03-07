@@ -1,7 +1,8 @@
 <?
+    $parentProductUomKeyFields = $this->speckCatalogForm($availability->getParent(), 'product_uom')->getKeyFields();
+
     $formHelper = $this->speckCatalogForm($availability, 'availability');
     $keyFields = $formHelper->getKeyFields();
-    $parentProductUomKeyFields = $this->speckCatalogForm($availability->getParent(), 'product_uom')->getKeyFields();
 ?>
 
 <div class="boundary whitebg" id="">

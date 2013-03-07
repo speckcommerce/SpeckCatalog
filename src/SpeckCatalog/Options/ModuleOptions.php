@@ -9,17 +9,17 @@ class ModuleOptions extends AbstractOptions
     protected $catalogPartialDir        = '/speck-catalog/catalog/partial/';
     protected $catalogManagerPartialDir = '/speck-catalog/catalog-manager/partial/';
 
-    protected $productImagePath         = '/assets/speck-catalog/media/product-image';
-    protected $productImageUpload       = '/public/assets/speck-catalog/media/product-image';
+    protected $productImagePath         = '/media/product-image';
+    protected $productImageUpload       = '/public/media/product-image';
 
-    protected $productDocumentPath      = '/assets/speck-catalog/media/product-document';
-    protected $productDocumentUpload    = '/public/assets/speck-catalog/media/product-document';
+    protected $productDocumentPath      = '/media/product-document';
+    protected $productDocumentUpload    = '/public/media/product-document';
 
-    protected $categoryImagePath        = '/assets/speck-catalog/media/category-image';
-    protected $categoryImageUpload      = '/public/assets/speck-catalog/media/category-image';
+    protected $categoryImagePath        = '/media/category-image';
+    protected $categoryImageUpload      = '/public/media/category-image';
 
-    protected $optionImagePath          = '/assets/speck-catalog/media/option-image';
-    protected $optionImageUpload        = '/public/assets/speck-catalog/media/option-image';
+    protected $optionImagePath          = '/media/option-image';
+    protected $optionImageUpload        = '/public/media/option-image';
 
     function getProductDocumentPath()
     {

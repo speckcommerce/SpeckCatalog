@@ -6,6 +6,8 @@ class Availability extends AbstractModel
 {
     protected $productId;
     protected $uomCode;
+    protected $distributorUomCode;
+    protected $distributorItemNumber;
     protected $distributorId;
     protected $quantity;
     protected $cost;
@@ -97,6 +99,42 @@ class Availability extends AbstractModel
     public function setCost($cost)
     {
         $this->cost = $cost;
+        return $this;
+    }
+
+    /**
+     * @return distributorUomCode
+     */
+    public function getDistributorUomCode()
+    {
+        return $this->distributorUomCode;
+    }
+
+    /**
+     * @param $distributorUomCode
+     * @return self
+     */
+    public function setDistributorUomCode($distributorUomCode)
+    {
+        $this->distributorUomCode = $distributorUomCode;
+        return $this;
+    }
+
+    /**
+     * @return distributorItemNumber
+     */
+    public function getDistributorItemNumber()
+    {
+        return $this->distributorItemNumber;
+    }
+
+    /**
+     * @param $distributorItemNumber
+     * @return self
+     */
+    public function setDistributorItemNumber($distributorItemNumber)
+    {
+        $this->distributorItemNumber = $distributorItemNumber;
         return $this;
     }
 }

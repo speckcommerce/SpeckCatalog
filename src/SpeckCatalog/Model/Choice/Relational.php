@@ -18,20 +18,17 @@ class Relational extends Base
         return $this->choiceId;
     }
 
-    public function getPrice(){
+    public function getPrice()
+    {
         if ($this->has('product')) {
             return $this->getProduct()->getPrice();
         }
+        return 0;
     }
 
     public function getRecursivePrice()
     {
-        $price = 0;
-        if ($this->has('product')) {
-            //note: need to get all the extra logic in here for price modifers/etc
-            $price = $price + $this->getProduct()->getPrice();
-        }
-        return $price;
+        return $this->getPrice();
     }
 
     public function getItemNumber()

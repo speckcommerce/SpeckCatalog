@@ -11,6 +11,7 @@ class Product extends AbstractService
     protected $documentService;
     protected $specService;
     protected $companyService;
+    protected $builderService;
 
     public function find(array $data, $populate=false, $recursive=false)
     {
@@ -40,7 +41,7 @@ class Product extends AbstractService
 
     public function getFullProduct($productId)
     {
-        $product = $this->find(array('product_id' => $productId));
+        $product = $this->find(array('product_id' => $productId), true, true);
         $this->populate($product, true);
         return $product;
     }
@@ -51,6 +52,9 @@ class Product extends AbstractService
 
         $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
         $product->setOptions($options);
+
+        $builders = $this->getBuilderService()->getBuildersByProductId($productId);
+        $product->setBuilders($builders);
 
         $images = $this->getImageService()->getImages('product', $productId);
         $product->setImages($images);
@@ -68,23 +72,16 @@ class Product extends AbstractService
         $product->setManufacturer($manufacturer);
     }
 
-    public function newOption($productOrId)
+    public function getProductsById(array $productIds = array())
     {
-        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-
-        $option = $this->getOptionService()->getEntity();
-        $optionId = $this->getOptionService()->insert($option);
-        $option->setOptionId($optionId);
-
-        $this->getEntityMapper()->addOption($productId, $optionId);
-
-        return $this->getOptionService()->find(array('option_id' => $optionId));
+        return $this->getEntityMapper()->getProductsById($productIds);
     }
+
 
     public function addOption($productOrId, $optionOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getProductId() );
+        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
 
         $this->getEntityMapper()->addOption($productId, $optionId);
 
@@ -96,16 +93,6 @@ class Product extends AbstractService
         return $this->getEntityMapper()->sortOptions($productId, $order);
     }
 
-    public function newProductUom($productOrId)
-    {
-        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-
-        $productUom = $this->getProductUomService()->getEntity()->setProductId($productId);
-        $productUom = $this->getProductUomService()->insert($productUom);
-
-        return $productUom;
-    }
-
     public function removeOption(array $product, array $option)
     {
         $productId = $product['product_id'];
@@ -114,41 +101,12 @@ class Product extends AbstractService
         return $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
-    public function newProductImage($productOrId)
+    public function removeBuilder(array $product, array $builder)
     {
-        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
+        $productId  = $product['product_id'];
+        $builderProductId = $builder['product_id'];
 
-        $image = $this->getImageService()->getEntity();
-        $image = $this->getImageService()->insert($image);
-        $imageId = $image->getImageId();
-
-        $this->getEntityMapper()->addImage($productId, $imageId);
-
-        return $image;
-    }
-
-    public function newSpec($productOrId)
-    {
-        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-
-        $spec = $this->getSpecService()->getEntity();
-        $spec->setProductId($productId);
-        $specId = $this->getSpecService()->insert($spec);
-        $spec->setSpecId($specId);
-
-        return $spec;
-    }
-
-    public function newDocument($productOrId, $document)
-    {
-        $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-
-        $document = $this->getDocumentService()->getEntity();
-        $document->setProductId($productId);
-        $documentId = $this->getDocumentService()->insert($document);
-        $document->setDocumentId($documentId);
-
-        return $document;
+        return $this->getEntityMapper()->removeBuilder($productId, $builderProductId);
     }
 
     public function insert($product)
@@ -164,9 +122,9 @@ class Product extends AbstractService
         //
     }
 
-    public function getByCategoryId($categoryId, $paginatorOptions=array())
+    public function getByCategoryId($categoryId)
     {
-        return $this->usePaginator($paginatorOptions)->getEntityMapper()->getByCategoryId($categoryId);
+        return $this->getEntityMapper()->getByCategoryId($categoryId);
     }
 
     /**
@@ -292,6 +250,27 @@ class Product extends AbstractService
     public function setCompanyService($companyService)
     {
         $this->companyService = $companyService;
+        return $this;
+    }
+
+    /**
+     * @return builderService
+     */
+    public function getBuilderService()
+    {
+        if (null === $this->builderService) {
+            $this->builderService = $this->getServiceLocator()->get('speckcatalog_builder_product_service');
+        }
+        return $this->builderService;
+    }
+
+    /**
+     * @param $builderService
+     * @return self
+     */
+    public function setBuilderService($builderService)
+    {
+        $this->builderService = $builderService;
         return $this;
     }
 }

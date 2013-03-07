@@ -41,28 +41,6 @@ class Module
         return include(__DIR__ . '/config/services/servicemanager.php');
     }
 
-    public function getControllerConfig()
-    {
-        return array(
-            'initializers' => array(
-                function($instance, $sm){
-                    if($instance instanceof Service\FormServiceAwareInterface){
-                        $sm = $sm->getServiceLocator();
-                        $formService = $sm->get('speckcatalog_form_service');
-                        $instance->setFormService($formService);
-                    }
-                },
-                function($instance, $sm){
-                    if($instance instanceof Mapper\DbAdapterAwareInterface){
-                        $sm = $sm->getServiceLocator();
-                        $dbAdapter = $sm->get('speckcatalog_db');
-                        $instance->setDbAdapter($dbAdapter);
-                    }
-                },
-            ),
-        );
-    }
-
     public function onBootstrap($e)
     {
         if($e->getRequest() instanceof \Zend\Console\Request){
@@ -70,18 +48,30 @@ class Module
         }
 
         $app = $e->getParam('application');
+
+        $locator  = $app->getServiceManager();
+        $this->setServiceManager($locator);
+
         $em  = $app->getEventManager()->getSharedManager();
 
         $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre', array('SpeckCatalog\Event\FileUpload', 'preFileUpload'));
         $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array('SpeckCatalog\Event\FileUpload', 'postFileUpload'));
 
-        $app          = $e->getParam('application');
-        $locator      = $app->getServiceManager();
-        $this->setServiceManager($locator);
-        $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->plugin('url')->setRouter($locator->get('Router'));
-        $renderer->plugin('headScript')->appendFile('/assets/speck-catalog/js/speck-catalog-manager.js');
-        $renderer->plugin('headLink')->appendStylesheet('/assets/speck-catalog/css/speck-catalog.css');
+        //install event listeners
+        $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables', array($this, 'createTables'));
+        $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables.post', array($this, 'constraints'));
+    }
+
+    public function createTables($sm)
+    {
+        $create = file_get_contents(__DIR__ .'/data/schema.sql');
+        return "SpeckCatalog created tables";
+    }
+
+    public function constraints($sm)
+    {
+        $alter = file_get_contents(__DIR__ .'/data/alter.sql');
+        return "SpeckCatalog added table constraints";
     }
 
     /**

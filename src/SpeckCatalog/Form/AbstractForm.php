@@ -74,7 +74,7 @@ class AbstractForm extends ZendForm
                 }
             }
         }
-        return $data;
+        return parent::getData($flag);
     }
 
     /*

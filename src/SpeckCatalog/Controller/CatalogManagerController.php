@@ -77,23 +77,6 @@ class CatalogManagerController extends AbstractActionController
         return new ViewModel($vars);
     }
 
-    //return the partial for a new record.
-    public function newPartialAction()
-    {
-        $postParams = $this->params()->fromPost();
-        $parentName = $postParams['parent_name'];
-        $childName  = $postParams['child_name'];
-        $parent     = $postParams['parent'];
-
-        $parent = $this->getService($parentName)->find($parent);
-        $child  = $this->getService($childName)->getModel();
-
-        $child->setParent($parent);
-
-        $partial = $this->dash($childName);
-        $viewVars = array(lcfirst($this->camel($childName)) => $child);
-        return $this->partialView($partial, $viewVars);
-    }
 
     //returns main view variable(product/option/etc)
     protected function persist($class, $form)
@@ -169,9 +152,8 @@ class CatalogManagerController extends AbstractActionController
             $models = $this->getService($postParams['parent_name'])->search($postParams['query']);
         }
 
-        $this->layout(false);
         $view = new ViewModel(array('models' => $models, 'fields' => $postParams));
-        $view->setTemplate($this->partialDir . 'find-models');
+        $view->setTemplate($this->partialDir . 'find-models')->setTerminal(true);
         return $view;
     }
 
@@ -241,22 +223,38 @@ class CatalogManagerController extends AbstractActionController
         return $this->getServiceLocator()->get($serviceName);
     }
 
+    //return the partial for a new record.
+    public function newPartialAction()
+    {
+        $postParams = $this->params()->fromPost();
+        $parentName = $postParams['parent_name'];
+        $childName  = $postParams['child_name'];
+        $parent     = $postParams['parent'];
+
+        $parent = $this->getService($parentName)->find($parent);
+        $child  = $this->getService($childName)->getModel();
+
+        $child->setParent($parent);
+
+        $partial  = $this->dash($childName);
+        $viewVars = array(lcfirst($this->camel($childName)) => $child);
+        return $this->partialView($partial, $viewVars);
+    }
+
     public function partialView($partial, array $viewVars=null)
     {
-        $this->layout(false);
         $view = new ViewModel($viewVars);
         $view->setTemplate($this->partialDir . $partial);
 
-        return $view;
-    }
+        $view->setTerminal(true);
 
-    public function layout($layout)
-    {
-        if (false === $layout) {
-            $this->getEvent()->getViewModel()->setTemplate('layout/nolayout');
-        } else {
-            parent::layout($layout);
-        }
+        //$rend = $this->getServiceLocator()->get('zendviewrendererphprenderer');
+        //$html = $rend->render($view);
+        //return $this->getResponse()->setContent($html);
+
+
+
+        return $view;
     }
 
     protected function dash($name)

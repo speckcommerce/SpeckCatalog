@@ -61,7 +61,7 @@
     $('.import-search').live("submit", function(e){
         e.preventDefault();
         targetListItems(this);
-        $.post("/catalogmanager/search-class", $(this).serializeArray(), function(html) {
+        $.post("/admin/catalogmanager/search-class", $(this).serializeArray(), function(html) {
             goModal(html, 'Results')
         })
     })
@@ -69,7 +69,7 @@
     // search many classes (catalog search)
     $('#catalog-search').live("submit", function(e){
         e.preventDefault()
-        $.post("/catalogmanager/search-classes", $(this).serializeArray(), function(html) {
+        $.post("/admin/catalogmanager/search-classes", $(this).serializeArray(), function(html) {
             goModal(html, 'Results')
         })
     })
@@ -88,7 +88,7 @@
         clearTarget();
         getFormMessages(this).addClass('target');
         var form = getForm(this)
-        $.post('/catalogmanager/update-form/'+form.attr('id'), form.serializeArray(), function(html){
+        $.post('/admin/catalogmanager/update-form/'+form.attr('id'), form.serializeArray(), function(html){
             $('.target').html(html)
             clearTarget()
         })
@@ -105,7 +105,7 @@
         clearTarget();
         getBoundary(this).addClass('target');
         var form = getForm(this)
-        $.post('/catalogmanager/update-record/'+form.attr('id'), form.serializeArray(), function(formHtml){
+        $.post('/admin/catalogmanager/update-record/'+form.attr('id'), form.serializeArray(), function(formHtml){
             $('.target').replaceWith(formHtml)
             clearTarget()
         })
@@ -115,8 +115,8 @@
         e.preventDefault();
         var form = getForm(this)
         $('#greyOverlay').show();
-        $.post('/catalogmanager/update-product', form.serializeArray(), function(id){
-            window.location.replace('/catalogmanager/product/' + id);
+        $.post('/admin/catalogmanager/update-product', form.serializeArray(), function(id){
+            window.location.replace('/admin/catalogmanager/product/' + id);
         })
 
     })
@@ -137,7 +137,7 @@
 
     $('form.found').live("submit", function(e){
         e.preventDefault();
-        $.post('/catalogmanager/found', $(this).serializeArray(), function(html){
+        $.post('/admin/catalogmanager/found', $(this).serializeArray(), function(html){
             $('.target').append(html);
         })
         hideModal();
@@ -162,7 +162,7 @@
                     parent_key : $(this).data('parent_key')
                 }
                 $.post(
-                    '/catalogmanager/sort/' + $(this).data('parent') + '/' + $(this).data('type'),
+                    '/admin/catalogmanager/sort/' + $(this).data('parent') + '/' + $(this).data('type'),
                     data, function(res){
                         console.log(res);
                     }
@@ -172,14 +172,14 @@
     }
 
     function findPartial(data=null){
-        $.post('/catalogmanager/find', data, function(html){
+        $.post('/admin/catalogmanager/find', data, function(html){
             goModal(html, 'title');
         })
     }
 
     function newPartial(data){
         hideModal()
-        $.post("/catalogmanager/new-partial", data, function(html){
+        $.post("/admin/catalogmanager/new-partial", data, function(html){
             $('.target').append(html)
             initialCollapse('skip')
             $('.target').children().last().hide().addClass('appearing').slideDown(200, function(){
@@ -196,7 +196,7 @@
             var data = $(this).serializeArray();
             clearTarget();
             getBoundary(this).addClass('target');
-            $.post('/catalogmanager/remove-child', data, function(response){
+            $.post('/admin/catalogmanager/remove-child', data, function(response){
                 if(response == 'true'){
                     $('.target').addClass('removing').fadeOut(function(){
                        $('.target').remove()

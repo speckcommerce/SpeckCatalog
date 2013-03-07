@@ -58,26 +58,32 @@ class Module
         $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array('SpeckCatalog\Event\FileUpload', 'postFileUpload'));
 
         //install event listeners
-        $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables', array($this, 'createTables'));
         $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables.post', array($this, 'constraints'));
-    }
-
-    public function createTables($e)
-    {
-        $mapper = $e->getParam('mapper');
-        $create = file_get_contents(__DIR__ .'/data/schema.sql');
-        $mapper->query($create);
-
-        return "SpeckCatalog created tables";
     }
 
     public function constraints($e)
     {
-        $mapper = $e->getParam('mapper');
-        $alter = file_get_contents(__DIR__ .'/data/alter.sql');
-        $mapper->query($alter);
+        try {
+            $mapper = $e->getParam('mapper');
 
-        return "SpeckCatalog added table constraints";
+            //check dependencies
+            $tables = $mapper->query("show tables like 'contact_company'");
+            if(!count($tables)) {
+                return array(false, 'SpeckCatalog could not add table constraints - missing table contact_company from SpeckContact');
+            }
+            $tables = $mapper->query("show tables like 'catalog_product'");
+            if(!count($tables)) {
+                return array(false, 'SpeckCatalog could not add table constraints - missing tables provided by SpeckCatalog');
+            }
+
+            $alter = file_get_contents(__DIR__ .'/data/alter.sql');
+            $mapper->query($alter);
+
+        } catch (\Exception $e) {
+            return array(false, "SpeckCatalog could not add table constraints - " . $e->getMessage());
+        }
+
+        return array(true, "SpeckCatalog added table constraints");
     }
 
     /**

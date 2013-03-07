@@ -4,6 +4,7 @@ return array(
     'modules' => array(
         'SpeckCatalog',
         'SpeckCart',
+        'SpeckContact',
         'ZfcBase',
     ),
     'module_listener_options' => array(

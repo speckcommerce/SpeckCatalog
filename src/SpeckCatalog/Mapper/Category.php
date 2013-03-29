@@ -8,6 +8,7 @@ class Category extends AbstractMapper
     protected $model = '\SpeckCatalog\Model\Category\Relational';
     protected $tableKeyFields = array('category_id');
     protected $tableFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
+    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Category';
 
     public function getChildCategories($parentCategoryId=null, $siteId=1)
     {

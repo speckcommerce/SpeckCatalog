@@ -14,6 +14,7 @@ class Choice extends AbstractMapper
         'price_discount_percent', 'price_no_charge', 'override_name',
         'sort_weight'
     );
+    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Choice';
 
     public function getByOptionId($optionId)
     {

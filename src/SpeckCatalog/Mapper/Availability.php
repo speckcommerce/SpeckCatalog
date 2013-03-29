@@ -8,6 +8,7 @@ class Availability extends AbstractMapper
     protected $model = '\SpeckCatalog\Model\Availability\Relational';
     protected $tableKeyFields = array('product_id', 'uom_code', 'quantity', 'distributor_id');
     protected $tableFields = array('product_id', 'uom_code', 'distributor_id', 'cost', 'quantity', 'distributor_uom_code', 'distributor_item_number');
+    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Availability';
 
     public function getByProductUom($productId, $uomCode, $quantity)
     {

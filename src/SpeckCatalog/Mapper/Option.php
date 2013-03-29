@@ -11,6 +11,7 @@ class Option extends AbstractMapper
     protected $model = '\SpeckCatalog\Model\Option\Relational';
     protected $tableKeyFields = array('option_id');
     protected $tableFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
+    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Option';
 
     public function getByProductId($productId)
     {

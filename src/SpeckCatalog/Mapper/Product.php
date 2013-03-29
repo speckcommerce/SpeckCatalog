@@ -10,6 +10,7 @@ class Product extends AbstractMapper
     protected $model = '\SpeckCatalog\Model\Product\Relational';
     protected $tableKeyFields = array('product_id');
     protected $tableFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id');
+    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Product';
 
     public function search($string)
     {

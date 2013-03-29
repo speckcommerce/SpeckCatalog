@@ -8,12 +8,12 @@
                 <? $class = explode('\\', get_class($item)); $className = array_pop($class);  ?>
                 <tr>
                     <td><?=$className;?></td>
-                    <td><a href="/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>&parent_id=<?=$parentId;?>"><?=$item;?></a></td>
+                    <td><a href="/admin/catalogmanager/<?=strtolower($className);?>?entityId=<?=$i;?>&parent_id=<?=$parentId;?>"><?=$item;?></a></td>
                 </tr>
             <?php endforeach; ?>
-        <?php endif; ?>  
+        <?php endif; ?>
     </tbody>
-</table>    
+</table>
 <? if(count($paginator) > 1) :?>
     <?=$paginator->setView($this);?>
-<? endif; ?>        
+<? endif; ?>

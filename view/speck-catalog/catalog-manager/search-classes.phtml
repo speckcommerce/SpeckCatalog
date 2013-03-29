@@ -5,7 +5,7 @@
         <? $entityId = $entity->$method(); ?>
         <? $title = ''; ?>
         <? foreach($entity->toArray() as $key => $val){$title.="| {$key}: {$val} |";}; ?>
-        <?=$className;?> - <a href="/catalogmanager/<?=strtolower($className);?>?id=<?=$entityId;?>" data-content="<?=$title;?>" rel="popover" data-placement="below">"<?=$entity;?>"</a><br/>
+        <?=$className;?> - <a href="/admin/catalogmanager/<?=strtolower($className);?>?id=<?=$entityId;?>" data-content="<?=$title;?>" rel="popover" data-placement="below">"<?=$entity;?>"</a><br/>
 
     <? endforeach; ?>
 

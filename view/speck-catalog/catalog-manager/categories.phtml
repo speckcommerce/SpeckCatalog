@@ -62,7 +62,7 @@
 
         $('input#search-product').live('change', function(){
             if($(this).val().length > 2) {
-                $.post('/catalogmanager/categories/search/product/' + $(this).val(), null, function(html){
+                $.post('/admin/catalogmanager/categories/search/product/' + $(this).val(), null, function(html){
                     $('div#product-search-results').html(html);
                     categorySortable();
                 })
@@ -70,7 +70,7 @@
         })
         $('input#search-category').live('change', function(){
             if($(this).val().length > 2) {
-                $.post('/catalogmanager/categories/search/category/' + $(this).val(), null, function(html){
+                $.post('/admin/catalogmanager/categories/search/category/' + $(this).val(), null, function(html){
                     $('div#category-search-results').html(html);
                     categorySortable();
                 })
@@ -115,7 +115,7 @@
         }
         function getSiteTree(){
             if($('select#site-select').val()){
-                $.post('/catalogmanager/category-tree-preview/' + $('select#site-select').val(), null, function(html){
+                $.post('/admin/catalogmanager/category-tree-preview/' + $('select#site-select').val(), null, function(html){
                     $('div#option-tree').html(html);
                 })
             } else {

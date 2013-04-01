@@ -12,21 +12,6 @@ class CatalogManagerController extends AbstractActionController
 {
     protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
-    public function initSubLayout()
-    {
-        $this->subLayout('/layout/catalog-manager');
-    }
-
-    public function indexAction()
-    {
-        $this->initSubLayout();
-        $products = $this->getService('product')->getAll();
-        $companies = $this->getService('company')->getAll();
-
-        $viewVars = array('products' => $products, 'companies' => $companies);
-        return new ViewModel($viewVars);
-    }
-
     public function categoryTreePreviewAction()
     {
         $siteId = $this->params('siteid');
@@ -49,14 +34,12 @@ class CatalogManagerController extends AbstractActionController
 
     public function newProductAction()
     {
-        $this->initSubLayout();
         $product = $this->getService('product')->getModel();
         return new ViewModel(array('product' => $product));
     }
 
     public function productsAction()
     {
-        $this->initSubLayout();
         $products = $this->getService('product')->getAll();
         return new ViewModel(array('products' => $products));
     }
@@ -69,7 +52,6 @@ class CatalogManagerController extends AbstractActionController
 
     public function productAction()
     {
-        $this->initSubLayout();
         $productService = $this->getService('product');
         $product = $productService->getFullProduct($this->params('id'));
 

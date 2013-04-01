@@ -36,9 +36,13 @@ return array(
     ),
     'navigation' => array(
         'admin' => array(
-            'catalogmanager' => array(
-                'label' => 'Catalog',
-                'route' => 'zfcadmin/catalogmanager',
+            'products' => array(
+                'label' => 'Products',
+                'route' => 'zfcadmin/catalogmanager/products',
+            ),
+            'categories' => array(
+                'label' => 'Product Categories',
+                'route' => 'zfcadmin/catalogmanager/categories',
             ),
         ),
     ),

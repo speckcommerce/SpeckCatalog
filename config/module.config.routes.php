@@ -166,7 +166,7 @@ return array(
                                 'action' => 'index',
                             ),
                         ),
-                        'may_terminate' => true,
+                        'may_terminate' => false,
                         'child_routes' => array(
                             'new-product' => array(
                                 'type'    => 'Literal',

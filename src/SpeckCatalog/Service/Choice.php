@@ -21,7 +21,11 @@ class Choice extends AbstractService
 
     public function populate($choice, $recursive=false)
     {
-        $options = $this->getOptionService()->getByParentChoiceId($choice->getChoiceId(), true);
+        if ($choice->has('optionId')) {
+            $option = $this->getOptionService()->find(array('option_id' => $choice->getOptionId()));
+            $choice->setParent($option);
+        }
+        $options = $this->getOptionService()->getByParentChoiceId($choice->getChoiceId(), $recursive);
         $choice->setOptions($options);
         if($choice->getProductId()){
             $product = $this->getProductService()->getFullProduct($choice->getProductId());
@@ -35,6 +39,20 @@ class Choice extends AbstractService
         $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
         $this->getEntityMapper()->addOption($choiceId, $optionId);
         return $this->getOptionService()->find(array('option_id' => $optionId));
+    }
+
+
+    public function persist($form)
+    {
+        $data = $form->getData();
+        $orig = $form->getOriginalData();
+
+        if (isset($data['choice_id']) && (int) $data['choice_id'] > 0) {
+            return $this->update($data, $orig);
+        }
+
+        $model = $this->insert($data);
+        return $model;
     }
 
     public function sortOptions($choiceId, $order)
@@ -54,11 +72,6 @@ class Choice extends AbstractService
         $product = ( !is_int($productOrId) ? $productOrId : $this->getProductService()->find($productOrId) );
         $choice = $this->getEntity()->setProductId($product->getProductId());
         return $this->persist($choice);
-    }
-
-    public function delete($choiceId)
-    {
-        return $this->getEntityMapper()->delete($choiceId);
     }
 
     /**

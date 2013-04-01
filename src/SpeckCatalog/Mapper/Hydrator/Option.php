@@ -19,7 +19,7 @@ class Option extends ClassMethods
         return $data;
     }
 
-    public function hydrate($data, $model)
+    public function hydrate(array $data, $model)
     {
         $model = parent::hydrate($data, $model);
         $model->setRequired( (bool) $model->getRequired());

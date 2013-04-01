@@ -1,7 +1,7 @@
 <?php
+    $parentProductKeyFields = $this->speckCatalogForm($spec->getParent(), 'product')->getKeyFields();
     $formHelper = $this->speckCatalogForm($spec, 'spec');
     $keyFields = $formHelper->getKeyFields();
-    $parentProductKeyFields = $this->speckCatalogForm($spec->getParent(), 'product')->getKeyFields();
 ?>
 <div class="boundary contrastbg">
     <div class="entity-header">

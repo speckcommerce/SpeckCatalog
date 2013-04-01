@@ -116,10 +116,21 @@ class Option extends AbstractService
         parent::update($option, $originalValues);
     }
 
-    public function removeChoice($choiceOrId)
+    public function removeChoice($optionData, $choiceData)
     {
-        $choiceId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getChoiceId() );
-        $this->getChoiceService()->delete($choiceId);
+        $choiceService = $this->getChoiceService();
+
+        $found = $choiceService->find($choiceData);
+        if (!$found) {
+            throw new \Exception(sprintf('choice not found - %n', $choiceData['choice_id']));
+        }
+
+        $choiceService->delete($choiceData); //delete
+        if ($choiceService->find($choiceData)) {
+            throw new \Exception(sprintf('delete unsuccessful - %n remains after delete', $choiceData['choice_id']));
+        }
+
+        return true; //choice was found, and then deleted successfully
     }
 
     public function sortChoices($optionId, array $order = array())

@@ -64,8 +64,9 @@ class AbstractMapper implements DbAdapterAwareInterface
     //return deleted nuber of rows
     public function delete(array $where, $tableName = null)
     {
-        $sql = $this->getSql()->setTable($tableName ?: $this->getTableName());
-        $delete = $sql->delete();
+        $tableName = $tableName ?: $this->getTableName();
+        $sql = $this->getSql();
+        $delete = $sql->delete($tableName);
 
         $delete->where($where);
 

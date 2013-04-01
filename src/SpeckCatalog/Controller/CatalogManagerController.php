@@ -214,7 +214,7 @@ class CatalogManagerController extends AbstractActionController
         if (true === $result) {
             return $this->getResponse()->setContent('true');
         }
-        $this->getResponse();
+        return $this->getResponse()->setContent('false');
     }
 
     public function getService($name)

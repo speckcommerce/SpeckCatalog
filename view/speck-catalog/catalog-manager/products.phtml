@@ -4,5 +4,6 @@
             <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a><br/>
         <? endforeach; ?>
     </div>
-
+    <hr/>
+    <a href="<?=$this->url('zfcadmin/catalogmanager/new-product'); ?>" class="btn">New Product</a>
 </div>

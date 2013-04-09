@@ -8,11 +8,6 @@ class Image extends AbstractMapper
     protected $model;
     protected $parentType;
 
-    protected $hydrators = array(
-        'product' => 'SpeckCatalog\Mapper\Hydrator\ProductImage',
-        'option' => 'SpeckCatalog\Mapper\Hydrator\OptionImage',
-    );
-
     protected $fields = array(
         'product' => array('image_id', 'product_id', 'sort_weight', 'file_name', 'label'),
         'option'  => array(),
@@ -63,16 +58,6 @@ class Image extends AbstractMapper
     {
         $type = $this->getParentType();
         return $this->keyFields[$type];
-    }
-
-    public function getHydrator()
-    {
-        if ($this->getParentType() === 'product') {
-            return new $this->hydrators['product'];
-        }
-        if ($this->getParentType() === 'option') {
-            return new $this->hydrators['option'];
-        }
     }
 
 }

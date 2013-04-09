@@ -6,7 +6,6 @@ class Document extends AbstractMapper
 {
     protected $tableName = 'catalog_product_document';
     protected $model = 'SpeckCatalog\Model\Document\Relational';
-    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Document';
 
     public function getByProductId($productId)
     {

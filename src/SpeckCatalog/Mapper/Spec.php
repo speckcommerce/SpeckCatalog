@@ -8,7 +8,6 @@ class Spec extends AbstractMapper
     protected $model          = '\SpeckCatalog\Model\Spec\Relational';
     protected $tableFields    = array('spec_id', 'product_id', 'label', 'value');
     protected $tableKeyFields = array('spec_id');
-    protected $hydrator = 'SpeckCatalog\Mapper\Hydrator\Spec';
 
     public function getByProductId($productId)
     {

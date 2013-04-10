@@ -4,7 +4,7 @@
     <div class="row-fluid">
         <? foreach($products as $product) : ?>
             <div style="float:left; width:300px; height:50px; border-right:1px solid #DDD; border-bottom:1px solid #DDD;">
-            <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a>
+            <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product;?></a>
             </div>
         <? endforeach; ?>
     </div>

@@ -28,6 +28,11 @@ class ProductUom extends AbstractService
             $productUom->getUomCode(),
             $productUom->getQuantity()
         );
+        if ($recursive) {
+            foreach ($availabilities as $i => $avail) {
+                $this->getAvailabilityService()->populate($avail);
+            }
+        }
 
         $productUom->setAvailabilities($availabilities);
         $uom = $this->getUomService()->find(array('uom_code' => $productUom->getUomCode()));

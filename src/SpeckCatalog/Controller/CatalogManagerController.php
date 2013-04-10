@@ -47,7 +47,7 @@ class CatalogManagerController extends AbstractActionController
     public function productsAction()
     {
         $this->init();
-        $products = $this->getService('product')->getAll();
+        $products = $this->getService('product')->getAllProductsInCategories();
         return new ViewModel(array('products' => $products));
     }
 

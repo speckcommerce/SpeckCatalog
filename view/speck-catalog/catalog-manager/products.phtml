@@ -3,7 +3,9 @@
     <hr/>
     <div class="span12">
         <? foreach($products as $product) : ?>
-            <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a><br/>
+            <div style="float:left" class="span3">
+            <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a>
+            </div>
         <? endforeach; ?>
     </div>
 </div>

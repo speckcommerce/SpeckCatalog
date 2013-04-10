@@ -22,6 +22,11 @@ class Product extends AbstractService
         return $product;
     }
 
+    public function getAllProductsInCategories()
+    {
+        return $this->getEntityMapper()->getAllProductsInCategories();
+    }
+
     public function update($dataOrModel, array $originalVals = null)
     {
         if (null === $originalVals && is_array($dataOrModel)) {

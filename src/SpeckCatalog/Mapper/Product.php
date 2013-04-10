@@ -20,6 +20,21 @@ class Product extends AbstractMapper
         return $this->selectManyModels($select);
     }
 
+    public function getAllProductsInCategories()
+    {
+        $table = $this->getTableName();
+        $linker = 'catalog_category_product';
+        $joinString = $linker . '.product_id = ' . $table . '.product_id';
+        $predicate = new Predicate\Predicate();
+        $predicate->isNotNull('category_id');
+        $where = array($predicate);
+
+        $select = $this->getSelect()
+            ->join($linker, $joinString)
+            ->where($where);
+        return $this->selectManyModels($select);
+    }
+
     public function getByCategoryId($categoryId, $siteId=1)
     {
         $table = $this->getTableName();

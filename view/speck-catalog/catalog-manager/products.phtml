@@ -3,8 +3,14 @@
     <hr/>
     <div class="row-fluid">
         <? foreach($products as $product) : ?>
-            <div style="border-right:1px solid #DDD; border-bottom:1px solid #DDD;">
-            <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product;?></a>
+            <div class="span1">
+                <b><?=$product->getProductId(); ?></b>
+            </div>
+            <div class="span1">
+                <?=($product->getTypeId() === 1) ? '(Shell) ' : '(Product)'; ?>
+            </div>
+            <div class="span4">
+                <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product;?></a>
             </div>
         <? endforeach; ?>
     </div>

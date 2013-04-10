@@ -50,4 +50,10 @@ class Relational extends Base
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $string = $this->has('distributor') ? $this->getDistributor()->getName(): '___' ;
+        return $string;
+    }
 }

@@ -10,18 +10,18 @@ class Option extends InputFilter
     {
         $this->add(array(
             'name' => 'option_id',
-            'allow_empty' => 'true',
-            'required' => 'true',
+            'allow_empty' => true,
+            'required' => true,
         ));
         $this->add(array(
             'name' => 'product_id',
             'required' => false,
-            'allow_empty' => false,
+            'allow_empty' => true,
         ));
         $this->add(array(
             'name' => 'choice_id',
             'required' => false,
-            'allow_empty' => false,
+            'allow_empty' => true,
         ));
         $this->add(array(
             'name' => 'name',
@@ -29,7 +29,7 @@ class Option extends InputFilter
         ));
         $this->add(array(
             'name' => 'instruction',
-            'allow_empty' => 'true',
+            'allow_empty' => true,
         ));
         $this->add(array(
             'name' => 'option_type_id',

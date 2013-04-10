@@ -223,9 +223,9 @@ return array(
                                 ),
                             ),
                             'products' => array(
-                                'type'    => 'Segment',
+                                'type'    => 'Literal',
                                 'options' => array(
-                                    'route'    => '/products[/:page]',
+                                    'route'    => '/products',
                                     'defaults' => array(
                                         'action' => 'products',
                                     ),

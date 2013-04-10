@@ -7,12 +7,31 @@
     $pageCount   = ceil($products->getTotalItemCount() / $products->getItemCountPerPage());
     $nextPage    = ($page < $pageCount) ? $page + 1 : $page;
     $prevPage    = ($page - 1 > 1) ? $page - 1 : $page;
-    $pageRoute   = 'zfcadmin/catalogmanager/products';
+    $pageRoute   = $this->url('zfcadmin/catalogmanager/products');
+    $prevUrl     = $pageRoute . '?p=' . $prevPage;
+    $nextUrl     = $pageRoute . '?p=' . $nextPage;
+
+    $paginator   = "Page {$page} of {$pageCount} <a href=\"{$prevUrl}\">Prev</a> | <a href=\"{$nextUrl}\">Next</a>";
 ?>
 
+
 <div class="row-fluid">
-    <a href="<?=$this->url('zfcadmin/catalogmanager/new-product'); ?>" class="btn">New Product</a>
+    <div class="span2">
+        <a href="<?=$this->url('zfcadmin/catalogmanager/new-product'); ?>" class="btn">New Product</a>
+    </div>
+    <div class="span2">
+        <form method="GET">
+            <input type="text" name="query" placeholder="Search Products" />
+        </form>
+    </div>
+
+</div>
     <hr/>
+<div class="row-fluid">
+    <?=$paginator; ?>
+        <div class="row-fluid" style="font-weight:bold">
+            <div class="span1">Product Id</div><div class="span1">Type</div><div class="span4">Name</div>
+        </div>
     <? foreach($products as $product) : ?>
         <div class="row-fluid">
             <div class="span1">
@@ -26,7 +45,6 @@
             </div>
         </div>
     <? endforeach; ?>
-    <? /* Showing <?=$currentItem; ?> - <?=$lastItem; ?> */ ?>
-    Page <?=$page; ?> of <?=$pageCount;?> <a href="<?=$this->url($pageRoute) . '/' . $prevPage; ?>">Prev</a> | <a href="<?=$this->url($pageRoute) . '/' . $nextPage;?>">Next</a>
+    <?=$paginator; ?>
 
 </div>

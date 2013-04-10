@@ -1,3 +1,15 @@
+<?
+    $currentItem = $products->getCurrentItemCount();
+    $lastItem    = ($products->getCurrentItemCount() + $products->getItemCountPerPage() < $products->getTotalItemCount())
+                 ? $products->getCurrentItemCount() + $products->getItemCountPerPage()
+                 : $products->getTotalItemCount();
+    $page        = $products->getCurrentPageNumber();
+    $pageCount   = ceil($products->getTotalItemCount() / $products->getItemCountPerPage());
+    $nextPage    = ($page < $pageCount) ? $page + 1 : $page;
+    $prevPage    = ($page - 1 > 1) ? $page - 1 : $page;
+    $pageRoute   = 'zfcadmin/catalogmanager/products';
+?>
+
 <div class="row-fluid">
     <a href="<?=$this->url('zfcadmin/catalogmanager/new-product'); ?>" class="btn">New Product</a>
     <hr/>
@@ -14,4 +26,8 @@
             </div>
         </div>
     <? endforeach; ?>
+    Showing <?=$currentItem; ?> - <?=$lastItem; ?>
+    Page <?=$page; ?> of <?=$pageCount;?><br/>
+    <a href="<?=$this->url($pageRoute) . '/' . $prevPage; ?>">Prev</a> | <a href="<?=$this->url($pageRoute) . '/' . $nextPage;?>">Next</a>
+
 </div>

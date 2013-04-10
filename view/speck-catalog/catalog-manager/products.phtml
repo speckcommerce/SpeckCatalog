@@ -1,8 +1,8 @@
 <div class="row-fluid">
     <a href="<?=$this->url('zfcadmin/catalogmanager/new-product'); ?>" class="btn">New Product</a>
     <hr/>
-    <div class="row-fluid">
-        <? foreach($products as $product) : ?>
+    <? foreach($products as $product) : ?>
+        <div class="row-fluid">
             <div class="span1">
                 <b><?=$product->getProductId(); ?></b>
             </div>
@@ -12,6 +12,6 @@
             <div class="span4">
                 <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product;?></a>
             </div>
-        <? endforeach; ?>
-    </div>
+        </div>
+    <? endforeach; ?>
 </div>

@@ -99,4 +99,12 @@ class Relational extends Base
         $this->enabled = $enabled;
         return $this;
     }
+
+    public function __toString()
+    {
+        $string = $this->has('uom') ? $this->getUom()->getUomCode() . '' : '__';
+        $string .= ' (' . (int) $this->getQuantity() . ')';
+        return $string;
+
+    }
 }

@@ -13,8 +13,8 @@ class Relational extends Base
     protected $parentProducts;
     protected $choices;
     protected $images;
-    protected $productId;
-    protected $choiceId;
+    protected $productId; //parent product id
+    protected $choiceId; //parent choice id
 
     public function getKey()
     {

@@ -1,7 +1,7 @@
 <div class="row">
     <a href="<?=$this->url('zfcadmin/catalogmanager/new-product'); ?>" class="btn">New Product</a>
     <hr/>
-    <div class="span12">
+    <div class="row-fluid">
         <? foreach($products as $product) : ?>
             <div style="float:left" class="span3">
             <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a>

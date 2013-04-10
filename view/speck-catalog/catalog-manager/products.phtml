@@ -3,7 +3,7 @@
     <hr/>
     <div class="row-fluid">
         <? foreach($products as $product) : ?>
-            <div style="float:left" class="span3">
+            <div style="float:left; width:200px;">
             <a href="/admin/catalogmanager/product/<?=$product->getProductId();?>"><?=$product->getProductTypeId();?>-<?=$product;?></a>
             </div>
         <? endforeach; ?>

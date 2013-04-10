@@ -47,7 +47,10 @@ class CatalogManagerController extends AbstractActionController
     public function productsAction()
     {
         $this->init();
-        $products = $this->getService('product')->usePaginator()->getAllProductsInCategories();
+        $config = array(
+            'page' => $this->params('page') ?: 1
+        );
+        $products = $this->getService('product')->usePaginator($config)->getAllProductsInCategories();
         return new ViewModel(array('products' => $products));
     }
 

@@ -52,12 +52,13 @@ class CatalogManagerController extends AbstractActionController
             'n' => 40,
         );
         $this->getService('product')->usePaginator($config);
-        if ($this->params()->fromQuery('query')) {
-            $products = $this->getService('product')->search($this->params()->fromQuery('query'));
+        $query = $this->params()->fromQuery('query');
+        if ($query) {
+            $products = $this->getService('product')->search($query);
         } else {
             $products = $this->getService('product')->getAllProductsInCategories();
         }
-        return new ViewModel(array('products' => $products));
+        return new ViewModel(array('products' => $products, 'query' => $query));
     }
 
     public function categoriesAction()

@@ -7,9 +7,15 @@
     $pageCount   = ceil($products->getTotalItemCount() / $products->getItemCountPerPage());
     $nextPage    = ($page < $pageCount) ? $page + 1 : $page;
     $prevPage    = ($page - 1 > 1) ? $page - 1 : $page;
-    $pageRoute   = $this->url('zfcadmin/catalogmanager/products');
-    $prevUrl     = $pageRoute . '?p=' . $prevPage;
-    $nextUrl     = $pageRoute . '?p=' . $nextPage;
+    $url         = 'zfcadmin/catalogmanager/products';
+    $opts        = array();
+    if ($this->query) {
+        $opts['query'] = 'query=' . $this->query;
+    }
+    $opts['p']   = 'p=' . $prevPage;
+    $prevUrl     = $this->url($url) . '?' . implode('&', $opts);
+    $opts['p']   = 'p=' . $nextPage;
+    $nextUrl     = $this->url($url) . '?' . implode('&', $opts);
 
     $paginator   = "Page {$page} of {$pageCount} <a href=\"{$prevUrl}\">Prev</a> | <a href=\"{$nextUrl}\">Next</a>";
 ?>

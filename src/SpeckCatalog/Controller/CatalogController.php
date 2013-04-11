@@ -16,6 +16,6 @@ class CatalogController extends AbstractActionController
     public function productRedirectAction()
     {
         $id = (int) $this->getEvent()->getRouteMatch()->getParam('id');
-        return $this->redirect()->toRoute('product', array('id' => $id));
+        return $this->redirect()->toRoute('product/byid', array('id' => $id));
     }
 }

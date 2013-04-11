@@ -27,34 +27,45 @@ return array(
                 ),
             ),
             'category' => array(
-                'type' => 'Segment',
+                'type' => 'Literal',
                 'options' => array(
-                    'route' => '/category/:id',
+                    'route' => '/category',
                     'defaults' => array(
                         'controller' => 'speckcatalog_category',
                         'action' => 'index',
                     ),
                 ),
-                //'child_routes' => array(
-                //    'per-page' => array(
-                //        'type'    => 'Segment',
-                //        'options' => array(
-                //            'route'    => '/per-page',
-                //            'defaults' => array(
-                //                'controller' => 'speckcatalog_category',
-                //                'action' => 'perPage',
-                //            ),
-                //        ),
-                //    ),
-                //),
+                'child_routes' => array(
+                    'byid' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'product' => array(
-                'type' => 'Segment',
+                'type' => 'Literal',
                 'options' => array(
-                    'route' => '/product/:id[/:cartItemId]',
+                    'route' => '/product',
                     'defaults' => array(
                         'controller' => 'speckcatalog_product',
                         'action' => 'index',
+                    ),
+                ),
+                'child_routes' => array(
+                    'byid' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/:id[/:cartItemId]',
+                            'constraints' => array(
+                                'id'         => '[0-9]+',
+                                'cartItemId' => '[0-9]+',
+                            ),
+                        ),
                     ),
                 ),
             ),

@@ -11,18 +11,21 @@ return array(
                         'action' => 'index',
                     ),
                 ),
-            ),
-            'productshortcut' => array(
-                'type' => 'Segment',
-                'priority' => -1000,
-                'options' => array(
-                    'route' => '/:id',
-                    'constraints' => array(
-                        'id' => '\d+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'speckcatalog_catalog',
-                        'action' => 'productRedirect',
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'productshortcut' => array(
+                        'type' => 'Segment',
+                        'priority' => -1000,
+                        'options' => array(
+                            'route' => ':id',
+                            'constraints' => array(
+                                'id' => '\d+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'speckcatalog_catalog',
+                                'action' => 'productRedirect',
+                            ),
+                        ),
                     ),
                 ),
             ),

@@ -15,22 +15,36 @@ class MediaUrl extends AbstractHelper
         $this->setMediaType($mediaType);
     }
 
+    public function getFileName($media)
+    {
+        if (is_string($media)) {
+            return $media;
+        }
+        return $media->getFileName();
+    }
+
     public function category($media)
     {
+        $fileName = $this->getFileName($media);
+
         $getter = 'getCategory' . $this->getMediaType() . 'Path';
-        return $this->settings->$getter($media) . '/' . $media->getFileName();
+        return $this->settings->$getter($media) . '/' . $fileName;
     }
 
     public function option($media)
     {
+        $fileName = $this->getFileName($media);
+
         $getter = 'getCategory' . $this->getMediaType() . 'Path';
-        return $this->settings->$getter($media) . '/' . $media->getFileName();
+        return $this->settings->$getter($media) . '/' . $fileName;
     }
 
     public function product($media)
     {
+        $fileName = $this->getFileName($media);
+
         $getter = 'getProduct' . $this->getMediaType() . 'Path';
-        return $this->settings->$getter($media) . '/' . $media->getFileName();
+        return $this->settings->$getter($media) . '/' . $fileName;
     }
 
     function getSettings()

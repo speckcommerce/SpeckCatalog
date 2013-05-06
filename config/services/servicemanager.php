@@ -3,6 +3,11 @@ return array(
     'shared' => array(
     ),
     'factories' => array(
+        'speckcatalog_category_service'     => function ($sm) {
+            $service = new \SpeckCatalog\Service\Category;
+            $domain = $sm->get('multisite_domain_data');
+            return $service->setSiteId($domain['website_id']);
+        },
         'speckcatalog_product_image_service' => function ($sm) {
             $service = new \SpeckCatalog\Service\Image;
             $mapper = $sm->get('speckcatalog_image_mapper')->setParentType('product');

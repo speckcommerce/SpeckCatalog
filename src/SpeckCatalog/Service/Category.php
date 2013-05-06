@@ -9,6 +9,7 @@ class Category extends AbstractService
     protected $productUomService;
     protected $productImageService;
     protected $optionService;
+    protected $siteId;
 
     public function findById($categoryId)
     {
@@ -19,7 +20,7 @@ class Category extends AbstractService
     {
         $categories = $this->getChildCategories(null);
         foreach ($categories as $cat) {
-            $cats = $this->getChildCategories($cat->getCategoryId());
+            $cats = $this->getChildCategories($cat->getCategoryId(), $this->getSiteId());
             $cat->setCategories($cats);
         }
         return $categories;
@@ -182,6 +183,24 @@ class Category extends AbstractService
     public function setProductImageService($productImageService)
     {
         $this->productImageService = $productImageService;
+        return $this;
+    }
+
+    /**
+     * @return siteId
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
+
+    /**
+     * @param $siteId
+     * @return self
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
         return $this;
     }
 }

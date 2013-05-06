@@ -17,7 +17,6 @@ return array(
         'invokables' => array(
             'speckcatalog_cart_item_meta'           => 'SpeckCatalog\Model\CartItemMeta',
             'speckcatalog_product_service'          => 'SpeckCatalog\Service\Product',
-            'speckcatalog_category_service'         => 'SpeckCatalog\Service\Category',
             'speckcatalog_company_service'          => 'SpeckCatalog\Service\Company',
             'speckcatalog_option_service'           => 'SpeckCatalog\Service\Option',
             'speckcatalog_choice_service'           => 'SpeckCatalog\Service\Choice',

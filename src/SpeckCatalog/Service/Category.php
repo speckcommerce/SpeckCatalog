@@ -18,7 +18,7 @@ class Category extends AbstractService
 
     public function getCategoriesForNavigation()
     {
-        $categories = $this->getChildCategories(null);
+        $categories = $this->getChildCategories(null, $this->getSiteId());
         foreach ($categories as $cat) {
             $cats = $this->getChildCategories($cat->getCategoryId(), $this->getSiteId());
             $cat->setCategories($cats);
@@ -61,9 +61,9 @@ class Category extends AbstractService
         return $category;
     }
 
-    public function getChildCategories($categoryId)
+    public function getChildCategories($categoryId, $siteId)
     {
-        return $this->getEntityMapper()->getChildCategories($categoryId);
+        return $this->getEntityMapper()->getChildCategories($categoryId, $siteId);
     }
 
     public function addProduct($categoryOrId, $productOrId)

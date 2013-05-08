@@ -5,17 +5,18 @@ return array(
     'factories' => array(
         'speckcatalog_category_service'     => function ($sm) {
             $service = new \SpeckCatalog\Service\Category;
-            $domain = $sm->get('multisite_domain_data');
+            $domain  = $sm->get('multisite_domain_data');
+            $service->setSiteId($domain['website_id']);
             return $service->setSiteId($domain['website_id']);
         },
         'speckcatalog_product_image_service' => function ($sm) {
             $service = new \SpeckCatalog\Service\Image;
-            $mapper = $sm->get('speckcatalog_image_mapper')->setParentType('product');
+            $mapper  = $sm->get('speckcatalog_image_mapper')->setParentType('product');
             return $service->setEntityMapper($mapper);
         },
         'speckcatalog_option_image_service' => function ($sm) {
             $service = new \SpeckCatalog\Service\Image;
-            $mapper = $sm->get('speckcatalog_image_mapper')->setParentType('option');
+            $mapper  = $sm->get('speckcatalog_image_mapper')->setParentType('option');
             return $service->setEntityMapper($mapper);
         },
         'speckcatalog_module_options' => function ($sm) {

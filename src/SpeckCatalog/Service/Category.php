@@ -50,13 +50,15 @@ class Category extends AbstractService
 
         $categories = $this->getChildCategories($categoryId);
         $products = $this->getProductService()->usePaginator($paginationOptions)->getByCategoryId($categoryId);
-        foreach($products as $product){
-            $product->setImages($this->getProductImageService()->getImages('product', $product->getProductId()));
-            $product->setUoms($this->getProductUomService()->getByProductId($product->getProductId()));
-            $product->setOptions($this->getOptionService()->getByProductId($product->getProductId(), true, true));
+        if (count($products)) {
+            foreach($products as $product){
+                $product->setImages($this->getProductImageService()->getImages('product', $product->getProductId()));
+                $product->setUoms($this->getProductUomService()->getByProductId($product->getProductId()));
+                $product->setOptions($this->getOptionService()->getByProductId($product->getProductId(), true, true));
+            }
+            $category->setProducts($products);
         }
         $category->setCategories($categories);
-        $category->setProducts($products);
 
         return $category;
     }

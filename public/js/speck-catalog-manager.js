@@ -171,7 +171,7 @@
         })
     }
 
-    function findPartial(data=null){
+    function findPartial(data){
         $.post('/admin/catalogmanager/find', data, function(html){
             goModal(html, 'title');
         })

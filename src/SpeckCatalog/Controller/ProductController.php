@@ -20,6 +20,7 @@ class ProductController extends AbstractActionController
         if(!$product){
             throw new \Exception('no product for that id');
         }
+        $this->layout()->crumbs = $productService->getCrumbs($product);
         $vars = array(
             'product'     => $product,
             'editingCart' => ($cartItemId ? true : false),

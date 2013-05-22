@@ -12,6 +12,11 @@ class Option extends AbstractMapper
     protected $tableKeyFields = array('option_id');
     protected $tableFields = array('option_id', 'name', 'instruction', 'required', 'builder', 'option_type_id');
 
+    public function find(array $data)
+    {
+        return parent::find(array('option_id' => $data['option_id']));
+    }
+
     public function getByProductId($productId)
     {
         $linker = 'catalog_product_option';

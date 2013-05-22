@@ -12,6 +12,7 @@ class Product extends AbstractService
     protected $specService;
     protected $companyService;
     protected $builderService;
+    protected $categoryService;
 
     public function find(array $data, $populate=false, $recursive=false)
     {
@@ -38,10 +39,21 @@ class Product extends AbstractService
         return parent::update($dataOrModel, $originalVals);
     }
 
-    public function getCrubs($product)
+    public function getCrumbs($product)
     {
-        $crumbs = array($product->getName());
-        return $this->getEntityMapper()->getCrumbs($product, $crumbs);
+        $crumbs = array($product);
+        $categoryService = $this->getCategoryService();
+        $parent = $categoryService->getByProductId($product->getProductId());
+        if ($parent) {
+            return $categoryService->getCrumbs($parent, $crumbs);
+        }
+
+        return $crumbs;
+    }
+
+    public function getParentCategory($productId)
+    {
+        return $this->getEntityMapper()->getParentCategory($productId);
     }
 
     public function getFullProduct($productId)
@@ -80,6 +92,17 @@ class Product extends AbstractService
     public function getProductsById(array $productIds = array())
     {
         return $this->getEntityMapper()->getProductsById($productIds);
+    }
+
+    public function setEnabledProduct($productId, $enabled)
+    {
+        $row   = array(
+            'enabled'    => ($enabled) ? 1 : 0,
+            'product_id' => $productId
+        );
+        $where = array('product_id' => $productId);
+
+        $this->update($row, $where);
     }
 
 
@@ -276,6 +299,27 @@ class Product extends AbstractService
     public function setBuilderService($builderService)
     {
         $this->builderService = $builderService;
+        return $this;
+    }
+
+    /**
+     * @return categoryService
+     */
+    public function getCategoryService()
+    {
+        if (null === $this->categoryService) {
+            $this->categoryService = $this->getServiceLocator()->get('speckcatalog_category_service');
+        }
+        return $this->categoryService;
+    }
+
+    /**
+     * @param $categoryService
+     * @return self
+     */
+    public function setCategoryService($categoryService)
+    {
+        $this->categoryService = $categoryService;
         return $this;
     }
 }

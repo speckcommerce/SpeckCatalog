@@ -3,12 +3,17 @@
 namespace SpeckCatalog\Service;
 
 use SpeckCatalog\Model\AbstractModel;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
-class ProductUom extends AbstractService
+class ProductUom extends AbstractService implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     protected $entityMapper = 'speckcatalog_product_uom_mapper';
     protected $availabilityService;
     protected $uomService;
+    protected $productService;
 
     public function getByProductId($productId, $populate=false, $recursive=false)
     {
@@ -81,6 +86,23 @@ class ProductUom extends AbstractService
         return $this;
     }
 
+    public function update($data, array $where = null)
+    {
+        $vars = array(
+            'data'        => $data,
+            'where'       => $where,
+        );
+
+        $this->getEventManager()->trigger('update.pre', $this, $vars);
+
+        $result = parent::update($data, $where);
+        $vars['result'] = $result;
+
+        $this->getEventManager()->trigger('update.post', $this, $vars);
+
+        return $result;
+    }
+
     public function insert($productUom)
     {
         if($productUom instanceOf AbstractModel) {
@@ -93,9 +115,38 @@ class ProductUom extends AbstractService
             $data = $productUom;
         }
 
-        parent::insert($productUom);
+        $vars = array(
+            'data'        => $data,
+            'where'       => $where,
+        );
+        $this->getEventManager()->trigger('insert.pre', $this, $vars);
+
+        $vars['result'] = parent::insert($productUom);
+
+        $this->getEventManager()->trigger('insert.post', $this, $vars);
 
         $productUom = $this->find($data);
         return $productUom;
+    }
+
+    /**
+     * @return productService
+     */
+    public function getProductService()
+    {
+        if (null === $this->productService) {
+            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
+        }
+        return $this->productService;
+    }
+
+    /**
+     * @param $productService
+     * @return self
+     */
+    public function setProductService($productService)
+    {
+        $this->productService = $productService;
+        return $this;
     }
 }

@@ -18,6 +18,12 @@ class CategoryController extends AbstractActionController
         $service  = $this->getServiceLocator()->get('speckcatalog_category_service');
         $category = $service->getCategoryForView($id, $paginatorVars);
 
+        $crumbs = $service->getCrumbs($category);
+        $this->layout()->crumbs = array(
+            'type' => 'category',
+            'crumbs' => $crumbs,
+        );
+
         if (null === $category) {
             throw new \Exception('fore oh fore');
         }

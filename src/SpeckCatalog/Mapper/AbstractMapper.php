@@ -247,8 +247,8 @@ class AbstractMapper implements DbAdapterAwareInterface
     {
         if (is_string($this->model) && class_exists($this->model)) {
             if ($data) {
-                $hydrator = $hydrator ?: $this->getHydrator();
-                return $hydrator->hydrate($data, $model);
+                $hydrator = $this->getHydrator();
+                return $hydrator->hydrate($data, new $this->model);
             }
             return new $this->model;
         }else{

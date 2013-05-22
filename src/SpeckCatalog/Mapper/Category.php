@@ -29,29 +29,37 @@ class Category extends AbstractMapper
         return $this->selectManyModels($query);
     }
 
-    //this method requires no linkers are orphaned.
-    public function getCrumbs($category, $crumbs=array())
+    public function getByProductId($productId, $siteId=1)
     {
-        if (is_numeric($category)) {
-            $category = $this->find(array('category_id' => $category));
-        }
+        $table  = 'catalog_category';
+        $linker = 'catalog_category_product';
+        $joinString = $linker . '.category_id = ' . $table . '.category_id';
 
-        $crumbs[] = $category->getName();
+        $where = new \Zend\Db\Sql\Where();
+        $where->equalTo($linker . '.website_id', $siteId);
+        $where->equalTo($linker . '.product_id', $productId);
 
-        $linkerTable = 'catalog_category_website';
-        $where = array('category_id' => $category->getCategoryId());
+        $select = $this->getSelect($table)
+            ->join($linker, $joinString)
+            ->where($where);
+        //echo str_replace('"','',$select->getSqlString()); die();
+        return $this->selectOneModel($select);
+    }
 
-        $query = $this->getSelect($linkerTable)
-            ->where($where)
-            ->limit(1);
-        $linker = $this->selectOne($query);
+    public function getParentCategory($categoryId, $siteId=1)
+    {
+        $table  = 'catalog_category_website';
+        $linker = 'catalog_category';
+        $joinString = $table . '.parent_category_id = ' . $linker . '.category_id';
+        $where = new \Zend\Db\Sql\Where();
+        $where->equalTo('website_id', $siteId);
+        $where->equalTo($table . '.category_id', $categoryId);
+        $where->isNotNull($table . '.parent_category_id');
 
-        if ($linker) {
-            $parent = $this->find(array('category_id' => $linker['parent_category_id']));
-            return $this->getCrumbs($parent, $crumbs);
-        }
-
-        return array_reverse($crumbs);
+        $select = $this->getSelect($table)
+            ->join($linker, $joinString)
+            ->where($where);
+        return $this->selectOneModel($select);
     }
 
     public function addProduct($categoryId, $productId, $siteId=1)
@@ -92,5 +100,23 @@ class Category extends AbstractMapper
         if (false === $result) {
             $this->insert($row, $table);
         }
+    }
+
+    /**
+     * @return siteId
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
+
+    /**
+     * @param $siteId
+     * @return self
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+        return $this;
     }
 }

@@ -54,11 +54,14 @@ class Module
 
         $em  = $app->getEventManager()->getSharedManager();
 
-        $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre', array('SpeckCatalog\Event\FileUpload', 'preFileUpload'));
+        $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre',  array('SpeckCatalog\Event\FileUpload', 'preFileUpload'));
         $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array('SpeckCatalog\Event\FileUpload', 'postFileUpload'));
 
+        $em->attach('SpeckCatalog\Service\ProductUom', 'update.post', array('SpeckCatalog\Event\ProductUomPersist', 'postPersist'));
+        $em->attach('SpeckCatalog\Service\ProductUom', 'insert.post', array('SpeckCatalog\Event\ProductUomPersist', 'postPersist'));
+
         //install event listeners
-        $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables.post', array($this, 'constraints'));
+        $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables.post', array($this, 'constraints'),1);
     }
 
     public function constraints($e)

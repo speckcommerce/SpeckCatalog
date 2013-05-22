@@ -951,6 +951,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product` (
   `product_type_id` int(11) NOT NULL DEFAULT '1',
   `item_number` varchar(45) DEFAULT NULL,
   `manufacturer_id` int(10) unsigned NOT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`product_id`),
   KEY `fk_product_product_type_id_idx` (`product_type_id`),
   KEY `fk_catalog_product_1_idx` (`manufacturer_id`)

@@ -26,9 +26,24 @@ class Category extends AbstractService
         return $categories;
     }
 
-    public function getCrumbs($category)
+    public function getByProductId($productId)
     {
-        return $this->getEntityMapper()->getCrumbs($category);
+        return $this->getEntityMapper()->getByProductId($productId, $this->getSiteId());
+    }
+
+    public function getCrumbs($category, $crumbs=array())
+    {
+        array_unshift($crumbs, $category);
+        $parent = $this->getParentCategory($category->getCategoryId());
+        if ($parent) {
+            return $this->getCrumbs($parent, $crumbs);
+        }
+        return $crumbs;
+    }
+
+    public function getParentCategory($categoryId)
+    {
+        return $this->getEntityMapper()->getParentCategory($categoryId);
     }
 
     public function getCategoriesForTreePreview($siteId, $parentCategoryId=null)

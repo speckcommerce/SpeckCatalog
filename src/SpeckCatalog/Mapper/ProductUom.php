@@ -2,6 +2,8 @@
 
 namespace SpeckCatalog\Mapper;
 
+use \Zend\Stdlib\Hydrator\HydratorInterface;
+
 class ProductUom extends AbstractMapper
 {
     protected $tableName = 'catalog_product_uom';
@@ -16,4 +18,5 @@ class ProductUom extends AbstractMapper
             ->order('quantity');
         return $this->selectManyModels($select);
     }
+
 }

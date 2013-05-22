@@ -12,6 +12,9 @@ class Option extends InputFilter
             'name' => 'option_id',
             'allow_empty' => true,
             'required' => true,
+            'filters'   => array(
+                new \Zend\Filter\Null(\Zend\Filter\Null::TYPE_STRING),
+            ),
         ));
         $this->add(array(
             'name' => 'product_id',

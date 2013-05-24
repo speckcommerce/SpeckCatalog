@@ -185,4 +185,17 @@ class Relational extends Base
             return 'Unnamed Option Group';
         }
     }
+
+    public function getListType()
+    {
+        switch($this->optionTypeId) {
+            case 1:
+                return 'dropdown';
+            case 2:
+                return 'radio';
+            case 3:
+                return 'checkbox';
+        }
+
+    }
 }

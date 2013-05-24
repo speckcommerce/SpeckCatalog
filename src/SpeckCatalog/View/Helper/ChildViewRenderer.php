@@ -32,7 +32,7 @@ class ChildViewRenderer extends AbstractHelper
     public function templateName($name)
     {
         if ($name === 'product') {
-            return 'product-clip';
+            return $this->partialDir . 'product-clip';
         } else {
             return $this->partialDir . $this->dash($name);
         }

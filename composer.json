@@ -19,8 +19,10 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*",
         "zf-commons/zfc-user": "0.1.*",
+		"zf-commons/zfc-admin": "0.1.*",
         "speckcommerce/speck-contact": "dev-master",
-        "speckcommerce/speck-cart": "dev-master"
+        "speckcommerce/speck-cart": "dev-master",
+		"speckcommerce/speck-multisite": "dev-master"
     },
     "require-dev": {
         "mockery/mockery": ">=0.7.2"

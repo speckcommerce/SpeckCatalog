@@ -116,6 +116,23 @@ class Product extends AbstractMapper
         return true;
     }
 
+    public function removeSpec($productId, $specId)
+    {
+        $table = 'catalog_product_spec';
+        $row = array('product_id' => $productId, 'spec_id' => $specId);
+        $select = $this->getSelect($table)
+            ->where($row);
+
+        $result = $this->selectOne($select);
+        $return = false;
+
+        if ($result) {
+            $resp = $this->delete($row, $table);
+            $return = true;
+        }
+        return $return;
+    }
+
     public function sortOptions($productId, $order)
     {
         $table = 'catalog_product_option';

@@ -22,25 +22,27 @@ class Product extends AbstractMapper
 
     public function getAllProductsInCategories()
     {
-        $table = $this->getTableName();
-        $linker = 'catalog_category_product';
-        $joinString = $linker . '.product_id = ' . $table . '.product_id';
-        $predicate = new Predicate\Predicate();
+        $table      = $this->getTableName();
+        $linker     = 'catalog_category_product';
+        $joinString = $linker . '.product_id      = ' . $table . '.product_id';
+        $predicate  = new Predicate\Predicate();
         $predicate->isNotNull('category_id');
-        $where = array($predicate);
 
         $select = $this->getSelect()
             ->join($linker, $joinString)
-            ->where($where);
+            ->where(array($predicate));
         return $this->selectManyModels($select);
     }
 
     public function getByCategoryId($categoryId, $siteId=1)
     {
-        $table = $this->getTableName();
-        $linker = 'catalog_category_product';
+        $table      = $this->getTableName();
+        $linker     = 'catalog_category_product';
         $joinString = $linker . '.product_id = ' . $table . '.product_id';
-        $where = array('category_id' => $categoryId, 'website_id' => $siteId);
+        $where      = array(
+            'category_id' => $categoryId,
+            'website_id' => $siteId
+        );
 
         $select = $this->getSelect()
             ->join($linker, $joinString)
@@ -50,14 +52,19 @@ class Product extends AbstractMapper
 
     public function addOption($productId, $optionId)
     {
-        $table = 'catalog_product_option';
-        $row = array('product_id' => $productId, 'option_id' => $optionId);
+        $table  = 'catalog_product_option';
+        $row    = array(
+            'product_id' => $productId,
+            'option_id' => $optionId
+        );
         $select = $this->getSelect($table)
             ->where($row);
         $linker = $this->selectOne($select);
-        if (false === $linker) {
+        if (!$linker) {
             $this->insert($row, $table);
+            return true;
         }
+        return false;
     }
 
     public function getProductsById(array $productIds = array())
@@ -73,17 +80,19 @@ class Product extends AbstractMapper
 
     public function removeOption($productId, $optionId)
     {
-        $table = 'catalog_product_option';
-        $row = array('product_id' => $productId, 'option_id' => $optionId);
+        $table  = 'catalog_product_option';
+        $row    = array(
+            'product_id' => $productId,
+            'option_id' => $optionId
+        );
         $select = $this->getSelect($table)
             ->where($row);
         $result = $this->selectOne($select);
-        $return = false;
         if ($result) {
             $resp = $this->delete($row, $table);
-            $return = true;
+            return 'true';
         }
-        return $return;
+        return 'false';
     }
 
     public function removeBuilder($productId, $builderProductId)

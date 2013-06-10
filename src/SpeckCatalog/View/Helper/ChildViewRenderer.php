@@ -16,6 +16,9 @@ class ChildViewRenderer extends AbstractHelper
     public function __invoke($name, $views = array())
     {
         $html = '';
+        if (!is_array($views) || count($views) === 0) {
+            return $html;
+        }
         foreach ($views as $view) {
             $html .= $this->renderChild($name, $view);
         }

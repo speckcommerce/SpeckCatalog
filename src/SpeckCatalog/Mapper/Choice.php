@@ -17,9 +17,15 @@ class Choice extends AbstractMapper
 
     public function getByOptionId($optionId)
     {
-        $select = $this->getSelect()
+        $table   = $this->getTableName();
+        $product = 'catalog_product';
+        $select  = $this->getSelect()
+            ->join($product, "{$product}.product_id = {$table}.choice_id")
             ->where(array('option_id' => (int) $optionId))
             ->order('sort_weight', 'ASC');
+        if ($this->enabledOnly()) {
+            $select->where(array('enabled' => 1));
+        }
         return $this->selectManyModels($select);
     }
 

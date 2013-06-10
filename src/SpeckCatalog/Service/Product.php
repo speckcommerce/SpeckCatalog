@@ -17,7 +17,10 @@ class Product extends AbstractService
     public function find(array $data, $populate=false, $recursive=false)
     {
         $product = $this->getEntityMapper()->find($data);
-        if($populate) {
+        if (!$product) {
+            return false;
+        }
+        if ($populate) {
             $this->populate($product, $recursive);
         }
         return $product;
@@ -59,6 +62,9 @@ class Product extends AbstractService
     public function getFullProduct($productId)
     {
         $product = $this->find(array('product_id' => $productId), true, true);
+        if (!$product) {
+            return false;
+        }
         $this->populate($product, true);
         return $product;
     }
@@ -192,7 +198,8 @@ class Product extends AbstractService
         if (null === $this->productUomService) {
             $this->productUomService = $this->getServiceLocator()->get('speckcatalog_product_uom_service');
         }
-        return $this->productUomService;
+
+        return $this->productUomService->setEnabledOnly($this->enabledOnly());
     }
 
     /**

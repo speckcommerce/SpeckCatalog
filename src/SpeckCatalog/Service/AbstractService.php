@@ -5,10 +5,12 @@ namespace SpeckCatalog\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use SpeckCatalog\Model\AbstractModel;
+use SpeckCatalog\Mapper\AbstractMapper;
 
 class AbstractService implements ServiceLocatorAwareInterface
 {
     protected $serviceLocator;
+    protected $enabledOnly = false;
 
     public function search($str)
     {
@@ -45,6 +47,11 @@ class AbstractService implements ServiceLocatorAwareInterface
         if (is_string($this->entityMapper) && strstr($this->entityMapper, '_mapper')) {
             $this->entityMapper = $this->getServiceLocator()->get($this->entityMapper);
         }
+
+        if ($this->entityMapper instanceOf AbstractMapper) {
+            $this->entityMapper->setEnabledOnly($this->enabledOnly());
+        }
+
         return $this->entityMapper;
     }
 
@@ -84,5 +91,16 @@ class AbstractService implements ServiceLocatorAwareInterface
     {
         $this->getEntityMapper()->usePaginator($options);
         return $this;
+    }
+
+    public function setEnabledOnly($bool)
+    {
+        $this->enabledOnly = $bool;
+        return $this;
+    }
+
+    public function enabledOnly()
+    {
+        return $this->enabledOnly;
     }
 }

@@ -21,22 +21,38 @@ class Relational extends Base
         return $this->optionId;
     }
 
-    public function getRecursivePrice()
+    public function getRecursivePrice($parentProductPrice=0)
     {
-        $price = 0;
         if ($this->getRequired()) {
-            //add the cheapest choice price
             if ($this->has('choices')) {
                 $choicePrices = array();
                 foreach($this->getChoices() as $choice) {
-                    $choicePrices[] = $choice->getRecursivePrice();
+                    $choicePrices[] = $choice->getRecursivePrice($parentProductPrice);
                 }
-                asort($choicePrices);
-                $price = $price + array_shift($choicePrices);
+
+                asort($choicePrices, SORT_NUMERIC);
+                return array_shift($choicePrices) ?: 0;
             }
         }
-        return $price;
+
+        return 0;
     }
+
+
+    public function getAdjustedPrice()
+    {
+    	$parent = $this->getParent();
+    	if($parent instanceof RelationalProduct) {
+    		return $parent->getPrice();
+    	} else {
+    		if(isset($parent)) {
+				return $parent->getAdjustedPrice();
+    		} else {
+    			return 0;
+    		}
+    	}
+    }
+
 
     /**
      * @return parentProducts

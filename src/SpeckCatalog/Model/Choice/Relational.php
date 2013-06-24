@@ -26,10 +26,53 @@ class Relational extends Base
         return 0;
     }
 
-    public function getRecursivePrice()
+    public function getRecursivePrice($parentProductPrice=0)
     {
-        return $this->getPrice();
+        if ($this->has('product')) {
+            $productPrice = $this->getProduct()->getRecursivePrice();
+        	return $productPrice + $this->getAdjustmentPrice($productPrice);
+        } else {
+        	$adjustedPrice = $this->getAdjustedPrice();
+            $adjustmentPrice = $adjustedPrice - $parentProductPrice;
+
+            $price = 0;
+            if ($this->has('options')) {
+                foreach($this->getOptions() as $option) {
+                    $price += $option->getRecursivePrice($adjustedPrice);
+                }
+            }
+
+            return ($adjustmentPrice + $price) >= -$parentProductPrice ? $adjustmentPrice + $price : -$parentProductPrice;
+        }
     }
+
+    public function getAdjustedPrice()
+    {
+        $parentProductPrice = $this->getParentProductPrice();
+        return $parentProductPrice + $this->getAdjustmentPrice($parentProductPrice);
+    }
+
+    public function getParentProductPrice()
+    {
+    	return $this->getParent()->getAdjustedPrice();
+    }
+
+
+	public function getAdjustmentPrice($parentPrice)
+	{
+	    if($this->getPriceDiscountFixed()) {
+            return -$this->getPriceDiscountFixed();
+        } elseif($this->getPriceDiscountPercent()) {
+            return $parentPrice * -($this->getPriceDiscountPercent()/100);
+        } elseif ($this->getPriceNoCharge()) {
+            return -$parentPrice;
+        } elseif ($this->getPriceOverrideFixed()) {
+            return $this->getPriceOverrideFixed() - $parentPrice;
+        } else {
+            return 0;
+        }
+	}
+
 
     public function getItemNumber()
     {
@@ -37,6 +80,7 @@ class Relational extends Base
             return $this->getProduct()->getItemNumber();
         }
     }
+
 
     /**
      * @return product
@@ -80,7 +124,7 @@ class Relational extends Base
         $this->options = array();
 
         foreach ($options as $option) {
-            $this->options[] = $option;
+            $this->addOption($option);
         }
 
         return $this;

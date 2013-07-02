@@ -16,7 +16,7 @@ class ProductController extends AbstractActionController
         $cartItemId     = $this->params('cartItemId');
         $cartService    = $this->getServiceLocator()->get('speckcatalog_cart_service');
         $productService = $this->getServiceLocator()->get('speckcatalog_product_service');
-        $product        = $productService->getFullProduct($this->params('id')); //, true, true);
+        $product        = $productService->setEnabledOnly(true)->getFullProduct($this->params('id')); //, true, true);
         if(!$product){
             throw new \Exception('no product for that id');
         }

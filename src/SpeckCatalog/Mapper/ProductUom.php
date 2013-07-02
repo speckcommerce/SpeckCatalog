@@ -16,6 +16,9 @@ class ProductUom extends AbstractMapper
         $select = $this->getSelect()
             ->where(array('product_id' => $productId))
             ->order('quantity');
+        if ($this->enabledOnly()) {
+            $select->where(array('enabled' => 1));
+        }
         return $this->selectManyModels($select);
     }
 

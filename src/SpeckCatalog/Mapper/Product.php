@@ -20,6 +20,20 @@ class Product extends AbstractMapper
         return $this->selectManyModels($select);
     }
 
+    public function find(array $data)
+    {
+        $table  = $this->getTableName();
+        $where  = array('product_id' => $data['product_id']);
+        $select = $this->getSelect()
+            ->where($where);
+        if ($this->enabledOnly()) {
+            $select->where(array('enabled' => 1));
+        }
+        $model = $this->selectOneModel($select);
+        return $this->selectOneModel($select);
+    }
+
+
     public function getAllProductsInCategories()
     {
         $table      = $this->getTableName();
@@ -31,6 +45,9 @@ class Product extends AbstractMapper
         $select = $this->getSelect()
             ->join($linker, $joinString)
             ->where(array($predicate));
+        if ($this->enabledOnly()) {
+            $select->where(array('enabled' => 1));
+        }
         return $this->selectManyModels($select);
     }
 
@@ -47,6 +64,9 @@ class Product extends AbstractMapper
         $select = $this->getSelect()
             ->join($linker, $joinString)
             ->where($where);
+        if ($this->enabledOnly()) {
+            $select->where(array('enabled' => 1));
+        }
         return $this->selectManyModels($select);
     }
 
@@ -75,6 +95,10 @@ class Product extends AbstractMapper
             $wheres[] = $predicate->equalTo('product_id', $productId);
         }
         $select = $this->getSelect()->where($wheres, Predicate\PredicateSet::OP_OR);
+        if ($this->enabledOnly()) {
+            $select->where(array('enabled' => 1));
+        }
+
         return $this->selectManyModels($select);
     }
 

@@ -24,6 +24,7 @@ class AbstractMapper implements DbAdapterAwareInterface
     protected $sql;
     protected $usePaginator;
     protected $paginatorOptions;
+    protected $enabledOnly = false;
 
     public function getSelect($tableName = null)
     {
@@ -110,8 +111,6 @@ class AbstractMapper implements DbAdapterAwareInterface
         }
         return $return;
     }
-
-
 
     //returns affected number of rows
     public function update($dataOrModel, array $where, $tableName = null, HydratorInterface $hydrator = null)
@@ -382,6 +381,17 @@ class AbstractMapper implements DbAdapterAwareInterface
     public function setTableKeyFields($tableKeyFields)
     {
         $this->tableKeyFields = $tableKeyFields;
+        return $this;
+    }
+
+    public function enabledOnly()
+    {
+        return $this->enabledOnly;
+    }
+
+    public function setEnabledOnly($bool)
+    {
+        $this->enabledOnly = $bool;
         return $this;
     }
 }

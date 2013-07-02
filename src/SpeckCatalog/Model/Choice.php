@@ -8,6 +8,10 @@ class Choice extends AbstractModel
     protected $overrideName;
     protected $productId;
     protected $optionId;
+    protected $priceOverrideFixed;
+    protected $priceDiscountFixed;
+    protected $priceDiscountPercent;
+    protected $priceNoCharge;
     protected $sortWeight = 0;
 
     /**
@@ -79,6 +83,78 @@ class Choice extends AbstractModel
     public function setOptionId($optionId)
     {
         $this->optionId = $optionId;
+        return $this;
+    }
+
+    /**
+     * @return priceOverrideFixed
+     */
+    public function getPriceOverrideFixed()
+    {
+        return $this->priceOverrideFixed;
+    }
+
+    /**
+     * @param $priceOverrideFixed
+     * @return self
+     */
+    public function setPriceOverrideFixed($priceOverrideFixed)
+    {
+        $this->priceOverrideFixed = $priceOverrideFixed;
+        return $this;
+    }
+
+    /**
+     * @return priceDiscountFixed
+     */
+    public function getPriceDiscountFixed()
+    {
+        return $this->priceDiscountFixed;
+    }
+
+    /**
+     * @param $priceDiscountFixed
+     * @return self
+     */
+    public function setPriceDiscountFixed($priceDiscountFixed)
+    {
+        $this->priceDiscountFixed = $priceDiscountFixed;
+        return $this;
+    }
+
+    /**
+     * @return priceDiscountPercent
+     */
+    public function getPriceDiscountPercent()
+    {
+        return $this->priceDiscountPercent;
+    }
+
+    /**
+     * @param $priceDiscountPercent
+     * @return self
+     */
+    public function setPriceDiscountPercent($priceDiscountPercent)
+    {
+        $this->priceDiscountPercent = $priceDiscountPercent;
+        return $this;
+    }
+
+    /**
+     * @return priceNoCharge
+     */
+    public function getPriceNoCharge()
+    {
+        return $this->priceNoCharge;
+    }
+
+    /**
+     * @param $priceNoCharge
+     * @return self
+     */
+    public function setPriceNoCharge($priceNoCharge)
+    {
+        $this->priceNoCharge = (bool)$priceNoCharge;
         return $this;
     }
 

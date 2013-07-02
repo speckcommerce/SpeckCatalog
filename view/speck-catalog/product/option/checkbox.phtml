@@ -2,7 +2,7 @@
 
 <? foreach ($option->getChoices() as $choice): ?>
 
-<input name="options[<?=$option->getOptionId();?>][]" value="choice-<?=$choice->getChoiceId();?>" type="checkbox">&nbsp;<?=$choice;?>
+<input name="product_branch[<?=$option->getOptionId();?>][<?=$choice->getChoiceId(); ?>]" value="<?=$choice->getChoiceId();?>" type="checkbox">&nbsp;<?=$choice;?>
     <? if($choice->has('options')) : ?>
         <? foreach($choice->getOptions() as $option) : ?>
             <?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>

@@ -55,18 +55,6 @@ class Option extends AbstractService
         $choiceService = $this->getChoiceService();
         $imageService = $this->getImageService();
         $choices = $choiceService->getByOptionId($optionId, true, $recursive);
-
-        if(!$option->getBuilder()) {
-            $prices = array();
-            foreach ($choices as $choice) {
-                $prices[] = $choice->getPrice();
-            }
-            sort($prices);
-            foreach ($choices as $choice) {
-                $choice->setAddPrice($choice->getPrice() - $prices[0]);
-            }
-        }
-
         $option->setChoices($choices);
         $option->setImages($imageService->getImages('option', $optionId));
     }

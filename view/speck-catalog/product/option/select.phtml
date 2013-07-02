@@ -1,5 +1,5 @@
-<select name="options[<?=$option->getOptionId();?>][]">
+<select name="product_branch[<?=$option->getOptionId();?>][]">
     <? foreach ($option->getChoices() as $choice): ?>
-    <option value="choice-<?=$choice->getChoiceId();?>"><?=$choice->__toString();?></option>
+    <option value="<?=$choice->getChoiceId();?>"><?=$choice->__toString();?></option>
     <? endforeach; ?>
 </select>

@@ -14,7 +14,7 @@ class ProductController extends AbstractActionController
     public function indexAction()
     {
         $cartItemId     = $this->params('cartItemId');
-        $cartService    = $this->getServiceLocator()->get('speckcatalog_cart_service');
+        $cartService    = $this->getServiceLocator()->get('catalog_cart_service');
         $productService = $this->getServiceLocator()->get('speckcatalog_product_service');
         $product        = $productService->setEnabledOnly(true)->getFullProduct($this->params('id')); //, true, true);
         if(!$product){

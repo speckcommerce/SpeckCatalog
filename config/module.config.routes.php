@@ -63,10 +63,9 @@ return array(
                     'byid' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/:id[/:cartItemId]',
+                            'route' => '/:id',
                             'constraints' => array(
-                                'id'         => '[0-9]+',
-                                'cartItemId' => '[0-9]+',
+                                'id' => '[0-9]+',
                             ),
                         ),
                     ),
@@ -100,60 +99,6 @@ return array(
                     'defaults' => array(
                         'controller' => 'speckcatalog_catalog',
                         'action' => 'index',
-                    ),
-                ),
-            ),
-            'cart' => array(
-                'type' => 'Literal',
-                'priority' => 1000,
-                'options' => array(
-                    'route' => '/cart',
-                    'defaults' => array(
-                        'controller' => 'speckcatalog_cart',
-                        'action' => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'add-item' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/add-item[/:id]',
-                            'defaults' => array(
-                                'controller' => 'speckcatalog_cart',
-                                'action' => 'addItem',
-                            ),
-                        ),
-                    ),
-                    'update-quantities' => array(
-                        'type'    => 'Literal',
-                        'options' => array(
-                            'route'    => '/update-quantities',
-                            'defaults' => array(
-                                'controller' => 'speckcatalog_cart',
-                                'action' => 'updateQuantities',
-                            ),
-                        ),
-                    ),
-                    'remove-item' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/remove-item/:id',
-                            'defaults' => array(
-                                'controller' => 'speckcatalog_cart',
-                                'action' => 'remove-item',
-                            ),
-                        ),
-                    ),
-                    'update-product' => array(
-                        'type'    => 'Literal',
-                        'options' => array(
-                            'route'    => '/update-product',
-                            'defaults' => array(
-                                'controller' => 'speckcatalog_cart',
-                                'action' => 'update-product',
-                            ),
-                        ),
                     ),
                 ),
             ),

@@ -3,7 +3,6 @@
 return array(
     'service_manager' => array(
         'shared' => array(
-            'speckcatalog_cart_item_meta'       => false,
             'speckcatalog_option_form'          => false,
             'speckcatalog_choice_form'          => false,
             'speckcatalog_product_form'         => false,
@@ -15,7 +14,6 @@ return array(
             'speckcatalog_builder_product_form' => false
         ),
         'invokables' => array(
-            'speckcatalog_cart_item_meta'           => 'SpeckCatalog\Model\CartItemMeta',
             'speckcatalog_product_service'          => 'SpeckCatalog\Service\Product',
             'speckcatalog_company_service'          => 'SpeckCatalog\Service\Company',
             'speckcatalog_option_service'           => 'SpeckCatalog\Service\Option',
@@ -27,7 +25,6 @@ return array(
             'speckcatalog_availability_service'     => 'SpeckCatalog\Service\Availability',
             'speckcatalog_spec_service'             => 'SpeckCatalog\Service\Spec',
             'speckcatalog_sites_service'            => 'SpeckCatalog\Service\Sites',
-            'speckcatalog_cart_service'             => 'SpeckCatalog\Service\CatalogCartService',
             'speckcatalog_form_service'             => 'SpeckCatalog\Service\FormService',
 
             'speckcatalog_option_form'              => 'SpeckCatalog\Form\Option',

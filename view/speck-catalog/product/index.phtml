@@ -3,7 +3,7 @@ $pdir = '/speck-catalog/product/';
 ?>
 <h2><?=$product->getName();?></h2>
 
-<form id="product-for-cart" method="POST" action="/cart/add-item">
+<form id="product-for-cart" method="POST" action="/cart/add-product">
 <input type="hidden" name="product_id" value="<?=$product->getProductId();?>"/>
 
 <div class="row">

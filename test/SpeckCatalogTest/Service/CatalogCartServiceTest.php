@@ -183,7 +183,6 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $service = $this->getService();
         $service->setCartService($mockSpeckCartService);
         $service->setProductService($mockProductService);
-        $service->setProductUomService($this->getMockProductUomService());
 
         $mockSpeckCartService->expects($this->once())
             ->method('removeItemFromCart')
@@ -195,7 +194,7 @@ class CatalogCartServiceTest extends \PHPUnit_Framework_TestCase
         $mockSpeckCartService->expects($this->once())
             ->method('persistItem');
 
-        $service->replaceCartItemsChildren(1, $flatOptions, '1:EA:1', 1);
+        $service->replaceCartItemsChildren(1, $flatOptions);
     }
 
     public function testCreateCartItemReturnsCartItemModel()

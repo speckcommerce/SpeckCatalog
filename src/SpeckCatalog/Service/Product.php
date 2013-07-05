@@ -13,33 +13,34 @@ class Product extends AbstractService
     protected $companyService;
     protected $builderService;
     protected $categoryService;
-
-    public function find(array $data, $populate=false, $recursive=false)
-    {
-        $product = $this->getEntityMapper()->find($data);
-        if (!$product) {
-            return false;
-        }
-        if ($populate) {
-            $this->populate($product, $recursive);
-        }
-        return $product;
-    }
+    protected $choiceService;
 
     public function getAllProductsInCategories()
     {
         return $this->getEntityMapper()->getAllProductsInCategories();
     }
 
-    public function update($dataOrModel, array $originalVals = null)
+    public function update($data, array $where = null)
     {
-        if (null === $originalVals && is_array($dataOrModel)) {
-            $originalVals['product_id'] = $dataOrModel['product_id'];
+        if (null === $where && is_array($data)) {
+            $where['product_id'] = $data['product_id'];
         }
-        if (null === $originalVals && $dataOrModel instanceOf \SpeckCatalog\Model\Product) {
-            $originalVals['product_id'] = $dataOrModel->getProductId();
+        if (null === $where && $data instanceOf \SpeckCatalog\Model\Product) {
+            $where['product_id'] = $data->getProductId();
         }
-        return parent::update($dataOrModel, $originalVals);
+
+        $vars = array(
+            'data'  => $data,
+            'where' => $where,
+        );
+        $this->getEventManager()->trigger('update.pre', $this, $vars);
+
+        $result = parent::update($data, $where);
+        $vars['result'] = $result;
+
+        $this->getEventManager()->trigger('update.post', $this, $vars);
+
+        return $result;
     }
 
     public function getCrumbs($product)
@@ -69,30 +70,47 @@ class Product extends AbstractService
         return $product;
     }
 
-    public function populate($product, $recursive=false)
+    public function populate($product, $recursive=false, $children=true)
     {
         $productId = $product->getProductId();
 
-        $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
-        $product->setOptions($options);
+        $allChildren = ($children === true) ? true : false;
+        $children    = (is_array($children)) ? $children : array();
 
-        $builders = $this->getBuilderService()->getBuildersByProductId($productId);
-        $product->setBuilders($builders);
+        if ($allChildren || in_array('options', $children)) {
+            $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
+            $product->setOptions($options);
+        }
 
-        $images = $this->getImageService()->getImages('product', $productId);
-        $product->setImages($images);
+        if ($allChildren || in_array('builders', $children)) {
+            $builders = $this->getBuilderService()->getBuildersByProductId($productId);
+            $product->setBuilders($builders);
+        }
 
-        $documents = $this->getDocumentService()->getDocuments($productId);
-        $product->setDocuments($documents);
+        if ($allChildren || in_array('images', $children)) {
+            $images = $this->getImageService()->getImages('product', $productId);
+            $product->setImages($images);
+        }
 
-        $uoms = $this->getProductUomService()->getByProductId($productId, true, $recursive);
-        $product->setUoms($uoms);
+        if ($allChildren || in_array('documents', $children)) {
+            $documents = $this->getDocumentService()->getDocuments($productId);
+            $product->setDocuments($documents);
+        }
 
-        $specs = $this->getSpecService()->getByProductId($productId);
-        $product->setSpecs($specs);
+        if ($allChildren || in_array('uoms', $children)) {
+            $uoms = $this->getProductUomService()->getByProductId($productId, true, $recursive);
+            $product->setUoms($uoms);
+        }
 
-        $manufacturer = $this->getCompanyService()->findById($product->getManufacturerId());
-        $product->setManufacturer($manufacturer);
+        if ($allChildren || in_array('specs', $children)) {
+            $specs = $this->getSpecService()->getByProductId($productId);
+            $product->setSpecs($specs);
+        }
+
+        if ($allChildren || in_array('manufacturer', $children)) {
+            $manufacturer = $this->getCompanyService()->findById($product->getManufacturerId());
+            $product->setManufacturer($manufacturer);
+        }
     }
 
     public function getProductsById(array $productIds = array())
@@ -151,9 +169,18 @@ class Product extends AbstractService
         return $this->getEntityMapper()->removeSpec($productId, $specId);
     }
 
-    public function insert($product)
+    public function insert($data)
     {
-        $id = parent::insert($product);
+        $vars = array(
+            'data' => $data,
+        );
+        $this->getEventManager()->trigger('insert.pre', $this, $vars);
+
+        $id = parent::insert($data);
+        $vars['result'] = $id;
+
+        $this->getEventManager()->trigger('insert.post', $this, $vars);
+
         return $this->find(array('product_id' => $id));
     }
 
@@ -335,6 +362,27 @@ class Product extends AbstractService
     public function setCategoryService($categoryService)
     {
         $this->categoryService = $categoryService;
+        return $this;
+    }
+
+    /**
+     * @return choiceService
+     */
+    public function getChoiceService()
+    {
+        if (null === $this->choiceService) {
+            $this->choiceService = $this->getServiceLocator()->get('speckcatalog_choice_service');
+        }
+        return $this->choiceService;
+    }
+
+    /**
+     * @param $choiceService
+     * @return self
+     */
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
         return $this;
     }
 }

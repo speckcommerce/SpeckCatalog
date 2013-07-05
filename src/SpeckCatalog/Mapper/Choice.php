@@ -12,15 +12,13 @@ class Choice extends AbstractMapper
     protected $tableFields = array(
         'choice_id', 'product_id', 'option_id', 'price_override_fixed',
         'price_discount_percent', 'price_no_charge', 'override_name',
-        'sort_weight'
+        'sort_weight', 'enabled'
     );
 
     public function getByOptionId($optionId)
     {
         $table   = $this->getTableName();
-        $product = 'catalog_product';
         $select  = $this->getSelect()
-            ->join($product, "{$product}.product_id = {$table}.choice_id")
             ->where(array('option_id' => (int) $optionId))
             ->order('sort_weight', 'ASC');
         if ($this->enabledOnly()) {

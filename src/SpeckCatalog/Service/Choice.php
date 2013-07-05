@@ -19,17 +19,24 @@ class Choice extends AbstractService
         return $choices;
     }
 
-    public function populate($choice, $recursive=false)
+    public function populate($choice, $recursive=false, $children=true)
     {
-        if ($choice->has('optionId')) {
+        $allChildren = ($children === true) ? true : false;
+        $children    = (is_array($children)) ? $children : array();
+
+        if ($allChildren || in_array('parent', $children)) {
             $option = $this->getOptionService()->find(array('option_id' => $choice->getOptionId()));
             $choice->setParent($option);
         }
-        $options = $this->getOptionService()->getByParentChoiceId($choice->getChoiceId(), $recursive);
-        $choice->setOptions($options);
-        if($choice->getProductId()){
-            $product = $this->getProductService()->getFullProduct($choice->getProductId());
-            $choice->setProduct($product);
+        if ($allChildren || in_array('options', $children)) {
+            $options = $this->getOptionService()->getByParentChoiceId($choice->getChoiceId(), $recursive);
+            $choice->setOptions($options);
+        }
+        if ($allChildren || in_array('product', $children)) {
+            if($choice->getProductId()){
+                $product = $this->getProductService()->getFullProduct($choice->getProductId());
+                $choice->setProduct($product);
+            }
         }
     }
 

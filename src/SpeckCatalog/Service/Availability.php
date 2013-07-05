@@ -12,11 +12,16 @@ class Availability extends AbstractService
         return $this->getEntityMapper()->getByProductUom($productId, $uomCode, $quantity);
     }
 
-    public function populate($availability, $recursive=false)
+    public function populate($availability, $recursive=false, $children=true)
     {
-        $companyId = $availability->getDistributorId();
-        $company = $this->getCompanyService()->find(array('company_id' => $companyId));
-        $availability->setDistributor($company);
+        $allChildren = ($children === true) ? true : false;
+        $children    = (is_array($children)) ? $children : array();
+
+        if ($allChildren || in_array('distributor', $children)) {
+            $companyId = $availability->getDistributorId();
+            $company = $this->getCompanyService()->find(array('company_id' => $companyId));
+            $availability->setDistributor($company);
+        }
         return $availability;
     }
 

@@ -57,8 +57,16 @@ class Module
         $em->attach('ImageUploader\Service\Uploader', 'fileupload.pre',  array('SpeckCatalog\Event\FileUpload', 'preFileUpload'));
         $em->attach('ImageUploader\Service\Uploader', 'fileupload.post', array('SpeckCatalog\Event\FileUpload', 'postFileUpload'));
 
-        $em->attach('SpeckCatalog\Service\ProductUom', 'update.post', array('SpeckCatalog\Event\ProductUomPersist', 'postPersist'));
-        $em->attach('SpeckCatalog\Service\ProductUom', 'insert.post', array('SpeckCatalog\Event\ProductUomPersist', 'postPersist'));
+        $em->attach('SpeckCatalog\Service\ProductUom', 'insert.post', function ($e) {
+            $eventClass = new Event\FrontendEnabled;
+            $eventClass->insertProductUom($e);
+        });
+        $em->attach('SpeckCatalog\Service\ProductUom', 'update.post', function ($e) {
+            $eventClass = new Event\FrontendEnabled;
+            $eventClass->updateProductUom($e);
+        });
+        $em->attach('SpeckCatalog\Service\Product', 'update.post', array('SpeckCatalog\Event\FrontendEnabled', 'updateProduct'));
+        $em->attach('SpeckCatalog\Service\Product', 'insert.post', array('SpeckCatalog\Event\FrontendEnabled', 'insertProduct'));
 
         //install event listeners
         $em->attach('SpeckInstall\Controller\InstallController', 'install.create_tables.post', array($this, 'constraints'),1);

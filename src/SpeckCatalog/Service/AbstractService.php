@@ -6,9 +6,13 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use SpeckCatalog\Model\AbstractModel;
 use SpeckCatalog\Mapper\AbstractMapper;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 
-class AbstractService implements ServiceLocatorAwareInterface
+class AbstractService implements ServiceLocatorAwareInterface, EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     protected $serviceLocator;
     protected $enabledOnly = false;
 
@@ -19,7 +23,15 @@ class AbstractService implements ServiceLocatorAwareInterface
 
     public function find(array $data, $populate=false, $recursive=false)
     {
-        return $this->getEntityMapper()->find($data);
+        $result = $this->getEntityMapper()->find($data);
+        if (!$result) {
+            return false;
+        }
+        if ($populate) {
+            //$populate may be an array of things to populate
+            $this->populate($result, $recursive, $populate);
+        }
+        return $result;
     }
 
     public function findRow(array $data)
@@ -27,7 +39,27 @@ class AbstractService implements ServiceLocatorAwareInterface
         return $this->getEntityMapper()->findRow($data);
     }
 
-    public function populate($model, $recursive=false)
+    public function findRows(array $data)
+    {
+        return $this->getEntityMapper()->findRows($data);
+    }
+
+    public function findMany(array $data, $populate=false, $recursive=false)
+    {
+        $result = $this->getEntityMapper()->findMany($data);
+        if (!count($result)) {
+            return false;
+        }
+        if ($populate) {
+            foreach ($result as $res) {
+                //$populate may be an array of things to populate
+                $this->populate($res, $recursive, $populate);
+            }
+        }
+        return $result;
+    }
+
+    public function populate($model, $recursive=false, $children=true)
     {
         return $model;
     }

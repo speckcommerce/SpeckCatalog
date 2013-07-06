@@ -886,6 +886,7 @@ CREATE TABLE IF NOT EXISTS `catalog_choice` (
   `price_no_charge` tinyint(1) NOT NULL DEFAULT '0',
   `override_name` varchar(255) DEFAULT NULL,
   `sort_weight` int(11) NOT NULL DEFAULT '0',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`choice_id`),
   KEY `fk_catalog_choice_product_id_idx` (`product_id`),
   KEY `fk_catalog_choice_option_id_idx` (`option_id`)

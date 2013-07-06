@@ -10,6 +10,7 @@ class Product extends AbstractModel
     protected $manufacturerId;
     protected $itemNumber;
     protected $productTypeId = 2;
+    protected $enabled;
 
     /**
      * @return productId
@@ -116,6 +117,24 @@ class Product extends AbstractModel
     public function setProductTypeId($productTypeId)
     {
         $this->productTypeId = (int) $productTypeId;
+        return $this;
+    }
+
+    /**
+     * @return enabled
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param $enabled
+     * @return self
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
         return $this;
     }
 }

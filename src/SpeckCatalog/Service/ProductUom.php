@@ -3,13 +3,9 @@
 namespace SpeckCatalog\Service;
 
 use SpeckCatalog\Model\AbstractModel;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerAwareTrait;
 
-class ProductUom extends AbstractService implements EventManagerAwareInterface
+class ProductUom extends AbstractService
 {
-    use EventManagerAwareTrait;
-
     protected $entityMapper = 'speckcatalog_product_uom_mapper';
     protected $availabilityService;
     protected $uomService;
@@ -26,22 +22,28 @@ class ProductUom extends AbstractService implements EventManagerAwareInterface
         return $productUoms;
     }
 
-    public function populate($productUom, $recursive=false)
+    public function populate($productUom, $recursive=false, $children=true)
     {
-        $availabilities = $this->getAvailabilityService()->getByProductUom(
-            $productUom->getProductId(),
-            $productUom->getUomCode(),
-            $productUom->getQuantity()
-        );
-        if ($recursive) {
-            foreach ($availabilities as $i => $avail) {
-                $this->getAvailabilityService()->populate($avail);
-            }
-        }
+        $allChildren = ($children === true) ? true : false;
+        $children    = (is_array($children)) ? $children : array();
 
-        $productUom->setAvailabilities($availabilities);
-        $uom = $this->getUomService()->find(array('uom_code' => $productUom->getUomCode()));
-        $productUom->setUom($uom);
+        if ($allChildren || in_array('availabilities', $children)) {
+            $availabilities = $this->getAvailabilityService()->getByProductUom(
+                $productUom->getProductId(),
+                $productUom->getUomCode(),
+                $productUom->getQuantity()
+            );
+            if ($recursive) {
+                foreach ($availabilities as $i => $avail) {
+                    $this->getAvailabilityService()->populate($avail);
+                }
+            }
+            $productUom->setAvailabilities($availabilities);
+        }
+        if ($allChildren || in_array('uom', $children)) {
+            $uom = $this->getUomService()->find(array('uom_code' => $productUom->getUomCode()));
+            $productUom->setUom($uom);
+        }
     }
 
     /**
@@ -116,8 +118,7 @@ class ProductUom extends AbstractService implements EventManagerAwareInterface
         }
 
         $vars = array(
-            'data'        => $data,
-            'where'       => $where,
+            'data' => $data,
         );
         $this->getEventManager()->trigger('insert.pre', $this, $vars);
 

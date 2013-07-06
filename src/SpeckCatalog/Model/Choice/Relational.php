@@ -53,7 +53,7 @@ class Relational extends Base
 
     public function getParentProductPrice()
     {
-    	return $this->getParent()->getAdjustedPrice();
+        return $this->getParent()->getAdjustedPrice();
     }
 
 

@@ -49,14 +49,22 @@ class Option extends AbstractService
         return $builders;
     }
 
-    public function populate($option, $recursive=false)
+    public function populate($option, $recursive=false, $children=true)
     {
         $optionId = $option->getOptionId();
-        $choiceService = $this->getChoiceService();
-        $imageService = $this->getImageService();
-        $choices = $choiceService->getByOptionId($optionId, true, $recursive);
-        $option->setChoices($choices);
-        $option->setImages($imageService->getImages('option', $optionId));
+
+        $allChildren = ($children === true) ? true : false;
+        $children    = (is_array($children)) ? $children : array();
+
+        if ($allChildren || in_array('choices', $children)) {
+            $choiceService = $this->getChoiceService();
+            $choices = $choiceService->getByOptionId($optionId, true, $recursive);
+            $option->setChoices($choices);
+        }
+        if ($allChildren || in_array('images', $children)) {
+            $imageService = $this->getImageService();
+            $option->setImages($imageService->getImages('option', $optionId));
+        }
     }
 
     public function insert($option)

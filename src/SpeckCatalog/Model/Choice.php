@@ -11,7 +11,7 @@ class Choice extends AbstractModel
     protected $priceOverrideFixed;
     protected $priceDiscountFixed;
     protected $priceDiscountPercent;
-    protected $priceNoCharge;
+    protected $priceNoCharge = 0;
     protected $sortWeight = 0;
 
     /**

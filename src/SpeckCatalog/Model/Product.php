@@ -10,7 +10,7 @@ class Product extends AbstractModel
     protected $manufacturerId;
     protected $itemNumber;
     protected $productTypeId = 2;
-    protected $enabled;
+    protected $enabled = 1;
 
     /**
      * @return productId

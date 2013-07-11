@@ -56,7 +56,7 @@ class CatalogManagerController extends AbstractActionController
         if ($query) {
             $products = $this->getService('product')->search($query);
         } else {
-            $products = $this->getService('product')->getAllProductsInCategories();
+            $products = $this->getService('product')->getAll();
         }
         return new ViewModel(array('products' => $products, 'query' => $query));
     }

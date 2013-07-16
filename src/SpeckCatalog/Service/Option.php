@@ -12,9 +12,9 @@ class Option extends AbstractService
     protected $imageService;
     protected $productService;
 
-    public function getByProductId($productId, $populate=false, $recursive=false)
+    public function getByProductId($productId, $populate=false, $recursive=false, array $extraFields = array())
     {
-        $options = $this->getEntityMapper()->getByProductId($productId);
+        $options = $this->getEntityMapper()->getByProductId($productId, $extraFields);
         if ($populate) {
             foreach ($options as $option) {
                 $this->populate($option, $recursive);

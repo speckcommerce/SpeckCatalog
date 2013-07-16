@@ -17,16 +17,6 @@ class CatalogManagerController extends AbstractActionController
         $this->subLayout('layout/catalog-manager');
     }
 
-    public function categoryTreePreviewAction()
-    {
-        $siteId = $this->params('siteid');
-        $categoryService = $this->getService('category');
-        $categories = $categoryService->getCategoriesForTreePreview($siteId);
-
-        $viewVars = array('categories' => $categories);
-        return $this->partialView('category-tree', $viewVars);
-    }
-
     //find categories/products that match search terms
     public function categorySearchChildrenAction()
     {
@@ -44,19 +34,31 @@ class CatalogManagerController extends AbstractActionController
         return new ViewModel(array('product' => $product));
     }
 
+    public function categoryTreePreviewAction()
+    {
+        $siteId = $this->params('siteid');
+        $categoryService = $this->getService('category');
+        $categories = $categoryService->getCategoriesForTreePreview($siteId);
+
+        $viewVars = array('categories' => $categories);
+        return $this->partialView('category-tree', $viewVars);
+    }
+
     public function productsAction()
     {
+        $service = $this->getService('product');
+
         $this->init();
         $config = array(
             'p' => $this->params('p') ?: 1,
             'n' => 40,
         );
-        $this->getService('product')->usePaginator($config);
+        $service->usePaginator($config);
         $query = $this->params()->fromQuery('query');
         if ($query) {
-            $products = $this->getService('product')->search($query);
+            $products = $service->search($query);
         } else {
-            $products = $this->getService('product')->getAll();
+            $products = $service->getAll();
         }
         return new ViewModel(array('products' => $products, 'query' => $query));
     }
@@ -163,6 +165,9 @@ class CatalogManagerController extends AbstractActionController
         $postParams = $this->params()->fromPost();
 
         $objects = array();
+
+
+        var_dump($postParams); die();
 
         if ($postParams['child_name'] === 'builder_product') {
             $parentProductId = $postParams['parent']['product_id'];

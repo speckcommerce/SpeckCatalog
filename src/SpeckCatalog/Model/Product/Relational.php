@@ -46,6 +46,11 @@ class Relational extends Base
             asort($uomPrices, SORT_NUMERIC);
             return array_shift($uomPrices);
         }
+        if ($this->has('builders')) {
+            foreach ($this->getBuilders() as $builder) {
+                //get lowest price builder
+            }
+        }
         return 0;
     }
 

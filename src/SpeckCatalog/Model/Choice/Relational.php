@@ -192,12 +192,13 @@ class Relational extends Base
     public function __toString()
     {
         if($this->getOverrideName()){
-            return $this->getOverrideName();
-        } elseif ($this->getProduct()) {
-            return $this->getProduct()->getName();
+            $str = $this->getOverrideName();
+        } elseif ($this->has('product')) {
+            $str = $this->getProduct()->getName();
         } else {
-            return 'Unnamed Option';
+            $str = 'Unnamed Choice';
         }
+        return $str;
     }
 
 }

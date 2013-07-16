@@ -2,32 +2,92 @@
 
 namespace SpeckCatalog\Service;
 
-use SpeckCatalog\Model;
-use Zend\Form\Form;
-
 class Builder extends AbstractService
 {
     protected $entityMapper = 'speckcatalog_builder_product_mapper';
     protected $productService;
+    protected $choiceService;
+    protected $optionService;
 
-
-    public function persist(Form $form)
+    public function getBuilders(array $data, $populate=false, $recursive = false)
     {
-        $data = $form->getData();
-        foreach ($data['products'] as $productId => $options) {
-            foreach ($options as $optionId => $choiceId) {
-                $row = array(
-                    'product_id' => $productId,
-                    'option_id'  => $optionId,
-                    'choice_id'  => $choiceId
-                );
-                $this->getEntityMapper()->persist($row);
-            }
+        $rows = $this->getEntityMapper()->getLinkers($data);
+        if (!$rows) {
+            return false;
         }
 
-        $builder = $this->newBuilderForProduct($data['product_id'], $data['parent_product_id']);
+        $builders = array();
+        $choiceService = $this->getChoiceService();
+        foreach ($rows as $row) {
+            $pid = $row['product_id'];
+            if (!isset($builders[$pid])) {
+                $builders[$pid] = $this->newBuilder($row);
+            }
+            $builders[$pid]->addSelected($row['option_id'], $row['choice_id']);
+            $choice = $choiceService->find(array('choice_id' => $row['choice_id']));
+            $builders[$pid]->addChoice($choice);
+        }
+        return $builders;
+    }
 
-        return $builder;
+    public function newBuilder($row)
+    {
+        $productService = $this->getProductService();
+        $parent  = $productService->find(array('product_id' => $row['parent_product_id']));
+        $product = $productService->find(array('product_id' => $row['product_id']));
+
+        $model = $this->getModel($row);
+        $model->setProduct($product);
+        $model->setParent($parent);
+
+        return $model;
+    }
+
+    public function find(array $data, $a=false, $b=false)
+    {
+        throw new \Exception('method not implemented for builders');
+    }
+
+    public function persist($form)
+    {
+        $data = $form->getData();
+
+        foreach ($data['selected'] as $optionId => $choiceId) {
+            $row = array(
+                'product_id' => $data['product_id'],
+                'option_id'  => $optionId,
+                'choice_id'  => $choiceId
+            );
+            $this->getEntityMapper()->persist($row);
+        }
+
+        $where = array(
+            'product_id'        => $data['product_id'],
+            'parent_product_id' => $data['parent_product_id']
+        );
+
+        $builders = $this->getBuilders($where);
+        return array_shift($builders);
+    }
+
+    public function getBuildersByParentProductId($productId)
+    {
+        $where = array('parent_product_id' => $productId);
+        return $this->getBuilders($where, true, true);
+    }
+
+    public function getModel($construct = null)
+    {
+        $model = parent::getModel($construct);
+        if (is_array($construct) && isset($construct['parent_product_id'])) {
+            $optionService = $this->getOptionService();
+            $options = $optionService->getByProductId(
+                $construct['parent_product_id'], array('choices'),
+                true, array('builder' => 1)
+            );
+            $model->setOptions($options);
+        }
+        return $model;
     }
 
     public function getBuildersByProductId($productId)
@@ -50,18 +110,15 @@ class Builder extends AbstractService
         return $return;
     }
 
-    public function buildersToProductCsv($builders)
+    public function validBuildersJson($builders)
     {
-        $csv = array();
-        foreach($builders as $productId => $product) {
-            foreach($product['options'] as $optionId => $option) {
-                $csv[$productId][] = $option['selected'];
-            }
+        $data = array();
+
+        foreach($builders as $builder) {
+            $pid = $builder->getProductId();
+            $data[$pid] = implode(',', $builder->getSelected());
         }
-        foreach($csv as $productId => $choiceIds) {
-            $csv[$productId] = implode(',', $choiceIds);
-        }
-        return $csv;
+        return json_encode($data);
     }
 
     public function getProduct($productId)
@@ -83,9 +140,6 @@ class Builder extends AbstractService
         return $builder;
     }
 
-    /**
-     * @return productService
-     */
     public function getProductService()
     {
         if (null === $this->productService) {
@@ -94,13 +148,37 @@ class Builder extends AbstractService
         return $this->productService;
     }
 
-    /**
-     * @param $productService
-     * @return self
-     */
     public function setProductService($productService)
     {
         $this->productService = $productService;
+        return $this;
+    }
+
+    public function getChoiceService()
+    {
+        if (null === $this->choiceService) {
+            $this->choiceService = $this->getServiceLocator()->get('speckcatalog_choice_service');
+        }
+        return $this->choiceService;
+    }
+
+    public function setChoiceService($choiceService)
+    {
+        $this->choiceService = $choiceService;
+        return $this;
+    }
+
+    public function getOptionService()
+    {
+        if (null === $this->optionService) {
+            $this->optionService = $this->getServiceLocator()->get('speckcatalog_option_service');
+        }
+        return $this->optionService;
+    }
+
+    public function setOptionService($optionService)
+    {
+        $this->optionService = $optionService;
         return $this;
     }
 }

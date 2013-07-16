@@ -82,11 +82,6 @@ class Product extends AbstractService
             $product->setOptions($options);
         }
 
-        if ($allChildren || in_array('builders', $children)) {
-            $builders = $this->getBuilderService()->getBuildersByProductId($productId);
-            $product->setBuilders($builders);
-        }
-
         if ($allChildren || in_array('images', $children)) {
             $images = $this->getImageService()->getImages('product', $productId);
             $product->setImages($images);
@@ -110,6 +105,11 @@ class Product extends AbstractService
         if ($allChildren || in_array('manufacturer', $children)) {
             $manufacturer = $this->getCompanyService()->findById($product->getManufacturerId());
             $product->setManufacturer($manufacturer);
+        }
+
+        if ($product->getProductTypeId() == 1 && ($allChildren || in_array('builders', $children))) {
+            $builders = $this->getBuilderService()->getBuildersByParentProductId($productId);
+            $product->setBuilders($builders);
         }
     }
 

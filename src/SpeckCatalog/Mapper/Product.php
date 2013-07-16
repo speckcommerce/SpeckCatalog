@@ -7,9 +7,22 @@ use \Zend\Db\Sql\Predicate;
 class Product extends AbstractMapper
 {
     protected $tableName = 'catalog_product';
+
     protected $model = '\SpeckCatalog\Model\Product\Relational';
+
     protected $tableKeyFields = array('product_id');
-    protected $tableFields = array('product_id', 'name', 'description', 'product_type_id', 'item_number', 'manufacturer_id', 'enabled');
+
+    protected $tableFields = array(
+        'product_id', 'name', 'description', 'product_type_id',
+        'item_number', 'manufacturer_id', 'enabled'
+    );
+
+    protected $categoryLinkerFields = array(
+        'category_id'     => 'category_id',
+        'cpc_product_id'  => 'product_id',
+        'website_id'      => 'website_id',
+        'image_file_name' => 'image_file_name',
+    );
 
     public function search($string)
     {
@@ -29,7 +42,6 @@ class Product extends AbstractMapper
         if ($this->enabledOnly()) {
             $select->where(array('enabled' => 1));
         }
-        $model = $this->selectOneModel($select);
         return $this->selectOneModel($select);
     }
 
@@ -43,7 +55,7 @@ class Product extends AbstractMapper
         $predicate->isNotNull('category_id');
 
         $select = $this->getSelect()
-            ->join($linker, $joinString)
+            ->join($linker, $joinString, $this->getCategoryLinkerFields())
             ->where(array($predicate));
         if ($this->enabledOnly()) {
             $select->where(array('enabled' => 1));
@@ -62,7 +74,7 @@ class Product extends AbstractMapper
         );
 
         $select = $this->getSelect()
-            ->join($linker, $joinString)
+            ->join($linker, $joinString, $this->getCategoryLinkerFields())
             ->where($where);
         if ($this->enabledOnly()) {
             $select->where(array('enabled' => 1));
@@ -75,7 +87,7 @@ class Product extends AbstractMapper
         $table  = 'catalog_product_option';
         $row    = array(
             'product_id' => $productId,
-            'option_id' => $optionId
+            'option_id'  => $optionId
         );
         $select = $this->getSelect($table)
             ->where($row);
@@ -107,7 +119,7 @@ class Product extends AbstractMapper
         $table  = 'catalog_product_option';
         $row    = array(
             'product_id' => $productId,
-            'option_id' => $optionId
+            'option_id'  => $optionId
         );
         $select = $this->getSelect($table)
             ->where($row);
@@ -143,7 +155,10 @@ class Product extends AbstractMapper
     public function removeSpec($productId, $specId)
     {
         $table = 'catalog_product_spec';
-        $row = array('product_id' => $productId, 'spec_id' => $specId);
+        $row = array(
+            'product_id' => $productId,
+            'spec_id'    => $specId
+        );
         $select = $this->getSelect($table)
             ->where($row);
 
@@ -151,7 +166,7 @@ class Product extends AbstractMapper
         $return = false;
 
         if ($result) {
-            $resp = $this->delete($row, $table);
+            $this->delete($row, $table);
             $return = true;
         }
         return $return;
@@ -161,11 +176,25 @@ class Product extends AbstractMapper
     {
         $table = 'catalog_product_option';
         foreach ($order as $i => $optionId) {
-            $where = array('product_id' => $productId, 'option_id' => $optionId);
+            $where = array(
+                'product_id' => $productId,
+                'option_id'  => $optionId
+            );
             $select = $this->getSelect($table)->where($where);
             $row = $this->selectOne($select);
             $row['sort_weight'] = $i;
             $this->update($row, $where, $table);
         }
+    }
+
+    public function getCategoryLinkerFields()
+    {
+        return $this->categoryLinkerFields;
+    }
+
+    public function setCategoryLinkerFields($categoryLinkerFields)
+    {
+        $this->categoryLinkerFields = $categoryLinkerFields;
+        return $this;
     }
 }

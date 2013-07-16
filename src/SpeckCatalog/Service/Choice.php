@@ -48,7 +48,6 @@ class Choice extends AbstractService
         return $this->getOptionService()->find(array('option_id' => $optionId));
     }
 
-
     public function persist($form)
     {
         $data = $form->getData();

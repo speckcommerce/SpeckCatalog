@@ -1,11 +1,11 @@
 <?
-$product = $builderProduct['product'];
+$product = $builderProduct->getProduct();
 
-$parentProductKeyFields = array('product_id' => $builderProduct['parent_product_id']);
-$builderKeyFields = array('product_id' => $builderProduct['product_id']);
+$parentProductKeyFields = array('product_id' => $builderProduct->getParentProductId());
+$builderKeyFields = array('product_id' => $builderProduct->getProductId());
 
 $formHelper = $this->speckCatalogForm(null, 'builder_product');
-$formHelper->getForm()->setData($builderProduct);
+$formHelper->getForm()->bind($builderProduct);
 ?>
 
 <div id="" class="builder contrastbg boundary shadow">

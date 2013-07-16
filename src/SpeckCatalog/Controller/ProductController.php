@@ -27,7 +27,7 @@ class ProductController extends AbstractActionController
             'cartItem'    => ($cartItemId ? $cartService->findItemById($cartItemId) : false),
         );
         if ($product->has('builders')) {
-            $vars['builders'] = $this->getBuilderService()->buildersToProductCsv($product->getBuilders());
+            $vars['builders_json'] = $this->getBuilderService()->validBuildersJson($product->getBuilders());
         }
         return new ViewModel($vars);
     }

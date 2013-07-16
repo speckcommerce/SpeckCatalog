@@ -2,6 +2,8 @@
 
 namespace SpeckCatalog\Form;
 
+use SpeckCatalog\Model\Builder\Relational as Model;
+
 class Builder extends AbstractForm
 {
     protected $originalFields = array();
@@ -32,16 +34,49 @@ class Builder extends AbstractForm
         ));
     }
 
-    public function setData($data)
+    public function setObject($object)
     {
-        $this->data = $data;
-        if (isset($data['options'])) {
-            if (!isset($data['product_id']) || !isset($data['parent_product_id'])) {
-                throw new \RuntimeExecption('didnt get product id or parent');
+        if ($object->has('options')) {
+            foreach($object->getOptions() as $option) {
+                $optionId = $option->getOptionId();
+                $optionName = $option->getName();
+
+                $choices = array();
+                foreach ($option->getChoices() as $choice) {
+                    $choices[$choice->getChoiceId()] = $choice->__toString();
+                }
+
+                $selectedChoiceId = isset($object->getSelected()[$optionId]) ? (int) $object->getSelected()[$optionId] : null;
+                $data = array(
+                    'option_id' => $option->getOptionId(),
+                    'name'      => $option->getName(),
+                    'selected'  => $selectedChoiceId,
+                    'choices'   => $choices
+                );
+                $this->addOption($data);
             }
-            $this->addOptions($data['options']);
         }
-        parent::setData($this->data);
+        return parent::setObject($object);
+    }
+
+    public function addOption(array $option)
+    {
+        $name = "selected[{$option['option_id']}]";
+        $this->add(array(
+            'name' => $name,
+            'type' => 'Zend\Form\Element\Select',
+            'attributes' => array(
+                'type' => 'select',
+                'options' => $option['choices'],
+            ),
+            'options' => array(
+                'empty_option' => '-- Option: "' . $option['name'] .  '" Choice: --',
+                'label' => ""
+            ),
+        ));
+        if (is_int($option['selected'])) {
+            $this->get($name)->setValue($option['selected']);
+        }
     }
 
     public function addOptions($options)

@@ -7,14 +7,20 @@ use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use SpeckCatalog\Mapper\DbAdapterAwareInterface;
 use SpeckCatalog\Adapter\PaginatorDbSelect;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Paginator\Paginator;
 use Zend\Db\ResultSet;
 
-class AbstractMapper implements DbAdapterAwareInterface
+class AbstractMapper implements DbAdapterAwareInterface,
+    ServiceLocatorAwareInterface, ProvidesTableMetadataInterface
 {
+    use ServiceLocatorAwareTrait;
+    use ProvidesTableMetadataTrait;
+
     protected $hydrator;
     protected $dbAdapter;
     protected $model;

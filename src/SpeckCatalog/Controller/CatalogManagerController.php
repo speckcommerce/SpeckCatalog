@@ -133,30 +133,54 @@ class CatalogManagerController extends AbstractActionController
 
     public function updateFormAction()
     {
-        $class = $this->params('class');
-        $serviceLocator = $this->getServiceLocator();
-        $formService = $this->getService('form');
-        $formData = $this->params()->fromPost();
-        $form = $formService->getForm($class, null, $formData);
-        $viewHelperManager = $serviceLocator->get('viewhelpermanager');
-        $formViewHelper = $viewHelperManager->get('speckCatalogForm');
-        $messageHtml = $formViewHelper->renderFormMessages($form);
+        $data   = $this->params()->fromPost();
+        $form   = $this->getService('form')->getForm($this->params('class'), null, $data);
+        $helper = $this->getViewHelper('speckCatalogForm');
 
-        $response = $this->getResponse()->setContent($messageHtml);
-        return $response;
+        $html   = $helper->renderFormMessages($form);
+        return $this->getResponse()->setContent($html);
+    }
+
+    public function getViewHelper($helperName)
+    {
+        return $this->getServiceLocator()->get('viewhelpermanager')->get($helperName);
     }
 
     public function findAction()
     {
-        $postParams = $this->params()->fromPost();
+        $post = $this->params()->fromPost();
 
-        $models = array();
-        if(isset($postParams['query'])) {
-            $models = $this->getService($postParams['parent_name'])->search($postParams['query']);
+        if (!isset($post['query'])) {
+            $search = $this->partialDir . 'search/' . $this->dash($post['child_name']);
+            $view   = new ViewModel(array(
+                'fields'        => $post,
+                'searchPartial' => $search
+            ));
+            return $view->setTemplate($this->partialDir . 'search/index')->setTerminal(true);
         }
 
-        $view = new ViewModel(array('models' => $models, 'fields' => $postParams));
-        $view->setTemplate($this->partialDir . 'find-models')->setTerminal(true);
+        $response = array(
+            'html' => '',
+        );
+        $result = $this->getService($post['parent_name'])->search($post);
+        if (count($result) > 0) {
+            $partial = $this->getViewHelper('partial');
+            $rowPartial = $this->partialDir . 'search/row/' . $this->dash($post['child_name']);
+            foreach ($result as $row) {
+                $response['html'] .= $partial($rowPartial, array('model' => $row, 'params' => $post));
+            }
+        } else {
+            $response['html'] = 'no result';
+        }
+        $json_resp = json_encode($response);
+        return $this->getResponse()->setContent($json_resp);
+
+
+
+
+
+
+
         return $view;
     }
 
@@ -166,9 +190,6 @@ class CatalogManagerController extends AbstractActionController
 
         $objects = array();
 
-
-        var_dump($postParams); die();
-
         if ($postParams['child_name'] === 'builder_product') {
             $parentProductId = $postParams['parent']['product_id'];
             $productIds = array_keys($postParams['check']);
@@ -177,9 +198,8 @@ class CatalogManagerController extends AbstractActionController
             }
         }
 
-        $viewHelperManager = $this->getServiceLocator()->get('viewhelpermanager');
-        $viewHelper = $viewHelperManager->get('speckCatalogRenderChildren');
-        $content = $viewHelper->__invoke($postParams['child_name'], $objects);
+        $helper   = $this->getViewHelper('speckCatalogRenderChildren');
+        $content  = $helper->__invoke($postParams['child_name'], $objects);
         $response = $this->getResponse()->setContent($content);
         return $response;
     }
@@ -251,14 +271,7 @@ class CatalogManagerController extends AbstractActionController
     {
         $view = new ViewModel($viewVars);
         $view->setTemplate($this->partialDir . $partial);
-
         $view->setTerminal(true);
-
-        //$rend = $this->getServiceLocator()->get('zendviewrendererphprenderer');
-        //$html = $rend->render($view);
-        //return $this->getResponse()->setContent($html);
-
-
 
         return $view;
     }

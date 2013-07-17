@@ -21,16 +21,12 @@ class Builder extends Inputfilter
      */
     public function isValid()
     {
-        //foreach($this->data['products'] as $productId => $options){
-        //    if (!is_array($options)) {
-        //        return false;
-        //    }
-        //    foreach ($options as $optionId => $choiceId) {
-        //        if (!is_numeric($choiceId)) {
-        //            return false;
-        //        }
-        //    }
-        //}
+        $selected = $this->data['selected'];
+        foreach ($selected as $optionId => $choiceId) {
+            if (!is_numeric($choiceId)) {
+                return false;
+            }
+        }
 
         return true;
     }

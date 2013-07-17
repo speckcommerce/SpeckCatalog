@@ -70,7 +70,7 @@ class Builder extends AbstractForm
                 'options' => $option['choices'],
             ),
             'options' => array(
-                'empty_option' => '-- Option: "' . $option['name'] .  '" Choice: --',
+                'empty_option' => "\"{$option['name']}\" (Select)",
                 'label' => ""
             ),
         ));

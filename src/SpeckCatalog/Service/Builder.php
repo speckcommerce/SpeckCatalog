@@ -90,26 +90,6 @@ class Builder extends AbstractService
         return $model;
     }
 
-    public function getBuildersByProductId($productId)
-    {
-        $mapper   = $this->getEntityMapper();
-        $builders = $mapper->getBuildersByProductId($productId);
-        $options = $mapper->getBuilderOptionsByProductId($productId);
-
-        $return = array();
-        foreach ($builders as $pid => $opts) {
-            $return[$pid]['product_id'] = $pid;
-            $return[$pid]['parent_product_id'] = $productId;
-            $return[$pid]['product'] = $this->getProduct($pid);
-            $return[$pid]['options'] = $options;
-            foreach ($opts as $optionId => $choiceId) {
-                $return[$pid]['options'][$optionId]['selected'] = $choiceId;
-            }
-        }
-
-        return $return;
-    }
-
     public function validBuildersJson($builders)
     {
         $data = array();
@@ -126,18 +106,13 @@ class Builder extends AbstractService
         return $this->getProductService()->find(array('product_id' => $productId));
     }
 
-    public function newBuilderForProduct($builderProductId, $parentProductId)
+    public function newBuilderForProduct($childProductId, $parentProductId)
     {
-        $mapper  = $this->getEntityMapper();
-        $options = $mapper->getBuilderOptionsByProductId($parentProductId, $builderProductId);
-        $builder = array(
-            'product_id'        => $builderProductId,
+        $data = array(
             'parent_product_id' => $parentProductId,
-            'product'           => $this->getProduct($builderProductId),
-            'options'           => $options,
+            'product_id'        => $childProductId,
         );
-
-        return $builder;
+        return $this->newBuilder($data);
     }
 
     public function getProductService()

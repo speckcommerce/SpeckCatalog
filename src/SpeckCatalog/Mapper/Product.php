@@ -3,6 +3,7 @@
 namespace SpeckCatalog\Mapper;
 
 use \Zend\Db\Sql\Predicate;
+use \Zend\Db\Sql\Where;
 
 class Product extends AbstractMapper
 {
@@ -24,11 +25,20 @@ class Product extends AbstractMapper
         'image_file_name' => 'image_file_name',
     );
 
-    public function search($string)
+    public function search(array $params)
     {
-        $like = new Predicate\Like('name', '%' . $string . '%');
-        //$select = $this->getSelect()->where($like); //after zf 2.1
-        $select = $this->getSelect()->where(array($like));
+        $where = new Where;
+
+        if (isset($params['product_type_id'])) {
+            $where->equalTo('product_type_id', $params['product_type_id']);
+        }
+        if (isset($params['query']) && trim($params['query'])) {
+            $where->like('name', "%{$params['query']}%");
+        } else {
+            //todo: make this less hacky
+            return array();
+        }
+        $select = $this->getSelect()->where($where);
 
         return $this->selectManyModels($select);
     }

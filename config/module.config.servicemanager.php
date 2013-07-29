@@ -26,6 +26,7 @@ return array(
             'speckcatalog_spec_service'             => 'SpeckCatalog\Service\Spec',
             'speckcatalog_sites_service'            => 'SpeckCatalog\Service\Sites',
             'speckcatalog_form_service'             => 'SpeckCatalog\Service\FormService',
+            'speckcatalog_configure_buy_service'    => 'SpeckCatalog\Service\ConfigureBuy',
 
             'speckcatalog_option_form'              => 'SpeckCatalog\Form\Option',
             'speckcatalog_choice_form'              => 'SpeckCatalog\Form\Choice',

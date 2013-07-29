@@ -1,9 +1,10 @@
 <?php
-$pdir = '/speck-catalog/product/';
+    $pdir = '/speck-catalog/product/';
 ?>
+<?=$this->configureBuy($product);?>
 <h2><?=$product->getName();?></h2>
 
-<form id="product-for-cart" method="POST" action="/cart/add-product">
+<form id="configure-buy" method="POST" action="/cart/add-product">
 <input type="hidden" name="product_id" value="<?=$product->getProductId();?>"/>
 
 <div class="row">
@@ -21,7 +22,7 @@ $pdir = '/speck-catalog/product/';
             <?=$product->getManufacturer()->getName();?>
             <hr/>
         <? endif; ?>
-        <? if(!$product->has('options')) : ?>
+        <? if(!$product->has('options') && !$this->uomSelection) : ?>
             <input type="text" name="quantity" value="1">
             <input type="submit" value="Add To Cart"/>
             <hr/>
@@ -30,11 +31,14 @@ $pdir = '/speck-catalog/product/';
     </div>
 </div>
 
-<? if( $product->has('options') || $product->has('specs') || $product->has('documents') ): ?>
+<? if(
+    $product->has('options') || $product->has('specs')
+    || $product->has('documents') || $this->uomSelection
+): ?>
     <div class="tabbable" class="row">
         <ul class="nav nav-tabs">
-            <? if($product->has('options')) : ?>
-                <li><a href="#options" data-toggle="tab">Configure and Buy</a></li>
+            <? if($product->has('options') || $this->uomSelection) : ?>
+                <li><a href="#config-buy" data-toggle="tab">Configure and Buy</a></li>
             <? endif; ?>
             <? if($product->has('specs')) : ?>
                 <li><a href="#specs" data-toggle="tab">Specs</a></li>
@@ -44,11 +48,14 @@ $pdir = '/speck-catalog/product/';
             <? endif; ?>
         </ul>
         <div class="tab-content">
-            <? if($product->has('options')) : ?>
-                <div class="boundary tab-pane" id="options">
+            <? if($product->has('options') || $this->uomSelection) : ?>
+                <div class="boundary tab-pane" id="config-buy">
                     <? foreach($product->getOptions() as $option) : ?>
                         <?=$this->partial($pdir . 'option.phtml', array('option' => $option, 'tree' => '[options]')); ?>
                     <? endforeach; ?>
+                    <div id="uoms">
+                        <?=$this->speckCatalogUomsToCart($product); ?>
+                    </div>
                 </div>
             <? endif; ?>
             <? if($product->has('specs')) : ?>
@@ -65,18 +72,16 @@ $pdir = '/speck-catalog/product/';
                     <? endforeach; ?>
                 </div>
             <? endif; ?>
-        </div><hr/>
+        </div>
+        <hr/>
     </div>
     <script>
-        $(document).ready(function(){
+        jQuery(document).ready(function(){
+            var $ = jQuery;
             $('.tab-content').children().first().addClass('active')
             $('.nav-tabs').children().first().addClass('active')
+            uomBuilders($('form#configure-buy'), valid_builders);
         });
     </script>
 <? endif; ?>
-
-    <div class="span12 row">
-        <?= $this->speckCatalogUomsToCart($product->getUoms()); ?>
-    </div>
-
 </form>

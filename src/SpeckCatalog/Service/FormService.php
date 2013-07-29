@@ -16,7 +16,7 @@ class FormService implements ServiceLocatorAwareInterface
         $filter = $this->filterFromServiceManager($name);
         $form->setInputFilter($filter);
 
-        if ($model instanceOf AbstractModel) {
+        if ($model !== null) {
             $form->bind($model);
         }
         if (is_array($data)) {

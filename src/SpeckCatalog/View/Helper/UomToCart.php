@@ -5,15 +5,26 @@ namespace SpeckCatalog\View\Helper;
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Model\ViewModel;
-use Zend\Form\Form as ZendForm;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\Form\Form;
+use SpeckCatalog\Model\ProductUom\Relational as ProductUom;
+use SpeckCatalog\Model\Product\Relational as Product;
 
-class UomToCart extends AbstractHelper
+class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
 
-    protected $partials = array(
+    protected $services = array(
+        'product_uom' => 'speckcatalog_product_uom_service',
+        'product'     => 'speckcatalog_productservice',
+        'builder'     => 'speckcatalog_builder_product_service',
+    );
+
+    protected $templates = array(
         'single' => '/speck-catalog/product/product-uom/single',
-        'few' => '/speck-catalog/product/product-uom/few',
-        'many' => '/speck-catalog/product/product-uom/many',
+        'few'    => '/speck-catalog/product/product-uom/few',
+        'many'   => '/speck-catalog/product/product-uom/many',
     );
 
     /**
@@ -27,84 +38,146 @@ class UomToCart extends AbstractHelper
      */
     protected $of1 = false;
 
-    public function __invoke(array $uoms, $uomString = null, $quantity = 1)
+    //product can be product model or productId
+    public function __invoke($product, $builderProductId=null, $uomString=null, $quantity=1)
+    {
+        if (!$product) {
+            return;
+        }
+        if (is_numeric($product)) {
+            $product = $this->getService('product')->find(array('product_id' => $product), array('builders', 'uoms'));
+        }
+        $uoms = $this->uomsForProduct($product);
+        if ($builderProductId) {
+            $productUoms = $this->getService('product_uom')->getByProductId($builderProductId);
+            $uoms = $this->mergeEnabledUoms($productUoms, $uoms);
+        }
+        return $this->renderUoms($uoms, $uomString, $quantity);
+    }
+
+    public function uomsForProduct(Product $product)
+    {
+        if ($product->getProductTypeId() == 1) {
+            return $this->buildersToUomsArray($product->getBuilders());
+        }
+        return $this->mergeEnabledUoms($product->getUoms());
+    }
+
+    //merge some enabled uoms into an array of disabled uoms
+    public function mergeEnabledUoms(array $enabled, array $uoms=array())
+    {
+        foreach ($enabled as $uom) {
+            $uomArray = $this->uomToArray($uom, true);
+            $uoms[$uomArray['uom_string']] = $uomArray;
+        }
+        return $uoms;
+    }
+
+    //returns array of "disabled" uoms
+    public function buildersToUomsArray(array $builders)
+    {
+        $uoms = array();
+        foreach ($builders as $builder) {
+            foreach ($builder->getProduct()->getUoms() as $uom) {
+                $uomArray = $this->uomToArray($uom);
+                $uoms[$uomArray['uom_string']] = $uomArray;
+            }
+        }
+        return $uoms;
+    }
+
+    public function uomToArray(ProductUom $uom, $enabled = false)
+    {
+        $this->getService('product_uom')->populate($uom);
+        //data needed to represent a uom to be displayed
+        $data = array(
+            'enabled'    => false,
+            'key'        => $uom->getUomCode().$uom->getQuantity(),
+            'price'      => 'N/A',
+            'name'       => $uom->getUom()->getName(),
+            'code'       => $uom->getUomCode(),
+            'quantity'   => $uom->getQuantity(),
+            'uom_string' => $uom->getUomCode().$uom->getQuantity(),
+        );
+        if ($enabled) {
+            $data['enabled'] = true;
+            $data['key'] = $uom->getProductId()
+                . ':' . $uom->getUomCode()
+                . ':' . $uom->getQuantity();
+            $data['price'] = $uom->getPrice();
+        }
+        return $data;
+    }
+
+    public function renderUoms(array $uoms, $uomString = null, $quantity = 1)
     {
         if (count($uoms) === 1) {
-            return $this->renderOne($uoms[0], $quantity);
+            return $this->renderOne(array_pop($uoms), $quantity);
         } elseif (count($uoms) <= $this->fewVsMany) {
             return $this->renderFew($uoms, $uomString, $quantity);
-        } else {
-            return $this->renderMany($uoms, $uomString, $quantity);
         }
+        return $this->renderMany($uoms, $uomString, $quantity);
     }
-
-    /**
-     * this will render the javascript/etc needed
-     * to bring back the uoms, once a builder is configured.
-     */
-    public function builder(\SpeckCatalog\Model\Product $product)
-    {
-        $builder = json_encode($product->getBuilder());
-    }
-
 
     public function renderOne($uom, $quantity = 1)
     {
         $form = $this->newForm($uom, true, $quantity);
-        $uomTranslated = $this->translateUom($uom);
-        $view = new ViewModel(array('form' => $form, 'uom' => $uom, 'uomTranslated' => $uomTranslated));
-        $view->setTerminal(true)->setTemplate($this->partials['single']);
-        $return = $this->getView()->render($view);
+        $uom['display_name'] = $this->getDisplayName($uom, true);
 
-        return $return;
-    }
+        $view = new ViewModel(array('form' => $form, 'uom' => $uom));
+        $view->setTerminal(true)->setTemplate($this->templates['single']);
 
-    public function renderFew($uoms, $uomString = null, $quantity = 1)
-    {
-        $options = array();
-        foreach ($uoms as $uom) {
-            $options[$this->uomtokey($uom)] = $this->translateUom($uom);
-        }
-
-        $form = $this->newForm(null, false, $quantity);
-        $form->add(array(
-            'name' => 'uom',
-            'type' => 'Zend\Form\Element\Radio',
-            'attributes' => array(
-                'type' => 'select',
-                'options' => $options,
-            ),
-            'options' => array(
-                'label' => 'Unit Of Measure',
-            ),
-        ));
-
-        $selectedUomString = $this->selectUomString($uoms, $uomString);
-        $form->get('uom')->setValue($selectedUomString);
-
-        $view = new ViewModel(array('form' => $form, 'uoms' => $uoms));
-        $view->setTerminal(true)->setTemplate($this->partials['few']);
         return $this->getView()->render($view);
     }
 
-    public function translateUom($uom)
+    public function renderFew(array $uoms, $uomString = null, $quantity = 1)
     {
-        if ($uom->getQuantity() === 1 && $this->of1 === false) {
-            return $uom->getUom()->getName();
-        } else {
-            return $uom->getUom()->getName() . ' of ' . $uom->getQuantity();
+        $forms = array();
+        foreach ($uoms as $i => $uom) {
+            $uoms[$i]['display_name'] = $this->getDisplayName($uom, true);
+            $child = $this->newForm($uom);
+            $child->get('submit')->setName('uom')->setValue($uom['key']);
+            $forms[$uom['uom_string']] = $child;
         }
+
+        $view = new ViewModel(array('forms' => $forms, 'uoms' => $uoms));
+        $view->setTerminal(true)->setTemplate($this->templates['few']);
+
+        return $this->getView()->render($view);
     }
 
-    public function uomToKey($uom)
+    public function getDisplayName($uom, $appendPrice=false)
     {
-        return $uom->getProductId() . ':' . $uom->getUomCode() . ':' . $uom->getQuantity();
+        if ($uom['quantity'] === 1 && $this->of1 === false) {
+            $name = $uom['name'];
+        } else {
+            $name = $uom['name'] . ' of ' . $uom['quantity'];
+        }
+        if ($appendPrice) {
+            $name .= ' - ' . $this->displayPrice($uom['price']);
+        }
+        return $name;
+    }
+
+    public function displayPrice($price)
+    {
+        if (is_numeric($price)) {
+            return '$' . number_format($price, 2);
+        }
+        return $price;
     }
 
     public function renderMany($uoms, $uomString = null, $quantity = 1)
     {
         foreach ($uoms as $uom) {
-            $options[$this->uomToKey($uom)] = $this->translateUom($uom) . ' : $' . number_format($uom->getPrice(), 2);
+            $key= $uom['key'];
+            $options[$key] = array(
+                'value' => $key,
+                'label' => $this->getDisplayName($uom, true),
+            );
+            if ($uom['enabled'] == false) {
+                $options[$key]['attributes'] = array('disabled' => 'disabled');
+            }
         }
 
         $form = $this->newForm(null, false, $quantity);
@@ -116,6 +189,7 @@ class UomToCart extends AbstractHelper
                 'options' => $options,
             ),
             'options' => array(
+                'empty_option' => '',
                 'label' => 'Unit Of Measure',
             ),
         ));
@@ -123,23 +197,22 @@ class UomToCart extends AbstractHelper
         $form->get('uom')->setValue($selectedUomString);
 
         $view = new ViewModel(array('form' => $form));
-        $view->setTerminal(true)->setTemplate($this->partials['many']);
+        $view->setTerminal(true)->setTemplate($this->templates['many']);
         return $this->getView()->render($view);
     }
 
-    public function selectUomString($uoms, $uomString='')
+    public function selectUomString(array $uoms=array(), $uomString='')
     {
         foreach ($uoms as $uom) {
-            if ($uomString === $this->uomToKey($uom)) {
+            if ($uomString === $uom['uom_string']) {
                 return $uomString;
             }
         }
-        return $this->uomToKey($uoms[0]);
     }
 
     public function newForm($uom=null, $uomTextField=false, $quantity = 1)
     {
-        $form = new ZendForm();
+        $form = new Form($uom['uom_string']);
 
         $form->add(array(
             'name' => 'submit',
@@ -172,27 +245,31 @@ class UomToCart extends AbstractHelper
                     'type' => 'hidden',
                 ),
             ));
-            $form->get('uom')->setValue($this->uomToKey($uom));
+            $form->get('uom')->setValue($uom['key']);
         }
 
         return $form;
     }
 
-    /**
-     * @return fewVsMany
-     */
     public function getFewVsMany()
     {
         return $this->fewVsMany;
     }
 
-    /**
-     * @param $fewVsMany
-     * @return self
-     */
     public function setFewVsMany($fewVsMany)
     {
         $this->fewVsMany = $fewVsMany;
         return $this;
+    }
+
+    public function getService($name)
+    {
+        if (!array_key_exists($name, $this->services)) {
+            throw new \Exception('invalid service name');
+        }
+        if (is_string($this->services[$name])) {
+            $this->services[$name] = $this->getServiceLocator()->getServiceLocator()->get($this->services[$name]);
+        }
+        return $this->services[$name];
     }
 }

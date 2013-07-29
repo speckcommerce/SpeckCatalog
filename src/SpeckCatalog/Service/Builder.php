@@ -4,12 +4,12 @@ namespace SpeckCatalog\Service;
 
 class Builder extends AbstractService
 {
-    protected $entityMapper = 'speckcatalog_builder_product_mapper';
-    protected $productService;
-    protected $choiceService;
-    protected $optionService;
+    protected $entityMapper   = 'speckcatalog_builder_product_mapper';
+    protected $productService = 'speckcatalog_product_service';
+    protected $choiceService  = 'speckcatalog_choice_service';
+    protected $optionService  = 'speckcatalog_option_service';
 
-    public function getBuilders(array $data, $populate=false, $recursive = false)
+    public function getBuilders(array $data, $populate=false, $recursive=false)
     {
         $rows = $this->getEntityMapper()->getLinkers($data);
         if (!$rows) {
@@ -17,41 +17,40 @@ class Builder extends AbstractService
         }
 
         $builders = array();
-        $choiceService = $this->getChoiceService();
         foreach ($rows as $row) {
             $pid = $row['product_id'];
             if (!isset($builders[$pid])) {
-                $builders[$pid] = $this->newBuilder($row);
+                $builders[$pid] = $this->getModel($row);
             }
             $builders[$pid]->addSelected($row['option_id'], $row['choice_id']);
-            $choice = $choiceService->find(array('choice_id' => $row['choice_id']));
-            $builders[$pid]->addChoice($choice);
         }
+
+        foreach ($builders as $builder)
+        {
+            $productId = $builder->getProductId();
+            $product   = $this->getProductService()->find(array('product_id' => $productId), true, true);
+            $builder->setProduct($product);
+        }
+
         return $builders;
     }
 
-    public function newBuilder($row)
-    {
-        $productService = $this->getProductService();
-        $parent  = $productService->find(array('product_id' => $row['parent_product_id']));
-        $product = $productService->find(array('product_id' => $row['product_id']));
-
-        $model = $this->getModel($row);
-        $model->setProduct($product);
-        $model->setParent($parent);
-
-        return $model;
-    }
-
-    public function find(array $data, $a=false, $b=false)
+    public function find(array $data, $populate=false, $recursive=false)
     {
         throw new \Exception('method not implemented for builders');
     }
 
-    public function persist($form)
+    public function persistModel($model)
     {
-        $data = $form->getData();
+        $data = array(
+            'product_id' => $model->getProductId(),
+            'selected'   => $model->getSelected(),
+        );
+        $this->persistData($data);
+    }
 
+    public function persistData($data)
+    {
         foreach ($data['selected'] as $optionId => $choiceId) {
             $row = array(
                 'product_id' => $data['product_id'],
@@ -60,6 +59,13 @@ class Builder extends AbstractService
             );
             $this->getEntityMapper()->persist($row);
         }
+    }
+
+    public function persist($form)
+    {
+        $data = $form->getData();
+
+        $this->persistData($data);
 
         $where = array(
             'product_id'        => $data['product_id'],
@@ -69,6 +75,8 @@ class Builder extends AbstractService
         $builders = $this->getBuilders($where);
         return array_shift($builders);
     }
+
+
 
     public function getBuildersByParentProductId($productId)
     {
@@ -112,13 +120,13 @@ class Builder extends AbstractService
             'parent_product_id' => $parentProductId,
             'product_id'        => $childProductId,
         );
-        return $this->newBuilder($data);
+        return $this->getModel($data);
     }
 
     public function getProductService()
     {
-        if (null === $this->productService) {
-            $this->productService = $this->getServiceLocator()->get('speckcatalog_product_service');
+        if (is_string($this->productService)) {
+            $this->productService = $this->getServiceLocator()->get($this->productService);
         }
         return $this->productService;
     }
@@ -131,8 +139,8 @@ class Builder extends AbstractService
 
     public function getChoiceService()
     {
-        if (null === $this->choiceService) {
-            $this->choiceService = $this->getServiceLocator()->get('speckcatalog_choice_service');
+        if (is_string($this->choiceService)) {
+            $this->choiceService = $this->getServiceLocator()->get($this->choiceService);
         }
         return $this->choiceService;
     }
@@ -145,8 +153,8 @@ class Builder extends AbstractService
 
     public function getOptionService()
     {
-        if (null === $this->optionService) {
-            $this->optionService = $this->getServiceLocator()->get('speckcatalog_option_service');
+        if (is_string($this->optionService)) {
+            $this->optionService = $this->getServiceLocator()->get($this->optionService);
         }
         return $this->optionService;
     }

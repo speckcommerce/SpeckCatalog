@@ -3,6 +3,7 @@
 namespace SpeckCatalog\Form;
 
 use SpeckCatalog\Model\Builder\Relational as Model;
+use Zend\Form\FormInterface;
 
 class Builder extends AbstractForm
 {
@@ -34,29 +35,12 @@ class Builder extends AbstractForm
         ));
     }
 
-    public function setObject($object)
+    public function bind($object, $flags = FormInterface::VALUES_NORMALIZED)
     {
         if ($object->has('options')) {
-            foreach($object->getOptions() as $option) {
-                $optionId = $option->getOptionId();
-                $optionName = $option->getName();
-
-                $choices = array();
-                foreach ($option->getChoices() as $choice) {
-                    $choices[$choice->getChoiceId()] = $choice->__toString();
-                }
-
-                $selectedChoiceId = isset($object->getSelected()[$optionId]) ? (int) $object->getSelected()[$optionId] : null;
-                $data = array(
-                    'option_id' => $option->getOptionId(),
-                    'name'      => $option->getName(),
-                    'selected'  => $selectedChoiceId,
-                    'choices'   => $choices
-                );
-                $this->addOption($data);
-            }
+            $this->addOptions($object);
         }
-        return parent::setObject($object);
+        return parent::setObject($object, $flags);
     }
 
     public function addOption(array $option)
@@ -79,25 +63,25 @@ class Builder extends AbstractForm
         }
     }
 
-    public function addOptions($options)
+    public function addOptions($object)
     {
-        $productId = $this->data['product_id'];
-        foreach ($options as $optionId => $option) {
-            $this->data['products'][$productId][$optionId] = $option['selected'];
-            $name =  'products['.$productId.']['.$optionId.']';
-            $this->add(array(
-                'name' => $name,
-                'type' => 'Zend\Form\Element\Select',
-                'attributes' => array(
-                    'type' => 'select',
-                    'options' => $option['choices'],
-                ),
-                'options' => array(
-                    'empty_option' => '-- ' . $option['name'] . ' --',
-                    'label' => ''
-                ),
-            ));
-            $this->get($name)->setValue($option['selected']);
+        foreach($object->getOptions() as $option) {
+            $optionId = $option->getOptionId();
+            $optionName = $option->getName();
+
+            $choices = array();
+            foreach ($option->getChoices() as $choice) {
+                $choices[$choice->getChoiceId()] = $choice->__toString();
+            }
+
+            $selectedChoiceId = isset($object->getSelected()[$optionId]) ? (int) $object->getSelected()[$optionId] : null;
+            $data = array(
+                'option_id' => $option->getOptionId(),
+                'name'      => $option->getName(),
+                'selected'  => $selectedChoiceId,
+                'choices'   => $choices
+            );
+            $this->addOption($data);
         }
     }
 }

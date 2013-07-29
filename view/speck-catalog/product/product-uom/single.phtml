@@ -1,13 +1,11 @@
-<div class="span2">
-    <?=$uomTranslated; ?>
-</div>
 <div class="span1">
-    $ <?= number_format($uom->getPrice(), 2); ?>
+    <?=$uom['display_name']; ?>
 </div>
 <div class="span1">
     <?=$this->formInput($form->get('quantity')->setAttribute('class', 'span1')); ?>
 </div>
 <div class="span2">
+    <?=$this->formInput($form->get('uom')); ?>
     <? $submit = $form->get('submit'); ?>
     <? $class = $submit->getAttribute('class') . ' span2'; ?>
     <?= $this->formButton($submit->setAttribute('class', $class)); ?>

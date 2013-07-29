@@ -35,9 +35,13 @@ class Product extends AbstractHelper
     {
         $numbers = array();
         if ($product->getProductTypeId() == 2) {
-            $numbers[] = $product->getItemNumber();
+            $numbers[$product->getItemNumber()] = $product->getItemNumber();
+        } else {
+            foreach ($product->getBuilders() as $builder) {
+                $bp = $builder->getProduct();
+                $numbers[$bp->getItemNumber()] = $bp->getItemNumber();
+            }
         }
-        //todo: if a shell(will have builders), get those item numbers as well
         if ($implode) {
             return implode($implode, $numbers);
         }

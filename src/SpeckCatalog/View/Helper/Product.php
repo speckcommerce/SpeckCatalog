@@ -31,6 +31,44 @@ class Product extends AbstractHelper
         return 'Starting At'; //todo : if there are builders, get the uomString from the one we are displaying the price from
     }
 
+
+
+    public function allUomsString($product, $string = true)
+    {
+        $uomStrings = array();
+
+        if ($product->type() === 'product') {
+            foreach ($uoms as $uom) {
+                $uomStrings[$this->uomStr($uom)] = $this->uomName($uom);
+            }
+        } elseif ($product->type() === 'shell') {
+            foreach ($product->getBuilders() as $builder) {
+                foreach($builder->getProduct()->getUoms() as $uom) {
+                    $uomStrings[$this->uomStr($uom)] = $this->uomName($uom);
+                }
+            }
+        }
+
+        if ($string) {
+            return implode(',', $uomStrings);
+        }
+
+        return $uomStrings;
+    }
+
+    public function uomStr($uom)
+    {
+        return $uom->getUomCode() . $uom->getQuantity();
+    }
+
+    public function uomName($uom)
+    {
+        if($uom->getQuantity() === 1) {
+            return $uom->getUom()->getName();
+        }
+        return "{$uom->getUom()->getName()} of {$uom->getQuantity()}";
+    }
+
     public function itemNumbers($product, $implode=false)
     {
         $numbers = array();

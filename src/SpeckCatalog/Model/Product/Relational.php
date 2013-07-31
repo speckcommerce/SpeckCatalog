@@ -36,6 +36,22 @@ class Relational extends Base
         return $price + $adjustmentPrice;
     }
 
+    public function type($type = null)
+    {
+        if ($type === 'shell') {
+            $product->setProductTypeId(1);
+        } elseif ($type === 'product') {
+            $product->setProductTypeId(2);
+        }
+        switch($this->getProductTypeId()) {
+        case 1: return 'shell';
+                break;
+        case 2: return 'product';
+                break;
+        }
+    }
+
+
     public function getPrice()
     {
         if ($this->has('uoms')) {

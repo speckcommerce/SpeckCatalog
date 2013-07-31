@@ -9,7 +9,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Form\Form;
 use SpeckCatalog\Model\ProductUom\Relational as ProductUom;
-use SpeckCatalog\Model\Product\Relational as Product;
+use SpeckCatalog\Model\Product\Relational as ProductModel;
 
 class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
 {
@@ -55,7 +55,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
         return $this->renderUoms($uoms, $uomString, $quantity);
     }
 
-    public function uomsForProduct(Product $product)
+    public function uomsForProduct(ProductModel $product)
     {
         if ($product->getProductTypeId() == 1) {
             return $this->buildersToUomsArray($product->getBuilders());

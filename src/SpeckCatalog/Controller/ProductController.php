@@ -14,6 +14,7 @@ class ProductController extends AbstractActionController
         'configure_buy' => 'speckcatalog_configure_buy_service',
         'cart'          => 'catalog_cart_service',
         'renderer'      => 'zendviewrendererphprenderer',
+        'option'        => 'speckcatalog_option_service',
     );
 
     public function getService($name)
@@ -55,11 +56,11 @@ class ProductController extends AbstractActionController
     public function uomsPartialAction()
     {
         $post = $this->params()->fromPost();
-        $pid = $post['product_id'];
+        $pid  = $post['product_id'];
         $builderPid = isset($post['builder_product_id']) ? $post['builder_product_id'] : null;
 
-        $helper = $this->getViewHelper('speckCatalogUomsToCart');
-        $content .= $helper->__invoke($pid, $builderPid);
+        $helper  = $this->getViewHelper('speckCatalogUomsToCart');
+        $content = $helper->__invoke($pid, $builderPid);
 
         return $this->getResponse()->setContent($content);
     }
@@ -69,12 +70,11 @@ class ProductController extends AbstractActionController
         $postParams = $this->params()->fromPost();
         $productId  = $postParams['product_id'];
 
-        $service = $this->getServiceLocator()->get('speckcatalog_option_service');
-        $options = $service->getByProductId($productId, true, true);
+        $options = $this->getService('option')->getByProductId($productId, true, true);
 
+        $renderer = $this->getService('renderer');
         foreach($options as $option) {
             $vars     = array('option' => $option);
-            $renderer = $this->getServiceLocator()->get('zendviewrendererphprenderer');
             $html    .= $renderer->render('/catalog/product/option', $vars);
         }
 

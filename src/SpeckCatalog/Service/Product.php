@@ -111,6 +111,57 @@ class Product extends AbstractService
             $builders = $this->getBuilderService()->getBuildersByParentProductId($productId);
             $product->setBuilders($builders);
         }
+
+        if ($allChildren || (in_array('options') && $children == true)) {
+            $this->singleOptionBuilderSingleUom($product);
+        }
+    }
+
+    //check if the product is has a single builder option,
+    //and if all builder products share a common uom
+    //set "add price" on choices, and return true
+    public function singleOptionBuilderSingleUom($product)
+    {
+        if (!$product->has('options')) {
+            return false;
+        }
+        $builderOptionCount = 0;
+        $choices = array();
+        foreach ($product->getOptions() as $option) {
+            if ($option->getBuilder() == true) {
+                $builderOptionCount++;
+                //add the choices to a flat array
+                foreach($option->getChoices() as $choice) {
+                    $choices[$choice->getChoiceId()] = $choice;
+                }
+            }
+            if ($builderOptionCount > 1) {
+                return false;
+            }
+        }
+        $allUoms = array();
+        foreach ($product->getBuilders() as $builder) {
+            $uoms = $builder->getProduct()->getUoms();
+            if (count($uoms) > 1) {
+                return false;
+            }
+            foreach ($uoms as $uom) {
+                $str = $uom->getUomCode() . $uom->getQuantity();
+                $allUoms[$str] = $str;
+            }
+        }
+        if (count($allUoms) > 1) {
+            return false;
+        }
+
+        //test is true, set the add price on the choices
+        foreach ($product->getBuilders() as $builder) {
+            foreach($builder->getSelected() as $optionId => $choiceId) {
+                    $addPrice = $builder->getProduct()->getPrice() - $product->getPrice();
+                $choices[$choiceId]->setAddPrice($addPrice);
+            }
+        }
+        return true;
     }
 
     public function getProductsById(array $productIds = array())

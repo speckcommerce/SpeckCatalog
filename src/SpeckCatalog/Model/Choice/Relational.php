@@ -152,12 +152,14 @@ class Relational extends Base
 
     public function getAddPrice()
     {
-    	if($this->has('product')) {
-    		$productPrice = $this->getProduct()->getPrice();
-    		return $productPrice + $this->getAdjustmentPrice($productPrice);
-    	} else {
-    		return $this->getAdjustedPrice() - $this->getParentProductPrice();
-    	}
+        if($this->addPrice) {
+            return $this->addPrice;
+        } elseif ($this->has('product')) {
+            $productPrice = $this->getProduct()->getPrice();
+            return $productPrice + $this->getAdjustmentPrice($productPrice);
+        } else {
+            return $this->getAdjustedPrice() - $this->getParentProductPrice();
+        }
     }
 
     /**

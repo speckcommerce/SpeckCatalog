@@ -11,6 +11,7 @@ class Relational extends Base
     protected $product;
     protected $options;
     protected $parentOptions;
+    protected $addPrice;
 
     public function getKey()
     {

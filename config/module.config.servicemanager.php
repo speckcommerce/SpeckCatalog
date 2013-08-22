@@ -11,7 +11,8 @@ return array(
             'speckcatalog_spec_form'            => false,
             'speckcatalog_availability_form'    => false,
             'speckcatalog_product_uom_form'     => false,
-            'speckcatalog_builder_product_form' => false
+            'speckcatalog_builder_product_form' => false,
+            'speckcatalog_image_mapper'         => false,
         ),
         'invokables' => array(
             'speckcatalog_product_service'          => 'SpeckCatalog\Service\Product',

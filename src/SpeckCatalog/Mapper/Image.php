@@ -10,7 +10,7 @@ class Image extends AbstractMapper
 
     protected $fields = array(
         'product' => array('image_id', 'product_id', 'sort_weight', 'file_name', 'label'),
-        'option'  => array('image_id', 'product_id', 'sort_weight', 'file_name', 'label'),
+        'option'  => array('image_id', 'option_id', 'sort_weight', 'file_name', 'label'),
     );
 
     protected $keyFields = array(

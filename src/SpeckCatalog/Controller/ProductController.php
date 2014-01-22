@@ -15,6 +15,7 @@ class ProductController extends AbstractActionController
         'cart'          => 'catalog_cart_service',
         'renderer'      => 'zendviewrendererphprenderer',
         'option'        => 'speckcatalog_option_service',
+        'product_image' => 'speckcatalog_product_image_service',
     );
 
     public function getService($name)
@@ -46,6 +47,14 @@ class ProductController extends AbstractActionController
         );
 
         return new ViewModel($vars);
+    }
+
+    public function imagesAction()
+    {
+        $productId = $this->params('id');
+        $images    = $this->getService('product_image')->getImages('product', $productId);
+
+        return new ViewModel(array('images' => $images));
     }
 
     public function getViewHelper($helperName)

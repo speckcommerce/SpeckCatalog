@@ -26,7 +26,7 @@ class FrontendEnabled
         $find           = array('product_id' => $productId);
         $product        = $productService->find($find, array('uoms'));
 
-        $enabled = $this->isProductEnabled($product);
+        $enabled = $this->canProductBeEnabled($product);
 
         $productService->setEnabledProduct($productId, $enabled);
     }
@@ -44,14 +44,19 @@ class FrontendEnabled
             $ids[$uom['product_id']] = $uom['product_id'];
         }
         $products = $productService->getProductsById($ids);
+
         foreach ($products as $product) {
             $productService->populate($product, array('uoms'));
-            $enabled = $this->isProductEnabled($product);
-            $productService->setEnabledProduct($product->getProductId(), $enabled);
+            $row = array(
+                'product_id' => $productId,
+                'enabled'    => $this->canProductBeEnabled($product)
+            );
+            $where = array('product_id' => $productId);
+            $productService->update($row, $where);
         }
     }
 
-    public function isProductEnabled($product)
+    public function canProductBeEnabled($product)
     {
         if ($product->getProductTypeId() == 2) {
             return true;

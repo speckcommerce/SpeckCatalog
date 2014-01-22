@@ -156,6 +156,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
     public function selectOne(Select $select, ResultSet\ResultSetInterface $resultSet = null)
     {
         $select->limit(1);
+        //var_dump($select->getSqlString()); die();
         return $this->select($select, $resultSet)->current();
     }
 

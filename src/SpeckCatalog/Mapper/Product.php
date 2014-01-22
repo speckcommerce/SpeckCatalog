@@ -182,7 +182,7 @@ class Product extends AbstractMapper
         return $return;
     }
 
-    public function sortOptions($productId, $order)
+    public function sortOptions($productId, array $order)
     {
         $table = 'catalog_product_option';
         foreach ($order as $i => $optionId) {

@@ -235,7 +235,7 @@ class Product extends AbstractService
 
         $this->getEventManager()->trigger('insert.pre', $this, $vars);
 
-        $id = parent::insert($data);
+        $id = parent::insert($dataOrModel);
         $vars['result'] = $id;
 
         $this->getEventManager()->trigger('insert.post', $this, $vars);

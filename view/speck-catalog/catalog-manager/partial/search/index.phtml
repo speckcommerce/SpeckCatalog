@@ -1,0 +1,30 @@
+<div class="wrapper" id="new-partial-search">
+    <div class="form">
+        <form id="search-search" onSubmit="return false;">
+        <div>
+            <input type="text" name="query" placeholder="Search:"></input>
+            <div style="float:right">
+                <input type="submit" value="Search"></input>
+            </div>
+        </div>
+        <div class="subform">
+            <?=$this->render($searchPartial); ?>
+        </div>
+        </form>
+    </div>
+    <hr/>
+    <div class="results">
+    </div>
+    <script type="text/javascript">
+    (function($) {
+        $('form#search-search').submit(function(e){
+            $.post("/admin/catalogmanager/find", $(this).serializeArray(), function(result){
+                $('div#new-partial-search div.results').html(result.html);
+            }, 'json')
+        });
+        $('form.result-row').submit(function(e){
+            $('.target').append('foo');
+        });
+    })(jQuery);
+    </script>
+</div>

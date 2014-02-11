@@ -1,6 +1,10 @@
 <? $pdir = '/speck-catalog/product/option/'; ?>
 <? if($option->has('choices')): ?>
-    <div class="option" style="margin-left:25px; border:1px solid #ddd; margin-bottom:5px; margin-right:25px; padding:10px">
+<?
+    $class = 'option';
+    $class .= ($option->getBuilder()) ? ' builder' : '';
+?>
+    <div class="<?=$class;?>" style="margin-left:25px; border:1px solid #ddd; margin-bottom:5px; margin-right:25px; padding:10px">
         <strong><?=$option; ?><?=($option->getRequired() ? '*' : ''); ?>:</strong><br/>
         <? if ($option->has('instruction')):?>&nbsp;&nbsp;&nbsp;(<?=$option->getInstruction();?>)<br/><? endif; ?>
         <? $listType = $option->getOptionTypeId(); ?>

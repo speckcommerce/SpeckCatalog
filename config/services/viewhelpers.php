@@ -12,9 +12,16 @@ return array(
     'invokables' => array(
         'speckCatalogRenderChildren' => 'SpeckCatalog\View\Helper\ChildViewRenderer',
         'speckCatalogRenderForm'     => 'SpeckCatalog\View\Helper\RenderForm',
-        'speckCatalogCart'           => 'SpeckCatalog\View\Helper\Cart',
+        'configureBuy'               => 'SpeckCatalog\View\Helper\ConfigureBuy',
+        'class'                      => 'SpeckCatalog\View\Helper\CssClass',
     ),
     'factories' => array(
+        'speckCatalogProduct'   => function ($sm) {
+            $sm = $sm->getServiceLocator();
+            $helper = new \SpeckCatalog\View\Helper\Product();
+            $helper->setProductUomService($sm->get('speckcatalog_product_uom_service'));
+            return $helper;
+        },
         'speckCatalogAdderHelper' => function($sm) {
             $sm = $sm->getServiceLocator();
             $options = $sm->get('speckcatalog_module_options');

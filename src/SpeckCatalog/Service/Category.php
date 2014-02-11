@@ -67,9 +67,7 @@ class Category extends AbstractService
         $products = $this->getProductService()->usePaginator($paginationOptions)->getByCategoryId($categoryId);
         if (count($products) > 0) {
             foreach($products as $product){
-                $product->setImages($this->getProductImageService()->getImages('product', $product->getProductId()));
-                $product->setUoms($this->getProductUomService()->getByProductId($product->getProductId()));
-                $product->setOptions($this->getOptionService()->getByProductId($product->getProductId(), true, true));
+                $this->getProductService()->populate($product, array('images', 'uoms', 'options', 'builders'), true);
             }
             $category->setProducts($products);
         }

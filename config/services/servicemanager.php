@@ -1,6 +1,7 @@
 <?php
 return array(
     'shared' => array(
+        'speckcatalog_image_mapper' => false,
     ),
     'factories' => array(
         'speckcatalog_category_service'     => function ($sm) {

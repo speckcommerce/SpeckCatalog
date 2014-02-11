@@ -82,11 +82,6 @@ class Product extends AbstractService
             $product->setOptions($options);
         }
 
-        if ($allChildren || in_array('builders', $children)) {
-            $builders = $this->getBuilderService()->getBuildersByProductId($productId);
-            $product->setBuilders($builders);
-        }
-
         if ($allChildren || in_array('images', $children)) {
             $images = $this->getImageService()->getImages('product', $productId);
             $product->setImages($images);
@@ -111,6 +106,62 @@ class Product extends AbstractService
             $manufacturer = $this->getCompanyService()->findById($product->getManufacturerId());
             $product->setManufacturer($manufacturer);
         }
+
+        if ($product->getProductTypeId() == 1 && ($allChildren || in_array('builders', $children))) {
+            $builders = $this->getBuilderService()->getBuildersByParentProductId($productId);
+            $product->setBuilders($builders);
+        }
+
+        if ($allChildren || (in_array('options') && $children == true)) {
+            $this->singleOptionBuilderSingleUom($product);
+        }
+    }
+
+    //check if the product is has a single builder option,
+    //and if all builder products share a common uom
+    //set "add price" on choices, and return true
+    public function singleOptionBuilderSingleUom($product)
+    {
+        if (!$product->has('options')) {
+            return false;
+        }
+        $builderOptionCount = 0;
+        $choices = array();
+        foreach ($product->getOptions() as $option) {
+            if ($option->getBuilder() == true) {
+                $builderOptionCount++;
+                //add the choices to a flat array
+                foreach($option->getChoices() as $choice) {
+                    $choices[$choice->getChoiceId()] = $choice;
+                }
+            }
+            if ($builderOptionCount > 1) {
+                return false;
+            }
+        }
+        $allUoms = array();
+        foreach ($product->getBuilders() as $builder) {
+            $uoms = $builder->getProduct()->getUoms();
+            if (count($uoms) > 1) {
+                return false;
+            }
+            foreach ($uoms as $uom) {
+                $str = $uom->getUomCode() . $uom->getQuantity();
+                $allUoms[$str] = $str;
+            }
+        }
+        if (count($allUoms) > 1) {
+            return false;
+        }
+
+        //test is true, set the add price on the choices
+        foreach ($product->getBuilders() as $builder) {
+            foreach($builder->getSelected() as $optionId => $choiceId) {
+                    $addPrice = $builder->getProduct()->getPrice() - $product->getPrice();
+                $choices[$choiceId]->setAddPrice($addPrice);
+            }
+        }
+        return true;
     }
 
     public function getProductsById(array $productIds = array())
@@ -118,29 +169,21 @@ class Product extends AbstractService
         return $this->getEntityMapper()->getProductsById($productIds);
     }
 
-    public function setEnabledProduct($productId, $enabled)
-    {
-        $row   = array(
-            'enabled'    => ($enabled) ? 1 : 0,
-            'product_id' => $productId
-        );
-        $where = array('product_id' => $productId);
-
-        $this->update($row, $where);
-    }
-
-
     public function addOption($productOrId, $optionOrId)
     {
         $productId = ( is_int($productOrId) ? $productOrId : $productOrId->getProductId() );
-        $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
+        $optionId  = ( is_int($optionOrId)  ? $optionOrId  : $optionOrId->getOptionId() );
 
         $this->getEntityMapper()->addOption($productId, $optionId);
 
         return $this->getOptionService()->find(array('option_id' => $optionId));
     }
 
-    public function sortOptions($productId, $order)
+    /**
+     * store new sort order for product options
+     * $order is array of position => optionId
+     */
+    public function sortOptions($productId, array $order)
     {
         return $this->getEntityMapper()->sortOptions($productId, $order);
     }
@@ -148,32 +191,48 @@ class Product extends AbstractService
     public function removeOption(array $product, array $option)
     {
         $productId = $product['product_id'];
-        $optionId = $option['option_id'];
+        $optionId  = $option['option_id'];
 
+        return $this->removeOptionById($productId, $optionId);
+    }
+
+    public function removeOptionById($productId, $optionId)
+    {
         return $this->getEntityMapper()->removeOption($productId, $optionId);
     }
 
     public function removeBuilder(array $product, array $builder)
     {
-        $productId  = $product['product_id'];
+        $productId        = $product['product_id'];
         $builderProductId = $builder['product_id'];
 
+        return $this->removeBuilderById($productId, $builderProductId);
+    }
+
+    public function removeBuilderById($productId, $builderProductId)
+    {
         return $this->getEntityMapper()->removeBuilder($productId, $builderProductId);
     }
 
     public function removeSpec(array $product, array $spec)
     {
         $productId = $product['product_id'];
-        $specId = $spec['spec_id'];
+        $specId    = $spec['spec_id'];
 
+        return $this->removeSpecById($productId, $specId);
+    }
+
+    public function removeSpecById($productId, $specId)
+    {
         return $this->getEntityMapper()->removeSpec($productId, $specId);
     }
 
-    public function insert($data)
+    public function insert($dataOrModel)
     {
         $vars = array(
-            'data' => $data,
+            'data' => $dataOrModel
         );
+
         $this->getEventManager()->trigger('insert.pre', $this, $vars);
 
         $id = parent::insert($data);

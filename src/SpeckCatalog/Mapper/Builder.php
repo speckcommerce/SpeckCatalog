@@ -9,6 +9,7 @@ class Builder extends AbstractMapper
     protected $tableName = 'catalog_builder_product';
     protected $tableFields = array('product_id', 'choice_id', 'option_id');
     protected $tableKeyFields = array('product_id', 'choice_id', 'option_id');
+    protected $model = '\SpeckCatalog\Model\Builder\Relational';
 
     public function persist($row)
     {
@@ -23,6 +24,42 @@ class Builder extends AbstractMapper
             $this->insert($row);
         }
     }
+
+    public function getLinkers(array $data)
+    {
+        if (!isset($data['product_id']) && !isset($data['parent_product_id'])) {
+            throw new \Exception('need a product_id or a parent_product_id!');
+        }
+
+        $cbp = 'catalog_builder_product';
+        $cpo = 'catalog_product_option';
+        $fields = array(
+            'cpo' => array(
+                'parent_product_id' => 'product_id',
+            ),
+        );
+
+        $select = $this->getSelect($cbp); // linker is 1to1 with choices
+
+        $select->join(
+            $cpo,
+            "{$cpo}.option_id = {$cbp}.option_id",
+            $fields['cpo']
+        );
+
+        $where = new Sql\Where();
+        if (isset($data['product_id'])) {
+            $where->equalTo("{$cbp}.product_id", $data['product_id']);
+        }
+        if (isset($data['parent_product_id'])) {
+            $where->equalTo("{$cpo}.product_id", $data['parent_product_id']);
+        }
+        $select->where($where);
+        $result = $this->selectMany($select);
+
+        return $result;
+    }
+
 
     public function getBuildersByProductId($productId)
     {

@@ -36,12 +36,37 @@ class Relational extends Base
         return $price + $adjustmentPrice;
     }
 
+    public function type($type = null)
+    {
+        if ($type === 'shell') {
+            $product->setProductTypeId(1);
+        } elseif ($type === 'product') {
+            $product->setProductTypeId(2);
+        }
+        switch($this->getProductTypeId()) {
+        case 1: return 'shell';
+                break;
+        case 2: return 'product';
+                break;
+        }
+    }
+
+
     public function getPrice()
     {
         if ($this->has('uoms')) {
             $uomPrices = array();
             foreach($this->getUoms() as $uom) {
                 $uomPrices[] = $uom->getPrice();
+            }
+            asort($uomPrices, SORT_NUMERIC);
+            return array_shift($uomPrices);
+        } elseif ($this->has('builders')) {
+            $uomPrices = array();
+            foreach ($this->getBuilders() as $builder) {
+                foreach($builder->getProduct()->getUoms() as $uom) {
+                    $uomPrices[] = $uom->getPrice();
+                }
             }
             asort($uomPrices, SORT_NUMERIC);
             return array_shift($uomPrices);

@@ -11,6 +11,7 @@ class Relational extends Base
     protected $product;
     protected $options;
     protected $parentOptions;
+    protected $addPrice;
 
     public function getKey()
     {
@@ -152,12 +153,14 @@ class Relational extends Base
 
     public function getAddPrice()
     {
-    	if($this->has('product')) {
-    		$productPrice = $this->getProduct()->getPrice();
-    		return $productPrice + $this->getAdjustmentPrice($productPrice);
-    	} else {
-    		return $this->getAdjustedPrice() - $this->getParentProductPrice();
-    	}
+        if($this->addPrice) {
+            return $this->addPrice;
+        } elseif ($this->has('product')) {
+            $productPrice = $this->getProduct()->getPrice();
+            return $productPrice + $this->getAdjustmentPrice($productPrice);
+        } else {
+            return $this->getAdjustedPrice() - $this->getParentProductPrice();
+        }
     }
 
     /**
@@ -192,12 +195,13 @@ class Relational extends Base
     public function __toString()
     {
         if($this->getOverrideName()){
-            return $this->getOverrideName();
-        } elseif ($this->getProduct()) {
-            return $this->getProduct()->getName();
+            $str = $this->getOverrideName();
+        } elseif ($this->has('product')) {
+            $str = $this->getProduct()->getName();
         } else {
-            return 'Unnamed Option';
+            $str = 'Unnamed Choice';
         }
+        return $str;
     }
 
 }

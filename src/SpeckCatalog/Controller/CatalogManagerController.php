@@ -17,16 +17,6 @@ class CatalogManagerController extends AbstractActionController
         $this->subLayout('layout/catalog-manager');
     }
 
-    public function categoryTreePreviewAction()
-    {
-        $siteId = $this->params('siteid');
-        $categoryService = $this->getService('category');
-        $categories = $categoryService->getCategoriesForTreePreview($siteId);
-
-        $viewVars = array('categories' => $categories);
-        return $this->partialView('category-tree', $viewVars);
-    }
-
     //find categories/products that match search terms
     public function categorySearchChildrenAction()
     {
@@ -44,19 +34,31 @@ class CatalogManagerController extends AbstractActionController
         return new ViewModel(array('product' => $product));
     }
 
+    public function categoryTreePreviewAction()
+    {
+        $siteId = $this->params('siteid');
+        $categoryService = $this->getService('category');
+        $categories = $categoryService->getCategoriesForTreePreview($siteId);
+
+        $viewVars = array('categories' => $categories);
+        return $this->partialView('category-tree', $viewVars);
+    }
+
     public function productsAction()
     {
+        $service = $this->getService('product');
+
         $this->init();
         $config = array(
             'p' => $this->params('p') ?: 1,
             'n' => 40,
         );
-        $this->getService('product')->usePaginator($config);
+        $service->usePaginator($config);
         $query = $this->params()->fromQuery('query');
         if ($query) {
-            $products = $this->getService('product')->search($query);
+            $products = $service->search($query);
         } else {
-            $products = $this->getService('product')->getAll();
+            $products = $service->getAll();
         }
         return new ViewModel(array('products' => $products, 'query' => $query));
     }
@@ -131,30 +133,54 @@ class CatalogManagerController extends AbstractActionController
 
     public function updateFormAction()
     {
-        $class = $this->params('class');
-        $serviceLocator = $this->getServiceLocator();
-        $formService = $this->getService('form');
-        $formData = $this->params()->fromPost();
-        $form = $formService->getForm($class, null, $formData);
-        $viewHelperManager = $serviceLocator->get('viewhelpermanager');
-        $formViewHelper = $viewHelperManager->get('speckCatalogForm');
-        $messageHtml = $formViewHelper->renderFormMessages($form);
+        $data   = $this->params()->fromPost();
+        $form   = $this->getService('form')->getForm($this->params('class'), null, $data);
+        $helper = $this->getViewHelper('speckCatalogForm');
 
-        $response = $this->getResponse()->setContent($messageHtml);
-        return $response;
+        $html   = $helper->renderFormMessages($form);
+        return $this->getResponse()->setContent($html);
+    }
+
+    public function getViewHelper($helperName)
+    {
+        return $this->getServiceLocator()->get('viewhelpermanager')->get($helperName);
     }
 
     public function findAction()
     {
-        $postParams = $this->params()->fromPost();
+        $post = $this->params()->fromPost();
 
-        $models = array();
-        if(isset($postParams['query'])) {
-            $models = $this->getService($postParams['parent_name'])->search($postParams['query']);
+        if (!isset($post['query'])) {
+            $search = $this->partialDir . 'search/' . $this->dash($post['child_name']);
+            $view   = new ViewModel(array(
+                'fields'        => $post,
+                'searchPartial' => $search
+            ));
+            return $view->setTemplate($this->partialDir . 'search/index')->setTerminal(true);
         }
 
-        $view = new ViewModel(array('models' => $models, 'fields' => $postParams));
-        $view->setTemplate($this->partialDir . 'find-models')->setTerminal(true);
+        $response = array(
+            'html' => '',
+        );
+        $result = $this->getService($post['parent_name'])->search($post);
+        if (count($result) > 0) {
+            $partial = $this->getViewHelper('partial');
+            $rowPartial = $this->partialDir . 'search/row/' . $this->dash($post['child_name']);
+            foreach ($result as $row) {
+                $response['html'] .= $partial($rowPartial, array('model' => $row, 'params' => $post));
+            }
+        } else {
+            $response['html'] = 'no result';
+        }
+        $json_resp = json_encode($response);
+        return $this->getResponse()->setContent($json_resp);
+
+
+
+
+
+
+
         return $view;
     }
 
@@ -172,9 +198,8 @@ class CatalogManagerController extends AbstractActionController
             }
         }
 
-        $viewHelperManager = $this->getServiceLocator()->get('viewhelpermanager');
-        $viewHelper = $viewHelperManager->get('speckCatalogRenderChildren');
-        $content = $viewHelper->__invoke($postParams['child_name'], $objects);
+        $helper   = $this->getViewHelper('speckCatalogRenderChildren');
+        $content  = $helper->__invoke($postParams['child_name'], $objects);
         $response = $this->getResponse()->setContent($content);
         return $response;
     }
@@ -246,14 +271,7 @@ class CatalogManagerController extends AbstractActionController
     {
         $view = new ViewModel($viewVars);
         $view->setTemplate($this->partialDir . $partial);
-
         $view->setTerminal(true);
-
-        //$rend = $this->getServiceLocator()->get('zendviewrendererphprenderer');
-        //$html = $rend->render($view);
-        //return $this->getResponse()->setContent($html);
-
-
 
         return $view;
     }

@@ -17,7 +17,7 @@ class Option extends AbstractMapper
         return parent::find(array('option_id' => $data['option_id']));
     }
 
-    public function getByProductId($productId)
+    public function getByProductId($productId, array $fields=array())
     {
         $linker = 'catalog_product_option';
         $table = $this->getTableName();
@@ -27,6 +27,9 @@ class Option extends AbstractMapper
             ->join($linker, $joinString)
             ->where(array('product_id' => (int) $productId))
             ->order('sort_weight', 'ASC');
+        foreach ($fields as $key => $val) {
+            $select->where(array($key => $val));
+        }
         return $this->selectManyModels($select);
     }
 

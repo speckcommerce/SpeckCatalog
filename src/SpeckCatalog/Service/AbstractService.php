@@ -16,9 +16,9 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
     protected $serviceLocator;
     protected $enabledOnly = false;
 
-    public function search($str)
+    public function search(array $params)
     {
-        return $this->getEntityMapper()->search($str);
+        return $this->getEntityMapper()->search($params);
     }
 
     public function find(array $data, $populate=false, $recursive=false)

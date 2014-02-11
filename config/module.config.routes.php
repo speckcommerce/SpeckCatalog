@@ -69,6 +69,18 @@ return array(
                             ),
                         ),
                     ),
+                    'images' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/images/:id',
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'action' => 'images',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'partial/uoms' => array(

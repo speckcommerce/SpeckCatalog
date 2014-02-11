@@ -22,6 +22,21 @@ class ProductUom extends AbstractService
         return $productUoms;
     }
 
+    public function cheapestUom(array $uoms)
+    {
+        $lowest = null;
+        foreach ($uoms as $uom) {
+            if (!$lowest) {
+                $lowest = $uom;
+            }
+            if ($uom->getPrice() < $lowest->getPrice()) {
+                $lowest = $uom;
+            }
+        }
+
+        return $lowest;
+    }
+
     public function populate($productUom, $recursive=false, $children=true)
     {
         $allChildren = ($children === true) ? true : false;

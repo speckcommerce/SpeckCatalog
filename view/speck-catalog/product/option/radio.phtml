@@ -1,6 +1,15 @@
-<? $pdir = '/speck-catalog/catalog/partial/'; ?>
+<?
+    $pdir = '/speck-catalog/catalog/partial/';
+?>
+
 <? foreach ($option->getChoices() as $choice): ?>
-    <input name="product_branch[<?=$option->getOptionId();?>][<?=$choice->getChoiceId(); ?>]" value="<?=$choice->getChoiceId();?>" type="radio">&nbsp;<?=$choice->__toString();?>
+    <?
+        $optionId = $option->getOptionId();
+        $choiceId = $choice->getChoiceId();
+    ?>
+    <input name="product_branch[<?=$optionId;?>]" value="<?=$choiceId;?>" type="radio">
+        &nbsp;<?=$choice; ?>
+    </input>
     <? if($choice->has('options')) : ?>
         <? foreach($choice->getOptions() as $option) : ?>
             <br/><?=$this->partial($pdir . 'option.phtml', array('option' => $option)); ?>

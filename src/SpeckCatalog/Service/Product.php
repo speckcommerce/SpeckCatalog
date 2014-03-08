@@ -112,17 +112,20 @@ class Product extends AbstractService
             $product->setBuilders($builders);
         }
 
-        if ($allChildren || (in_array('options') && $children == true)) {
+        if ($product->has('builders') && ($allChildren || (in_array('options', $children))) {
             $this->singleOptionBuilderSingleUom($product);
         }
     }
 
     //check if the product is has a single builder option,
     //and if all builder products share a common uom
-    //set "add price" on choices, and return true
+    //set "add price" (used for display) on choices, and return true
     public function singleOptionBuilderSingleUom($product)
     {
         if (!$product->has('options')) {
+            return false;
+        }
+        if (!$product->has('builders')) {
             return false;
         }
         $builderOptionCount = 0;

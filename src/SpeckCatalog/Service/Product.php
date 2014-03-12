@@ -112,7 +112,7 @@ class Product extends AbstractService
             $product->setBuilders($builders);
         }
 
-        if ($product->has('builders') && ($allChildren || (in_array('options', $children))) {
+        if ($product->has('builders') && ($allChildren || (in_array('options', $children)))) {
             $this->singleOptionBuilderSingleUom($product);
         }
     }

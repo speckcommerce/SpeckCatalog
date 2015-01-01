@@ -25,7 +25,8 @@
         "evandotpro/edp-sub-layout" : "dev-master"
     },
     "require-dev": {
-        "mockery/mockery": ">=0.7.2"
+        "mockery/mockery": ">=0.7.2",
+        "phpunit/phpunit": "~4.4"
     },
     "autoload": {
         "psr-0": {

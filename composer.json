@@ -1,6 +1,7 @@
 {
     "name": "speckcommerce/speck-catalog",
     "description": "catalog + manager module for the ecommerce platform SpeckCommerce",
+    "license": "BSD-2-Clause",
     "type": "library",
     "minimum-stability": "dev",
     "keywords": [

@@ -27,7 +27,8 @@
     },
     "require-dev": {
         "mockery/mockery": ">=0.7.2",
-        "phpunit/phpunit": "~4.4"
+        "phpunit/phpunit": "~4.4",
+        "zf-commons/zfc-base": "dev-master"
     },
     "autoload": {
         "psr-0": {

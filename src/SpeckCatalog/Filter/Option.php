@@ -2,6 +2,7 @@
 
 namespace SpeckCatalog\Filter;
 
+use Zend\Filter\ToNull;
 use Zend\InputFilter\InputFilter;
 
 class Option extends InputFilter
@@ -13,7 +14,7 @@ class Option extends InputFilter
             'allow_empty' => true,
             'required' => true,
             'filters'   => array(
-                new \Zend\Filter\Null(\Zend\Filter\Null::TYPE_STRING),
+                new ToNull(ToNull::TYPE_STRING),
             ),
         ));
         $this->add(array(

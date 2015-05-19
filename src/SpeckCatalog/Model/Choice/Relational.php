@@ -26,19 +26,19 @@ class Relational extends Base
         return 0;
     }
 
-    public function getRecursivePrice($parentProductPrice=0)
+    public function getRecursivePrice($parentProductPrice=0, $retailPrice=false)
     {
         if ($this->has('product')) {
-            $productPrice = $this->getProduct()->getRecursivePrice();
-        	return $productPrice + $this->getAdjustmentPrice($productPrice);
+            $productPrice = $this->getProduct()->getRecursivePrice($retailPrice);
+            return $productPrice + $this->getAdjustmentPrice($productPrice);
         } else {
-        	$adjustedPrice = $this->getAdjustedPrice();
+            $adjustedPrice = $this->getAdjustedPrice($retailPrice);
             $adjustmentPrice = $adjustedPrice - $parentProductPrice;
 
             $price = 0;
             if ($this->has('options')) {
                 foreach($this->getOptions() as $option) {
-                    $price += $option->getRecursivePrice($adjustedPrice);
+                    $price += $option->getRecursivePrice($adjustedPrice, $retailPrice);
                 }
             }
 
@@ -46,24 +46,24 @@ class Relational extends Base
         }
     }
 
-    public function getAdjustedPrice()
+    public function getAdjustedPrice($retailPrice=false)
     {
-        $parentProductPrice = $this->getParentProductPrice();
+        $parentProductPrice = $this->getParentProductPrice($retailPrice);
         return $parentProductPrice + $this->getAdjustmentPrice($parentProductPrice);
     }
 
-    public function getParentProductPrice()
+    public function getParentProductPrice($retailPrice=false)
     {
         if ($this->has('parent')) {
-            return $this->getParent()->getAdjustedPrice();
+            return $this->getParent()->getAdjustedPrice($retailPrice);
         }
         return 0;
     }
 
 
-	public function getAdjustmentPrice($parentPrice)
-	{
-	    if($this->getPriceDiscountFixed()) {
+    public function getAdjustmentPrice($parentPrice)
+    {
+        if($this->getPriceDiscountFixed()) {
             return -$this->getPriceDiscountFixed();
         } elseif($this->getPriceDiscountPercent()) {
             return $parentPrice * -($this->getPriceDiscountPercent()/100);
@@ -74,7 +74,7 @@ class Relational extends Base
         } else {
             return 0;
         }
-	}
+    }
 
 
     public function getItemNumber()
@@ -151,15 +151,15 @@ class Relational extends Base
         return $this;
     }
 
-    public function getAddPrice()
+    public function getAddPrice($retailPrice=false)
     {
         if($this->addPrice) {
             return $this->addPrice;
         } elseif ($this->has('product')) {
-            $productPrice = $this->getProduct()->getPrice();
+            $productPrice = $this->getProduct()->getPrice($retailPrice);
             return $productPrice + $this->getAdjustmentPrice($productPrice);
         } else {
-            return $this->getAdjustedPrice() - $this->getParentProductPrice();
+            return $this->getAdjustedPrice($retailPrice) - $this->getParentProductPrice($retailPrice);
         }
     }
 

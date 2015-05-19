@@ -22,14 +22,14 @@ class Relational extends Base
         return $this->productId;
     }
 
-    public function getRecursivePrice()
+    public function getRecursivePrice($retailPrice=false)
     {
-        $price = $this->getPrice();
+        $price = $this->getPrice($retailPrice);
 
         $adjustmentPrice = 0;
         if ($this->has('options')) {
             foreach ($this->getOptions() as $option) {
-                $adjustmentPrice += $option->getRecursivePrice($price);
+                $adjustmentPrice += $option->getRecursivePrice($price, $retailPrice);
             }
         }
 
@@ -52,12 +52,12 @@ class Relational extends Base
     }
 
 
-    public function getPrice()
+    public function getPrice($retailPrice=false)
     {
         if ($this->has('uoms')) {
             $uomPrices = array();
             foreach($this->getUoms() as $uom) {
-                $uomPrices[] = $uom->getPrice();
+                $uomPrices[] = $retailPrice ? $uom->getRetail() : $uom->getPrice();
             }
             asort($uomPrices, SORT_NUMERIC);
             return array_shift($uomPrices);
@@ -65,7 +65,7 @@ class Relational extends Base
             $uomPrices = array();
             foreach ($this->getBuilders() as $builder) {
                 foreach($builder->getProduct()->getUoms() as $uom) {
-                    $uomPrices[] = $uom->getPrice();
+                    $uomPrices[] = $retailPrice ? $uom->getRetail() : $uom->getPrice();
                 }
             }
             asort($uomPrices, SORT_NUMERIC);

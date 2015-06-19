@@ -19,7 +19,7 @@ class Uom extends ClassMethods
     public function hydrate($data, $model)
     {
         $model = parent::hydrate($data, $model);
-        $model->setEnabled( (bool) $model->getEnabled());
+        $model->setEnabled((bool) $model->getEnabled());
 
         return $model;
     }

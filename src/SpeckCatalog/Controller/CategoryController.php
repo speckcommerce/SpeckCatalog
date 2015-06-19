@@ -36,19 +36,19 @@ class CategoryController extends AbstractActionController
         ));
     }
 
-    function setCatalogService($catalogService)
+    public function setCatalogService($catalogService)
     {
         $this->catalogService = $catalogService;
     }
 
-    function getCatalogService()
+    public function getCatalogService()
     {
         return $this->catalogService;
     }
 
-    function getPaginatorVars($stringify = false)
+    public function getPaginatorVars($stringify = false)
     {
-        if(isset($_GET['nn'])) {
+        if (isset($_GET['nn'])) {
             $this->perPageAction();
         }
         $keys = array('n', 'p', 'o', 's');
@@ -62,11 +62,11 @@ class CategoryController extends AbstractActionController
         return $paginatorVars;
     }
 
-    function perPageAction()
+    public function perPageAction()
     {
         $keys = array('o', 's');
         foreach ($keys as $key) {
-            if(isset($_GET[$key])) {
+            if (isset($_GET[$key])) {
                 $paginatorVars[$key] = $_GET[$key];
             }
         }

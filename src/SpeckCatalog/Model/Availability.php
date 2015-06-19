@@ -137,5 +137,4 @@ class Availability extends AbstractModel
         $this->distributorItemNumber = $distributorItemNumber;
         return $this;
     }
-
 }

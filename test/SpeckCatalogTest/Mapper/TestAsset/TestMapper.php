@@ -27,7 +27,7 @@ class TestMapper extends AbstractDbMapper
     }
 
     //PUBLIC
-    public function insert($data, $tableName=NULL, \Zend\Stdlib\Hydrator\HydratorInterface $hydrator = NULL)
+    public function insert($data, $tableName = null, \Zend\Stdlib\Hydrator\HydratorInterface $hydrator = null)
     {
         return parent::insert($data, $tableName);
     }

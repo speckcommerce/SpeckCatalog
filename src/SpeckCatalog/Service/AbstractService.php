@@ -21,7 +21,7 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
         return $this->getEntityMapper()->search($params);
     }
 
-    public function find(array $data, $populate=false, $recursive=false)
+    public function find(array $data, $populate = false, $recursive = false)
     {
         $result = $this->getEntityMapper()->find($data);
         if (!$result) {
@@ -44,7 +44,7 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
         return $this->getEntityMapper()->findRows($data);
     }
 
-    public function findMany(array $data, $populate=false, $recursive=false)
+    public function findMany(array $data, $populate = false, $recursive = false)
     {
         $result = $this->getEntityMapper()->findMany($data);
         if (!count($result)) {
@@ -59,12 +59,12 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
         return $result;
     }
 
-    public function populate($model, $recursive=false, $children=true)
+    public function populate($model, $recursive = false, $children = true)
     {
         return $model;
     }
 
-    public function getModel($construct=null)
+    public function getModel($construct = null)
     {
         return $this->getEntityMapper()->getModel($construct);
     }
@@ -80,7 +80,7 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
             $this->entityMapper = $this->getServiceLocator()->get($this->entityMapper);
         }
 
-        if ($this->entityMapper instanceOf AbstractMapper) {
+        if ($this->entityMapper instanceof AbstractMapper) {
             $this->entityMapper->setEnabledOnly($this->enabledOnly());
         }
 
@@ -119,7 +119,7 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
         return $this->getEntityMapper()->delete($where);
     }
 
-    public function usePaginator($options=array())
+    public function usePaginator($options = array())
     {
         $this->getEntityMapper()->usePaginator($options);
         return $this;

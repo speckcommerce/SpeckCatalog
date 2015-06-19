@@ -27,8 +27,9 @@ class Product extends AbstractHelper
             }
             return $string;
         }
-
-        return 'Starting At'; //todo : if there are builders, get the uomString from the one we are displaying the price from
+        // @TODO: if there are builders, get the uomString from the one we are
+        //displaying the price from
+        return 'Starting At';
     }
 
 
@@ -43,7 +44,7 @@ class Product extends AbstractHelper
             }
         } elseif ($product->type() === 'shell') {
             foreach ($product->getBuilders() as $builder) {
-                foreach($builder->getProduct()->getUoms() as $uom) {
+                foreach ($builder->getProduct()->getUoms() as $uom) {
                     $uomStrings[$this->uomStr($uom)] = $this->uomName($uom);
                 }
             }
@@ -63,13 +64,13 @@ class Product extends AbstractHelper
 
     public function uomName($uom)
     {
-        if($uom->getQuantity() === 1) {
+        if ($uom->getQuantity() === 1) {
             return $uom->getUom()->getName();
         }
         return "{$uom->getUom()->getName()} of {$uom->getQuantity()}";
     }
 
-    public function itemNumbers($product, $implode=false)
+    public function itemNumbers($product, $implode = false)
     {
         $numbers = array();
         if ($product->getProductTypeId() == 2) {

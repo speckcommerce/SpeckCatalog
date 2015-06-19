@@ -63,7 +63,7 @@ class ProductUom extends AbstractForm
     public function init()
     {
         $uoms = array('select' => '--SELECT--');
-        foreach($this->getUomService()->getAll() as $uom){
+        foreach ($this->getUomService()->getAll() as $uom) {
             $uoms[$uom->getUomCode()] = $uom->getName();
         }
         $this->add(array(
@@ -81,24 +81,24 @@ class ProductUom extends AbstractForm
     }
 
 
- /**
-  * Get uomService.
-  *
-  * @return uomService.
-  */
- function getUomService()
- {
-     return $this->uomService;
- }
+    /**
+     * Get uomService.
+     *
+     * @return uomService.
+     */
+    public function getUomService()
+    {
+        return $this->uomService;
+    }
 
- /**
-  * Set uomService.
-  *
-  * @param uomService the value to set.
-  */
- function setUomService($uomService)
- {
-     $this->uomService = $uomService;
-     return $this;
- }
+    /**
+     * Set uomService.
+     *
+     * @param uomService the value to set.
+     */
+    public function setUomService($uomService)
+    {
+        $this->uomService = $uomService;
+        return $this;
+    }
 }

@@ -15,120 +15,120 @@ class CartItemMeta
     public function __construct(array $config = array())
     {
         if (count($config)) {
-           $this->parentOptionId   = isset($config['parent_option_id'])   ? $config['parent_option_id']   : null;
-           $this->productId        = isset($config['product_id'])         ? $config['product_id']         : null;
-           $this->itemNumber       = isset($config['item_number'])        ? $config['item_number']        : null;
-           $this->parentOptionName = isset($config['parent_option_name']) ? $config['parent_option_name'] : null;
-           $this->flatOptions      = isset($config['flat_options'])       ? $config['flat_options']       : array();
-           $this->image            = isset($config['image'])              ? $config['image']              : null;
-           $this->uom              = isset($config['uom'])                ? $config['uom']                : null;
+            $this->parentOptionId   = isset($config['parent_option_id'])   ? $config['parent_option_id']   : null;
+            $this->productId        = isset($config['product_id'])         ? $config['product_id']         : null;
+            $this->itemNumber       = isset($config['item_number'])        ? $config['item_number']        : null;
+            $this->parentOptionName = isset($config['parent_option_name']) ? $config['parent_option_name'] : null;
+            $this->flatOptions      = isset($config['flat_options'])       ? $config['flat_options']       : array();
+            $this->image            = isset($config['image'])              ? $config['image']              : null;
+            $this->uom              = isset($config['uom'])                ? $config['uom']                : null;
         }
     }
 
- /**
-  * Get parentOptionId.
-  *
-  * @return parentOptionId.
-  */
- function getParentOptionId()
- {
-     return $this->parentOptionId;
- }
+    /**
+     * Get parentOptionId.
+     *
+     * @return parentOptionId.
+     */
+    public function getParentOptionId()
+    {
+        return $this->parentOptionId;
+    }
 
- /**
-  * Set parentOptionId.
-  *
-  * @param parentOptionId the value to set.
-  */
- function setParentOptionId($parentOptionId)
- {
-     $this->parentOptionId = $parentOptionId;
-     return $this;
- }
+    /**
+     * Set parentOptionId.
+     *
+     * @param parentOptionId the value to set.
+     */
+    public function setParentOptionId($parentOptionId)
+    {
+        $this->parentOptionId = $parentOptionId;
+        return $this;
+    }
 
- /**
-  * Get parentOptionName.
-  *
-  * @return parentOptionName.
-  */
- function getParentOptionName()
- {
-     return $this->parentOptionName;
- }
+    /**
+     * Get parentOptionName.
+     *
+     * @return parentOptionName.
+     */
+    public function getParentOptionName()
+    {
+        return $this->parentOptionName;
+    }
 
- /**
-  * Set parentOptionName.
-  *
-  * @param parentOptionName the value to set.
-  */
- function setParentOptionName($parentOptionName)
- {
-     $this->parentOptionName = $parentOptionName;
-     return $this;
- }
+    /**
+     * Set parentOptionName.
+     *
+     * @param parentOptionName the value to set.
+     */
+    public function setParentOptionName($parentOptionName)
+    {
+        $this->parentOptionName = $parentOptionName;
+        return $this;
+    }
 
- /**
-  * Get image.
-  *
-  * @return image.
-  */
- function getImage()
- {
-     return $this->image;
- }
+    /**
+     * Get image.
+     *
+     * @return image.
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 
- /**
-  * Set image.
-  *
-  * @param image the value to set.
-  */
- function setImage($image)
- {
-     $this->image = $image;
-     return $this;
- }
+    /**
+     * Set image.
+     *
+     * @param image the value to set.
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
 
- /**
-  * Get productId.
-  *
-  * @return productId.
-  */
- function getProductId()
- {
-     return $this->productId;
- }
+    /**
+     * Get productId.
+     *
+     * @return productId.
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
 
- /**
-  * Set productId.
-  *
-  * @param productId the value to set.
-  */
- function setProductId($productId)
- {
-     $this->productId = $productId;
-     return $this;
- }
+    /**
+     * Set productId.
+     *
+     * @param productId the value to set.
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+        return $this;
+    }
 
- /**
-  * Get flatOptions.
-  *
-  * @return flatOptions.
-  */
- function getFlatOptions()
- {
-     return $this->flatOptions;
- }
+    /**
+     * Get flatOptions.
+     *
+     * @return flatOptions.
+     */
+    public function getFlatOptions()
+    {
+        return $this->flatOptions;
+    }
 
- /**
-  * Set flatOptions.
-  *
-  * @param flatOptions the value to set.
-  */
- function setFlatOptions($flatOptions)
- {
-     $this->flatOptions = $flatOptions;
-     return $this;
- }
+    /**
+     * Set flatOptions.
+     *
+     * @param flatOptions the value to set.
+     */
+    public function setFlatOptions($flatOptions)
+    {
+        $this->flatOptions = $flatOptions;
+        return $this;
+    }
 
     /**
      * @return itemNumber

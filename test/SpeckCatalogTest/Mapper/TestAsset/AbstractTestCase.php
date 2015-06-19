@@ -74,7 +74,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $mapper->insert($availability, 'catalog_availability');
     }
 
-    public function insertImage($parentType, $parentId=1)
+    public function insertImage($parentType, $parentId = 1)
     {
         $mapper = $this->getTestMapper();
         $idName = $parentType . '_id';
@@ -92,7 +92,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         return (int) $result->getGeneratedValue();
     }
 
-    public function insertDocument($parentProductId=1)
+    public function insertDocument($parentProductId = 1)
     {
         $document = array('product_id' => $parentProductId);
         $mapper = $this->getTestMapper();
@@ -100,7 +100,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         return (int) $result->getGeneratedValue();
     }
 
-    public function insertSpec($parentProductId=1)
+    public function insertSpec($parentProductId = 1)
     {
         $spec = array('product_id' => $parentProductId);
         $mapper = $this->getTestMapper();

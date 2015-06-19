@@ -26,7 +26,7 @@ class Relational extends Base
         return 0;
     }
 
-    public function getRecursivePrice($parentProductPrice=0, $retailPrice=false)
+    public function getRecursivePrice($parentProductPrice = 0, $retailPrice = false)
     {
         if ($this->has('product')) {
             $productPrice = $this->getProduct()->getRecursivePrice($retailPrice);
@@ -37,22 +37,24 @@ class Relational extends Base
 
             $price = 0;
             if ($this->has('options')) {
-                foreach($this->getOptions() as $option) {
+                foreach ($this->getOptions() as $option) {
                     $price += $option->getRecursivePrice($adjustedPrice, $retailPrice);
                 }
             }
 
-            return ($adjustmentPrice + $price) >= -$parentProductPrice ? $adjustmentPrice + $price : -$parentProductPrice;
+            return ($adjustmentPrice + $price) >= -$parentProductPrice
+                ? $adjustmentPrice + $price
+                : -$parentProductPrice;
         }
     }
 
-    public function getAdjustedPrice($retailPrice=false)
+    public function getAdjustedPrice($retailPrice = false)
     {
         $parentProductPrice = $this->getParentProductPrice($retailPrice);
         return $parentProductPrice + $this->getAdjustmentPrice($parentProductPrice);
     }
 
-    public function getParentProductPrice($retailPrice=false)
+    public function getParentProductPrice($retailPrice = false)
     {
         if ($this->has('parent')) {
             return $this->getParent()->getAdjustedPrice($retailPrice);
@@ -63,9 +65,9 @@ class Relational extends Base
 
     public function getAdjustmentPrice($parentPrice)
     {
-        if($this->getPriceDiscountFixed()) {
+        if ($this->getPriceDiscountFixed()) {
             return -$this->getPriceDiscountFixed();
-        } elseif($this->getPriceDiscountPercent()) {
+        } elseif ($this->getPriceDiscountPercent()) {
             return $parentPrice * -($this->getPriceDiscountPercent()/100);
         } elseif ($this->getPriceNoCharge()) {
             return -$parentPrice;
@@ -151,9 +153,9 @@ class Relational extends Base
         return $this;
     }
 
-    public function getAddPrice($retailPrice=false)
+    public function getAddPrice($retailPrice = false)
     {
-        if($this->addPrice) {
+        if ($this->addPrice) {
             return $this->addPrice;
         } elseif ($this->has('product')) {
             $productPrice = $this->getProduct()->getPrice($retailPrice);
@@ -194,7 +196,7 @@ class Relational extends Base
 
     public function __toString()
     {
-        if($this->getOverrideName()){
+        if ($this->getOverrideName()) {
             $str = $this->getOverrideName();
         } elseif ($this->has('product')) {
             $str = $this->getProduct()->getName();
@@ -203,5 +205,4 @@ class Relational extends Base
         }
         return $str;
     }
-
 }

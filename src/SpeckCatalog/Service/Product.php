@@ -25,7 +25,7 @@ class Product extends AbstractService
         if (null === $where && is_array($data)) {
             $where['product_id'] = $data['product_id'];
         }
-        if (null === $where && $data instanceOf \SpeckCatalog\Model\Product) {
+        if (null === $where && $data instanceof \SpeckCatalog\Model\Product) {
             $where['product_id'] = $data->getProductId();
         }
 
@@ -70,7 +70,7 @@ class Product extends AbstractService
         return $product;
     }
 
-    public function populate($product, $recursive=false, $children=true)
+    public function populate($product, $recursive = false, $children = true)
     {
         $productId = $product->getProductId();
 
@@ -134,7 +134,7 @@ class Product extends AbstractService
             if ($option->getBuilder() == true) {
                 $builderOptionCount++;
                 //add the choices to a flat array
-                foreach($option->getChoices() as $choice) {
+                foreach ($option->getChoices() as $choice) {
                     $choices[$choice->getChoiceId()] = $choice;
                 }
             }
@@ -159,7 +159,7 @@ class Product extends AbstractService
 
         //test is true, set the add price on the choices
         foreach ($product->getBuilders() as $builder) {
-            foreach($builder->getSelected() as $optionId => $choiceId) {
+            foreach ($builder->getSelected() as $optionId => $choiceId) {
                     $addPrice = $builder->getProduct()->getPrice() - $product->getPrice();
                 $choices[$choiceId]->setAddPrice($addPrice);
             }

@@ -73,7 +73,7 @@ class Product extends AbstractMapper
         return $this->selectManyModels($select);
     }
 
-    public function getByCategoryId($categoryId, $siteId=1)
+    public function getByCategoryId($categoryId, $siteId = 1)
     {
         $table      = $this->getTableName();
         $linker     = 'catalog_category_product';
@@ -155,7 +155,7 @@ class Product extends AbstractMapper
             ));
         $rows = $this->selectMany($select);
 
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $this->delete($row, $c_b_p);
         }
 

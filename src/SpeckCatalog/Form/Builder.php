@@ -65,7 +65,7 @@ class Builder extends AbstractForm
 
     public function addOptions($object)
     {
-        foreach($object->getOptions() as $option) {
+        foreach ($object->getOptions() as $option) {
             $optionId = $option->getOptionId();
             $optionName = $option->getName();
 
@@ -74,7 +74,9 @@ class Builder extends AbstractForm
                 $choices[$choice->getChoiceId()] = $choice->__toString();
             }
 
-            $selectedChoiceId = isset($object->getSelected()[$optionId]) ? (int) $object->getSelected()[$optionId] : null;
+            $selectedChoiceId = isset($object->getSelected()[$optionId])
+                ? (int) $object->getSelected()[$optionId]
+                : null;
             $data = array(
                 'option_id' => $option->getOptionId(),
                 'name'      => $option->getName(),

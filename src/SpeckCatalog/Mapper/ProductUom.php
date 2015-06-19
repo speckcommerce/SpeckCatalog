@@ -21,5 +21,4 @@ class ProductUom extends AbstractMapper
         }
         return $this->selectManyModels($select);
     }
-
 }

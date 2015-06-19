@@ -12,7 +12,7 @@ class Availability extends AbstractService
         return $this->getEntityMapper()->getByProductUom($productId, $uomCode, $quantity);
     }
 
-    public function populate($availability, $recursive=false, $children=true)
+    public function populate($availability, $recursive = false, $children = true)
     {
         $allChildren = ($children === true) ? true : false;
         $children    = (is_array($children)) ? $children : array();

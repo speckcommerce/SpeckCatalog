@@ -41,7 +41,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
     public function testAddNewProvidesFormToPartial()
     {
         $form = null;
-        $callback = function($partial, $params) use (&$form) {
+        $callback = function ($partial, $params) use (&$form) {
             $form = $params['addForm'];
         };
         $this->view->expects($this->once())
@@ -70,7 +70,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
     public function testRemoveChildProvidesFormToPartial()
     {
         $form = null;
-        $callback = function($partial, $params) use (&$form) {
+        $callback = function ($partial, $params) use (&$form) {
             $form = $params['removeForm'];
         };
         $this->view->expects($this->once())

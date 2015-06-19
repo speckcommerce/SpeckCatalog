@@ -12,7 +12,7 @@ class CategoryTest extends AbstractTestCase
 
         $mapper = $this->getMapper();
         $return = $mapper->find(array('category_id' => $categoryId));
-        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Category);
+        $this->assertTrue($return instanceof \SpeckCatalog\Model\Category);
     }
 
     public function testGetChildCategoriesReturnsArrayOfCategoryModels()
@@ -30,7 +30,7 @@ class CategoryTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $return = $mapper->getChildCategories($parentId);
         $this->assertTrue(is_array($return));
-        $this->assertTrue($return[0] instanceOf \SpeckCatalog\Model\Category);
+        $this->assertTrue($return[0] instanceof \SpeckCatalog\Model\Category);
     }
 
     public function testGetChildCategoriesWithoutParentCategoryReturnsArrayOfCategoryModels()
@@ -48,7 +48,7 @@ class CategoryTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $return = $mapper->getChildCategories($parentId);
         $this->assertTrue(is_array($return));
-        $this->assertTrue($return[0] instanceOf \SpeckCatalog\Model\Category);
+        $this->assertTrue($return[0] instanceof \SpeckCatalog\Model\Category);
     }
 
     public function testGetCrumbsReturnsArrayOfCategoryCrumbs()
@@ -76,7 +76,7 @@ class CategoryTest extends AbstractTestCase
     public function testAddProductCreatesLinker()
     {
         $mapper = $this->getMapper();
-        $mapper->addProduct(9,6);
+        $mapper->addProduct(9, 6);
 
         $select = new \Zend\Db\Sql\Select('catalog_category_product');
         $select->where(array('category_id' => 9, 'product_id' => 6));

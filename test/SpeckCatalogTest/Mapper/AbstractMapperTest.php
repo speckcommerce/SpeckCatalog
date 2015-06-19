@@ -72,7 +72,7 @@ class AbstractMapperTest extends AbstractTestCase
         $select->where(array('name' => 'product'));
         $result = $mapper->selectOne($select);
 
-        $this->assertTrue($result instanceOf \SpeckCatalog\Model\AbstractModel);
+        $this->assertTrue($result instanceof \SpeckCatalog\Model\AbstractModel);
     }
 
     public function testSelectManyReturnsArrayOfModelAbstracts()
@@ -90,7 +90,7 @@ class AbstractMapperTest extends AbstractTestCase
         $this->assertTrue(is_array($result));
         $this->assertTrue(count($result) > 1);
         $model = $result[0];
-        $this->assertTrue($model instanceOf \SpeckCatalog\Model\AbstractModel);
+        $this->assertTrue($model instanceof \SpeckCatalog\Model\AbstractModel);
     }
 
     public function testPrepareDataReturnsDbModelWhenPassedRelationalModel()
@@ -100,7 +100,7 @@ class AbstractMapperTest extends AbstractTestCase
         $product = new \SpeckCatalog\Model\Product\Relational();
         $return = $mapper->prepareData($product, 'catalog_product');
 
-        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
+        $this->assertTrue($return instanceof \SpeckCatalog\Model\Product);
     }
 
     public function testPrepareDataWithArray()
@@ -183,7 +183,7 @@ class AbstractMapperTest extends AbstractTestCase
             array('p' => 1, 'n' => 10) //optional params, passing them for code coverage
         );
         $result = $mapper->getAll();
-        $this->assertTrue($result instanceOf \Zend\Paginator\Paginator);
+        $this->assertTrue($result instanceof \Zend\Paginator\Paginator);
     }
 
     public function testSetPaginatorOptions()
@@ -240,5 +240,4 @@ class AbstractMapperTest extends AbstractTestCase
         $mapper =  $this->getServiceManager()->get('speckcatalog_product_mapper');
         return $mapper;
     }
-
 }

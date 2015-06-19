@@ -9,7 +9,7 @@ class Category extends AbstractMapper
     protected $tableKeyFields = array('category_id');
     protected $tableFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
 
-    public function getChildCategories($parentCategoryId=null, $siteId=1)
+    public function getChildCategories($parentCategoryId = null, $siteId = 1)
     {
         $linker = 'catalog_category_website';
         $table  = $this->getTableName();
@@ -29,7 +29,7 @@ class Category extends AbstractMapper
         return $this->selectManyModels($query);
     }
 
-    public function getByProductId($productId, $siteId=1)
+    public function getByProductId($productId, $siteId = 1)
     {
         $table  = 'catalog_category';
         $linker = 'catalog_category_product';
@@ -46,7 +46,7 @@ class Category extends AbstractMapper
         return $this->selectOneModel($select);
     }
 
-    public function getParentCategory($categoryId, $siteId=1)
+    public function getParentCategory($categoryId, $siteId = 1)
     {
         $table  = 'catalog_category_website';
         $linker = 'catalog_category';
@@ -62,7 +62,7 @@ class Category extends AbstractMapper
         return $this->selectOneModel($select);
     }
 
-    public function addProduct($categoryId, $productId, $siteId=1)
+    public function addProduct($categoryId, $productId, $siteId = 1)
     {
         $table = 'catalog_category_product';
         $row = array(
@@ -78,7 +78,7 @@ class Category extends AbstractMapper
         }
     }
 
-    public function addCategory($parentCategoryId = null, $categoryId, $siteId=1)
+    public function addCategory($parentCategoryId, $categoryId, $siteId = 1)
     {
         $where = new \Zend\Db\Sql\Where();
         $where->equalTo('website_id', $siteId)

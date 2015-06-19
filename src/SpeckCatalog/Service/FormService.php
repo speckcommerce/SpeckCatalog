@@ -10,7 +10,7 @@ class FormService implements ServiceLocatorAwareInterface
 {
     protected $serviceLocator;
 
-    public function getForm($name = null, $model=null, $data=null)
+    public function getForm($name = null, $model = null, $data = null)
     {
         $form = $this->formFromServiceManager($name);
         $filter = $this->filterFromServiceManager($name);
@@ -38,13 +38,13 @@ class FormService implements ServiceLocatorAwareInterface
         return $this->getServiceLocator()->get($filterName);
     }
 
-    public function getKeyFields($name, $model=null, $parentKeyFields=false)
+    public function getKeyFields($name, $model = null, $parentKeyFields = false)
     {
         $form = $this->formFromServiceManager($name);
 
         $fields = array();
 
-        if($model) {
+        if ($model) {
             foreach ($form->getOriginalFields() as $field) {
                 $getter = 'get' . $this->camel($field);
                 $fields[$field] = $model->$getter();

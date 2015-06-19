@@ -27,7 +27,7 @@ class Choice extends AbstractMapper
         return $this->selectManyModels($select);
     }
 
-    public function insert($choice, $tableName=null, HydratorInterface $hydrator=null)
+    public function insert($choice, $tableName = null, HydratorInterface $hydrator = null)
     {
         $choiceId = parent::insert($choice, $tableName, $hydrator);
         return $this->find(array('choice_id' => $choiceId));

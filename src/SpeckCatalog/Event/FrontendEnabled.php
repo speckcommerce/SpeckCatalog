@@ -89,7 +89,7 @@ class FrontendEnabled
             $productId = $product->getProductId();
             $enabled   = ($product->getEnabled()) ? 1 : 0;
             $choiceService->update(
-                array('enabled'    => $enabled),     //data
+                array('enabled'    => $enabled), //data
                 array('product_id' => $productId)    //where
             );
         }
@@ -113,7 +113,7 @@ class FrontendEnabled
 
         $choiceService  = $productService->getChoiceService();
         $choiceService->update(
-            array('enabled'    => $enabled),     //data
+            array('enabled'    => $enabled), //data
             array('product_id' => $productId)    //where
         );
     }

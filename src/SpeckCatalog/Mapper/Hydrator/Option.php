@@ -22,8 +22,8 @@ class Option extends ClassMethods
     public function hydrate(array $data, $model)
     {
         $model = parent::hydrate($data, $model);
-        $model->setRequired( (bool) $model->getRequired());
-        $model->setBuilder( (bool) $model->getBuilder());
+        $model->setRequired((bool) $model->getRequired());
+        $model->setBuilder((bool) $model->getBuilder());
 
         return $model;
     }

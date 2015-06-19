@@ -69,7 +69,7 @@ class AbstractForm extends ZendForm
         if (false === $this->isNew()) {
             foreach ($this->getOriginalFields() as $field) {
                 $key = 'original_' . $field;
-                if(array_key_exists($key, $data)) {
+                if (array_key_exists($key, $data)) {
                     unset($data[$key]);
                 }
             }
@@ -85,9 +85,9 @@ class AbstractForm extends ZendForm
     {
         $data = $this->data;
         $originals = array();
-        foreach($this->getOriginalFields() as $field) {
+        foreach ($this->getOriginalFields() as $field) {
             $key = 'original_' . $field;
-            if(array_key_exists($key, $data)) {
+            if (array_key_exists($key, $data)) {
                 $originals[$field] = $data[$key];
             }
         }

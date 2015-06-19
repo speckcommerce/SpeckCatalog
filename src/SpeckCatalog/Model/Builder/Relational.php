@@ -5,6 +5,7 @@ namespace SpeckCatalog\Model\Builder;
 use SpeckCatalog\Model\AbstractModel;
 use SpeckCatalog\Model\Choice\Relational as Choice;
 use SpeckCatalog\Model\Product\Relational as Product;
+
 /*
  * this model does not extend another model
  * because it doesnt not have a db table

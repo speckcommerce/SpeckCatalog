@@ -12,7 +12,7 @@ class UomTest extends AbstractTestCase
 
         $mapper = $this->getMapper();
         $return = $mapper->find(array('uom_code' => 'EA'));
-        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Uom);
+        $this->assertTrue($return instanceof \SpeckCatalog\Model\Uom);
     }
 
     public function getMapper()

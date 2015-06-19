@@ -133,7 +133,7 @@ class AdderHelper extends AbstractHelper
 
     protected function dash($name)
     {
-        if($this->filter == null) {
+        if ($this->filter == null) {
             $this->filter = new UnderscoreToDashFilter;
         }
         return $this->filter->filter($name);

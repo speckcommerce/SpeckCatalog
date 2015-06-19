@@ -35,7 +35,7 @@ class OptionTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $option = array('name' => 'option');
         $option = $mapper->insert($option);
-        $this->assertTrue($option instanceOf \SpeckCatalog\Model\Option);
+        $this->assertTrue($option instanceof \SpeckCatalog\Model\Option);
     }
 
     public function testFindReturnsOptionModel()
@@ -44,7 +44,7 @@ class OptionTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $result = $mapper->find(array('option_id' => $optionId));
 
-        $this->assertTrue($result instanceOf \SpeckCatalog\Model\Option);
+        $this->assertTrue($result instanceof \SpeckCatalog\Model\Option);
     }
 
     public function testGetByProductIdReturnsArrayOfOptionModels()
@@ -57,7 +57,7 @@ class OptionTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $result = $mapper->getByProductId(1);
         $this->assertTrue(is_array($result));
-        $this->assertTrue($result[0] instanceOf \SpeckCatalog\Model\Option);
+        $this->assertTrue($result[0] instanceof \SpeckCatalog\Model\Option);
     }
 
     public function testGetByParentChoiceIdReturnsArrayOfOptionModels()
@@ -70,7 +70,7 @@ class OptionTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $result = $mapper->getByParentChoiceId(1);
         $this->assertTrue(is_array($result));
-        $this->assertTrue($result[0] instanceOf \SpeckCatalog\Model\Option);
+        $this->assertTrue($result[0] instanceof \SpeckCatalog\Model\Option);
     }
 
     public function testSortChoicesChangesOrderOfChoices()

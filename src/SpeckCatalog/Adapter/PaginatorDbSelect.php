@@ -10,7 +10,7 @@ class PaginatorDbSelect extends DbSelect
     {
         $items=parent::getItems($a, $b);
         $return = array();
-        foreach($items as $item){
+        foreach ($items as $item) {
             $return[] = $item;
         }
         return $return;

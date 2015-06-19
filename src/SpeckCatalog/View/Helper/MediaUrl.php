@@ -1,5 +1,6 @@
 <?php
 namespace SpeckCatalog\View\Helper;
+
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Helper\AbstractHelper;
 
@@ -47,22 +48,22 @@ class MediaUrl extends AbstractHelper
         return $this->settings->$getter($media) . '/' . $fileName;
     }
 
-    function getSettings()
+    public function getSettings()
     {
         return $this->settings;
     }
 
-    function setSettings($settings)
+    public function setSettings($settings)
     {
         $this->settings = $settings;
     }
 
-    function getMediaType()
+    public function getMediaType()
     {
         return $this->mediaType;
     }
 
-    function setMediaType($mediaType)
+    public function setMediaType($mediaType)
     {
         $this->mediaType = $mediaType;
     }

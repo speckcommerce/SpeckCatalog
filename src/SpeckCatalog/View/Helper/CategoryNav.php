@@ -19,7 +19,7 @@ class CategoryNav extends AbstractHelper
         return $this;
     }
 
-    function getCatalogService()
+    public function getCatalogService()
     {
         return $this->catalogService;
     }

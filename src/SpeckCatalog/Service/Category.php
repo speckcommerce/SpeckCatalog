@@ -31,7 +31,7 @@ class Category extends AbstractService
         return $this->getEntityMapper()->getByProductId($productId, $this->getSiteId());
     }
 
-    public function getCrumbs($category, $crumbs=array())
+    public function getCrumbs($category, $crumbs = array())
     {
         array_unshift($crumbs, $category);
         $parent = $this->getParentCategory($category->getCategoryId());
@@ -46,7 +46,7 @@ class Category extends AbstractService
         return $this->getEntityMapper()->getParentCategory($categoryId);
     }
 
-    public function getCategoriesForTreePreview($siteId, $parentCategoryId=null)
+    public function getCategoriesForTreePreview($siteId, $parentCategoryId = null)
     {
         $categories = $this->getEntityMapper()->getChildCategories($parentCategoryId, $siteId);
         foreach ($categories as $category) {
@@ -58,15 +58,17 @@ class Category extends AbstractService
         return $categories;
     }
 
-    public function getCategoryforView($categoryId, $paginationOptions=null)
+    public function getCategoryforView($categoryId, $paginationOptions = null)
     {
         $category = $this->findById($categoryId);
-        if (!$category) return;
+        if (!$category) {
+            return;
+        }
 
         $categories = $this->getChildCategories($categoryId, $this->getSiteId());
         $products = $this->getProductService()->usePaginator($paginationOptions)->getByCategoryId($categoryId);
         if (count($products) > 0) {
-            foreach($products as $product){
+            foreach ($products as $product) {
                 $this->getProductService()->populate($product, array('images', 'uoms', 'options', 'builders'), true);
             }
             $category->setProducts($products);
@@ -89,7 +91,7 @@ class Category extends AbstractService
         return $this->getEntityMapper()->addProduct($categoryId, $productId);
     }
 
-    public function addCategory($parentCategoryOrIdOrNull = null, $categoryOrId)
+    public function addCategory($parentCategoryOrIdOrNull, $categoryOrId)
     {
         if (null === $categoryOrId) {
             throw new \RuntimeException('categoryOrId cannot be null');

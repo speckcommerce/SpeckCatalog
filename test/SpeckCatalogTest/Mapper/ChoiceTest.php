@@ -11,7 +11,7 @@ class ChoiceTest extends AbstractTestCase
         $choiceId = $this->insertChoice(1);
         $mapper = $this->getMapper();
         $result = $mapper->find(array('choice_id' => $choiceId));
-        $this->assertTrue($result instanceOf \SpeckCatalog\Model\Choice);
+        $this->assertTrue($result instanceof \SpeckCatalog\Model\Choice);
     }
 
     public function testGetByOptionIdReturnsArrayOfChoiceModels()
@@ -20,7 +20,7 @@ class ChoiceTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $result = $mapper->getByOptionId(1);
         $this->assertTrue(is_array($result));
-        $this->assertTrue($result[0] instanceOf \SpeckCatalog\Model\Choice);
+        $this->assertTrue($result[0] instanceof \SpeckCatalog\Model\Choice);
     }
 
     public function testInsertReturnsChoiceModel()
@@ -28,7 +28,7 @@ class ChoiceTest extends AbstractTestCase
         $choice = new \SpeckCatalog\Model\Choice();
         $mapper = $this->getMapper();
         $result = $mapper->insert($choice);
-        $this->assertTrue($result instanceOf \SpeckCatalog\Model\Choice);
+        $this->assertTrue($result instanceof \SpeckCatalog\Model\Choice);
     }
 
     public function testSortOptionsChangesOrderOfOptions()

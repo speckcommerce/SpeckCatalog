@@ -13,7 +13,7 @@ class CompanyTest extends AbstractTestCase
 
         $mapper = $this->getMapper();
         $result = $mapper->findById(1);
-        $this->assertTrue($result instanceOf \SpeckCatalog\Model\Company);
+        $this->assertTrue($result instanceof \SpeckCatalog\Model\Company);
     }
 
     public function getMapper()

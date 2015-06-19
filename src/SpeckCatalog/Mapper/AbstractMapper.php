@@ -15,8 +15,10 @@ use Zend\Db\Sql\Sql;
 use Zend\Paginator\Paginator;
 use Zend\Db\ResultSet;
 
-class AbstractMapper implements DbAdapterAwareInterface,
-    ServiceLocatorAwareInterface, ProvidesTableMetadataInterface
+class AbstractMapper implements
+    DbAdapterAwareInterface,
+    ServiceLocatorAwareInterface,
+    ProvidesTableMetadataInterface
 {
     use ServiceLocatorAwareTrait;
     use ProvidesTableMetadataTrait;
@@ -123,7 +125,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
 
     public function dataToKeyData($data)
     {
-        if(!is_array($this->getTableKeyFields())) {
+        if (!is_array($this->getTableKeyFields())) {
             throw new \RuntimeException('no key fields for:' . $this->getTableName());
         }
         foreach ($this->getTableKeyFields() as $field) {
@@ -137,7 +139,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
     {
         $tableName = $tableName ?: $this->getTableName();
         $data = $this->extract($dataOrModel, $hydrator);
-        if($tableName === $this->getTableName()) {
+        if ($tableName === $this->getTableName()) {
             $data = $this->cleanData($data);
         }
 
@@ -163,7 +165,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
     //returns array of rows
     public function selectMany(Select $select, ResultSet\ResultSetInterface $resultSet = null)
     {
-        if($this->usePaginator) {
+        if ($this->usePaginator) {
             $this->usePaginator = false;
             $rows = $this->initPaginator($select, $resultSet);
         } else {
@@ -195,7 +197,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
         if (is_array($dataOrModel)) {
             return $dataOrModel;
         }
-        if (!$dataOrModel instanceOf AbstractModel) {
+        if (!$dataOrModel instanceof AbstractModel) {
             throw new \InvalidArgumentException('need nstance of AbstractModel got: ' . getType($dataOrModel));
         }
         $hydrator = $hydrator ?: $this->getHydrator();
@@ -245,7 +247,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
     {
         if (is_string($this->hydrator) && class_exists($this->hydrator)) {
             return new $this->hydrator();
-        }else{
+        } else {
             return new ClassMethods();
         }
     }
@@ -271,7 +273,7 @@ class AbstractMapper implements DbAdapterAwareInterface,
                 return $hydrator->hydrate($data, new $this->model);
             }
             return new $this->model;
-        }else{
+        } else {
             throw new \RuntimeException('could not instantiate model - ' . $this->model);
         }
     }

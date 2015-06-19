@@ -87,7 +87,8 @@ class CatalogManagerFormRow extends AbstractHelper
             // Translate the label
             if (null !== ($translator = $this->getTranslator())) {
                 $label = $translator->translate(
-                    $label, $this->getTranslatorTextDomain()
+                    $label,
+                    $this->getTranslatorTextDomain()
                 );
             }
 
@@ -105,7 +106,8 @@ class CatalogManagerFormRow extends AbstractHelper
                 $markup = sprintf(
                     '<fieldset><legend>%s</legend>%s</fieldset>',
                     $label,
-                    $elementString);
+                    $elementString
+                );
             } else {
                 if ($element->hasAttribute('id')) {
                     $labelOpen = $labelHelper($element);
@@ -341,4 +343,3 @@ class CatalogManagerFormRow extends AbstractHelper
         return $this->elementErrorsHelper;
     }
 }
-

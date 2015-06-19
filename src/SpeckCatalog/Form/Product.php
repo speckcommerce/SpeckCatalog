@@ -63,7 +63,7 @@ class Product extends AbstractForm
     public function init()
     {
         $options = array('' => '---------');
-        foreach($this->getCompanyService()->getAll() as $company){
+        foreach ($this->getCompanyService()->getAll() as $company) {
             $options[$company->getCompanyId()] = $company->getName();
         }
         $this->add(array(
@@ -81,12 +81,12 @@ class Product extends AbstractForm
         return $this;
     }
 
-    function getCompanyService()
+    public function getCompanyService()
     {
         return $this->companyService;
     }
 
-    function setCompanyService($companyService)
+    public function setCompanyService($companyService)
     {
         $this->companyService = $companyService;
         return $this;

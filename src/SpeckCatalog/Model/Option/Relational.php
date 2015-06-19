@@ -21,12 +21,12 @@ class Relational extends Base
         return $this->optionId;
     }
 
-    public function getRecursivePrice($parentProductPrice=0, $retailPrice=false)
+    public function getRecursivePrice($parentProductPrice = 0, $retailPrice = false)
     {
         if ($this->getRequired()) {
             if ($this->has('choices')) {
                 $choicePrices = array();
-                foreach($this->getChoices() as $choice) {
+                foreach ($this->getChoices() as $choice) {
                     $choicePrices[] = $choice->getRecursivePrice($parentProductPrice, $retailPrice);
                 }
 
@@ -39,13 +39,13 @@ class Relational extends Base
     }
 
 
-    public function getAdjustedPrice($retailPrice=false)
+    public function getAdjustedPrice($retailPrice = false)
     {
         $parent = $this->getParent();
-        if($parent instanceof RelationalProduct) {
+        if ($parent instanceof RelationalProduct) {
             return $parent->getPrice($retailPrice);
         } else {
-            if(isset($parent)) {
+            if (isset($parent)) {
                 return $parent->getAdjustedPrice($retailPrice);
             } else {
                 return 0;
@@ -148,9 +148,9 @@ class Relational extends Base
     {
         $this->parent = $parent;
 
-        if ($parent instanceOf RelationalProduct) {
+        if ($parent instanceof RelationalProduct) {
             $this->setProductId($parent->getProductId());
-        } elseif ($parent instanceOf RelationalChoice) {
+        } elseif ($parent instanceof RelationalChoice) {
             $this->setChoiceId($parent->getChoiceId());
         }
 
@@ -195,7 +195,7 @@ class Relational extends Base
 
     public function __toString()
     {
-        if($this->getName()) {
+        if ($this->getName()) {
             return $this->getName();
         } else {
             return 'Unnamed Option Group';

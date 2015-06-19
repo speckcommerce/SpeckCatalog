@@ -12,9 +12,9 @@ class CssClass implements HelperInterface
     protected $view;
     protected $classes = array();
 
-    public function __invoke($param1, $param2=false)
+    public function __invoke($param1, $param2 = false)
     {
-        if(is_array($param1)) {
+        if (is_array($param1)) {
             return $this->init($param1, $param2);
         } elseif (is_string($param1)) {
             return $this->set($param1, $param2);

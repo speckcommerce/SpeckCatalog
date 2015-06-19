@@ -33,8 +33,10 @@ class ProductController extends AbstractActionController
     {
         $cartItemId     = $this->params('cartItemId');
         $cartService    = $this->getService('cart');
-        $product        = $this->getService('product')->setEnabledOnly(true)->getFullProduct($this->params('id')); //, true, true);
-        if(!$product){
+        $product        = $this->getService('product')
+            ->setEnabledOnly(true)
+            ->getFullProduct($this->params('id'));
+        if (!$product) {
             throw new \Exception('no product for that id');
         }
 
@@ -82,7 +84,7 @@ class ProductController extends AbstractActionController
         $options = $this->getService('option')->getByProductId($productId, true, true);
 
         $renderer = $this->getService('renderer');
-        foreach($options as $option) {
+        foreach ($options as $option) {
             $vars     = array('option' => $option);
             $html    .= $renderer->render('/catalog/product/option', $vars);
         }

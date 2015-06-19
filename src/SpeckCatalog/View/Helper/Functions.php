@@ -17,7 +17,7 @@ class Functions extends AbstractHelper
         if ($product->has('features')) {
             $str = '<ul>';
             $features = $product->getFeatures();
-            for($i=0; $i < 3; $i++) {
+            for ($i=0; $i < 3; $i++) {
                 if ($features[$i]) {
                     $str .= '<li><span>&nbsp;' . $features[$i] . '</span></li>';
                 }
@@ -33,17 +33,16 @@ class Functions extends AbstractHelper
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
         if (strlen($text) > $num) {
             $text = substr($text, 0, $num);
-            $text = substr($text,0,strrpos($text," "));
+            $text = substr($text, 0, strrpos($text, " "));
 
             $punctuation = ".!?:;,-"; //punctuation you want removed
 
             $text = (
-                (strspn(strrev($text),  $punctuation) != 0)
-                ? substr($text, 0, -strspn(strrev($text),  $punctuation))
+                (strspn(strrev($text), $punctuation) != 0)
+                ? substr($text, 0, -strspn(strrev($text), $punctuation))
                 : $text . $etc
             );
         }
         return $text;
     }
-
 }

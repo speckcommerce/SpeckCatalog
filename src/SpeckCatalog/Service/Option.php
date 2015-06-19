@@ -12,7 +12,7 @@ class Option extends AbstractService
     protected $imageService;
     protected $productService;
 
-    public function getByProductId($productId, $populate=false, $recursive=false, array $extraFields = array())
+    public function getByProductId($productId, $populate = false, $recursive = false, array $extraFields = array())
     {
         $options = $this->getEntityMapper()->getByProductId($productId, $extraFields);
         if ($populate) {
@@ -23,7 +23,7 @@ class Option extends AbstractService
         return $options;
     }
 
-    public function getByParentChoiceId($choiceId, $populate=false)
+    public function getByParentChoiceId($choiceId, $populate = false)
     {
         $options = $this->getEntityMapper()->getByParentChoiceId($choiceId);
         if ($populate) {
@@ -37,7 +37,8 @@ class Option extends AbstractService
     public function getBuildersByProductId($productId)
     {
         $choices = $this->getEntityMapper()->getBuildersByProductId($productId);
-        var_dump($choices); die();
+        var_dump($choices);
+        die();
         $builders = array();
         foreach ($choices as $choice) {
             $builders[$choice['product_id']][] = $choice['choice_id'];
@@ -49,7 +50,7 @@ class Option extends AbstractService
         return $builders;
     }
 
-    public function populate($option, $recursive=false, $children=true)
+    public function populate($option, $recursive = false, $children = true)
     {
         $optionId = $option->getOptionId();
 
@@ -72,11 +73,11 @@ class Option extends AbstractService
         $parent = $this->getExistingParent($option);
         $option = parent::insert($option);
 
-        if($parent instanceOf \SpeckCatalog\Model\Product) {
+        if ($parent instanceof \SpeckCatalog\Model\Product) {
             $this->getProductService()->addOption($parent, $option);
             $option->setParent($parent);
         }
-        if($parent instanceOf \SpeckCatalog\Model\Choice) {
+        if ($parent instanceof \SpeckCatalog\Model\Choice) {
             $this->getChoiceService()->addOption($parent, $option);
             $option->setParent($parent);
         }
@@ -106,7 +107,7 @@ class Option extends AbstractService
         if (null === $originalValues && is_array($option)) {
             $originalValues['option_id'] = $option['option_id'];
         }
-        if (null === $originalValues && $option instanceOf \SpeckCatalog\Model\Option) {
+        if (null === $originalValues && $option instanceof \SpeckCatalog\Model\Option) {
             $originalValues['option_id'] = $option->getOptionId();
         }
         parent::update($option, $originalValues);

@@ -10,7 +10,7 @@ class SitesTest extends AbstractTestCase
     public function testInstantiate()
     {
         $mapper = $this->getMapper();
-        $this->assertTrue($mapper instanceOf \SpeckCatalog\Mapper\Sites);
+        $this->assertTrue($mapper instanceof \SpeckCatalog\Mapper\Sites);
     }
 
     public function getMapper()

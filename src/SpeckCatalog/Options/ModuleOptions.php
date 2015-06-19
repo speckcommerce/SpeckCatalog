@@ -21,42 +21,42 @@ class ModuleOptions extends AbstractOptions
     protected $optionImagePath          = '/media/option-image';
     protected $optionImageUpload        = '/public/media/option-image';
 
-    function getProductDocumentPath()
+    public function getProductDocumentPath()
     {
         return $this->productDocumentPath;
     }
 
-    function setProductDocumentPath($productDocumentPath)
+    public function setProductDocumentPath($productDocumentPath)
     {
         $this->productDocumentPath = $productDocumentPath;
     }
 
-    function getProductImagePath()
+    public function getProductImagePath()
     {
         return $this->productImagePath;
     }
 
-    function setProductImagePath($productImagePath)
+    public function setProductImagePath($productImagePath)
     {
         $this->productImagePath = $productImagePath;
     }
 
-    function getCategoryImagePath()
+    public function getCategoryImagePath()
     {
         return $this->categoryImagePath;
     }
 
-    function setCategoryImagePath($categoryImagePath)
+    public function setCategoryImagePath($categoryImagePath)
     {
         $this->categoryImagePath = $categoryImagePath;
     }
 
-    function getOptionImagePath()
+    public function getOptionImagePath()
     {
         return $this->optionImagePath;
     }
 
-    function setOptionImagePath($optionImagePath)
+    public function setOptionImagePath($optionImagePath)
     {
         $this->optionImagePath = $optionImagePath;
     }
@@ -162,5 +162,3 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 }
-
-

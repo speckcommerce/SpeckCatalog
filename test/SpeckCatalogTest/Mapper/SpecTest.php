@@ -11,7 +11,7 @@ class SpecTest extends AbstractTestCase
         $id = $this->insertSpec();
         $mapper = $this->getMapper();
         $return = $mapper->find(array('spec_id' => $id));
-        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Spec);
+        $this->assertTrue($return instanceof \SpeckCatalog\Model\Spec);
     }
 
     public function testGetByProductIdReturnsArrayOfSpecModels()
@@ -20,7 +20,7 @@ class SpecTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $return = $mapper->getByProductId(1);
         $this->assertTrue(is_array($return));
-        $this->assertTrue($return[0] instanceOf \SpeckCatalog\Model\Spec);
+        $this->assertTrue($return[0] instanceof \SpeckCatalog\Model\Spec);
     }
 
     public function getMapper()

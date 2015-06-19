@@ -1,6 +1,7 @@
 <?php
 
 namespace SpeckCatalog\View\Helper;
+
 use Zend\View\Helper\AbstractHelper;
 
 class ConfigureBuy extends AbstractHelper

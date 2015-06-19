@@ -11,7 +11,7 @@ class ProductUom extends AbstractService
     protected $uomService;
     protected $productService;
 
-    public function getByProductId($productId, $populate=false, $recursive=false)
+    public function getByProductId($productId, $populate = false, $recursive = false)
     {
         $productUoms = $this->getEntityMapper()->getByProductId($productId);
         if ($populate) {
@@ -37,7 +37,7 @@ class ProductUom extends AbstractService
         return $lowest;
     }
 
-    public function populate($productUom, $recursive=false, $children=true)
+    public function populate($productUom, $recursive = false, $children = true)
     {
         $allChildren = ($children === true) ? true : false;
         $children    = (is_array($children)) ? $children : array();
@@ -122,7 +122,7 @@ class ProductUom extends AbstractService
 
     public function insert($productUom)
     {
-        if($productUom instanceOf AbstractModel) {
+        if ($productUom instanceof AbstractModel) {
             $data = array(
                 'uom_code' => $productUom->getUomCode(),
                 'product_id' => $productUom->getProductId(),

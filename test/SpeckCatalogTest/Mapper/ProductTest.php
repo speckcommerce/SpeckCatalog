@@ -12,7 +12,7 @@ class ProductTest extends AbstractTestCase
 
         $mapper = $this->getMapper();
         $return = $mapper->find(array('product_id' => $productId));
-        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
+        $this->assertTrue($return instanceof \SpeckCatalog\Model\Product);
     }
 
     public function testGetByCategoryIdReturnsArrayOfProducts()
@@ -25,7 +25,7 @@ class ProductTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $return = $mapper->getByCategoryId(1, 1);
         $this->assertTrue(is_array($return));
-        $this->assertTrue($return[0] instanceOf \SpeckCatalog\Model\Product);
+        $this->assertTrue($return[0] instanceof \SpeckCatalog\Model\Product);
     }
 
     public function testAddOptionCreatesLinker()

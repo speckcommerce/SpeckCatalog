@@ -10,7 +10,7 @@ class FeatureTest extends AbstractTestCase
     public function testInstantiate()
     {
         $mapper = $this->getMapper();
-        $this->assertTrue($mapper instanceOf \SpeckCatalog\Mapper\Feature);
+        $this->assertTrue($mapper instanceof \SpeckCatalog\Mapper\Feature);
     }
 
     public function testGetByProductIdReturnsArrayOfFeatureModels()

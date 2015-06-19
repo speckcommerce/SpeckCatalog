@@ -267,7 +267,7 @@ class CatalogManagerController extends AbstractActionController
         return $this->partialView($partial, $viewVars);
     }
 
-    public function partialView($partial, array $viewVars=null)
+    public function partialView($partial, array $viewVars = null)
     {
         $view = new ViewModel($viewVars);
         $view->setTemplate($this->partialDir . $partial);

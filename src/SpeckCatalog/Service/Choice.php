@@ -8,7 +8,7 @@ class Choice extends AbstractService
     protected $optionService;
     protected $productService;
 
-    public function getByOptionId($optionId, $populate=false, $recursive=false)
+    public function getByOptionId($optionId, $populate = false, $recursive = false)
     {
         $choices = $this->getEntityMapper()->getByOptionId($optionId);
         if ($populate) {
@@ -19,7 +19,7 @@ class Choice extends AbstractService
         return $choices;
     }
 
-    public function populate($choice, $recursive=false, $children=true)
+    public function populate($choice, $recursive = false, $children = true)
     {
         $allChildren = ($children === true) ? true : false;
         $children    = (is_array($children)) ? $children : array();
@@ -33,7 +33,7 @@ class Choice extends AbstractService
             $choice->setOptions($options);
         }
         if ($allChildren || in_array('product', $children)) {
-            if($choice->getProductId()){
+            if ($choice->getProductId()) {
                 $product = $this->getProductService()->getFullProduct($choice->getProductId());
                 $choice->setProduct($product);
             }

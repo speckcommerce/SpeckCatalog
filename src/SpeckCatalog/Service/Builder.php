@@ -9,7 +9,7 @@ class Builder extends AbstractService
     protected $choiceService  = 'speckcatalog_choice_service';
     protected $optionService  = 'speckcatalog_option_service';
 
-    public function getBuilders(array $data, $populate=false, $recursive=false)
+    public function getBuilders(array $data, $populate = false, $recursive = false)
     {
         $rows = $this->getEntityMapper()->getLinkers($data);
         if (!$rows) {
@@ -25,8 +25,7 @@ class Builder extends AbstractService
             $builders[$pid]->addSelected($row['option_id'], $row['choice_id']);
         }
 
-        foreach ($builders as $builder)
-        {
+        foreach ($builders as $builder) {
             $productId = $builder->getProductId();
             $product   = $this->getProductService()->find(array('product_id' => $productId), true, true);
             $builder->setProduct($product);
@@ -35,7 +34,7 @@ class Builder extends AbstractService
         return $builders;
     }
 
-    public function find(array $data, $populate=false, $recursive=false)
+    public function find(array $data, $populate = false, $recursive = false)
     {
         throw new \Exception('method not implemented for builders');
     }
@@ -90,8 +89,10 @@ class Builder extends AbstractService
         if (is_array($construct) && isset($construct['parent_product_id'])) {
             $optionService = $this->getOptionService();
             $options = $optionService->getByProductId(
-                $construct['parent_product_id'], array('choices'),
-                true, array('builder' => 1)
+                $construct['parent_product_id'],
+                array('choices'),
+                true,
+                array('builder' => 1)
             );
             $model->setOptions($options);
         }
@@ -102,7 +103,7 @@ class Builder extends AbstractService
     {
         $data = array();
 
-        foreach($builders as $builder) {
+        foreach ($builders as $builder) {
             $pid = $builder->getProductId();
             $data[$pid] = implode(',', $builder->getSelected());
         }

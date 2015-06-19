@@ -69,7 +69,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
         $service = $this->getService();
         $product = new \SpeckCatalog\Model\Product();
         $product->setProductId(99);
-        $service->setServiceLocator($this->getMockServiceManager(true,false));
+        $service->setServiceLocator($this->getMockServiceManager(true, false));
         $fields = $service->getKeyFields('product', $product);
 
         $this->assertTrue(is_array($fields));
@@ -81,13 +81,13 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
         return \SpeckCatalogTest\Bootstrap::getServiceManager();
     }
 
-    public function getMockServiceManager($form=true, $filter=true)
+    public function getMockServiceManager($form = true, $filter = true)
     {
         $mockSM = $this->getMock('\Zend\ServiceManager\ServiceLocatorInterface');
 
         $callNumber = 0;
 
-        if($form) {
+        if ($form) {
             $mockSM->expects($this->at($callNumber))
                 ->method('get')
                 ->with('speckcatalog_product_form')
@@ -95,7 +95,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
             $callNumber++;
         }
 
-        if($filter) {
+        if ($filter) {
             $mockSM->expects($this->at($callNumber))
                 ->method('get')
                 ->with('speckcatalog_product_form_filter')

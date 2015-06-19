@@ -6,10 +6,10 @@ class Spec extends AbstractService
 {
     protected $entityMapper = 'speckcatalog_spec_mapper';
 
-    public function find(array $data, $populate=false, $recursive=false)
+    public function find(array $data, $populate = false, $recursive = false)
     {
         $spec = $this->getEntityMapper()->find($data);
-        if($populate) {
+        if ($populate) {
             $this->populate($spec, $recursive);
         }
         return $spec;

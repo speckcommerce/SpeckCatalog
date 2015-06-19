@@ -290,7 +290,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $service->getProductUomService();
     }
 
-    public function testGetImageService() {
+    public function testGetImageService()
+    {
         $service = $this->getService();
         $service->setImageService($this->getMock('\SpeckCatalog\Service\Image'));
         $return = $service->getImageService();
@@ -310,7 +311,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $service->getImageService();
     }
 
-    public function testGetDocumentService() {
+    public function testGetDocumentService()
+    {
         $service = $this->getService();
         $service->setDocumentService($this->getMock('\SpeckCatalog\Service\Document'));
         $return = $service->getDocumentService();
@@ -330,7 +332,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $service->getDocumentService();
     }
 
-    public function testGetSpecService() {
+    public function testGetSpecService()
+    {
         $service = $this->getService();
         $service->setSpecService($this->getMock('\SpeckCatalog\Service\Spec'));
         $return = $service->getSpecService();
@@ -350,7 +353,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $service->getSpecService();
     }
 
-    public function testGetCompanyService() {
+    public function testGetCompanyService()
+    {
         $service = $this->getService();
         $service->setCompanyService($this->getMock('\SpeckCatalog\Service\Company'));
         $return = $service->getCompanyService();

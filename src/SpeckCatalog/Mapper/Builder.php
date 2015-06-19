@@ -68,7 +68,8 @@ class Builder extends AbstractMapper
 
         $select = $this->getSelect($c_b_p)
             ->columns(array('*'))
-            ->join($c_p_o,
+            ->join(
+                $c_p_o,
                 $c_p_o . '.option_id = ' . $c_b_p . '.option_id',
                 array(),
                 'INNER'
@@ -78,7 +79,7 @@ class Builder extends AbstractMapper
         $result = $this->selectMany($select);
 
         $products = array();
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $products[$row['product_id']][$row['option_id']] = $row['choice_id'];
         }
 
@@ -97,12 +98,14 @@ class Builder extends AbstractMapper
 
         $select = $this->getSelect($c_c)
             ->columns(array('choice_id', 'choice_name' => $choiceName))
-            ->join($c_p_o,
+            ->join(
+                $c_p_o,
                 $c_p_o . '.option_id=' . $c_c . '.option_id',
                 array('option_id'),
                 'INNER'
             )
-            ->join($c_o,
+            ->join(
+                $c_o,
                 $c_o . '.option_id=' . $c_c . '.option_id',
                 array('name'),
                 'INNER'
@@ -124,7 +127,7 @@ class Builder extends AbstractMapper
         $result = $this->selectMany($select);
 
         $options = array();
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $options[$row['option_id']]['choices'][$row['choice_id']] = $row['choice_name'];
             $options[$row['option_id']]['name'] = $row['name'];
             if ($builderProductId && $row['product_id'] == $builderProductId) {
@@ -136,5 +139,4 @@ class Builder extends AbstractMapper
 
         return $options;
     }
-
 }

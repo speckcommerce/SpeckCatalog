@@ -11,7 +11,7 @@ class FileUpload
 
         $catalogOptions = $this->getServiceManager()->get('speckcatalog_module_options');
 
-        if($formData['file_type'] === 'productDocument'){
+        if ($formData['file_type'] === 'productDocument') {
             $e->getParam('options')->setAllowedFileTypes(array('pdf' => 'pdf'));
             $e->getParam('options')->setUseMin(false);
             $e->getParam('options')->setUseMax(false);
@@ -26,28 +26,28 @@ class FileUpload
     {
         $params = $e->getParams();
         switch ($params['params']['file_type']) {
-            case 'productImage' :
+            case 'productImage':
                 $imageService = $this->getServiceManager()->get('speckcatalog_product_image_service');
                 $image = $imageService->getEntity();
                 $image->setProductId($params['params']['product_id'])
                     ->setFileName($params['fileName']);
                 $imageService->persist($image);
                 break;
-            case 'productDocument' :
+            case 'productDocument':
                 $documentService = $this->getServiceManager()->get('speckcatalog_document_service');
                 $document = $documentService->getEntity();
                 $document->setProductId($params['params']['product_id'])
                     ->setFileName($params['fileName']);
                 $documentService->persist($document);
                 break;
-            case 'optionImage' :
+            case 'optionImage':
                 $imageService = $this->getServiceManager()->get('speckcatalog_option_image_service');
                 $image = $imageService->getEntity();
                 $image->setOptionId($params['params']['option_id'])
                     ->setFileName($params['fileName']);
                 $imageService->persist($image);
                 break;
-            default :
+            default:
                 throw new \Exception('no handler for file type - ' . $params['params']['file_type']);
         }
     }

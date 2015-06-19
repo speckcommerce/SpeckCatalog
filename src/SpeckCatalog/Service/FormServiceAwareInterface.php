@@ -9,12 +9,12 @@ interface FormServiceAwareInterface
      *
      * @return formService.
      */
-    function getFormService();
+    public function getFormService();
 
     /**
      * Set formService.
      *
      * @param formService the value to set.
      */
-    function setFormService($formService);
+    public function setFormService($formService);
 }

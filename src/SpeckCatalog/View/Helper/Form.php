@@ -1,5 +1,6 @@
 <?php
 namespace SpeckCatalog\View\Helper;
+
 use Zend\View\Helper\HelperInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Helper\AbstractHelper;
@@ -18,7 +19,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
 
     protected $model;
 
-    public function __invoke(AbstractModel $model=null, $name=null)
+    public function __invoke(AbstractModel $model = null, $name = null)
     {
         $this->model = $model;
         $this->name = $name;
@@ -45,7 +46,7 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         return $this->getView()->render($view);
     }
 
-    public function renderFormMessages($form, $showValid=true)
+    public function renderFormMessages($form, $showValid = true)
     {
         $html = '';
 
@@ -54,15 +55,14 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
             $html .= '<ul>';
             foreach ($form->getElements() as $element) {
                 if (count($element->getMessages()) > 0) {
-                    $html .= '<li>' . $element->getLabel() . ' - ' . implode(', ', $element->getMessages()) . '</li>';
+                    $html .= '<li>' . $element->getLabel() . ' - '
+                        . implode(', ', $element->getMessages()) . '</li>';
                 }
             }
             $html .= '</ul></div>';
-        } else if($showValid) {
-
-
+        } elseif ($showValid) {
             $html .= '<div class="alert alert-success">';
-            if ($form instanceOf \SpeckCatalog\Form\Product) {
+            if ($form instanceof \SpeckCatalog\Form\Product) {
                 $html .= 'All Data is valid!  <a href="#" class="save-product">Save Now</a>';
             } else {
                 $html .= 'All Data is valid!  <a href="#" class="save-now">Save Now</a>';
@@ -84,10 +84,14 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         if (!$form->isNew()) {
             foreach ($form->getOriginalFields() as $field) {
                 $element = $form->get('original_' . $field);
-                $html .= '<input type="hidden" name = "' . $element->getName() . '" value="' . $element->getValue() . '" />';
+                $html .= '<input type="hidden" name = "' . $element->getName()
+                    . '" value="' . $element->getValue() . '" />';
             }
         } else {
-            throw new \Exception('form is not prepared for edit, cannot prepare original fields until edit method is called on the form');
+            throw new \Exception(
+                'form is not prepared for edit, cannot prepare'
+                . ' original fields until edit method is called on the form'
+            );
         }
         return $html;
     }
@@ -104,12 +108,12 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
         return $dash->__invoke($name);
     }
 
-    function getFormService()
+    public function getFormService()
     {
         return $this->formService;
     }
 
-    function setFormService($formService)
+    public function setFormService($formService)
     {
         $this->formService = $formService;
         return $this;

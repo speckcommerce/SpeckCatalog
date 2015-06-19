@@ -62,7 +62,7 @@ class Availability extends AbstractForm
     public function init()
     {
         $options = array('select' => '--SELECT--');
-        foreach($this->getCompanyService()->getAll() as $company){
+        foreach ($this->getCompanyService()->getAll() as $company) {
             $options[$company->getCompanyId()] = $company->getName();
         }
         $this->add(array(

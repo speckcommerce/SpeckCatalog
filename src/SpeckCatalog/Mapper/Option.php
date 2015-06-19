@@ -17,7 +17,7 @@ class Option extends AbstractMapper
         return parent::find(array('option_id' => $data['option_id']));
     }
 
-    public function getByProductId($productId, array $fields=array())
+    public function getByProductId($productId, array $fields = array())
     {
         $linker = 'catalog_product_option';
         $table = $this->getTableName();
@@ -58,7 +58,7 @@ class Option extends AbstractMapper
         }
     }
 
-    public function insert($option, $tableName=null, HydratorInterface $hydrator=null)
+    public function insert($option, $tableName = null, HydratorInterface $hydrator = null)
     {
         $optionId = parent::insert($option, $tableName, $hydrator);
         $option = $this->find(array('option_id' => $optionId));

@@ -4,7 +4,7 @@ namespace SpeckCatalog\Model;
 
 class AbstractModel
 {
-    public function __construct(AbstractModel $model=null)
+    public function __construct(AbstractModel $model = null)
     {
         if ($model) {
             foreach (get_object_vars($this) as $key => $val) {
@@ -21,10 +21,10 @@ class AbstractModel
     public function has($prop)
     {
         $getter = 'get' . ucfirst($prop);
-        if(method_exists($this, $getter)){
-            if('s' === substr($prop, 0, -1) && is_array($this->$getter())){
+        if (method_exists($this, $getter)) {
+            if ('s' === substr($prop, 0, -1) && is_array($this->$getter())) {
                 return true;
-            }elseif($this->$getter()){
+            } elseif ($this->$getter()) {
                 return true;
             }
         }

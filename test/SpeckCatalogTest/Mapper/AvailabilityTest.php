@@ -17,7 +17,7 @@ class AvailabilityTest extends AbstractTestCase
             'distributor_id' => 1,
         );
         $result = $mapper->find($data);
-        $this->assertTrue($result instanceOf \SpeckCatalog\Model\Availability);
+        $this->assertTrue($result instanceof \SpeckCatalog\Model\Availability);
     }
 
     public function testGetByProductUomReturnsArrayOfAvailabilityModels()
@@ -26,7 +26,7 @@ class AvailabilityTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $result = $mapper->getByProductUom(1, 'EA', 1);
         $this->assertTrue(is_array($result));
-        $this->assertTrue($result[0] instanceOf \SpeckCatalog\Model\Availability);
+        $this->assertTrue($result[0] instanceof \SpeckCatalog\Model\Availability);
     }
 
     public function getMapper()

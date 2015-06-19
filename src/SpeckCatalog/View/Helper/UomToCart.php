@@ -39,7 +39,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     protected $of1 = false;
 
     //product can be product model or productId
-    public function __invoke($product, $builderProductId=null, $uomString=null, $quantity=1)
+    public function __invoke($product, $builderProductId = null, $uomString = null, $quantity = 1)
     {
         if (!$product) {
             return;
@@ -64,7 +64,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     }
 
     //merge some enabled uoms into an array of disabled uoms
-    public function mergeEnabledUoms(array $enabled, array $uoms=array())
+    public function mergeEnabledUoms(array $enabled, array $uoms = array())
     {
         foreach ($enabled as $uom) {
             $uomArray = $this->uomToArray($uom, true);
@@ -146,7 +146,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
         return $this->getView()->render($view);
     }
 
-    public function getDisplayName($uom, $appendPrice=false)
+    public function getDisplayName($uom, $appendPrice = false)
     {
         if ($uom['quantity'] === 1 && $this->of1 === false) {
             $name = $uom['name'];
@@ -201,7 +201,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
         return $this->getView()->render($view);
     }
 
-    public function selectUomString(array $uoms=array(), $uomString='')
+    public function selectUomString(array $uoms = array(), $uomString = '')
     {
         foreach ($uoms as $uom) {
             if ($uomString === $uom['uom_string']) {
@@ -210,7 +210,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
         }
     }
 
-    public function newForm($uom=null, $uomTextField=false, $quantity = 1)
+    public function newForm($uom = null, $uomTextField = false, $quantity = 1)
     {
         $form = new Form($uom['uom_string']);
 
@@ -238,7 +238,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
         ));
         $form->get('quantity')->setValue($quantity);
 
-        if($uomTextField) {
+        if ($uomTextField) {
             $form->add(array(
                 'name' => 'uom',
                 'attributes' => array(

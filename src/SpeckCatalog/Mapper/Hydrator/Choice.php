@@ -24,7 +24,7 @@ class Choice extends ClassMethods
     public function hydrate($data, $model)
     {
         $model = parent::hydrate($data, $model);
-        $model->setPriceNoCharge( (bool) $model->getPriceNoCharge());
+        $model->setPriceNoCharge((bool) $model->getPriceNoCharge());
 
         return $model;
     }

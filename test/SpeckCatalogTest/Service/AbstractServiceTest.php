@@ -22,7 +22,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
     {
         $service = $this->getService();
         $return = $service->populate(new \SpeckCatalog\Model\Product());
-        $this->assertTrue($return instanceOf \SpeckCatalog\Model\Product);
+        $this->assertTrue($return instanceof \SpeckCatalog\Model\Product);
     }
 
     public function testGetEntity()

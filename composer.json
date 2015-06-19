@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.5",
         "zendframework/zendframework": "~2.4",
         "zf-commons/zfc-admin": "0.1.*",
         "speckcommerce/speck-contact": "dev-master",
@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "mockery/mockery": ">=0.7.2",
-        "phpunit/phpunit": "~4.4",
+        "phpunit/phpunit": "~4.6",
         "zf-commons/zfc-base": "dev-master"
     },
     "autoload": {

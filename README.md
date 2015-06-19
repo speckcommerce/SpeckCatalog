@@ -1,5 +1,8 @@
 SpeckCatalog
 ============
+[![Build Status](https://travis-ci.org/speckcommerce/SpeckCatalog.svg?branch=develop)](https://travis-ci.org/speckcommerce/SpeckCatalog)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/speckcommerce/SpeckCatalog/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/speckcommerce/SpeckCatalog/?branch=develop)
+[![Code Coverage](https://scrutinizer-ci.com/g/speckcommerce/SpeckCatalog/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/speckcommerce/SpeckCatalog/?branch=develop)
 
 Catalog and manager module for the ecommerce platform SpeckCommerce
 

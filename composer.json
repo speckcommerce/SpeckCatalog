@@ -28,6 +28,7 @@
     "require-dev": {
         "mockery/mockery": ">=0.7.2",
         "phpunit/phpunit": "~4.6",
+        "squizlabs/php_codesniffer": "~2.0",
         "zf-commons/zfc-base": "dev-master"
     },
     "autoload": {

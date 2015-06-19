@@ -3,10 +3,10 @@
     "description": "catalog + manager module for the ecommerce platform SpeckCommerce",
     "license": "BSD-2-Clause",
     "type": "library",
-    "minimum-stability": "dev",
     "keywords": [
-        "zf2",
-        "speckcommerce"
+        "ecommerce",
+        "speckcommerce",
+        "zf2"
     ],
     "homepage": "http://github.com/speckcommerce/SpeckCatalog",
     "authors": [
@@ -18,25 +18,17 @@
     ],
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "~2.4",
-        "zf-commons/zfc-admin": "0.1.*",
-        "speckcommerce/speck-contact": "dev-master",
-        "speckcommerce/speck-cart": "dev-master",
-        "speckcommerce/speck-multisite": "dev-master",
-        "evandotpro/edp-sub-layout" : "dev-master"
+        "zendframework/zend-servicemanager": "~2.5",
+        "zendframework/zend-stdlib": "~2.5"
     },
     "require-dev": {
         "mockery/mockery": ">=0.7.2",
         "phpunit/phpunit": "~4.6",
-        "squizlabs/php_codesniffer": "~2.0",
-        "zf-commons/zfc-base": "dev-master"
+        "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-        "psr-0": {
-            "SpeckCatalog": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
+        "psr-4": {
+            "Speckcommerce\\Catalog\\": "src/"
+        }
     }
 }

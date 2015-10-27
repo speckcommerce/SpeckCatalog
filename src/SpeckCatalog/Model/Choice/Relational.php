@@ -87,6 +87,13 @@ class Relational extends Base
     }
 
 
+    public function getProductTypeId() {
+        if ($this->getProduct()) {
+            return $this->getProduct()->getProductTypeId();
+        }
+    }
+
+
     /**
      * @return product
      */

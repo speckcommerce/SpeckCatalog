@@ -46,7 +46,11 @@ class Product extends AbstractMapper
     public function find(array $data)
     {
         $table  = $this->getTableName();
-        $where  = array('product_id' => $data['product_id']);
+        if(isset($data['product_id'])) {
+            $where  = array('product_id' => $data['product_id']);
+        } else {
+            $where = array('item_number' => $data['item_number']);
+        }
         $select = $this->getSelect()
             ->where($where);
         if ($this->enabledOnly()) {

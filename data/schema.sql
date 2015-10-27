@@ -954,6 +954,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product` (
   `manufacturer_id` int(10) unsigned NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`product_id`),
+  UNIQUE KEY `item_number` (`item_number`),
   KEY `fk_product_product_type_id_idx` (`product_type_id`),
   KEY `fk_catalog_product_1_idx` (`manufacturer_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

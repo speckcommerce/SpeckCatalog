@@ -70,6 +70,17 @@ class Product extends AbstractService
         return $product;
     }
 
+    public function getFullProductFromItemNumber($itemNumber)
+    {
+        $product = $this->find(array('item_number' => $itemNumber), true, true);
+
+        if (!$product) {
+            return false;
+        }
+        $this->populate($product, true);
+        return $product;
+    }
+
     public function populate($product, $recursive = false, $children = true)
     {
         $productId = $product->getProductId();

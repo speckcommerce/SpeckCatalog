@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 namespace SpeckCatalogTest;
 
 use Zend\Loader\AutoloaderFactory;

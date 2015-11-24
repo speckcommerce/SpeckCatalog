@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="Speckcommerce">
+ <description>The coding standard for Speckcommerce project.</description>
+ <config name="encoding" value="utf-8"/>
+ <config name="colors" value="1"/>
+
+ <file>./src</file>
+ <file>./test</file>
+
+ <rule ref="PSR2"/>
+</ruleset>

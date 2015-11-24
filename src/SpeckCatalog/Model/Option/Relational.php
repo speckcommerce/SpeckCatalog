@@ -204,7 +204,7 @@ class Relational extends Base
 
     public function getListType()
     {
-        switch($this->optionTypeId) {
+        switch ($this->optionTypeId) {
             case 1:
                 return 'dropdown';
             case 2:

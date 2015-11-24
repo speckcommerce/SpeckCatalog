@@ -43,7 +43,7 @@ class Relational extends Base
         } elseif ($type === 'product') {
             $product->setProductTypeId(2);
         }
-        switch($this->getProductTypeId()) {
+        switch ($this->getProductTypeId()) {
             case 1:
                 return 'shell';
                 break;

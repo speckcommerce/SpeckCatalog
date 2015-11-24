@@ -19,7 +19,7 @@ install:
   - composer update --prefer-source
 
 script:
-  - cd test && ../vendor/bin/phpunit --coverage-clover ../clover.xml
+  - (cd test && ../vendor/bin/phpunit --coverage-clover ../clover.xml)
   - ./vendor/bin/phpcs
 
 matrix:

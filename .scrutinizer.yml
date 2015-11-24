@@ -1,6 +1,11 @@
 before_commands:
     - "composer install --no-dev --prefer-source"
 
+checks:
+    php:
+        custom_coding_standard:
+            ruleset_path: 'phpcs.xml'
+
 tools:
     external_code_coverage:
         timeout: 600
@@ -8,10 +13,6 @@ tools:
         enabled: true
     php_code_sniffer:
         enabled: true
-        config:
-            standard: PSR2
-        filter:
-            paths: ["src/*", "test/*"]
     php_cpd:
         enabled: true
         excluded_dirs: ["test", "vendor"]
@@ -26,9 +27,6 @@ tools:
         excluded_dirs: ["test", "vendor"]
     php_mess_detector:
         enabled: true
-        config:
-            ruleset: .phpmd.xml
-            design_rules: { eval_expression: false }
         filter:
             paths: ["src/*"]
     php_pdepend:

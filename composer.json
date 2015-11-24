@@ -17,13 +17,13 @@
         }
     ],
     "require": {
-        "php": ">=5.5",
+        "php": "^7.0",
         "zendframework/zend-servicemanager": "~2.5",
         "zendframework/zend-stdlib": "~2.5"
     },
     "require-dev": {
-        "mockery/mockery": ">=0.7.2",
-        "phpunit/phpunit": "~4.6",
+        "mockery/mockery": "^0.7.2",
+        "phpunit/phpunit": "^5.0",
         "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {

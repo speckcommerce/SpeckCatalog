@@ -2,9 +2,7 @@ before_commands:
     - "composer install --no-dev --prefer-source"
 
 checks:
-    php:
-        custom_coding_standard:
-            ruleset_path: 'phpcs.xml'
+    php: true
 
 tools:
     external_code_coverage:

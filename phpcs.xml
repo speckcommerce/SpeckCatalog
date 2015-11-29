@@ -10,4 +10,8 @@
 
  <rule ref="PSR2"/>
  <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+ <rule ref="Generic.Files.LineLength">
+  <exclude-pattern>config/*</exclude-pattern>
+ </rule>
 </ruleset>

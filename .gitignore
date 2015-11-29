@@ -1,3 +1,5 @@
+.vagrant/
+vendor/
 composer.phar
 composer.lock
-vendor
+auth.json

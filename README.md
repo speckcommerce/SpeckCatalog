@@ -25,3 +25,19 @@ Coming soon:
 - zfcuser + zfcuseracl integration.
 
 Come visit us via irc.freenode.net #SpeckCommerce
+
+Dev env
+-------
+
+- `vagrant up` Uses libvirt or virtualbox. use `--provider` to force specific
+  provider. Shares folder via nfs, make sure it is configured on the host.
+- `vagrant ssh`
+- `cd /vagrant`
+- `d-composer update` runs composer in docker container, current folder is
+  shared with container. Execute from /vagrant folder
+- `d-php <command>` Shares current folder and runs specified command
+  in docker container.
+- `d-php vendor/bin/phpunit` Runs phpunit in docker container. Execute from
+  /vagrant folder
+- `d-php vendor/bin/phpcs` Runs php_codesniffer in docker container. Execute from
+  /vagrant folder

@@ -11,19 +11,19 @@ class Product extends AbstractMapper
 
     protected $model = '\SpeckCatalog\Model\Product\Relational';
 
-    protected $tableKeyFields = array('product_id');
+    protected $tableKeyFields = ['product_id'];
 
-    protected $tableFields = array(
+    protected $tableFields = [
         'product_id', 'name', 'description', 'product_type_id',
         'item_number', 'manufacturer_id', 'enabled'
-    );
+    ];
 
-    protected $categoryLinkerFields = array(
+    protected $categoryLinkerFields = [
         'category_id'     => 'category_id',
         'cpc_product_id'  => 'product_id',
         'website_id'      => 'website_id',
         'image_file_name' => 'image_file_name',
-    );
+    ];
 
     public function search(array $params)
     {
@@ -36,7 +36,7 @@ class Product extends AbstractMapper
             $where->like('name', "%{$params['query']}%");
         } else {
             //todo: make this less hacky
-            return array();
+            return [];
         }
         $select = $this->getSelect()->where($where);
 
@@ -46,15 +46,15 @@ class Product extends AbstractMapper
     public function find(array $data)
     {
         $table  = $this->getTableName();
-        if(isset($data['product_id'])) {
-            $where  = array('product_id' => $data['product_id']);
+        if (isset($data['product_id'])) {
+            $where  = ['product_id' => $data['product_id']];
         } else {
-            $where = array('item_number' => $data['item_number']);
+            $where = ['item_number' => $data['item_number']];
         }
         $select = $this->getSelect()
             ->where($where);
         if ($this->enabledOnly()) {
-            $select->where(array('enabled' => 1));
+            $select->where(['enabled' => 1]);
         }
         return $this->selectOneModel($select);
     }
@@ -70,9 +70,9 @@ class Product extends AbstractMapper
 
         $select = $this->getSelect()
             ->join($linker, $joinString, $this->getCategoryLinkerFields())
-            ->where(array($predicate));
+            ->where([$predicate]);
         if ($this->enabledOnly()) {
-            $select->where(array('enabled' => 1));
+            $select->where(['enabled' => 1]);
         }
         return $this->selectManyModels($select);
     }
@@ -82,16 +82,16 @@ class Product extends AbstractMapper
         $table      = $this->getTableName();
         $linker     = 'catalog_category_product';
         $joinString = $linker . '.product_id = ' . $table . '.product_id';
-        $where      = array(
+        $where      = [
             'category_id' => $categoryId,
             'website_id' => $siteId
-        );
+        ];
 
         $select = $this->getSelect()
             ->join($linker, $joinString, $this->getCategoryLinkerFields())
             ->where($where);
         if ($this->enabledOnly()) {
-            $select->where(array('enabled' => 1));
+            $select->where(['enabled' => 1]);
         }
         return $this->selectManyModels($select);
     }
@@ -99,10 +99,10 @@ class Product extends AbstractMapper
     public function addOption($productId, $optionId)
     {
         $table  = 'catalog_product_option';
-        $row    = array(
+        $row    = [
             'product_id' => $productId,
             'option_id'  => $optionId
-        );
+        ];
         $select = $this->getSelect($table)
             ->where($row);
         $linker = $this->selectOne($select);
@@ -113,16 +113,16 @@ class Product extends AbstractMapper
         return false;
     }
 
-    public function getProductsById(array $productIds = array())
+    public function getProductsById(array $productIds = [])
     {
-        $wheres = array();
+        $wheres = [];
         foreach ($productIds as $productId) {
             $predicate = new Predicate\Predicate();
             $wheres[] = $predicate->equalTo('product_id', $productId);
         }
         $select = $this->getSelect()->where($wheres, Predicate\PredicateSet::OP_OR);
         if ($this->enabledOnly()) {
-            $select->where(array('enabled' => 1));
+            $select->where(['enabled' => 1]);
         }
 
         return $this->selectManyModels($select);
@@ -131,10 +131,10 @@ class Product extends AbstractMapper
     public function removeOption($productId, $optionId)
     {
         $table  = 'catalog_product_option';
-        $row    = array(
+        $row    = [
             'product_id' => $productId,
             'option_id'  => $optionId
-        );
+        ];
         $select = $this->getSelect($table)
             ->where($row);
         $result = $this->selectOne($select);
@@ -151,12 +151,12 @@ class Product extends AbstractMapper
         $c_p_o = 'catalog_product_option';
 
         $select = $this->getSelect($c_b_p)
-            ->columns(array('product_id', 'choice_id', 'option_id'))
-            ->join($c_p_o, $c_p_o.'.option_id='.$c_b_p.'.option_id', array())
-            ->where(array(
+            ->columns(['product_id', 'choice_id', 'option_id'])
+            ->join($c_p_o, $c_p_o.'.option_id='.$c_b_p.'.option_id', [])
+            ->where([
                 $c_b_p.'.product_id' => $builderProductId,
                 $c_p_o.'.product_id' => $productId,
-            ));
+            ]);
         $rows = $this->selectMany($select);
 
         foreach ($rows as $row) {
@@ -169,10 +169,10 @@ class Product extends AbstractMapper
     public function removeSpec($productId, $specId)
     {
         $table = 'catalog_product_spec';
-        $row = array(
+        $row = [
             'product_id' => $productId,
             'spec_id'    => $specId
-        );
+        ];
         $select = $this->getSelect($table)
             ->where($row);
 
@@ -190,10 +190,10 @@ class Product extends AbstractMapper
     {
         $table = 'catalog_product_option';
         foreach ($order as $i => $optionId) {
-            $where = array(
+            $where = [
                 'product_id' => $productId,
                 'option_id'  => $optionId
-            );
+            ];
             $select = $this->getSelect($table)->where($where);
             $row = $this->selectOne($select);
             $row['sort_weight'] = $i;

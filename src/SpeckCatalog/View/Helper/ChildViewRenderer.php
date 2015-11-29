@@ -14,7 +14,7 @@ class ChildViewRenderer extends AbstractHelper
     // @todo replace with option
     protected $partialDir = '/speck-catalog/catalog-manager/partial/';
 
-    public function __invoke($name, $views = array())
+    public function __invoke($name, $views = [])
     {
         $html = '';
         if (!is_array($views) || count($views) === 0) {
@@ -28,7 +28,7 @@ class ChildViewRenderer extends AbstractHelper
 
     public function renderChild($name, $data)
     {
-        $child = new ViewModel(array($this->camel($name) => $data));
+        $child = new ViewModel([$this->camel($name) => $data]);
         $child->setTemplate($this->templateName($name));
         return $this->getView()->render($child);
     }

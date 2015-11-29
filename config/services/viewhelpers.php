@@ -3,26 +3,26 @@
 use SpeckCatalog\Service\FormServiceAwareInterface;
 use SpeckCatalog\View\Helper;
 
-return array(
-    'shared' => array(
+return [
+    'shared' => [
         //note: this isnt currently working, and as a result, there are the wrong forms almost everywhere in the views :(
         //see github.com/zendframework/zf2 issue #3094
         'speckCatalogRenderForm' => false,
-    ),
-    'invokables' => array(
+    ],
+    'invokables' => [
         'speckCatalogRenderChildren' => 'SpeckCatalog\View\Helper\ChildViewRenderer',
         'speckCatalogRenderForm'     => 'SpeckCatalog\View\Helper\RenderForm',
         'configureBuy'               => 'SpeckCatalog\View\Helper\ConfigureBuy',
         'class'                      => 'SpeckCatalog\View\Helper\CssClass',
-    ),
-    'factories' => array(
+    ],
+    'factories' => [
         'speckCatalogProduct'   => function ($sm) {
             $sm = $sm->getServiceLocator();
             $helper = new \SpeckCatalog\View\Helper\Product();
             $helper->setProductUomService($sm->get('speckcatalog_product_uom_service'));
             return $helper;
         },
-        'speckCatalogAdderHelper' => function($sm) {
+        'speckCatalogAdderHelper' => function ($sm) {
             $sm = $sm->getServiceLocator();
             $options = $sm->get('speckcatalog_module_options');
             $helper = new Helper\AdderHelper;
@@ -31,7 +31,7 @@ return array(
         },
         'speckCatalogOptionImageUploader' => function ($sm) {
             $imageUploader = $sm->get('imageUploader');
-            $element = array('name' => 'file_type', 'attributes' => array('value' => 'optionImage', 'type' => 'hidden'));
+            $element = ['name' => 'file_type', 'attributes' => ['value' => 'optionImage', 'type' => 'hidden']];
             $imageUploader->getForm()->add($element);
             return $imageUploader;
         },
@@ -45,13 +45,13 @@ return array(
         },
         'speckCatalogProductImageUploader' => function ($sm) {
             $imageUploader = $sm->get('imageUploader');
-            $element = array('name' => 'file_type', 'attributes' => array('value' => 'productImage', 'type' => 'hidden'));
+            $element = ['name' => 'file_type', 'attributes' => ['value' => 'productImage', 'type' => 'hidden']];
             $imageUploader->getForm()->add($element);
             return $imageUploader;
         },
         'speckCatalogProductDocumentUploader' => function ($sm) {
             $uploader = $sm->get('imageUploader');
-            $element = array('name' => 'file_type', 'attributes' => array('value' => 'productDocument', 'type' => 'hidden'));
+            $element = ['name' => 'file_type', 'attributes' => ['value' => 'productDocument', 'type' => 'hidden']];
             $uploader->getForm()->add($element);
             return $uploader;
         },
@@ -69,14 +69,14 @@ return array(
             $speckFeaturedProducts = $sm->get('speckFeaturedProducts');
             return $speckFeaturedProducts->setTemplate('/speck-catalog/product/feature-clip');
         },
-    ),
-    'initializers' => array(
-        function($instance, $sm){
-            if($instance instanceof FormServiceAwareInterface){
+    ],
+    'initializers' => [
+        function ($instance, $sm) {
+            if ($instance instanceof FormServiceAwareInterface) {
                 $sm = $sm->getServiceLocator();
                 $formService = $sm->get('speckcatalog_form_service');
                 $instance->setFormService($formService);
             }
         },
-    ),
-);
+    ],
+];

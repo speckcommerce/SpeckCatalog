@@ -1,8 +1,8 @@
 <?php
 
-return array(
-    'service_manager' => array(
-        'shared' => array(
+return [
+    'service_manager' => [
+        'shared' => [
             'speckcatalog_option_form'          => false,
             'speckcatalog_choice_form'          => false,
             'speckcatalog_product_form'         => false,
@@ -13,8 +13,8 @@ return array(
             'speckcatalog_product_uom_form'     => false,
             'speckcatalog_builder_product_form' => false,
             'speckcatalog_image_mapper'         => false,
-        ),
-        'invokables' => array(
+        ],
+        'invokables' => [
             'speckcatalog_product_service'          => 'SpeckCatalog\Service\Product',
             'speckcatalog_company_service'          => 'SpeckCatalog\Service\Company',
             'speckcatalog_option_service'           => 'SpeckCatalog\Service\Option',
@@ -63,6 +63,6 @@ return array(
             'speckcatalog_sites_mapper'             => 'SpeckCatalog\Mapper\Sites',
             'speckcatalog_feature_mapper'           => 'SpeckCatalog\Mapper\Feature',
             'speckcatalog_company_mapper'           => 'SpeckCatalog\Mapper\Company',
-        ),
-    ),
-);
+        ],
+    ],
+];

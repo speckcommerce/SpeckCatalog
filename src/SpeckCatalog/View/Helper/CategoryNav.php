@@ -27,7 +27,7 @@ class CategoryNav extends AbstractHelper
     public function __invoke()
     {
         $categories = $this->getCategoryService()->getCategoriesForNavigation();
-        $view = new ViewModel(array('categories' => $categories));
+        $view = new ViewModel(['categories' => $categories]);
         $view->setTemplate($this->partialDir . 'categories');
         return $this->getView()->render($view);
     }

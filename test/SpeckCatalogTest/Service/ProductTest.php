@@ -10,7 +10,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = new \SpeckCatalog\Model\Product;
 
-        $service = $this->getMock('\SpeckCatalog\Service\Product', array('populate'));
+        $service = $this->getMock('\SpeckCatalog\Service\Product', ['populate']);
         $service->expects($this->atLeastOnce())
             ->method('populate')
             ->with($product)
@@ -18,11 +18,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mockMapper = $this->getMock('\SpeckCatalog\Mapper\Product');
         $mockMapper->expects($this->once())
             ->method('find')
-            ->with(array('product_id' => 321))
+            ->with(['product_id' => 321])
             ->will($this->returnValue($product));
         $service->setEntityMapper($mockMapper);
 
-        $return = $service->find(array('product_id' => 321), true);
+        $return = $service->find(['product_id' => 321], true);
         $this->assertInstanceOf('\SpeckCatalog\Model\Product', $return);
     }
 
@@ -30,14 +30,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = new \SpeckCatalog\Model\Product;
 
-        $service = $this->getMock('\SpeckCatalog\Service\Product', array('find', 'populate'));
+        $service = $this->getMock('\SpeckCatalog\Service\Product', ['find', 'populate']);
         $service->expects($this->once())
             ->method('populate')
             ->with($product)
             ->will($this->returnValue($product));
         $service->expects($this->once())
             ->method('find')
-            ->with(array('product_id' => 4321))
+            ->with(['product_id' => 4321])
             ->will($this->returnValue($product));
 
         $return = $service->getFullProduct(4321);
@@ -46,7 +46,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateGetsValuesFromDataForOriginalValsFromArray()
     {
-        $data = array('product_id' => 1);
+        $data = ['product_id' => 1];
         $mockMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
         $mockMapper->expects($this->once())
             ->method('update')
@@ -58,7 +58,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateGetsValuesFromDataForOriginalValsFromProduct()
     {
-        $data = array('product_id' => 97);
+        $data = ['product_id' => 97];
         $product = new \SpeckCatalog\Model\Product();
         $product->setProductId(97);
         $mockMapper = $this->getMock('\SpeckCatalog\Mapper\AbstractMapper');
@@ -83,31 +83,31 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $optionService = $this->getMock('\SpeckCatalog\Service\Option');
         $optionService->expects($this->once())
             ->method('getByProductId')
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\Option\Relational)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\Option\Relational]));
         $service->setOptionService($optionService);
 
         $imageService = $this->getMock('\SpeckCatalog\Service\Image');
         $imageService->expects($this->once())
             ->method('getImages')
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\ProductImage\Relational)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\ProductImage\Relational]));
         $service->setImageService($imageService);
 
         $documentService = $this->getMock('\SpeckCatalog\Service\Document');
         $documentService->expects($this->once())
             ->method('getDocuments')
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\Document\Relational)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\Document\Relational]));
         $service->setDocumentService($documentService);
 
         $productUomService = $this->getMock('\SpeckCatalog\Service\ProductUom');
         $productUomService->expects($this->once())
             ->method('getByProductId')
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\ProductUom\Relational)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\ProductUom\Relational]));
         $service->setProductUomService($productUomService);
 
         $specService = $this->getMock('\SpeckCatalog\Service\Spec');
         $specService->expects($this->once())
             ->method('getByProductId')
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\Spec\Relational)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\Spec\Relational]));
         $service->setSpecService($specService);
 
         $companyService = $this->getMock('\SpeckCatalog\Service\Company');
@@ -153,7 +153,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mockOptionService = $this->getMock('\SpeckCatalog\Service\Option');
         $mockOptionService->expects($this->once())
             ->method('find')
-            ->with(array('option_id' => 2))
+            ->with(['option_id' => 2])
             ->will($this->returnValue(new \SpeckCatalog\Model\Option));
 
         $service = $this->getService();
@@ -174,7 +174,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mockOptionService = $this->getMock('\SpeckCatalog\Service\Option');
         $mockOptionService->expects($this->once())
             ->method('find')
-            ->with(array('option_id' => 2))
+            ->with(['option_id' => 2])
             ->will($this->returnValue(new \SpeckCatalog\Model\Option));
 
         $service = $this->getService();
@@ -194,10 +194,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mockMapper = $this->getMock('\SpeckCatalog\Mapper\Product');
         $mockMapper->expects($this->once())
             ->method('sortOptions')
-            ->with(1, array(1,2));
+            ->with(1, [1,2]);
         $service = $this->getService();
         $service->setEntityMapper($mockMapper);
-        $service->sortOptions(1, array(1,2));
+        $service->sortOptions(1, [1,2]);
     }
 
     public function testRemoveOptionCallsRemoveOptionOnMapper()
@@ -208,7 +208,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->with(1, 2);
         $service = $this->getService();
         $service->setEntityMapper($mockMapper);
-        $service->removeOption(array('product_id' => 1), array('option_id' => 2));
+        $service->removeOption(['product_id' => 1], ['option_id' => 2]);
     }
 
     public function testInsertCallsInsertAndReturnsNewProduct()

@@ -10,12 +10,12 @@ class AvailabilityTest extends AbstractTestCase
     {
         $this->insertAvailability(1, 'EA', 1, 1);
         $mapper = $this->getMapper();
-        $data = array(
+        $data = [
             'product_id' => 1,
             'uom_code' => 'EA',
             'quantity' => 1,
             'distributor_id' => 1,
-        );
+        ];
         $result = $mapper->find($data);
         $this->assertTrue($result instanceof \SpeckCatalog\Model\Availability);
     }

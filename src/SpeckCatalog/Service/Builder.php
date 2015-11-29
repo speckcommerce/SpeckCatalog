@@ -16,7 +16,7 @@ class Builder extends AbstractService
             return false;
         }
 
-        $builders = array();
+        $builders = [];
         foreach ($rows as $row) {
             $pid = $row['product_id'];
             if (!isset($builders[$pid])) {
@@ -27,7 +27,7 @@ class Builder extends AbstractService
 
         foreach ($builders as $builder) {
             $productId = $builder->getProductId();
-            $product   = $this->getProductService()->find(array('product_id' => $productId), true, true);
+            $product   = $this->getProductService()->find(['product_id' => $productId], true, true);
             $builder->setProduct($product);
         }
 
@@ -41,21 +41,21 @@ class Builder extends AbstractService
 
     public function persistModel($model)
     {
-        $data = array(
+        $data = [
             'product_id' => $model->getProductId(),
             'selected'   => $model->getSelected(),
-        );
+        ];
         $this->persistData($data);
     }
 
     public function persistData($data)
     {
         foreach ($data['selected'] as $optionId => $choiceId) {
-            $row = array(
+            $row = [
                 'product_id' => $data['product_id'],
                 'option_id'  => $optionId,
                 'choice_id'  => $choiceId
-            );
+            ];
             $this->getEntityMapper()->persist($row);
         }
     }
@@ -66,10 +66,10 @@ class Builder extends AbstractService
 
         $this->persistData($data);
 
-        $where = array(
+        $where = [
             'product_id'        => $data['product_id'],
             'parent_product_id' => $data['parent_product_id']
-        );
+        ];
 
         $builders = $this->getBuilders($where);
         return array_shift($builders);
@@ -79,7 +79,7 @@ class Builder extends AbstractService
 
     public function getBuildersByParentProductId($productId)
     {
-        $where = array('parent_product_id' => $productId);
+        $where = ['parent_product_id' => $productId];
         return $this->getBuilders($where, true, true);
     }
 
@@ -90,9 +90,9 @@ class Builder extends AbstractService
             $optionService = $this->getOptionService();
             $options = $optionService->getByProductId(
                 $construct['parent_product_id'],
-                array('choices'),
+                ['choices'],
                 true,
-                array('builder' => 1)
+                ['builder' => 1]
             );
             $model->setOptions($options);
         }
@@ -101,7 +101,7 @@ class Builder extends AbstractService
 
     public function validBuildersJson($builders)
     {
-        $data = array();
+        $data = [];
 
         foreach ($builders as $builder) {
             $pid = $builder->getProductId();
@@ -112,15 +112,15 @@ class Builder extends AbstractService
 
     public function getProduct($productId)
     {
-        return $this->getProductService()->find(array('product_id' => $productId));
+        return $this->getProductService()->find(['product_id' => $productId]);
     }
 
     public function newBuilderForProduct($childProductId, $parentProductId)
     {
-        $data = array(
+        $data = [
             'parent_product_id' => $parentProductId,
             'product_id'        => $childProductId,
-        );
+        ];
         return $this->getModel($data);
     }
 

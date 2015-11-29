@@ -19,10 +19,10 @@ class CategoryController extends AbstractActionController
         $category = $service->getCategoryForView($id, $paginatorVars);
 
         $crumbs = $service->getCrumbs($category);
-        $this->layout()->crumbs = array(
+        $this->layout()->crumbs = [
             'type' => 'category',
             'crumbs' => $crumbs,
-        );
+        ];
 
         if (null === $category) {
             throw new \Exception('fore oh fore');
@@ -30,10 +30,10 @@ class CategoryController extends AbstractActionController
 
         $paginatorVars['categoryId'] = $category->getCategoryId();
 
-        return new ViewModel(array(
+        return new ViewModel([
             'category' => $category,
             'paginatorVars' => $paginatorVars,
-        ));
+        ]);
     }
 
     public function setCatalogService($catalogService)
@@ -51,8 +51,8 @@ class CategoryController extends AbstractActionController
         if (isset($_GET['nn'])) {
             $this->perPageAction();
         }
-        $keys = array('n', 'p', 'o', 's');
-        $paginatorVars = array();
+        $keys = ['n', 'p', 'o', 's'];
+        $paginatorVars = [];
         foreach ($keys as $key) {
             if (isset($_GET[$key])) {
                 $paginatorVars[$key] = $_GET[$key];
@@ -64,7 +64,7 @@ class CategoryController extends AbstractActionController
 
     public function perPageAction()
     {
-        $keys = array('o', 's');
+        $keys = ['o', 's'];
         foreach ($keys as $key) {
             if (isset($_GET[$key])) {
                 $paginatorVars[$key] = $_GET[$key];

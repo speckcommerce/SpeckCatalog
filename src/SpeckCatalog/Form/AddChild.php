@@ -14,13 +14,13 @@ class AddChild extends ZendForm
     public function addElements(array $elements)
     {
         foreach ($elements as $key => $val) {
-            $this->add(array(
+            $this->add([
                 'name' => $key,
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
                     'value' => $val,
-                ),
-            ));
+                ],
+            ]);
         }
         return $this;
     }
@@ -28,13 +28,13 @@ class AddChild extends ZendForm
     public function addParent(array $elements)
     {
         foreach ($elements as $key => $val) {
-            $this->add(array(
+            $this->add([
                 'name' => 'parent[' . $key . ']',
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
                     'value' => $val,
-                ),
-            ));
+                ],
+            ]);
         }
         return $this;
     }

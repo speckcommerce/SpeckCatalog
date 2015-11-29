@@ -16,7 +16,7 @@ class FeatureTest extends AbstractTestCase
     public function testGetByProductIdReturnsArrayOfFeatureModels()
     {
         $testMapper = $this->getTestMapper();
-        $testMapper->insert(array('product_id' => 88), 'catalog_product_feature');
+        $testMapper->insert(['product_id' => 88], 'catalog_product_feature');
 
         $mapper = $this->getMapper();
         $return = $mapper->getByProductId(88);

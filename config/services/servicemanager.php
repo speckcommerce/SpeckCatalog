@@ -1,9 +1,9 @@
 <?php
-return array(
-    'shared' => array(
+return [
+    'shared' => [
         'speckcatalog_image_mapper' => false,
-    ),
-    'factories' => array(
+    ],
+    'factories' => [
         'speckcatalog_category_service'     => function ($sm) {
             $service = new \SpeckCatalog\Service\Category;
             $domain  = $sm->get('multisite_domain_data');
@@ -22,7 +22,7 @@ return array(
         },
         'speckcatalog_module_options' => function ($sm) {
             $config = $sm->get('Config');
-            return new \SpeckCatalog\Options\ModuleOptions(isset($config['speckcatalog']) ? $config['speckcatalog'] : array());
+            return new \SpeckCatalog\Options\ModuleOptions(isset($config['speckcatalog']) ? $config['speckcatalog'] : []);
         },
         'speckcatalog_availability_form' => function ($sm) {
             $form = new \SpeckCatalog\Form\Availability;
@@ -39,16 +39,16 @@ return array(
             $form->setUomService($sm->get('speckcatalog_uom_service'));
             return $form->init();
         },
-    ),
-    'aliases' => array(
+    ],
+    'aliases' => [
         'speckcatalog_db' => 'Zend\Db\Adapter\Adapter',
-    ),
-    'initializers' => array(
-        function($instance, $sm){
-            if($instance instanceof \SpeckCatalog\Mapper\DbAdapterAwareInterface){
+    ],
+    'initializers' => [
+        function ($instance, $sm) {
+            if ($instance instanceof \SpeckCatalog\Mapper\DbAdapterAwareInterface) {
                 $dbAdapter = $sm->get('speckcatalog_db');
                 $instance->setDbAdapter($dbAdapter);
             }
         },
-    ),
-);
+    ],
+];

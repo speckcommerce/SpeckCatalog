@@ -9,25 +9,25 @@ class RemoveChild extends ZendForm
     public function __construct()
     {
         parent::__construct();
-        $this->add(array(
+        $this->add([
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
+            'attributes' => [
                 'value' => ' x ',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function addElements(array $elements)
     {
         foreach ($elements as $key => $val) {
-            $this->add(array(
+            $this->add([
                 'name' => $key,
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
                     'value' => $val,
-                ),
-            ));
+                ],
+            ]);
         }
         return $this;
     }
@@ -35,13 +35,13 @@ class RemoveChild extends ZendForm
     public function addParent(array $elements)
     {
         foreach ($elements as $key => $val) {
-            $this->add(array(
+            $this->add([
                 'name' => 'parent[' . $key . ']',
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
                     'value' => $val,
-                ),
-            ));
+                ],
+            ]);
         }
         return $this;
     }
@@ -49,13 +49,13 @@ class RemoveChild extends ZendForm
     public function addChild(array $elements)
     {
         foreach ($elements as $key => $val) {
-            $this->add(array(
+            $this->add([
                 'name' => 'child[' . $key . ']',
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
                     'value' => $val,
-                ),
-            ));
+                ],
+            ]);
         }
         return $this;
     }

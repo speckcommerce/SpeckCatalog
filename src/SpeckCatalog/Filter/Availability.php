@@ -8,27 +8,27 @@ class Availability extends InputFilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'product_id',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'uom_code',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'quantity',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'distributor_id',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'cost',
             'allow_empty' => false,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'distributor_item_number',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'distributor_uom_code',
-        ));
+        ]);
     }
 }

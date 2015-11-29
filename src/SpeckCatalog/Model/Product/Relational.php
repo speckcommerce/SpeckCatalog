@@ -43,7 +43,7 @@ class Relational extends Base
         } elseif ($type === 'product') {
             $product->setProductTypeId(2);
         }
-        switch($this->getProductTypeId()) {
+        switch ($this->getProductTypeId()) {
             case 1:
                 return 'shell';
                 break;
@@ -57,14 +57,14 @@ class Relational extends Base
     public function getPrice($retailPrice = false)
     {
         if ($this->has('uoms')) {
-            $uomPrices = array();
+            $uomPrices = [];
             foreach ($this->getUoms() as $uom) {
                 $uomPrices[] = $retailPrice ? $uom->getRetail() : $uom->getPrice();
             }
             asort($uomPrices, SORT_NUMERIC);
             return array_shift($uomPrices);
         } elseif ($this->has('builders')) {
-            $uomPrices = array();
+            $uomPrices = [];
             foreach ($this->getBuilders() as $builder) {
                 foreach ($builder->getProduct()->getUoms() as $uom) {
                     $uomPrices[] = $retailPrice ? $uom->getRetail() : $uom->getPrice();
@@ -104,7 +104,7 @@ class Relational extends Base
      */
     public function setUoms($uoms)
     {
-        $this->uoms = array();
+        $this->uoms = [];
 
         foreach ($uoms as $uom) {
             $this->addUom($uom);
@@ -134,7 +134,7 @@ class Relational extends Base
      */
     public function setImages($images)
     {
-        $this->images = array();
+        $this->images = [];
 
         foreach ($images as $image) {
             $this->addImage($image);
@@ -164,7 +164,7 @@ class Relational extends Base
      */
     public function setSpecs($specs)
     {
-        $this->specs = array();
+        $this->specs = [];
 
         foreach ($specs as $spec) {
             $this->addSpec($spec);
@@ -194,7 +194,7 @@ class Relational extends Base
      */
     public function setDocuments($documents)
     {
-        $this->documents = array();
+        $this->documents = [];
 
         foreach ($documents as $document) {
             $this->addDocument($document);
@@ -224,7 +224,7 @@ class Relational extends Base
      */
     public function setFeatures($features)
     {
-        $this->features = array();
+        $this->features = [];
 
         foreach ($features as $feature) {
             $this->addFeature($feature);
@@ -254,7 +254,7 @@ class Relational extends Base
      */
     public function setOptions($options)
     {
-        $this->options = array();
+        $this->options = [];
 
         foreach ($options as $option) {
             $this->addOption($option);

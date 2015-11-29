@@ -5,78 +5,78 @@ namespace SpeckCatalog\Form;
 class Availability extends AbstractForm
 {
     protected $companyService;
-    protected $originalFields = array('product_id', 'uom_code', 'quantity', 'distributor_id');
+    protected $originalFields = ['product_id', 'uom_code', 'quantity', 'distributor_id'];
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->add(array(
+        $this->add([
             'name' => 'uom_code',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'quantity',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'distributor_item_number',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
                 'class' => 'span1'
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Dist Item#',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'distributor_uom_code',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Dist UOM',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'cost',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Cost',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function init()
     {
-        $options = array('select' => '--SELECT--');
+        $options = ['select' => '--SELECT--'];
         foreach ($this->getCompanyService()->getAll() as $company) {
             $options[$company->getCompanyId()] = $company->getName();
         }
-        $this->add(array(
+        $this->add([
             'name' => 'distributor_id',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
                 'options' => $options,
                 'class' => 'span3',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Distributor',
-            ),
-        ));
+            ],
+        ]);
         return $this;
     }
 

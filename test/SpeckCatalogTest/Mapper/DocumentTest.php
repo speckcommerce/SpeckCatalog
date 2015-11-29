@@ -11,14 +11,14 @@ class DocumentTest extends AbstractTestCase
         $documentId = $this->insertDocument();
 
         $mapper = $this->getMapper();
-        $return = $mapper->find(array('document_id' => $documentId));
+        $return = $mapper->find(['document_id' => $documentId]);
         $this->assertTrue($return instanceof \SpeckCatalog\Model\Document);
     }
 
     public function testGetByProductIdReturnsArrayOfDocumentModels()
     {
         $testMapper = $this->getTestMapper();
-        $testMapper->insert(array('product_id' => 99), 'catalog_product_document');
+        $testMapper->insert(['product_id' => 99], 'catalog_product_document');
 
         $mapper = $this->getMapper();
         $return = $mapper->getByProductId(99);

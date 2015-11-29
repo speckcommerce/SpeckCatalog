@@ -9,39 +9,39 @@ class Option extends InputFilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'option_id',
             'allow_empty' => true,
             'required' => true,
-            'filters'   => array(
+            'filters'   => [
                 new ToNull(ToNull::TYPE_STRING),
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'product_id',
             'required' => false,
             'allow_empty' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'choice_id',
             'required' => false,
             'allow_empty' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'name',
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'instruction',
             'allow_empty' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'option_type_id',
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'builder',
             'required' => true,
-        ));
+        ]);
     }
 }

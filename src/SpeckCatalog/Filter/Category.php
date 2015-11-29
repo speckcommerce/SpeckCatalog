@@ -8,14 +8,14 @@ class Category extends Inputfilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'category_id',
             'allow_empty' => true,
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'name',
             'allow_empty' => 'true',
-        ));
+        ]);
     }
 }

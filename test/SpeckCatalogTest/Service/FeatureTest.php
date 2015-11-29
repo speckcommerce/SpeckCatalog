@@ -12,7 +12,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
         $mockMapper->expects($this->once())
             ->method('getByProductId')
             ->with(1)
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\Feature)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\Feature]));
 
         $service = $this->getService()
             ->setEntityMapper($mockMapper);

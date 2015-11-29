@@ -25,7 +25,7 @@ class ConfigureBuy extends AbstractHelper
 
     public function builders($builders, $formId)
     {
-        $data = array();
+        $data = [];
         foreach ($builders as $builder) {
             $data[$builder->getProductId()] = array_values($builder->getSelected());
         }

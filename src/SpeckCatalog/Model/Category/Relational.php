@@ -32,7 +32,7 @@ class Relational extends Base
      */
     public function setCategories($categories)
     {
-        $this->categories = array();
+        $this->categories = [];
 
         foreach ($categories as $category) {
             $this->addCategory($category);

@@ -10,7 +10,7 @@ use Zend\View\Renderer\RendererInterface;
 class CssClass implements HelperInterface
 {
     protected $view;
-    protected $classes = array();
+    protected $classes = [];
 
     public function __invoke($param1, $param2 = false)
     {
@@ -58,7 +58,7 @@ class CssClass implements HelperInterface
 
     public function clear()
     {
-        $this->classes = array();
+        $this->classes = [];
     }
 
     public function getView()

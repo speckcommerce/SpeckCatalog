@@ -33,7 +33,7 @@ class Relational extends Base
      */
     public function setAvailabilities($availabilities)
     {
-        $this->availabilities = array();
+        $this->availabilities = [];
 
         foreach ($availabilities as $availability) {
             $this->addAvailability($availability);

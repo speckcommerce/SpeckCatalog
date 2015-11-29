@@ -119,7 +119,7 @@ class AbstractService implements ServiceLocatorAwareInterface, EventManagerAware
         return $this->getEntityMapper()->delete($where);
     }
 
-    public function usePaginator($options = array())
+    public function usePaginator($options = [])
     {
         $this->getEntityMapper()->usePaginator($options);
         return $this;

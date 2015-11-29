@@ -10,7 +10,7 @@ class Company extends AbstractService
 
     public function findById($companyId)
     {
-        return $this->find(array('company_id' => $companyId));
+        return $this->find(['company_id' => $companyId]);
     }
 
     /**

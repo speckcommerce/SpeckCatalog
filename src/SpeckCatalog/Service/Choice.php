@@ -22,10 +22,10 @@ class Choice extends AbstractService
     public function populate($choice, $recursive = false, $children = true)
     {
         $allChildren = ($children === true) ? true : false;
-        $children    = (is_array($children)) ? $children : array();
+        $children    = (is_array($children)) ? $children : [];
 
         if ($allChildren || in_array('parent', $children)) {
-            $option = $this->getOptionService()->find(array('option_id' => $choice->getOptionId()));
+            $option = $this->getOptionService()->find(['option_id' => $choice->getOptionId()]);
             $choice->setParent($option);
         }
         if ($allChildren || in_array('options', $children)) {
@@ -45,7 +45,7 @@ class Choice extends AbstractService
         $choiceId = ( is_int($choiceOrId) ? $choiceOrId : $choiceOrId->getChoiceId() );
         $optionId = ( is_int($optionOrId) ? $optionOrId : $optionOrId->getOptionId() );
         $this->getEntityMapper()->addOption($choiceId, $optionId);
-        return $this->getOptionService()->find(array('option_id' => $optionId));
+        return $this->getOptionService()->find(['option_id' => $optionId]);
     }
 
     public function persist($form)

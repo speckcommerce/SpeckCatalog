@@ -9,31 +9,31 @@ class Product extends InputFilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name'        => 'product_id',
             'required'    => 'true',
             'allow_empty' => 'true',
-            'filters'   => array(
+            'filters'   => [
                 new ToNull(ToNull::TYPE_STRING),
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name'        => 'name',
             'allow_empty' => false,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name'        => 'description',
             'allow_empty' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name'        => 'manufacturer_id',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name'        => 'item_number',
             'allow_empty' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name'        => 'product_type_id',
-        ));
+        ]);
     }
 }

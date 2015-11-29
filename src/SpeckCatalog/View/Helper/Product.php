@@ -36,7 +36,7 @@ class Product extends AbstractHelper
 
     public function allUomsString($product, $string = true)
     {
-        $uomStrings = array();
+        $uomStrings = [];
 
         if ($product->type() === 'product') {
             foreach ($uoms as $uom) {
@@ -72,7 +72,7 @@ class Product extends AbstractHelper
 
     public function itemNumbers($product, $implode = false)
     {
-        $numbers = array();
+        $numbers = [];
         if ($product->getProductTypeId() == 2) {
             $numbers[$product->getItemNumber()] = $product->getItemNumber();
         } else {

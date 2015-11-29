@@ -40,7 +40,7 @@ class ProductUom extends AbstractService
     public function populate($productUom, $recursive = false, $children = true)
     {
         $allChildren = ($children === true) ? true : false;
-        $children    = (is_array($children)) ? $children : array();
+        $children    = (is_array($children)) ? $children : [];
 
         if ($allChildren || in_array('availabilities', $children)) {
             $availabilities = $this->getAvailabilityService()->getByProductUom(
@@ -56,7 +56,7 @@ class ProductUom extends AbstractService
             $productUom->setAvailabilities($availabilities);
         }
         if ($allChildren || in_array('uom', $children)) {
-            $uom = $this->getUomService()->find(array('uom_code' => $productUom->getUomCode()));
+            $uom = $this->getUomService()->find(['uom_code' => $productUom->getUomCode()]);
             $productUom->setUom($uom);
         }
     }
@@ -105,10 +105,10 @@ class ProductUom extends AbstractService
 
     public function update($data, array $where = null)
     {
-        $vars = array(
+        $vars = [
             'data'        => $data,
             'where'       => $where,
-        );
+        ];
 
         $this->getEventManager()->trigger('update.pre', $this, $vars);
 
@@ -123,18 +123,18 @@ class ProductUom extends AbstractService
     public function insert($productUom)
     {
         if ($productUom instanceof AbstractModel) {
-            $data = array(
+            $data = [
                 'uom_code' => $productUom->getUomCode(),
                 'product_id' => $productUom->getProductId(),
                 'quantity' => $productUom->getQuantity(),
-            );
+            ];
         } elseif (is_array($productUom)) {
             $data = $productUom;
         }
 
-        $vars = array(
+        $vars = [
             'data' => $data,
-        );
+        ];
         $this->getEventManager()->trigger('insert.pre', $this, $vars);
 
         $vars['result'] = parent::insert($productUom);

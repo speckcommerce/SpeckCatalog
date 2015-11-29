@@ -23,7 +23,7 @@ class ImageTest extends AbstractTestCase
 
         $mapper = $this->getMapper();
         $mapper->setParentType('product');
-        $return = $mapper->find(array('image_id' => $imageId));
+        $return = $mapper->find(['image_id' => $imageId]);
         $this->assertTrue($return instanceof \SpeckCatalog\Model\ProductImage);
     }
 

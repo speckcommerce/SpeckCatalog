@@ -12,17 +12,17 @@ class SpecTest extends \PHPUnit_Framework_TestCase
         $mockMapper = $this->getMock('\SpeckCatalog\Mapper\Spec');
         $mockMapper->expects($this->once())
             ->method('find')
-            ->with(array('spec_id' => 1))
+            ->with(['spec_id' => 1])
             ->will($this->returnValue($spec));
 
-        $service = $this->getMock('\SpeckCatalog\Service\Spec', array('populate'));
+        $service = $this->getMock('\SpeckCatalog\Service\Spec', ['populate']);
         $service->expects($this->once())
             ->method('populate')
             ->with($spec)
             ->will($this->returnValue($spec));
 
         $service->setEntityMapper($mockMapper);
-        $return = $service->find(array('spec_id' => 1), 1);
+        $return = $service->find(['spec_id' => 1], 1);
         $this->assertInstanceOf('\SpeckCatalog\Model\Spec', $return);
     }
 
@@ -32,7 +32,7 @@ class SpecTest extends \PHPUnit_Framework_TestCase
         $mockMapper->expects($this->once())
             ->method('getByProductId')
             ->with(1)
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\Spec)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\Spec]));
 
         $service = $this->getService()
             ->setEntityMapper($mockMapper);
@@ -52,7 +52,7 @@ class SpecTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(77));
         $mockMapper->expects($this->once())
             ->method('find')
-            ->with(array('spec_id' => 77))
+            ->with(['spec_id' => 77])
             ->will($this->returnValue($spec));
 
         $service = $this->getService()

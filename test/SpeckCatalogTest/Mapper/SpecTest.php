@@ -10,7 +10,7 @@ class SpecTest extends AbstractTestCase
     {
         $id = $this->insertSpec();
         $mapper = $this->getMapper();
-        $return = $mapper->find(array('spec_id' => $id));
+        $return = $mapper->find(['spec_id' => $id]);
         $this->assertTrue($return instanceof \SpeckCatalog\Model\Spec);
     }
 

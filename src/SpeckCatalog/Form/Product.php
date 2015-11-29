@@ -5,79 +5,79 @@ namespace SpeckCatalog\Form;
 class Product extends AbstractForm
 {
     protected $companyService;
-    protected $originalFields = array('product_id');
+    protected $originalFields = ['product_id'];
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->add(array(
+        $this->add([
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'name',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Name',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'description',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'textarea',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Description',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'item_number',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Item Number',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'product_type_id',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
-                'options' => array(
+                'options' => [
                     '1' => 'Shell',
                     '2' => 'Product'
-                ),
-            ),
-            'options' => array(
+                ],
+            ],
+            'options' => [
                 'label' => 'Product Type',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function init()
     {
-        $options = array('' => '---------');
+        $options = ['' => '---------'];
         foreach ($this->getCompanyService()->getAll() as $company) {
             $options[$company->getCompanyId()] = $company->getName();
         }
-        $this->add(array(
+        $this->add([
             'name' => 'manufacturer_id',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
                 'options' => $options,
                 'class' => 'span3',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Manufacturer',
-            ),
-        ));
+            ],
+        ]);
         return $this;
     }
 

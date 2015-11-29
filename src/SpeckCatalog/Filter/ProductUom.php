@@ -8,29 +8,29 @@ class ProductUom extends InputFilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'product_id',
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'price',
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'retail',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'quantity',
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'uom_code',
             'required' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'enabled',
             'required' => false,
             'allow_empty' => false,
-        ));
+        ]);
     }
 }

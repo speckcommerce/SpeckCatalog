@@ -14,7 +14,7 @@ trait ProvidesTableMetadataTrait
         return $this->tableName;
     }
 
-    public function getTableKeyFields(array $removeFields = array())
+    public function getTableKeyFields(array $removeFields = [])
     {
         $fields = $this->tableKeyFields;
         if (count($removeFields)) {

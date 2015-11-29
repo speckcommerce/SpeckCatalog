@@ -11,7 +11,7 @@ class CategoryTest extends AbstractTestCase
         $categoryId = $this->insertCategory();
 
         $mapper = $this->getMapper();
-        $return = $mapper->find(array('category_id' => $categoryId));
+        $return = $mapper->find(['category_id' => $categoryId]);
         $this->assertTrue($return instanceof \SpeckCatalog\Model\Category);
     }
 
@@ -19,11 +19,11 @@ class CategoryTest extends AbstractTestCase
     {
         $parentId = $this->insertCategory();
         $childId = $this->insertCategory();
-        $linker = array(
+        $linker = [
             'category_id' => $childId,
             'parent_category_id' => $parentId,
             'website_id' => 1,
-        );
+        ];
         $testMapper = $this->getTestMapper();
         $testMapper->insert($linker, 'catalog_category_website');
 
@@ -37,11 +37,11 @@ class CategoryTest extends AbstractTestCase
     {
         $parentId = null;
         $childId = $this->insertCategory();
-        $linker = array(
+        $linker = [
             'category_id' => $childId,
             'parent_category_id' => $parentId,
             'website_id' => 1,
-        );
+        ];
         $testMapper = $this->getTestMapper();
         $testMapper->insert($linker, 'catalog_category_website');
 
@@ -54,16 +54,16 @@ class CategoryTest extends AbstractTestCase
     public function testGetCrumbsReturnsArrayOfCategoryCrumbs()
     {
         $this->markTestIncomplete('Tests was broken/obsoleted');
-        $parent = array('name' => 'parent');
-        $child = array('name' => 'child');
+        $parent = ['name' => 'parent'];
+        $child = ['name' => 'child'];
         $testMapper = $this->getTestMapper();
         $parentId = $testMapper->insert($parent, 'catalog_category')->getGeneratedValue();
         $childId = $testMapper->insert($child, 'catalog_category')->getGeneratedValue();
-        $linker = array(
+        $linker = [
             'category_id' => $childId,
             'parent_category_id' => $parentId,
             'website_id' => 1,
-        );
+        ];
         $testMapper = $this->getTestMapper();
         $testMapper->insert($linker, 'catalog_category_website');
 
@@ -79,7 +79,7 @@ class CategoryTest extends AbstractTestCase
         $mapper->addProduct(9, 6);
 
         $select = new \Zend\Db\Sql\Select('catalog_category_product');
-        $select->where(array('category_id' => 9, 'product_id' => 6));
+        $select->where(['category_id' => 9, 'product_id' => 6]);
         $testMapper = $this->getTestMapper();
         $result = $testMapper->query($select);
         $this->assertTrue(is_array($result));
@@ -91,7 +91,7 @@ class CategoryTest extends AbstractTestCase
         $mapper->addCategory(9, 6);
 
         $select = new \Zend\Db\Sql\Select('catalog_category_website');
-        $select->where(array('parent_category_id' => 9, 'category_id' => 6));
+        $select->where(['parent_category_id' => 9, 'category_id' => 6]);
         $testMapper = $this->getTestMapper();
         $result = $testMapper->query($select);
         $this->assertTrue(is_array($result));
@@ -103,7 +103,7 @@ class CategoryTest extends AbstractTestCase
         $mapper->addCategory(null, 6);
 
         $select = new \Zend\Db\Sql\Select('catalog_category_website');
-        $select->where(array('category_id' => 6));
+        $select->where(['category_id' => 6]);
         $testMapper = $this->getTestMapper();
         $result = $testMapper->query($select);
         $this->assertTrue(is_array($result));

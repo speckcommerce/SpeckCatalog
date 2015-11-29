@@ -8,18 +8,18 @@ class CartItemMeta
     protected $productId;
     protected $itemNumber;
     protected $parentOptionName;
-    protected $flatOptions = array();
+    protected $flatOptions = [];
     protected $image;
     protected $uom;
 
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         if (count($config)) {
             $this->parentOptionId   = isset($config['parent_option_id'])   ? $config['parent_option_id']   : null;
             $this->productId        = isset($config['product_id'])         ? $config['product_id']         : null;
             $this->itemNumber       = isset($config['item_number'])        ? $config['item_number']        : null;
             $this->parentOptionName = isset($config['parent_option_name']) ? $config['parent_option_name'] : null;
-            $this->flatOptions      = isset($config['flat_options'])       ? $config['flat_options']       : array();
+            $this->flatOptions      = isset($config['flat_options'])       ? $config['flat_options']       : [];
             $this->image            = isset($config['image'])              ? $config['image']              : null;
             $this->uom              = isset($config['uom'])                ? $config['uom']                : null;
         }

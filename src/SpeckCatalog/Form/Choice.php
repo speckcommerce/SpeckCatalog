@@ -4,38 +4,38 @@ namespace SpeckCatalog\Form;
 
 class Choice extends AbstractForm
 {
-    protected $originalFields = array('choice_id');
+    protected $originalFields = ['choice_id'];
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->add(array(
+        $this->add([
             'name' => 'option_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'choice_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'override_name',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text'
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Name',
-            ),
-        ));
+            ],
+        ]);
     }
 }

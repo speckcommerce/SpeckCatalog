@@ -4,34 +4,34 @@ namespace SpeckCatalog\Form;
 
 class Spec extends AbstractForm
 {
-    protected $originalFields = array('spec_id');
+    protected $originalFields = ['spec_id'];
 
     public function __construct()
     {
         parent::__construct();
-        $this->add(array(
+        $this->add([
             'name' => 'spec_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'label',
-            'options' => array(
+            'options' => [
                 'label' => 'Label',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'value',
-            'options' => array(
+            'options' => [
                 'label' => 'Value',
-            ),
-        ));
+            ],
+        ]);
     }
 }

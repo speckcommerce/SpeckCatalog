@@ -170,7 +170,7 @@ class AbstractMapper implements
             $rows = $this->initPaginator($select, $resultSet);
         } else {
             $result = $this->select($select, $resultSet);
-            $rows = array();
+            $rows = [];
             foreach ($result as $row) {
                 $rows[] = $row;
             }
@@ -310,7 +310,7 @@ class AbstractMapper implements
         return $this;
     }
 
-    public function usePaginator(array $paginatorOptions = array())
+    public function usePaginator(array $paginatorOptions = [])
     {
         $this->usePaginator = true;
         $this->paginatorOptions = $paginatorOptions;

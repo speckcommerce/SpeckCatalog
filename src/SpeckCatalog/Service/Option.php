@@ -12,7 +12,7 @@ class Option extends AbstractService
     protected $imageService;
     protected $productService;
 
-    public function getByProductId($productId, $populate = false, $recursive = false, array $extraFields = array())
+    public function getByProductId($productId, $populate = false, $recursive = false, array $extraFields = [])
     {
         $options = $this->getEntityMapper()->getByProductId($productId, $extraFields);
         if ($populate) {
@@ -39,7 +39,7 @@ class Option extends AbstractService
         $choices = $this->getEntityMapper()->getBuildersByProductId($productId);
         var_dump($choices);
         die();
-        $builders = array();
+        $builders = [];
         foreach ($choices as $choice) {
             $builders[$choice['product_id']][] = $choice['choice_id'];
         }
@@ -55,7 +55,7 @@ class Option extends AbstractService
         $optionId = $option->getOptionId();
 
         $allChildren = ($children === true) ? true : false;
-        $children    = (is_array($children)) ? $children : array();
+        $children    = (is_array($children)) ? $children : [];
 
         if ($allChildren || in_array('choices', $children)) {
             $choiceService = $this->getChoiceService();
@@ -93,10 +93,10 @@ class Option extends AbstractService
 
         $parent = null;
         if ($option->getProductId()) {
-            $data = array('product_id' => $option->getProductId());
+            $data = ['product_id' => $option->getProductId()];
             $parent = $this->getProductService()->find($data);
         } elseif ($option->getChoiceId()) {
-            $data = array('choice_id' => $option->getChoiceId());
+            $data = ['choice_id' => $option->getChoiceId()];
             $parent = $this->getChoiceService()->find($data);
         }
         return $parent;
@@ -130,7 +130,7 @@ class Option extends AbstractService
         return true; //choice was found, and then deleted successfully
     }
 
-    public function sortChoices($optionId, array $order = array())
+    public function sortChoices($optionId, array $order = [])
     {
         return $this->getEntityMapper()->sortChoices($optionId, $order);
     }

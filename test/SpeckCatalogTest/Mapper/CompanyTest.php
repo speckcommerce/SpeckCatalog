@@ -9,7 +9,7 @@ class CompanyTest extends AbstractTestCase
     public function testFindByIdReturnsCompanyModel()
     {
         $testMapper = $this->getTestMapper();
-        $testMapper->insert(array('company_id' => 1, 'name' => 'company'), 'contact_company');
+        $testMapper->insert(['company_id' => 1, 'name' => 'company'], 'contact_company');
 
         $mapper = $this->getMapper();
         $result = $mapper->findById(1);
@@ -24,7 +24,7 @@ class CompanyTest extends AbstractTestCase
     public function testGetAllReturnsArrayOfCompanies()
     {
         $testMapper = $this->getTestMapper();
-        $testMapper->insert(array('company_id' => 1, 'name' => 'company'), 'contact_company');
+        $testMapper->insert(['company_id' => 1, 'name' => 'company'], 'contact_company');
 
         $mapper = $this->getMapper();
         $result = $mapper->getAll();

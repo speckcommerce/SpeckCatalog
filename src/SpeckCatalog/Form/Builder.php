@@ -7,32 +7,32 @@ use Zend\Form\FormInterface;
 
 class Builder extends AbstractForm
 {
-    protected $originalFields = array();
+    protected $originalFields = [];
 
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct();
 
-        $this->add(array(
+        $this->add([
             'type' => 'Zend\Form\Element\Hidden',
             'name' => 'parent_product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => '',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'type' => 'Zend\Form\Element\Hidden',
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => '',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function bind($object, $flags = FormInterface::VALUES_NORMALIZED)
@@ -46,18 +46,18 @@ class Builder extends AbstractForm
     public function addOption(array $option)
     {
         $name = "selected[{$option['option_id']}]";
-        $this->add(array(
+        $this->add([
             'name' => $name,
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
                 'options' => $option['choices'],
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'empty_option' => "\"{$option['name']}\" (Select)",
                 'label' => ""
-            ),
-        ));
+            ],
+        ]);
         if (is_int($option['selected'])) {
             $this->get($name)->setValue($option['selected']);
         }
@@ -69,7 +69,7 @@ class Builder extends AbstractForm
             $optionId = $option->getOptionId();
             $optionName = $option->getName();
 
-            $choices = array();
+            $choices = [];
             foreach ($option->getChoices() as $choice) {
                 $choices[$choice->getChoiceId()] = $choice->__toString();
             }
@@ -77,12 +77,12 @@ class Builder extends AbstractForm
             $selectedChoiceId = isset($object->getSelected()[$optionId])
                 ? (int) $object->getSelected()[$optionId]
                 : null;
-            $data = array(
+            $data = [
                 'option_id' => $option->getOptionId(),
                 'name'      => $option->getName(),
                 'selected'  => $selectedChoiceId,
                 'choices'   => $choices
-            );
+            ];
             $this->addOption($data);
         }
     }

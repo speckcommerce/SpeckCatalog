@@ -9,28 +9,28 @@ class Spec extends InputFilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'product_id',
             'required' => true,
-            'filters'   => array(
+            'filters'   => [
                 new ToNull(ToNull::TYPE_STRING),
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'spec_id',
             'required' => true,
             'allow_empty' => true,
-            'filters'   => array(
+            'filters'   => [
                 new ToNull(ToNull::TYPE_STRING),
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'label',
             'allow_empty' => true,
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'value',
             'required' => true,
-        ));
+        ]);
     }
 }

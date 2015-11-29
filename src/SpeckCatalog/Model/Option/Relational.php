@@ -25,7 +25,7 @@ class Relational extends Base
     {
         if ($this->getRequired()) {
             if ($this->has('choices')) {
-                $choicePrices = array();
+                $choicePrices = [];
                 foreach ($this->getChoices() as $choice) {
                     $choicePrices[] = $choice->getRecursivePrice($parentProductPrice, $retailPrice);
                 }
@@ -93,7 +93,7 @@ class Relational extends Base
      */
     public function setChoices($choices)
     {
-        $this->choices = array();
+        $this->choices = [];
 
         foreach ($choices as $choice) {
             $this->addChoice($choice);
@@ -123,7 +123,7 @@ class Relational extends Base
      */
     public function setImages($images)
     {
-        $this->images = array();
+        $this->images = [];
 
         foreach ($images as $image) {
             $this->addImage($image);
@@ -204,7 +204,7 @@ class Relational extends Base
 
     public function getListType()
     {
-        switch($this->optionTypeId) {
+        switch ($this->optionTypeId) {
             case 1:
                 return 'dropdown';
             case 2:

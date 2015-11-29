@@ -14,7 +14,7 @@ class ProductUomTest extends \PHPUnit_Framework_TestCase
         $mockMapper->expects($this->once())
             ->method('getByProductId')
             ->with(1)
-            ->will($this->returnValue(array($mockProductUom)));
+            ->will($this->returnValue([$mockProductUom]));
         $service = $this->getService()
             ->setEntityMapper($mockMapper)
             ->setAvailabilityService($this->getMockAvailabilityService())
@@ -81,7 +81,7 @@ class ProductUomTest extends \PHPUnit_Framework_TestCase
 
     public function testInsertWithModelCallsInsertOnParentAndReturnsModel()
     {
-        $data = array('product_id' => 1, 'uom_code' => 'EA', 'quantity' => 1);
+        $data = ['product_id' => 1, 'uom_code' => 'EA', 'quantity' => 1];
         $productUom = new \SpeckCatalog\Model\ProductUom;
         $productUom->setProductId(1)
             ->setUomCode('EA')
@@ -104,7 +104,7 @@ class ProductUomTest extends \PHPUnit_Framework_TestCase
 
     public function testInsertWithArrayGeneratesCorrectValuesForFind()
     {
-        $data = array('product_id' => 1, 'uom_code' => 'EA', 'quantity' => 1);
+        $data = ['product_id' => 1, 'uom_code' => 'EA', 'quantity' => 1];
         $mockMapper = $this->getMock('\SpeckCatalog\Mapper\ProductUom');
         $mockMapper->expects($this->once())
             ->method('insert')
@@ -134,7 +134,7 @@ class ProductUomTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $productUom->expects($this->once()) //this is expected by populate() dont change
             ->method('setAvailabilities')
-            ->with(array($availability))
+            ->with([$availability])
             ->will($this->returnValue($productUom));
         $productUom->expects($this->once()) //this is expected by populate() dont change
             ->method('setUom')
@@ -149,7 +149,7 @@ class ProductUomTest extends \PHPUnit_Framework_TestCase
         $mockUomService = $this->getMock('\SpeckCatalog\Service\Uom');
         $mockUomService->expects($this->once()) // expected by populate(), dont change
             ->method('find')
-            ->with(array('uom_code' => 'EA'))
+            ->with(['uom_code' => 'EA'])
             ->will($this->returnValue($uom));
         return $mockUomService;
     }
@@ -161,7 +161,7 @@ class ProductUomTest extends \PHPUnit_Framework_TestCase
         $mockAvailabilityService->expects($this->any())
             ->method('getByProductUom')
             ->with(1, 'EA', 1)
-            ->will($this->returnValue(array($availability)));
+            ->will($this->returnValue([$availability]));
         return $mockAvailabilityService;
     }
 }

@@ -12,7 +12,7 @@ class FileUpload
         $catalogOptions = $this->getServiceManager()->get('speckcatalog_module_options');
 
         if ($formData['file_type'] === 'productDocument') {
-            $e->getParam('options')->setAllowedFileTypes(array('pdf' => 'pdf'));
+            $e->getParam('options')->setAllowedFileTypes(['pdf' => 'pdf']);
             $e->getParam('options')->setUseMin(false);
             $e->getParam('options')->setUseMax(false);
         }

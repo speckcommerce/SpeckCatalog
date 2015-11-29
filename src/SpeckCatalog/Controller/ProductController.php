@@ -7,7 +7,7 @@ use Zend\View\Model\ViewModel;
 
 class ProductController extends AbstractActionController
 {
-    protected $services = array(
+    protected $services = [
         'product'       => 'speckcatalog_product_service',
         'product_uom'   => 'speckcatalog_product_uom_service',
         'builder'       => 'speckcatalog_builder_product_service',
@@ -16,7 +16,7 @@ class ProductController extends AbstractActionController
         'renderer'      => 'zendviewrendererphprenderer',
         'option'        => 'speckcatalog_option_service',
         'product_image' => 'speckcatalog_product_image_service',
-    );
+    ];
 
     public function getService($name)
     {
@@ -42,11 +42,11 @@ class ProductController extends AbstractActionController
 
         $this->layout()->crumbs = $this->getService('product')->getCrumbs($product);
 
-        $vars = array(
+        $vars = [
             'product'     => $product,
             'editingCart' => ($cartItemId ? true : false),
             'cartItem'    => ($cartItemId ? $cartService->findItemById($cartItemId) : false),
-        );
+        ];
 
         return new ViewModel($vars);
     }
@@ -56,7 +56,7 @@ class ProductController extends AbstractActionController
         $productId = $this->params('id');
         $images    = $this->getService('product_image')->getImages('product', $productId);
 
-        return new ViewModel(array('images' => $images));
+        return new ViewModel(['images' => $images]);
     }
 
     public function getViewHelper($helperName)
@@ -85,7 +85,7 @@ class ProductController extends AbstractActionController
 
         $renderer = $this->getService('renderer');
         foreach ($options as $option) {
-            $vars     = array('option' => $option);
+            $vars     = ['option' => $option];
             $html    .= $renderer->render('/catalog/product/option', $vars);
         }
 

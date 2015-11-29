@@ -26,7 +26,7 @@ class Relational extends AbstractModel
     protected $options;
 
     //option_id => choice_id
-    protected $selected = array();
+    protected $selected = [];
 
     public function getChoices()
     {
@@ -39,9 +39,9 @@ class Relational extends AbstractModel
         return $this;
     }
 
-    public function setChoices(array $choices = array())
+    public function setChoices(array $choices = [])
     {
-        $this->choices = array();
+        $this->choices = [];
         foreach ($choices as $choice) {
             $this->addChoice($choice);
         }
@@ -107,7 +107,7 @@ class Relational extends AbstractModel
 
     public function setOptions($options)
     {
-        $this->options = array();
+        $this->options = [];
         foreach ($options as $option) {
             $this->addOption($option);
         }
@@ -126,7 +126,7 @@ class Relational extends AbstractModel
 
     public function setSelected(array $selected = null)
     {
-        $this->selected = array();
+        $this->selected = [];
         if (!is_array($selected)) {
             return $this;
         }

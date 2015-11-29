@@ -182,7 +182,7 @@ class CatalogManagerFormRow extends AbstractHelper
     public function setLabelPosition($labelPosition)
     {
         $labelPosition = strtolower($labelPosition);
-        if (!in_array($labelPosition, array(self::LABEL_APPEND, self::LABEL_PREPEND))) {
+        if (!in_array($labelPosition, [self::LABEL_APPEND, self::LABEL_PREPEND])) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects either %s::LABEL_APPEND or %s::LABEL_PREPEND; received "%s"',
                 __METHOD__,

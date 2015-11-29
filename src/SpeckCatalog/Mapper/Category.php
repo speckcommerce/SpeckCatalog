@@ -6,8 +6,8 @@ class Category extends AbstractMapper
 {
     protected $tableName = 'catalog_category';
     protected $model = '\SpeckCatalog\Model\Category\Relational';
-    protected $tableKeyFields = array('category_id');
-    protected $tableFields = array('category_id', 'name', 'seo_title', 'description_html', 'image_file_name');
+    protected $tableKeyFields = ['category_id'];
+    protected $tableFields = ['category_id', 'name', 'seo_title', 'description_html', 'image_file_name'];
 
     public function getChildCategories($parentCategoryId = null, $siteId = 1)
     {
@@ -65,11 +65,11 @@ class Category extends AbstractMapper
     public function addProduct($categoryId, $productId, $siteId = 1)
     {
         $table = 'catalog_category_product';
-        $row = array(
+        $row = [
             'category_id' => $categoryId,
             'product_id' => $productId,
             'website_id' => $siteId,
-        );
+        ];
         $select = $this->getSelect($table)
             ->where($row);
         $result = $this->selectOne($select);
@@ -89,11 +89,11 @@ class Category extends AbstractMapper
             $where->equalTo('parent_category_id', $parentCategoryId);
         }
         $table = 'catalog_category_website';
-        $row = array(
+        $row = [
             'category_id' => $categoryId,
             'parent_category_id' => $parentCategoryId,
             'website_id' => $siteId,
-        );
+        ];
         $select = $this->getSelect($table)
             ->where($where);
         $result = $this->selectOne($select);

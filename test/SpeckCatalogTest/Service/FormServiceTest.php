@@ -41,7 +41,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
     {
         $service = $this->getService();
         $service->setServiceLocator($this->getMockServiceManager());
-        $data = array('name' => 'foo');
+        $data = ['name' => 'foo'];
         $return = $service->getForm('product', null, $data);
         $return->isValid();//validate so we can pull out the data
         $returnData = $return->getData();

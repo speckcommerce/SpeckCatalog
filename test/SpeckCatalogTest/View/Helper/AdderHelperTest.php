@@ -10,7 +10,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->view = $this->getMock(
             'Zend\\View\\Renderer\\PhpRenderer',
-            array('render')
+            ['render']
         );
 
         $this->helper = new AdderHelper;
@@ -34,7 +34,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $html,
-            $this->helper->addNew('spec', 'product', array())
+            $this->helper->addNew('spec', 'product', [])
         );
     }
 
@@ -49,7 +49,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->partial . 'add'), $this->arrayHasKey('addForm'))
             ->will($this->returnCallback($callback));
 
-        $this->helper->addNew('spec', 'product', array());
+        $this->helper->addNew('spec', 'product', []);
 
         $this->assertInstanceOf('SpeckCatalog\\Form\\AddChild', $form);
     }
@@ -63,7 +63,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $html,
-            $this->helper->removeChild('parentName', array(), 'childName', array())
+            $this->helper->removeChild('parentName', [], 'childName', [])
         );
     }
 
@@ -78,7 +78,7 @@ class AdderHelperTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->partial . 'remove'), $this->arrayHasKey('removeForm'))
             ->will($this->returnCallback($callback));
 
-        $this->helper->removeChild('parentName', array(), 'childName', array());
+        $this->helper->removeChild('parentName', [], 'childName', []);
 
         $this->assertInstanceOf('SpeckCatalog\\Form\\RemoveChild', $form);
     }

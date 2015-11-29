@@ -39,13 +39,13 @@ class AbstractForm extends ZendForm
         $this->new = false;
         $elements = $this->getElements();
         foreach ($this->getOriginalFields() as $field) {
-            $this->add(array(
+            $this->add([
                 'name' => 'original_' . $field,
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
                     'value' => $elements[$field]->getValue(),
-                )
-            ));
+                ]
+            ]);
             //$this->getFilter()->add(array(
             //    'name' => 'original_' . $field,
             //    'required' => true,
@@ -84,7 +84,7 @@ class AbstractForm extends ZendForm
     public function getOriginalData()
     {
         $data = $this->data;
-        $originals = array();
+        $originals = [];
         foreach ($this->getOriginalFields() as $field) {
             $key = 'original_' . $field;
             if (array_key_exists($key, $data)) {

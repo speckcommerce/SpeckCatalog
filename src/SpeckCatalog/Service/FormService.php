@@ -42,7 +42,7 @@ class FormService implements ServiceLocatorAwareInterface
     {
         $form = $this->formFromServiceManager($name);
 
-        $fields = array();
+        $fields = [];
 
         if ($model) {
             foreach ($form->getOriginalFields() as $field) {

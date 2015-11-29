@@ -11,15 +11,15 @@ class OptionTest extends AbstractTestCase
         $this->markTestIncomplete('Tests was broken/obsoleted');
         $testMapper = $this->getTestMapper();
         $testMapper->insert(
-            array('product_id' => 1, 'option_id' => 1),
+            ['product_id' => 1, 'option_id' => 1],
             'catalog_product_option'
         );
         $testMapper->insert(
-            array('option_id' => 1, 'builder' => 1, 'required' => 1),
+            ['option_id' => 1, 'builder' => 1, 'required' => 1],
             'catalog_option'
         );
         $testMapper->insert(
-            array('option_id' => 1, 'choice_id' => 1, 'product_id' => 2),
+            ['option_id' => 1, 'choice_id' => 1, 'product_id' => 2],
             'catalog_builder_product'
         );
 
@@ -33,7 +33,7 @@ class OptionTest extends AbstractTestCase
     public function testInsertReturnsOptionModel()
     {
         $mapper = $this->getMapper();
-        $option = array('name' => 'option');
+        $option = ['name' => 'option'];
         $option = $mapper->insert($option);
         $this->assertTrue($option instanceof \SpeckCatalog\Model\Option);
     }
@@ -42,7 +42,7 @@ class OptionTest extends AbstractTestCase
     {
         $optionId = $this->insertOption();
         $mapper = $this->getMapper();
-        $result = $mapper->find(array('option_id' => $optionId));
+        $result = $mapper->find(['option_id' => $optionId]);
 
         $this->assertTrue($result instanceof \SpeckCatalog\Model\Option);
     }
@@ -50,7 +50,7 @@ class OptionTest extends AbstractTestCase
     public function testGetByProductIdReturnsArrayOfOptionModels()
     {
         $optionId = $this->insertOption();
-        $linker = array('product_id' => 1, 'option_id' => $optionId);
+        $linker = ['product_id' => 1, 'option_id' => $optionId];
         $testMapper = $this->getTestMapper();
         $testMapper->insert($linker, 'catalog_product_option');
 
@@ -63,7 +63,7 @@ class OptionTest extends AbstractTestCase
     public function testGetByParentChoiceIdReturnsArrayOfOptionModels()
     {
         $optionId = $this->insertOption();
-        $linker = array('option_id' => $optionId, 'choice_id' => 1);
+        $linker = ['option_id' => $optionId, 'choice_id' => 1];
         $testMapper = $this->getTestMapper();
         $testMapper->insert($linker, 'catalog_choice_option');
 
@@ -77,18 +77,18 @@ class OptionTest extends AbstractTestCase
     {
         $this->markTestIncomplete('Tests was broken/obsoleted');
         $optionId = 1;
-        $choice1 = array('option_id' => $optionId, 'sort_weight' => 0);
-        $choice2 = array('option_id' => $optionId, 'sort_weight' => 1);
+        $choice1 = ['option_id' => $optionId, 'sort_weight' => 0];
+        $choice2 = ['option_id' => $optionId, 'sort_weight' => 1];
         $testMapper = $this->getTestMapper();
         $choiceId1 = $testMapper->insert($choice1, 'catalog_choice')->getGeneratedValue();
         $choiceId2 = $testMapper->insert($choice2, 'catalog_choice')->getGeneratedValue();
 
-        $order = array($choiceId2, $choiceId1);
+        $order = [$choiceId2, $choiceId1];
         $mapper = $this->getMapper();
         $mapper->sortChoices($optionId, $order);
 
         $select = new \Zend\Db\Sql\Select('catalog_choice');
-        $select->where(array('choice_id' => $choiceId2));
+        $select->where(['choice_id' => $choiceId2]);
         $result = $testMapper->query($select);
         $this->assertTrue(is_array($result));
         $this->assertTrue($result['sort_weight'] == 0);

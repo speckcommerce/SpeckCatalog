@@ -23,7 +23,7 @@ class Spec extends AbstractService
     public function insert($spec)
     {
         $id = parent::insert($spec);
-        $spec = $this->find(array('spec_id' => $id));
+        $spec = $this->find(['spec_id' => $id]);
 
         return $spec;
     }

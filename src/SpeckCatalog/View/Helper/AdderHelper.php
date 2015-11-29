@@ -19,7 +19,7 @@ class AdderHelper extends AbstractHelper
      *
      * @var array
      */
-    protected $labels = array(
+    protected $labels = [
         'choice'       => 'Option',
         'option'       => 'Option Group',
         'availability' => 'Availability',
@@ -28,7 +28,7 @@ class AdderHelper extends AbstractHelper
         'category'     => 'Category',
         'product'      => 'Product',
         'builder_product' => 'Product',
-    );
+    ];
 
     public function __invoke()
     {
@@ -52,18 +52,18 @@ class AdderHelper extends AbstractHelper
             }
         }
 
-        $elements = array(
+        $elements = [
             'parent_name' => $parentName,
             'child_name'  => $childName,
-        );
+        ];
 
-        $submitButton = array(
+        $submitButton = [
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
+            'attributes' => [
                 'value' => ' + ' . $this->labels[$childName],
-            ),
-        );
+            ],
+        ];
 
         $form = new \SpeckCatalog\Form\AddChild;
         $form->addElements($elements)
@@ -71,23 +71,23 @@ class AdderHelper extends AbstractHelper
         $form->add($submitButton);
 
         $view = $this->getView();
-        return $view->render($this->partialDir . 'add', array('addForm' => $form));
+        return $view->render($this->partialDir . 'add', ['addForm' => $form]);
     }
 
     public function find($childName, $parentName, $parentKeyFields)
     {
-        $elements = array(
+        $elements = [
             'parent_name' => $parentName,
             'child_name'  => $childName,
-        );
+        ];
 
-        $submitButton = array(
+        $submitButton = [
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
+            'attributes' => [
                 'value' => ' Find ' . $this->labels[$childName],
-            ),
-        );
+            ],
+        ];
 
         $form = new \SpeckCatalog\Form\AddChild;
         $form->addElements($elements)
@@ -95,7 +95,7 @@ class AdderHelper extends AbstractHelper
         $form->add($submitButton);
 
         $view = $this->getView();
-        return $view->render($this->partialDir . 'find', array('addForm' => $form));
+        return $view->render($this->partialDir . 'find', ['addForm' => $form]);
     }
 
     /**
@@ -109,10 +109,10 @@ class AdderHelper extends AbstractHelper
      */
     public function removeChild($parentName, $parentFormElements, $childName, $childFormElements)
     {
-        $elements = array(
+        $elements = [
             'parent_name' => $parentName,
             'child_name'  => $childName,
-        );
+        ];
 
         $form = new \SpeckCatalog\Form\RemoveChild;
         $form->addElements($elements)
@@ -128,7 +128,7 @@ class AdderHelper extends AbstractHelper
         $form->setAttribute('class', $removeType);
 
         $view = $this->getView();
-        return $view->render($this->partialDir . 'remove', array('removeForm' => $form));
+        return $view->render($this->partialDir . 'remove', ['removeForm' => $form]);
     }
 
     protected function dash($name)

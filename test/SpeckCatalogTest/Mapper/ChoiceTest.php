@@ -10,7 +10,7 @@ class ChoiceTest extends AbstractTestCase
     {
         $choiceId = $this->insertChoice(1);
         $mapper = $this->getMapper();
-        $result = $mapper->find(array('choice_id' => $choiceId));
+        $result = $mapper->find(['choice_id' => $choiceId]);
         $this->assertTrue($result instanceof \SpeckCatalog\Model\Choice);
     }
 
@@ -33,18 +33,18 @@ class ChoiceTest extends AbstractTestCase
 
     public function testSortOptionsChangesOrderOfOptions()
     {
-        $linker1 = array('choice_id' => 1, 'option_id' => 3, 'sort_weight' => 0);
-        $linker2 = array('choice_id' => 1, 'option_id' => 4, 'sort_weight' => 1);
+        $linker1 = ['choice_id' => 1, 'option_id' => 3, 'sort_weight' => 0];
+        $linker2 = ['choice_id' => 1, 'option_id' => 4, 'sort_weight' => 1];
         $testMapper = $this->getTestMapper();
         $testMapper->insert($linker1, 'catalog_choice_option');
         $testMapper->insert($linker2, 'catalog_choice_option');
 
-        $order = array(4,3);
+        $order = [4,3];
         $mapper = $this->getMapper();
         $mapper->sortOptions(1, $order);
 
         $select = new \Zend\Db\Sql\Select('catalog_choice_option');
-        $select->where(array('choice_id' => 1, 'sort_weight' => 0));
+        $select->where(['choice_id' => 1, 'sort_weight' => 0]);
         $result = $testMapper->query($select);
 
         $this->assertTrue(is_array($result) && $result['option_id'] == 4);
@@ -58,7 +58,7 @@ class ChoiceTest extends AbstractTestCase
         $mapper->addOption($choiceId, $optionId);
 
         $select = new \Zend\Db\Sql\Select('catalog_choice_option');
-        $select->where(array('option_id' => $optionId, 'choice_id' => $choiceId));
+        $select->where(['option_id' => $optionId, 'choice_id' => $choiceId]);
         $testMapper = $this->getTestMapper();
         $result = $testMapper->query($select);
 

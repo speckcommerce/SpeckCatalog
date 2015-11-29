@@ -10,12 +10,12 @@ class CatalogController extends AbstractActionController
     public function indexAction()
     {
         $categories = $this->getServiceLocator()->get('speckcatalog_category_service')->getCategoriesForNavigation();
-        return new ViewModel(array('categories' => $categories));
+        return new ViewModel(['categories' => $categories]);
     }
 
     public function productRedirectAction()
     {
         $id = (int) $this->getEvent()->getRouteMatch()->getParam('id');
-        return $this->redirect()->toRoute('product/byid', array('id' => $id));
+        return $this->redirect()->toRoute('product/byid', ['id' => $id]);
     }
 }

@@ -23,8 +23,8 @@ class FrontendEnabled
                         ? $e->getParam('data')['product_id']
                         : $e->getParam('data')->getProductId();
         $productService = $e->getTarget()->getProductService();
-        $find           = array('product_id' => $productId);
-        $product        = $productService->find($find, array('uoms'));
+        $find           = ['product_id' => $productId];
+        $product        = $productService->find($find, ['uoms']);
 
         $enabled = $this->canProductBeEnabled($product);
 
@@ -39,19 +39,19 @@ class FrontendEnabled
         $where = $e->getParam('where');
         $uoms  = $productUomService->findRows($where);
 
-        $ids = array();
+        $ids = [];
         foreach ($uoms as $uom) {
             $ids[$uom['product_id']] = $uom['product_id'];
         }
         $products = $productService->getProductsById($ids);
 
         foreach ($products as $product) {
-            $productService->populate($product, array('uoms'));
-            $row = array(
+            $productService->populate($product, ['uoms']);
+            $row = [
                 'product_id' => $productId,
                 'enabled'    => $this->canProductBeEnabled($product)
-            );
-            $where = array('product_id' => $productId);
+            ];
+            $where = ['product_id' => $productId];
             $productService->update($row, $where);
         }
     }
@@ -83,14 +83,14 @@ class FrontendEnabled
         $choiceService  = $productService->getChoiceService();
 
         $where = $e->getParam('where');
-        $products = $productService->findMany($where, array('uoms'));
+        $products = $productService->findMany($where, ['uoms']);
 
         foreach ($products as $product) {
             $productId = $product->getProductId();
             $enabled   = ($product->getEnabled()) ? 1 : 0;
             $choiceService->update(
-                array('enabled'    => $enabled), //data
-                array('product_id' => $productId)    //where
+                ['enabled'    => $enabled], //data
+                ['product_id' => $productId]    //where
             );
         }
 
@@ -104,7 +104,7 @@ class FrontendEnabled
             return;
         }
         $productId      = $result;
-        $data           = array('product_id' => $productId);
+        $data           = ['product_id' => $productId];
 
         $productService = $e->getTarget();
         $product        = $productService->find($data);
@@ -113,8 +113,8 @@ class FrontendEnabled
 
         $choiceService  = $productService->getChoiceService();
         $choiceService->update(
-            array('enabled'    => $enabled), //data
-            array('product_id' => $productId)    //where
+            ['enabled'    => $enabled], //data
+            ['product_id' => $productId]    //where
         );
     }
 }

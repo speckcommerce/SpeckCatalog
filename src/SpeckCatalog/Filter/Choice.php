@@ -9,24 +9,24 @@ class Choice extends Inputfilter
 {
     public function __construct()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'choice_id',
             'allow_empty' => true,
-            'filters'   => array(
+            'filters'   => [
                 new ToNull(ToNull::TYPE_STRING),
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'option_id',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'product_id',
-            'filters'    => array(array('name' => 'Null')),
+            'filters'    => [['name' => 'Null']],
             'allow_empty' => 'true',
-        ));
-        $this->add(array(
+        ]);
+        $this->add([
             'name' => 'override_name',
             'allow_empty' => 'true',
-        ));
+        ]);
     }
 }

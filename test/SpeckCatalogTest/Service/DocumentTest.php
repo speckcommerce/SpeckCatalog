@@ -12,7 +12,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $mockMapper->expects($this->once())
             ->method('getByProductId')
             ->with(1)
-            ->will($this->returnValue(array(new \SpeckCatalog\Model\Document)));
+            ->will($this->returnValue([new \SpeckCatalog\Model\Document]));
 
         $service = $this->getService()
             ->setEntityMapper($mockMapper);

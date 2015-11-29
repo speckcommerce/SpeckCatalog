@@ -25,7 +25,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     {
         $mapper = $this->getTestMapper();
         $mapper->setEntityPrototype(new \SpeckCatalog\Model\Product);
-        $product = array('name' => 'product');
+        $product = ['name' => 'product'];
         $result = $mapper->insert($product, 'catalog_product');
         return (int) $result->getGeneratedValue();
     }
@@ -34,7 +34,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     {
         $mapper = $this->getTestMapper();
         $mapper->setEntityPrototype(new \SpeckCatalog\Model\Option);
-        $option = array('name' => 'option');
+        $option = ['name' => 'option'];
         $result = $mapper->insert($option, 'catalog_option');
         return (int) $result->getGeneratedValue();
     }
@@ -43,33 +43,33 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     {
         $mapper = $this->getTestMapper();
         $mapper->setEntityProtoType(new \SpeckCatalog\Model\Choice);
-        $choice = array('option_id' => $parentOptionId);
+        $choice = ['option_id' => $parentOptionId];
         $result = $mapper->insert($choice, 'catalog_choice');
         return (int) $result->getGeneratedValue();
     }
 
     public function insertProductUom($productId, $uomCode, $quantity)
     {
-        $productUom = array(
+        $productUom = [
             'product_id' => $productId,
             'uom_code'   => $uomCode,
             'quantity'   => $quantity,
             'price'      => 1,
             'retail'     => 1,
-        );
+        ];
         $mapper = $this->getTestMapper();
         $mapper->insert($productUom, 'catalog_product_uom');
     }
 
     public function insertAvailability($productId, $uomCode, $quantity, $distributorId)
     {
-        $availability = array(
+        $availability = [
             'product_id'     => $productId,
             'uom_code'       => $uomCode,
             'quantity'       => $quantity,
             'distributor_id' => $distributorId,
             'cost'           => 1,
-        );
+        ];
         $mapper = $this->getTestMapper();
         $mapper->insert($availability, 'catalog_availability');
     }
@@ -78,7 +78,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     {
         $mapper = $this->getTestMapper();
         $idName = $parentType . '_id';
-        $image = array($idName => $parentId);
+        $image = [$idName => $parentId];
         $table = 'catalog_' . $parentType . '_image';
         $result = $mapper->insert($image, $table);
         return (int) $result->getGeneratedValue();
@@ -86,7 +86,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     public function insertCategory()
     {
-        $category = array('name' => 'category');
+        $category = ['name' => 'category'];
         $mapper = $this->getTestMapper();
         $result = $mapper->insert($category, 'catalog_category');
         return (int) $result->getGeneratedValue();
@@ -94,7 +94,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     public function insertDocument($parentProductId = 1)
     {
-        $document = array('product_id' => $parentProductId);
+        $document = ['product_id' => $parentProductId];
         $mapper = $this->getTestMapper();
         $result = $mapper->insert($document, 'catalog_product_document');
         return (int) $result->getGeneratedValue();
@@ -102,7 +102,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     public function insertSpec($parentProductId = 1)
     {
-        $spec = array('product_id' => $parentProductId);
+        $spec = ['product_id' => $parentProductId];
         $mapper = $this->getTestMapper();
         $result = $mapper->insert($spec, 'catalog_product_spec');
         return (int) $result->getGeneratedValue();
@@ -110,7 +110,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     public function insertUom($uomCode, $name)
     {
-        $uom = array('uom_code' => $uomCode, 'name' => $name);
+        $uom = ['uom_code' => $uomCode, 'name' => $name];
         $mapper = $this->getTestMapper();
         $result = $mapper->insert($uom, 'ansi_uom');
     }

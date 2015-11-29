@@ -5,78 +5,78 @@ namespace SpeckCatalog\Form;
 class ProductUom extends AbstractForm
 {
     protected $uomService;
-    protected $originalFields = array('uom_code', 'product_id', 'quantity');
+    protected $originalFields = ['uom_code', 'product_id', 'quantity'];
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->add(array(
+        $this->add([
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'quantity',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
                 'class' => 'span1',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Quantity',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'price',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
                 'class' => 'span1',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Price',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'retail',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
                 'class' => 'span1',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Retail',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'enabled',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
-                'options' => array(1 => 'Yes', 0 => 'No'),
-            ),
-            'options' => array(
+                'options' => [1 => 'Yes', 0 => 'No'],
+            ],
+            'options' => [
                 'label' => 'Enabled',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function init()
     {
-        $uoms = array('select' => '--SELECT--');
+        $uoms = ['select' => '--SELECT--'];
         foreach ($this->getUomService()->getAll() as $uom) {
             $uoms[$uom->getUomCode()] = $uom->getName();
         }
-        $this->add(array(
+        $this->add([
             'name' => 'uom_code',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
                 'options' => $uoms,
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Unit of Measure',
-            ),
-        ));
+            ],
+        ]);
         return $this;
     }
 

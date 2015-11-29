@@ -23,7 +23,7 @@ class CatalogManagerController extends AbstractActionController
         $type = $this->params('type');
         $children = $this->getService($type)->getAll();
 
-        $viewVars = array('children' => $children, 'type' => $type);
+        $viewVars = ['children' => $children, 'type' => $type];
         return $this->partialView('category-search-children', $viewVars);
     }
 
@@ -31,7 +31,7 @@ class CatalogManagerController extends AbstractActionController
     {
         $this->init();
         $product = $this->getService('product')->getModel();
-        return new ViewModel(array('product' => $product));
+        return new ViewModel(['product' => $product]);
     }
 
     public function categoryTreePreviewAction()
@@ -40,7 +40,7 @@ class CatalogManagerController extends AbstractActionController
         $categoryService = $this->getService('category');
         $categories = $categoryService->getCategoriesForTreePreview($siteId);
 
-        $viewVars = array('categories' => $categories);
+        $viewVars = ['categories' => $categories];
         return $this->partialView('category-tree', $viewVars);
     }
 
@@ -49,10 +49,10 @@ class CatalogManagerController extends AbstractActionController
         $service = $this->getService('product');
 
         $this->init();
-        $config = array(
+        $config = [
             'p' => $this->params('p') ?: 1,
             'n' => 40,
-        );
+        ];
         $service->usePaginator($config);
         $query = $this->params()->fromQuery('query');
         if ($query) {
@@ -60,14 +60,14 @@ class CatalogManagerController extends AbstractActionController
         } else {
             $products = $service->getAll();
         }
-        return new ViewModel(array('products' => $products, 'query' => $query));
+        return new ViewModel(['products' => $products, 'query' => $query]);
     }
 
     public function categoriesAction()
     {
         $this->init();
         $sites = $this->getService('sites')->getAll();
-        return new ViewModel(array('sites' => $sites));
+        return new ViewModel(['sites' => $sites]);
     }
 
     public function productAction()
@@ -76,7 +76,7 @@ class CatalogManagerController extends AbstractActionController
         $productService = $this->getService('product');
         $product = $productService->getFullProduct($this->params('id'));
 
-        $vars = array('product' => $product);
+        $vars = ['product' => $product];
         return new ViewModel($vars);
     }
 
@@ -111,7 +111,7 @@ class CatalogManagerController extends AbstractActionController
             return $this->getResponse()->setContent($product->getProductId());
         }
 
-        return $this->partialView('product', array('product' => $product));
+        return $this->partialView('product', ['product' => $product]);
     }
 
     public function updateRecordAction()
@@ -127,7 +127,7 @@ class CatalogManagerController extends AbstractActionController
         }
 
         $partial = $this->dash($class);
-        $viewVars = array(lcfirst($this->camel($class)) => $entity);
+        $viewVars = [lcfirst($this->camel($class)) => $entity];
         return $this->partialView($partial, $viewVars);
     }
 
@@ -152,22 +152,22 @@ class CatalogManagerController extends AbstractActionController
 
         if (!isset($post['query'])) {
             $search = $this->partialDir . 'search/' . $this->dash($post['child_name']);
-            $view   = new ViewModel(array(
+            $view   = new ViewModel([
                 'fields'        => $post,
                 'searchPartial' => $search
-            ));
+            ]);
             return $view->setTemplate($this->partialDir . 'search/index')->setTerminal(true);
         }
 
-        $response = array(
+        $response = [
             'html' => '',
-        );
+        ];
         $result = $this->getService($post['parent_name'])->search($post);
         if (count($result) > 0) {
             $partial = $this->getViewHelper('partial');
             $rowPartial = $this->partialDir . 'search/row/' . $this->dash($post['child_name']);
             foreach ($result as $row) {
-                $response['html'] .= $partial($rowPartial, array('model' => $row, 'params' => $post));
+                $response['html'] .= $partial($rowPartial, ['model' => $row, 'params' => $post]);
             }
         } else {
             $response['html'] = 'no result';
@@ -188,7 +188,7 @@ class CatalogManagerController extends AbstractActionController
     {
         $postParams = $this->params()->fromPost();
 
-        $objects = array();
+        $objects = [];
 
         if ($postParams['child_name'] === 'builder_product') {
             $parentProductId = $postParams['parent']['product_id'];
@@ -263,7 +263,7 @@ class CatalogManagerController extends AbstractActionController
         $child->setParent($parent);
 
         $partial  = $this->dash($childName);
-        $viewVars = array(lcfirst($this->camel($childName)) => $child);
+        $viewVars = [lcfirst($this->camel($childName)) => $child];
         return $this->partialView($partial, $viewVars);
     }
 

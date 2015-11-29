@@ -13,7 +13,7 @@ class Category extends AbstractService
 
     public function findById($categoryId)
     {
-        return $this->find(array('category_id' => $categoryId));
+        return $this->find(['category_id' => $categoryId]);
     }
 
     public function getCategoriesForNavigation()
@@ -31,7 +31,7 @@ class Category extends AbstractService
         return $this->getEntityMapper()->getByProductId($productId, $this->getSiteId());
     }
 
-    public function getCrumbs($category, $crumbs = array())
+    public function getCrumbs($category, $crumbs = [])
     {
         array_unshift($crumbs, $category);
         $parent = $this->getParentCategory($category->getCategoryId());
@@ -69,7 +69,7 @@ class Category extends AbstractService
         $products = $this->getProductService()->usePaginator($paginationOptions)->getByCategoryId($categoryId);
         if (count($products) > 0) {
             foreach ($products as $product) {
-                $this->getProductService()->populate($product, array('images', 'uoms', 'options', 'builders'), true);
+                $this->getProductService()->populate($product, ['images', 'uoms', 'options', 'builders'], true);
             }
             $category->setProducts($products);
         }

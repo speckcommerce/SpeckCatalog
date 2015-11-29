@@ -6,7 +6,7 @@ use ZfcBase\Mapper\AbstractDbMapper;
 
 class TestMapper extends AbstractDbMapper
 {
-    protected $schema = array();
+    protected $schema = [];
 
     protected $serviceManager;
 

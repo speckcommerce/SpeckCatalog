@@ -36,12 +36,12 @@ class Form extends AbstractHelper implements FormServiceAwareInterface
             ->setAttribute('id', $this->name)
             ->setAttribute('class', 'live-form');
 
-        $view = new ViewModel(array(
+        $view = new ViewModel([
             $this->camel($this->name) => $this->model,
             'form' => $this->form,
             'formErrors' => $this->renderFormMessages($this->form, false),
             'originalFields' => $this->prepareOriginalFields($this->form),
-        ));
+        ]);
         $view->setTemplate($this->partialDir . $this->dash($this->name));
         return $this->getView()->render($view);
     }

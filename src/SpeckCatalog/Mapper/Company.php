@@ -18,7 +18,7 @@ class Company extends CompanyMapper
     public function find(array $data)
     {
         $select = new Select('contact_company');
-        $select->where(array('company_id' => $data['company_id']))
+        $select->where(['company_id' => $data['company_id']])
             ->limit(1);
         return $this->select($select)->current();
     }

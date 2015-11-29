@@ -18,7 +18,7 @@ class AbstractMapperTest extends AbstractTestCase
 
     public function testInsertArray()
     {
-        $product = array('name' => 'product');
+        $product = ['name' => 'product'];
         $mapper = $this->getMapper();
 
         $id = $mapper->insert($product);
@@ -31,8 +31,8 @@ class AbstractMapperTest extends AbstractTestCase
         $testMapper = $this->getTestMapper();
         $id = $this->insertProduct();
 
-        $data = array('name' => 'foo');
-        $where = array('product_id' => $id);
+        $data = ['name' => 'foo'];
+        $where = ['product_id' => $id];
         $mapper->update($data, $where);
 
         $select = new Select('catalog_product');
@@ -52,7 +52,7 @@ class AbstractMapperTest extends AbstractTestCase
         $productModel->setName('foo');
         $productModel->setProductId($id);
 
-        $where = array('product_id' => $id);
+        $where = ['product_id' => $id];
         $mapper->update($productModel, $where);
 
         $select = new Select('catalog_product');
@@ -69,7 +69,7 @@ class AbstractMapperTest extends AbstractTestCase
         $this->insertProduct();
 
         $select = new Select($mapper->getTableName());
-        $select->where(array('name' => 'product'));
+        $select->where(['name' => 'product']);
         $result = $mapper->selectOne($select);
 
         $this->assertTrue($result instanceof \SpeckCatalog\Model\AbstractModel);
@@ -83,7 +83,7 @@ class AbstractMapperTest extends AbstractTestCase
         $this->insertProduct();
 
         $select = new Select($mapper->getTableName());
-        $select->where(array('name' => 'product'));
+        $select->where(['name' => 'product']);
 
         $result = $mapper->selectMany($select);
 
@@ -107,12 +107,12 @@ class AbstractMapperTest extends AbstractTestCase
     {
         $this->markTestIncomplete('Tests was broken/obsoleted');
         $mapper = $this->getMapper();
-        $dbFields = array('name');
+        $dbFields = ['name'];
         $mapper->setDbFields($dbFields);
-        $data = array(
+        $data = [
             'name' => 'foo',
             'bar' => 'baz' //this field will be stripped because it isnt in the db fields.
-        );
+        ];
         $return = $mapper->prepareData($data, 'catalog_product');
         $this->assertFalse(array_key_exists('bar', $return));
     }
@@ -162,7 +162,7 @@ class AbstractMapperTest extends AbstractTestCase
         $this->insertProduct();
         $mapper = $this->getMapper();
         $select = new Select($mapper->getTableName());
-        $select->where(array('name' => 'product'));
+        $select->where(['name' => 'product']);
         $result = $mapper->queryOne($select);
         $this->assertTrue($result['name'] === 'product');
     }
@@ -180,7 +180,7 @@ class AbstractMapperTest extends AbstractTestCase
         $mapper = $this->getMapper();
         $this->insertProduct();
         $mapper->usePaginator(
-            array('p' => 1, 'n' => 10) //optional params, passing them for code coverage
+            ['p' => 1, 'n' => 10] //optional params, passing them for code coverage
         );
         $result = $mapper->getAll();
         $this->assertTrue($result instanceof \Zend\Paginator\Paginator);
@@ -189,7 +189,7 @@ class AbstractMapperTest extends AbstractTestCase
     public function testSetPaginatorOptions()
     {
         $mapper = $this->getMapper();
-        $options = array('p' => 1, 'n' => 10);
+        $options = ['p' => 1, 'n' => 10];
         $mapper->setPaginatorOptions($options);
         $return = $mapper->getPaginatorOptions();
         $this->assertSame($options, $return);

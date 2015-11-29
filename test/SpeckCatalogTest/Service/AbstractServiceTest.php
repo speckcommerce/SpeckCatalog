@@ -14,7 +14,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = $this->getService();
         $service->setEntityMapper($mockedMapper);
-        $data = array('return_model' => true);
+        $data = ['return_model' => true];
         $service->find($data);
     }
 
@@ -65,7 +65,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
             ->method('insert');
         $service = $this->getService();
         $service->setEntityMapper($mockedMapper);
-        $service->insert(array());
+        $service->insert([]);
     }
 
     public function testUpdateCallsUpdateOnMapper()
@@ -75,7 +75,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
             ->method('update');
         $service = $this->getService();
         $service->setEntityMapper($mockedMapper);
-        $service->update(array());
+        $service->update([]);
     }
 
     public function getService()

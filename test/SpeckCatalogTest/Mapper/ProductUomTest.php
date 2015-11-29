@@ -10,7 +10,7 @@ class ProductUomTest extends AbstractTestCase
     {
         $this->insertProductUom(1, 'EA', 1);
         $mapper = $this->getMapper();
-        $result = $mapper->find(array('product_id' => 1, 'uom_code' => 'EA', 'quantity' => 1));
+        $result = $mapper->find(['product_id' => 1, 'uom_code' => 'EA', 'quantity' => 1]);
         $this->assertTrue($result instanceof \SpeckCatalog\Model\ProductUom);
     }
 

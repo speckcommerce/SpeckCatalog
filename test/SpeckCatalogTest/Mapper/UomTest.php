@@ -11,7 +11,7 @@ class UomTest extends AbstractTestCase
         $this->insertUom('EA', 'Each');
 
         $mapper = $this->getMapper();
-        $return = $mapper->find(array('uom_code' => 'EA'));
+        $return = $mapper->find(['uom_code' => 'EA']);
         $this->assertTrue($return instanceof \SpeckCatalog\Model\Uom);
     }
 

@@ -4,84 +4,84 @@ namespace SpeckCatalog\Form;
 
 class Option extends AbstractForm
 {
-    protected $originalFields = array('option_id');
+    protected $originalFields = ['option_id'];
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->add(array(
+        $this->add([
             'name' => 'option_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'choice_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'product_id',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'hidden'
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'name',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Option Group Name (size, color, etc.)',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'instruction',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Instruction',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'required',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Required',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'builder',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
-                'options' => array(
+            'attributes' => [
+                'options' => [
                     '0' => 'False',
                     '1' => 'True',
-                ),
-            ),
-            'options' => array(
+                ],
+            ],
+            'options' => [
                 'label' => 'Builder',
-            ),
-        ));
-        $this->add(array(
+            ],
+        ]);
+        $this->add([
             'name' => 'option_type_id',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
-                'options' => array(
+            'attributes' => [
+                'options' => [
                     '' => '---------',
                     '1' => 'Select Box',
                     '2' => 'Radio Buttons',
                     '3' => 'Checkboxes',
-                ),
-            ),
-            'options' => array(
+                ],
+            ],
+            'options' => [
                 'label' => 'Display Options As',
-            ),
-        ));
+            ],
+        ]);
     }
 }

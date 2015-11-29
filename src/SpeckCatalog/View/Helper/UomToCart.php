@@ -15,17 +15,17 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    protected $services = array(
+    protected $services = [
         'product_uom' => 'speckcatalog_product_uom_service',
         'product'     => 'speckcatalog_productservice',
         'builder'     => 'speckcatalog_builder_product_service',
-    );
+    ];
 
-    protected $templates = array(
+    protected $templates = [
         'single' => '/speck-catalog/product/product-uom/single',
         'few'    => '/speck-catalog/product/product-uom/few',
         'many'   => '/speck-catalog/product/product-uom/many',
-    );
+    ];
 
     /**
      * how many uoms before we change the display style from few to many
@@ -45,7 +45,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
             return;
         }
         if (is_numeric($product)) {
-            $product = $this->getService('product')->find(array('product_id' => $product), array('builders', 'uoms'));
+            $product = $this->getService('product')->find(['product_id' => $product], ['builders', 'uoms']);
         }
         $uoms = $this->uomsForProduct($product);
         if ($builderProductId) {
@@ -64,7 +64,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     }
 
     //merge some enabled uoms into an array of disabled uoms
-    public function mergeEnabledUoms(array $enabled, array $uoms = array())
+    public function mergeEnabledUoms(array $enabled, array $uoms = [])
     {
         foreach ($enabled as $uom) {
             $uomArray = $this->uomToArray($uom, true);
@@ -76,7 +76,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     //returns array of "disabled" uoms
     public function buildersToUomsArray(array $builders)
     {
-        $uoms = array();
+        $uoms = [];
         foreach ($builders as $builder) {
             foreach ($builder->getProduct()->getUoms() as $uom) {
                 $uomArray = $this->uomToArray($uom);
@@ -90,7 +90,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     {
         $this->getService('product_uom')->populate($uom);
         //data needed to represent a uom to be displayed
-        $data = array(
+        $data = [
             'enabled'    => false,
             'key'        => $uom->getUomCode().$uom->getQuantity(),
             'price'      => 'N/A',
@@ -98,7 +98,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
             'code'       => $uom->getUomCode(),
             'quantity'   => $uom->getQuantity(),
             'uom_string' => $uom->getUomCode().$uom->getQuantity(),
-        );
+        ];
         if ($enabled) {
             $data['enabled'] = true;
             $data['key'] = $uom->getProductId()
@@ -124,7 +124,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
         $form = $this->newForm($uom, true, $quantity);
         $uom['display_name'] = $this->getDisplayName($uom, true);
 
-        $view = new ViewModel(array('form' => $form, 'uom' => $uom));
+        $view = new ViewModel(['form' => $form, 'uom' => $uom]);
         $view->setTerminal(true)->setTemplate($this->templates['single']);
 
         return $this->getView()->render($view);
@@ -132,7 +132,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
 
     public function renderFew(array $uoms, $uomString = null, $quantity = 1)
     {
-        $forms = array();
+        $forms = [];
         foreach ($uoms as $i => $uom) {
             $uoms[$i]['display_name'] = $this->getDisplayName($uom, true);
             $child = $this->newForm($uom);
@@ -140,7 +140,7 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
             $forms[$uom['uom_string']] = $child;
         }
 
-        $view = new ViewModel(array('forms' => $forms, 'uoms' => $uoms));
+        $view = new ViewModel(['forms' => $forms, 'uoms' => $uoms]);
         $view->setTerminal(true)->setTemplate($this->templates['few']);
 
         return $this->getView()->render($view);
@@ -171,37 +171,37 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     {
         foreach ($uoms as $uom) {
             $key= $uom['key'];
-            $options[$key] = array(
+            $options[$key] = [
                 'value' => $key,
                 'label' => $this->getDisplayName($uom, true),
-            );
+            ];
             if ($uom['enabled'] == false) {
-                $options[$key]['attributes'] = array('disabled' => 'disabled');
+                $options[$key]['attributes'] = ['disabled' => 'disabled'];
             }
         }
 
         $form = $this->newForm(null, false, $quantity);
-        $form->add(array(
+        $form->add([
             'name' => 'uom',
             'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'select',
                 'options' => $options,
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'empty_option' => '',
                 'label' => 'Unit Of Measure',
-            ),
-        ));
+            ],
+        ]);
         $selectedUomString = $this->selectUomString($uoms, $uomString);
         $form->get('uom')->setValue($selectedUomString);
 
-        $view = new ViewModel(array('form' => $form));
+        $view = new ViewModel(['form' => $form]);
         $view->setTerminal(true)->setTemplate($this->templates['many']);
         return $this->getView()->render($view);
     }
 
-    public function selectUomString(array $uoms = array(), $uomString = '')
+    public function selectUomString(array $uoms = [], $uomString = '')
     {
         foreach ($uoms as $uom) {
             if ($uomString === $uom['uom_string']) {
@@ -214,37 +214,37 @@ class UomToCart extends AbstractHelper implements ServiceLocatorAwareInterface
     {
         $form = new Form($uom['uom_string']);
 
-        $form->add(array(
+        $form->add([
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
+            'attributes' => [
                 'class' => 'btn add-to-cart',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Add To Cart',
-            ),
-        ));
-        $form->add(array(
+            ],
+        ]);
+        $form->add([
             'name' => 'quantity',
-            'attributes' => array(
+            'attributes' => [
                 'type' => 'text',
                 'value' => $quantity,
                 'id' => 'quantity-to-cart',
-            ),
-            'options' => array(
+            ],
+            'options' => [
                 'label' => 'Quantity',
-            ),
+            ],
             'value' => $quantity,
-        ));
+        ]);
         $form->get('quantity')->setValue($quantity);
 
         if ($uomTextField) {
-            $form->add(array(
+            $form->add([
                 'name' => 'uom',
-                'attributes' => array(
+                'attributes' => [
                     'type' => 'hidden',
-                ),
-            ));
+                ],
+            ]);
             $form->get('uom')->setValue($uom['key']);
         }
 

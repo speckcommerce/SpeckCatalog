@@ -13,7 +13,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mockMapper->expects($this->once())
             ->method('getImages')
             ->with('product', 1)
-            ->will($this->returnValue(array($image)));
+            ->will($this->returnValue([$image]));
 
         $service = $this->getService()
             ->setEntityMapper($mockMapper);
@@ -29,7 +29,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mockMapper->expects($this->once())
             ->method('getImages')
             ->with('category', 1)
-            ->will($this->returnValue(array($image)));
+            ->will($this->returnValue([$image]));
 
         $service = $this->getService()
             ->setEntityMapper($mockMapper);

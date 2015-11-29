@@ -87,7 +87,8 @@ class Relational extends Base
     }
 
 
-    public function getProductTypeId() {
+    public function getProductTypeId()
+    {
         if ($this->getProduct()) {
             return $this->getProduct()->getProductTypeId();
         }
@@ -133,7 +134,7 @@ class Relational extends Base
      */
     public function setOptions($options)
     {
-        $this->options = array();
+        $this->options = [];
 
         foreach ($options as $option) {
             $this->addOption($option);

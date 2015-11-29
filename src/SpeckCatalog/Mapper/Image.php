@@ -8,24 +8,24 @@ class Image extends AbstractMapper
     protected $model;
     protected $parentType;
 
-    protected $fields = array(
-        'product' => array('image_id', 'product_id', 'sort_weight', 'file_name', 'label'),
-        'option'  => array('image_id', 'option_id', 'sort_weight', 'file_name', 'label'),
-    );
+    protected $fields = [
+        'product' => ['image_id', 'product_id', 'sort_weight', 'file_name', 'label'],
+        'option'  => ['image_id', 'option_id', 'sort_weight', 'file_name', 'label'],
+    ];
 
-    protected $keyFields = array(
-        'product' => array('image_id'),
-        'option'  => array('image_id'),
-    );
+    protected $keyFields = [
+        'product' => ['image_id'],
+        'option'  => ['image_id'],
+    ];
 
-    protected $models = array(
+    protected $models = [
         'product' => 'SpeckCatalog\Model\ProductImage\Relational',
         'option'  => 'SpeckCatalog\Model\OptionImage\Relational',
-    );
+    ];
 
     public function setParentType($parentType)
     {
-        if (!in_array($parentType, array('product', 'option'))) {
+        if (!in_array($parentType, ['product', 'option'])) {
             throw new \Exception('invalid type');
         }
         $this->parentType = $parentType;
@@ -38,7 +38,7 @@ class Image extends AbstractMapper
     public function getImages($type, $id)
     {
         $this->setParentType($type);
-        $where  = array($type . '_id' => $id);
+        $where  = [$type . '_id' => $id];
         $select = $this->getSelect()
             ->where($where);
         return $this->selectManyModels($select);

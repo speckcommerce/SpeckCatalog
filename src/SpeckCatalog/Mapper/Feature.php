@@ -10,7 +10,7 @@ class Feature extends AbstractMapper
     public function getByProductId($productId)
     {
         $select = $this->getSelect()
-            ->where(array('product_id' => $productId));
+            ->where(['product_id' => $productId]);
         return $this->selectManyModels($select);
     }
 }

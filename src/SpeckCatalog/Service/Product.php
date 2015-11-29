@@ -29,10 +29,10 @@ class Product extends AbstractService
             $where['product_id'] = $data->getProductId();
         }
 
-        $vars = array(
+        $vars = [
             'data'  => $data,
             'where' => $where,
-        );
+        ];
         $this->getEventManager()->trigger('update.pre', $this, $vars);
 
         $result = parent::update($data, $where);
@@ -45,7 +45,7 @@ class Product extends AbstractService
 
     public function getCrumbs($product)
     {
-        $crumbs = array($product);
+        $crumbs = [$product];
         $categoryService = $this->getCategoryService();
         $parent = $categoryService->getByProductId($product->getProductId());
         if ($parent) {
@@ -62,7 +62,7 @@ class Product extends AbstractService
 
     public function getFullProduct($productId)
     {
-        $product = $this->find(array('product_id' => $productId), true, true);
+        $product = $this->find(['product_id' => $productId], true, true);
         if (!$product) {
             return false;
         }
@@ -72,7 +72,7 @@ class Product extends AbstractService
 
     public function getFullProductFromItemNumber($itemNumber)
     {
-        $product = $this->find(array('item_number' => $itemNumber), true, true);
+        $product = $this->find(['item_number' => $itemNumber], true, true);
 
         if (!$product) {
             return false;
@@ -86,7 +86,7 @@ class Product extends AbstractService
         $productId = $product->getProductId();
 
         $allChildren = ($children === true) ? true : false;
-        $children    = (is_array($children)) ? $children : array();
+        $children    = (is_array($children)) ? $children : [];
 
         if ($allChildren || in_array('options', $children)) {
             $options = $this->getOptionService()->getByProductId($productId, true, $recursive);
@@ -140,7 +140,7 @@ class Product extends AbstractService
             return false;
         }
         $builderOptionCount = 0;
-        $choices = array();
+        $choices = [];
         foreach ($product->getOptions() as $option) {
             if ($option->getBuilder() == true) {
                 $builderOptionCount++;
@@ -153,7 +153,7 @@ class Product extends AbstractService
                 return false;
             }
         }
-        $allUoms = array();
+        $allUoms = [];
         foreach ($product->getBuilders() as $builder) {
             $uoms = $builder->getProduct()->getUoms();
             if (count($uoms) > 1) {
@@ -178,7 +178,7 @@ class Product extends AbstractService
         return true;
     }
 
-    public function getProductsById(array $productIds = array())
+    public function getProductsById(array $productIds = [])
     {
         return $this->getEntityMapper()->getProductsById($productIds);
     }
@@ -190,7 +190,7 @@ class Product extends AbstractService
 
         $this->getEntityMapper()->addOption($productId, $optionId);
 
-        return $this->getOptionService()->find(array('option_id' => $optionId));
+        return $this->getOptionService()->find(['option_id' => $optionId]);
     }
 
     /**
@@ -243,9 +243,9 @@ class Product extends AbstractService
 
     public function insert($dataOrModel)
     {
-        $vars = array(
+        $vars = [
             'data' => $dataOrModel
-        );
+        ];
 
         $this->getEventManager()->trigger('insert.pre', $this, $vars);
 
@@ -254,7 +254,7 @@ class Product extends AbstractService
 
         $this->getEventManager()->trigger('insert.post', $this, $vars);
 
-        return $this->find(array('product_id' => $id));
+        return $this->find(['product_id' => $id]);
     }
 
     public function populateForPricing($product)

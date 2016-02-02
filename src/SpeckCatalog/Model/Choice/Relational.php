@@ -94,6 +94,13 @@ class Relational extends Base
         }
     }
 
+    public function getManufacturer()
+    {
+        if ($this->getProduct()) {
+            return $this->getProduct()->getManufacturer();
+        }
+    }
+
 
     /**
      * @return product
